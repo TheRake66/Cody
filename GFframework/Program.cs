@@ -74,6 +74,14 @@ namespace GFFramework
                             Commandes.downFile(argm);
                             break;
 
+                        case "aide":
+                            Commandes.aideCom(argm);
+                            break;
+
+                        case "cl":
+                            Commandes.clearCons(argm);
+                            break;
+
                         case "list":
                             Commandes.listProjet(argm);
                             break;
@@ -83,7 +91,7 @@ namespace GFFramework
                             break;
 
                         case "die":
-                            Commandes.quitterApp();
+                            Commandes.quitterApp(argm);
                             break;
 
                         default:

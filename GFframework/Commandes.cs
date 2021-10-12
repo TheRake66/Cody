@@ -120,9 +120,45 @@ namespace GFFramework
         }
 
 
-        public static void quitterApp()
+        public static void aideCom(string[] cmd)
         {
-            Environment.Exit(0);
+            if (cmd.Length == 0)
+            {
+                Console.WriteLine(
+@"aide [*commande]    Affiche l'aide globale ou l'aide d'une commande specifique.
+cd [*chemin]        Affiche ou change le dossier courant.
+cl                  Nettoie la console.
+die                 Quitte GFframework.
+dl [url]            Telecharge un fichier avec l'URL specifiee.
+list                Affiche la liste des projets du dossier courant.
+new [nom]           Creer un nouveau projet avec le nom specifie.
+
+*: Argument facultatif.
+");
+            }
+            else if (cmd.Length == 1)
+            {
+                switch (cmd[0])
+                {
+
+                }
+            }
+            else
+                Messages.tooMuchArgs("aide");
+        }
+
+
+        public static void clearCons(string[] cmd)
+        {
+            if (cmd.Length == 0) Console.Clear();
+            else Messages.tooMuchArgs("cl");
+        }
+
+
+        public static void quitterApp(string[] cmd)
+        {
+            if (cmd.Length == 0) Environment.Exit(0);
+            else Messages.tooMuchArgs("die");
         }
 
     }
