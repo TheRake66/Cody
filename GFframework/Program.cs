@@ -66,6 +66,18 @@ namespace GFFramework
 
                     switch (cmd)
                     {
+                        case "new":
+                            Commandes.creerProjet(argm);
+                            break;
+
+                        case "dl":
+                            Commandes.downFile(argm);
+                            break;
+
+                        case "list":
+                            Commandes.listProjet(argm);
+                            break;
+
                         case "cd":
                             Commandes.changeDir(argm);
                             break;
