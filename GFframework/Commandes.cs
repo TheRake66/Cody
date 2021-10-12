@@ -41,88 +41,78 @@ namespace GFFramework
         }
 
 
-        public static void creerProjet(string[] cmd)
-        {
-            if (cmd.Length == 1)
-            {
-                string name = cmd[0];
-                if (!Directory.Exists(name))
-                {
-                    try
-                    {
-
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Erreur, impossible de creer le projet !");
-                        Console.WriteLine($"Message: {e.Message}");
-                    }
-                }
-                else
-                    Console.WriteLine($"Heuuu, le projet {name} existe deja, ou un dossier...");
-            }
-            else if (cmd.Length > 1)
-                Messages.tooMuchArgs("new");
-            else
-                Messages.tooLessArgs("new");
-        }
-
-
         public static void downFile(string[] cmd)
         {
             if (cmd.Length == 2)
             {
-                try
+                int x = Console.CursorLeft;
+                int y = Console.CursorTop;
+                string url = cmd[0];
+                string file = cmd[1];
+                object lk = new object();
+                bool ended = false;
+
+                WebClient web = new WebClient();
+                web.DownloadProgressChanged += (s, e) =>
                 {
-                    int x = Console.CursorLeft;
-                    int y = Console.CursorTop;
-                    string url = cmd[0];
-                    string file = cmd[1];
-                    object lk = new object();
-                    bool ended = false;
+                    lock (lk)
+                    {
+                        bool rounded = e.ProgressPercentage == 99;
 
-                    WebClient web = new WebClient();
-                    web.DownloadProgressChanged += (s, e) =>
+                        Console.SetCursorPosition(x, y);
+
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.Write("TELECHARGEMENT ");
+
+                        Console.ResetColor();
+                        Console.Write("[");
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        float percent = e.ProgressPercentage / 3;
+                        for (float i = 1; i <= 100 / 3; i++)
+                            Console.Write(i <= percent ? "#" : " ");
+
+                        Console.ResetColor();
+                        Console.Write($"] {(rounded ? 100 : e.ProgressPercentage)}% ===> ");
+
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(rounded ? e.TotalBytesToReceive : e.BytesReceived);
+
+                        Console.ResetColor();
+                        Console.Write(" octet(s) sur ");
+
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(e.TotalBytesToReceive);
+
+                        Console.ResetColor();
+                        Console.WriteLine("...");
+                    }
+                };
+                web.DownloadFileCompleted += (s, e) =>
+                {
+                    if (e.Error == null)
                     {
                         lock (lk)
-                        {
-                            Console.SetCursorPosition(x, y);
-                            Console.Write("[");
-                            Console.ForegroundColor = ConsoleColor.Green;
-
-                            float percent = e.ProgressPercentage / 3;
-                            for (float i = 1; i <= 100 / 3; i++)
-                                Console.Write(i <= percent ? "#" : " ");
-
-                            Console.ResetColor();
-                            Console.WriteLine($"] {(e.ProgressPercentage == 99 ? 100 : e.ProgressPercentage)}% : Telechargement en cours...");
-                        }
-                    };
-                    web.DownloadFileCompleted += (s, e) =>
-                    {
-                        lock (lk)
-                        {
                             Console.WriteLine("Telechargement termine.");
-                            ended = true;
-                        }
-                    };
-                    web.DownloadFileTaskAsync(url, file);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Erreur, impossible telecharger le fichier !");
+                        Console.WriteLine($"Message: {e.Error.Message}");
+                    }
+                    ended = true;
+                };
+                web.DownloadFileTaskAsync(url, file);
 
-
-                    // dl https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar aa.jar
-                    while (!ended || !Monitor.TryEnter(lk)) { }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Erreur, impossible telecharger le fichier !");
-                    Console.WriteLine($"Message: {e.Message}");
-                }
+                // dl https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar aa.jar
+                while (!ended || !Monitor.TryEnter(lk)) { }
             }
             else if (cmd.Length > 2)
                 Messages.tooMuchArgs("dl");
             else
                 Messages.tooLessArgs("dl");
         }
+        
 
         public static void listProjet(string[] cmd)
         {
@@ -144,7 +134,7 @@ namespace GFFramework
                                 Console.Write("PROJET ");
 
                                 Console.ResetColor();
-                                Console.Write($"{Path.GetFileName(f)} ==> ");
+                                Console.Write($"{Path.GetFileName(f)} ===> ");
 
                                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                                 Console.Write(data[0]);
@@ -170,7 +160,7 @@ namespace GFFramework
                 }
             }
             else
-                Messages.tooMuchArgs("list");
+                Messages.tooMuchArgs("ls");
         }
 
 
@@ -179,15 +169,17 @@ namespace GFFramework
             if (cmd.Length == 0)
             {
                 Console.WriteLine(
-@"aide [*commande]    Affiche l'aide globale ou l'aide d'une commande specifique.
-cd [*chemin]        Affiche ou change le dossier courant.
-cl                  Nettoie la console.
-die                 Quitte GFframework.
-dl [url] [chemin]   Telecharge un fichier avec l'URL specifiee.
-git                 Ouvre la depot GitHub de GFframework.
-list                Affiche la liste des projets du dossier courant.
-maj                 Met a jour GFframework via le depot GitHub.
-new [nom]           Creer un nouveau projet avec le nom specifie.
+@"aide                    Affiche l'aide globale ou l'aide d'une commande specifique.
+cd [*chemin]            Affiche ou change le dossier courant.
+cl                      Nettoie la console.
+com [-s | -a] [nom]     Ajoute ou supprime un composant (controleur, vue, style, script) avec le nom specifie.
+die                     Quitte GFframework.
+dl [url] [chemin]       Telecharge un fichier avec l'URL specifiee.
+git                     Ouvre la depot GitHub de GFframework.
+ls                      Affiche la liste des projets du dossier courant.
+maj                     Met a jour GFframework via le depot GitHub.
+new [nom]               Creer un nouveau projet avec le nom specifie.
+obj [-s | -a] [nom]     Ajoute ou supprime un objet (classe dto, classe dao) avec le nom specifie.
 
 *: Argument facultatif.
 ");
@@ -229,6 +221,48 @@ new [nom]           Creer un nouveau projet avec le nom specifie.
 
         public static void verifMAJ(string[] cmd)
         {
+        }
+
+        public static void ajouterComposant(string[] cmd)
+        {
+        }
+
+        public static void supprimerComposant(string[] cmd)
+        {
+        }
+
+        public static void ajouterObjet(string[] cmd)
+        {
+        }
+
+        public static void supprimerObjet(string[] cmd)
+        {
+        }
+
+        public static void creerProjet(string[] cmd)
+        {
+            if (cmd.Length == 1)
+            {
+                string name = cmd[0];
+                if (!Directory.Exists(name))
+                {
+                    try
+                    {
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Erreur, impossible de creer le projet !");
+                        Console.WriteLine($"Message: {e.Message}");
+                    }
+                }
+                else
+                    Console.WriteLine($"Heuuu, le projet {name} existe deja, ou un dossier...");
+            }
+            else if (cmd.Length > 1)
+                Messages.tooMuchArgs("new");
+            else
+                Messages.tooLessArgs("new");
         }
 
     }

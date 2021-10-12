@@ -90,7 +90,7 @@ namespace GFFramework
                             Commandes.openGit(argm);
                             break;
 
-                        case "list":
+                        case "ls":
                             Commandes.listProjet(argm);
                             break;
 
