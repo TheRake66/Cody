@@ -56,7 +56,7 @@ namespace GFFramework
                 Console.ResetColor();
                 Console.Write("$ ");
 
-                string input = Console.ReadLine();
+                string input = Console.ReadLine().Trim();
                 string[] split = input.Replace("  ", " ").Split(' ');
 
                 if (split.Length > 0)
@@ -68,6 +68,10 @@ namespace GFFramework
                     {
                         case "new":
                             Commandes.creerProjet(argm);
+                            break;
+
+                        case "maj":
+                            Commandes.verifMAJ(argm);
                             break;
 
                         case "dl":
