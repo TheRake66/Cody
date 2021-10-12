@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFframework", "GFframework\GFframework.csproj", "{56D3212D-A50B-4461-97DD-869ACD3E78F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56D3212D-A50B-4461-97DD-869ACD3E78F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56D3212D-A50B-4461-97DD-869ACD3E78F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56D3212D-A50B-4461-97DD-869ACD3E78F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56D3212D-A50B-4461-97DD-869ACD3E78F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5B947110-E0E9-43C1-A280-169530DECD8E}
+	EndGlobalSection
+EndGlobal
