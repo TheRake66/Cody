@@ -82,6 +82,10 @@ namespace GFFramework
                             Commandes.clearCons(argm);
                             break;
 
+                        case "git":
+                            Commandes.openGit(argm);
+                            break;
+
                         case "list":
                             Commandes.listProjet(argm);
                             break;

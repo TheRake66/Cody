@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -130,35 +131,45 @@ cd [*chemin]        Affiche ou change le dossier courant.
 cl                  Nettoie la console.
 die                 Quitte GFframework.
 dl [url]            Telecharge un fichier avec l'URL specifiee.
+git                 Ouvre la depot GitHub de GFframework.
 list                Affiche la liste des projets du dossier courant.
 new [nom]           Creer un nouveau projet avec le nom specifie.
 
 *: Argument facultatif.
 ");
             }
-            else if (cmd.Length == 1)
-            {
-                switch (cmd[0])
-                {
-
-                }
-            }
-            else
+            else 
                 Messages.tooMuchArgs("aide");
         }
 
 
         public static void clearCons(string[] cmd)
         {
-            if (cmd.Length == 0) Console.Clear();
-            else Messages.tooMuchArgs("cl");
+            if (cmd.Length == 0)
+                Console.Clear();
+            else 
+                Messages.tooMuchArgs("cl");
+        }
+
+
+        public static void openGit(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                try { Process.Start("https://github.com/TheRake66/GFfrramework"); }
+                catch { }
+            }
+            else 
+                Messages.tooMuchArgs("git");
         }
 
 
         public static void quitterApp(string[] cmd)
         {
-            if (cmd.Length == 0) Environment.Exit(0);
-            else Messages.tooMuchArgs("die");
+            if (cmd.Length == 0) 
+                Environment.Exit(0);
+            else 
+                Messages.tooMuchArgs("die");
         }
 
     }
