@@ -35,7 +35,7 @@ namespace GFFramework
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write(@"
  Garrido Fernand framework est un framework français dédié au développement du 
- site WEB en PHP/JavaScript/HTML/CSS oriente objet en MVC avec un assortiment 
+ site WEB en PHP/JavaScript/HTML/CSS orienté objet en MVC avec un assortiment 
  d'outils et de librairies (sécurité, base de données, formulaire, etc.).
 
 ");

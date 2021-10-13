@@ -181,20 +181,20 @@ namespace GFFramework
             if (cmd.Length == 0)
             {
                 Console.WriteLine(
-@"aide                                    Affiche l'aide globale ou l'aide d'une commande spécifique.
-cd [*chemin]                            Affiche ou change le dossier courant.
-cl                                      Nettoie la console.
-com [projet] [-s | -a | -r] [nom]       Ajoute, renomme ou supprime un composant (controleur, vue, style, script)
-                                        avec le nom spécifié  pour le projet spécifié.
-die                                     Quitte GFframework.
-dl [url] [chemin]                       Télécharge un fichier avec l'URL spécifiée.
-git [*arguments]                        Exécute la commande git avec les arguments spécifié.
-cls                                     Affiche la liste des projets du dossier courant.
-maj                                     Met à jour GFframework via le depot GitHub.
-new [nom]                               Créer un nouveau projet avec le nom spécifié.
-obj [projet] [-s | -a | -r] [nom]       Ajoute, renomme ou supprime un objet (classe dto, classe dao)
-                                        avec le nom spécifié pour le projet spécifié.
-rep                                     Ouvre la dépôt GitHub de GFframework.
+@"aide                                        Affiche l'aide globale ou l'aide d'une commande spécifique.
+cd [*chemin]                                Affiche ou change le dossier courant.
+cl                                          Nettoie la console.
+com [projet] [-s | -a | -r | -l] [nom]      Ajoute, renomme, liste, ou supprime un composant (controleur, vue,
+                                            style, script) avec le nom spécifié  pour le projet spécifié.
+die                                         Quitte GFframework.
+dl [url] [chemin]                           Télécharge un fichier avec l'URL spécifiée.
+git [*arguments]                            Exécute la commande git avec les arguments spécifié.
+cls                                         Affiche la liste des projets du dossier courant.
+maj                                         Met à jour GFframework via le depot GitHub.
+new [nom]                                   Créer un nouveau projet avec le nom spécifié.
+obj [projet] [-s | -a | -r | -l] [nom]      Ajoute, renomme, liste, ou supprime un objet (classe dto, classe
+                                            dao) avec le nom spécifié pour le projet spécifié.
+rep                                         Ouvre la dépôt GitHub de GFframework.
 
 *: Argument facultatif.
 ");
@@ -447,7 +447,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                            vue = $@"vues\vue{upp}.php",
                            scr = $@"scripts\script{upp}.js",
                            sty = $@"styles\style{upp}.css";
-                    string[] ordre = { scr, con, vue, sty };
+                    string[] ordre = { scr, vue, con, sty };
 
                     // ***************************************************
                     if (arg == "-a")
@@ -475,9 +475,31 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                                                 arc.Entries[i].ExtractToFile(path);
 
                                                 Console.ForegroundColor = ConsoleColor.Magenta;
-                                                Console.Write("OBJET ");
+                                                Console.Write("COMPOSANT ");
                                                 Console.ResetColor();
                                                 Console.WriteLine($"{ordre[i]} ===> extraction du fichier terminé.");
+
+
+                                                try
+                                                {
+                                                    File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
+
+                                                    Console.ForegroundColor = ConsoleColor.Magenta;
+                                                    Console.Write("EDITION ");
+                                                    Console.ResetColor();
+                                                    Console.Write($"{ordre[i]} ===> édition du fichier, ");
+                                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                                    Console.Write(new FileInfo(path).Length);
+                                                    Console.ResetColor();
+                                                    Console.WriteLine(" octet(s) modifié.");
+                                                }
+                                                catch
+                                                {
+                                                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                                                    Console.Write("ERROR ");
+                                                    Console.ResetColor();
+                                                    Console.WriteLine($"{ordre[i]} ===> impossible d'éditer le fichier.");
+                                                }
                                             }
                                             else
                                             {
@@ -485,27 +507,6 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                                                 Console.Write("ATTENTION ");
                                                 Console.ResetColor();
                                                 Console.WriteLine($"{ordre[i]} ===> le fichier existe déjà.");
-                                            }
-
-                                            try
-                                            {
-                                                File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
-
-                                                Console.ForegroundColor = ConsoleColor.Magenta;
-                                                Console.Write("EDITION ");
-                                                Console.ResetColor();
-                                                Console.Write($"{ordre[i]} ===> édition du fichier, ");
-                                                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                                Console.Write(new FileInfo(path).Length);
-                                                Console.ResetColor();
-                                                Console.WriteLine(" octet(s) modifié.");
-                                            }
-                                            catch
-                                            {
-                                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                                Console.Write("ERROR ");
-                                                Console.ResetColor();
-                                                Console.WriteLine($"{ordre[i]} ===> impossible d'éditer le fichier.");
                                             }
                                         }
                                         catch
@@ -569,7 +570,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                                     File.Delete(path);
 
                                     Console.ForegroundColor = ConsoleColor.Magenta;
-                                    Console.Write("OBJET ");
+                                    Console.Write("COMPOSANT ");
                                     Console.ResetColor();
                                     Console.WriteLine($"{f} ===> suppression du fichier terminé.");
                                 }
@@ -599,8 +600,12 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                         Console.WriteLine("Le composant a été renommé.");
                     }
                     // ***************************************************
+                    else if (arg == "-l")
+                    {
+                    }
+                    // ***************************************************
                     else
-                        Console.WriteLine("Le type d'action doit être '-a' pour ajouter ou '-s' pour supprimer.");
+                        Console.WriteLine("Le type d'action doit être '-a' pour ajouter, '-r' pour renommer, '-l' pour lister, ou '-s' pour supprimer.");
                 }
                 else
                     Console.WriteLine("Heuu, le projet n'existe pas...");
@@ -661,6 +666,27 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                                                 Console.Write("OBJET ");
                                                 Console.ResetColor();
                                                 Console.WriteLine($"{ordre[i]} ===> extraction du fichier terminé.");
+
+                                                try
+                                                {
+                                                    File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
+
+                                                    Console.ForegroundColor = ConsoleColor.Magenta;
+                                                    Console.Write("EDITION ");
+                                                    Console.ResetColor();
+                                                    Console.Write($"{ordre[i]} ===> édition du fichier, ");
+                                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                                    Console.Write(new FileInfo(path).Length);
+                                                    Console.ResetColor();
+                                                    Console.WriteLine(" octet(s) modifié.");
+                                                }
+                                                catch
+                                                {
+                                                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                                                    Console.Write("ERROR ");
+                                                    Console.ResetColor();
+                                                    Console.WriteLine($"{ordre[i]} ===> impossible d'éditer le fichier.");
+                                                }
                                             }
                                             else
                                             {
@@ -674,27 +700,6 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                                             Console.Write("OBJET ");
                                             Console.ResetColor();
                                             Console.WriteLine($"{ordre[i]} ===> extraction du fichier terminé.");
-
-                                            try
-                                            {
-                                                File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
-
-                                                Console.ForegroundColor = ConsoleColor.Magenta;
-                                                Console.Write("EDITION ");
-                                                Console.ResetColor();
-                                                Console.Write($"{ordre[i]} ===> édition du fichier, ");
-                                                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                                Console.Write(new FileInfo(path).Length);
-                                                Console.ResetColor();
-                                                Console.WriteLine(" octet(s) modifié.");
-                                            }
-                                            catch
-                                            {
-                                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                                Console.Write("ERROR ");
-                                                Console.ResetColor();
-                                                Console.WriteLine($"{ordre[i]} ===> impossible d'éditer le fichier.");
-                                            }
                                         }
                                         catch
                                         {
@@ -787,8 +792,12 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                         Console.WriteLine("L'objet a été renommé.");
                     }
                     // ***************************************************
+                    else if (arg == "-l")
+                    {
+                    }
+                    // ***************************************************
                     else
-                        Console.WriteLine("Le type d'action doit être '-a' pour ajouter ou '-s' pour supprimer.");
+                        Console.WriteLine("Le type d'action doit être '-a' pour ajouter, '-r' pour renommer, '-l' pour lister, ou '-s' pour supprimer.");
                 }
                 else
                     Console.WriteLine("Heuu, le projet n'existe pas...");
@@ -799,5 +808,6 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
             else
                 Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouvel objet !");
         }
+
     }
 }
