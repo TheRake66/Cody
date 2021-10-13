@@ -8,22 +8,29 @@ namespace GFFramework
 {
     public class Messages
     {
-
-        public static void tooMuchArgs(string cmd)
+        
+        public static void errorMess(Exception e)
         {
-            Console.WriteLine($"Erreur, trop d'arguments, assayez la commande 'aide {cmd}' !");
+            Console.WriteLine("Erreur, une exception est apparue !");
+            Console.WriteLine($"Message: {e.Message}");
         }
 
 
-        public static void tooLessArgs(string cmd)
+        public static void tooMuchArgs()
         {
-            Console.WriteLine($"Erreur, pas assez d'arguments, assayez la commande 'aide {cmd}' !");
+            Console.WriteLine($"Erreur, trop d'arguments pour cette commande, consultez les arguments avec la commande 'aide' !");
         }
 
 
-        public static void badArgs(string cmd)
+        public static void tooLessArgs()
         {
-            Console.WriteLine($"Erreur, mauvais arguments, assayez la commande 'aide {cmd}' !");
+            Console.WriteLine($"Erreur, pas assez d'argumentspour cette commande, consultez les arguments avec la commande 'aide' !");
+        }
+
+
+        public static void badArgs()
+        {
+            Console.WriteLine($"Erreur, mauvais arguments pour cette commande, consultez les arguments avec la commande 'aide' !");
         }
 
     }

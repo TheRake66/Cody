@@ -30,15 +30,14 @@ namespace GFFramework
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Erreur, impossible de changer le dossier !");
-                        Console.WriteLine($"Message: {e.Message}");
+                        Messages.errorMess(e);
                     }
                 }
                 else
                     Console.WriteLine("Erreur, le chemin spécifié n'existe pas !");
             }
             else if (cmd.Length > 1)
-                Messages.tooMuchArgs("cd");
+                Messages.tooMuchArgs();
             else
                 Console.WriteLine($"Le chemin actuel est: '{Directory.GetCurrentDirectory()}'.");
         }
@@ -100,8 +99,7 @@ namespace GFFramework
                     }
                     else
                     {
-                        Console.WriteLine("Erreur, impossible télécharger le fichier !");
-                        Console.WriteLine($"Message: {e.Error.Message}");
+                        Messages.errorMess(e.Error);
                     }
                     ended = true;
                 };
@@ -111,9 +109,9 @@ namespace GFFramework
                 while (!ended || !Monitor.TryEnter(lk)) { }
             }
             else if (cmd.Length > 2)
-                Messages.tooMuchArgs("dl");
+                Messages.tooMuchArgs();
             else
-                Messages.tooLessArgs("dl");
+                Messages.tooLessArgs();
         }
         
 
@@ -158,12 +156,11 @@ namespace GFFramework
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Erreur, impossible de récupérer la liste des projets !");
-                    Console.WriteLine($"Message: {e.Message}");
+                    Messages.errorMess(e);
                 }
             }
             else
-                Messages.tooMuchArgs("ls");
+                Messages.tooMuchArgs();
         }
 
 
@@ -172,24 +169,24 @@ namespace GFFramework
             if (cmd.Length == 0)
             {
                 Console.WriteLine(
-@"aide                    Affiche l'aide globale ou l'aide d'une commande spécifique.
-cd [*chemin]            Affiche ou change le dossier courant.
-cl                      Nettoie la console.
-com [-s | -a] [nom]     Ajoute ou supprime un composant (controleur, vue, style, script) avec le nom spécifié.
-die                     Quitte GFframework.
-dl [url] [chemin]       Télécharge un fichier avec l'URL spécifiée.
-git [*arguments]        Exécute la commande git avec les arguments spécifié.
-cls                     Affiche la liste des projets du dossier courant.
-maj                     Met à jour GFframework via le depot GitHub.
-new [nom]               Créer un nouveau projet avec le nom spécifié.
-obj [-s | -a] [nom]     Ajoute ou supprime un objet (classe dto, classe dao) avec le nom spécifié.
-rep                     Ouvre la dépôt GitHub de GFframework.
+@"aide                            Affiche l'aide globale ou l'aide d'une commande spécifique.
+cd [*chemin]                    Affiche ou change le dossier courant.
+cl                              Nettoie la console.
+com [projet] [-s | -a] [nom]    Ajoute ou supprime un composant (controleur, vue, style, script) avec le nom spécifié pour le projet spécifié.
+die                             Quitte GFframework.
+dl [url] [chemin]               Télécharge un fichier avec l'URL spécifiée.
+git [*arguments]                Exécute la commande git avec les arguments spécifié.
+cls                             Affiche la liste des projets du dossier courant.
+maj                             Met à jour GFframework via le depot GitHub.
+new [nom]                       Créer un nouveau projet avec le nom spécifié.
+obj [projet] [-s | -a] [nom]    Ajoute ou supprime un objet (classe dto, classe dao) avec le nom spécifié pour le projet spécifié.
+rep                             Ouvre la dépôt GitHub de GFframework.
 
 *: Argument facultatif.
 ");
             }
             else 
-                Messages.tooMuchArgs("aide");
+                Messages.tooMuchArgs();
         }
 
 
@@ -198,7 +195,7 @@ rep                     Ouvre la dépôt GitHub de GFframework.
             if (cmd.Length == 0)
                 Console.Clear();
             else 
-                Messages.tooMuchArgs("cls");
+                Messages.tooMuchArgs();
         }
 
 
@@ -210,7 +207,7 @@ rep                     Ouvre la dépôt GitHub de GFframework.
                 catch { }
             }
             else 
-                Messages.tooMuchArgs("git");
+                Messages.tooMuchArgs();
         }
 
 
@@ -219,7 +216,7 @@ rep                     Ouvre la dépôt GitHub de GFframework.
             if (cmd.Length == 0) 
                 Environment.Exit(0);
             else 
-                Messages.tooMuchArgs("die");
+                Messages.tooMuchArgs();
         }
 
 
@@ -242,8 +239,7 @@ rep                     Ouvre la dépôt GitHub de GFframework.
             }
             catch (Exception e)
             {
-                Console.WriteLine("Erreur, impossible d'exécuter git !");
-                Console.WriteLine($"Message: {e.Message}");
+                Messages.errorMess(e);
             }
         }
 
@@ -308,36 +304,57 @@ rep                     Ouvre la dépôt GitHub de GFframework.
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Erreur, impossible de créer le projet !");
-                        Console.WriteLine($"Message: {e.Message}");
+                        Messages.errorMess(e);
                     }
                 }
                 else
                     Console.WriteLine($"Heuuu, le projet {name} existe déjà, ou un dossier...");
             }
             else if (cmd.Length > 1)
-                Messages.tooMuchArgs("new");
+                Messages.tooMuchArgs();
             else
-                Messages.tooLessArgs("new");
+                Messages.tooLessArgs();
         }
 
 
-        public static void ajouterComposant(string[] cmd)
+        public static void gestComposant(string[] cmd)
         {
+            if (cmd.Length == 3)
+            {
+                string arg = cmd[0];
+                string name = cmd[1];
+
+                string upp = name.Length > 1 ? 
+                    name.Substring(0, 1).ToUpper() + name.Substring(1) : 
+                    name.ToUpper();
+
+                if (arg == "-a")
+                {
+                    try
+                    {
+                        if (File.Exists($"controleur{upp}")) Console.WriteLine("Heuu, un controleur existe déjà...");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Erreur, impossible d'ajouter le composant !");
+                        Console.WriteLine($"Message: {e.Message}");
+                    }
+                }
+                else if (arg == "-s")
+                {
+
+                }
+                else
+                    Messages.badArgs();
+            }
+            else if (cmd.Length > 3)
+                Messages.tooMuchArgs();
+            else
+                Messages.tooLessArgs();
         }
 
 
-        public static void supprimerComposant(string[] cmd)
-        {
-        }
-
-
-        public static void ajouterObjet(string[] cmd)
-        {
-        }
-
-
-        public static void supprimerObjet(string[] cmd)
+        public static void gestObjet(string[] cmd)
         {
         }
 

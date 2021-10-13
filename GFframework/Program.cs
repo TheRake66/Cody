@@ -74,6 +74,14 @@ namespace GFFramework
                             Commandes.verifMAJ(argm);
                             break;
 
+                        case "com":
+                            Commandes.gestComposant(argm);
+                            break;
+
+                        case "obj":
+                            Commandes.gestObjet(argm);
+                            break;
+
                         case "dl":
                             Commandes.downFile(argm);
                             break;
