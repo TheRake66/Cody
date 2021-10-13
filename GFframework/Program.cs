@@ -31,7 +31,7 @@ namespace GFFramework
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write(@"
-                        Source: https://github.com/TheRake66/GFfrramework
+                        Source: https://github.com/TheRake66/GFframework
                         Copyright: Thibault BUSTOS (TheRake66) - © 2021
 ");
 
