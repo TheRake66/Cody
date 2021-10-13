@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Reflection;
+using GFFramework.Properties;
 
 namespace GFFramework
 {
@@ -32,7 +35,7 @@ namespace GFFramework
                     }
                 }
                 else
-                    Console.WriteLine("Erreur, le chemin specifie n'existe pas !");
+                    Console.WriteLine("Erreur, le chemin spécifié n'existe pas !");
             }
             else if (cmd.Length > 1)
                 Messages.tooMuchArgs("cd");
@@ -93,11 +96,11 @@ namespace GFFramework
                     if (e.Error == null)
                     {
                         lock (lk)
-                            Console.WriteLine("Telechargement termine.");
+                            Console.WriteLine("Téléchargement terminé.");
                     }
                     else
                     {
-                        Console.WriteLine("Erreur, impossible telecharger le fichier !");
+                        Console.WriteLine("Erreur, impossible télécharger le fichier !");
                         Console.WriteLine($"Message: {e.Error.Message}");
                     }
                     ended = true;
@@ -140,7 +143,7 @@ namespace GFFramework
                                 Console.Write(data[0]);
 
                                 Console.ResetColor();
-                                Console.Write(" fichier(s) font ");
+                                Console.Write(" fichier(s) fai(on)t ");
 
                                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                                 Console.Write(data[1]);
@@ -155,7 +158,7 @@ namespace GFFramework
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Erreur, impossible de recuperer la liste des projets !");
+                    Console.WriteLine("Erreur, impossible de récupérer la liste des projets !");
                     Console.WriteLine($"Message: {e.Message}");
                 }
             }
@@ -169,18 +172,18 @@ namespace GFFramework
             if (cmd.Length == 0)
             {
                 Console.WriteLine(
-@"aide                    Affiche l'aide globale ou l'aide d'une commande specifique.
+@"aide                    Affiche l'aide globale ou l'aide d'une commande spécifique.
 cd [*chemin]            Affiche ou change le dossier courant.
 cl                      Nettoie la console.
-com [-s | -a] [nom]     Ajoute ou supprime un composant (controleur, vue, style, script) avec le nom specifie.
+com [-s | -a] [nom]     Ajoute ou supprime un composant (controleur, vue, style, script) avec le nom spécifié.
 die                     Quitte GFframework.
-dl [url] [chemin]       Telecharge un fichier avec l'URL specifiee.
-git [*arguments]        Execute la commande git avec les arguments specifie.
+dl [url] [chemin]       Télécharge un fichier avec l'URL spécifiée.
+git [*arguments]        Exécute la commande git avec les arguments spécifié.
 cls                     Affiche la liste des projets du dossier courant.
-maj                     Met a jour GFframework via le depot GitHub.
-new [nom]               Creer un nouveau projet avec le nom specifie.
-obj [-s | -a] [nom]     Ajoute ou supprime un objet (classe dto, classe dao) avec le nom specifie.
-rep                     Ouvre la depot GitHub de GFframework.
+maj                     Met à jour GFframework via le depot GitHub.
+new [nom]               Créer un nouveau projet avec le nom spécifié.
+obj [-s | -a] [nom]     Ajoute ou supprime un objet (classe dto, classe dao) avec le nom spécifié.
+rep                     Ouvre la dépôt GitHub de GFframework.
 
 *: Argument facultatif.
 ");
@@ -220,11 +223,6 @@ rep                     Ouvre la depot GitHub de GFframework.
         }
 
 
-        public static void verifMAJ(string[] cmd)
-        {
-        }
-
-
         public static void execGit(string[] cmd)
         {
             try
@@ -244,26 +242,11 @@ rep                     Ouvre la depot GitHub de GFframework.
             }
             catch (Exception e)
             {
-                Console.WriteLine("Erreur, impossible d'executer git !");
+                Console.WriteLine("Erreur, impossible d'exécuter git !");
                 Console.WriteLine($"Message: {e.Message}");
             }
         }
 
-        public static void ajouterComposant(string[] cmd)
-        {
-        }
-
-        public static void supprimerComposant(string[] cmd)
-        {
-        }
-
-        public static void ajouterObjet(string[] cmd)
-        {
-        }
-
-        public static void supprimerObjet(string[] cmd)
-        {
-        }
 
         public static void creerProjet(string[] cmd)
         {
@@ -274,21 +257,93 @@ rep                     Ouvre la depot GitHub de GFframework.
                 {
                     try
                     {
+                        Console.WriteLine("Création du dossier du projet...");
+                        Directory.CreateDirectory(name);
 
+                        Console.WriteLine("Extraction de l'archive...");
+                        string zip = $@"{name}\projet_base.zip";
+                        File.WriteAllBytes(zip, Resources.projet_base);
+
+                        using (ZipArchive arc = ZipFile.OpenRead(zip))
+                        {
+                            foreach (ZipArchiveEntry ent in arc.Entries)
+                            {
+                                string path = Path.Combine(name, ent.FullName);
+                                string file = ent.FullName.Replace('/', '\\');
+
+                                Console.ForegroundColor = ConsoleColor.Magenta;
+                                if (ent.FullName.EndsWith("/"))
+                                {
+                                    Console.Write("DOSSIER ");
+
+                                    Directory.CreateDirectory(path);
+
+                                    Console.ResetColor();
+                                    Console.WriteLine($"{file} ===> ajout du dossier.");
+
+                                }
+                                else
+                                {
+                                    Console.Write("FICHIER ");
+
+                                    ent.ExtractToFile(path);
+
+                                    Console.ResetColor();
+                                    Console.Write($"{file} ===> extraction du fichier, ");
+
+                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                    Console.Write(new FileInfo(path).Length);
+
+                                    Console.ResetColor();
+                                    Console.WriteLine(" octet(s) au total.");
+                                }
+
+                            }
+                        }
+
+                        Console.WriteLine("Suppression de l'archive...");
+                        File.Delete(zip);
+
+                        Console.WriteLine("Le projet a été crée.");
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Erreur, impossible de creer le projet !");
+                        Console.WriteLine("Erreur, impossible de créer le projet !");
                         Console.WriteLine($"Message: {e.Message}");
                     }
                 }
                 else
-                    Console.WriteLine($"Heuuu, le projet {name} existe deja, ou un dossier...");
+                    Console.WriteLine($"Heuuu, le projet {name} existe déjà, ou un dossier...");
             }
             else if (cmd.Length > 1)
                 Messages.tooMuchArgs("new");
             else
                 Messages.tooLessArgs("new");
+        }
+
+
+        public static void ajouterComposant(string[] cmd)
+        {
+        }
+
+
+        public static void supprimerComposant(string[] cmd)
+        {
+        }
+
+
+        public static void ajouterObjet(string[] cmd)
+        {
+        }
+
+
+        public static void supprimerObjet(string[] cmd)
+        {
+        }
+
+
+        public static void verifMAJ(string[] cmd)
+        {
         }
 
     }
