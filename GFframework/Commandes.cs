@@ -30,14 +30,15 @@ namespace GFFramework
                     }
                     catch (Exception e)
                     {
-                        Messages.errorMess(e);
+                        Console.WriteLine("Erreur, Impossible de changer de dossier !");
+                        Console.WriteLine($"Message: {e.Message}");
                     }
                 }
                 else
                     Console.WriteLine("Erreur, le chemin spécifié n'existe pas !");
             }
             else if (cmd.Length > 1)
-                Messages.tooMuchArgs();
+                Console.WriteLine("Problème, seul un chemin est attendu.");
             else
                 Console.WriteLine($"Le chemin actuel est: '{Directory.GetCurrentDirectory()}'.");
         }
@@ -99,7 +100,8 @@ namespace GFFramework
                     }
                     else
                     {
-                        Messages.errorMess(e.Error);
+                        Console.WriteLine("Erreur, Impossible de télécharger ce fichier !");
+                        Console.WriteLine($"Message: {e.Error.Message}");
                     }
                     ended = true;
                 };
@@ -109,9 +111,9 @@ namespace GFFramework
                 while (!ended || !Monitor.TryEnter(lk)) { }
             }
             else if (cmd.Length > 2)
-                Messages.tooMuchArgs();
+                Console.WriteLine("Problème, seul l'url et le chemin du fichier sont attendus !");
             else
-                Messages.tooLessArgs();
+                Console.WriteLine("Problème, il manque l'url et le chemin du fichier !");
         }
         
 
@@ -156,11 +158,12 @@ namespace GFFramework
                 }
                 catch (Exception e)
                 {
-                    Messages.errorMess(e);
+                    Console.WriteLine("Erreur, Impossible de lister les projets !");
+                    Console.WriteLine($"Message: {e.Message}");
                 }
             }
             else
-                Messages.tooMuchArgs();
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
 
 
@@ -172,21 +175,23 @@ namespace GFFramework
 @"aide                            Affiche l'aide globale ou l'aide d'une commande spécifique.
 cd [*chemin]                    Affiche ou change le dossier courant.
 cl                              Nettoie la console.
-com [projet] [-s | -a] [nom]    Ajoute ou supprime un composant (controleur, vue, style, script) avec le nom spécifié pour le projet spécifié.
+com [projet] [-s | -a] [nom]    Ajoute ou supprime un composant (controleur, vue, style, script) avec le nom spécifié 
+                                pour le projet spécifié.
 die                             Quitte GFframework.
 dl [url] [chemin]               Télécharge un fichier avec l'URL spécifiée.
 git [*arguments]                Exécute la commande git avec les arguments spécifié.
 cls                             Affiche la liste des projets du dossier courant.
 maj                             Met à jour GFframework via le depot GitHub.
 new [nom]                       Créer un nouveau projet avec le nom spécifié.
-obj [projet] [-s | -a] [nom]    Ajoute ou supprime un objet (classe dto, classe dao) avec le nom spécifié pour le projet spécifié.
+obj [projet] [-s | -a] [nom]    Ajoute ou supprime un objet (classe dto, classe dao) avec le nom spécifié pour le
+                                projet spécifié.
 rep                             Ouvre la dépôt GitHub de GFframework.
 
 *: Argument facultatif.
 ");
             }
-            else 
-                Messages.tooMuchArgs();
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
 
 
@@ -194,8 +199,8 @@ rep                             Ouvre la dépôt GitHub de GFframework.
         {
             if (cmd.Length == 0)
                 Console.Clear();
-            else 
-                Messages.tooMuchArgs();
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
 
 
@@ -206,8 +211,8 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                 try { Process.Start("https://github.com/TheRake66/GFfrramework"); }
                 catch { }
             }
-            else 
-                Messages.tooMuchArgs();
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
 
 
@@ -215,8 +220,8 @@ rep                             Ouvre la dépôt GitHub de GFframework.
         {
             if (cmd.Length == 0) 
                 Environment.Exit(0);
-            else 
-                Messages.tooMuchArgs();
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
 
 
@@ -239,7 +244,8 @@ rep                             Ouvre la dépôt GitHub de GFframework.
             }
             catch (Exception e)
             {
-                Messages.errorMess(e);
+                Console.WriteLine("Erreur, Impossible d'exécuter la commande git !");
+                Console.WriteLine($"Message: {e.Message}");
             }
         }
 
@@ -258,7 +264,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
 
                         Console.WriteLine("Extraction de l'archive...");
                         string zip = $@"{name}\projet_base.zip";
-                        File.WriteAllBytes(zip, Resources.projet_base);
+                        File.WriteAllBytes(zip, Resources.base_projet);
 
                         using (ZipArchive arc = ZipFile.OpenRead(zip))
                         {
@@ -270,9 +276,9 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                 Console.ForegroundColor = ConsoleColor.Magenta;
                                 if (ent.FullName.EndsWith("/"))
                                 {
-                                    Console.Write("DOSSIER ");
-
                                     Directory.CreateDirectory(path);
+
+                                    Console.Write("DOSSIER ");
 
                                     Console.ResetColor();
                                     Console.WriteLine($"{file} ===> ajout du dossier.");
@@ -280,9 +286,9 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                 }
                                 else
                                 {
-                                    Console.Write("FICHIER ");
-
                                     ent.ExtractToFile(path);
+
+                                    Console.Write("FICHIER ");
 
                                     Console.ResetColor();
                                     Console.Write($"{file} ===> extraction du fichier, ");
@@ -304,16 +310,17 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                     }
                     catch (Exception e)
                     {
-                        Messages.errorMess(e);
+                        Console.WriteLine("Erreur, Impossible de créer le projet !");
+                        Console.WriteLine($"Message: {e.Message}");
                     }
                 }
                 else
-                    Console.WriteLine($"Heuuu, le projet {name} existe déjà, ou un dossier...");
+                    Console.WriteLine($"Heuuu, le projet existe déjà, ou un dossier...");
             }
             else if (cmd.Length > 1)
-                Messages.tooMuchArgs();
+                Console.WriteLine("Problème, seul le nom du nouveau projet est attendu !");
             else
-                Messages.tooLessArgs();
+                Console.WriteLine("Problème, il manque le nom du nouveau projet !");
         }
 
 
@@ -321,36 +328,84 @@ rep                             Ouvre la dépôt GitHub de GFframework.
         {
             if (cmd.Length == 3)
             {
-                string arg = cmd[0];
-                string name = cmd[1];
+                string projet = cmd[0];
+                string arg = cmd[1];
+                string name = cmd[2];
 
                 string upp = name.Length > 1 ? 
                     name.Substring(0, 1).ToUpper() + name.Substring(1) : 
                     name.ToUpper();
 
-                if (arg == "-a")
+                if (Directory.Exists(projet))
                 {
-                    try
+                    if (arg == "-a")
                     {
-                        if (File.Exists($"controleur{upp}")) Console.WriteLine("Heuu, un controleur existe déjà...");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Erreur, impossible d'ajouter le composant !");
-                        Console.WriteLine($"Message: {e.Message}");
-                    }
-                }
-                else if (arg == "-s")
-                {
+                        try
+                        {
+                            string con = $@"controleurs\controleur{upp}.php",
+                                vue = $@"vues\vue{upp}.php",
+                                scr = $@"scripts\script{upp}.js",
+                                sty = $@"styles\style{upp}.css";
 
+
+                            Console.WriteLine("Extraction de l'archive...");
+                            string zip = $@"{projet}\base_composant.zip";
+                            File.WriteAllBytes(zip, Resources.base_composant);
+
+
+                            Console.WriteLine("Extraction des fichiers...");
+                            using (ZipArchive arc = ZipFile.OpenRead(zip))
+                            {
+                                string[] ordre = { scr, con, vue, sty };
+                                for (int i = 0; i < arc.Entries.Count; i++)
+                                {
+                                    string path = $@"{projet}\{ordre[i]}";
+
+                                    arc.Entries[i].ExtractToFile(path);
+
+                                    Console.ForegroundColor = ConsoleColor.Magenta;
+                                    Console.Write("COMPOSANT ");
+                                    Console.ResetColor();
+                                    Console.WriteLine($"{ordre[i]} ===> extraction du fichier terminé.");
+
+                                    File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
+
+                                    Console.ForegroundColor = ConsoleColor.Magenta;
+                                    Console.Write("EDITION ");
+                                    Console.ResetColor();
+                                    Console.Write($"{ordre[i]} ===> édition du fichier, ");
+                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                    Console.Write(new FileInfo(path).Length);
+                                    Console.ResetColor();
+                                    Console.WriteLine(" octet(s) modifié.");
+                                }
+                            }
+
+
+                            Console.WriteLine("Suppression de l'archive...");
+                            File.Delete(zip);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Erreur, impossible d'ajouter le composant !");
+                            Console.WriteLine($"Message: {e.Message}");
+                        }
+                    }
+                    else if (arg == "-s")
+                    {
+
+                    }
+                    else
+                        Console.WriteLine("Le type d'action doit être '-a' pour ajouter ou '-s' pour supprimer.");
                 }
                 else
-                    Messages.badArgs();
+                    Console.WriteLine("Heuu, le projet n'existe pas...");
+
             }
             else if (cmd.Length > 3)
-                Messages.tooMuchArgs();
+                Console.WriteLine("Problème, seul le nom du projet, le type d'action et le nom du nouveau composant sont attendus !");
             else
-                Messages.tooLessArgs();
+                Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouveau composant !");
         }
 
 

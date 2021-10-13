@@ -63,9 +63,29 @@ namespace GFFramework.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Byte[].
         /// </summary>
-        internal static byte[] projet_base {
+        internal static byte[] base_composant {
             get {
-                object obj = ResourceManager.GetObject("projet_base", resourceCulture);
+                object obj = ResourceManager.GetObject("base_composant", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] base_objet {
+            get {
+                object obj = ResourceManager.GetObject("base_objet", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] base_projet {
+            get {
+                object obj = ResourceManager.GetObject("base_projet", resourceCulture);
                 return ((byte[])(obj));
             }
         }
