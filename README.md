@@ -3,4 +3,4 @@
 
 __Version 1.0.0.0 :__ Première version  
 
-![GFframework](https://raw.githubusercontent.com/TheRake66/GFframework/main/images/screenshot.png)
+![GFframework](https://raw.githubusercontent.com/TheRake66/GFframework/main/screenshot.png)
