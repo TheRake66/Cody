@@ -58,10 +58,10 @@ namespace GFFramework
 
                 string input = Console.ReadLine().Trim();
                 string[] split = input.Replace("  ", " ").Split(' ');
+                string cmd = split[0];
 
-                if (split.Length > 0)
+                if (cmd.Length > 0)
                 {
-                    string cmd = split[0];
                     string[] argm = split.Skip(1).ToArray();
 
                     switch (cmd)

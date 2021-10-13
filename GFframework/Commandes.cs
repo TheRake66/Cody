@@ -30,7 +30,7 @@ namespace GFFramework
                     }
                     catch (Exception e)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.Write("ERROR ");
                         Console.ResetColor();
                         Console.WriteLine($"{path} ===> Impossible de changer de dossier !");
@@ -103,7 +103,7 @@ namespace GFFramework
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.Write("ERROR ");
                         Console.ResetColor();
                         Console.WriteLine($"{url} ===> Impossible de télécharger ce fichier !");
@@ -121,7 +121,7 @@ namespace GFFramework
             else
                 Console.WriteLine("Problème, il manque l'url et le chemin du fichier !");
         }
-        
+
 
         public static void listProjet(string[] cmd)
         {
@@ -164,7 +164,7 @@ namespace GFFramework
                 }
                 catch (Exception e)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.Write("ERROR ");
                     Console.ResetColor();
                     Console.WriteLine($"{Directory.GetCurrentDirectory()} ===> Impossible de lister les projets !");
@@ -181,20 +181,20 @@ namespace GFFramework
             if (cmd.Length == 0)
             {
                 Console.WriteLine(
-@"aide                            Affiche l'aide globale ou l'aide d'une commande spécifique.
-cd [*chemin]                    Affiche ou change le dossier courant.
-cl                              Nettoie la console.
-com [projet] [-s | -a] [nom]    Ajoute ou supprime un composant (controleur, vue, style, script) avec le nom spécifié 
-                                pour le projet spécifié.
-die                             Quitte GFframework.
-dl [url] [chemin]               Télécharge un fichier avec l'URL spécifiée.
-git [*arguments]                Exécute la commande git avec les arguments spécifié.
-cls                             Affiche la liste des projets du dossier courant.
-maj                             Met à jour GFframework via le depot GitHub.
-new [nom]                       Créer un nouveau projet avec le nom spécifié.
-obj [projet] [-s | -a] [nom]    Ajoute ou supprime un objet (classe dto, classe dao) avec le nom spécifié pour le
-                                projet spécifié.
-rep                             Ouvre la dépôt GitHub de GFframework.
+@"aide                                    Affiche l'aide globale ou l'aide d'une commande spécifique.
+cd [*chemin]                            Affiche ou change le dossier courant.
+cl                                      Nettoie la console.
+com [projet] [-s | -a | -r] [nom]       Ajoute, renomme ou supprime un composant (controleur, vue, style, script)
+                                        avec le nom spécifié  pour le projet spécifié.
+die                                     Quitte GFframework.
+dl [url] [chemin]                       Télécharge un fichier avec l'URL spécifiée.
+git [*arguments]                        Exécute la commande git avec les arguments spécifié.
+cls                                     Affiche la liste des projets du dossier courant.
+maj                                     Met à jour GFframework via le depot GitHub.
+new [nom]                               Créer un nouveau projet avec le nom spécifié.
+obj [projet] [-s | -a | -r] [nom]       Ajoute, renomme ou supprime un objet (classe dto, classe dao)
+                                        avec le nom spécifié pour le projet spécifié.
+rep                                     Ouvre la dépôt GitHub de GFframework.
 
 *: Argument facultatif.
 ");
@@ -253,7 +253,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
             }
             catch (Exception e)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.Write("ERROR ");
                 Console.ResetColor();
                 Console.WriteLine($"git ===> Impossible d'exécuter la commande git !");
@@ -303,14 +303,14 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                                 Console.ResetColor();
                                                 Console.WriteLine($"{file} ===> ajout du dossier.");
                                             }
-                                            catch
+                                            catch (Exception e)
                                             {
-                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                                 Console.Write("ERROR ");
                                                 Console.ResetColor();
                                                 Console.WriteLine($"{file} ===> impossible d'ajouter le dossier.");
+                                                Console.WriteLine($"Message: {e.Message}");
                                             }
-
                                         }
                                         else
                                         {
@@ -329,12 +329,13 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                                 Console.ResetColor();
                                                 Console.WriteLine(" octet(s) au total.");
                                             }
-                                            catch
+                                            catch (Exception e)
                                             {
-                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                                 Console.Write("ERROR ");
                                                 Console.ResetColor();
                                                 Console.WriteLine($"{file} ===> impossible d'extraire le fichier.");
+                                                Console.WriteLine($"Message: {e.Message}");
                                             }
                                         }
 
@@ -349,7 +350,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                 }
                                 catch (Exception e)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
                                     Console.Write("ERROR ");
                                     Console.ResetColor();
                                     Console.WriteLine($"{name} ===> Impossible de supprimer l'archive !");
@@ -361,7 +362,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                             }
                             catch (Exception e)
                             {
-                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.Write("ERROR ");
                                 Console.ResetColor();
                                 Console.WriteLine($"{name} ===> Impossible d'extraire l'archive !");
@@ -370,7 +371,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                         }
                         catch (Exception e)
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.Write("ERROR ");
                             Console.ResetColor();
                             Console.WriteLine($"{name} ===> Impossible de créer le dossier du projet !");
@@ -379,7 +380,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                     }
                     catch (Exception e)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.Write("ERROR ");
                         Console.ResetColor();
                         Console.WriteLine($"{name} ===> Impossible de créer le dossier du projet !");
@@ -396,6 +397,38 @@ rep                             Ouvre la dépôt GitHub de GFframework.
         }
 
 
+        public static void verifMAJ(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                try
+                {
+                    Console.WriteLine("Vérification de la mise à jour...");
+
+                    WebClient client = new WebClient();
+                    string remoteUri = "https://raw.githubusercontent.com/TheRake66/GFframework/master/version";
+                    string lastversion = client.DownloadString(remoteUri);
+                    string currentversion = typeof(Program).Assembly.GetName().Version.ToString();
+
+                    if (lastversion.Equals(currentversion))
+                        Console.WriteLine("Vous êtes à jour !");
+                    else
+                        Console.WriteLine($"La version {lastversion} est disponible, utilisez la commande 'rep' pour la télécharger !");
+                }
+                catch (Exception e)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write("ERROR ");
+                    Console.ResetColor();
+                    Console.WriteLine("Impossible de vérifier les mise à jour !");
+                    Console.WriteLine($"Message: {e.Message}");
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument est attendu !");
+        }
+
+
         public static void gestComposant(string[] cmd)
         {
             if (cmd.Length == 3)
@@ -404,18 +437,19 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                 string arg = cmd[1];
                 string name = cmd[2];
 
-                string upp = name.Length > 1 ? 
-                    name.Substring(0, 1).ToUpper() + name.Substring(1) : 
+                string upp = name.Length > 1 ?
+                    name.Substring(0, 1).ToUpper() + name.Substring(1) :
                     name.ToUpper();
 
                 if (Directory.Exists(projet))
                 {
                     string con = $@"controleurs\controleur{upp}.php",
-                        vue = $@"vues\vue{upp}.php",
-                        scr = $@"scripts\script{upp}.js",
-                        sty = $@"styles\style{upp}.css";
+                           vue = $@"vues\vue{upp}.php",
+                           scr = $@"scripts\script{upp}.js",
+                           sty = $@"styles\style{upp}.css";
                     string[] ordre = { scr, con, vue, sty };
 
+                    // ***************************************************
                     if (arg == "-a")
                     {
                         string zip = $@"{projet}\base_composant.zip";
@@ -436,12 +470,22 @@ rep                             Ouvre la dépôt GitHub de GFframework.
 
                                         try
                                         {
-                                            arc.Entries[i].ExtractToFile(path, true);
+                                            if (!File.Exists(path))
+                                            {
+                                                arc.Entries[i].ExtractToFile(path);
 
-                                            Console.ForegroundColor = ConsoleColor.Magenta;
-                                            Console.Write("COMPOSANT ");
-                                            Console.ResetColor();
-                                            Console.WriteLine($"{ordre[i]} ===> extraction du fichier terminé.");
+                                                Console.ForegroundColor = ConsoleColor.Magenta;
+                                                Console.Write("OBJET ");
+                                                Console.ResetColor();
+                                                Console.WriteLine($"{ordre[i]} ===> extraction du fichier terminé.");
+                                            }
+                                            else
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                                Console.Write("ATTENTION ");
+                                                Console.ResetColor();
+                                                Console.WriteLine($"{ordre[i]} ===> le fichier existe déjà.");
+                                            }
 
                                             try
                                             {
@@ -458,7 +502,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                             }
                                             catch
                                             {
-                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                                 Console.Write("ERROR ");
                                                 Console.ResetColor();
                                                 Console.WriteLine($"{ordre[i]} ===> impossible d'éditer le fichier.");
@@ -466,7 +510,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                         }
                                         catch
                                         {
-                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            Console.ForegroundColor = ConsoleColor.DarkRed;
                                             Console.Write("ERROR ");
                                             Console.ResetColor();
                                             Console.WriteLine($"{ordre[i]} ===> impossible d'extraire le fichier.");
@@ -482,7 +526,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                 }
                                 catch (Exception e)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
                                     Console.Write("ERROR ");
                                     Console.ResetColor();
                                     Console.WriteLine($"{zip} ===> Impossible de supprimer l'archive !");
@@ -490,62 +534,71 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                 }
 
 
-                                Console.WriteLine("Le composant a été ajouté...");
+                                Console.WriteLine("Le composant a été ajouté.");
                             }
                             catch (Exception e)
                             {
-                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.Write("ERROR ");
                                 Console.ResetColor();
                                 Console.WriteLine($"{name} ===> Impossible d'ouvrir l'archive !");
                                 Console.WriteLine($"Message: {e.Message}");
                             }
-
-                            
                         }
                         catch (Exception e)
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.Write("ERROR ");
                             Console.ResetColor();
                             Console.WriteLine($"{zip} ===> Impossible d'extraire l'archive !");
                             Console.WriteLine($"Message: {e.Message}");
                         }
                     }
+                    // ***************************************************
                     else if (arg == "-s")
                     {
-                        try
-                        {
-                            Console.WriteLine("Suppression des fichiers...");
+                        Console.WriteLine("Suppression des fichiers...");
 
-                            foreach (string f in ordre)
+                        foreach (string f in ordre)
+                        {
+                            string path = $@"{projet}\{f}";
+                            if (File.Exists(path))
                             {
-                                string path = $@"{projet}\{f}";
-                                if (File.Exists(path))
+                                try
                                 {
+                                    File.Delete(path);
+
                                     Console.ForegroundColor = ConsoleColor.Magenta;
-                                    Console.Write("COMPOSANT ");
+                                    Console.Write("OBJET ");
                                     Console.ResetColor();
                                     Console.WriteLine($"{f} ===> suppression du fichier terminé.");
-                                    File.Delete(path);
                                 }
-                                else
+                                catch (Exception e)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
                                     Console.Write("ERROR ");
                                     Console.ResetColor();
-                                    Console.WriteLine($"{f} ===> fichier introuvale.");
+                                    Console.WriteLine($"{f} ===> impossible de supprimer le fichier !");
+                                    Console.WriteLine($"Message: {e.Message}");
                                 }
                             }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                Console.Write("ERROR ");
+                                Console.ResetColor();
+                                Console.WriteLine($"{f} ===> fichier introuvale !");
+                            }
+                        }
 
-                            Console.WriteLine("Le composant a été supprimé...");
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Erreur, impossible de supprimer le composant !");
-                            Console.WriteLine($"Message: {e.Message}");
-                        }
+                        Console.WriteLine("Le composant a été supprimé.");
                     }
+                    // ***************************************************
+                    else if (arg == "-r")
+                    {
+                        Console.WriteLine("Le composant a été renommé.");
+                    }
+                    // ***************************************************
                     else
                         Console.WriteLine("Le type d'action doit être '-a' pour ajouter ou '-s' pour supprimer.");
                 }
@@ -554,9 +607,9 @@ rep                             Ouvre la dépôt GitHub de GFframework.
 
             }
             else if (cmd.Length > 3)
-                Console.WriteLine("Problème, seul le nom du projet, le type d'action et le nom du nouveau composant sont attendus !");
+                Console.WriteLine("Problème, seul le nom du projet, le type d'action et le nom du nouvel objet sont attendus !");
             else
-                Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouveau composant !");
+                Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouvel objet !");
         }
 
 
@@ -575,10 +628,11 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                 if (Directory.Exists(projet))
                 {
                     string dto = $@"modeles\dto\dto{upp}.php",
-                        dao = $@"modeles\dao\dao{upp}.php";
+                         dao = $@"modeles\dao\dao{upp}.php";
 
                     string[] ordre = { dto, dao };
 
+                    // ***************************************************
                     if (arg == "-a")
                     {
                         string zip = $@"{projet}\base_objet.zip";
@@ -599,7 +653,22 @@ rep                             Ouvre la dépôt GitHub de GFframework.
 
                                         try
                                         {
-                                            arc.Entries[i].ExtractToFile(path, true);
+                                            if (!File.Exists(path))
+                                            {
+                                                arc.Entries[i].ExtractToFile(path);
+
+                                                Console.ForegroundColor = ConsoleColor.Magenta;
+                                                Console.Write("OBJET ");
+                                                Console.ResetColor();
+                                                Console.WriteLine($"{ordre[i]} ===> extraction du fichier terminé.");
+                                            }
+                                            else
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                                Console.Write("ATTENTION ");
+                                                Console.ResetColor();
+                                                Console.WriteLine($"{ordre[i]} ===> le fichier existe déjà.");
+                                            }
 
                                             Console.ForegroundColor = ConsoleColor.Magenta;
                                             Console.Write("OBJET ");
@@ -621,7 +690,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                             }
                                             catch
                                             {
-                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                                 Console.Write("ERROR ");
                                                 Console.ResetColor();
                                                 Console.WriteLine($"{ordre[i]} ===> impossible d'éditer le fichier.");
@@ -629,7 +698,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                         }
                                         catch
                                         {
-                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            Console.ForegroundColor = ConsoleColor.DarkRed;
                                             Console.Write("ERROR ");
                                             Console.ResetColor();
                                             Console.WriteLine($"{ordre[i]} ===> impossible d'extraire le fichier.");
@@ -645,7 +714,7 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                 }
                                 catch (Exception e)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
                                     Console.Write("ERROR ");
                                     Console.ResetColor();
                                     Console.WriteLine($"{zip} ===> Impossible de supprimer l'archive !");
@@ -653,62 +722,71 @@ rep                             Ouvre la dépôt GitHub de GFframework.
                                 }
 
 
-                                Console.WriteLine("L'objet a été ajouté...");
+                                Console.WriteLine("L'objet a été ajouté.");
                             }
                             catch (Exception e)
                             {
-                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.Write("ERROR ");
                                 Console.ResetColor();
                                 Console.WriteLine($"{name} ===> Impossible d'ouvrir l'archive !");
                                 Console.WriteLine($"Message: {e.Message}");
                             }
-
-
                         }
                         catch (Exception e)
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.Write("ERROR ");
                             Console.ResetColor();
                             Console.WriteLine($"{zip} ===> Impossible d'extraire l'archive !");
                             Console.WriteLine($"Message: {e.Message}");
                         }
                     }
+                    // ***************************************************
                     else if (arg == "-s")
                     {
-                        try
-                        {
-                            Console.WriteLine("Suppression des fichiers...");
+                        Console.WriteLine("Suppression des fichiers...");
 
-                            foreach (string f in ordre)
+                        foreach (string f in ordre)
+                        {
+                            string path = $@"{projet}\{f}";
+                            if (File.Exists(path))
                             {
-                                string path = $@"{projet}\{f}";
-                                if (File.Exists(path))
+                                try
                                 {
+                                    File.Delete(path);
+
                                     Console.ForegroundColor = ConsoleColor.Magenta;
                                     Console.Write("OBJET ");
                                     Console.ResetColor();
                                     Console.WriteLine($"{f} ===> suppression du fichier terminé.");
-                                    File.Delete(path);
                                 }
-                                else
+                                catch (Exception e)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
                                     Console.Write("ERROR ");
                                     Console.ResetColor();
-                                    Console.WriteLine($"{f} ===> fichier introuvale.");
+                                    Console.WriteLine($"{f} ===> impossible de supprimer le fichier !");
+                                    Console.WriteLine($"Message: {e.Message}");
                                 }
                             }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                Console.Write("ERROR ");
+                                Console.ResetColor();
+                                Console.WriteLine($"{f} ===> fichier introuvale !");
+                            }
+                        }
 
-                            Console.WriteLine("L'objet a été supprimé...");
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Erreur, impossible de supprimer l'objet !");
-                            Console.WriteLine($"Message: {e.Message}");
-                        }
+                        Console.WriteLine("L'objet a été supprimé.");
                     }
+                    // ***************************************************
+                    else if (arg == "-r")
+                    {
+                        Console.WriteLine("L'objet a été renommé.");
+                    }
+                    // ***************************************************
                     else
                         Console.WriteLine("Le type d'action doit être '-a' pour ajouter ou '-s' pour supprimer.");
                 }
@@ -721,11 +799,5 @@ rep                             Ouvre la dépôt GitHub de GFframework.
             else
                 Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouvel objet !");
         }
-
-
-        public static void verifMAJ(string[] cmd)
-        {
-        }
-
     }
 }
