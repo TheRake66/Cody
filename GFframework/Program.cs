@@ -75,7 +75,7 @@ namespace GFFramework
                             break;
 
                         case "com":
-                            Commandes.gestComposant(argm);
+                            //Commandes.gestComposant(argm);
                             break;
 
                         case "obj":

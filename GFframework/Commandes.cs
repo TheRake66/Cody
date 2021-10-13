@@ -22,19 +22,17 @@ namespace GFFramework
             {
                 string path = cmd[0];
 
+                // Verifi si le dossier existe deja
                 if (Directory.Exists(path))
                 {
                     try
                     {
+                        // Change le dossier
                         Directory.SetCurrentDirectory(path);
                     }
                     catch (Exception e)
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.Write("ERROR ");
-                        Console.ResetColor();
-                        Console.WriteLine($"{path} ===> Impossible de changer de dossier !");
-                        Console.WriteLine($"Message: {e.Message}");
+                        Messages.writeError(path, "Impossible de changer de dossier !", e);
                     }
                 }
                 else
@@ -51,11 +49,13 @@ namespace GFFramework
         {
             if (cmd.Length == 2)
             {
-                int x = Console.CursorLeft;
-                int y = Console.CursorTop;
+                // Recupere les args
                 string url = cmd[0];
                 string file = cmd[1];
-                object lk = new object();
+                // Prepapre l'animation
+                int x = Console.CursorLeft;
+                int y = Console.CursorTop;
+                object lk = new object(); // lock
                 bool ended = false;
 
                 WebClient web = new WebClient();
@@ -63,6 +63,8 @@ namespace GFFramework
                 {
                     lock (lk)
                     {
+                        // Arrondi, quand ca arrive a 100% ca ne declenche pas cette event, il
+                        // faut donc afficher 100% un % avant
                         bool rounded = e.ProgressPercentage == 99;
 
                         Console.SetCursorPosition(x, y);
@@ -73,6 +75,7 @@ namespace GFFramework
                         Console.ResetColor();
                         Console.Write("[");
 
+                        // Progress
                         Console.ForegroundColor = ConsoleColor.Green;
                         float percent = e.ProgressPercentage / 3;
                         for (float i = 1; i <= 100 / 3; i++)
@@ -96,24 +99,23 @@ namespace GFFramework
                 };
                 web.DownloadFileCompleted += (s, e) =>
                 {
-                    if (e.Error == null)
+                    lock (lk)
                     {
-                        lock (lk)
+                        if (e.Error == null) // Si aucune exception
+                        {
                             Console.WriteLine("Téléchargement terminé.");
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.Write("ERROR ");
-                        Console.ResetColor();
-                        Console.WriteLine($"{url} ===> Impossible de télécharger ce fichier !");
-                        Console.WriteLine($"Message: {e.Error.Message}");
+                        }
+                        else
+                        {
+                            Messages.writeError(url, "Impossible de télécharger ce fichier !", e.Error);
+                        }
                     }
                     ended = true;
                 };
+                // Telecharge en asyncrone
                 web.DownloadFileTaskAsync(url, file);
 
-                // dl https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar aa.jar
+                // Attends la fin et de delockage
                 while (!ended || !Monitor.TryEnter(lk)) { }
             }
             else if (cmd.Length > 2)
@@ -129,32 +131,23 @@ namespace GFFramework
             {
                 try
                 {
+                    // Recupere tous les dossier du dossier courant
                     string[] dirs = Directory.GetDirectories(Directory.GetCurrentDirectory());
 
                     if (dirs.Length > 0)
                     {
                         foreach (string f in dirs)
                         {
+                            // Si ca contient un index.php c'est un projet
                             if (File.Exists($@"{f}\index.php"))
                             {
+                                // Calcule ne nb de fichier et la taille total
                                 long[] data = Librairies.getCountAndSizeFolder(f);
 
-                                Console.ForegroundColor = ConsoleColor.Magenta;
-                                Console.Write("PROJET ");
-
-                                Console.ResetColor();
-                                Console.Write($"{Path.GetFileName(f)} ===> ");
-
-                                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                Console.Write(data[0]);
-
-                                Console.ResetColor();
+                                Messages.write(Messages.Type.Projet, Path.GetFileName(f));
+                                Messages.writeData(data[0]);
                                 Console.Write(" fichier(s) fai(on)t ");
-
-                                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                Console.Write(data[1]);
-
-                                Console.ResetColor();
+                                Messages.writeData(data[1]);
                                 Console.WriteLine(" octet(s).");
                             }
                         }
@@ -164,11 +157,7 @@ namespace GFFramework
                 }
                 catch (Exception e)
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("ERROR ");
-                    Console.ResetColor();
-                    Console.WriteLine($"{Directory.GetCurrentDirectory()} ===> Impossible de lister les projets !");
-                    Console.WriteLine($"Message: {e.Message}");
+                    Messages.writeError(Directory.GetCurrentDirectory(), "Impossible de lister les projets !", e);
                 }
             }
             else
@@ -180,6 +169,7 @@ namespace GFFramework
         {
             if (cmd.Length == 0)
             {
+                // Affiche l'aide
                 Console.WriteLine(
 @"aide                                    Affiche l'aide globale ou l'aide d'une commande spécifique.
 cd [*chemin]                            Affiche ou change le dossier courant.
@@ -207,7 +197,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         public static void clearCons(string[] cmd)
         {
             if (cmd.Length == 0)
-                Console.Clear();
+                Console.Clear(); // Clear la console
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
@@ -217,6 +207,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         {
             if (cmd.Length == 0)
             {
+                // Ouvre dans le navigateur
                 try { Process.Start("https://github.com/TheRake66/GFfrramework"); }
                 catch { }
             }
@@ -228,7 +219,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         public static void quitterApp(string[] cmd)
         {
             if (cmd.Length == 0) 
-                Environment.Exit(0);
+                Environment.Exit(0); // Ferme avec un code 0
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
@@ -238,11 +229,12 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         {
             try
             {
+                // Reunis chaque arguments en array vers un string
                 string arlin = "";
                 foreach (string a in cmd)
                     arlin += a + " ";
 
-
+                // Demarre en syncrone git
                 ProcessStartInfo inf = new ProcessStartInfo
                 {
                     FileName = "git.exe",
@@ -253,11 +245,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
             }
             catch (Exception e)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write("ERROR ");
-                Console.ResetColor();
-                Console.WriteLine($"git ===> Impossible d'exécuter la commande git !");
-                Console.WriteLine($"Message: {e.Message}");
+                Messages.writeError("git", "Impossible d'exécuter la commande git !", e);
             }
         }
 
@@ -266,125 +254,97 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         {
             if (cmd.Length == 1)
             {
+                // Verifi si projet existe deja
                 string name = cmd[0];
                 if (!Directory.Exists(name))
                 {
                     try
                     {
+                        // Creer le dossier du projet
                         Console.WriteLine("Création du dossier du projet...");
                         Directory.CreateDirectory(name);
 
                         try
                         {
+                            // Extrait l'archive des ressouces
                             Console.WriteLine("Extraction de l'archive...");
                             string zip = $@"{name}\projet_base.zip";
                             File.WriteAllBytes(zip, Resources.base_projet);
 
-
                             try
                             {
-
+                                // Ouvre l'archive
                                 using (ZipArchive arc = ZipFile.OpenRead(zip))
                                 {
+                                    // Parcour chaque entree
                                     foreach (ZipArchiveEntry ent in arc.Entries)
                                     {
-                                        string path = Path.Combine(name, ent.FullName);
+                                        string path = Path.Combine(name, ent.FullName); // projet\entry
                                         string file = ent.FullName.Replace('/', '\\');
 
-                                        Console.ForegroundColor = ConsoleColor.Magenta;
+                                        // Si c'est un dossier
                                         if (ent.FullName.EndsWith("/"))
                                         {
                                             try
                                             {
+                                                // Creer le dossier
                                                 Directory.CreateDirectory(path);
 
-                                                Console.Write("DOSSIER ");
-
-                                                Console.ResetColor();
-                                                Console.WriteLine($"{file} ===> ajout du dossier.");
+                                                Messages.writeFull(Messages.Type.Dossier, file, "Ajout du dossier.");
                                             }
                                             catch (Exception e)
                                             {
-                                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                                Console.Write("ERROR ");
-                                                Console.ResetColor();
-                                                Console.WriteLine($"{file} ===> impossible d'ajouter le dossier.");
-                                                Console.WriteLine($"Message: {e.Message}");
+                                                Messages.writeError(file, "Impossible d'ajouter le dossier !", e);
                                             }
                                         }
+                                        // Si c'est un fichier
                                         else
                                         {
                                             try
                                             {
+                                                // Extrait le fichier de l'archive
                                                 ent.ExtractToFile(path);
 
-                                                Console.Write("FICHIER ");
-
-                                                Console.ResetColor();
-                                                Console.Write($"{file} ===> extraction du fichier, ");
-
-                                                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                                Console.Write(new FileInfo(path).Length);
-
-                                                Console.ResetColor();
+                                                Messages.write(Messages.Type.Fichier, file);
+                                                Console.Write(" Extraction du fichier, ");
+                                                Messages.writeData(new FileInfo(path).Length);
                                                 Console.WriteLine(" octet(s) au total.");
                                             }
                                             catch (Exception e)
                                             {
-                                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                                Console.Write("ERROR ");
-                                                Console.ResetColor();
-                                                Console.WriteLine($"{file} ===> impossible d'extraire le fichier.");
-                                                Console.WriteLine($"Message: {e.Message}");
+                                                Messages.writeError(file, "Impossible d'extraire le fichier !", e);
                                             }
                                         }
 
                                     }
                                 }
 
-
                                 try
                                 {
+                                    // Supprime l'archive
                                     Console.WriteLine("Suppression de l'archive...");
                                     File.Delete(zip);
                                 }
                                 catch (Exception e)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                                    Console.Write("ERROR ");
-                                    Console.ResetColor();
-                                    Console.WriteLine($"{name} ===> Impossible de supprimer l'archive !");
-                                    Console.WriteLine($"Message: {e.Message}");
+                                    Messages.writeError(name, "Impossible de supprimer l'archive !", e);
                                 }
-
 
                                 Console.WriteLine("Le projet a été crée.");
                             }
                             catch (Exception e)
                             {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.Write("ERROR ");
-                                Console.ResetColor();
-                                Console.WriteLine($"{name} ===> Impossible d'extraire l'archive !");
-                                Console.WriteLine($"Message: {e.Message}");
+                                Messages.writeError(name, "Impossible d'extraire l'archive !", e);
                             }
                         }
                         catch (Exception e)
                         {
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.Write("ERROR ");
-                            Console.ResetColor();
-                            Console.WriteLine($"{name} ===> Impossible de créer le dossier du projet !");
-                            Console.WriteLine($"Message: {e.Message}");
+                            Messages.writeError(name, "Impossible de créer le dossier du projet !", e);
                         }
                     }
                     catch (Exception e)
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.Write("ERROR ");
-                        Console.ResetColor();
-                        Console.WriteLine($"{name} ===> Impossible de créer le dossier du projet !");
-                        Console.WriteLine($"Message: {e.Message}");
+                        Messages.writeError(name, "Impossible de créer le dossier du projet !", e);
                     }
                 }
                 else
@@ -405,11 +365,13 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                 {
                     Console.WriteLine("Vérification de la mise à jour...");
 
+                    // Prepare un client http
                     WebClient client = new WebClient();
                     string remoteUri = "https://raw.githubusercontent.com/TheRake66/GFframework/master/version";
                     string lastversion = client.DownloadString(remoteUri);
                     string currentversion = typeof(Program).Assembly.GetName().Version.ToString();
 
+                    // Compare les version
                     if (lastversion.Equals(currentversion))
                         Console.WriteLine("Vous êtes à jour !");
                     else
@@ -417,11 +379,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                 }
                 catch (Exception e)
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("ERROR ");
-                    Console.ResetColor();
-                    Console.WriteLine("Impossible de vérifier les mise à jour !");
-                    Console.WriteLine($"Message: {e.Message}");
+                    Messages.writeError("webclient", "Impossible de vérifier les mise à jour !", e);
                 }
             }
             else
@@ -429,370 +387,246 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         }
 
 
-        public static void gestComposant(string[] cmd)
-        {
-            if (cmd.Length == 3)
-            {
-                string projet = cmd[0];
-                string arg = cmd[1];
-                string name = cmd[2];
-
-                string upp = name.Length > 1 ?
-                    name.Substring(0, 1).ToUpper() + name.Substring(1) :
-                    name.ToUpper();
-
-                if (Directory.Exists(projet))
-                {
-                    string con = $@"controleurs\controleur{upp}.php",
-                           vue = $@"vues\vue{upp}.php",
-                           scr = $@"scripts\script{upp}.js",
-                           sty = $@"styles\style{upp}.css";
-                    string[] ordre = { scr, vue, con, sty };
-
-                    // ***************************************************
-                    if (arg == "-a")
-                    {
-                        string zip = $@"{projet}\base_composant.zip";
-
-                        try
-                        {
-                            Console.WriteLine("Extraction de l'archive...");
-                            File.WriteAllBytes(zip, Resources.base_composant);
-
-                            try
-                            {
-                                Console.WriteLine("Extraction des fichiers...");
-                                using (ZipArchive arc = ZipFile.OpenRead(zip))
-                                {
-                                    for (int i = 0; i < arc.Entries.Count; i++)
-                                    {
-                                        string path = $@"{projet}\{ordre[i]}";
-
-                                        if (!File.Exists(path))
-                                        {
-                                            try
-                                            {
-                                                arc.Entries[i].ExtractToFile(path);
-
-                                                Console.ForegroundColor = ConsoleColor.Magenta;
-                                                Console.Write("COMPOSANT ");
-                                                Console.ResetColor();
-                                                Console.WriteLine($"{ordre[i]} ===> extraction du fichier terminé.");
-
-
-                                                try
-                                                {
-                                                    File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
-
-                                                    Console.ForegroundColor = ConsoleColor.Magenta;
-                                                    Console.Write("EDITION ");
-                                                    Console.ResetColor();
-                                                    Console.Write($"{ordre[i]} ===> édition du fichier, ");
-                                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                                    Console.Write(new FileInfo(path).Length);
-                                                    Console.ResetColor();
-                                                    Console.WriteLine(" octet(s) modifié.");
-                                                }
-                                                catch (Exception e)
-                                                {
-                                                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                                                    Console.Write("ERROR ");
-                                                    Console.ResetColor();
-                                                    Console.WriteLine($"{ordre[i]} ===> impossible d'éditer le fichier.");
-                                                    Console.WriteLine($"Message: {e.Message}");
-                                                }
-                                            }
-                                            catch (Exception e)
-                                            {
-                                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                                Console.Write("ERROR ");
-                                                Console.ResetColor();
-                                                Console.WriteLine($"{ordre[i]} ===> impossible d'extraire le fichier.");
-                                                Console.WriteLine($"Message: {e.Message}");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                            Console.Write("ATTENTION ");
-                                            Console.ResetColor();
-                                            Console.WriteLine($"{ordre[i]} ===> le fichier existe déjà.");
-                                        }
-                                    }
-                                }
-
-
-                                try
-                                {
-                                    Console.WriteLine("Suppression de l'archive...");
-                                    File.Delete(zip);
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                                    Console.Write("ERROR ");
-                                    Console.ResetColor();
-                                    Console.WriteLine($"{zip} ===> Impossible de supprimer l'archive !");
-                                    Console.WriteLine($"Message: {e.Message}");
-                                }
-
-
-                                Console.WriteLine("Le composant a été ajouté.");
-                            }
-                            catch (Exception e)
-                            {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.Write("ERROR ");
-                                Console.ResetColor();
-                                Console.WriteLine($"{name} ===> Impossible d'ouvrir l'archive !");
-                                Console.WriteLine($"Message: {e.Message}");
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.Write("ERROR ");
-                            Console.ResetColor();
-                            Console.WriteLine($"{zip} ===> Impossible d'extraire l'archive !");
-                            Console.WriteLine($"Message: {e.Message}");
-                        }
-                    }
-                    // ***************************************************
-                    else if (arg == "-s")
-                    {
-                        Console.WriteLine("Suppression des fichiers...");
-
-                        foreach (string f in ordre)
-                        {
-                            string path = $@"{projet}\{f}";
-                            if (File.Exists(path))
-                            {
-                                try
-                                {
-                                    File.Delete(path);
-
-                                    Console.ForegroundColor = ConsoleColor.Magenta;
-                                    Console.Write("COMPOSANT ");
-                                    Console.ResetColor();
-                                    Console.WriteLine($"{f} ===> suppression du fichier terminé.");
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                                    Console.Write("ERROR ");
-                                    Console.ResetColor();
-                                    Console.WriteLine($"{f} ===> impossible de supprimer le fichier !");
-                                    Console.WriteLine($"Message: {e.Message}");
-                                }
-                            }
-                            else
-                            {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.Write("ERROR ");
-                                Console.ResetColor();
-                                Console.WriteLine($"{f} ===> fichier introuvale !");
-                            }
-                        }
-
-                        Console.WriteLine("Le composant a été supprimé.");
-                    }
-                    // ***************************************************
-                    else if (arg == "-r")
-                    {
-                        Console.WriteLine("Le composant a été renommé.");
-                    }
-                    // ***************************************************
-                    else if (arg == "-l")
-                    {
-                    }
-                    // ***************************************************
-                    else
-                        Console.WriteLine("Le type d'action doit être '-a' pour ajouter, '-r' pour renommer, '-l' pour lister, ou '-s' pour supprimer.");
-                }
-                else
-                    Console.WriteLine("Heuu, le projet n'existe pas...");
-
-            }
-            else if (cmd.Length > 3)
-                Console.WriteLine("Problème, seul le nom du projet, le type d'action et le nom du nouvel objet sont attendus !");
-            else
-                Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouvel objet !");
-        }
-
-
         public static void gestObjet(string[] cmd)
         {
-            if (cmd.Length == 2 || cmd.Length == 3)
+            if (cmd.Length >= 2 && cmd.Length <= 4)
             {
                 string projet = cmd[0];
                 string arg = cmd[1];
-                string name = cmd[2];
 
+                string name = cmd.Length >= 3 ? cmd[2] : "";
                 string upp = name.Length > 1 ?
                     name.Substring(0, 1).ToUpper() + name.Substring(1) :
                     name.ToUpper();
 
+                string newname = cmd.Length >= 4 ? cmd[3] : "";
+                string newupp = newname.Length > 1 ?
+                    newname.Substring(0, 1).ToUpper() + newname.Substring(1) :
+                    newname.ToUpper();
+
+                string dto = $@"modeles\dto\dto{upp}.php",
+                     dao = $@"modeles\dao\dao{upp}.php";
+                string[] ordre = { dto, dao };
+                string[] exclu = { "dBConnex.php", "param.php" };
+
                 if (Directory.Exists(projet))
                 {
-                    string dto = $@"modeles\dto\dto{upp}.php",
-                         dao = $@"modeles\dao\dao{upp}.php";
-
-                    string[] ordre = { dto, dao };
-
                     // ***************************************************
                     if (arg == "-a")
                     {
-                        string zip = $@"{projet}\base_objet.zip";
-
-                        try
+                        if (cmd.Length == 3)
                         {
-                            Console.WriteLine("Extraction de l'archive...");
-                            File.WriteAllBytes(zip, Resources.base_objet);
+                            string zip = $@"{projet}\base_objet.zip";
 
                             try
                             {
-                                Console.WriteLine("Extraction des fichiers...");
-                                using (ZipArchive arc = ZipFile.OpenRead(zip))
-                                {
-                                    for (int i = 0; i < arc.Entries.Count; i++)
-                                    {
-                                        string path = $@"{projet}\{ordre[i]}";
-
-                                        if (!File.Exists(path))
-                                        {
-                                            try
-                                            {
-                                                arc.Entries[i].ExtractToFile(path);
-
-                                                Console.ForegroundColor = ConsoleColor.Magenta;
-                                                Console.Write("OBJET ");
-                                                Console.ResetColor();
-                                                Console.WriteLine($"{ordre[i]} ===> extraction du fichier terminé.");
-
-                                                try
-                                                {
-                                                    File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
-
-                                                    Console.ForegroundColor = ConsoleColor.Magenta;
-                                                    Console.Write("EDITION ");
-                                                    Console.ResetColor();
-                                                    Console.Write($"{ordre[i]} ===> édition du fichier, ");
-                                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                                    Console.Write(new FileInfo(path).Length);
-                                                    Console.ResetColor();
-                                                    Console.WriteLine(" octet(s) modifié.");
-                                                }
-                                                catch (Exception e)
-                                                {
-                                                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                                                    Console.Write("ERROR ");
-                                                    Console.ResetColor();
-                                                    Console.WriteLine($"{ordre[i]} ===> impossible d'éditer le fichier.");
-                                                    Console.WriteLine($"Message: {e.Message}");
-                                                }
-                                            }
-                                            catch (Exception e)
-                                            {
-                                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                                Console.Write("ERROR ");
-                                                Console.ResetColor();
-                                                Console.WriteLine($"{zip} ===> Impossible d'extraire le fichier !");
-                                                Console.WriteLine($"Message: {e.Message}");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                            Console.Write("ATTENTION ");
-                                            Console.ResetColor();
-                                            Console.WriteLine($"{ordre[i]} ===> le fichier existe déjà.");
-                                        }
-                                    }
-                                }
-
+                                Console.WriteLine("Extraction de l'archive...");
+                                File.WriteAllBytes(zip, Resources.base_objet);
 
                                 try
                                 {
-                                    Console.WriteLine("Suppression de l'archive...");
-                                    File.Delete(zip);
+                                    Console.WriteLine("Extraction des fichiers...");
+                                    using (ZipArchive arc = ZipFile.OpenRead(zip))
+                                    {
+                                        for (int i = 0; i < arc.Entries.Count; i++)
+                                        {
+                                            string path = $@"{projet}\{ordre[i]}";
+
+                                            if (!File.Exists(path))
+                                            {
+                                                try
+                                                {
+                                                    arc.Entries[i].ExtractToFile(path);
+
+                                                    Messages.writeFull(Messages.Type.Objet, ordre[i], "Extraction du fichier terminé.");
+
+                                                    try
+                                                    {
+                                                        File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
+
+
+                                                        Messages.write(Messages.Type.Edition, ordre[i]);
+                                                        Console.Write(" Edition du fichier, ");
+                                                        Messages.writeData(new FileInfo(path).Length);
+                                                        Console.WriteLine(" octet(s) modifié.");
+                                                    }
+                                                    catch (Exception e)
+                                                    {
+                                                        Messages.writeError(ordre[i], "Impossible d'éditer le fichier !", e);
+                                                    }
+                                                }
+                                                catch (Exception e)
+                                                {
+                                                    Messages.writeError(zip, "Impossible d'extraire le fichier !", e);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Messages.writeWarn(zip, "Le fichier existe déjà !");
+                                            }
+                                        }
+                                    }
+
+
+                                    try
+                                    {
+                                        Console.WriteLine("Suppression de l'archive...");
+                                        File.Delete(zip);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Messages.writeError(zip, "Impossible de supprimer l'archive !", e);
+                                    }
+
+
+                                    Console.WriteLine("L'objet a été ajouté.");
                                 }
                                 catch (Exception e)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                                    Console.Write("ERROR ");
-                                    Console.ResetColor();
-                                    Console.WriteLine($"{zip} ===> Impossible de supprimer l'archive !");
-                                    Console.WriteLine($"Message: {e.Message}");
+                                    Messages.writeError(zip, "Impossible d'ouvrir l'archive !", e);
                                 }
-
-
-                                Console.WriteLine("L'objet a été ajouté.");
                             }
                             catch (Exception e)
                             {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.Write("ERROR ");
-                                Console.ResetColor();
-                                Console.WriteLine($"{name} ===> Impossible d'ouvrir l'archive !");
-                                Console.WriteLine($"Message: {e.Message}");
+                                Messages.writeError(zip, "Impossible d'extraire l'archive !", e);
                             }
                         }
-                        catch (Exception e)
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.Write("ERROR ");
-                            Console.ResetColor();
-                            Console.WriteLine($"{zip} ===> Impossible d'extraire l'archive !");
-                            Console.WriteLine($"Message: {e.Message}");
-                        }
+                        else if (cmd.Length < 3)
+                            Console.WriteLine("Problème, le nom du nouvel objet est attendu !");
+                        else
+                            Console.WriteLine("Problème, seul le nom du nouvel objet est attendu !");
                     }
                     // ***************************************************
                     else if (arg == "-s")
                     {
-                        Console.WriteLine("Suppression des fichiers...");
-
-                        foreach (string f in ordre)
+                        if (cmd.Length == 3)
                         {
-                            string path = $@"{projet}\{f}";
-                            if (File.Exists(path))
-                            {
-                                try
-                                {
-                                    File.Delete(path);
+                            Console.WriteLine("Suppression des fichiers...");
 
-                                    Console.ForegroundColor = ConsoleColor.Magenta;
-                                    Console.Write("OBJET ");
-                                    Console.ResetColor();
-                                    Console.WriteLine($"{f} ===> suppression du fichier terminé.");
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                                    Console.Write("ERROR ");
-                                    Console.ResetColor();
-                                    Console.WriteLine($"{f} ===> impossible de supprimer le fichier !");
-                                    Console.WriteLine($"Message: {e.Message}");
-                                }
-                            }
-                            else
+                            foreach (string f in ordre)
                             {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.Write("ERROR ");
-                                Console.ResetColor();
-                                Console.WriteLine($"{f} ===> fichier introuvale !");
+                                string path = $@"{projet}\{f}";
+                                if (File.Exists(path))
+                                {
+                                    try
+                                    {
+                                        File.Delete(path);
+
+                                        Messages.writeFull(Messages.Type.Fichier, f, "Suppression du fichier terminé.");
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Messages.writeError(f, "Impossible de supprimer le fichier !", e);
+                                    }
+                                }
+                                else
+                                {
+                                    Messages.writeWarn(f, "Impossible de trouver le fichier !");
+                                }
                             }
+
+                            Console.WriteLine("L'objet a été supprimé.");
                         }
-
-                        Console.WriteLine("L'objet a été supprimé.");
+                        else if (cmd.Length < 3)
+                            Console.WriteLine("Problème, le nom d'un objet est attendu !");
+                        else
+                            Console.WriteLine("Problème, seul le nom d'un objet est attendu !");
                     }
                     // ***************************************************
                     else if (arg == "-r")
                     {
-                        Console.WriteLine("L'objet a été renommé.");
+                        if (cmd.Length == 4)
+                        {
+                            Console.WriteLine("Renommage des fichiers...");
+                            
+                            foreach (string f in ordre)
+                            {
+                                string path = $@"{projet}\{f}";
+                                string newpath = $@"{projet}\{f.Replace(upp, newupp)}";
+
+                                if (File.Exists(path))
+                                {
+                                    try
+                                    {
+                                        File.Move(path, newpath);
+                                        Messages.writeFull(Messages.Type.Objet, f, "Renommage du fichier terminé.");
+
+                                        try
+                                        {
+                                            File.WriteAllText(newpath, File.ReadAllText(newpath).Replace(upp, newupp));
+                                            Messages.writeFull(Messages.Type.Edition, f, "Edition du fichier terminée.");
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Messages.writeError(f, "Impossible d'éditer le fichier !", e);
+                                        }
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Messages.writeError(f, "Impossible de renommer le fichier !", e);
+                                    }
+                                }
+                                else
+                                {
+                                    Messages.writeWarn(f, "Le fichier est introuvable.");
+                                }
+                            }
+
+                            Console.WriteLine("L'objet a été renommé.");
+                        }
+                        else if (cmd.Length < 4)
+                            Console.WriteLine("Problème, le nom d'un objet et son nouveau nom sont attendus !");
+                        else
+                            Console.WriteLine("Problème, seul le nom d'un objet et son nouveau nom sont attendus !");
                     }
                     // ***************************************************
                     else if (arg == "-l")
                     {
+                        if (cmd.Length == 2)
+                        {
+                            try
+                            {
+                                Dictionary<string, long[]> trouve = new Dictionary<string, long[]>();
+
+                                foreach (string d in ordre)
+                                {
+                                    foreach (string f in Directory.GetFiles(Path.GetDirectoryName($@"{projet}\{d}")))
+                                    {
+                                        if (Path.GetExtension(f).ToLower() == ".php" && !exclu.Contains(Path.GetFileName(f)))
+                                        {
+                                            string obj = Path.GetFileNameWithoutExtension(f).Substring(3);
+
+                                            if (trouve.Keys.Contains(obj))
+                                            {
+                                                trouve[obj][0]++;
+                                                trouve[obj][1] += new FileInfo(f).Length;
+                                            }
+                                            else
+                                            {
+                                                trouve.Add(obj, new long[] { 1, new FileInfo(f).Length });
+                                            }
+                                        }
+                                    }
+                                }
+
+                                foreach (string k in trouve.Keys)
+                                {
+                                    Messages.write(Messages.Type.Objet, k);
+                                    Console.Write(" Objet trouvé, ");
+                                    Messages.writeData(trouve[k][0]);
+                                    Console.Write(" fichier(s) faisant ");
+                                    Messages.writeData(trouve[k][1]);
+                                    Console.WriteLine(" octet(s).");
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                Messages.writeError(projet, "impossible de lister les objets !", e);
+                            }
+                        }
+                        else
+                            Console.WriteLine("Problème, aucun argument n'est attendu !");
                     }
                     // ***************************************************
                     else
@@ -800,10 +634,9 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                 }
                 else
                     Console.WriteLine("Heuu, le projet n'existe pas...");
-
             }
-            else if (cmd.Length > 3)
-                Console.WriteLine("Problème, seul le nom du projet, le type d'action et le nom du nouvel objet sont attendus !");
+            else if (cmd.Length > 4 )
+                Console.WriteLine("Problème, trop d'arguments ont été données !");
             else
                 Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouvel objet !");
         }
