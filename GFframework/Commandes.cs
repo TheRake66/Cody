@@ -181,20 +181,20 @@ namespace GFFramework
             if (cmd.Length == 0)
             {
                 Console.WriteLine(
-@"aide                                        Affiche l'aide globale ou l'aide d'une commande spécifique.
-cd [*chemin]                                Affiche ou change le dossier courant.
-cl                                          Nettoie la console.
-com [projet] [-s | -a | -r | -l] [nom]      Ajoute, renomme, liste, ou supprime un composant (controleur, vue,
-                                            style, script) avec le nom spécifié  pour le projet spécifié.
-die                                         Quitte GFframework.
-dl [url] [chemin]                           Télécharge un fichier avec l'URL spécifiée.
-git [*arguments]                            Exécute la commande git avec les arguments spécifié.
-cls                                         Affiche la liste des projets du dossier courant.
-maj                                         Met à jour GFframework via le depot GitHub.
-new [nom]                                   Créer un nouveau projet avec le nom spécifié.
-obj [projet] [-s | -a | -r | -l] [nom]      Ajoute, renomme, liste, ou supprime un objet (classe dto, classe
-                                            dao) avec le nom spécifié pour le projet spécifié.
-rep                                         Ouvre la dépôt GitHub de GFframework.
+@"aide                                    Affiche l'aide globale ou l'aide d'une commande spécifique.
+cd [*chemin]                            Affiche ou change le dossier courant.
+cl                                      Nettoie la console.
+com [projet] [-s|-a|-r|-l] [nom]        Ajoute, renomme, liste, ou supprime un composant (controleur, vue,
+                                        style, script) avec le nom spécifié  pour le projet spécifié.
+die                                     Quitte GFframework.
+dl [url] [chemin]                       Télécharge un fichier avec l'URL spécifiée.
+git [*arguments]                        Exécute la commande git avec les arguments spécifié.
+cls                                     Affiche la liste des projets du dossier courant.
+maj                                     Met à jour GFframework via le depot GitHub.
+new [nom]                               Créer un nouveau projet avec le nom spécifié.
+obj [projet] [-s|-a |-r |-l] [nom]      Ajoute, renomme, liste, ou supprime un objet (classe dto, classe
+                                        dao) avec le nom spécifié pour le projet spécifié.
+rep                                     Ouvre la dépôt GitHub de GFframework.
 
 *: Argument facultatif.
 ");
@@ -468,9 +468,9 @@ rep                                         Ouvre la dépôt GitHub de GFframewo
                                     {
                                         string path = $@"{projet}\{ordre[i]}";
 
-                                        try
+                                        if (!File.Exists(path))
                                         {
-                                            if (!File.Exists(path))
+                                            try
                                             {
                                                 arc.Entries[i].ExtractToFile(path);
 
@@ -493,28 +493,30 @@ rep                                         Ouvre la dépôt GitHub de GFframewo
                                                     Console.ResetColor();
                                                     Console.WriteLine(" octet(s) modifié.");
                                                 }
-                                                catch
+                                                catch (Exception e)
                                                 {
                                                     Console.ForegroundColor = ConsoleColor.DarkRed;
                                                     Console.Write("ERROR ");
                                                     Console.ResetColor();
                                                     Console.WriteLine($"{ordre[i]} ===> impossible d'éditer le fichier.");
+                                                    Console.WriteLine($"Message: {e.Message}");
                                                 }
                                             }
-                                            else
+                                            catch (Exception e)
                                             {
-                                                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                                Console.Write("ATTENTION ");
+                                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                                Console.Write("ERROR ");
                                                 Console.ResetColor();
-                                                Console.WriteLine($"{ordre[i]} ===> le fichier existe déjà.");
+                                                Console.WriteLine($"{ordre[i]} ===> impossible d'extraire le fichier.");
+                                                Console.WriteLine($"Message: {e.Message}");
                                             }
                                         }
-                                        catch
+                                        else
                                         {
-                                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                                            Console.Write("ERROR ");
+                                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                            Console.Write("ATTENTION ");
                                             Console.ResetColor();
-                                            Console.WriteLine($"{ordre[i]} ===> impossible d'extraire le fichier.");
+                                            Console.WriteLine($"{ordre[i]} ===> le fichier existe déjà.");
                                         }
                                     }
                                 }
@@ -620,7 +622,7 @@ rep                                         Ouvre la dépôt GitHub de GFframewo
 
         public static void gestObjet(string[] cmd)
         {
-            if (cmd.Length == 3)
+            if (cmd.Length == 2 || cmd.Length == 3)
             {
                 string projet = cmd[0];
                 string arg = cmd[1];
@@ -656,9 +658,9 @@ rep                                         Ouvre la dépôt GitHub de GFframewo
                                     {
                                         string path = $@"{projet}\{ordre[i]}";
 
-                                        try
+                                        if (!File.Exists(path))
                                         {
-                                            if (!File.Exists(path))
+                                            try
                                             {
                                                 arc.Entries[i].ExtractToFile(path);
 
@@ -680,33 +682,30 @@ rep                                         Ouvre la dépôt GitHub de GFframewo
                                                     Console.ResetColor();
                                                     Console.WriteLine(" octet(s) modifié.");
                                                 }
-                                                catch
+                                                catch (Exception e)
                                                 {
                                                     Console.ForegroundColor = ConsoleColor.DarkRed;
                                                     Console.Write("ERROR ");
                                                     Console.ResetColor();
                                                     Console.WriteLine($"{ordre[i]} ===> impossible d'éditer le fichier.");
+                                                    Console.WriteLine($"Message: {e.Message}");
                                                 }
                                             }
-                                            else
+                                            catch (Exception e)
                                             {
-                                                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                                Console.Write("ATTENTION ");
+                                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                                Console.Write("ERROR ");
                                                 Console.ResetColor();
-                                                Console.WriteLine($"{ordre[i]} ===> le fichier existe déjà.");
+                                                Console.WriteLine($"{zip} ===> Impossible d'extraire le fichier !");
+                                                Console.WriteLine($"Message: {e.Message}");
                                             }
-
-                                            Console.ForegroundColor = ConsoleColor.Magenta;
-                                            Console.Write("OBJET ");
-                                            Console.ResetColor();
-                                            Console.WriteLine($"{ordre[i]} ===> extraction du fichier terminé.");
                                         }
-                                        catch
+                                        else
                                         {
-                                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                                            Console.Write("ERROR ");
+                                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                            Console.Write("ATTENTION ");
                                             Console.ResetColor();
-                                            Console.WriteLine($"{ordre[i]} ===> impossible d'extraire le fichier.");
+                                            Console.WriteLine($"{ordre[i]} ===> le fichier existe déjà.");
                                         }
                                     }
                                 }
