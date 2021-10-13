@@ -82,12 +82,16 @@ namespace GFFramework
                             Commandes.aideCom(argm);
                             break;
 
-                        case "cl":
+                        case "cls":
                             Commandes.clearCons(argm);
                             break;
 
                         case "git":
-                            Commandes.openGit(argm);
+                            Commandes.execGit(argm);
+                            break;
+
+                        case "rep":
+                            Commandes.openRepo(argm);
                             break;
 
                         case "ls":

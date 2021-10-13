@@ -175,11 +175,12 @@ cl                      Nettoie la console.
 com [-s | -a] [nom]     Ajoute ou supprime un composant (controleur, vue, style, script) avec le nom specifie.
 die                     Quitte GFframework.
 dl [url] [chemin]       Telecharge un fichier avec l'URL specifiee.
-git                     Ouvre la depot GitHub de GFframework.
-ls                      Affiche la liste des projets du dossier courant.
+git [*arguments]        Execute la commande git avec les arguments specifie.
+cls                     Affiche la liste des projets du dossier courant.
 maj                     Met a jour GFframework via le depot GitHub.
 new [nom]               Creer un nouveau projet avec le nom specifie.
 obj [-s | -a] [nom]     Ajoute ou supprime un objet (classe dto, classe dao) avec le nom specifie.
+rep                     Ouvre la depot GitHub de GFframework.
 
 *: Argument facultatif.
 ");
@@ -194,11 +195,11 @@ obj [-s | -a] [nom]     Ajoute ou supprime un objet (classe dto, classe dao) ave
             if (cmd.Length == 0)
                 Console.Clear();
             else 
-                Messages.tooMuchArgs("cl");
+                Messages.tooMuchArgs("cls");
         }
 
 
-        public static void openGit(string[] cmd)
+        public static void openRepo(string[] cmd)
         {
             if (cmd.Length == 0)
             {
@@ -221,6 +222,31 @@ obj [-s | -a] [nom]     Ajoute ou supprime un objet (classe dto, classe dao) ave
 
         public static void verifMAJ(string[] cmd)
         {
+        }
+
+
+        public static void execGit(string[] cmd)
+        {
+            try
+            {
+                string arlin = "";
+                foreach (string a in cmd)
+                    arlin += a + " ";
+
+
+                ProcessStartInfo inf = new ProcessStartInfo
+                {
+                    FileName = "git.exe",
+                    Arguments = arlin,
+                    UseShellExecute = false,
+                };
+                Process.Start(inf).WaitForExit();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur, impossible d'executer git !");
+                Console.WriteLine($"Message: {e.Message}");
+            }
         }
 
         public static void ajouterComposant(string[] cmd)
