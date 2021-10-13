@@ -10,6 +10,8 @@ namespace GFFramework
     public class Librairies
     {
 
+        // Recupere en recursif le nombre et la taille total des fichier
+        // d'un dossier et ses sous dossiers
         public static long[] getCountAndSizeFolder(string path)
         {
             long[] data = { 0, 0 };

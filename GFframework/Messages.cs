@@ -9,6 +9,7 @@ namespace GFFramework
     public class Messages
     {
 
+        // Enum des type d'entete
         public enum Type
         {
             Objet,
@@ -20,6 +21,7 @@ namespace GFFramework
             Edition,
             Erreur
         }
+
 
         // TYPE - info           ===> 
         private static void entete(ConsoleColor color, Type type, string info)
@@ -69,6 +71,7 @@ namespace GFFramework
         }
 
 
+        // Affiche un text en jaune
         public static void writeData(string data)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -77,18 +80,21 @@ namespace GFFramework
         }
 
 
+        // Affiche un int en jaune
         public static void writeData(long data)
         {
             writeData(data.ToString());
         }
 
 
+        // Affiche une entete simple
         public static void write(Type type, string info)
         {
             entete(ConsoleColor.Magenta, type, info);
         }
 
 
+        // Affiche une entete plus un text en blanc
         public static void writeFull(Type type, string info, string message)
         {
             entete(ConsoleColor.Magenta, type, info);
@@ -96,6 +102,7 @@ namespace GFFramework
         }
 
 
+        // Affiche une entete attention plus un text en blanc
         public static void writeWarn(string info, string message)
         {
             entete(ConsoleColor.DarkYellow, Type.Attention, info);
@@ -103,6 +110,7 @@ namespace GFFramework
         }
 
 
+        // Affiche une entete erreur plus un text en blanc
         public static void writeError(string info, string message, Exception e)
         {
             entete(ConsoleColor.DarkRed, Type.Erreur, info);

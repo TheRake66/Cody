@@ -16,6 +16,7 @@ namespace GFFramework
     public class Commandes
     {
 
+        // Change le chemin courant
         public static void changeDir(string[] cmd)
         {
             if (cmd.Length == 1)
@@ -45,6 +46,7 @@ namespace GFFramework
         }
 
 
+        // Telecharge un fichier
         public static void downFile(string[] cmd)
         {
             if (cmd.Length == 2)
@@ -125,6 +127,7 @@ namespace GFFramework
         }
 
 
+        // Liste les projets du dossier courant
         public static void listProjet(string[] cmd)
         {
             if (cmd.Length == 0)
@@ -165,6 +168,7 @@ namespace GFFramework
         }
 
 
+        // Affiche l'aide
         public static void aideCom(string[] cmd)
         {
             if (cmd.Length == 0)
@@ -194,6 +198,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         }
 
 
+        // Nettoire la console
         public static void clearCons(string[] cmd)
         {
             if (cmd.Length == 0)
@@ -203,6 +208,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         }
 
 
+        // Ouvre le depot github
         public static void openRepo(string[] cmd)
         {
             if (cmd.Length == 0)
@@ -216,6 +222,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         }
 
 
+        // Ferme l'app
         public static void quitterApp(string[] cmd)
         {
             if (cmd.Length == 0) 
@@ -225,6 +232,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         }
 
 
+        // Execute une instance git
         public static void execGit(string[] cmd)
         {
             try
@@ -250,6 +258,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         }
 
 
+        // Creer un nouveau projet
         public static void creerProjet(string[] cmd)
         {
             if (cmd.Length == 1)
@@ -357,6 +366,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         }
 
 
+        // Verifi les mise a jour
         public static void verifMAJ(string[] cmd)
         {
             if (cmd.Length == 0)
@@ -387,10 +397,12 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
         }
 
 
+        // Gere les objets
         public static void gestObjet(string[] cmd)
         {
             if (cmd.Length >= 2 && cmd.Length <= 4)
             {
+                // Recupere tous les arguments possible
                 string projet = cmd[0];
                 string arg = cmd[1];
 
@@ -406,12 +418,14 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
 
                 string dto = $@"modeles\dto\dto{upp}.php",
                      dao = $@"modeles\dao\dao{upp}.php";
-                string[] ordre = { dto, dao };
-                string[] exclu = { "dBConnex.php", "param.php" };
+                string[] ordre = { dto, dao }; // Ordre des entries de l'archive
+                string[] exclu = { "dBConnex.php", "param.php" }; // Fichier exclue du listage
 
+                // Si le projet existe
                 if (Directory.Exists(projet))
                 {
                     // ***************************************************
+                    // Ajoute un objet
                     if (arg == "-a")
                     {
                         if (cmd.Length == 3)
@@ -420,30 +434,35 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
 
                             try
                             {
+                                // Extrait l'archive des ressources
                                 Console.WriteLine("Extraction de l'archive...");
                                 File.WriteAllBytes(zip, Resources.base_objet);
 
                                 try
                                 {
+                                    // Ouvre l'archive
                                     Console.WriteLine("Extraction des fichiers...");
                                     using (ZipArchive arc = ZipFile.OpenRead(zip))
                                     {
+                                        // Parcours l'archive
                                         for (int i = 0; i < arc.Entries.Count; i++)
                                         {
                                             string path = $@"{projet}\{ordre[i]}";
 
+                                            // Si l'objet existe pas
                                             if (!File.Exists(path))
                                             {
                                                 try
                                                 {
+                                                    // Extrait l'objet
                                                     arc.Entries[i].ExtractToFile(path);
 
                                                     Messages.writeFull(Messages.Type.Objet, ordre[i], "Extraction du fichier terminé.");
 
                                                     try
                                                     {
+                                                        // Modifie l'objet
                                                         File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
-
 
                                                         Messages.write(Messages.Type.Edition, ordre[i]);
                                                         Console.Write(" Edition du fichier, ");
@@ -470,6 +489,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
 
                                     try
                                     {
+                                        // Supprime l'archive
                                         Console.WriteLine("Suppression de l'archive...");
                                         File.Delete(zip);
                                     }
@@ -497,6 +517,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                             Console.WriteLine("Problème, seul le nom du nouvel objet est attendu !");
                     }
                     // ***************************************************
+                    // Supprime un objet
                     else if (arg == "-s")
                     {
                         if (cmd.Length == 3)
@@ -506,10 +527,13 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                             foreach (string f in ordre)
                             {
                                 string path = $@"{projet}\{f}";
+
+                                // Si l'objet exist
                                 if (File.Exists(path))
                                 {
                                     try
                                     {
+                                        // Supprime le fichier
                                         File.Delete(path);
 
                                         Messages.writeFull(Messages.Type.Fichier, f, "Suppression du fichier terminé.");
@@ -533,6 +557,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                             Console.WriteLine("Problème, seul le nom d'un objet est attendu !");
                     }
                     // ***************************************************
+                    // Renomme un objet
                     else if (arg == "-r")
                     {
                         if (cmd.Length == 4)
@@ -544,15 +569,18 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                                 string path = $@"{projet}\{f}";
                                 string newpath = $@"{projet}\{f.Replace(upp, newupp)}";
 
+                                // Si l'objet existe
                                 if (File.Exists(path))
                                 {
                                     try
                                     {
+                                        // Renomme le fichier
                                         File.Move(path, newpath);
                                         Messages.writeFull(Messages.Type.Objet, f, "Renommage du fichier terminé.");
 
                                         try
                                         {
+                                            // Modifie l'objet
                                             File.WriteAllText(newpath, File.ReadAllText(newpath).Replace(upp, newupp));
                                             Messages.writeFull(Messages.Type.Edition, f, "Edition du fichier terminée.");
                                         }
@@ -580,35 +608,46 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                             Console.WriteLine("Problème, seul le nom d'un objet et son nouveau nom sont attendus !");
                     }
                     // ***************************************************
+                    // Liste les objets
                     else if (arg == "-l")
                     {
                         if (cmd.Length == 2)
                         {
                             try
                             {
+                                // Contient le nom de l'objet en cle et un tableau en valeur
+                                // [0] nombre de fichier
+                                // [1] taille total
                                 Dictionary<string, long[]> trouve = new Dictionary<string, long[]>();
 
                                 foreach (string d in ordre)
                                 {
+                                    // Parcours chaque fichier de chaque dossier
                                     foreach (string f in Directory.GetFiles(Path.GetDirectoryName($@"{projet}\{d}")))
                                     {
+                                        // Si c'est un php et que ca n'est pas un fichier exclu
                                         if (Path.GetExtension(f).ToLower() == ".php" && !exclu.Contains(Path.GetFileName(f)))
                                         {
+                                            // Retire les 3 premiere lettre du fichier
                                             string obj = Path.GetFileNameWithoutExtension(f).Substring(3);
 
+                                            // Si deja trouver
                                             if (trouve.Keys.Contains(obj))
                                             {
+                                                // Inscremente les valeurs
                                                 trouve[obj][0]++;
                                                 trouve[obj][1] += new FileInfo(f).Length;
                                             }
                                             else
                                             {
+                                                // Creer les valeurs
                                                 trouve.Add(obj, new long[] { 1, new FileInfo(f).Length });
                                             }
                                         }
                                     }
                                 }
 
+                                // Affiche les resultats
                                 foreach (string k in trouve.Keys)
                                 {
                                     Messages.write(Messages.Type.Objet, k);
@@ -622,7 +661,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                             }
                             catch (Exception e)
                             {
-                                Messages.writeError(projet, "impossible de lister les objets !", e);
+                                Messages.writeError(projet, "Impossible de lister les objets !", e);
                             }
                         }
                         else
@@ -639,6 +678,302 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                 Console.WriteLine("Problème, trop d'arguments ont été données !");
             else
                 Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouvel objet !");
+        }
+
+
+        // Gere les objets
+        public static void gestComposant(string[] cmd)
+        {
+            if (cmd.Length >= 2 && cmd.Length <= 4)
+            {
+                // Recupere tous les arguments possible
+                string projet = cmd[0];
+                string arg = cmd[1];
+
+                string name = cmd.Length >= 3 ? cmd[2] : "";
+                string upp = name.Length > 1 ?
+                    name.Substring(0, 1).ToUpper() + name.Substring(1) :
+                    name.ToUpper();
+
+                string newname = cmd.Length >= 4 ? cmd[3] : "";
+                string newupp = newname.Length > 1 ?
+                    newname.Substring(0, 1).ToUpper() + newname.Substring(1) :
+                    newname.ToUpper();
+
+                string con = $@"controleurs\controleur{upp}.php",
+                          vue = $@"vues\vue{upp}.php",
+                          scr = $@"scripts\script{upp}.js",
+                          sty = $@"styles\style{upp}.css";
+                string[] ordre = { scr, vue, con, sty }; // Ordre des entries de l'archive
+                string[] exclu = 
+                { 
+                    "controleurPrincipal.php",
+                    "haut.php",
+                    "bas.php",
+                    "haut.css",
+                    "bas.css",
+                    "haut.js",
+                    "bas.js"
+                }; // Fichier exclue du listage
+
+                // Si le projet existe
+                if (Directory.Exists(projet))
+                {
+                    // ***************************************************
+                    // Ajoute un composant
+                    if (arg == "-a")
+                    {
+                        if (cmd.Length == 3)
+                        {
+                            string zip = $@"{projet}\base_composant.zip";
+
+                            try
+                            {
+                                // Extrait l'archive des ressources
+                                Console.WriteLine("Extraction de l'archive...");
+                                File.WriteAllBytes(zip, Resources.base_composant);
+
+                                try
+                                {
+                                    // Ouvre l'archive
+                                    Console.WriteLine("Extraction des fichiers...");
+                                    using (ZipArchive arc = ZipFile.OpenRead(zip))
+                                    {
+                                        // Parcours l'archive
+                                        for (int i = 0; i < arc.Entries.Count; i++)
+                                        {
+                                            string path = $@"{projet}\{ordre[i]}";
+
+                                            // Si le composant existe pas
+                                            if (!File.Exists(path))
+                                            {
+                                                try
+                                                {
+                                                    // Extrait le composant
+                                                    arc.Entries[i].ExtractToFile(path);
+
+                                                    Messages.writeFull(Messages.Type.Composant, ordre[i], "Extraction du fichier terminé.");
+
+                                                    try
+                                                    {
+                                                        // Modifie le composant
+                                                        File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
+
+                                                        Messages.write(Messages.Type.Edition, ordre[i]);
+                                                        Console.Write(" Edition du fichier, ");
+                                                        Messages.writeData(new FileInfo(path).Length);
+                                                        Console.WriteLine(" octet(s) modifié.");
+                                                    }
+                                                    catch (Exception e)
+                                                    {
+                                                        Messages.writeError(ordre[i], "Impossible d'éditer le fichier !", e);
+                                                    }
+                                                }
+                                                catch (Exception e)
+                                                {
+                                                    Messages.writeError(zip, "Impossible d'extraire le fichier !", e);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Messages.writeWarn(zip, "Le fichier existe déjà !");
+                                            }
+                                        }
+                                    }
+
+
+                                    try
+                                    {
+                                        // Supprime l'archive
+                                        Console.WriteLine("Suppression de l'archive...");
+                                        File.Delete(zip);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Messages.writeError(zip, "Impossible de supprimer l'archive !", e);
+                                    }
+
+
+                                    Console.WriteLine("Le composant a été ajouté.");
+                                }
+                                catch (Exception e)
+                                {
+                                    Messages.writeError(zip, "Impossible d'ouvrir l'archive !", e);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Messages.writeError(zip, "Impossible d'extraire l'archive !", e);
+                            }
+                        }
+                        else if (cmd.Length < 3)
+                            Console.WriteLine("Problème, le nom du nouveau composant est attendu !");
+                        else
+                            Console.WriteLine("Problème, seul le nom du nouveau composant est attendu !");
+                    }
+                    // ***************************************************
+                    // Supprime un composant
+                    else if (arg == "-s")
+                    {
+                        if (cmd.Length == 3)
+                        {
+                            Console.WriteLine("Suppression des fichiers...");
+
+                            foreach (string f in ordre)
+                            {
+                                string path = $@"{projet}\{f}";
+
+                                // Si le composant exist
+                                if (File.Exists(path))
+                                {
+                                    try
+                                    {
+                                        // Supprime le fichier
+                                        File.Delete(path);
+
+                                        Messages.writeFull(Messages.Type.Fichier, f, "Suppression du fichier terminé.");
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Messages.writeError(f, "Impossible de supprimer le fichier !", e);
+                                    }
+                                }
+                                else
+                                {
+                                    Messages.writeWarn(f, "Impossible de trouver le fichier !");
+                                }
+                            }
+
+                            Console.WriteLine("Le composant a été supprimé.");
+                        }
+                        else if (cmd.Length < 3)
+                            Console.WriteLine("Problème, le nom d'un composant est attendu !");
+                        else
+                            Console.WriteLine("Problème, seul le nom d'un composant est attendu !");
+                    }
+                    // ***************************************************
+                    // Renomme un composant
+                    else if (arg == "-r")
+                    {
+                        if (cmd.Length == 4)
+                        {
+                            Console.WriteLine("Renommage des fichiers...");
+                            
+                            foreach (string f in ordre)
+                            {
+                                string path = $@"{projet}\{f}";
+                                string newpath = $@"{projet}\{f.Replace(upp, newupp)}";
+
+                                // Si le composant existe
+                                if (File.Exists(path))
+                                {
+                                    try
+                                    {
+                                        // Renomme le fichier
+                                        File.Move(path, newpath);
+                                        Messages.writeFull(Messages.Type.Composant, f, "Renommage du fichier terminé.");
+
+                                        try
+                                        {
+                                            // Modifie le composant
+                                            File.WriteAllText(newpath, File.ReadAllText(newpath).Replace(upp, newupp));
+                                            Messages.writeFull(Messages.Type.Edition, f, "Edition du fichier terminée.");
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Messages.writeError(f, "Impossible d'éditer le fichier !", e);
+                                        }
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Messages.writeError(f, "Impossible de renommer le fichier !", e);
+                                    }
+                                }
+                                else
+                                {
+                                    Messages.writeWarn(f, "Le fichier est introuvable.");
+                                }
+                            }
+
+                            Console.WriteLine("Le composant a été renommé.");
+                        }
+                        else if (cmd.Length < 4)
+                            Console.WriteLine("Problème, le nom d'un composant et son nouveau nom sont attendus !");
+                        else
+                            Console.WriteLine("Problème, seul le nom d'un composant et son nouveau nom sont attendus !");
+                    }
+                    // ***************************************************
+                    // Liste les composant
+                    else if (arg == "-l")
+                    {
+                        if (cmd.Length == 2)
+                        {
+                            try
+                            {
+                                // Contient le nom du composant en cle et un tableau en valeur
+                                // [0] nombre de fichier
+                                // [1] taille total
+                                Dictionary<string, long[]> trouve = new Dictionary<string, long[]>();
+
+                                foreach (string d in ordre)
+                                {
+                                    // Parcours chaque fichier de chaque dossier
+                                    foreach (string f in Directory.GetFiles(Path.GetDirectoryName($@"{projet}\{d}")))
+                                    {
+                                        // Si c'est un php ou un js ou un css et que ca n'est pas un fichier exclu
+                                        if (new string[] { ".php", ".js", ".css" }.Contains(Path.GetExtension(f).ToLower()) && !exclu.Contains(Path.GetFileName(f)))
+                                        {
+                                            // Retire les x premiere lettre du fichier par rapport ou nom du dossier
+                                            int sub =  Path.GetDirectoryName(d).Length - 1;
+                                            string com = Path.GetFileNameWithoutExtension(f).Substring(sub);
+
+                                            // Si deja trouver
+                                            if (trouve.Keys.Contains(com))
+                                            {
+                                                // Inscremente les valeurs
+                                                trouve[com][0]++;
+                                                trouve[com][1] += new FileInfo(f).Length;
+                                            }
+                                            else
+                                            {
+                                                // Creer les valeurs
+                                                trouve.Add(com, new long[] { 1, new FileInfo(f).Length });
+                                            }
+                                        }
+                                    }
+                                }
+
+                                // Affiche les resultats
+                                foreach (string k in trouve.Keys)
+                                {
+                                    Messages.write(Messages.Type.Objet, k);
+                                    Console.Write(" Composant trouvé, ");
+                                    Messages.writeData(trouve[k][0]);
+                                    Console.Write(" fichier(s) faisant ");
+                                    Messages.writeData(trouve[k][1]);
+                                    Console.WriteLine(" octet(s).");
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                Messages.writeError(projet, "Impossible de lister les composants !", e);
+                            }
+                        }
+                        else
+                            Console.WriteLine("Problème, aucun argument n'est attendu !");
+                    }
+                    // ***************************************************
+                    else
+                        Console.WriteLine("Le type d'action doit être '-a' pour ajouter, '-r' pour renommer, '-l' pour lister, ou '-s' pour supprimer.");
+                }
+                else
+                    Console.WriteLine("Heuu, le projet n'existe pas...");
+            }
+            else if (cmd.Length > 4 )
+                Console.WriteLine("Problème, trop d'arguments ont été données !");
+            else
+                Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouveu composant !");
         }
 
     }

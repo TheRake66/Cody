@@ -11,11 +11,14 @@ namespace GFFramework
     class Program
     {
 
+        // Point d'entree
         static void Main(string[] args)
         {
             // --------------------------
+            // Nettoie si jamais l'user l'a lancer via commande
             Console.Clear();
 
+            // Entete
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write(@"
    _____ ______ __                                             _    
@@ -45,8 +48,10 @@ namespace GFFramework
 
             while (true)
             {
+                // Saut apres une commande
                 Console.WriteLine();
 
+                // Change le prompt
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write(Environment.UserName + "@" + Environment.MachineName);
                 Console.ResetColor();
@@ -56,14 +61,17 @@ namespace GFFramework
                 Console.ResetColor();
                 Console.Write("$ ");
 
+                // Recupere les inputs, trim, et remplace les doublon d'espaces
                 string input = Console.ReadLine().Trim();
                 string[] split = input.Replace("  ", " ").Split(' ');
                 string cmd = split[0];
 
                 if (cmd.Length > 0)
                 {
+                    // Retire la commande de base des arguments
                     string[] argm = split.Skip(1).ToArray();
 
+                    // Dispatch dans les commandes
                     switch (cmd)
                     {
                         case "new":
@@ -75,7 +83,7 @@ namespace GFFramework
                             break;
 
                         case "com":
-                            //Commandes.gestComposant(argm);
+                            Commandes.gestComposant(argm);
                             break;
 
                         case "obj":
