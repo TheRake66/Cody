@@ -946,7 +946,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                                 // Affiche les resultats
                                 foreach (string k in trouve.Keys)
                                 {
-                                    Messages.write(Messages.Type.Objet, k);
+                                    Messages.write(Messages.Type.Composant, k);
                                     Console.Write(" Composant trouvé, ");
                                     Messages.writeData(trouve[k][0]);
                                     Console.Write(" fichier(s) faisant ");
