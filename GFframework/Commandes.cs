@@ -214,7 +214,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
             if (cmd.Length == 0)
             {
                 // Ouvre dans le navigateur
-                try { Process.Start("https://github.com/TheRake66/GFfrramework"); }
+                try { Process.Start("https://github.com/TheRake66/GFframework"); }
                 catch { }
             }
             else
