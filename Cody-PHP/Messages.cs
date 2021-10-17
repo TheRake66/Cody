@@ -75,7 +75,7 @@ namespace Cody_PHP
         public static void writeData(string data)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write(data);
+            Console.Write($" {data} ");
             Console.ResetColor();
         }
 
@@ -98,7 +98,7 @@ namespace Cody_PHP
         public static void writeFull(Type type, string info, string message)
         {
             entete(ConsoleColor.Magenta, type, info);
-            Console.WriteLine($" {message}");
+            Console.WriteLine($"{message}");
         }
 
 
@@ -106,7 +106,7 @@ namespace Cody_PHP
         public static void writeWarn(string info, string message)
         {
             entete(ConsoleColor.DarkYellow, Type.Attention, info);
-            Console.WriteLine($" {message}");
+            Console.WriteLine($"{message}");
         }
 
 
@@ -114,7 +114,7 @@ namespace Cody_PHP
         public static void writeError(string info, string message, Exception e)
         {
             entete(ConsoleColor.DarkRed, Type.Erreur, info);
-            Console.WriteLine($" {message}");
+            Console.WriteLine($"{message}");
             Console.WriteLine($"Message: {e.Message}");
         }
 

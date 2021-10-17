@@ -30,6 +30,7 @@ namespace Cody_PHP
                     {
                         // Change le dossier
                         Directory.SetCurrentDirectory(path);
+                        Console.WriteLine("Chemin changé.");
                     }
                     catch (Exception e)
                     {
@@ -68,35 +69,30 @@ namespace Cody_PHP
                         // Arrondi, quand ca arrive a 100% ca ne declenche pas cette event, il
                         // faut donc afficher 100% un % avant
                         bool rounded = e.ProgressPercentage == 99;
+                        float percent = !rounded ? e.ProgressPercentage : 100;
+                        long bte = !rounded ? e.BytesReceived : e.TotalBytesToReceive;
 
                         Console.SetCursorPosition(x, y);
 
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        Console.Write("TELECHARGEMENT ");
-
-                        Console.ResetColor();
-                        Console.Write("[");
-
                         // Progress
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        float percent = e.ProgressPercentage / 3;
-                        for (float i = 1; i <= 100 / 3; i++)
-                            Console.Write(i <= percent ? "#" : " ");
-
+                        Console.Write("[");
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        // Pas de percent / 2, le modulo est plus rapide que la division flotante
+                        for (float i = 0; i < percent; i++)
+                            if (i % 2 == 0) Console.Write("#");
+                        for (float i = percent; i < 100; i++)
+                            if (i % 2 == 0) Console.Write(" ");
                         Console.ResetColor();
-                        Console.Write($"] {(rounded ? 100 : e.ProgressPercentage)}% ===> ");
+                        Console.Write($"] {(percent)}%");
 
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.Write(rounded ? e.TotalBytesToReceive : e.BytesReceived);
+                        Messages.writeData(bte);
+                        Console.Write("octet(s) sur");
 
-                        Console.ResetColor();
-                        Console.Write(" octet(s) sur ");
-
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.Write(e.TotalBytesToReceive);
-
-                        Console.ResetColor();
+                        Messages.writeData(e.TotalBytesToReceive);
                         Console.WriteLine("...");
+
+                        // Pour les tests
+                        // dl https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar server.jar
                     }
                 };
                 web.DownloadFileCompleted += (s, e) =>
@@ -119,6 +115,7 @@ namespace Cody_PHP
 
                 // Attends la fin et de delockage
                 while (!ended || !Monitor.TryEnter(lk)) { }
+                Thread.Sleep(500); // Secu du lock
             }
             else if (cmd.Length > 2)
                 Console.WriteLine("Problème, seul l'url et le chemin du fichier sont attendus !");
@@ -149,9 +146,9 @@ namespace Cody_PHP
 
                                 Messages.write(Messages.Type.Projet, Path.GetFileName(f));
                                 Messages.writeData(data[0]);
-                                Console.Write(" fichier(s) fai(on)t ");
+                                Console.Write("fichier(s) fai(on)t");
                                 Messages.writeData(data[1]);
-                                Console.WriteLine(" octet(s).");
+                                Console.WriteLine("octet(s).");
                             }
                         }
                     }
@@ -180,15 +177,15 @@ cd [*chemin]                            Affiche ou change le dossier courant.
 cl                                      Nettoie la console.
 com [projet] [-s|-a|-r|-l] [nom]        Ajoute, renomme, liste, ou supprime un composant (controleur, vue,
                                         style, script) avec le nom spécifié  pour le projet spécifié.
-die                                     Quitte GFframework.
+die                                     Quitte Cody-PHP.
 dl [url] [chemin]                       Télécharge un fichier avec l'URL spécifiée.
 git [*arguments]                        Exécute la commande git avec les arguments spécifié.
 cls                                     Affiche la liste des projets du dossier courant.
-maj                                     Met à jour GFframework via le depot GitHub.
+maj                                     Met à jour Cody-PHP via le depot GitHub.
 new [nom]                               Créer un nouveau projet avec le nom spécifié.
 obj [projet] [-s|-a |-r |-l] [nom]      Ajoute, renomme, liste, ou supprime un objet (classe dto, classe
                                         dao) avec le nom spécifié pour le projet spécifié.
-rep                                     Ouvre la dépôt GitHub de GFframework.
+rep                                     Ouvre la dépôt GitHub de Cody-PHP.
 
 *: Argument facultatif.
 ");
@@ -214,7 +211,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
             if (cmd.Length == 0)
             {
                 // Ouvre dans le navigateur
-                try { Process.Start("https://github.com/TheRake66/GFframework"); }
+                try { Process.Start("https://github.com/TheRake66/Cody-PHP"); }
                 catch { }
             }
             else
@@ -240,7 +237,7 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                 // Reunis chaque arguments en array vers un string
                 string arlin = "";
                 foreach (string a in cmd)
-                    arlin += a + " ";
+                    arlin += $"{a} ";
 
                 // Demarre en syncrone git
                 ProcessStartInfo inf = new ProcessStartInfo
@@ -256,6 +253,40 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                 Messages.writeError("git", "Impossible d'exécuter la commande git !", e);
             }
         }
+
+
+        // Verifi les mise a jour
+        public static void verifMAJ(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                try
+                {
+                    Console.WriteLine("Vérification de la mise à jour...");
+
+                    // Prepare un client http
+                    WebClient client = new WebClient();
+                    string remoteUri = "https://raw.githubusercontent.com/TheRake66/Cody-PHP/master/version";
+                    string lastversion = client.DownloadString(remoteUri);
+                    string currentversion = typeof(Program).Assembly.GetName().Version.ToString();
+
+                    // Compare les version
+                    if (lastversion.Equals(currentversion))
+                        Console.WriteLine("Vous êtes à jour !");
+                    else
+                        Console.WriteLine($"La version {lastversion} est disponible, utilisez la commande 'rep' pour la télécharger !");
+                }
+                catch (Exception e)
+                {
+                    Messages.writeError("webclient", "Impossible de vérifier les mise à jour !", e);
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument est attendu !");
+        }
+
+
+        // ########################################################################
 
 
         // Creer un nouveau projet
@@ -315,9 +346,9 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                                                 ent.ExtractToFile(path);
 
                                                 Messages.write(Messages.Type.Fichier, file);
-                                                Console.Write(" Extraction du fichier, ");
+                                                Console.Write("Extraction du fichier, ");
                                                 Messages.writeData(new FileInfo(path).Length);
-                                                Console.WriteLine(" octet(s) au total.");
+                                                Console.WriteLine("octet(s) au total.");
                                             }
                                             catch (Exception e)
                                             {
@@ -363,37 +394,6 @@ rep                                     Ouvre la dépôt GitHub de GFframework.
                 Console.WriteLine("Problème, seul le nom du nouveau projet est attendu !");
             else
                 Console.WriteLine("Problème, il manque le nom du nouveau projet !");
-        }
-
-
-        // Verifi les mise a jour
-        public static void verifMAJ(string[] cmd)
-        {
-            if (cmd.Length == 0)
-            {
-                try
-                {
-                    Console.WriteLine("Vérification de la mise à jour...");
-
-                    // Prepare un client http
-                    WebClient client = new WebClient();
-                    string remoteUri = "https://raw.githubusercontent.com/TheRake66/GFframework/master/version";
-                    string lastversion = client.DownloadString(remoteUri);
-                    string currentversion = typeof(Program).Assembly.GetName().Version.ToString();
-
-                    // Compare les version
-                    if (lastversion.Equals(currentversion))
-                        Console.WriteLine("Vous êtes à jour !");
-                    else
-                        Console.WriteLine($"La version {lastversion} est disponible, utilisez la commande 'rep' pour la télécharger !");
-                }
-                catch (Exception e)
-                {
-                    Messages.writeError("webclient", "Impossible de vérifier les mise à jour !", e);
-                }
-            }
-            else
-                Console.WriteLine("Problème, aucun argument est attendu !");
         }
 
 
