@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace GFFramework
+namespace Cody_PHP
 {
     public class Librairies
     {

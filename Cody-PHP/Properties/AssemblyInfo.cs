@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GFFramework")]
+[assembly: AssemblyProduct("Cody-PHP")]
 [assembly: AssemblyCopyright("Copyright © Thibault BUSTOS (TheRake66) - 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

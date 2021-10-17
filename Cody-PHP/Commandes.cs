@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
-using GFFramework.Properties;
+using Cody_PHP.Properties;
 
-namespace GFFramework
+namespace Cody_PHP
 {
     public class Commandes
     {
