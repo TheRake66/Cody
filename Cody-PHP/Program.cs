@@ -40,6 +40,7 @@ namespace Cody_PHP
  Cody-PHP est un framework français dédié au développement du site WEB
  en PHP/JavaScript/HTML/CSS orienté objet en MVC avec un assortiment 
  d'outils et de librairies (sécurité, base de données, formulaire, etc.).
+
 ");
 
             Console.ResetColor();

@@ -1,11 +1,20 @@
 <?php
 
 // ####################################################################################################
+// Inclut les header et footer
+require_once 'bas.php';
+require_once 'haut.php';
+// ####################################################################################################
+
+
+
+
+
+// ####################################################################################################
 // Creation du formulaire
 ${NAME} = new Formulaire('post', 'index.php', 'f{NAME}', 'f{NAME}');
-${NAME}->ajouterComposantLigne(${NAME}->creerParagh('Le fomulaire "{NAME}" fonctionne !'));
-${NAME}->ajouterComposantTab();
-${NAME}->creerFormulaire();
+${NAME}->titre('Le composant {NAME} fonctionne !');
+${NAME}->build();
 // ####################################################################################################
 
 
