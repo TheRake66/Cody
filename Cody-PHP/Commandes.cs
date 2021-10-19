@@ -145,8 +145,9 @@ namespace Cody_PHP
                                 long[] data = Librairies.getCountAndSizeFolder(f);
 
                                 Messages.write(Messages.Type.Projet, Path.GetFileName(f));
+                                Console.Write("Fait de");
                                 Messages.writeData(data[0]);
-                                Console.Write("fichier(s) fai(on)t");
+                                Console.Write("fichier(s) pour un total");
                                 Messages.writeData(data[1]);
                                 Console.WriteLine("octet(s).");
                             }
@@ -286,9 +287,6 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
         }
 
 
-        // ########################################################################
-
-
         // Creer un nouveau projet
         public static void creerProjet(string[] cmd)
         {
@@ -346,7 +344,7 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
                                                 ent.ExtractToFile(path);
 
                                                 Messages.write(Messages.Type.Fichier, file);
-                                                Console.Write("Extraction du fichier, ");
+                                                Console.Write("Extraction du fichier,");
                                                 Messages.writeData(new FileInfo(path).Length);
                                                 Console.WriteLine("octet(s) au total.");
                                             }
@@ -371,6 +369,9 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
                                 }
 
                                 Console.WriteLine("Le projet a été crée.");
+
+                                try { Process.Start($"http://localhost/{name}/index.php");  }
+                                catch { }
                             }
                             catch (Exception e)
                             {
@@ -395,6 +396,9 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
             else
                 Console.WriteLine("Problème, il manque le nom du nouveau projet !");
         }
+
+
+        // ########################################################################
 
 
         // Gere les objets
@@ -465,9 +469,9 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
                                                         File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
 
                                                         Messages.write(Messages.Type.Edition, ordre[i]);
-                                                        Console.Write(" Edition du fichier, ");
+                                                        Console.Write("Edition du fichier,");
                                                         Messages.writeData(new FileInfo(path).Length);
-                                                        Console.WriteLine(" octet(s) modifié.");
+                                                        Console.WriteLine("octet(s) modifié.");
                                                     }
                                                     catch (Exception e)
                                                     {
@@ -651,11 +655,11 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
                                 foreach (string k in trouve.Keys)
                                 {
                                     Messages.write(Messages.Type.Objet, k);
-                                    Console.Write(" Objet trouvé, ");
+                                    Console.Write("Objet trouvé,");
                                     Messages.writeData(trouve[k][0]);
-                                    Console.Write(" fichier(s) faisant ");
+                                    Console.Write("fichier(s) faisant");
                                     Messages.writeData(trouve[k][1]);
-                                    Console.WriteLine(" octet(s).");
+                                    Console.WriteLine("octet(s).");
                                 }
 
                             }
@@ -760,9 +764,9 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
                                                         File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
 
                                                         Messages.write(Messages.Type.Edition, ordre[i]);
-                                                        Console.Write(" Edition du fichier, ");
+                                                        Console.Write("Edition du fichier,");
                                                         Messages.writeData(new FileInfo(path).Length);
-                                                        Console.WriteLine(" octet(s) modifié.");
+                                                        Console.WriteLine("octet(s) modifié.");
                                                     }
                                                     catch (Exception e)
                                                     {
@@ -947,11 +951,11 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
                                 foreach (string k in trouve.Keys)
                                 {
                                     Messages.write(Messages.Type.Composant, k);
-                                    Console.Write(" Composant trouvé, ");
+                                    Console.Write("Composant trouvé,");
                                     Messages.writeData(trouve[k][0]);
-                                    Console.Write(" fichier(s) faisant ");
+                                    Console.Write("fichier(s) faisant");
                                     Messages.writeData(trouve[k][1]);
-                                    Console.WriteLine(" octet(s).");
+                                    Console.WriteLine("octet(s).");
                                 }
 
                             }
