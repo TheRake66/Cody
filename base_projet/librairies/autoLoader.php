@@ -29,7 +29,7 @@ class Autoloader{
     // Cherche les fichiers a inclure
     static function autoloadAllsPath($class){
         foreach (Autoloader::PATHS as $path) {
-            $file = $path . "/" . $class . ".php";
+            $file = "{$path}/{$class}.php";
             if(is_file($file) && is_readable($file)) {
                 require_once $file;
                 break;

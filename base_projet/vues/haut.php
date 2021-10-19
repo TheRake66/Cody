@@ -1,12 +1,10 @@
 <header>
 
-	<link rel="stylesheet" href="./styles/haut.css">
-	<script type="text/javascript" src="./scripts/haut.js"></script>
+	<?php $header->print(); ?>
 
-	<?php $formHeader->afficherFormulaire(); ?>
+	<?php $nav->print(); ?>
 
-	<nav>
-		<?php $menuNav->afficherFormulaire(); ?>
-	</nav>
+	<link rel='stylesheet' href='./styles/haut.css'>
+	<script type='text/javascript' src='./scripts/haut.js'></script>
 	
 </header>

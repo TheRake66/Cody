@@ -4,7 +4,8 @@
 class Menu {
 
     // -------------------------------------------------------
-	private $style;
+	private $id;
+	private $class;
 	private $composants = [];
 	private $menu;
     // -------------------------------------------------------
@@ -12,50 +13,40 @@ class Menu {
 
 
     // -------------------------------------------------------
-	public function __construct($unStyle ){
-		$this->style = $unStyle;
+	public function __construct($unId = "", $uneClass = "") {
+		$this->id = $unId;
+		$this->class = $uneClass;
 	}
     // -------------------------------------------------------
 
 
 
     // -------------------------------------------------------
-	public function afficherMenu() {
+	public function print() {
 		echo $this->menu;
 	}
-
-	public function ajouterComposant($unComposant){
-		$this->composants[] = $unComposant;
-	}
-    // -------------------------------------------------------
 	
-
-
-    // -------------------------------------------------------
-	public function creerItemLien($unLien,$uneValeur){
+	public function lien($unLien, $uneValeur) {
 		$composant = array();
 		$composant[0] = $unLien ;
-		$composant[1] = $uneValeur ;
-		return $composant;
+		$composant[1] = $uneValeur;
+		$this->composants[] = $composant;
 	}
 	
-	public function creerMenu($composantActif,$nomMenu){
-		$this->menu = "<ul class = '" .  $this->style . "' id = '" .  $this->style . "'>";
-		foreach($this->composants as $composant){
-			if($composant[0] == $composantActif){
-				$this->menu .= "<li class='actif'>";
-				$this->menu .=  "<span>" . $composant[1] ."</span>";
-			}
-			else{
-				$this->menu .= "<li>";
-				$this->menu .= "<a href='index.php?" . $nomMenu ;
-				$this->menu .= "=" . $composant[0] . "' >";
-				$this->menu .= "<span>" . $composant[1] ."</span>";
-				$this->menu .= "</a>";
-			}
+	public function build($composantActif, $nomMenu) {
+		$this->menu = "<nav id='{$this->id}' class='{$this->class}'><ul>";
+		foreach ($this->composants as $composant) {
+
+			$lien = $composant[0];
+			$valeur = $composant[1];
+			
+			$this->menu .= $lien == $composantActif ? 
+			"<li class='actif'><span>{$valeur}</span>" : 
+			"<li><a href='index.php?{$nomMenu}={$lien}'><span>{$valeur}</span></a>";
+
 			$this->menu .= "</li>";
 		}
-		$this->menu .= "</ul>";
+		$this->menu .= "</ul></nav>";
 	}
     // -------------------------------------------------------
 	
