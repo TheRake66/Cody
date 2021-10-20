@@ -16,6 +16,39 @@ namespace Cody_PHP
     public class Commandes
     {
 
+        // Affiche l'aide
+        public static void aideCom(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                // Affiche l'aide
+                Console.WriteLine(
+@"aide                                    Affiche la liste des commandes disponible.
+cd [*chemin]                            Affiche ou change le dossier courant. Sans argument le dossier WAMP
+                                        sera séléctionné.
+cls                                     Nettoie la console.
+com [-s|-a|-r|-l] [nom]                 Ajoute, renomme, liste, ou supprime un composant (controleur, vue, style,
+                                        script) avec le nom spécifié.
+die                                     Quitte Cody-PHP.
+dl [url] [fichier]                      Télécharge un fichier avec l'URL spécifiée.
+exp                                     Ouvre le projet dans l'explorateur de fichiers.
+ls                                      Affiche la liste des projets.
+maj                                     Met à jour Cody-PHP via le depot GitHub.
+new [nom]                               Créer un nouveau projet avec le nom spécifié.
+obj [-s|-a |-r |-l] [nom]               Ajoute, renomme, liste, ou supprime un objet (classe dto, classe dao)
+                                        avec le nom spécifié.
+rep                                     Ouvre la dépôt GitHub de Cody-PHP.
+srv [-d|-a] [*ip:port]                  Démarre ou arrêter un serveur PHP avec l'adresse et le port spécifié.
+vs                                      Ouvre le projet dans Visual Studio Code.
+wamp                                    Lance WAMP Serveur.
+
+*: Argument facultatif.");
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+
+
         // Change le chemin courant
         public static void changeDir(string[] cmd)
         {
@@ -34,7 +67,7 @@ namespace Cody_PHP
                     }
                     catch (Exception e)
                     {
-                        Messages.writeError(path, "Impossible de changer de dossier !", e);
+                        Messages.writeExcept("Impossible de changer de dossier !", e);
                     }
                 }
                 else
@@ -43,7 +76,61 @@ namespace Cody_PHP
             else if (cmd.Length > 1)
                 Console.WriteLine("Problème, seul un chemin est attendu.");
             else
-                Console.WriteLine($"Le chemin actuel est: '{Directory.GetCurrentDirectory()}'.");
+            {
+                try
+                {
+                    bool founded = false;
+                    string path = "";
+
+                    foreach (DriveInfo drive in DriveInfo.GetDrives())
+                    {
+                        if (drive.DriveType == DriveType.Fixed 
+                            && drive.IsReady)
+                        {
+                            Console.Write("Lecteur : '");
+                            Messages.writeIn(ConsoleColor.DarkYellow, drive.Name);
+                            Console.WriteLine("'...");
+
+                            string wamp64 = $@"{drive.Name}wamp64\www";
+                            Console.WriteLine("Vérification du dossier WAMP 64-bit...");
+                            if (Directory.Exists(wamp64))
+                            {
+                                path = wamp64;
+                                founded = true; 
+                                break;
+                            }
+
+                            string wamp = $@"{drive.Name}wamp\www";
+                            Console.WriteLine("Vérification du dossier WAMP...");
+                            if (Directory.Exists(wamp))
+                            {
+                                path = wamp;
+                                founded = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (founded)
+                    {
+                        try
+                        {
+                            Directory.SetCurrentDirectory(path);
+                            Console.WriteLine("Chemin WAMP trouvé.");
+                        }
+                        catch (Exception e)
+                        {
+                            Messages.writeExcept("Impossible de définir le dossier WANP !", e);
+                        }
+                    }
+                    else
+                        Console.WriteLine("Aucun dossier WAMP.");
+                }
+                catch (Exception e)
+                {
+                    Messages.writeExcept("Impossible de récupérer la liste des lecteur !", e);
+                }
+            }
         }
 
 
@@ -58,64 +145,75 @@ namespace Cody_PHP
                 // Prepapre l'animation
                 int x = Console.CursorLeft;
                 int y = Console.CursorTop;
+                int x_barre = x + 1;
+                int y_barre = y + 1;
+                int x_byte = x + 53;
+                long total_byte = 0;
                 object lk = new object(); // lock
                 bool ended = false;
+                
+                Console.WriteLine(
+@"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+█                                                  █
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
+
+                Action<int, long, long> display_barre = (percent, receceid, total) =>
+                {
+                    // Progress
+                    Console.SetCursorPosition(x_barre, y_barre);
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    // Pas de percent / 2, le modulo est plus rapide que la division flotante
+                    for (float i = 0; i < percent; i++)
+                        if (i % 2 == 0) Console.Write("▓");
+                    Console.ResetColor();
+
+                    Console.SetCursorPosition(x_byte, y_barre);
+                    Console.Write($"{percent}% ");
+                    Messages.writeIn(ConsoleColor.DarkYellow, receceid);
+                    Console.Write(" octet(s) sur ");
+                    Messages.writeIn(ConsoleColor.DarkYellow, total);
+                    Console.Write("...");
+                };
 
                 WebClient web = new WebClient();
                 web.DownloadProgressChanged += (s, e) =>
                 {
                     lock (lk)
                     {
-                        // Arrondi, quand ca arrive a 100% ca ne declenche pas cette event, il
-                        // faut donc afficher 100% un % avant
-                        bool rounded = e.ProgressPercentage == 99;
-                        float percent = !rounded ? e.ProgressPercentage : 100;
-                        long bte = !rounded ? e.BytesReceived : e.TotalBytesToReceive;
-
-                        Console.SetCursorPosition(x, y);
-
                         // Progress
-                        Console.Write("[");
-                        Console.ForegroundColor = ConsoleColor.DarkGreen;
-                        // Pas de percent / 2, le modulo est plus rapide que la division flotante
-                        for (float i = 0; i < percent; i++)
-                            if (i % 2 == 0) Console.Write("#");
-                        for (float i = percent; i < 100; i++)
-                            if (i % 2 == 0) Console.Write(" ");
-                        Console.ResetColor();
-                        Console.Write($"] {(percent)}%");
-
-                        Messages.writeData(bte);
-                        Console.Write("octet(s) sur");
-
-                        Messages.writeData(e.TotalBytesToReceive);
-                        Console.WriteLine("...");
-
+                        display_barre(e.ProgressPercentage, e.BytesReceived, e.TotalBytesToReceive);
+                        if (total_byte == 0) total_byte = e.TotalBytesToReceive;
                         // Pour les tests
                         // dl https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar server.jar
                     }
                 };
+
                 web.DownloadFileCompleted += (s, e) =>
                 {
                     lock (lk)
                     {
                         if (e.Error == null) // Si aucune exception
                         {
+                            // Progress complete
+                            display_barre(100, total_byte, total_byte);
+                            Console.SetCursorPosition(x, y + 3);
                             Console.WriteLine("Téléchargement terminé.");
                         }
                         else
                         {
-                            Messages.writeError(url, "Impossible de télécharger ce fichier !", e.Error);
+                            Console.SetCursorPosition(x, y + 3);
+                            Messages.writeExcept("Impossible de télécharger ce fichier !", e.Error);
                         }
+
+                        ended = true;
                     }
-                    ended = true;
                 };
+
                 // Telecharge en asyncrone
                 web.DownloadFileTaskAsync(url, file);
 
                 // Attends la fin et de delockage
                 while (!ended || !Monitor.TryEnter(lk)) { }
-                Thread.Sleep(500); // Secu du lock
             }
             else if (cmd.Length > 2)
                 Console.WriteLine("Problème, seul l'url et le chemin du fichier sont attendus !");
@@ -136,6 +234,8 @@ namespace Cody_PHP
 
                     if (dirs.Length > 0)
                     {
+                        int count = 0;
+
                         foreach (string f in dirs)
                         {
                             // Si ca contient un index.php c'est un projet
@@ -144,52 +244,30 @@ namespace Cody_PHP
                                 // Calcule ne nb de fichier et la taille total
                                 long[] data = Librairies.getCountAndSizeFolder(f);
 
-                                Messages.write(Messages.Type.Projet, Path.GetFileName(f));
-                                Console.Write("Fait de");
-                                Messages.writeData(data[0]);
-                                Console.Write("fichier(s) pour un total");
-                                Messages.writeData(data[1]);
-                                Console.WriteLine("octet(s).");
+                                Console.Write("Projet : '");
+                                Messages.writeIn(ConsoleColor.Magenta, Path.GetFileName(f));
+                                Console.Write("'. Fait de ");
+                                Messages.writeIn(ConsoleColor.DarkYellow, data[0]);
+                                Console.Write(" fichier(s) pour un total ");
+                                Messages.writeIn(ConsoleColor.DarkYellow, data[1]);
+                                Console.WriteLine(" octet(s).");
+
+                                count++;
                             }
                         }
+
+                        if (count > 0)
+                            Console.WriteLine("Listage terminé.");
+                        else 
+                            Console.WriteLine("Heuuu, il n'y a aucun projet dans ce dossier...");
                     }
                     else
-                        Console.WriteLine("Heuuu, il n'y a aucun projet dans ce dossier...");
+                        Console.WriteLine("Heuuu, il n'y a aucun dossier...");
                 }
                 catch (Exception e)
                 {
-                    Messages.writeError(Directory.GetCurrentDirectory(), "Impossible de lister les projets !", e);
+                    Messages.writeExcept("Impossible de lister les projets !", e);
                 }
-            }
-            else
-                Console.WriteLine("Problème, aucun argument n'est attendu !");
-        }
-
-
-        // Affiche l'aide
-        public static void aideCom(string[] cmd)
-        {
-            if (cmd.Length == 0)
-            {
-                // Affiche l'aide
-                Console.WriteLine(
-@"aide                                    Affiche l'aide globale ou l'aide d'une commande spécifique.
-cd [*chemin]                            Affiche ou change le dossier courant.
-cl                                      Nettoie la console.
-com [projet] [-s|-a|-r|-l] [nom]        Ajoute, renomme, liste, ou supprime un composant (controleur, vue,
-                                        style, script) avec le nom spécifié  pour le projet spécifié.
-die                                     Quitte Cody-PHP.
-dl [url] [chemin]                       Télécharge un fichier avec l'URL spécifiée.
-git [*arguments]                        Exécute la commande git avec les arguments spécifié.
-cls                                     Affiche la liste des projets du dossier courant.
-maj                                     Met à jour Cody-PHP via le depot GitHub.
-new [nom]                               Créer un nouveau projet avec le nom spécifié.
-obj [projet] [-s|-a |-r |-l] [nom]      Ajoute, renomme, liste, ou supprime un objet (classe dto, classe
-                                        dao) avec le nom spécifié pour le projet spécifié.
-rep                                     Ouvre la dépôt GitHub de Cody-PHP.
-
-*: Argument facultatif.
-");
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
@@ -230,32 +308,6 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
         }
 
 
-        // Execute une instance git
-        public static void execGit(string[] cmd)
-        {
-            try
-            {
-                // Reunis chaque arguments en array vers un string
-                string arlin = "";
-                foreach (string a in cmd)
-                    arlin += $"{a} ";
-
-                // Demarre en syncrone git
-                ProcessStartInfo inf = new ProcessStartInfo
-                {
-                    FileName = "git.exe",
-                    Arguments = arlin,
-                    UseShellExecute = false,
-                };
-                Process.Start(inf).WaitForExit();
-            }
-            catch (Exception e)
-            {
-                Messages.writeError("git", "Impossible d'exécuter la commande git !", e);
-            }
-        }
-
-
         // Verifi les mise a jour
         public static void verifMAJ(string[] cmd)
         {
@@ -279,11 +331,51 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
                 }
                 catch (Exception e)
                 {
-                    Messages.writeError("webclient", "Impossible de vérifier les mise à jour !", e);
+                    Messages.writeExcept("Impossible de vérifier les mise à jour !", e);
                 }
             }
             else
                 Console.WriteLine("Problème, aucun argument est attendu !");
+        }
+
+
+        // Ouvre dans l'explorateur
+        public static void openExplorer(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                try
+                { 
+                    // Ouvre dans le navigateur
+                    Process.Start("explorer.exe", Directory.GetCurrentDirectory()); 
+                }
+                catch (Exception e)
+                {
+                    Messages.writeExcept("Impossible d'ouvrir l'explorateur !", e);
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+
+
+        // Ouvre dans vs code
+        public static void openVSCode(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                try
+                {
+                    // Ouvre dans le navigateur
+                    Process.Start("code", ".");
+                }
+                catch (Exception e)
+                {
+                    Messages.writeExcept("Impossible d'ouvrir Visual Studio Code !", e);
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
 
 
@@ -328,11 +420,13 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
                                                 // Creer le dossier
                                                 Directory.CreateDirectory(path);
 
-                                                Messages.writeFull(Messages.Type.Dossier, file, "Ajout du dossier.");
+                                                Console.Write("Dossier : '");
+                                                Messages.writeIn(ConsoleColor.Magenta, file);
+                                                Console.WriteLine("'. Dossier ajouté.");
                                             }
                                             catch (Exception e)
                                             {
-                                                Messages.writeError(file, "Impossible d'ajouter le dossier !", e);
+                                                Messages.writeExcept("Impossible d'ajouter le dossier !", e);
                                             }
                                         }
                                         // Si c'est un fichier
@@ -342,18 +436,18 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
                                             {
                                                 // Extrait le fichier de l'archive
                                                 ent.ExtractToFile(path);
-
-                                                Messages.write(Messages.Type.Fichier, file);
-                                                Console.Write("Extraction du fichier,");
-                                                Messages.writeData(new FileInfo(path).Length);
-                                                Console.WriteLine("octet(s) au total.");
+;
+                                                Console.Write("Fichier : '");
+                                                Messages.writeIn(ConsoleColor.DarkGreen, file);
+                                                Console.Write("'. Extraction du fichier, ");
+                                                Messages.writeIn(ConsoleColor.DarkYellow, new FileInfo(path).Length);
+                                                Console.WriteLine(" octet(s) au total.");
                                             }
                                             catch (Exception e)
                                             {
-                                                Messages.writeError(file, "Impossible d'extraire le fichier !", e);
+                                                Messages.writeExcept("Impossible d'extraire le fichier !", e);
                                             }
                                         }
-
                                     }
                                 }
 
@@ -362,30 +456,28 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
                                     // Supprime l'archive
                                     Console.WriteLine("Suppression de l'archive...");
                                     File.Delete(zip);
+                                    Console.WriteLine("Archive supprimée");
                                 }
                                 catch (Exception e)
                                 {
-                                    Messages.writeError(name, "Impossible de supprimer l'archive !", e);
+                                    Messages.writeExcept("Impossible de supprimer l'archive !", e);
                                 }
 
                                 Console.WriteLine("Le projet a été crée.");
-
-                                try { Process.Start($"http://localhost/{name}/index.php");  }
-                                catch { }
                             }
                             catch (Exception e)
                             {
-                                Messages.writeError(name, "Impossible d'extraire l'archive !", e);
+                                Messages.writeExcept("Impossible d'extraire l'archive !", e);
                             }
                         }
                         catch (Exception e)
                         {
-                            Messages.writeError(name, "Impossible de créer le dossier du projet !", e);
+                            Messages.writeExcept("Impossible de créer le dossier du projet !", e);
                         }
                     }
                     catch (Exception e)
                     {
-                        Messages.writeError(name, "Impossible de créer le dossier du projet !", e);
+                        Messages.writeExcept("Impossible de créer le dossier du projet !", e);
                     }
                 }
                 else
@@ -399,6 +491,33 @@ rep                                     Ouvre la dépôt GitHub de Cody-PHP.
 
 
         // ########################################################################
+
+
+        // Gere un serveur
+        public static void gestServeur(string[] cmd)
+        {
+            /*
+            try
+            {
+                // Reunis chaque arguments en array vers un string
+                string arlin = "";
+                foreach (string a in cmd)
+                    arlin += $"{a} ";
+
+                // Demarre en syncrone git
+                ProcessStartInfo inf = new ProcessStartInfo
+                {
+                    FileName = "git.exe",
+                    Arguments = arlin,
+                    UseShellExecute = false,
+                };
+                Process.Start(inf).WaitForExit();
+            }
+            catch (Exception e)
+            {
+                Messages.writeError("git", "Impossible d'exécuter la commande git !", e);
+            }*/
+        }
 
 
         // Gere les objets

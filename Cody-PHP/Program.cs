@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -16,50 +17,50 @@ namespace Cody_PHP
         {
             // --------------------------
             // Nettoie si jamais l'user l'a lancer via commande
-            Console.Clear();
+            Console.Clear(); 
 
             // Entete
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write(@"
-    ______            __               ____   __  __ ____ 
-   / ____/____   ____/ /__  __        / __ \ / / / // __ \
-  / /    / __ \ / __  // / / /______ / /_/ // /_/ // /_/ /
- / /___ / /_/ // /_/ // /_/ //_____// ____// __  // ____/  v1.0.0.0
- \____/ \____/ \__,_/ \__, /       /_/    /_/ /_//_/       (cody)
-                     /____/                               
+            Messages.writeIn(ConsoleColor.Blue, @"
+
+                     ██████╗ ██████╗ ██████╗ ██╗   ██╗     ██████╗ ██╗  ██╗██████╗ 
+                    ██╔════╝██╔═══██╗██╔══██╗╚██╗ ██╔╝     ██╔══██╗██║  ██║██╔══██╗
+                    ██║     ██║   ██║██║  ██║ ╚████╔╝█████╗██████╔╝███████║██████╔╝
+                    ██║     ██║   ██║██║  ██║  ╚██╔╝ ╚════╝██╔═══╝ ██╔══██║██╔═══╝ 
+                    ╚██████╗╚██████╔╝██████╔╝   ██║        ██║     ██║  ██║██║     
+                     ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝        ╚═╝     ╚═╝  ╚═╝╚═╝                                                              
 ");
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write(@"
-                        Crée par Thibault BUSTOS (TheRake66)
-                        https://github.com/TheRake66/Cody-PHP
-");
+            Messages.writeIn(ConsoleColor.DarkRed, @"
+                                      ░░░▒▒▓▓ Cody-PHP ▓▓▒▒░░░");
 
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(@"
- Cody-PHP est un framework français dédié au développement du site WEB
- en PHP/JavaScript/HTML/CSS orienté objet en MVC avec un assortiment 
- d'outils et de librairies (sécurité, base de données, formulaire, etc.).
-
-");
+            Messages.writeLineIn(ConsoleColor.DarkYellow, @"
+                                 Version 1.0.0.0 du 20 octobre 2021
+                           Copyright © 2021 - Thibault BUSTOS (TheRake66)");
 
             Console.ResetColor();
+            Console.WriteLine(@"
+ Utilisez la commande 'aide' pour voir la liste des commandes.");
             // --------------------------
 
             while (true)
             {
                 // Saut apres une commande
                 Console.WriteLine();
+                Console.WriteLine();
 
                 // Change le prompt
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write(Environment.UserName + "@" + Environment.MachineName);
+                Messages.writeIn(ConsoleColor.DarkRed, "┌──[");
+                Messages.writeIn(ConsoleColor.Cyan, Environment.UserName);
+                Messages.writeIn(ConsoleColor.DarkYellow, "@");
+                Messages.writeIn(ConsoleColor.Blue, Environment.MachineName);
+                Messages.writeIn(ConsoleColor.DarkRed, "]─[");
+                Messages.writeIn(ConsoleColor.DarkGreen, Directory.GetCurrentDirectory());
+                Messages.writeLineIn(ConsoleColor.DarkRed, "]");
+
+                Messages.writeIn(ConsoleColor.DarkRed, "└────►");
+                Messages.writeIn(ConsoleColor.DarkYellow, " $");
                 Console.ResetColor();
-                Console.Write(":");
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write("~");
-                Console.ResetColor();
-                Console.Write("$ ");
+                Console.Write(": ");
 
                 // Recupere les inputs, trim, et remplace les doublon d'espaces
                 string input = Console.ReadLine().Trim();
@@ -74,52 +75,60 @@ namespace Cody_PHP
                     // Dispatch dans les commandes
                     switch (cmd)
                     {
-                        case "new":
-                            Commandes.creerProjet(argm);
-                            break;
-
-                        case "maj":
-                            Commandes.verifMAJ(argm);
-                            break;
-
-                        case "com":
-                            Commandes.gestComposant(argm);
-                            break;
-
-                        case "obj":
-                            Commandes.gestObjet(argm);
-                            break;
-
-                        case "dl":
-                            Commandes.downFile(argm);
-                            break;
-
                         case "aide":
                             Commandes.aideCom(argm);
-                            break;
-
-                        case "cls":
-                            Commandes.clearCons(argm);
-                            break;
-
-                        case "git":
-                            Commandes.execGit(argm);
-                            break;
-
-                        case "rep":
-                            Commandes.openRepo(argm);
-                            break;
-
-                        case "ls":
-                            Commandes.listProjet(argm);
                             break;
 
                         case "cd":
                             Commandes.changeDir(argm);
                             break;
 
+                        case "cls":
+                            Commandes.clearCons(argm);
+                            break;
+
+                        case "com":
+                            Commandes.gestComposant(argm);
+                            break;
+
                         case "die":
                             Commandes.quitterApp(argm);
+                            break;
+
+                        case "dl":
+                            Commandes.downFile(argm);
+                            break;
+
+                        case "exp":
+                            Commandes.openExplorer(argm);
+                            break;
+
+                        case "ls":
+                            Commandes.listProjet(argm);
+                            break;
+
+                        case "maj":
+                            Commandes.verifMAJ(argm);
+                            break;
+
+                        case "new":
+                            Commandes.creerProjet(argm);
+                            break;
+
+                        case "obj":
+                            Commandes.gestObjet(argm);
+                            break;
+
+                        case "rep":
+                            Commandes.openRepo(argm);
+                            break;
+
+                        case "srv":
+                            Commandes.gestServeur(argm);
+                            break;
+
+                        case "vs":
+                            Commandes.openVSCode(argm);
                             break;
 
                         default:
