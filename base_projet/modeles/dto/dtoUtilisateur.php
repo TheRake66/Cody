@@ -1,17 +1,20 @@
 <?php
 
-// ####################################################################################################
-class dtoUtilisateur {
+namespace Modele\dto;
+use Modele\Reflect\Hydrate;
 
-    // -------------------------------------------------------
+
+
+class Utilisateur {
+
     use Hydrate;
-	public $NumUtilisateur;
-	public $Identifiant;
-	public $MotDePasse;
-	public $Sel;
-	public $DateInscription;
-	public $CodeTypeUtilisateur;
-    // -------------------------------------------------------
+	public $numUtilisateur;
+	public $identifiant;
+	public $motDePasse;
+	public $sel;
+	public $dateInscription;
+	public $codeTypeUtilisateur;
 	
 }
-// ####################################################################################################
+
+?>

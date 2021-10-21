@@ -1,13 +1,16 @@
 <?php
 
-// ####################################################################################################
-class dtoTypeUtilisateur {
+namespace Modele;
+use Modele\Reflect\Hydrate;
 
-    // -------------------------------------------------------
+
+
+class TypeUtilisateur {
+
     use Hydrate;
-	public $CodeTypeUtilisateur;
-	public $Libelle;
-    // -------------------------------------------------------
+	public $codeTypeUtilisateur;
+	public $libelle;
 
 }
-// ####################################################################################################
+
+?>

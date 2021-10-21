@@ -4,7 +4,7 @@ namespace Controleur;
 
 
 
-class Bas {
+class Accueil {
 
     /*
      * Constructeur
@@ -17,7 +17,9 @@ class Bas {
      * Destructeur
      */
     function __destruct() {
-        require_once '././vues/bas.php';
+        new Haut();
+        require_once '././vues/accueil.php';
+        new Bas();
     }
 
 }

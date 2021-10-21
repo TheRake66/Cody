@@ -4,7 +4,7 @@ namespace Controleur;
 
 
 
-class Bas {
+class Menu {
 
     /*
      * Constructeur
@@ -17,7 +17,7 @@ class Bas {
      * Destructeur
      */
     function __destruct() {
-        require_once '././vues/bas.php';
+        require_once '././vues/menu.php';
     }
 
 }

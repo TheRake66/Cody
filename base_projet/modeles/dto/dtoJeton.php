@@ -1,14 +1,17 @@
 <?php
 
-// ####################################################################################################
-class dtoJeton {
+namespace Modele;
+use Modele\Reflect\Hydrate;
 
-    // -------------------------------------------------------
+
+
+class Jeton {
+
     use Hydrate;
-	public $NumUtilisateur;
-	public $Valeur;
-	public $DateExpiration;
-    // -------------------------------------------------------
+	public $numUtilisateur;
+	public $valeur;
+	public $dateExpiration;
 
 }
-// ####################################################################################################
+
+?>

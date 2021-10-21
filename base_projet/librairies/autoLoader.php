@@ -1,34 +1,52 @@
 <?php
 
-// ####################################################################################################
-// Enregistre l'autoloader
-spl_autoload_register('Autoloader::autoloadAllsPath');
-// ####################################################################################################
+namespace Librairie;
 
 
 
+class Autoloader {
+
+    /*
+     * Chemin ou chercher les classes
+     */
+	static $paths = [];
 
 
-// ####################################################################################################
-class Autoloader{
+    /*
+     * Constructeur
+     */
+    function __construct() {
+        spl_autoload_register('Librairie\Autoloader::autoloadAllsPath');
+    }
+   
 
-    // -------------------------------------------------------
-    // Chemins des dossiers dans lequels l'autoloader
-    // va chercher les fichier a inclure
-	const PATHS = [
-        'modeles/dto',
-        'modeles/dao',
-        'modeles/traits',
-        'librairies',
-    ];
-    // -------------------------------------------------------
-    
+    /*
+     * Destructeur
+     */
+    function __destruct() {
+    }
 
 
-    // -------------------------------------------------------
-    // Cherche les fichiers a inclure
-    static function autoloadAllsPath($class){
-        foreach (Autoloader::PATHS as $path) {
+    /**
+     * Ajoute une route
+     */
+	static function search($chemins) {
+		self::$paths = $chemins;
+	}
+
+
+    /**
+     * Cherche et inclut les fichiers contenant les classes
+     * Namespace\Classe
+     * 
+     * @param string Namespace
+     */
+    static function autoloadAllsPath($namespace) {
+
+        $exp = explode('\\', $namespace, PHP_INT_MAX);
+        $class = strtolower(end($exp));
+
+        foreach (self::$paths as $path) {
             $file = "{$path}/{$class}.php";
             if(is_file($file) && is_readable($file)) {
                 require_once $file;
@@ -36,9 +54,7 @@ class Autoloader{
             }
         }
     }
-    // -------------------------------------------------------
     
 }
-// ####################################################################################################
 
-
+?>

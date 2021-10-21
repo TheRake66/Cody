@@ -49,13 +49,13 @@ namespace Cody_PHP
                 Console.WriteLine();
 
                 // Change le prompt
-                Messages.writeIn(ConsoleColor.DarkRed, "┌──[");
+                Messages.writeIn(ConsoleColor.DarkRed, "┌──┤");
                 Messages.writeIn(ConsoleColor.Cyan, Environment.UserName);
                 Messages.writeIn(ConsoleColor.DarkYellow, "@");
                 Messages.writeIn(ConsoleColor.Blue, Environment.MachineName);
-                Messages.writeIn(ConsoleColor.DarkRed, "]─[");
+                Messages.writeIn(ConsoleColor.DarkRed, "├─┤");
                 Messages.writeIn(ConsoleColor.DarkGreen, Directory.GetCurrentDirectory());
-                Messages.writeLineIn(ConsoleColor.DarkRed, "]");
+                Messages.writeLineIn(ConsoleColor.DarkRed, "│ ");
 
                 Messages.writeIn(ConsoleColor.DarkRed, "└────►");
                 Messages.writeIn(ConsoleColor.DarkYellow, " $");
