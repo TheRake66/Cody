@@ -5,7 +5,7 @@
 	<div id="logo">
 		<img src="./images/logo.png">
 		<div id="borgrad">
-			<h1>Votre application fonctionne !</h1>
+			<h1>{PROJECT_NAME} fonctionne !</h1>
 		</div>
 	</div>
 

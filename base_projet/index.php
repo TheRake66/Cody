@@ -15,7 +15,7 @@ session_start();
 
 	<head>
 		<meta charset='utf-8' />
-		<title>Cody-PHP</title>
+		<title>{PROJECT_NAME}</title>
 		<link rel='icon' href='images/favicon.ico'/>
 	</head>
 
