@@ -386,6 +386,14 @@ wamp                                    Lance WAMP Serveur.
             {
                 // Verifi si projet existe deja
                 string name = cmd[0];
+
+                // Fichiers ou l'on rajoute le nom
+                string[] toedit = new string[]
+                {
+                    @"index.php",
+                    @"vues\accueil.php",
+                };
+
                 if (!Directory.Exists(name))
                 {
                     try
@@ -442,6 +450,21 @@ wamp                                    Lance WAMP Serveur.
                                                 Console.Write("'. Extraction du fichier, ");
                                                 Messages.writeIn(ConsoleColor.DarkYellow, new FileInfo(path).Length);
                                                 Console.WriteLine(" octet(s) au total.");
+
+                                                if (toedit.Contains(file))
+                                                {
+                                                    try
+                                                    {
+                                                        // Modifie le fichier
+                                                        File.WriteAllText(path, File.ReadAllText(path).Replace("{PROJECT_NAME}", name));
+                                                        Console.WriteLine("Édition du fichier terminé.");
+
+                                                    }
+                                                    catch (Exception e)
+                                                    {
+                                                        Messages.writeExcept("Impossible d'éditer le fichier !", e);
+                                                    }
+                                                }
                                             }
                                             catch (Exception e)
                                             {
