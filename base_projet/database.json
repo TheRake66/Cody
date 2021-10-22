@@ -1,0 +1,8 @@
+{
+	"login" : "root", 
+	"password" : "", 
+	"host" : "localhost", 
+	"dbname" : "{PROJECT_NAME}", 
+	"charset" : "utf8", 
+	"type" : "mysql" 
+}
