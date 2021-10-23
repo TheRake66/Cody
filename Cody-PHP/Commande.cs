@@ -711,6 +711,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
             else
                 Console.WriteLine("Problème, il manque le type d'action, le nom, et le nouveau nom du nouvel objet !");
         }
+        // Ajoute un objet
         private static void ajouterObj(string nom)
         {
             bool continu = true;
@@ -901,12 +902,132 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 Message.writeExcept("Impossible d'indexé l'objet !", e);
             }
         }
-
-
+        // Suprime un objet
         private static void supprimerObj(string nom)
         {
+            if (File.Exists("object.json"))
+            {
+                try
+                {
+                    string json = File.ReadAllText("object.json");
 
+                    if (json != "")
+                    {
+                        List<Objet> objs = JsonConvert.DeserializeObject<List<Objet>>(json);
+                        parcoursPourSupprimerObjet(objs, nom);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Heuuu, aucun objet n'est indexé...");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Impossible de lire la liste des objets existant !", e);
+                }
+            }
+            else
+                Console.WriteLine("Heuuu, aucune liste d'objet a été trouvée...");
         }
+        private static void parcoursPourSupprimerObjet(List<Objet> objs, string nom)
+        {
+            bool trouve = false;
+            bool continu = true;
+
+            foreach (Objet obj in objs)
+            {
+                if (obj.nom == nom)
+                {
+                    objs.Remove(obj);
+                    trouve = true;
+                    foreach (string file in obj.chemins)
+                    {
+                        if (File.Exists(file))
+                        {
+                            supprimerFichierObjet(file, ref continu);
+                        }
+                        else
+                        {
+                            Console.Write("Le fichier '");
+                            Message.writeIn(ConsoleColor.DarkYellow, file);
+                            Console.WriteLine("' est indexé mais est introuvable !");
+                        }
+                    }
+                    break;
+                }
+            }
+
+            if (trouve)
+            {
+                if (continu)
+                    supprimerJsonObjet(objs);
+                else
+                    Console.WriteLine("L'objet a été partiellement supprimé.");
+            }
+            else
+                Console.WriteLine("L'objet n'existe pas !");
+        }
+        private static void supprimerFichierObjet(string file, ref bool continu)
+        {
+            try
+            {
+                Console.Write("Suppression du fichier '");
+                Message.writeIn(ConsoleColor.Green, file);
+                Console.WriteLine("'...");
+                File.Delete(file);
+                Console.WriteLine("Fichier supprimé.");
+
+                string folder = Path.GetDirectoryName(file);
+                if (Directory.GetFiles(folder).Length == 0 &&
+                    Path.GetDirectoryName(Directory.GetCurrentDirectory()) != Path.GetDirectoryName(folder))
+                {
+                    supprimerDossierObjet(folder, ref continu);
+                }
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de supprimer le fichier !", e);
+                continu = false;
+            }
+        }
+        private static void supprimerDossierObjet(string folder, ref bool continu)
+        {
+            try
+            {
+                Console.Write("Suppression du dossier '");
+                Message.writeIn(ConsoleColor.Magenta, folder);
+                Console.WriteLine("'...");
+                Directory.Delete(folder);
+                Console.WriteLine("Dossier supprimé.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de supprimer le dossier !", e);
+                continu = false;
+            }
+        }
+        private static void supprimerJsonObjet(List<Objet> objs)
+        {
+            try
+            {
+                Console.WriteLine("Désindexation de l'objet...");
+
+                string json = JsonConvert.SerializeObject(objs, Formatting.Indented);
+                File.WriteAllText("object.json", json);
+
+                Console.WriteLine("Objet désindexé.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de désindexé l'objet !", e);
+            }
+        }
+
+
+
+
+
+
 
         private static void listerObj()
         {
