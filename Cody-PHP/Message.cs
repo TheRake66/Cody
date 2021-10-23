@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cody_PHP
 {
-    public class Messages
+    public class Message
     {
 
         // Enum des type d'entete

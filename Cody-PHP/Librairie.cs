@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Cody_PHP
 {
-    public class Librairies
+    public class Librairie
     {
 
         // Recupere en recursif le nombre et la taille total des fichier

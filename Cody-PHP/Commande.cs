@@ -10,10 +10,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
 using Cody_PHP.Properties;
+using Newtonsoft.Json;
 
 namespace Cody_PHP
 {
-    public class Commandes
+    public class Commande
     {
 
         // Affiche l'aide
@@ -23,24 +24,22 @@ namespace Cody_PHP
             {
                 // Affiche l'aide
                 Console.WriteLine(
-@"aide                                    Affiche la liste des commandes disponible.
-cd [*chemin]                            Affiche ou change le dossier courant. Sans argument le dossier WAMP
-                                        sera séléctionné.
-cls                                     Nettoie la console.
-com [-s|-a|-r|-l] [nom]                 Ajoute, renomme, liste, ou supprime un composant (controleur, vue, style,
-                                        script) avec le nom spécifié.
-die                                     Quitte Cody-PHP.
-dl [url] [fichier]                      Télécharge un fichier avec l'URL spécifiée.
-exp                                     Ouvre le projet dans l'explorateur de fichiers.
-ls                                      Affiche la liste des projets.
-maj                                     Met à jour Cody-PHP via le depot GitHub.
-new [nom]                               Créer un nouveau projet avec le nom spécifié.
-obj [-s|-a |-r |-l] [nom]               Ajoute, renomme, liste, ou supprime un objet (classe dto, classe dao)
-                                        avec le nom spécifié.
-rep                                     Ouvre la dépôt GitHub de Cody-PHP.
-srv [-d|-a] [*ip:port]                  Démarre ou arrêter un serveur PHP avec l'adresse et le port spécifié.
-vs                                      Ouvre le projet dans Visual Studio Code.
-wamp                                    Lance WAMP Serveur.
+@"aide                                        Affiche la liste des commandes disponible.
+cd [*chemin]                                Affiche ou change le dossier courant.
+cls                                         Nettoie la console.
+com [-s|-a|-r|-l] [nom] [nouveau nom]       Ajoute, renomme, liste, ou supprime un composant (controleur, vue, style,
+                                            script) avec le nom spécifié.
+die                                         Quitte Cody-PHP.
+dl [url] [fichier]                          Télécharge un fichier avec l'URL spécifiée.
+exp                                         Ouvre le projet dans l'explorateur de fichiers.
+ls                                          Affiche la liste des projets.
+maj                                         Met à jour Cody-PHP via le depot GitHub.
+new [nom]                                   Créer un nouveau projet avec le nom spécifié.
+obj [-s|-a |-r |-l] [nom] [nouveau nom]     Ajoute, renomme, liste, ou supprime un objet (classe dto, classe dao)
+                                            avec le nom spécifié.
+rep                                         Ouvre la dépôt GitHub de Cody-PHP.
+vs                                          Ouvre le projet dans Visual Studio Code.
+wamp                                        Lance WAMP Serveur et défini le dossier courant sur le www.
 
 *: Argument facultatif.");
             }
@@ -67,7 +66,7 @@ wamp                                    Lance WAMP Serveur.
                     }
                     catch (Exception e)
                     {
-                        Messages.writeExcept("Impossible de changer de dossier !", e);
+                        Message.writeExcept("Impossible de changer de dossier !", e);
                     }
                 }
                 else
@@ -76,61 +75,7 @@ wamp                                    Lance WAMP Serveur.
             else if (cmd.Length > 1)
                 Console.WriteLine("Problème, seul un chemin est attendu.");
             else
-            {
-                try
-                {
-                    bool founded = false;
-                    string path = "";
-
-                    foreach (DriveInfo drive in DriveInfo.GetDrives())
-                    {
-                        if (drive.DriveType == DriveType.Fixed 
-                            && drive.IsReady)
-                        {
-                            Console.Write("Lecteur : '");
-                            Messages.writeIn(ConsoleColor.DarkYellow, drive.Name);
-                            Console.WriteLine("'...");
-
-                            string wamp64 = $@"{drive.Name}wamp64\www";
-                            Console.WriteLine("Vérification du dossier WAMP 64-bit...");
-                            if (Directory.Exists(wamp64))
-                            {
-                                path = wamp64;
-                                founded = true; 
-                                break;
-                            }
-
-                            string wamp = $@"{drive.Name}wamp\www";
-                            Console.WriteLine("Vérification du dossier WAMP...");
-                            if (Directory.Exists(wamp))
-                            {
-                                path = wamp;
-                                founded = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (founded)
-                    {
-                        try
-                        {
-                            Directory.SetCurrentDirectory(path);
-                            Console.WriteLine("Chemin WAMP trouvé.");
-                        }
-                        catch (Exception e)
-                        {
-                            Messages.writeExcept("Impossible de définir le dossier WANP !", e);
-                        }
-                    }
-                    else
-                        Console.WriteLine("Aucun dossier WAMP.");
-                }
-                catch (Exception e)
-                {
-                    Messages.writeExcept("Impossible de récupérer la liste des lecteur !", e);
-                }
-            }
+                Console.WriteLine($"Le dossier courant est : '{Directory.GetCurrentDirectory()}'.");
         }
 
 
@@ -169,9 +114,9 @@ wamp                                    Lance WAMP Serveur.
 
                     Console.SetCursorPosition(x_byte, y_barre);
                     Console.Write($"{percent}% ");
-                    Messages.writeIn(ConsoleColor.DarkYellow, receceid);
+                    Message.writeIn(ConsoleColor.DarkYellow, receceid);
                     Console.Write(" octet(s) sur ");
-                    Messages.writeIn(ConsoleColor.DarkYellow, total);
+                    Message.writeIn(ConsoleColor.DarkYellow, total);
                     Console.Write("...");
                 };
 
@@ -202,7 +147,7 @@ wamp                                    Lance WAMP Serveur.
                         else
                         {
                             Console.SetCursorPosition(x, y + 3);
-                            Messages.writeExcept("Impossible de télécharger ce fichier !", e.Error);
+                            Message.writeExcept("Impossible de télécharger ce fichier !", e.Error);
                         }
 
                         ended = true;
@@ -219,58 +164,6 @@ wamp                                    Lance WAMP Serveur.
                 Console.WriteLine("Problème, seul l'url et le chemin du fichier sont attendus !");
             else
                 Console.WriteLine("Problème, il manque l'url et le chemin du fichier !");
-        }
-
-
-        // Liste les projets du dossier courant
-        public static void listProjet(string[] cmd)
-        {
-            if (cmd.Length == 0)
-            {
-                try
-                {
-                    // Recupere tous les dossier du dossier courant
-                    string[] dirs = Directory.GetDirectories(Directory.GetCurrentDirectory());
-
-                    if (dirs.Length > 0)
-                    {
-                        int count = 0;
-
-                        foreach (string f in dirs)
-                        {
-                            // Si ca contient un index.php c'est un projet
-                            if (File.Exists($@"{f}\index.php"))
-                            {
-                                // Calcule ne nb de fichier et la taille total
-                                long[] data = Librairies.getCountAndSizeFolder(f);
-
-                                Console.Write("Projet : '");
-                                Messages.writeIn(ConsoleColor.Magenta, Path.GetFileName(f));
-                                Console.Write("'. Fait de ");
-                                Messages.writeIn(ConsoleColor.DarkYellow, data[0]);
-                                Console.Write(" fichier(s) pour un total ");
-                                Messages.writeIn(ConsoleColor.DarkYellow, data[1]);
-                                Console.WriteLine(" octet(s).");
-
-                                count++;
-                            }
-                        }
-
-                        if (count > 0)
-                            Console.WriteLine("Listage terminé.");
-                        else 
-                            Console.WriteLine("Heuuu, il n'y a aucun projet dans ce dossier...");
-                    }
-                    else
-                        Console.WriteLine("Heuuu, il n'y a aucun dossier...");
-                }
-                catch (Exception e)
-                {
-                    Messages.writeExcept("Impossible de lister les projets !", e);
-                }
-            }
-            else
-                Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
 
 
@@ -321,17 +214,16 @@ wamp                                    Lance WAMP Serveur.
                     WebClient client = new WebClient();
                     string remoteUri = "https://raw.githubusercontent.com/TheRake66/Cody-PHP/master/version";
                     string lastversion = client.DownloadString(remoteUri);
-                    string currentversion = typeof(Program).Assembly.GetName().Version.ToString();
 
                     // Compare les version
-                    if (lastversion.Equals(currentversion))
+                    if (lastversion.Equals(Program.version))
                         Console.WriteLine("Vous êtes à jour !");
                     else
                         Console.WriteLine($"La version {lastversion} est disponible, utilisez la commande 'rep' pour la télécharger !");
                 }
                 catch (Exception e)
                 {
-                    Messages.writeExcept("Impossible de vérifier les mise à jour !", e);
+                    Message.writeExcept("Impossible de vérifier les mise à jour !", e);
                 }
             }
             else
@@ -351,7 +243,7 @@ wamp                                    Lance WAMP Serveur.
                 }
                 catch (Exception e)
                 {
-                    Messages.writeExcept("Impossible d'ouvrir l'explorateur !", e);
+                    Message.writeExcept("Impossible d'ouvrir l'explorateur !", e);
                 }
             }
             else
@@ -371,7 +263,171 @@ wamp                                    Lance WAMP Serveur.
                 }
                 catch (Exception e)
                 {
-                    Messages.writeExcept("Impossible d'ouvrir Visual Studio Code !", e);
+                    Message.writeExcept("Impossible d'ouvrir Visual Studio Code !", e);
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+
+
+        // Gere wamp
+        public static void runWamp(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                try
+                {
+                    bool founded = false;
+                    string path = "";
+                    string[] folder = new string[] { "wamp64", "wamp" };
+                    string[] name = new string[] { "WAMP 64-bit", "WAMP" };
+
+                    foreach (DriveInfo drive in DriveInfo.GetDrives())
+                    {
+                        if (drive.DriveType == DriveType.Fixed
+                            && drive.IsReady)
+                        {
+                            Console.Write("Lecteur : '");
+                            Message.writeIn(ConsoleColor.DarkYellow, drive.Name);
+                            Console.WriteLine("'...");
+
+                            for (int i = 0; i < folder.Length; i++)
+                            {
+                                string f = $@"{drive.Name}{folder[i]}";
+                                Console.WriteLine($"Vérification du dossier {name[i]}...");
+                                if (Directory.Exists(f))
+                                {
+                                    path = f;
+                                    founded = true;
+                                    break;
+                                }
+                            }
+
+                            if (founded) break;
+                        }
+                    }
+
+                    if (founded)
+                    {
+                        // Change le dossier
+                        try
+                        {
+                            Directory.SetCurrentDirectory($@"{path}\www");
+                            Console.WriteLine("Chemin WAMP trouvé.");
+                        }
+                        catch (Exception e)
+                        {
+                            Message.writeExcept("Impossible de définir le dossier WAMP !", e);
+                        }
+                        // Lance wamp
+                        try
+                        {
+                            Process.Start($@"{path}\wampmanager.exe");
+                            Console.WriteLine("WAMP lancé.");
+                        }
+                        catch (Exception e)
+                        {
+                            Message.writeExcept("Impossible de lancer WAMP !", e);
+                        }
+                    }
+                    else
+                        Console.WriteLine("Aucun dossier WAMP.");
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Impossible de récupérer la liste des lecteur !", e);
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+
+
+        // Liste les projets du dossier courant
+        public static void listProjet(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                try
+                {
+                    // Recupere tous les dossier du dossier courant
+                    string[] dirs = Directory.GetDirectories(Directory.GetCurrentDirectory());
+
+                    if (dirs.Length > 0)
+                    {
+                        int count = 0;
+                        Console.WriteLine("Nom                      Fichier   Taille         Version        Crée le                  Par");
+                        Console.WriteLine("-------------------------------------------------------------------------------------------------------------");
+
+                        foreach (string dir in dirs)
+                        {
+                            // Si ca contient un index.php c'est un projet
+                            string f = $@"{dir}\cody.json";
+                            if (File.Exists(f))
+                            {
+                                Console.SetCursorPosition(0, Console.CursorTop);
+                                Message.writeIn(ConsoleColor.Magenta, Path.GetFileName(dir));
+
+                                // Calcule ne nb de fichier et la taille total
+                                try
+                                {
+                                    long[] data = Librairie.getCountAndSizeFolder(dir);
+
+                                    Console.SetCursorPosition(25, Console.CursorTop);
+                                    Console.Write(data[0]);
+                                    Console.SetCursorPosition(35, Console.CursorTop);
+                                    Console.Write(data[1]);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                    Console.SetCursorPosition(25, Console.CursorTop);
+                                    Message.writeIn(ConsoleColor.DarkRed, "Erreur");
+                                    Console.SetCursorPosition(35, Console.CursorTop);
+                                    Message.writeIn(ConsoleColor.DarkRed, "Erreur");
+                                }
+
+                                // Recupere les info de version du projet
+                                try
+                                {
+                                    string json = File.ReadAllText(f);
+                                    Information inf = JsonConvert.DeserializeObject<Information>(json);
+
+                                    Console.SetCursorPosition(50, Console.CursorTop);
+                                    Message.writeIn(inf.version == Program.version ? ConsoleColor.Green : ConsoleColor.DarkYellow, inf.version);
+                                    Console.SetCursorPosition(65, Console.CursorTop);
+                                    Console.Write(inf.creation.ToString());
+                                    Console.SetCursorPosition(90, Console.CursorTop);
+                                    Console.Write(inf.createur);
+                                }
+                                catch
+                                {
+
+                                    Console.SetCursorPosition(50, Console.CursorTop);
+                                    Message.writeIn(ConsoleColor.DarkRed, "Erreur");
+                                    Console.SetCursorPosition(65, Console.CursorTop);
+                                    Message.writeIn(ConsoleColor.DarkRed, "Erreur");
+                                    Console.SetCursorPosition(90, Console.CursorTop);
+                                    Message.writeIn(ConsoleColor.DarkRed, "Erreur");
+                                }
+
+                                Console.WriteLine();
+                                count++;
+                            }
+                        }
+
+                        if (count > 0)
+                            Console.WriteLine("Listage terminé.");
+                        else
+                            Console.WriteLine("Heuuu, il n'y a aucun projet dans ce dossier...");
+                    }
+                    else
+                        Console.WriteLine("Heuuu, il n'y a aucun dossier...");
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Impossible de lister les projets !", e);
                 }
             }
             else
@@ -390,8 +446,9 @@ wamp                                    Lance WAMP Serveur.
                 // Fichiers ou l'on rajoute le nom
                 string[] toedit = new string[]
                 {
-                    @"index.php",
+                    "index.php",
                     @"vues\accueil.php",
+                    "database.json"
                 };
 
                 if (!Directory.Exists(name))
@@ -429,12 +486,12 @@ wamp                                    Lance WAMP Serveur.
                                                 Directory.CreateDirectory(path);
 
                                                 Console.Write("Dossier : '");
-                                                Messages.writeIn(ConsoleColor.Magenta, file);
+                                                Message.writeIn(ConsoleColor.Magenta, file);
                                                 Console.WriteLine("'. Dossier ajouté.");
                                             }
                                             catch (Exception e)
                                             {
-                                                Messages.writeExcept("Impossible d'ajouter le dossier !", e);
+                                                Message.writeExcept("Impossible d'ajouter le dossier !", e);
                                             }
                                         }
                                         // Si c'est un fichier
@@ -444,11 +501,11 @@ wamp                                    Lance WAMP Serveur.
                                             {
                                                 // Extrait le fichier de l'archive
                                                 ent.ExtractToFile(path);
-;
+                                                ;
                                                 Console.Write("Fichier : '");
-                                                Messages.writeIn(ConsoleColor.DarkGreen, file);
+                                                Message.writeIn(ConsoleColor.DarkGreen, file);
                                                 Console.Write("'. Extraction du fichier, ");
-                                                Messages.writeIn(ConsoleColor.DarkYellow, new FileInfo(path).Length);
+                                                Message.writeIn(ConsoleColor.DarkYellow, new FileInfo(path).Length);
                                                 Console.WriteLine(" octet(s) au total.");
 
                                                 if (toedit.Contains(file))
@@ -458,17 +515,16 @@ wamp                                    Lance WAMP Serveur.
                                                         // Modifie le fichier
                                                         File.WriteAllText(path, File.ReadAllText(path).Replace("{PROJECT_NAME}", name));
                                                         Console.WriteLine("Édition du fichier terminé.");
-
                                                     }
                                                     catch (Exception e)
                                                     {
-                                                        Messages.writeExcept("Impossible d'éditer le fichier !", e);
+                                                        Message.writeExcept("Impossible d'éditer le fichier !", e);
                                                     }
                                                 }
                                             }
                                             catch (Exception e)
                                             {
-                                                Messages.writeExcept("Impossible d'extraire le fichier !", e);
+                                                Message.writeExcept("Impossible d'extraire le fichier !", e);
                                             }
                                         }
                                     }
@@ -479,28 +535,48 @@ wamp                                    Lance WAMP Serveur.
                                     // Supprime l'archive
                                     Console.WriteLine("Suppression de l'archive...");
                                     File.Delete(zip);
-                                    Console.WriteLine("Archive supprimée");
+                                    Console.WriteLine("Archive supprimée.");
                                 }
                                 catch (Exception e)
                                 {
-                                    Messages.writeExcept("Impossible de supprimer l'archive !", e);
+                                    Message.writeExcept("Impossible de supprimer l'archive !", e);
+                                }
+
+                                try
+                                {
+                                    // Creer le cody json
+                                    Console.WriteLine("Création du fichier d'information pour Cody-PHP...");
+
+                                    Information inf = new Information();
+                                    inf.createur = Environment.UserName;
+                                    inf.version = Program.version;
+                                    inf.creation = DateTime.Now;
+
+                                    string json = JsonConvert.SerializeObject(inf, Formatting.Indented);
+                                    File.WriteAllText($@"{name}\cody.json", json);
+
+                                    Console.WriteLine("Fichier d'information crée.");
+                                }
+                                catch (Exception e)
+                                {
+                                    Message.writeExcept("Impossible de créer le fichier d'information pour Cody-PHP !", e);
                                 }
 
                                 Console.WriteLine("Le projet a été crée.");
                             }
                             catch (Exception e)
                             {
-                                Messages.writeExcept("Impossible d'extraire l'archive !", e);
+                                Message.writeExcept("Impossible d'extraire l'archive !", e);
                             }
                         }
                         catch (Exception e)
                         {
-                            Messages.writeExcept("Impossible de créer le dossier du projet !", e);
+                            Message.writeExcept("Impossible de créer le dossier du projet !", e);
                         }
                     }
                     catch (Exception e)
                     {
-                        Messages.writeExcept("Impossible de créer le dossier du projet !", e);
+                        Message.writeExcept("Impossible de créer le dossier du projet !", e);
                     }
                 }
                 else
@@ -516,37 +592,10 @@ wamp                                    Lance WAMP Serveur.
         // ########################################################################
 
 
-        // Gere un serveur
-        public static void gestServeur(string[] cmd)
-        {
-            /*
-            try
-            {
-                // Reunis chaque arguments en array vers un string
-                string arlin = "";
-                foreach (string a in cmd)
-                    arlin += $"{a} ";
-
-                // Demarre en syncrone git
-                ProcessStartInfo inf = new ProcessStartInfo
-                {
-                    FileName = "git.exe",
-                    Arguments = arlin,
-                    UseShellExecute = false,
-                };
-                Process.Start(inf).WaitForExit();
-            }
-            catch (Exception e)
-            {
-                Messages.writeError("git", "Impossible d'exécuter la commande git !", e);
-            }*/
-        }
-
-
         // Gere les objets
         public static void gestObjet(string[] cmd)
         {
-            if (cmd.Length >= 2 && cmd.Length <= 4)
+            if (cmd.Length >= 1 && cmd.Length <= 3)
             {
                 // Recupere tous les arguments possible
                 string projet = cmd[0];
@@ -568,263 +617,64 @@ wamp                                    Lance WAMP Serveur.
                 string[] exclu = { "dBConnex.php", "param.php" }; // Fichier exclue du listage
 
                 // Si le projet existe
-                if (Directory.Exists(projet))
+                if (File.Exists("cody.json"))
                 {
-                    // ***************************************************
-                    // Ajoute un objet
-                    if (arg == "-a")
-                    {
-                        if (cmd.Length == 3)
-                        {
-                            string zip = $@"{projet}\base_objet.zip";
-
-                            try
-                            {
-                                // Extrait l'archive des ressources
-                                Console.WriteLine("Extraction de l'archive...");
-                                File.WriteAllBytes(zip, Resources.base_objet);
-
-                                try
-                                {
-                                    // Ouvre l'archive
-                                    Console.WriteLine("Extraction des fichiers...");
-                                    using (ZipArchive arc = ZipFile.OpenRead(zip))
-                                    {
-                                        // Parcours l'archive
-                                        for (int i = 0; i < arc.Entries.Count; i++)
-                                        {
-                                            string path = $@"{projet}\{ordre[i]}";
-
-                                            // Si l'objet existe pas
-                                            if (!File.Exists(path))
-                                            {
-                                                try
-                                                {
-                                                    // Extrait l'objet
-                                                    arc.Entries[i].ExtractToFile(path);
-
-                                                    Messages.writeFull(Messages.Type.Objet, ordre[i], "Extraction du fichier terminé.");
-
-                                                    try
-                                                    {
-                                                        // Modifie l'objet
-                                                        File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
-
-                                                        Messages.write(Messages.Type.Edition, ordre[i]);
-                                                        Console.Write("Edition du fichier,");
-                                                        Messages.writeData(new FileInfo(path).Length);
-                                                        Console.WriteLine("octet(s) modifié.");
-                                                    }
-                                                    catch (Exception e)
-                                                    {
-                                                        Messages.writeError(ordre[i], "Impossible d'éditer le fichier !", e);
-                                                    }
-                                                }
-                                                catch (Exception e)
-                                                {
-                                                    Messages.writeError(zip, "Impossible d'extraire le fichier !", e);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                Messages.writeWarn(zip, "Le fichier existe déjà !");
-                                            }
-                                        }
-                                    }
-
-
-                                    try
-                                    {
-                                        // Supprime l'archive
-                                        Console.WriteLine("Suppression de l'archive...");
-                                        File.Delete(zip);
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Messages.writeError(zip, "Impossible de supprimer l'archive !", e);
-                                    }
-
-
-                                    Console.WriteLine("L'objet a été ajouté.");
-                                }
-                                catch (Exception e)
-                                {
-                                    Messages.writeError(zip, "Impossible d'ouvrir l'archive !", e);
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Messages.writeError(zip, "Impossible d'extraire l'archive !", e);
-                            }
-                        }
-                        else if (cmd.Length < 3)
-                            Console.WriteLine("Problème, le nom du nouvel objet est attendu !");
-                        else
-                            Console.WriteLine("Problème, seul le nom du nouvel objet est attendu !");
-                    }
-                    // ***************************************************
-                    // Supprime un objet
-                    else if (arg == "-s")
-                    {
-                        if (cmd.Length == 3)
-                        {
-                            Console.WriteLine("Suppression des fichiers...");
-
-                            foreach (string f in ordre)
-                            {
-                                string path = $@"{projet}\{f}";
-
-                                // Si l'objet exist
-                                if (File.Exists(path))
-                                {
-                                    try
-                                    {
-                                        // Supprime le fichier
-                                        File.Delete(path);
-
-                                        Messages.writeFull(Messages.Type.Fichier, f, "Suppression du fichier terminé.");
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Messages.writeError(f, "Impossible de supprimer le fichier !", e);
-                                    }
-                                }
-                                else
-                                {
-                                    Messages.writeWarn(f, "Impossible de trouver le fichier !");
-                                }
-                            }
-
-                            Console.WriteLine("L'objet a été supprimé.");
-                        }
-                        else if (cmd.Length < 3)
-                            Console.WriteLine("Problème, le nom d'un objet est attendu !");
-                        else
-                            Console.WriteLine("Problème, seul le nom d'un objet est attendu !");
-                    }
-                    // ***************************************************
-                    // Renomme un objet
-                    else if (arg == "-r")
-                    {
-                        if (cmd.Length == 4)
-                        {
-                            Console.WriteLine("Renommage des fichiers...");
-                            
-                            foreach (string f in ordre)
-                            {
-                                string path = $@"{projet}\{f}";
-                                string newpath = $@"{projet}\{f.Replace(upp, newupp)}";
-
-                                // Si l'objet existe
-                                if (File.Exists(path))
-                                {
-                                    try
-                                    {
-                                        // Renomme le fichier
-                                        File.Move(path, newpath);
-                                        Messages.writeFull(Messages.Type.Objet, f, "Renommage du fichier terminé.");
-
-                                        try
-                                        {
-                                            // Modifie l'objet
-                                            File.WriteAllText(newpath, File.ReadAllText(newpath).Replace(upp, newupp));
-                                            Messages.writeFull(Messages.Type.Edition, f, "Edition du fichier terminée.");
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            Messages.writeError(f, "Impossible d'éditer le fichier !", e);
-                                        }
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Messages.writeError(f, "Impossible de renommer le fichier !", e);
-                                    }
-                                }
-                                else
-                                {
-                                    Messages.writeWarn(f, "Le fichier est introuvable.");
-                                }
-                            }
-
-                            Console.WriteLine("L'objet a été renommé.");
-                        }
-                        else if (cmd.Length < 4)
-                            Console.WriteLine("Problème, le nom d'un objet et son nouveau nom sont attendus !");
-                        else
-                            Console.WriteLine("Problème, seul le nom d'un objet et son nouveau nom sont attendus !");
-                    }
-                    // ***************************************************
-                    // Liste les objets
-                    else if (arg == "-l")
-                    {
-                        if (cmd.Length == 2)
-                        {
-                            try
-                            {
-                                // Contient le nom de l'objet en cle et un tableau en valeur
-                                // [0] nombre de fichier
-                                // [1] taille total
-                                Dictionary<string, long[]> trouve = new Dictionary<string, long[]>();
-
-                                foreach (string d in ordre)
-                                {
-                                    // Parcours chaque fichier de chaque dossier
-                                    foreach (string f in Directory.GetFiles(Path.GetDirectoryName($@"{projet}\{d}")))
-                                    {
-                                        // Si c'est un php et que ca n'est pas un fichier exclu
-                                        if (Path.GetExtension(f).ToLower() == ".php" && !exclu.Contains(Path.GetFileName(f)))
-                                        {
-                                            // Retire les 3 premiere lettre du fichier
-                                            string obj = Path.GetFileNameWithoutExtension(f).Substring(3);
-
-                                            // Si deja trouver
-                                            if (trouve.Keys.Contains(obj))
-                                            {
-                                                // Inscremente les valeurs
-                                                trouve[obj][0]++;
-                                                trouve[obj][1] += new FileInfo(f).Length;
-                                            }
-                                            else
-                                            {
-                                                // Creer les valeurs
-                                                trouve.Add(obj, new long[] { 1, new FileInfo(f).Length });
-                                            }
-                                        }
-                                    }
-                                }
-
-                                // Affiche les resultats
-                                foreach (string k in trouve.Keys)
-                                {
-                                    Messages.write(Messages.Type.Objet, k);
-                                    Console.Write("Objet trouvé,");
-                                    Messages.writeData(trouve[k][0]);
-                                    Console.Write("fichier(s) faisant");
-                                    Messages.writeData(trouve[k][1]);
-                                    Console.WriteLine("octet(s).");
-                                }
-
-                            }
-                            catch (Exception e)
-                            {
-                                Messages.writeError(projet, "Impossible de lister les objets !", e);
-                            }
-                        }
-                        else
-                            Console.WriteLine("Problème, aucun argument n'est attendu !");
-                    }
-                    // ***************************************************
-                    else
-                        Console.WriteLine("Le type d'action doit être '-a' pour ajouter, '-r' pour renommer, '-l' pour lister, ou '-s' pour supprimer.");
                 }
                 else
-                    Console.WriteLine("Heuu, le projet n'existe pas...");
+                    Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
             }
             else if (cmd.Length > 4 )
                 Console.WriteLine("Problème, trop d'arguments ont été données !");
             else
-                Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouvel objet !");
+                Console.WriteLine("Problème, il manque le type d'action, le nom, et le nouveau nom du nouvel objet !");
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // Gere les objets
@@ -898,31 +748,31 @@ wamp                                    Lance WAMP Serveur.
                                                     // Extrait le composant
                                                     arc.Entries[i].ExtractToFile(path);
 
-                                                    Messages.writeFull(Messages.Type.Composant, ordre[i], "Extraction du fichier terminé.");
+                                                    Message.writeFull(Message.Type.Composant, ordre[i], "Extraction du fichier terminé.");
 
                                                     try
                                                     {
                                                         // Modifie le composant
                                                         File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
 
-                                                        Messages.write(Messages.Type.Edition, ordre[i]);
+                                                        Message.write(Message.Type.Edition, ordre[i]);
                                                         Console.Write("Edition du fichier,");
-                                                        Messages.writeData(new FileInfo(path).Length);
+                                                        Message.writeData(new FileInfo(path).Length);
                                                         Console.WriteLine("octet(s) modifié.");
                                                     }
                                                     catch (Exception e)
                                                     {
-                                                        Messages.writeError(ordre[i], "Impossible d'éditer le fichier !", e);
+                                                        Message.writeError(ordre[i], "Impossible d'éditer le fichier !", e);
                                                     }
                                                 }
                                                 catch (Exception e)
                                                 {
-                                                    Messages.writeError(zip, "Impossible d'extraire le fichier !", e);
+                                                    Message.writeError(zip, "Impossible d'extraire le fichier !", e);
                                                 }
                                             }
                                             else
                                             {
-                                                Messages.writeWarn(zip, "Le fichier existe déjà !");
+                                                Message.writeWarn(zip, "Le fichier existe déjà !");
                                             }
                                         }
                                     }
@@ -936,7 +786,7 @@ wamp                                    Lance WAMP Serveur.
                                     }
                                     catch (Exception e)
                                     {
-                                        Messages.writeError(zip, "Impossible de supprimer l'archive !", e);
+                                        Message.writeError(zip, "Impossible de supprimer l'archive !", e);
                                     }
 
 
@@ -944,12 +794,12 @@ wamp                                    Lance WAMP Serveur.
                                 }
                                 catch (Exception e)
                                 {
-                                    Messages.writeError(zip, "Impossible d'ouvrir l'archive !", e);
+                                    Message.writeError(zip, "Impossible d'ouvrir l'archive !", e);
                                 }
                             }
                             catch (Exception e)
                             {
-                                Messages.writeError(zip, "Impossible d'extraire l'archive !", e);
+                                Message.writeError(zip, "Impossible d'extraire l'archive !", e);
                             }
                         }
                         else if (cmd.Length < 3)
@@ -977,16 +827,16 @@ wamp                                    Lance WAMP Serveur.
                                         // Supprime le fichier
                                         File.Delete(path);
 
-                                        Messages.writeFull(Messages.Type.Fichier, f, "Suppression du fichier terminé.");
+                                        Message.writeFull(Message.Type.Fichier, f, "Suppression du fichier terminé.");
                                     }
                                     catch (Exception e)
                                     {
-                                        Messages.writeError(f, "Impossible de supprimer le fichier !", e);
+                                        Message.writeError(f, "Impossible de supprimer le fichier !", e);
                                     }
                                 }
                                 else
                                 {
-                                    Messages.writeWarn(f, "Impossible de trouver le fichier !");
+                                    Message.writeWarn(f, "Impossible de trouver le fichier !");
                                 }
                             }
 
@@ -1017,27 +867,27 @@ wamp                                    Lance WAMP Serveur.
                                     {
                                         // Renomme le fichier
                                         File.Move(path, newpath);
-                                        Messages.writeFull(Messages.Type.Composant, f, "Renommage du fichier terminé.");
+                                        Message.writeFull(Message.Type.Composant, f, "Renommage du fichier terminé.");
 
                                         try
                                         {
                                             // Modifie le composant
                                             File.WriteAllText(newpath, File.ReadAllText(newpath).Replace(upp, newupp));
-                                            Messages.writeFull(Messages.Type.Edition, f, "Edition du fichier terminée.");
+                                            Message.writeFull(Message.Type.Edition, f, "Edition du fichier terminée.");
                                         }
                                         catch (Exception e)
                                         {
-                                            Messages.writeError(f, "Impossible d'éditer le fichier !", e);
+                                            Message.writeError(f, "Impossible d'éditer le fichier !", e);
                                         }
                                     }
                                     catch (Exception e)
                                     {
-                                        Messages.writeError(f, "Impossible de renommer le fichier !", e);
+                                        Message.writeError(f, "Impossible de renommer le fichier !", e);
                                     }
                                 }
                                 else
                                 {
-                                    Messages.writeWarn(f, "Le fichier est introuvable.");
+                                    Message.writeWarn(f, "Le fichier est introuvable.");
                                 }
                             }
 
@@ -1092,18 +942,18 @@ wamp                                    Lance WAMP Serveur.
                                 // Affiche les resultats
                                 foreach (string k in trouve.Keys)
                                 {
-                                    Messages.write(Messages.Type.Composant, k);
+                                    Message.write(Message.Type.Composant, k);
                                     Console.Write("Composant trouvé,");
-                                    Messages.writeData(trouve[k][0]);
+                                    Message.writeData(trouve[k][0]);
                                     Console.Write("fichier(s) faisant");
-                                    Messages.writeData(trouve[k][1]);
+                                    Message.writeData(trouve[k][1]);
                                     Console.WriteLine("octet(s).");
                                 }
 
                             }
                             catch (Exception e)
                             {
-                                Messages.writeError(projet, "Impossible de lister les composants !", e);
+                                Message.writeError(projet, "Impossible de lister les composants !", e);
                             }
                         }
                         else

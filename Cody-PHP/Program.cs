@@ -11,35 +11,40 @@ namespace Cody_PHP
 {
     class Program
     {
+        // Recupere la version du exe
+        public static string version = typeof(Program).Assembly.GetName().Version.ToString();
+
 
         // Point d'entree
         static void Main(string[] args)
         {
             // --------------------------
             // Nettoie si jamais l'user l'a lancer via commande
-            Console.Clear(); 
+            Console.Clear();
 
             // Entete
-            Messages.writeIn(ConsoleColor.Blue, @"
+            Message.writeIn(ConsoleColor.Blue, @"
 
-                     ██████╗ ██████╗ ██████╗ ██╗   ██╗     ██████╗ ██╗  ██╗██████╗ 
-                    ██╔════╝██╔═══██╗██╔══██╗╚██╗ ██╔╝     ██╔══██╗██║  ██║██╔══██╗
-                    ██║     ██║   ██║██║  ██║ ╚████╔╝█████╗██████╔╝███████║██████╔╝
-                    ██║     ██║   ██║██║  ██║  ╚██╔╝ ╚════╝██╔═══╝ ██╔══██║██╔═══╝ 
-                    ╚██████╗╚██████╔╝██████╔╝   ██║        ██║     ██║  ██║██║     
-                     ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝        ╚═╝     ╚═╝  ╚═╝╚═╝                                                              
+                     ██████╗                                  ██████╗ ██╗  ██╗██████╗ 
+                    ██╔════╝ ██████╗ ██████╗ ██╗   ██╗        ██╔══██╗██║  ██║██╔══██╗
+                    ██║     ██╔═══██╗██╔══██╗╚██╗ ██╔╝ █████╗ ██████╔╝███████║██████╔╝
+                    ██║     ██║   ██║██║  ██║ ╚████╔╝  ╚════╝ ██╔═══╝ ██╔══██║██╔═══╝ 
+                    ╚██████╗╚██████╔╝██████╔╝  ╚██╔╝          ██║     ██║  ██║██║     
+                     ╚═════╝ ╚═════╝ ╚═════╝   ██╔╝           ╚═╝     ╚═╝  ╚═╝╚═╝
+                                              ██╔╝
+                                              ╚═╝
 ");
 
-            Messages.writeIn(ConsoleColor.DarkRed, @"
+            Message.writeIn(ConsoleColor.DarkRed, @"
                                       ░░░▒▒▓▓ Cody-PHP ▓▓▒▒░░░");
 
-            Messages.writeLineIn(ConsoleColor.DarkYellow, @"
-                                 Version 1.0.0.0 du 20 octobre 2021
+            Message.writeLineIn(ConsoleColor.DarkYellow, $@"
+                                 Version {version} du 20 octobre 2021
                            Copyright © 2021 - Thibault BUSTOS (TheRake66)");
 
-            Console.ResetColor();
             Console.WriteLine(@"
- Utilisez la commande 'aide' pour voir la liste des commandes.");
+
+Utilisez la commande 'aide' pour voir la liste des commandes.");
             // --------------------------
 
             while (true)
@@ -49,16 +54,16 @@ namespace Cody_PHP
                 Console.WriteLine();
 
                 // Change le prompt
-                Messages.writeIn(ConsoleColor.DarkRed, "┌──┤");
-                Messages.writeIn(ConsoleColor.Cyan, Environment.UserName);
-                Messages.writeIn(ConsoleColor.DarkYellow, "@");
-                Messages.writeIn(ConsoleColor.Blue, Environment.MachineName);
-                Messages.writeIn(ConsoleColor.DarkRed, "├─┤");
-                Messages.writeIn(ConsoleColor.DarkGreen, Directory.GetCurrentDirectory());
-                Messages.writeLineIn(ConsoleColor.DarkRed, "│ ");
+                Message.writeIn(ConsoleColor.DarkRed, "┌──┤");
+                Message.writeIn(ConsoleColor.Cyan, Environment.UserName);
+                Message.writeIn(ConsoleColor.DarkYellow, "@");
+                Message.writeIn(ConsoleColor.Blue, Environment.MachineName);
+                Message.writeIn(ConsoleColor.DarkRed, "├─┤");
+                Message.writeIn(ConsoleColor.DarkGreen, Directory.GetCurrentDirectory());
+                Message.writeLineIn(ConsoleColor.DarkRed, "│ ");
 
-                Messages.writeIn(ConsoleColor.DarkRed, "└────►");
-                Messages.writeIn(ConsoleColor.DarkYellow, " $");
+                Message.writeIn(ConsoleColor.DarkRed, "└────►");
+                Message.writeIn(ConsoleColor.DarkYellow, " $");
                 Console.ResetColor();
                 Console.Write(": ");
 
@@ -76,59 +81,59 @@ namespace Cody_PHP
                     switch (cmd)
                     {
                         case "aide":
-                            Commandes.aideCom(argm);
+                            Commande.aideCom(argm);
                             break;
 
                         case "cd":
-                            Commandes.changeDir(argm);
+                            Commande.changeDir(argm);
                             break;
 
                         case "cls":
-                            Commandes.clearCons(argm);
+                            Commande.clearCons(argm);
                             break;
 
                         case "com":
-                            Commandes.gestComposant(argm);
+                            Commande.gestComposant(argm);
                             break;
 
                         case "die":
-                            Commandes.quitterApp(argm);
+                            Commande.quitterApp(argm);
                             break;
 
                         case "dl":
-                            Commandes.downFile(argm);
+                            Commande.downFile(argm);
                             break;
 
                         case "exp":
-                            Commandes.openExplorer(argm);
+                            Commande.openExplorer(argm);
                             break;
 
                         case "ls":
-                            Commandes.listProjet(argm);
+                            Commande.listProjet(argm);
                             break;
 
                         case "maj":
-                            Commandes.verifMAJ(argm);
+                            Commande.verifMAJ(argm);
                             break;
 
                         case "new":
-                            Commandes.creerProjet(argm);
+                            Commande.creerProjet(argm);
                             break;
 
                         case "obj":
-                            Commandes.gestObjet(argm);
+                            Commande.gestObjet(argm);
                             break;
 
                         case "rep":
-                            Commandes.openRepo(argm);
-                            break;
-
-                        case "srv":
-                            Commandes.gestServeur(argm);
+                            Commande.openRepo(argm);
                             break;
 
                         case "vs":
-                            Commandes.openVSCode(argm);
+                            Commande.openVSCode(argm);
+                            break;
+
+                        case "wamp":
+                            Commande.runWamp(argm);
                             break;
 
                         default:

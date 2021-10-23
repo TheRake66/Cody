@@ -9,7 +9,8 @@ class Security {
     /**
      * Genere une chaine aleatoire de taille n
      * 
-     * @param int Taille de la chaine
+     * @param int taille de la chaine
+     * @return string chaine aleatoire
      */
 	public static function genererRandom($nbLetters) {
 		$randString = '';
