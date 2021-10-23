@@ -9,6 +9,7 @@ namespace Cody_PHP
     class Information
     {
 
+        // Informations contenues dans cody.json
         public string version;
         public DateTime creation;
         public string createur;

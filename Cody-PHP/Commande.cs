@@ -363,56 +363,10 @@ wamp                                        Lance WAMP Serveur et défini le dos
                         foreach (string dir in dirs)
                         {
                             // Si ca contient un index.php c'est un projet
-                            string f = $@"{dir}\cody.json";
+                            string f = $@"{dir}\project.json";
                             if (File.Exists(f))
                             {
-                                Console.SetCursorPosition(0, Console.CursorTop);
-                                Message.writeIn(ConsoleColor.Magenta, Path.GetFileName(dir));
-
-                                // Calcule ne nb de fichier et la taille total
-                                try
-                                {
-                                    long[] data = Librairie.getCountAndSizeFolder(dir);
-
-                                    Console.SetCursorPosition(25, Console.CursorTop);
-                                    Console.Write(data[0]);
-                                    Console.SetCursorPosition(35, Console.CursorTop);
-                                    Console.Write(data[1]);
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine(e.Message);
-                                    Console.SetCursorPosition(25, Console.CursorTop);
-                                    Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                                    Console.SetCursorPosition(35, Console.CursorTop);
-                                    Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                                }
-
-                                // Recupere les info de version du projet
-                                try
-                                {
-                                    string json = File.ReadAllText(f);
-                                    Information inf = JsonConvert.DeserializeObject<Information>(json);
-
-                                    Console.SetCursorPosition(50, Console.CursorTop);
-                                    Message.writeIn(inf.version == Program.version ? ConsoleColor.Green : ConsoleColor.DarkYellow, inf.version);
-                                    Console.SetCursorPosition(65, Console.CursorTop);
-                                    Console.Write(inf.creation.ToString());
-                                    Console.SetCursorPosition(90, Console.CursorTop);
-                                    Console.Write(inf.createur);
-                                }
-                                catch
-                                {
-
-                                    Console.SetCursorPosition(50, Console.CursorTop);
-                                    Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                                    Console.SetCursorPosition(65, Console.CursorTop);
-                                    Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                                    Console.SetCursorPosition(90, Console.CursorTop);
-                                    Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                                }
-
-                                Console.WriteLine();
+                                calculerProjet(dir, f);
                                 count++;
                             }
                         }
@@ -433,6 +387,56 @@ wamp                                        Lance WAMP Serveur et défini le dos
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
+        private static void calculerProjet(string dir, string file)
+        {
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Message.writeIn(ConsoleColor.Magenta, Path.GetFileName(dir));
+
+            // Calcule ne nb de fichier et la taille total
+            try
+            {
+                long[] data = Librairie.getCountAndSizeFolder(dir);
+
+                Console.SetCursorPosition(25, Console.CursorTop);
+                Console.Write(data[0]);
+                Console.SetCursorPosition(35, Console.CursorTop);
+                Console.Write(data[1]);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.SetCursorPosition(25, Console.CursorTop);
+                Message.writeIn(ConsoleColor.DarkRed, "Erreur");
+                Console.SetCursorPosition(35, Console.CursorTop);
+                Message.writeIn(ConsoleColor.DarkRed, "Erreur");
+            }
+
+            // Recupere les info de version du projet
+            try
+            {
+                string json = File.ReadAllText(file);
+                Information inf = JsonConvert.DeserializeObject<Information>(json);
+
+                Console.SetCursorPosition(50, Console.CursorTop);
+                Message.writeIn(inf.version == Program.version ? ConsoleColor.Green : ConsoleColor.DarkYellow, inf.version);
+                Console.SetCursorPosition(65, Console.CursorTop);
+                Console.Write(inf.creation.ToString());
+                Console.SetCursorPosition(90, Console.CursorTop);
+                Console.Write(inf.createur);
+            }
+            catch
+            {
+
+                Console.SetCursorPosition(50, Console.CursorTop);
+                Message.writeIn(ConsoleColor.DarkRed, "Erreur");
+                Console.SetCursorPosition(65, Console.CursorTop);
+                Message.writeIn(ConsoleColor.DarkRed, "Erreur");
+                Console.SetCursorPosition(90, Console.CursorTop);
+                Message.writeIn(ConsoleColor.DarkRed, "Erreur");
+            }
+
+            Console.WriteLine();
+        }
 
 
         // Creer un nouveau projet
@@ -443,142 +447,8 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 // Verifi si projet existe deja
                 string name = cmd[0];
 
-                // Fichiers ou l'on rajoute le nom
-                string[] toedit = new string[]
-                {
-                    "index.php",
-                    @"vues\accueil.php",
-                    "database.json"
-                };
-
                 if (!Directory.Exists(name))
-                {
-                    try
-                    {
-                        // Creer le dossier du projet
-                        Console.WriteLine("Création du dossier du projet...");
-                        Directory.CreateDirectory(name);
-
-                        try
-                        {
-                            // Extrait l'archive des ressouces
-                            Console.WriteLine("Extraction de l'archive...");
-                            string zip = $@"{name}\projet_base.zip";
-                            File.WriteAllBytes(zip, Resources.base_projet);
-
-                            try
-                            {
-                                // Ouvre l'archive
-                                using (ZipArchive arc = ZipFile.OpenRead(zip))
-                                {
-                                    // Parcour chaque entree
-                                    foreach (ZipArchiveEntry ent in arc.Entries)
-                                    {
-                                        string path = Path.Combine(name, ent.FullName); // projet\entry
-                                        string file = ent.FullName.Replace('/', '\\');
-
-                                        // Si c'est un dossier
-                                        if (ent.FullName.EndsWith("/"))
-                                        {
-                                            try
-                                            {
-                                                // Creer le dossier
-                                                Directory.CreateDirectory(path);
-
-                                                Console.Write("Dossier : '");
-                                                Message.writeIn(ConsoleColor.Magenta, file);
-                                                Console.WriteLine("'. Dossier ajouté.");
-                                            }
-                                            catch (Exception e)
-                                            {
-                                                Message.writeExcept("Impossible d'ajouter le dossier !", e);
-                                            }
-                                        }
-                                        // Si c'est un fichier
-                                        else
-                                        {
-                                            try
-                                            {
-                                                // Extrait le fichier de l'archive
-                                                ent.ExtractToFile(path);
-                                                ;
-                                                Console.Write("Fichier : '");
-                                                Message.writeIn(ConsoleColor.DarkGreen, file);
-                                                Console.Write("'. Extraction du fichier, ");
-                                                Message.writeIn(ConsoleColor.DarkYellow, new FileInfo(path).Length);
-                                                Console.WriteLine(" octet(s) au total.");
-
-                                                if (toedit.Contains(file))
-                                                {
-                                                    try
-                                                    {
-                                                        // Modifie le fichier
-                                                        File.WriteAllText(path, File.ReadAllText(path).Replace("{PROJECT_NAME}", name));
-                                                        Console.WriteLine("Édition du fichier terminé.");
-                                                    }
-                                                    catch (Exception e)
-                                                    {
-                                                        Message.writeExcept("Impossible d'éditer le fichier !", e);
-                                                    }
-                                                }
-                                            }
-                                            catch (Exception e)
-                                            {
-                                                Message.writeExcept("Impossible d'extraire le fichier !", e);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                try
-                                {
-                                    // Supprime l'archive
-                                    Console.WriteLine("Suppression de l'archive...");
-                                    File.Delete(zip);
-                                    Console.WriteLine("Archive supprimée.");
-                                }
-                                catch (Exception e)
-                                {
-                                    Message.writeExcept("Impossible de supprimer l'archive !", e);
-                                }
-
-                                try
-                                {
-                                    // Creer le cody json
-                                    Console.WriteLine("Création du fichier d'information pour Cody-PHP...");
-
-                                    Information inf = new Information();
-                                    inf.createur = Environment.UserName;
-                                    inf.version = Program.version;
-                                    inf.creation = DateTime.Now;
-
-                                    string json = JsonConvert.SerializeObject(inf, Formatting.Indented);
-                                    File.WriteAllText($@"{name}\cody.json", json);
-
-                                    Console.WriteLine("Fichier d'information crée.");
-                                }
-                                catch (Exception e)
-                                {
-                                    Message.writeExcept("Impossible de créer le fichier d'information pour Cody-PHP !", e);
-                                }
-
-                                Console.WriteLine("Le projet a été crée.");
-                            }
-                            catch (Exception e)
-                            {
-                                Message.writeExcept("Impossible d'extraire l'archive !", e);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Message.writeExcept("Impossible de créer le dossier du projet !", e);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Message.writeExcept("Impossible de créer le dossier du projet !", e);
-                    }
-                }
+                    creerDossierProjet(name);
                 else
                     Console.WriteLine($"Heuuu, le projet existe déjà, ou un dossier...");
             }
@@ -587,6 +457,166 @@ wamp                                        Lance WAMP Serveur et défini le dos
             else
                 Console.WriteLine("Problème, il manque le nom du nouveau projet !");
         }
+        private static void creerDossierProjet(string nom)
+        {
+            try
+            {
+                // Creer le dossier du projet
+                Console.WriteLine("Création du dossier du projet...");
+                Directory.CreateDirectory(nom);
+
+                extractionArchive(nom);
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de créer le dossier du projet !", e);
+            }
+        }
+        private static void extractionArchive(string nom)
+        {
+            try
+            {
+                // Extrait l'archive des ressouces
+                Console.WriteLine("Extraction de l'archive...");
+                string zip = $@"{nom}\projet_base.zip";
+                File.WriteAllBytes(zip, Resources.base_projet);
+
+                parcoursArchive(zip, nom);
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de créer le dossier du projet !", e);
+            }
+        }
+        private static void parcoursArchive(string zip, string nom)
+        {
+            try
+            {
+                // Ouvre l'archive
+                using (ZipArchive arc = ZipFile.OpenRead(zip))
+                {
+                    // Parcour chaque entree
+                    foreach (ZipArchiveEntry ent in arc.Entries)
+                    {
+                        string path = Path.Combine(nom, ent.FullName); // projet\entry
+                        string file = ent.FullName.Replace('/', '\\');
+
+                        // Si c'est un dossier
+                        if (ent.FullName.EndsWith("/"))
+                        {
+                            extraireDossier(path, file);
+                        }
+                        // Si c'est un fichier
+                        else
+                        {
+                            extraireFichier(ent, path, file, nom);
+                        }
+                    }
+                }
+
+                supprimerArchive(zip);
+                creerJsonProject(nom);
+
+                Console.WriteLine("Le projet a été crée.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'extraire l'archive !", e);
+            }
+        }
+        private static void extraireDossier(string path, string file)
+        {
+            try
+            {
+                // Creer le dossier
+                Directory.CreateDirectory(path);
+
+                Console.Write("Dossier : '");
+                Message.writeIn(ConsoleColor.Magenta, file);
+                Console.WriteLine("'. Dossier ajouté.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'ajouter le dossier !", e);
+            }
+        }
+        private static void extraireFichier(ZipArchiveEntry ent, string path, string file, string name)
+        {
+            try
+            {
+                // Extrait le fichier de l'archive
+                ent.ExtractToFile(path);
+                Console.Write("Fichier : '");
+                Message.writeIn(ConsoleColor.DarkGreen, file);
+                Console.Write("'. Extraction du fichier, ");
+                Message.writeIn(ConsoleColor.DarkYellow, new FileInfo(path).Length);
+                Console.WriteLine(" octet(s) au total.");
+
+                // Fichiers ou l'on rajoute le nom
+                string[] toedit = new string[]
+                {
+                    "index.php",
+                    @"vues\accueil.php",
+                    "database.json"
+                };
+
+                if (toedit.Contains(file))
+                {
+                    try
+                    {
+                        // Modifie le fichier
+                        File.WriteAllText(path, File.ReadAllText(path).Replace("{PROJECT_NAME}", name));
+                        Console.WriteLine("Édition du fichier terminé.");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible d'éditer le fichier !", e);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'extraire le fichier !", e);
+            }
+        }
+        private static void supprimerArchive(string zip)
+        {
+            try
+            {
+                // Supprime l'archive
+                Console.WriteLine("Suppression de l'archive...");
+                File.Delete(zip);
+                Console.WriteLine("Archive supprimée.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de supprimer l'archive !", e);
+            }
+        }
+        private static void creerJsonProject(string name)
+        {
+
+            try
+            {
+                // Creer le cody json
+                Console.WriteLine("Création du fichier d'information du projet...");
+
+                Information inf = new Information();
+                inf.createur = Environment.UserName;
+                inf.version = Program.version;
+                inf.creation = DateTime.Now;
+
+                string json = JsonConvert.SerializeObject(inf, Formatting.Indented);
+                File.WriteAllText($@"{name}\project.json", json);
+
+                Console.WriteLine("Fichier d'information crée.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de créer le fichier d'information du projet !", e);
+            }
+        }
+
 
 
         // ########################################################################
@@ -597,28 +627,67 @@ wamp                                        Lance WAMP Serveur et défini le dos
         {
             if (cmd.Length >= 1 && cmd.Length <= 3)
             {
-                // Recupere tous les arguments possible
-                string projet = cmd[0];
-                string arg = cmd[1];
-
-                string name = cmd.Length >= 3 ? cmd[2] : "";
-                string upp = name.Length > 1 ?
-                    name.Substring(0, 1).ToUpper() + name.Substring(1) :
-                    name.ToUpper();
-
-                string newname = cmd.Length >= 4 ? cmd[3] : "";
-                string newupp = newname.Length > 1 ?
-                    newname.Substring(0, 1).ToUpper() + newname.Substring(1) :
-                    newname.ToUpper();
-
-                string dto = $@"modeles\dto\dto{upp}.php",
-                     dao = $@"modeles\dao\dao{upp}.php";
-                string[] ordre = { dto, dao }; // Ordre des entries de l'archive
-                string[] exclu = { "dBConnex.php", "param.php" }; // Fichier exclue du listage
-
                 // Si le projet existe
-                if (File.Exists("cody.json"))
+                if (File.Exists("project.json"))
                 {
+                    try
+                    {
+                        string json = File.ReadAllText("project.json");
+                        Information inf = JsonConvert.DeserializeObject<Information>(json);
+                        bool continu = true;
+
+                        // Conflit de version
+                        if (inf.version != Program.version)
+                        {
+                            Console.Write("Attention, ce projet est fait pour fonctionner avec la version ");
+                            Message.writeIn(ConsoleColor.DarkYellow, inf.version);
+                            Console.Write(" de Cody-PHP. Vous êtes en version ");
+                            Message.writeIn(ConsoleColor.Green, Program.version);
+                            Console.WriteLine(", cela pourrait créer des problème de compatibilité, voulez vous continuer ?");
+
+                            string rep = null;
+                            do
+                            {
+                                Console.Write("(oui/non) : ");
+                                rep = Console.ReadLine().Trim().ToLower();
+                            }
+                            while (rep != "oui" || rep != "non");
+                            continu = rep == "oui";
+                        }
+
+                        if (continu)
+                        {
+                            switch (cmd[0].ToLower())
+                            {
+                                case "-l":
+                                    listerObj();
+                                    break;
+
+                                case "-r":
+                                    if (cmd.Length == 3) renommerObj(cmd[1], cmd[2]);
+                                    else Console.WriteLine("Il manque le nom et le nouveau nom de l'objet !");
+                                    break;
+
+                                case "-s":
+                                    if (cmd.Length == 2) supprimerObj(cmd[1]);
+                                    else Console.WriteLine("Il manque le nom de l'objet !");
+                                    break;
+
+                                case "-a":
+                                    if (cmd.Length == 2) ajouterObj(cmd[1]);
+                                    else Console.WriteLine("Il manque le nom de l'objet !");
+                                    break;
+
+                                default:
+                                    Console.WriteLine("Le type d'action est invalide !");
+                                    break;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible de lire le fichier d'information de Cody-PHP !", e);
+                    }
                 }
                 else
                     Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
@@ -629,6 +698,24 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 Console.WriteLine("Problème, il manque le type d'action, le nom, et le nouveau nom du nouvel objet !");
         }
 
+        private static void ajouterObj(string nom)
+        {
+
+        }
+        private static void supprimerObj(string nom)
+        {
+
+        }
+
+        private static void listerObj()
+        {
+
+        }
+
+        private static void renommerObj(string nom, string newnom)
+        {
+
+        }
 
 
 
@@ -680,296 +767,6 @@ wamp                                        Lance WAMP Serveur et défini le dos
         // Gere les objets
         public static void gestComposant(string[] cmd)
         {
-            if (cmd.Length >= 2 && cmd.Length <= 4)
-            {
-                // Recupere tous les arguments possible
-                string projet = cmd[0];
-                string arg = cmd[1];
-
-                string name = cmd.Length >= 3 ? cmd[2] : "";
-                string upp = name.Length > 1 ?
-                    name.Substring(0, 1).ToUpper() + name.Substring(1) :
-                    name.ToUpper();
-
-                string newname = cmd.Length >= 4 ? cmd[3] : "";
-                string newupp = newname.Length > 1 ?
-                    newname.Substring(0, 1).ToUpper() + newname.Substring(1) :
-                    newname.ToUpper();
-
-                string con = $@"controleurs\controleur{upp}.php",
-                          vue = $@"vues\vue{upp}.php",
-                          scr = $@"scripts\script{upp}.js",
-                          sty = $@"styles\style{upp}.css";
-                string[] ordre = { scr, vue, con, sty }; // Ordre des entries de l'archive
-                string[] exclu = 
-                { 
-                    "controleurPrincipal.php",
-                    "haut.php",
-                    "bas.php",
-                    "haut.css",
-                    "bas.css",
-                    "haut.js",
-                    "bas.js"
-                }; // Fichier exclue du listage
-
-                // Si le projet existe
-                if (Directory.Exists(projet))
-                {
-                    // ***************************************************
-                    // Ajoute un composant
-                    if (arg == "-a")
-                    {
-                        if (cmd.Length == 3)
-                        {
-                            string zip = $@"{projet}\base_composant.zip";
-
-                            try
-                            {
-                                // Extrait l'archive des ressources
-                                Console.WriteLine("Extraction de l'archive...");
-                                File.WriteAllBytes(zip, Resources.base_composant);
-
-                                try
-                                {
-                                    // Ouvre l'archive
-                                    Console.WriteLine("Extraction des fichiers...");
-                                    using (ZipArchive arc = ZipFile.OpenRead(zip))
-                                    {
-                                        // Parcours l'archive
-                                        for (int i = 0; i < arc.Entries.Count; i++)
-                                        {
-                                            string path = $@"{projet}\{ordre[i]}";
-
-                                            // Si le composant existe pas
-                                            if (!File.Exists(path))
-                                            {
-                                                try
-                                                {
-                                                    // Extrait le composant
-                                                    arc.Entries[i].ExtractToFile(path);
-
-                                                    Message.writeFull(Message.Type.Composant, ordre[i], "Extraction du fichier terminé.");
-
-                                                    try
-                                                    {
-                                                        // Modifie le composant
-                                                        File.WriteAllText(path, File.ReadAllText(path).Replace("{NAME}", upp));
-
-                                                        Message.write(Message.Type.Edition, ordre[i]);
-                                                        Console.Write("Edition du fichier,");
-                                                        Message.writeData(new FileInfo(path).Length);
-                                                        Console.WriteLine("octet(s) modifié.");
-                                                    }
-                                                    catch (Exception e)
-                                                    {
-                                                        Message.writeError(ordre[i], "Impossible d'éditer le fichier !", e);
-                                                    }
-                                                }
-                                                catch (Exception e)
-                                                {
-                                                    Message.writeError(zip, "Impossible d'extraire le fichier !", e);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                Message.writeWarn(zip, "Le fichier existe déjà !");
-                                            }
-                                        }
-                                    }
-
-
-                                    try
-                                    {
-                                        // Supprime l'archive
-                                        Console.WriteLine("Suppression de l'archive...");
-                                        File.Delete(zip);
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Message.writeError(zip, "Impossible de supprimer l'archive !", e);
-                                    }
-
-
-                                    Console.WriteLine("Le composant a été ajouté.");
-                                }
-                                catch (Exception e)
-                                {
-                                    Message.writeError(zip, "Impossible d'ouvrir l'archive !", e);
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Message.writeError(zip, "Impossible d'extraire l'archive !", e);
-                            }
-                        }
-                        else if (cmd.Length < 3)
-                            Console.WriteLine("Problème, le nom du nouveau composant est attendu !");
-                        else
-                            Console.WriteLine("Problème, seul le nom du nouveau composant est attendu !");
-                    }
-                    // ***************************************************
-                    // Supprime un composant
-                    else if (arg == "-s")
-                    {
-                        if (cmd.Length == 3)
-                        {
-                            Console.WriteLine("Suppression des fichiers...");
-
-                            foreach (string f in ordre)
-                            {
-                                string path = $@"{projet}\{f}";
-
-                                // Si le composant exist
-                                if (File.Exists(path))
-                                {
-                                    try
-                                    {
-                                        // Supprime le fichier
-                                        File.Delete(path);
-
-                                        Message.writeFull(Message.Type.Fichier, f, "Suppression du fichier terminé.");
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Message.writeError(f, "Impossible de supprimer le fichier !", e);
-                                    }
-                                }
-                                else
-                                {
-                                    Message.writeWarn(f, "Impossible de trouver le fichier !");
-                                }
-                            }
-
-                            Console.WriteLine("Le composant a été supprimé.");
-                        }
-                        else if (cmd.Length < 3)
-                            Console.WriteLine("Problème, le nom d'un composant est attendu !");
-                        else
-                            Console.WriteLine("Problème, seul le nom d'un composant est attendu !");
-                    }
-                    // ***************************************************
-                    // Renomme un composant
-                    else if (arg == "-r")
-                    {
-                        if (cmd.Length == 4)
-                        {
-                            Console.WriteLine("Renommage des fichiers...");
-                            
-                            foreach (string f in ordre)
-                            {
-                                string path = $@"{projet}\{f}";
-                                string newpath = $@"{projet}\{f.Replace(upp, newupp)}";
-
-                                // Si le composant existe
-                                if (File.Exists(path))
-                                {
-                                    try
-                                    {
-                                        // Renomme le fichier
-                                        File.Move(path, newpath);
-                                        Message.writeFull(Message.Type.Composant, f, "Renommage du fichier terminé.");
-
-                                        try
-                                        {
-                                            // Modifie le composant
-                                            File.WriteAllText(newpath, File.ReadAllText(newpath).Replace(upp, newupp));
-                                            Message.writeFull(Message.Type.Edition, f, "Edition du fichier terminée.");
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            Message.writeError(f, "Impossible d'éditer le fichier !", e);
-                                        }
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Message.writeError(f, "Impossible de renommer le fichier !", e);
-                                    }
-                                }
-                                else
-                                {
-                                    Message.writeWarn(f, "Le fichier est introuvable.");
-                                }
-                            }
-
-                            Console.WriteLine("Le composant a été renommé.");
-                        }
-                        else if (cmd.Length < 4)
-                            Console.WriteLine("Problème, le nom d'un composant et son nouveau nom sont attendus !");
-                        else
-                            Console.WriteLine("Problème, seul le nom d'un composant et son nouveau nom sont attendus !");
-                    }
-                    // ***************************************************
-                    // Liste les composant
-                    else if (arg == "-l")
-                    {
-                        if (cmd.Length == 2)
-                        {
-                            try
-                            {
-                                // Contient le nom du composant en cle et un tableau en valeur
-                                // [0] nombre de fichier
-                                // [1] taille total
-                                Dictionary<string, long[]> trouve = new Dictionary<string, long[]>();
-
-                                foreach (string d in ordre)
-                                {
-                                    // Parcours chaque fichier de chaque dossier
-                                    foreach (string f in Directory.GetFiles(Path.GetDirectoryName($@"{projet}\{d}")))
-                                    {
-                                        // Si c'est un php ou un js ou un css et que ca n'est pas un fichier exclu
-                                        if (new string[] { ".php", ".js", ".css" }.Contains(Path.GetExtension(f).ToLower()) && !exclu.Contains(Path.GetFileName(f)))
-                                        {
-                                            // Retire les x premiere lettre du fichier par rapport ou nom du dossier
-                                            int sub =  Path.GetDirectoryName(d).Length - 1;
-                                            string com = Path.GetFileNameWithoutExtension(f).Substring(sub);
-
-                                            // Si deja trouver
-                                            if (trouve.Keys.Contains(com))
-                                            {
-                                                // Inscremente les valeurs
-                                                trouve[com][0]++;
-                                                trouve[com][1] += new FileInfo(f).Length;
-                                            }
-                                            else
-                                            {
-                                                // Creer les valeurs
-                                                trouve.Add(com, new long[] { 1, new FileInfo(f).Length });
-                                            }
-                                        }
-                                    }
-                                }
-
-                                // Affiche les resultats
-                                foreach (string k in trouve.Keys)
-                                {
-                                    Message.write(Message.Type.Composant, k);
-                                    Console.Write("Composant trouvé,");
-                                    Message.writeData(trouve[k][0]);
-                                    Console.Write("fichier(s) faisant");
-                                    Message.writeData(trouve[k][1]);
-                                    Console.WriteLine("octet(s).");
-                                }
-
-                            }
-                            catch (Exception e)
-                            {
-                                Message.writeError(projet, "Impossible de lister les composants !", e);
-                            }
-                        }
-                        else
-                            Console.WriteLine("Problème, aucun argument n'est attendu !");
-                    }
-                    // ***************************************************
-                    else
-                        Console.WriteLine("Le type d'action doit être '-a' pour ajouter, '-r' pour renommer, '-l' pour lister, ou '-s' pour supprimer.");
-                }
-                else
-                    Console.WriteLine("Heuu, le projet n'existe pas...");
-            }
-            else if (cmd.Length > 4 )
-                Console.WriteLine("Problème, trop d'arguments ont été données !");
-            else
-                Console.WriteLine("Problème, il manque le nom du projet, le type d'action et le nom du nouveu composant !");
         }
 
     }
