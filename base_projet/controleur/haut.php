@@ -17,7 +17,7 @@ class Haut {
      * Destructeur
      */
     function __destruct() {
-        require_once '././vue/haut.php';
+        require_once 'vue/haut.php';
     }
 
 }

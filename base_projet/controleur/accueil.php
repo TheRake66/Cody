@@ -18,7 +18,7 @@ class Accueil {
      */
     function __destruct() {
         new Haut();
-        require_once '././vue/accueil.php';
+        require_once 'vue/accueil.php';
         new Bas();
     }
 

@@ -13,6 +13,7 @@ namespace Cody_PHP
         public string nom;
         public DateTime creation;
         public string createur;
+        public List<string> chemins;
 
     }
 }

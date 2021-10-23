@@ -17,7 +17,7 @@ class Panneau {
      * Destructeur
      */
     function __destruct() {
-        require_once '././vue/panneau.php';
+        require_once 'vue/panneau.php';
     }
 
 }

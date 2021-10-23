@@ -772,6 +772,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 string objlow = ""; // obj
                 string objup = ""; // Obj
                 string nomlow = nom.ToLower(); // \namepace\namespace\obj
+                List<string> paths = new List<string>();
 
                 for (int i = 0; i < spt.Length - 1; i++)
                 {
@@ -789,15 +790,14 @@ wamp                                        Lance WAMP Serveur et défini le dos
                     // Parcour chaque entree
                     foreach (ZipArchiveEntry ent in arc.Entries)
                     {
-
                         // Si c'est un fichier
                         if (ent.Name != "")
-                            extraireFichierObjet(ent, nomlow, namespce, objlow, objup);
+                            extraireFichierObjet(ent, ref paths, nomlow, namespce, objlow, objup);
                     }
                 }
 
                 supprimerArchiveObjet(zip);
-                ajouterJsonObjet(objs, nom);
+                ajouterJsonObjet(objs, paths, nom);
 
                 Console.WriteLine("L'objet a été crée.");
             }
@@ -806,10 +806,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 Message.writeExcept("Impossible d'extraire l'archive !", e);
             }
         }
-
-
-        
-        private static void extraireFichierObjet(ZipArchiveEntry ent, string nomlow, string namespce, string objlow, string objup)
+        private static void extraireFichierObjet(ZipArchiveEntry ent, ref List<string> paths, string nomlow, string namespce, string objlow, string objup)
         {
             try
             {
@@ -838,6 +835,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 {
                     // Extrait le fichier de l'archive
                     ent.ExtractToFile(file);
+                    paths.Add(file);
                     Console.Write("Fichier : '");
                     Message.writeIn(ConsoleColor.DarkGreen, file);
                     Console.WriteLine("'. Extraction du terminé.");
@@ -880,7 +878,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 Message.writeExcept("Impossible de supprimer l'archive !", e);
             }
         }
-        private static void ajouterJsonObjet(List<Objet> objs, string nom)
+        private static void ajouterJsonObjet(List<Objet> objs, List<string> paths, string nom)
         {
             try
             {
@@ -890,6 +888,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 obj.nom = nom;
                 obj.createur = Environment.UserName;
                 obj.creation = DateTime.Now;
+                obj.chemins = paths;
                 objs.Add(obj);
 
                 string json = JsonConvert.SerializeObject(objs, Formatting.Indented);
@@ -902,21 +901,6 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 Message.writeExcept("Impossible d'indexé l'objet !", e);
             }
         }
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
 
 
         private static void supprimerObj(string nom)

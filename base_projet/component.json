@@ -2,26 +2,56 @@
   {
     "nom": "accueil",
     "creation": "2021-10-23T19:30:52.6687298+02:00",
-    "createur": "thiba"
+    "createur": "thiba",
+    "chemins": [
+      "controleur\\accueil.php",
+      "script\\accueil.js",
+      "style\\accueil.less",
+      "vue\\accueil.php"
+    ]
   },
   {
     "nom": "bas",
     "creation": "2021-10-23T19:30:52.6687298+02:00",
-    "createur": "thiba"
+    "createur": "thiba",
+    "chemins": [
+      "controleur\\bas.php",
+      "script\\bas.js",
+      "style\\bas.less",
+      "vue\\bas.php"
+    ]
   },
   {
     "nom": "haut",
     "creation": "2021-10-23T19:30:52.6687298+02:00",
-    "createur": "thiba"
+    "createur": "thiba",
+    "chemins": [
+      "controleur\\haut.php",
+      "script\\haut.js",
+      "style\\haut.less",
+      "vue\\haut.php"
+    ]
   },
   {
     "nom": "menu",
     "creation": "2021-10-23T19:30:52.6687298+02:00",
-    "createur": "thiba"
+    "createur": "thiba",
+    "chemins": [
+      "controleur\\menu.php",
+      "script\\menu.js",
+      "style\\menu.less",
+      "vue\\menu.php"
+    ]
   },
   {
     "nom": "panneau",
     "creation": "2021-10-23T19:30:52.6687298+02:00",
-    "createur": "thiba"
+    "createur": "thiba",
+    "chemins": [
+      "controleur\\panneau.php",
+      "script\\panneau.js",
+      "style\\panneau.less",
+      "vue\\panneau.php"
+    ]
   }
 ]
