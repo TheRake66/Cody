@@ -24,22 +24,22 @@ namespace Cody_PHP
             {
                 // Affiche l'aide
                 Console.WriteLine(
-@"aide                                        Affiche la liste des commandes disponible.
-cd [*chemin]                                Affiche ou change le dossier courant.
-cls                                         Nettoie la console.
-com [-s|-a|-r|-l] [nom] [nouveau nom]       Ajoute, renomme, liste, ou supprime un composant (controleur, vue, style,
-                                            script) avec le nom spécifié.
-die                                         Quitte Cody-PHP.
-dl [url] [fichier]                          Télécharge un fichier avec l'URL spécifiée.
-exp                                         Ouvre le projet dans l'explorateur de fichiers.
-ls                                          Affiche la liste des projets.
-maj                                         Met à jour Cody-PHP via le depot GitHub.
-new [nom]                                   Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
-obj [-s|-a |-r |-l] [nom] [nouveau nom]     Ajoute, renomme, liste, ou supprime un objet (classe dto, classe dao)
-                                            avec le nom spécifié.
-rep                                         Ouvre la dépôt GitHub de Cody-PHP.
-vs                                          Ouvre le projet dans Visual Studio Code.
-wamp                                        Lance WAMP Serveur et défini le dossier courant sur le www.
+@"aide                            Affiche la liste des commandes disponible.
+cd [*chemin]                    Affiche ou change le dossier courant.
+cls                             Nettoie la console.
+com [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un composant (controleur, vue, style,
+                                script) avec le nom spécifié.
+die                             Quitte Cody-PHP.
+dl [url] [fichier]              Télécharge un fichier avec l'URL spécifiée.
+exp                             Ouvre le projet dans l'explorateur de fichiers.
+ls                              Affiche la liste des projets.
+maj                             Met à jour Cody-PHP via le depot GitHub.
+new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
+obj [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un objet (classe dto, classe dao)
+                                avec le nom spécifié.
+rep                             Ouvre la dépôt GitHub de Cody-PHP.
+vs                              Ouvre le projet dans Visual Studio Code.
+wamp                            Lance WAMP Serveur et défini le dossier courant sur le www.
 
 *: Argument facultatif.");
             }
@@ -344,6 +344,9 @@ wamp                                        Lance WAMP Serveur et défini le dos
         }
 
 
+        // ########################################################################
+
+
         // Liste les projets du dossier courant
         public static void listProjet(string[] cmd)
         {
@@ -357,8 +360,8 @@ wamp                                        Lance WAMP Serveur et défini le dos
                     if (dirs.Length > 0)
                     {
                         int count = 0;
-                        Console.WriteLine("Nom                      Fichier   Taille         Version        Crée le                  Par");
-                        Console.WriteLine("-------------------------------------------------------------------------------------------------------------");
+                        Console.WriteLine("Nom                           Fichier   Taille         Version        Crée le                  Par");
+                        Console.WriteLine("------------------------------------------------------------------------------------------------------------------");
 
                         foreach (string dir in dirs)
                         {
@@ -397,17 +400,17 @@ wamp                                        Lance WAMP Serveur et défini le dos
             {
                 long[] data = Librairie.getCountAndSizeFolder(dir);
 
-                Console.SetCursorPosition(25, Console.CursorTop);
+                Console.SetCursorPosition(30, Console.CursorTop);
                 Console.Write(data[0]);
-                Console.SetCursorPosition(35, Console.CursorTop);
+                Console.SetCursorPosition(40, Console.CursorTop);
                 Console.Write(data[1]);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                Console.SetCursorPosition(25, Console.CursorTop);
+                Console.SetCursorPosition(30, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                Console.SetCursorPosition(35, Console.CursorTop);
+                Console.SetCursorPosition(40, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
             }
 
@@ -417,27 +420,26 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 string json = File.ReadAllText(file);
                 Projet inf = JsonConvert.DeserializeObject<Projet>(json);
 
-                Console.SetCursorPosition(50, Console.CursorTop);
+                Console.SetCursorPosition(55, Console.CursorTop);
                 Message.writeIn(inf.version == Program.version ? ConsoleColor.Green : ConsoleColor.DarkYellow, inf.version);
-                Console.SetCursorPosition(65, Console.CursorTop);
+                Console.SetCursorPosition(70, Console.CursorTop);
                 Console.Write(inf.creation.ToString());
-                Console.SetCursorPosition(90, Console.CursorTop);
+                Console.SetCursorPosition(95, Console.CursorTop);
                 Console.Write(inf.createur);
             }
             catch
             {
 
-                Console.SetCursorPosition(50, Console.CursorTop);
+                Console.SetCursorPosition(55, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                Console.SetCursorPosition(65, Console.CursorTop);
+                Console.SetCursorPosition(70, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                Console.SetCursorPosition(90, Console.CursorTop);
+                Console.SetCursorPosition(95, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
             }
 
             Console.WriteLine();
         }
-
 
         // Creer un nouveau projet
         public static void creerProjet(string[] cmd)
@@ -632,14 +634,13 @@ wamp                                        Lance WAMP Serveur et défini le dos
         }
 
 
-
         // ########################################################################
 
 
         // Gere les objets
         public static void gestObjet(string[] cmd)
         {
-            if (cmd.Length >= 1 && cmd.Length <= 3)
+            if (cmd.Length == 1 || cmd.Length == 2)
             {
                 // Si le projet existe
                 if (File.Exists("project.json"))
@@ -655,9 +656,10 @@ wamp                                        Lance WAMP Serveur et défini le dos
                         {
                             Console.Write("Attention, ce projet est fait pour fonctionner avec la version ");
                             Message.writeIn(ConsoleColor.DarkYellow, inf.version);
-                            Console.Write(" de Cody-PHP. Vous êtes en version ");
+                            Console.WriteLine(" de Cody-PHP.");
+                            Console.Write("Vous êtes en version ");
                             Message.writeIn(ConsoleColor.Green, Program.version);
-                            Console.WriteLine(", cela pourrait créer des problème de compatibilité, voulez vous continuer ?");
+                            Console.WriteLine(", cela pourrait créer des problèmes de compatibilité, voulez vous continuer ?");
 
                             string rep = null;
                             do
@@ -665,7 +667,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                                 Console.Write("(oui/non) : ");
                                 rep = Console.ReadLine().Trim().ToLower();
                             }
-                            while (rep != "oui" || rep != "non");
+                            while (rep != "oui" && rep != "non");
                             continu = rep == "oui";
                         }
 
@@ -674,21 +676,16 @@ wamp                                        Lance WAMP Serveur et défini le dos
                             switch (cmd[0].ToLower())
                             {
                                 case "-l":
-                                    listerObj();
-                                    break;
-
-                                case "-r":
-                                    if (cmd.Length == 3) renommerObj(cmd[1], cmd[2]);
-                                    else Console.WriteLine("Il manque le nom et le nouveau nom de l'objet !");
+                                    listerObjet();
                                     break;
 
                                 case "-s":
-                                    if (cmd.Length == 2) supprimerObj(cmd[1]);
+                                    if (cmd.Length == 2) supprimerObjet(cmd[1]);
                                     else Console.WriteLine("Il manque le nom de l'objet !");
                                     break;
 
                                 case "-a":
-                                    if (cmd.Length == 2) ajouterObj(cmd[1]);
+                                    if (cmd.Length == 2) ajouterObjet(cmd[1]);
                                     else Console.WriteLine("Il manque le nom de l'objet !");
                                     break;
 
@@ -706,13 +703,14 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 else
                     Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
             }
-            else if (cmd.Length > 4 )
+            else if (cmd.Length > 2)
                 Console.WriteLine("Problème, trop d'arguments ont été données !");
             else
-                Console.WriteLine("Problème, il manque le type d'action, le nom, et le nouveau nom du nouvel objet !");
+                Console.WriteLine("Problème, il manque le type d'action ou le nom de l'objet !");
         }
+
         // Ajoute un objet
-        private static void ajouterObj(string nom)
+        private static void ajouterObjet(string nom)
         {
             bool continu = true;
             List<Objet> objs = new List<Objet>();
@@ -746,7 +744,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
 
             if (continu) extractionArchiveObjet(objs, nom);
         }
-        private static bool extractionArchiveObjet(List<Objet> objs, string nom)
+        private static void extractionArchiveObjet(List<Objet> objs, string nom)
         {
             try
             {
@@ -756,12 +754,10 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 File.WriteAllBytes(zip, Resources.base_objet);
 
                 parcoursArchiveObjet(objs, zip, nom);
-                return true;
             }
             catch (Exception e)
             {
                 Message.writeExcept("Impossible d'extraire l'archive !", e);
-                return false;
             }
         }
         private static void parcoursArchiveObjet(List<Objet> objs, string zip, string nom)
@@ -902,8 +898,9 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 Message.writeExcept("Impossible d'indexé l'objet !", e);
             }
         }
+
         // Suprime un objet
-        private static void supprimerObj(string nom)
+        private static void supprimerObjet(string nom)
         {
             if (File.Exists("object.json"))
             {
@@ -927,7 +924,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 }
             }
             else
-                Console.WriteLine("Heuuu, aucune liste d'objet a été trouvée...");
+                Console.WriteLine("Heuuu, aucune liste d'objet n'a été trouvée...");
         }
         private static void parcoursPourSupprimerObjet(List<Objet> objs, string nom)
         {
@@ -972,7 +969,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
             try
             {
                 Console.Write("Suppression du fichier '");
-                Message.writeIn(ConsoleColor.Green, file);
+                Message.writeIn(ConsoleColor.Red, file);
                 Console.WriteLine("'...");
                 File.Delete(file);
                 Console.WriteLine("Fichier supprimé.");
@@ -1023,72 +1020,518 @@ wamp                                        Lance WAMP Serveur et défini le dos
             }
         }
 
-
-
-
-
-
-
-        private static void listerObj()
+        // Liste les objets
+        private static void listerObjet()
         {
+            if (File.Exists("object.json"))
+            {
+                try
+                {
+                    string json = File.ReadAllText("object.json");
 
+                    if (json != "")
+                    {
+                        List<Objet> objs = JsonConvert.DeserializeObject<List<Objet>>(json);
+
+                        Console.WriteLine("Nom                      Fichier        Crée le                  Par");
+                        Console.WriteLine("-------------------------------------------------------------------------------------");
+
+                        int count = 0;
+                        foreach (Objet obj in objs)
+                        {
+                            affichierUnObjet(obj);
+                            count++;
+                        }
+
+                        if (count > 0)
+                            Console.WriteLine("Listage terminé.");
+                        else
+                            Console.WriteLine("Heuuu, il n'y a aucun objet dans ce projet...");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Heuuu, aucun objet n'est indexé...");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Impossible de lire la liste des objets existant !", e);
+                }
+            }
+            else
+                Console.WriteLine("Heuuu, aucune liste d'objet a été trouvée...");
+        }
+        private static void affichierUnObjet(Objet obj)
+        {
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Message.writeIn(ConsoleColor.Magenta, obj.nom);
+
+            int count2 = 0;
+            foreach (string file in obj.chemins)
+                if (File.Exists(file)) count2++;
+
+            Console.SetCursorPosition(25, Console.CursorTop);
+            if (count2 == obj.chemins.Count)
+                Console.Write(obj.chemins.Count);
+            else
+                Message.writeIn(ConsoleColor.DarkRed, $"{count2} ({obj.chemins.Count})");
+
+
+            Console.SetCursorPosition(40, Console.CursorTop);
+            Console.Write(obj.creation.ToString());
+            Console.SetCursorPosition(65, Console.CursorTop);
+            Console.WriteLine(obj.createur);
         }
 
-        private static void renommerObj(string nom, string newnom)
-        {
 
-        }
+        // ########################################################################
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Gere les objets
+        // Gere les composants
         public static void gestComposant(string[] cmd)
         {
+            if (cmd.Length == 1 || cmd.Length == 2)
+            {
+                // Si le projet existe
+                if (File.Exists("project.json"))
+                {
+                    try
+                    {
+                        string json = File.ReadAllText("project.json");
+                        Projet inf = JsonConvert.DeserializeObject<Projet>(json);
+                        bool continu = true;
+
+                        // Conflit de version
+                        if (inf.version != Program.version)
+                        {
+                            Console.Write("Attention, ce projet est fait pour fonctionner avec la version ");
+                            Message.writeIn(ConsoleColor.DarkYellow, inf.version);
+                            Console.WriteLine(" de Cody-PHP.");
+                            Console.Write("Vous êtes en version ");
+                            Message.writeIn(ConsoleColor.Green, Program.version);
+                            Console.WriteLine(", cela pourrait créer des problèmes de compatibilité, voulez vous continuer ?");
+
+                            string rep = null;
+                            do
+                            {
+                                Console.Write("(oui/non) : ");
+                                rep = Console.ReadLine().Trim().ToLower();
+                            }
+                            while (rep != "oui" && rep != "non");
+                            continu = rep == "oui";
+                        }
+
+                        if (continu)
+                        {
+                            switch (cmd[0].ToLower())
+                            {
+                                case "-l":
+                                    listerComposant();
+                                    break;
+
+                                case "-s":
+                                    if (cmd.Length == 2) supprimerComposant(cmd[1]);
+                                    else Console.WriteLine("Il manque le nom de l'objet !");
+                                    break;
+
+                                case "-a":
+                                    if (cmd.Length == 2) ajouterComposant(cmd[1]);
+                                    else Console.WriteLine("Il manque le nom de l'objet !");
+                                    break;
+
+                                default:
+                                    Console.WriteLine("Le type d'action est invalide !");
+                                    break;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible de lire le fichier d'information de Cody-PHP !", e);
+                    }
+                }
+                else
+                    Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
+            }
+            else if (cmd.Length > 2)
+                Console.WriteLine("Problème, trop d'arguments ont été données !");
+            else
+                Console.WriteLine("Problème, il manque le type d'action ou le nom du composant !");
+        }
+
+        // Ajoute un composant
+        private static void ajouterComposant(string nom)
+        {
+            bool continu = true;
+            List<Composant> comps = new List<Composant>();
+
+            if (File.Exists("component.json"))
+            {
+                try
+                {
+                    string json = File.ReadAllText("component.json");
+
+                    if (json != "")
+                    {
+                        comps = JsonConvert.DeserializeObject<List<Composant>>(json);
+
+                        foreach (Composant comp in comps)
+                        {
+                            if (comp.nom == nom)
+                            {
+                                Console.WriteLine("Heuuu, le composant existe déjà...");
+                                continu = false;
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Impossible de lire la liste des composants existant !", e);
+                    continu = false;
+                }
+            }
+
+            if (continu) extractionArchiveComposant(comps, nom);
+        }
+        private static void extractionArchiveComposant(List<Composant> comps, string nom)
+        {
+            try
+            {
+                // Extrait l'archive des ressouces
+                Console.WriteLine("Extraction de l'archive...");
+                string zip = "base_composant.zip";
+                File.WriteAllBytes(zip, Resources.base_composant);
+
+                parcoursArchiveComposant(comps, zip, nom);
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'extraire l'archive !", e);
+            }
+        }
+        private static void parcoursArchiveComposant(List<Composant> comps, string zip, string nom)
+        {
+            try
+            {
+                string[] spt = nom.Split(Path.DirectorySeparatorChar);
+                string namespce = ""; // \Namepace\Namespace
+                string comlow = ""; // comp
+                string comup = ""; // Comp
+                string nomlow = nom.ToLower(); // \namepace\namespace\comp
+                List<string> paths = new List<string>();
+
+                for (int i = 0; i < spt.Length - 1; i++)
+                {
+                    string n = spt[i];
+                    namespce += $@"\{n.Substring(0, 1).ToUpper()}";
+                    if (n.Length > 1) namespce += n.Substring(1).ToLower();
+                }
+                comlow = spt[spt.Length - 1].ToLower();
+                comup = comlow.Substring(0, 1).ToUpper();
+                if (comlow.Length > 1) comup += comlow.Substring(1);
+
+                // Ouvre l'archive
+                using (ZipArchive arc = ZipFile.OpenRead(zip))
+                {
+                    // Parcour chaque entree
+                    foreach (ZipArchiveEntry ent in arc.Entries)
+                    {
+                        // Si c'est un fichier
+                        if (ent.Name != "")
+                            extraireFichierComposant(ent, ref paths, nomlow, namespce, comlow, comup);
+                    }
+                }
+
+                supprimerArchiveComposant(zip);
+                ajouterJsonComposant(comps, paths, nom);
+
+                Console.WriteLine("Le composant a été crée.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'extraire l'archive !", e);
+            }
+        }
+        private static void extraireFichierComposant(ZipArchiveEntry ent, ref List<string> paths, string nomlow, string namespce, string comlow, string comup)
+        {
+            try
+            {
+                // modele\dto\*.php --> modele\dto\namepace\namespace\obh.php
+                string file = Path.Combine(Path.GetDirectoryName(ent.FullName), nomlow) + Path.GetExtension(ent.Name);
+                string path = Path.GetDirectoryName(file);
+
+                bool continu = true;
+                if (!Directory.Exists(path))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(path);
+                        Console.Write("Dossier : '");
+                        Message.writeIn(ConsoleColor.Magenta, path);
+                        Console.WriteLine("'. Dossier ajouté.");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible d'ajouter le(s) dossier(s) !", e);
+                        continu = false;
+                    }
+                }
+
+                if (continu)
+                {
+                    // Extrait le fichier de l'archive
+                    ent.ExtractToFile(file);
+                    paths.Add(file);
+                    Console.Write("Fichier : '");
+                    Message.writeIn(ConsoleColor.DarkGreen, file);
+                    Console.WriteLine("'. Extraction du terminé.");
+
+                    try
+                    {
+                        Console.WriteLine("Édition du fichier...");
+
+                        // Modifie le fichier
+                        string content = File.ReadAllText(file)
+                            .Replace("{NAMESPACE}", namespce)
+                            .Replace("{NAME_UPPER}", comup)
+                            .Replace("{PATH}", nomlow.Replace('\\', '/'))
+                            .Replace("{NAME_LOWER}", comlow);
+                        File.WriteAllText(file, content);
+
+                        Console.WriteLine("Édition du fichier terminé.");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible d'éditer le fichier !", e);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'extraire le fichier !", e);
+            }
+        }
+        private static void supprimerArchiveComposant(string zip)
+        {
+            try
+            {
+                // Supprime l'archive
+                Console.WriteLine("Suppression de l'archive...");
+                File.Delete(zip);
+                Console.WriteLine("Archive supprimée.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de supprimer l'archive !", e);
+            }
+        }
+        private static void ajouterJsonComposant(List<Composant> comps, List<string> paths, string nom)
+        {
+            try
+            {
+                Console.WriteLine("Indexation de lu composant...");
+
+                Composant comp = new Composant();
+                comp.nom = nom;
+                comp.createur = Environment.UserName;
+                comp.creation = DateTime.Now;
+                comp.chemins = paths;
+                comps.Add(comp);
+
+                string json = JsonConvert.SerializeObject(comps, Formatting.Indented);
+                File.WriteAllText("component.json", json);
+
+                Console.WriteLine("Composant indexé.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'indexé le composant !", e);
+            }
+        }
+
+        // Suprime un composant
+        private static void supprimerComposant(string nom)
+        {
+            if (File.Exists("component.json"))
+            {
+                try
+                {
+                    string json = File.ReadAllText("component.json");
+
+                    if (json != "")
+                    {
+                        List<Composant> comps = JsonConvert.DeserializeObject<List<Composant>>(json);
+                        parcoursPourSupprimerComposant(comps, nom);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Heuuu, aucun composant n'est indexé...");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Impossible de lire la liste des composant existant !", e);
+                }
+            }
+            else
+                Console.WriteLine("Heuuu, aucune liste de composant n'a été trouvée...");
+        }
+        private static void parcoursPourSupprimerComposant(List<Composant> comps, string nom)
+        {
+            bool trouve = false;
+            bool continu = true;
+
+            foreach (Composant comp in comps)
+            {
+                if (comp.nom == nom)
+                {
+                    comps.Remove(comp);
+                    trouve = true;
+                    foreach (string file in comp.chemins)
+                    {
+                        if (File.Exists(file))
+                        {
+                            supprimerFichierComposant(file, ref continu);
+                        }
+                        else
+                        {
+                            Console.Write("Le fichier '");
+                            Message.writeIn(ConsoleColor.DarkYellow, file);
+                            Console.WriteLine("' est indexé mais est introuvable !");
+                        }
+                    }
+                    break;
+                }
+            }
+
+            if (trouve)
+            {
+                if (continu)
+                    supprimerJsonComposant(comps);
+                else
+                    Console.WriteLine("Le composant a été partiellement supprimé.");
+            }
+            else
+                Console.WriteLine("Le composant n'existe pas !");
+        }
+        private static void supprimerFichierComposant(string file, ref bool continu)
+        {
+            try
+            {
+                Console.Write("Suppression du fichier '");
+                Message.writeIn(ConsoleColor.Red, file);
+                Console.WriteLine("'...");
+                File.Delete(file);
+                Console.WriteLine("Fichier supprimé.");
+
+                string folder = Path.GetDirectoryName(file);
+                if (Directory.GetFiles(folder).Length == 0 &&
+                    Path.GetDirectoryName(Directory.GetCurrentDirectory()) != Path.GetDirectoryName(folder))
+                {
+                    supprimerDossierComposant(folder, ref continu);
+                }
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de supprimer le fichier !", e);
+                continu = false;
+            }
+        }
+        private static void supprimerDossierComposant(string folder, ref bool continu)
+        {
+            try
+            {
+                Console.Write("Suppression du dossier '");
+                Message.writeIn(ConsoleColor.Magenta, folder);
+                Console.WriteLine("'...");
+                Directory.Delete(folder);
+                Console.WriteLine("Dossier supprimé.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de supprimer le dossier !", e);
+                continu = false;
+            }
+        }
+        private static void supprimerJsonComposant(List<Composant> comps)
+        {
+            try
+            {
+                Console.WriteLine("Désindexation du composant...");
+
+                string json = JsonConvert.SerializeObject(comps, Formatting.Indented);
+                File.WriteAllText("component.json", json);
+
+                Console.WriteLine("Composant désindexé.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de désindexé le composant !", e);
+            }
+        }
+
+        // Liste les composants
+        private static void listerComposant()
+        {
+            if (File.Exists("component.json"))
+            {
+                try
+                {
+                    string json = File.ReadAllText("component.json");
+
+                    if (json != "")
+                    {
+                        List<Composant> comps = JsonConvert.DeserializeObject<List<Composant>>(json);
+
+                        Console.WriteLine("Nom                      Fichier        Crée le                  Par");
+                        Console.WriteLine("-------------------------------------------------------------------------------------");
+
+                        int count = 0;
+                        foreach (Composant comp in comps)
+                        {
+                            affichierUnComposant(comp);
+                            count++;
+                        }
+
+                        if (count > 0)
+                            Console.WriteLine("Listage terminé.");
+                        else
+                            Console.WriteLine("Heuuu, il n'y a aucun composant dans ce projet...");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Heuuu, aucun composant n'est indexé...");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Impossible de lire la liste des composants existant !", e);
+                }
+            }
+            else
+                Console.WriteLine("Heuuu, aucune liste de composant a été trouvée...");
+        }
+        private static void affichierUnComposant(Composant comp)
+        {
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Message.writeIn(ConsoleColor.Magenta, comp.nom);
+
+            int count2 = 0;
+            foreach (string file in comp.chemins)
+                if (File.Exists(file)) count2++;
+
+            Console.SetCursorPosition(25, Console.CursorTop);
+            if (count2 == comp.chemins.Count)
+                Console.Write(comp.chemins.Count);
+            else
+                Message.writeIn(ConsoleColor.DarkRed, $"{count2} ({comp.chemins.Count})");
+
+
+            Console.SetCursorPosition(40, Console.CursorTop);
+            Console.Write(comp.creation.ToString());
+            Console.SetCursorPosition(65, Console.CursorTop);
+            Console.WriteLine(comp.createur);
         }
 
     }

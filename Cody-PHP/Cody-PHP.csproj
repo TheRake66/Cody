@@ -83,6 +83,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Debug\Newtonsoft.Json.xml" />
+    <None Include="bin\Debug\Newtonsoft.Json.dll" />
     <Content Include="icon.ico" />
     <Content Include="Sans titre.ico" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cody_PHP.Properties;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -39,13 +40,44 @@ namespace Cody_PHP
                                       ░░░▒▒▓▓ Cody-PHP ▓▓▒▒░░░");
 
             Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                 Version {version} du 20 octobre 2021
+                                 Version {version} du 24 octobre 2021
                            Copyright © 2021 - Thibault BUSTOS (TheRake66)");
 
             Console.WriteLine(@"
 
 Utilisez la commande 'aide' pour voir la liste des commandes.");
             // --------------------------
+
+
+            // --------------------------
+            // Verification des librairies
+
+            string[] librairies = new string[]
+            {
+                "Newtonsoft.Json.dll",
+                "Newtonsoft.Json.xml"
+            };
+            byte[][] bin = new byte[][]
+            {
+                Resources.Newtonsoft_Json1,
+                Encoding.ASCII.GetBytes(Resources.Newtonsoft_Json)
+            };
+            try
+            {
+                if (!File.Exists("Newtonsoft.Json.dll"))
+                {
+                    File.WriteAllBytes(zip, Resources.base_composant);
+                }
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de créer les librairies !", e);
+                Console.Write("Appuyez sur une touche pour quitter...");
+                Console.ReadKey();
+                Environment.Exit(1);
+            }
+            // --------------------------
+
 
             while (true)
             {
