@@ -1,6 +1,6 @@
 <?php
 
-namespace Controleur;
+namespace Controleur{NAMESPACE};
 
 
 

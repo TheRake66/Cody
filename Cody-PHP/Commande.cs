@@ -34,7 +34,7 @@ dl [url] [fichier]                          Télécharge un fichier avec l'URL s
 exp                                         Ouvre le projet dans l'explorateur de fichiers.
 ls                                          Affiche la liste des projets.
 maj                                         Met à jour Cody-PHP via le depot GitHub.
-new [nom]                                   Créer un nouveau projet avec le nom spécifié.
+new [nom]                                   Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
 obj [-s|-a |-r |-l] [nom] [nouveau nom]     Ajoute, renomme, liste, ou supprime un objet (classe dto, classe dao)
                                             avec le nom spécifié.
 rep                                         Ouvre la dépôt GitHub de Cody-PHP.
@@ -511,6 +511,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
 
                 supprimerArchiveProjet(zip);
                 creerJsonProject(nom);
+                changerDossierProjet(nom);
 
                 Console.WriteLine("Le projet a été crée.");
             }
@@ -559,6 +560,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 {
                     try
                     {
+                        Console.WriteLine("Édition du fichier...");
                         // Modifie le fichier
                         File.WriteAllText(path, File.ReadAllText(path).Replace("{PROJECT_NAME}", name));
                         Console.WriteLine("Édition du fichier terminé.");
@@ -609,6 +611,23 @@ wamp                                        Lance WAMP Serveur et défini le dos
             catch (Exception e)
             {
                 Message.writeExcept("Impossible de créer le fichier d'information du projet !", e);
+            }
+        }
+        private static void changerDossierProjet(string name)
+        {
+
+            try
+            {
+                // Change le dossier courant
+                Console.WriteLine("Changement du dossier courant...");
+
+                Directory.SetCurrentDirectory(Path.Combine(Directory.GetCurrentDirectory(), name));
+
+                Console.WriteLine("Dossier courant changé.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de changer le dossier courant !", e);
             }
         }
 
@@ -748,18 +767,22 @@ wamp                                        Lance WAMP Serveur et défini le dos
         {
             try
             {
-
-                // namepace\namespace\obj --> Namepace\Namespace\Obj
                 string[] spt = nom.Split(Path.DirectorySeparatorChar);
-                string namspce = "";
-                foreach (string n in spt)
+                string namespce = ""; // \Namepace\Namespace
+                string objlow = ""; // obj
+                string objup = ""; // Obj
+                string nomlow = nom.ToLower(); // \namepace\namespace\obj
+
+                for (int i = 0; i < spt.Length - 1; i++)
                 {
-                    namspce += $@"\{n.Substring(0, 1).ToUpper()}";
-                    if (n.Length > 1) namspce += n.Substring(1).ToLower();
+                    string n = spt[i];
+                    namespce += $@"\{n.Substring(0, 1).ToUpper()}";
+                    if (n.Length > 1) namespce += n.Substring(1).ToLower();
                 }
-                string obnom = spt.Last();
-                
-                
+                objlow = spt[spt.Length - 1].ToLower();
+                objup = objlow.Substring(0, 1).ToUpper();
+                if (objlow.Length > 1) objup += objlow.Substring(1);
+
                 // Ouvre l'archive
                 using (ZipArchive arc = ZipFile.OpenRead(zip))
                 {
@@ -769,7 +792,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
 
                         // Si c'est un fichier
                         if (ent.Name != "")
-                            extraireFichierObjet(ent, namspce, obnom, nom);
+                            extraireFichierObjet(ent, nomlow, namespce, objlow, objup);
                     }
                 }
 
@@ -786,37 +809,56 @@ wamp                                        Lance WAMP Serveur et défini le dos
 
 
         
-        private static void extraireFichierObjet(ZipArchiveEntry ent, string namspce, string obnom, string nom)
+        private static void extraireFichierObjet(ZipArchiveEntry ent, string nomlow, string namespce, string objlow, string objup)
         {
             try
             {
                 // modele\dto\*.php --> modele\dto\namepace\namespace\obh.php
-                string file = Path.Combine(Path.GetDirectoryName(ent.FullName), nom) + Path.GetExtension(ent.Name);
+                string file = Path.Combine(Path.GetDirectoryName(ent.FullName), nomlow) + Path.GetExtension(ent.Name);
                 string path = Path.GetDirectoryName(file);
 
-
-
-                Console.WriteLine(file);
-                Console.WriteLine(path);
-                Console.WriteLine(ent.FullName);
-                Console.WriteLine(nom);
-                Console.WriteLine(ent.Name);
-                Console.WriteLine();
-
-                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-
-                // Extrait le fichier de l'archive
-                ent.ExtractToFile(file);
-
-                try
+                bool continu = true;
+                if (!Directory.Exists(path))
                 {
-                    // Modifie le fichier
-                    //File.WriteAllText(path, File.ReadAllText(path).Replace("{PROJECT_NAME}", name));
-                    Console.WriteLine("Édition du fichier terminé.");
+                    try
+                    {
+                        Directory.CreateDirectory(path);
+                        Console.Write("Dossier : '");
+                        Message.writeIn(ConsoleColor.Magenta, path);
+                        Console.WriteLine("'. Dossier ajouté.");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible d'ajouter le(s) dossier(s) !", e);
+                        continu = false;
+                    }
                 }
-                catch (Exception e)
+
+                if (continu)
                 {
-                    Message.writeExcept("Impossible d'éditer le fichier !", e);
+                    // Extrait le fichier de l'archive
+                    ent.ExtractToFile(file);
+                    Console.Write("Fichier : '");
+                    Message.writeIn(ConsoleColor.DarkGreen, file);
+                    Console.WriteLine("'. Extraction du terminé.");
+
+                    try
+                    {
+                        Console.WriteLine("Édition du fichier...");
+
+                        // Modifie le fichier
+                        string content = File.ReadAllText(file)
+                            .Replace("{NAMESPACE}", namespce)
+                            .Replace("{NAME_UPPER}", objup)
+                            .Replace("{NAME_LOWER}", objlow);
+                        File.WriteAllText(file, content);
+
+                        Console.WriteLine("Édition du fichier terminé.");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible d'éditer le fichier !", e);
+                    }
                 }
             }
             catch (Exception e)

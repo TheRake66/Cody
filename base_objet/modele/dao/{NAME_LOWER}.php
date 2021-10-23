@@ -1,8 +1,8 @@
 <?php
 
-namespace Modele\dao;
+namespace Modele\dao{NAMESPACE};
 use Librairie\DataBase;
-use Modele\dto\{NAME_UPPER} as dto;
+use Modele\dto{NAMESPACE}\{NAME_UPPER} as dto;
 
 
 
