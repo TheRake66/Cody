@@ -52,7 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commande.cs" />
-    <Compile Include="Information.cs" />
+    <Compile Include="Composant.cs" />
+    <Compile Include="Objet.cs" />
+    <Compile Include="Projet.cs" />
     <Compile Include="Librairie.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Program.cs" />

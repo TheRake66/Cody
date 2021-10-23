@@ -415,7 +415,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
             try
             {
                 string json = File.ReadAllText(file);
-                Information inf = JsonConvert.DeserializeObject<Information>(json);
+                Projet inf = JsonConvert.DeserializeObject<Projet>(json);
 
                 Console.SetCursorPosition(50, Console.CursorTop);
                 Message.writeIn(inf.version == Program.version ? ConsoleColor.Green : ConsoleColor.DarkYellow, inf.version);
@@ -450,7 +450,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 if (!Directory.Exists(name))
                     creerDossierProjet(name);
                 else
-                    Console.WriteLine($"Heuuu, le projet existe déjà, ou un dossier...");
+                    Console.WriteLine("Heuuu, le projet existe déjà, ou un dossier...");
             }
             else if (cmd.Length > 1)
                 Console.WriteLine("Problème, seul le nom du nouveau projet est attendu !");
@@ -465,30 +465,30 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 Console.WriteLine("Création du dossier du projet...");
                 Directory.CreateDirectory(nom);
 
-                extractionArchive(nom);
+                extractionArchiveProject(nom);
             }
             catch (Exception e)
             {
                 Message.writeExcept("Impossible de créer le dossier du projet !", e);
             }
         }
-        private static void extractionArchive(string nom)
+        private static void extractionArchiveProject(string nom)
         {
             try
             {
                 // Extrait l'archive des ressouces
                 Console.WriteLine("Extraction de l'archive...");
-                string zip = $@"{nom}\projet_base.zip";
+                string zip = Path.Combine(nom, "base_projet.zip");
                 File.WriteAllBytes(zip, Resources.base_projet);
 
-                parcoursArchive(zip, nom);
+                parcoursArchiveProjet(zip, nom);
             }
             catch (Exception e)
             {
-                Message.writeExcept("Impossible de créer le dossier du projet !", e);
+                Message.writeExcept("Impossible d'extraire l'archive !", e);
             }
         }
-        private static void parcoursArchive(string zip, string nom)
+        private static void parcoursArchiveProjet(string zip, string nom)
         {
             try
             {
@@ -499,22 +499,17 @@ wamp                                        Lance WAMP Serveur et défini le dos
                     foreach (ZipArchiveEntry ent in arc.Entries)
                     {
                         string path = Path.Combine(nom, ent.FullName); // projet\entry
-                        string file = ent.FullName.Replace('/', '\\');
 
                         // Si c'est un dossier
-                        if (ent.FullName.EndsWith("/"))
-                        {
-                            extraireDossier(path, file);
-                        }
+                        if (ent.Name == "")
+                            extraireDossierProjet(path, ent.FullName);
                         // Si c'est un fichier
                         else
-                        {
-                            extraireFichier(ent, path, file, nom);
-                        }
+                            extraireFichierProjet(ent, path, ent.FullName, nom);
                     }
                 }
 
-                supprimerArchive(zip);
+                supprimerArchiveProjet(zip);
                 creerJsonProject(nom);
 
                 Console.WriteLine("Le projet a été crée.");
@@ -524,7 +519,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 Message.writeExcept("Impossible d'extraire l'archive !", e);
             }
         }
-        private static void extraireDossier(string path, string file)
+        private static void extraireDossierProjet(string path, string file)
         {
             try
             {
@@ -540,7 +535,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 Message.writeExcept("Impossible d'ajouter le dossier !", e);
             }
         }
-        private static void extraireFichier(ZipArchiveEntry ent, string path, string file, string name)
+        private static void extraireFichierProjet(ZipArchiveEntry ent, string path, string file, string name)
         {
             try
             {
@@ -556,7 +551,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 string[] toedit = new string[]
                 {
                     "index.php",
-                    @"vues\accueil.php",
+                    Path.Combine("vues", "accueil.php"),
                     "database.json"
                 };
 
@@ -579,7 +574,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 Message.writeExcept("Impossible d'extraire le fichier !", e);
             }
         }
-        private static void supprimerArchive(string zip)
+        private static void supprimerArchiveProjet(string zip)
         {
             try
             {
@@ -601,13 +596,13 @@ wamp                                        Lance WAMP Serveur et défini le dos
                 // Creer le cody json
                 Console.WriteLine("Création du fichier d'information du projet...");
 
-                Information inf = new Information();
+                Projet inf = new Projet();
                 inf.createur = Environment.UserName;
                 inf.version = Program.version;
                 inf.creation = DateTime.Now;
 
                 string json = JsonConvert.SerializeObject(inf, Formatting.Indented);
-                File.WriteAllText($@"{name}\project.json", json);
+                File.WriteAllText(Path.Combine(name, "project.json"), json);
 
                 Console.WriteLine("Fichier d'information crée.");
             }
@@ -633,7 +628,7 @@ wamp                                        Lance WAMP Serveur et défini le dos
                     try
                     {
                         string json = File.ReadAllText("project.json");
-                        Information inf = JsonConvert.DeserializeObject<Information>(json);
+                        Projet inf = JsonConvert.DeserializeObject<Projet>(json);
                         bool continu = true;
 
                         // Conflit de version
@@ -697,11 +692,191 @@ wamp                                        Lance WAMP Serveur et défini le dos
             else
                 Console.WriteLine("Problème, il manque le type d'action, le nom, et le nouveau nom du nouvel objet !");
         }
-
         private static void ajouterObj(string nom)
         {
+            bool continu = true;
+            List<Objet> objs = new List<Objet>();
 
+            if (File.Exists("object.json"))
+            {
+                try
+                {
+                    string json = File.ReadAllText("object.json");
+
+                    if (json != "")
+                    {
+                        objs = JsonConvert.DeserializeObject<List<Objet>>(json);
+
+                        foreach (Objet obj in objs)
+                        {
+                            if (obj.nom == nom)
+                            {
+                                Console.WriteLine("Heuuu, l'objet existe déjà...");
+                                continu = false;
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Impossible de lire la liste des objets existant !", e);
+                    continu = false;
+                }
+            }
+
+            if (continu) extractionArchiveObjet(objs, nom);
         }
+        private static bool extractionArchiveObjet(List<Objet> objs, string nom)
+        {
+            try
+            {
+                // Extrait l'archive des ressouces
+                Console.WriteLine("Extraction de l'archive...");
+                string zip = "base_objet.zip";
+                File.WriteAllBytes(zip, Resources.base_objet);
+
+                parcoursArchiveObjet(objs, zip, nom);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'extraire l'archive !", e);
+                return false;
+            }
+        }
+        private static void parcoursArchiveObjet(List<Objet> objs, string zip, string nom)
+        {
+            try
+            {
+
+                // namepace\namespace\obj --> Namepace\Namespace\Obj
+                string[] spt = nom.Split(Path.DirectorySeparatorChar);
+                string namspce = "";
+                foreach (string n in spt)
+                {
+                    namspce += $@"\{n.Substring(0, 1).ToUpper()}";
+                    if (n.Length > 1) namspce += n.Substring(1).ToLower();
+                }
+                string obnom = spt.Last();
+                
+                
+                // Ouvre l'archive
+                using (ZipArchive arc = ZipFile.OpenRead(zip))
+                {
+                    // Parcour chaque entree
+                    foreach (ZipArchiveEntry ent in arc.Entries)
+                    {
+
+                        // Si c'est un fichier
+                        if (ent.Name != "")
+                            extraireFichierObjet(ent, namspce, obnom, nom);
+                    }
+                }
+
+                supprimerArchiveObjet(zip);
+                ajouterJsonObjet(objs, nom);
+
+                Console.WriteLine("L'objet a été crée.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'extraire l'archive !", e);
+            }
+        }
+
+
+        
+        private static void extraireFichierObjet(ZipArchiveEntry ent, string namspce, string obnom, string nom)
+        {
+            try
+            {
+                // modele\dto\*.php --> modele\dto\namepace\namespace\obh.php
+                string file = Path.Combine(Path.GetDirectoryName(ent.FullName), nom) + Path.GetExtension(ent.Name);
+                string path = Path.GetDirectoryName(file);
+
+
+
+                Console.WriteLine(file);
+                Console.WriteLine(path);
+                Console.WriteLine(ent.FullName);
+                Console.WriteLine(nom);
+                Console.WriteLine(ent.Name);
+                Console.WriteLine();
+
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+                // Extrait le fichier de l'archive
+                ent.ExtractToFile(file);
+
+                try
+                {
+                    // Modifie le fichier
+                    //File.WriteAllText(path, File.ReadAllText(path).Replace("{PROJECT_NAME}", name));
+                    Console.WriteLine("Édition du fichier terminé.");
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Impossible d'éditer le fichier !", e);
+                }
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'extraire le fichier !", e);
+            }
+        }
+        private static void supprimerArchiveObjet(string zip)
+        {
+            try
+            {
+                // Supprime l'archive
+                Console.WriteLine("Suppression de l'archive...");
+                File.Delete(zip);
+                Console.WriteLine("Archive supprimée.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de supprimer l'archive !", e);
+            }
+        }
+        private static void ajouterJsonObjet(List<Objet> objs, string nom)
+        {
+            try
+            {
+                Console.WriteLine("Indexation de l'objet...");
+                
+                Objet obj = new Objet();
+                obj.nom = nom;
+                obj.createur = Environment.UserName;
+                obj.creation = DateTime.Now;
+                objs.Add(obj);
+
+                string json = JsonConvert.SerializeObject(objs, Formatting.Indented);
+                File.WriteAllText("object.json", json);
+
+                Console.WriteLine("Objet indexé.");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'indexé l'objet !", e);
+            }
+        }
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
         private static void supprimerObj(string nom)
         {
 
