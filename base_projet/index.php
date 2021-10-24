@@ -16,6 +16,9 @@ session_start();
 		<meta charset='utf-8' />
 		<title>{PROJECT_NAME}</title>
 		<link rel='icon' href='image/favicon.ico'/>
+		
+		<link rel="stylesheet/less" type="text/css" href="style/global.less">
+		<script type='text/javascript' src='script/global.js'></script>
 	</head>
 
 	<body>
@@ -27,5 +30,7 @@ session_start();
 		?>
 		<!-- ================================================== -->
 	</body>
+	
+	<script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
 	
 </html>

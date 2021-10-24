@@ -90,6 +90,10 @@ namespace Cody_PHP
                             Commande.openRepo(argm);
                             break;
 
+                        case "run":
+                            Commande.runProjet(argm);
+                            break;
+
                         case "vs":
                             Commande.openVSCode(argm);
                             break;

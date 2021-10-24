@@ -38,6 +38,7 @@ new [nom]                       Créer un nouveau projet avec le nom spécifié 
 obj [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un objet (classe dto, classe dao)
                                 avec le nom spécifié.
 rep                             Ouvre la dépôt GitHub de Cody-PHP.
+run                             Ouvre le projet dans le navigateur.
 vs                              Ouvre le projet dans Visual Studio Code.
 wamp                            Lance WAMP Serveur et défini le dossier courant sur le www.
 
@@ -265,6 +266,21 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 {
                     Message.writeExcept("Impossible d'ouvrir Visual Studio Code !", e);
                 }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+
+
+        // Ouvre le projet dans le navigateur
+        public static void runProjet(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                // Ouvre dans le navigateur
+                string f = Path.GetFileName(Directory.GetCurrentDirectory());
+                try { Process.Start($"http://localhost/{f}"); }
+                catch { }
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
@@ -677,16 +693,17 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                             switch (cmd[0].ToLower())
                             {
                                 case "-l":
-                                    listerObjet();
+                                    if (cmd.Length == 1) listerObjet();
+                                    else Console.WriteLine("Trop d'arguments !");
                                     break;
 
                                 case "-s":
-                                    if (cmd.Length == 2) supprimerObjet(cmd[1]);
+                                    if (cmd.Length == 2) supprimerObjet(cmd[1].ToLower());
                                     else Console.WriteLine("Il manque le nom de l'objet !");
                                     break;
 
                                 case "-a":
-                                    if (cmd.Length == 2) ajouterObjet(cmd[1]);
+                                    if (cmd.Length == 2) ajouterObjet(cmd[1].ToLower());
                                     else Console.WriteLine("Il manque le nom de l'objet !");
                                     break;
 
@@ -713,37 +730,42 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         // Ajoute un objet
         private static void ajouterObjet(string nom)
         {
-            bool continu = true;
-            List<Objet> objs = new List<Objet>();
-
-            if (File.Exists("object.json"))
+            if (nom != "global")
             {
-                try
+                bool continu = true;
+                List<Objet> objs = new List<Objet>();
+
+                if (File.Exists("object.json"))
                 {
-                    string json = File.ReadAllText("object.json");
-
-                    if (json != "")
+                    try
                     {
-                        objs = JsonConvert.DeserializeObject<List<Objet>>(json);
+                        string json = File.ReadAllText("object.json");
 
-                        foreach (Objet obj in objs)
+                        if (json != "")
                         {
-                            if (obj.nom == nom)
+                            objs = JsonConvert.DeserializeObject<List<Objet>>(json);
+
+                            foreach (Objet obj in objs)
                             {
-                                Console.WriteLine("Heuuu, l'objet existe déjà...");
-                                continu = false;
+                                if (obj.nom == nom)
+                                {
+                                    Console.WriteLine("Heuuu, l'objet existe déjà...");
+                                    continu = false;
+                                }
                             }
                         }
                     }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Impossible de lire la liste des objets existant !", e);
+                        continu = false;
+                    }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Impossible de lire la liste des objets existant !", e);
-                    continu = false;
-                }
-            }
 
-            if (continu) extractionArchiveObjet(objs, nom);
+                if (continu) extractionArchiveObjet(objs, nom);
+            }
+            else
+                Console.WriteLine("Le nom global est reservé, impossible de l'utiliser.");
         }
         private static void extractionArchiveObjet(List<Objet> objs, string nom)
         {
@@ -1127,16 +1149,17 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                             switch (cmd[0].ToLower())
                             {
                                 case "-l":
-                                    listerComposant();
+                                    if (cmd.Length == 1) listerComposant();
+                                    else Console.WriteLine("Trop d'arguments !");
                                     break;
 
                                 case "-s":
-                                    if (cmd.Length == 2) supprimerComposant(cmd[1]);
+                                    if (cmd.Length == 2) supprimerComposant(cmd[1].ToLower());
                                     else Console.WriteLine("Il manque le nom de l'objet !");
                                     break;
 
                                 case "-a":
-                                    if (cmd.Length == 2) ajouterComposant(cmd[1]);
+                                    if (cmd.Length == 2) ajouterComposant(cmd[1].ToLower());
                                     else Console.WriteLine("Il manque le nom de l'objet !");
                                     break;
 
@@ -1163,37 +1186,42 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         // Ajoute un composant
         private static void ajouterComposant(string nom)
         {
-            bool continu = true;
-            List<Composant> comps = new List<Composant>();
-
-            if (File.Exists("component.json"))
+            if (nom != "global")
             {
-                try
+                bool continu = true;
+                List<Composant> comps = new List<Composant>();
+
+                if (File.Exists("component.json"))
                 {
-                    string json = File.ReadAllText("component.json");
-
-                    if (json != "")
+                    try
                     {
-                        comps = JsonConvert.DeserializeObject<List<Composant>>(json);
+                        string json = File.ReadAllText("component.json");
 
-                        foreach (Composant comp in comps)
+                        if (json != "")
                         {
-                            if (comp.nom == nom)
+                            comps = JsonConvert.DeserializeObject<List<Composant>>(json);
+
+                            foreach (Composant comp in comps)
                             {
-                                Console.WriteLine("Heuuu, le composant existe déjà...");
-                                continu = false;
+                                if (comp.nom == nom)
+                                {
+                                    Console.WriteLine("Heuuu, le composant existe déjà...");
+                                    continu = false;
+                                }
                             }
                         }
                     }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Impossible de lire la liste des composants existant !", e);
+                        continu = false;
+                    }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Impossible de lire la liste des composants existant !", e);
-                    continu = false;
-                }
-            }
 
-            if (continu) extractionArchiveComposant(comps, nom);
+                if (continu) extractionArchiveComposant(comps, nom);
+            }
+            else
+                Console.WriteLine("Le nom global est reservé, impossible de l'utiliser.");
         }
         private static void extractionArchiveComposant(List<Composant> comps, string nom)
         {
