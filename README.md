@@ -189,6 +189,7 @@ projet
 ├───script
 │       accueil.js
 │       bas.js
+│       global.js
 │       haut.js
 │       menu.js
 │       panneau.js
@@ -196,6 +197,7 @@ projet
 ├───style
 │       accueil.less
 │       bas.less
+│       global.less
 │       haut.less
 │       menu.less
 │       panneau.less
