@@ -186,7 +186,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             if (cmd.Length == 0)
             {
                 // Ouvre dans le navigateur
-                try { Process.Start("explorer", "https://github.com/TheRake66/Cody-PHP"); }
+                try { Process.Start("https://github.com/TheRake66/Cody-PHP"); }
                 catch { }
             }
             else
@@ -245,7 +245,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     try
                     {
                         // Ouvre dans le navigateur
-                        Process.Start("explorer", Directory.GetCurrentDirectory());
+                        Process.Start(Directory.GetCurrentDirectory());
                     }
                     catch (Exception e)
                     {
@@ -272,9 +272,8 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     {
                         // Ouvre dans le navigateur
                         ProcessStartInfo startInfo = new ProcessStartInfo();
-                        startInfo.FileName = "cmd";
-                        startInfo.Arguments = "/c code .";
-                        startInfo.CreateNoWindow = true;
+                        startInfo.FileName = "code";
+                        startInfo.Arguments = ".";
                         startInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
                         Process processTemp = new Process();
@@ -304,7 +303,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 {
                     // Ouvre dans le navigateur
                     string f = Path.GetFileName(Directory.GetCurrentDirectory());
-                    try { Process.Start("explorer", $"http://localhost/{f}"); }
+                    try { Process.Start($"http://localhost/{f}"); }
                     catch { }
                 }
                 else
@@ -367,7 +366,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         // Lance wamp
                         try
                         {
-                            Process.Start("cmd", $"/c \"{path}\\wampmanager.exe\"");
+                            Process.Start($@"{path}\wampmanager.exe");
                             Console.WriteLine("WAMP lancé.");
                         }
                         catch (Exception e)
