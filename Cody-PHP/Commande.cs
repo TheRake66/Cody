@@ -1112,7 +1112,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 {
                     Console.WriteLine("Récupération de la liste des items...");
                     string json = File.ReadAllText(jsoni);
-                    Console.WriteLine("List récupérée.");
+                    Console.WriteLine("Liste récupérée.");
 
                     if (json != "")
                     {
