@@ -28,6 +28,7 @@ L'architecture Model View Controler apport un cadre de travail propre travail pr
 Il inclut quelques librairies comme la gestion des bases de données, l'autoloader, un système de routage et bien d'autres. Malgré ses librairies complété, un projet vierge ne pèse seulement que 500 Ko !
 
 
+
 ## Liste des commandes
 
 **Pour la version _1.0.0.0_.**<br>
@@ -101,6 +102,11 @@ wamp
 ```
 Lance WAMP Serveur et défini le dossier courant sur le www.<br>
 
+
+
+## Projet vierge
+Lors de la création d'un nouveau projet un projet vierge sera créer, il contiendra toutes les librairies nécessaires ainsi que quelques composants et objet de base.
+Il intégrera aussi cette page d'accueil :
 
 __Version 1.0.0.0 :<br> Première version  
 
