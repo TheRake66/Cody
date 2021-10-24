@@ -111,3 +111,28 @@ Lance WAMP Serveur et défini le dossier courant sur le www.<br>
 Lors de la création d'un nouveau projet un projet vierge sera créer, il contiendra toutes les librairies nécessaires ainsi que quelques composants et objet de base.
 Il intégrera aussi cette page d'accueil :<br>
 <img alt="Page d'accueil" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/projet.png">
+
+
+
+# Licence
+Licence MIT<br>
+<br>
+Copyright (c) 2021 TheRake66<br>
+<br>
+Permission est accordée, sans frais, à toute personne obtenant une copie
+de ce logiciel et des fichiers de documentation associés (le "Logiciel"), pour traiter
+dans le Logiciel sans restriction, y compris, sans limitation, les droits
+utiliser, copier, modifier, fusionner, publier, distribuer, sous-licencier et/ou vendre
+copies du Logiciel et de permettre aux personnes auxquelles le Logiciel est
+fourni à cet effet, sous réserve des conditions suivantes :<br>
+<br>
+L'avis de droit d'auteur ci-dessus et cet avis d'autorisation doivent être inclus dans tous les
+des copies ou des parties substantielles du Logiciel.<br>
+<br>
+LE LOGICIEL EST FOURNI « EN L'ÉTAT », SANS GARANTIE D'AUCUNE SORTE, EXPRESSE OU
+IMPLICITE, Y COMPRIS MAIS NON LIMITÉ AUX GARANTIES DE QUALITÉ MARCHANDE,
+APTITUDE A UN USAGE PARTICULIER ET NON CONTREFAÇON. EN AUCUN CAS, LE
+LES AUTEURS OU TITULAIRES DE DROITS D'AUTEUR SERONT RESPONSABLES DE TOUTE RÉCLAMATION, DOMMAGES OU AUTRE
+RESPONSABILITÉ, QUE CE SOIT DANS UNE ACTION CONTRACTUELLE, DÉLICTUELLE OU AUTRE, DÉCOULANT DE,
+HORS OU EN RELATION AVEC LE LOGICIEL OU L'UTILISATION OU D'AUTRES OPÉRATIONS DANS LE
+LOGICIEL.<br>
