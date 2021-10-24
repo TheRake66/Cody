@@ -2,9 +2,10 @@
 <p align="center">
     <img src="https://github.com/TheRake66/Cody-PHP/blob/main/images/logo.png" alt="logo" width=300 height=157>
 <p align="center">
-Framework PHP/JavaScript/HTML/Less en français
+Framework PHP/JavaScript/HTML/Less en français.
 <br>
-<a href="https://github.com/TheRake66/Cody-PHP/raw/main/cody.exe"><strong>► Téléchargement (1.4.8.0) ◄</strong></a>
+<br>
+<a href="https://github.com/TheRake66/Cody-PHP/raw/main/cody.exe"><img alt="Télécharger" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/bouton.png"></a>
 <br>
 <br>
 <a href="https://github.com/TheRake66/Cody-PHP/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody-PHP"></a>
