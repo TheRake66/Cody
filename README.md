@@ -114,7 +114,7 @@ Lance WAMP Serveur et défini le dossier courant sur le www.<br>
 <br>
 
 # Projet vierge
-Lors de la création d'un nouveau projet un projet vierge sera créer, il contiendra toutes les librairies nécessaires ainsi que quelques composants et objet de base.
+Lors de la création d'un nouveau projet un projet vierge sera créer, il contiendra toutes les librairies nécessaires ainsi que quelques composants et objets de base.
 Il intégrera aussi cette page d'accueil :<br>
 <br>
 <img alt="Page d'accueil" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/projet.png">
@@ -230,7 +230,7 @@ Routeur::defaut('/accueil', function() {
 	new Controleur\Accueil();
 });
 ```
-**Si aucune de ces deux routes n'est définie, le routeur prendra la première route existante.**<br> 
+**Si aucune de ces deux routes n'est définie, le routeur utilisera la première route existante.**<br> 
 
 
 
