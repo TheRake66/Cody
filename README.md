@@ -2,8 +2,9 @@
 Framework PHP/JavaScript/HTML/CSS en français.
 
 <h1>Liste des commandes</h1>
-<p>
+
 <b>Pour la version _1.0.0.0_.<b/><br/>
+<p>
 aide                            Affiche la liste des commandes disponible.<br/>
 cd [*chemin]                    Affiche ou change le dossier courant.<br/>
 cls                             Nettoie la console.<br/>
