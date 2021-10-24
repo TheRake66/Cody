@@ -38,7 +38,7 @@ Un petit aperçu :<br>
 
 # Liste des commandes
 
-**Pour la version _1.1.2.0_.**<br>
+**Pour la version _1.4.6.0_.**<br>
 ```
 aide                            
 ```
