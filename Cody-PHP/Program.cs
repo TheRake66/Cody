@@ -207,11 +207,11 @@ namespace Cody_PHP
 ");
 
             Message.writeIn(ConsoleColor.DarkRed, @"
-                                      ░░░▒▒▓▓ Cody-PHP ▓▓▒▒░░░");
+                                         ░░░▒▒▓▓ Cody-PHP ▓▓▒▒░░░");
 
             Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                 Version {version} du 24 octobre 2021
-                           Copyright © 2021 - Thibault BUSTOS (TheRake66)");
+                                    Version {version} du 24 octobre 2021
+                              Copyright © 2021 - Thibault BUSTOS (TheRake66)");
 
             Console.WriteLine(@"
 
