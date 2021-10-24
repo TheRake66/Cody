@@ -6,6 +6,7 @@ Framework PHP/JavaScript/HTML/Less en français
 <br>
 <a href="https://TheRake66.github.io/Cody-PHP-documentation/"><strong>► Téléchargement ◄</strong></a>
 <br>
+<br>
 <a href="https://github.com/TheRake66/Cody-PHP/blob/master/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody-PHP"></a>
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/TheRake66/Cody-PHP">
 <a href="https://github.com/TheRake66/Cody-PHP/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheRake66/Cody-PHP"></a>
