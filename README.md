@@ -207,6 +207,20 @@ projet
 
 <br>
 
+# Système de routage
+Inclut dans un projet vierge, le fichier de routage permet d'appeler le\les bon(s) controleur(s).
+Pour ce faire il faut lui donner une adresse de route, puis une fonction anonyme comme ceci :
+```php
+# Route vers Accueil
+Routeur::go('/accueil', function() {
+	new Controleur\Accueil();
+});
+```
+
+
+
+<br>
+
 # Licence
 *Licence MIT<br>
 <br>
