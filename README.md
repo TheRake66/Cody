@@ -18,6 +18,7 @@ Framework PHP/JavaScript/HTML/Less en français
 
 
 # Cody-PHP
+## Présentation
 ### Qu'es-ce que c'est ?
 Cody-PHP est un framework destiné à la création du site web en PHP, Javascript, HTML et Less.
 Il permet des creer simplement et rapidement un site designe est complet grace à sa structure MVC.
@@ -32,6 +33,7 @@ Un petit aperçu :<br>
 
 
 
+## Utilisation
 ### Liste des commandes
 
 **Pour la version _1.0.0.0_.**<br>
