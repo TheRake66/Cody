@@ -12,14 +12,14 @@ session_start();
 <!DOCTYPE html>
 <html lang='fr'>
 
+	<!-- ================================================== -->
+	<!-- Definition du head -->
 	<head>
 		<meta charset='utf-8' />
 		<title>{PROJECT_NAME}</title>
 		<link rel='icon' href='image/favicon.ico'/>
-		
-		<link rel="stylesheet/less" type="text/css" href="style/global.less">
-		<script type='text/javascript' src='script/global.js'></script>
 	</head>
+	<!-- ================================================== -->
 
 	<body>
 		<!-- ================================================== -->
@@ -30,7 +30,12 @@ session_start();
 		?>
 		<!-- ================================================== -->
 	</body>
-	
+
+	<!-- ================================================== -->
+	<!-- Inclusion des fichiers globaux et de Less -->
+	<link rel="stylesheet/less" type="text/css" href="style/global.less">
+	<script type='text/javascript' src='script/global.js'></script>
 	<script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
+	<!-- ================================================== -->
 	
 </html>
