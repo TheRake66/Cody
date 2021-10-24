@@ -1,20 +1,21 @@
 <p align="center">
+<img src="https://github.com/TheRake66/Cody-PHP/blob/main/images/logo.png" alt="logo" width=300 height=157>
 
-  <a href="https://bakeiro.github.io/Light-PHP-documentation/">
-    <img src="https://github.com/bakeiro/Light-PHP/blob/7c5e7aa0993bdb48a17bdbe19d780826648794c6/src/view/www/src/images/logo.png" alt="logo" width=300 height=83>
-  </a>
-  <p align="center">
-    Micro PHP framework.
-    <br>
-    <a href="https://bakeiro.github.io/Light-PHP-documentation/"><strong>- Explore the DOCS -</strong></a>
-    <br><br>
-<a href="https://github.com/bakeiro/Light-PHP/blob/master/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/bakeiro/light-PHP"></a>
-<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/bakeiro/light-php">
-<a href="https://github.com/bakeiro/Light-PHP/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/bakeiro/Light-PHP"></a>
-<a href="https://packagist.org/packages/bakeiro/light-php"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/bakeiro/light-php?color=green"></a>
+<p align="center">
+Framework PHP/JavaScript/HTML/Less en français
+<br>
+<a href="https://TheRake66.github.io/Cody-PHP-documentation/"><strong>► Téléchargement ◄</strong></a>
 
-  </p>
+<br>
+<br>
+
+<a href="https://github.com/TheRake66/Cody-PHP/blob/master/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody-PHP"></a>
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/TheRake66/Cody-PHP">
+<a href="https://github.com/TheRake66/Cody-PHP/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheRake66/Cody-PHP"></a>
+<a href="https://packagist.org/packages/TheRake66/Cody-PHP"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/TheRake66/Cody-PHP?color=green"></a>
 </p>
+</p>
+
 
 <br>
 
