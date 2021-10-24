@@ -11,7 +11,7 @@ class {NAME_UPPER} {
     /**
      * Recupere un objet {NAME_UPPER} via son id
      * 
-     * @param string le login
+     * @param string l'id
      * @return {NAME_UPPER} le {NAME_LOWER}
      */
     public static function {NAME_LOWER} ($id) {
