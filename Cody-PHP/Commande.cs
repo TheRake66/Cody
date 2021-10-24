@@ -553,12 +553,13 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 // Fichiers ou l'on rajoute le nom
                 string[] toedit = new string[]
                 {
-                    "index.php",
-                    Path.Combine("vues", "accueil.php"),
-                    "database.json"
+                    ".php",
+                    ".js",
+                    ".json",
+                    ".less"
                 };
 
-                if (toedit.Contains(file))
+                if (toedit.Contains(Path.GetExtension(file)))
                 {
                     try
                     {

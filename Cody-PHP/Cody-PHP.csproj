@@ -86,6 +86,8 @@
     <None Include="bin\Debug\Newtonsoft.Json.xml" />
     <None Include="bin\Debug\Newtonsoft.Json.dll" />
     <Content Include="icon.ico" />
+    <None Include="Resources\Newtonsoft.Json.xml" />
+    <None Include="Resources\Newtonsoft.Json.dll" />
     <Content Include="Sans titre.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

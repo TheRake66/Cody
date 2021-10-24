@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Les informations générales relatives à un assembly dépendent de
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("Framework PHP/JavaScript/HTML/CSS en français.")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Framework PHP/JavaScript/HTML/CSS en français")]
+[assembly: AssemblyDescription("Framework PHP/JavaScript/HTML/CSS en français")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Cody-PHP")]
-[assembly: AssemblyCopyright("Copyright © Thibault BUSTOS (TheRake66) - 2021")]
+[assembly: AssemblyCopyright("Copyright © 2021 - Thibault BUSTOS (TheRake66)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -7,8 +7,8 @@ function loadEvent() {
     document.getElementById('cd').onclick = () => setConsoleText('cd C:\\wamp\\www');
     document.getElementById('ls').onclick = () => setConsoleText('ls');
     document.getElementById('new').onclick = () => setConsoleText('new mon-projet');
-    document.getElementById('com').onclick = () => setConsoleText('com mon-projet -a mon-composant');
-    document.getElementById('obj').onclick = () => setConsoleText('obj mon-projet -a mon-objet');
+    document.getElementById('com').onclick = () => setConsoleText('com -a mon-composant');
+    document.getElementById('obj').onclick = () => setConsoleText('obj -a mon-objet');
 }
 
 
