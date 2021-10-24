@@ -237,15 +237,21 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         {
             if (cmd.Length == 0)
             {
-                try
-                { 
-                    // Ouvre dans le navigateur
-                    Process.Start("explorer.exe", Directory.GetCurrentDirectory()); 
-                }
-                catch (Exception e)
+                // Si le projet existe
+                if (File.Exists("project.json"))
                 {
-                    Message.writeExcept("Impossible d'ouvrir l'explorateur !", e);
+                    try
+                    {
+                        // Ouvre dans le navigateur
+                        Process.Start("explorer.exe", Directory.GetCurrentDirectory());
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible d'ouvrir l'explorateur !", e);
+                    }
                 }
+                else
+                    Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
@@ -257,15 +263,21 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         {
             if (cmd.Length == 0)
             {
-                try
+                // Si le projet existe
+                if (File.Exists("project.json"))
                 {
-                    // Ouvre dans le navigateur
-                    Process.Start("code", ".");
+                    try
+                    {
+                        // Ouvre dans le navigateur
+                        Process.Start("code", ".");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible d'ouvrir Visual Studio Code !", e);
+                    }
                 }
-                catch (Exception e)
-                {
-                    Message.writeExcept("Impossible d'ouvrir Visual Studio Code !", e);
-                }
+                else
+                    Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
@@ -277,10 +289,16 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         {
             if (cmd.Length == 0)
             {
-                // Ouvre dans le navigateur
-                string f = Path.GetFileName(Directory.GetCurrentDirectory());
-                try { Process.Start($"http://localhost/{f}"); }
-                catch { }
+                // Si le projet existe
+                if (File.Exists("project.json"))
+                {
+                    // Ouvre dans le navigateur
+                    string f = Path.GetFileName(Directory.GetCurrentDirectory());
+                    try { Process.Start($"http://localhost/{f}"); }
+                    catch { }
+                }
+                else
+                    Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
