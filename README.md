@@ -4,7 +4,7 @@
 <p align="center">
 Framework PHP/JavaScript/HTML/Less en français
 <br>
-<a href="https://github.com/TheRake66/Cody-PHP/raw/main/cody.exe"><strong>► Téléchargement ◄</strong></a>
+<a href="https://github.com/TheRake66/Cody-PHP/raw/main/cody.exe"><strong>► Téléchargement (1.0.0.0) ◄</strong></a>
 <br>
 <br>
 <a href="https://github.com/TheRake66/Cody-PHP/blob/master/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody-PHP"></a>
@@ -111,7 +111,3 @@ Lance WAMP Serveur et défini le dossier courant sur le www.<br>
 Lors de la création d'un nouveau projet un projet vierge sera créer, il contiendra toutes les librairies nécessaires ainsi que quelques composants et objet de base.
 Il intégrera aussi cette page d'accueil :<br>
 <img alt="Page d'accueil" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/projet.png">
-
-__Version 1.0.0.0 :<br> Première version  
-
-![Cody-PHP](https://raw.githubusercontent.com/TheRake66/Cody-PHP/main/images/screenshot.png)
