@@ -218,15 +218,15 @@ Routeur::go('/accueil', function() {
 ``` 
 Vous pouvez également définir une route en cas de route introuvale :<br>
 ```php
-# Route vers Accueil
-Routeur::go('/accueil', function() {
-	new Controleur\Accueil();
+# Route vers Introuvable
+Routeur::introuvable('/404', function() {
+	new Controleur\Introuvable();
 });
 ``` 
 Et aussi définir une route par défaut si aucune route n'est demandée ou si aucune route pour un cas de route introuvable n'est définie :<br>
 ```php
 # Route vers Accueil
-Routeur::go('/accueil', function() {
+Routeur::defaut('/accueil', function() {
 	new Controleur\Accueil();
 });
 ```
