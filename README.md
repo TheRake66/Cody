@@ -215,7 +215,7 @@ Pour ce faire il faut lui donner une adresse de route, puis une fonction anonyme
 Routeur::go('/accueil', function() {
 	new Controleur\Accueil();
 });
-```
+``` 
 
 
 
