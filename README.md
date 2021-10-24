@@ -225,23 +225,24 @@ Inclus dans un projet vierge, le fichier de routage (route.php) permet d'appeler
 Pour ce faire il faut lui donner une adresse de route, puis une fonction anonyme comme ceci :<br>
 ```php
 # Route vers Accueil
-Routeur::go('/accueil', function() {
+Routeur::go('accueil', function() {
 	new Controleur\Accueil();
+});
+
+# Route vers Introuvable
+Routeur::go('404', function() {
+	new Controleur\Introuvable();
 });
 ``` 
 Vous pouvez également définir une route en cas de route introuvale :<br>
 ```php
 # Route vers Introuvable
-Routeur::introuvable('/404', function() {
-	new Controleur\Introuvable();
-});
+Routeur::introuvable('404');
 ``` 
 Et aussi définir une route par défaut si aucune route n'est demandée ou si aucune route pour un cas de route introuvable n'est définie :<br>
 ```php
 # Route vers Accueil
-Routeur::defaut('/accueil', function() {
-	new Controleur\Accueil();
-});
+Routeur::defaut('accueil');
 ```
 **Si aucune de ces deux routes n'est définie, le routeur utilisera la première route existante.**<br> 
 
