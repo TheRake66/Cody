@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Cody_PHP
 {
-    class Objet
+    class Item
     {
 
-        // Informations contenues dans object.json
+        // Informations
         public string nom;
         public DateTime creation;
         public string createur;

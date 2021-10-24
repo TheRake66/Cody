@@ -22,6 +22,7 @@ namespace Cody_PHP
         static void Main(string[] args)
         {
             verifiLibrairies();
+            changerTaille();
             afficherLogo();
 
 
@@ -38,6 +39,7 @@ namespace Cody_PHP
                 {
                     // Retire la commande de base des arguments
                     string[] argm = split.Skip(1).ToArray();
+                    changerTaille(); // Si setcursorposition est en dehors
 
                     // Dispatch dans les commandes
                     switch (cmd)
@@ -191,6 +193,15 @@ namespace Cody_PHP
         }
 
 
+        // Change la taille de la console
+        static void changerTaille()
+        {
+            Console.SetWindowSize(
+                Math.Min(130, Console.LargestWindowWidth),
+                Math.Min(45, Console.LargestWindowHeight));
+        }
+
+
         // Affiche le logo
         static void afficherLogo()
         {
@@ -221,5 +232,6 @@ namespace Cody_PHP
 
 Utilisez la commande 'aide' pour voir la liste des commandes.");
         }
+
     }
 }
