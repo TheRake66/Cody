@@ -39,7 +39,7 @@ Un petit aperçu :<br>
 
 # Liste des commandes
 
-**Pour la version _1.4.12.0_.**<br>
+**Pour la version _1.5.12.0_.**<br>
 ```
 aide                            
 ```

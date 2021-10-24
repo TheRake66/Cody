@@ -211,6 +211,8 @@ namespace Cody_PHP
         {
             // Nettoie si jamais l'user l'a lancer via commande
             Console.Clear();
+            // Change le titre de la console
+            Console.Title = $"({version}) Cody-PHP";
 
             // Entete
             Message.writeIn(ConsoleColor.Blue, @"
