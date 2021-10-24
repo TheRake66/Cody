@@ -216,6 +216,22 @@ Routeur::go('/accueil', function() {
 	new Controleur\Accueil();
 });
 ``` 
+Vous pouvez également définir une route en cas de route introuvale :<br>
+```php
+# Route vers Accueil
+Routeur::go('/accueil', function() {
+	new Controleur\Accueil();
+});
+``` 
+Et aussi définir une route par défaut si aucune route n'est demandée ou si aucune route pour un cas de route introuvable n'est définie :<br>
+```php
+# Route vers Accueil
+Routeur::go('/accueil', function() {
+	new Controleur\Accueil();
+});
+```
+<br> 
+Si aucune de ces deux routes n'est définie, le routeur prendra la première route existante.<br> 
 
 
 
