@@ -231,7 +231,7 @@ Routeur::defaut('/accueil', function() {
 });
 ```
 <br> 
-Si aucune de ces deux routes n'est définie, le routeur prendra la première route existante.<br> 
+**Si aucune de ces deux routes n'est définie, le routeur prendra la première route existante.**<br> 
 
 
 
