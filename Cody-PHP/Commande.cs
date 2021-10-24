@@ -423,13 +423,19 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         }
 
                         Console.SetCursorPosition(0, Console.CursorTop - 1);
-                        Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
-                        Console.WriteLine();
 
                         if (count > 0)
+                        {
+                            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+                            Console.WriteLine();
                             Console.WriteLine("Listage terminé.");
+                        }
                         else
+                        {
+                            Console.WriteLine("╚═════════════════════════════╩══════════════╩═════════════════╩═══════════════╩═════════════════════════╩════════════════╝");
+                            Console.WriteLine();
                             Console.WriteLine("Heuuu, il n'y a aucun projet dans ce dossier...");
+                        }
                     }
                     else
                         Console.WriteLine("Heuuu, il n'y a aucun dossier...");
@@ -1133,13 +1139,19 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         }
 
                         Console.SetCursorPosition(0, Console.CursorTop - 1);
-                        Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════╝");
-                        Console.WriteLine();
 
                         if (count > 0)
+                        {
+                            Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════╝");
+                            Console.WriteLine();
                             Console.WriteLine("Listage terminé.");
+                        }
                         else
+                        {
+                            Console.WriteLine("╚═════════════════════════════╩══════════════╩═════════════════════════╩════════════════╝");
+                            Console.WriteLine();
                             Console.WriteLine("Heuuu, il n'y a aucun élément dans ce projet...");
+                        }
                     }
                     else
                     {
