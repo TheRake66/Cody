@@ -4,7 +4,7 @@
 <p align="center">
 Framework PHP/JavaScript/HTML/Less en français
 <br>
-<a href="https://github.com/TheRake66/Cody-PHP/raw/main/cody.exe"><strong>► Téléchargement (1.4.6.0) ◄</strong></a>
+<a href="https://github.com/TheRake66/Cody-PHP/raw/main/cody.exe"><strong>► Téléchargement (1.4.7.0) ◄</strong></a>
 <br>
 <br>
 <a href="https://github.com/TheRake66/Cody-PHP/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody-PHP"></a>
@@ -38,7 +38,7 @@ Un petit aperçu :<br>
 
 # Liste des commandes
 
-**Pour la version _1.4.6.0_.**<br>
+**Pour la version _1.4.7.0_.**<br>
 ```
 aide                            
 ```

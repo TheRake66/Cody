@@ -460,7 +460,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             {
                 long[] data = Librairie.getCountAndSizeFolder(dir);
 
-                Console.SetCursorPosition(36, Console.CursorTop);
+                Console.SetCursorPosition(32, Console.CursorTop);
                 Console.Write(data[0]);
                 Console.SetCursorPosition(47, Console.CursorTop);
                 Console.Write(data[1]);
@@ -468,7 +468,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                Console.SetCursorPosition(36, Console.CursorTop);
+                Console.SetCursorPosition(32, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
                 Console.SetCursorPosition(47, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
