@@ -1,19 +1,16 @@
 <br>
 <p align="center">
     <img src="https://github.com/TheRake66/Cody-PHP/blob/main/images/logo.png" alt="logo" width=300 height=157>
-
-    <p align="center">
-        Framework PHP/JavaScript/HTML/Less en français
-        <br>
-        <a href="https://TheRake66.github.io/Cody-PHP-documentation/"><strong>► Téléchargement ◄</strong></a>
-
-        <br>
-
-        <a href="https://github.com/TheRake66/Cody-PHP/blob/master/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody-PHP"></a>
-        <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/TheRake66/Cody-PHP">
-        <a href="https://github.com/TheRake66/Cody-PHP/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheRake66/Cody-PHP"></a>
-        <a href="https://packagist.org/packages/TheRake66/Cody-PHP"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/TheRake66/Cody-PHP?color=green"></a>
-    </p>
+<p align="center">
+Framework PHP/JavaScript/HTML/Less en français
+<br>
+<a href="https://TheRake66.github.io/Cody-PHP-documentation/"><strong>► Téléchargement ◄</strong></a>
+<br>
+<a href="https://github.com/TheRake66/Cody-PHP/blob/master/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody-PHP"></a>
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/TheRake66/Cody-PHP">
+<a href="https://github.com/TheRake66/Cody-PHP/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheRake66/Cody-PHP"></a>
+<a href="https://packagist.org/packages/TheRake66/Cody-PHP"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/TheRake66/Cody-PHP?color=green"></a>
+</p>
 </p>
 <br>
 
