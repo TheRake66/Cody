@@ -119,6 +119,7 @@ Il intégrera aussi cette page d'accueil :<br>
 <br>
 <img alt="Page d'accueil" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/projet.png">
 <br>
+<br>
 Architecture d'un projet vierge :<br>
 ```
 projet
