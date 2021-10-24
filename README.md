@@ -1,8 +1,9 @@
-# Cody-PHP #
+<h1>Cody-PHP</h1>
 Framework PHP/JavaScript/HTML/CSS en français.
 
-## Liste des commandes ##
-**Pour la version _1.0.0.0_.**<br/>
+<h1>Liste des commandes</h1>
+<p>
+<b>Pour la version _1.0.0.0_.**<b/><br/>
 **aide**                            Affiche la liste des commandes disponible.<br/>
 **cd** [*chemin]                    Affiche ou change le dossier courant.<br/>
 **cls**                             Nettoie la console.<br/>
@@ -19,9 +20,8 @@ Framework PHP/JavaScript/HTML/CSS en français.
 **rep**                             Ouvre la dépôt GitHub de Cody-PHP.<br/>
 **vs**                              Ouvre le projet dans Visual Studio Code.<br/>
 **wamp**                            Lance WAMP Serveur et défini le dossier courant sur le www.<br/>
+</p>
 
-
-<h1>test</h1>
 
 __Version 1.0.0.0 :<br/> Première version  
 
