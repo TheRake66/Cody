@@ -29,6 +29,7 @@ L'architecture Model View Controler apport un cadre de travail propre travail pr
 Il inclut quelques librairies comme la gestion des bases de données, l'autoloader, un système de routage et bien d'autres. Malgré ses librairies complété, un projet vierge ne pèse seulement que 500 Ko !
 
 Un petit aperçu :<br>
+<br>
 <img alt="Console" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/cmd.png">
 
 
@@ -115,6 +116,7 @@ Lance WAMP Serveur et défini le dossier courant sur le www.<br>
 # Projet vierge
 Lors de la création d'un nouveau projet un projet vierge sera créer, il contiendra toutes les librairies nécessaires ainsi que quelques composants et objet de base.
 Il intégrera aussi cette page d'accueil :<br>
+<br>
 <img alt="Page d'accueil" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/projet.png">
 
 
