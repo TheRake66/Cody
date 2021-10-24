@@ -118,6 +118,89 @@ Lors de la création d'un nouveau projet un projet vierge sera créer, il contie
 Il intégrera aussi cette page d'accueil :<br>
 <br>
 <img alt="Page d'accueil" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/projet.png">
+<br>
+Architecture d'un projet vierge :<br>
+```
+projet
+│   .htaccess
+│   component.json
+│   database.json
+│   index.php
+│   object.json
+│   project.json
+│   route.php
+│
+├───controleur
+│       accueil.php
+│       bas.php
+│       haut.php
+│       menu.php
+│       panneau.php
+│
+├───document
+│       bdd.sql
+│       jmerise.mcd
+│       mea.png
+│       mlr.png
+│
+├───image
+│       cli.png
+│       facebook.png
+│       favicon.ico
+│       github.png
+│       github2.png
+│       google.png
+│       instagram.png
+│       linkedin.png
+│       logo.png
+│       plus.png
+│       texture.svg
+│       twitter.png
+│       youtube.png
+│
+├───librairie
+│       autoloader.php
+│       convert.php
+│       database.php
+│       debug.php
+│       routeur.php
+│       security.php
+│
+├───modele
+│   ├───dao
+│   │       jeton.php
+│   │       typeutilisateur.php
+│   │       utilisateur.php
+│   │
+│   ├───dto
+│   │       jeton.php
+│   │       typeutilisateur.php
+│   │       utilisateur.php
+│   │
+│   └───reflect
+│           hydrate.php
+│
+├───script
+│       accueil.js
+│       bas.js
+│       haut.js
+│       menu.js
+│       panneau.js
+│
+├───style
+│       accueil.less
+│       bas.less
+│       haut.less
+│       menu.less
+│       panneau.less
+│
+└───vue
+        accueil.php
+        bas.php
+        haut.php
+        menu.php
+        panneau.php
+```
 
 
 
