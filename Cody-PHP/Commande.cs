@@ -272,8 +272,8 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     {
                         // Ouvre dans le navigateur
                         ProcessStartInfo startInfo = new ProcessStartInfo();
-                        startInfo.FileName = "code";
-                        startInfo.Arguments = ".";
+                        startInfo.FileName = "cmd";
+                        startInfo.Arguments = "/c code .";
                         startInfo.CreateNoWindow = true;
                         startInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
