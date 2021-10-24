@@ -72,6 +72,10 @@ namespace Cody_PHP
                             Commande.openExplorer(argm);
                             break;
 
+                        case "lib":
+                            Commande.gestLibrairie(argm);
+                            break;
+
                         case "ls":
                             Commande.listProjet(argm);
                             break;

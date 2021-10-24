@@ -32,6 +32,8 @@ com [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un composant (control
 die                             Quitte Cody-PHP.
 dl [url] [fichier]              Télécharge un fichier avec l'URL spécifiée.
 exp                             Ouvre le projet dans l'explorateur de fichiers.
+lib [-s|-a|-l] [nom]            Ajoute, liste, ou supprime une librairie.
+                                avec le nom spécifié.
 ls                              Affiche la liste des projets.
 maj                             Met à jour Cody-PHP via le depot GitHub.
 new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
@@ -705,6 +707,12 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         public static void gestObjet(string[] cmd)
         {
             gestItem(cmd, "base_objet.zip", Resources.base_objet, "object.json");
+        }
+
+        // Gere les librairies
+        public static void gestLibrairie(string[] cmd)
+        {
+            gestItem(cmd, "base_librairie.zip", Resources.base_librairie, "library.json");
         }
 
         // Gere les composants

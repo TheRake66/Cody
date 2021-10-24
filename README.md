@@ -4,7 +4,7 @@
 <p align="center">
 Framework PHP/JavaScript/HTML/Less en français
 <br>
-<a href="https://github.com/TheRake66/Cody-PHP/raw/main/cody.exe"><strong>► Téléchargement (1.3.6.0) ◄</strong></a>
+<a href="https://github.com/TheRake66/Cody-PHP/raw/main/cody.exe"><strong>► Téléchargement (1.4.6.0) ◄</strong></a>
 <br>
 <br>
 <a href="https://github.com/TheRake66/Cody-PHP/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody-PHP"></a>
@@ -75,6 +75,11 @@ exp
 Ouvre le projet dans l'explorateur de fichiers.<br>
 
 ```
+lib [-s|-a|-l] [nom]
+```
+Ajoute, liste, ou supprime une librairie.<br>
+
+```
 ls
 ```
 Affiche la liste des projets.<br>
@@ -132,6 +137,7 @@ projet
 │   component.json
 │   database.json
 │   index.php
+│   library.json
 │   object.json
 │   project.json
 │   route.php

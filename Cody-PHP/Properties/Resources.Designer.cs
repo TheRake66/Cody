@@ -73,6 +73,16 @@ namespace Cody_PHP.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Byte[].
         /// </summary>
+        internal static byte[] base_librairie {
+            get {
+                object obj = ResourceManager.GetObject("base_librairie", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
         internal static byte[] base_objet {
             get {
                 object obj = ResourceManager.GetObject("base_objet", resourceCulture);

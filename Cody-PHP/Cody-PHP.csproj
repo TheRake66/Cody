@@ -68,6 +68,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Resources\base_composant.zip" />
+    <None Include="Resources\base_librairie.zip" />
     <None Include="Resources\base_objet.zip" />
     <None Include="Resources\base_projet.zip" />
     <None Include="Resources\composant_base.zip" />
