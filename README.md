@@ -208,7 +208,7 @@ projet
 <br>
 
 # Système de routage
-Inclut dans un projet vierge, le fichier de routage (route.php) permet d'appeler le\les bon(s) controleur(s).
+Inclus dans un projet vierge, le fichier de routage (route.php) permet d'appeler le\les bon(s) controleur(s).
 Pour ce faire il faut lui donner une adresse de route, puis une fonction anonyme comme ceci :<br>
 ```php
 # Route vers Accueil
@@ -222,7 +222,7 @@ Routeur::go('/accueil', function() {
 <br>
 
 # L'autoloader
-Egalement inclut dans un projet vierge, l'autoloader permet de charger au fur et a mesure les classes demandees.
+Également inclus dans un projet vierge, l'autoloader permet de charger au fur et à mesure les classes demandées.
 Pour la classe :<br>
 ```php
 namespace Controleur;
