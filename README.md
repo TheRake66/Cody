@@ -41,7 +41,7 @@ Un petit aperçu :<br>
 
 # Liste des commandes
 
-**Pour la version _2.6.14.0_.**<br>
+**Pour la version _2.8.15.0_.**<br>
 ```
 aide                            
 ```
@@ -50,7 +50,7 @@ Affiche la liste des commandes disponible.<br>
 ```
 cd [*chemin]
 ```
-Affiche ou change le dossier courant.<br>
+Change le dossier courant ou affiche la liste des fichiers et des dossier du dossier courant.<br>
 
 ```
 cls

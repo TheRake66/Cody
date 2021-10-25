@@ -74,5 +74,26 @@ namespace Cody_PHP
                 
         }
 
+
+        // Vérifi si c'est le dossier un projet cody
+        public static bool isFolderProject(string path)
+        {
+            return File.Exists(Path.Combine(path, "project.json"));
+        }
+
+        
+        // Demande une confimation
+        public static bool inputYesNo()
+        {
+            string rep;
+            do
+            {
+                Console.Write("(oui/non) : ");
+                rep = Console.ReadLine().Trim().ToLower();
+            }
+            while (rep != "oui" && rep != "non");
+            return rep == "oui";
+        }
+
     }
 }

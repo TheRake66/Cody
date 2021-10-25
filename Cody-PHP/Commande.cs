@@ -25,7 +25,8 @@ namespace Cody_PHP
                 // Affiche l'aide
                 Console.WriteLine(
 @"aide                            Affiche la liste des commandes disponible.
-cd [*chemin]                    Affiche ou change le dossier courant.
+cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossier
+                                du dossier courant.
 cls                             Nettoie la console.
 com [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un composant (controleur, vue, style,
                                 script) avec le nom spécifié.
@@ -79,7 +80,52 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             else if (cmd.Length > 1)
                 Console.WriteLine("Problème, seul un chemin est attendu.");
             else
-                Console.WriteLine($"Le dossier courant est : '{Directory.GetCurrentDirectory()}'.");
+            {
+                try
+                {
+                    string path = Directory.GetCurrentDirectory();
+                    string[] dirs = Directory.GetDirectories(path);
+                    string[] files = Directory.GetFiles(path);
+
+
+                    string[] all = new string[dirs.Length + files.Length];
+                    dirs.CopyTo(all, 0);
+                    files.CopyTo(all, dirs.Length);
+
+
+                    string longest = "";
+                    foreach (string i in all)
+                    {
+                        string name = Path.GetFileName(i);
+                        if (name.Length > longest.Length) longest = name;
+                    }
+                    int max = longest.Length + 3;
+
+
+                    int x = Console.CursorLeft, y = Console.CursorTop;
+                    foreach (string i in all)
+                    {
+                        Console.SetCursorPosition(x, y);
+                        Message.writeIn(dirs.Contains(i) ? 
+                            Librairie.isFolderProject(i) ? ConsoleColor.Magenta : ConsoleColor.Blue : 
+                            ConsoleColor.Cyan, Path.GetFileName(i));
+                        x += max;
+                        if (x + max >= Console.WindowWidth)
+                        {
+                            x = 0;
+                            y++;
+                        }
+                    }
+
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine($"{dirs.Length} dossier(s) et {files.Length} fichier(s).");
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Impossible de lister les dossiers et fichiers", e);
+                }
+            }
         }
 
 
@@ -100,6 +146,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 long total_byte = 0;
                 object lk = new object(); // lock
                 bool ended = false;
+                Exception ex = null;
                 
                 Console.WriteLine(
 @"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -134,35 +181,48 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         if (total_byte == 0) total_byte = e.TotalBytesToReceive;
                         // Pour les tests
                         // dl https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar server.jar
+                        // dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
+
+                        /*
+                        dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
+                        dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
+                        dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
+                        dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
+                        dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
+
+                        */
                     }
                 };
 
                 web.DownloadFileCompleted += (s, e) =>
                 {
-                    lock (lk)
-                    {
-                        if (e.Error == null) // Si aucune exception
-                        {
-                            // Progress complete
-                            display_barre(100, total_byte, total_byte);
-                            Console.SetCursorPosition(x, y + 3);
-                            Console.WriteLine("Téléchargement terminé.");
-                        }
-                        else
-                        {
-                            Console.SetCursorPosition(x, y + 3);
-                            Message.writeExcept("Impossible de télécharger ce fichier !", e.Error);
-                        }
-
-                        ended = true;
-                    }
+                    ended = true;
+                    ex = e.Error;
                 };
 
                 // Telecharge en asyncrone
                 web.DownloadFileTaskAsync(url, file);
 
+
                 // Attends la fin et de delockage
-                while (!ended || !Monitor.TryEnter(lk)) { }
+                while (!ended || !Monitor.TryEnter(lk)) 
+                {
+                    Thread.Sleep(500);
+                }
+
+
+                if (ex == null) // Si aucune exception
+                {
+                    // Progress complete
+                    display_barre(100, total_byte, total_byte);
+                    Console.SetCursorPosition(x, y + 3);
+                    Console.WriteLine("Téléchargement terminé.");
+                }
+                else
+                {
+                    Console.SetCursorPosition(x, y + 3);
+                    Message.writeExcept("Impossible de télécharger ce fichier !", ex);
+                }
             }
             else if (cmd.Length > 2)
                 Console.WriteLine("Problème, seul l'url et le chemin du fichier sont attendus !");
@@ -217,29 +277,47 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         public static void verifMAJ(string[] cmd)
         {
             if (cmd.Length == 0)
-            {
-                try
-                {
-                    Console.WriteLine("Vérification de la mise à jour...");
-
-                    // Prepare un client http
-                    WebClient client = new WebClient();
-                    string remoteUri = "https://raw.githubusercontent.com/TheRake66/Cody-PHP/master/version";
-                    string lastversion = client.DownloadString(remoteUri);
-
-                    // Compare les version
-                    if (lastversion.Equals(Program.version))
-                        Console.WriteLine("Vous êtes à jour !");
-                    else
-                        Console.WriteLine($"La version {lastversion} est disponible, utilisez la commande 'rep' pour la télécharger !");
-                }
-                catch (Exception e)
-                {
-                    Message.writeExcept("Impossible de vérifier les mise à jour !", e);
-                }
-            }
+                checkUpdate();
             else
                 Console.WriteLine("Problème, aucun argument est attendu !");
+        }
+        public static void checkUpdate(bool silent = false)
+        {
+            try
+            {
+                // Prepare un client http
+                WebClient client = new WebClient();
+                string remoteUri = "https://raw.githubusercontent.com/TheRake66/Cody-PHP/master/version";
+                string lastversion = client.DownloadString(remoteUri);
+
+                // Compare les version
+                if (lastversion.Equals(Program.version))
+                {
+                    if (!silent) Console.WriteLine("Vous êtes à jour !");
+                }
+                else
+                {
+                    Console.Write("La version ");
+                    Message.writeIn(ConsoleColor.Green, lastversion);
+                    Console.WriteLine(" est disponible, voulez vous la télécharger ?");
+                    bool continu = Librairie.inputYesNo();
+                    if (continu)
+                    {
+                        try
+                        {
+                            Librairie.startProcess("https://github.com/TheRake66/Cody-PHP/releases/tag/cody");
+                        }
+                        catch (Exception e)
+                        {
+                            Message.writeExcept("Impossible de d'ouvrir le navigateur !", e);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                if (!silent) Message.writeExcept("Impossible de vérifier les mise à jour !", e);
+            }
         }
 
 
@@ -722,14 +800,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                             Message.writeIn(ConsoleColor.Green, Program.version);
                             Console.WriteLine(", cela pourrait créer des problèmes de compatibilité, voulez vous continuer ?");
 
-                            string rep = null;
-                            do
-                            {
-                                Console.Write("(oui/non) : ");
-                                rep = Console.ReadLine().Trim().ToLower();
-                            }
-                            while (rep != "oui" && rep != "non");
-                            continu = rep == "oui";
+                            continu = Librairie.inputYesNo();
                         }
 
                         if (continu)
