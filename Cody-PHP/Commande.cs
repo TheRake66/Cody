@@ -39,6 +39,7 @@ maj                             Met à jour Cody-PHP via le depot GitHub.
 new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
 obj [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un objet (classe dto, classe dao)
                                 avec le nom spécifié.
+php                             Lance un serveur PHP.
 rep                             Ouvre la dépôt GitHub de Cody-PHP.
 run                             Ouvre le projet dans le navigateur.
 vs                              Ouvre le projet dans Visual Studio Code.
@@ -248,7 +249,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             if (cmd.Length == 0)
             {
                 // Si le projet existe
-                if (File.Exists("project.json"))
+                if (Librairie.isProject())
                 {
                     try
                     {
@@ -261,8 +262,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         Message.writeExcept("Impossible d'ouvrir l'explorateur !", e);
                     }
                 }
-                else
-                    Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
@@ -275,7 +274,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             if (cmd.Length == 0)
             {
                 // Si le projet existe
-                if (File.Exists("project.json"))
+                if (Librairie.isProject())
                 {
                     try
                     {
@@ -288,8 +287,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         Message.writeExcept("Impossible d'ouvrir Visual Studio Code !", e);
                     }
                 }
-                else
-                    Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
@@ -302,7 +299,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             if (cmd.Length == 0)
             {
                 // Si le projet existe
-                if (File.Exists("project.json"))
+                if (Librairie.isProject())
                 {
                     try
                     {
@@ -316,8 +313,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         Message.writeExcept("Impossible de lancer le projet !", e);
                     }
                 }
-                else
-                    Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
@@ -709,7 +704,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             if (cmd.Length == 1 || cmd.Length == 2)
             {
                 // Si le projet existe
-                if (File.Exists("project.json"))
+                if (Librairie.isProject())
                 {
                     try
                     {
@@ -767,8 +762,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         Message.writeExcept("Impossible de lire le fichier d'information de Cody-PHP !", e);
                     }
                 }
-                else
-                    Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
             }
             else if (cmd.Length > 2)
                 Console.WriteLine("Problème, trop d'arguments ont été données !");

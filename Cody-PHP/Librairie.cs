@@ -60,5 +60,19 @@ namespace Cody_PHP
                     .Replace('\\', Path.DirectorySeparatorChar);
         }
 
+
+        // Vérifi si c'est un projet cody
+        public static bool isProject()
+        {
+            // Si le projet existe
+            if (File.Exists("project.json")) return true;
+            else
+            {
+                Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
+                return false;
+            }
+                
+        }
+
     }
 }
