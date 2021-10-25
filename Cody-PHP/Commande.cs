@@ -279,7 +279,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     try
                     {
                         // Ouvre dans le navigateur
-                        Librairie.startProcess("code", ".");
+                        Librairie.startProcess("code", ".", ProcessWindowStyle.Hidden);
                         Console.WriteLine("Visual Studio Code lancé.");
                     }
                     catch (Exception e)

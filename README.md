@@ -41,7 +41,7 @@ Un petit aperçu :<br>
 
 # Liste des commandes
 
-**Pour la version _2.6.13.0_.**<br>
+**Pour la version _2.6.14.0_.**<br>
 ```
 aide                            
 ```

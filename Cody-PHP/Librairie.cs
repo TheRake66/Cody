@@ -37,13 +37,13 @@ namespace Cody_PHP
 
 
         // Lance un processus proprement pour linux
-        public static void startProcess(string name, string args = "")
+        public static void startProcess(string name, string args = "", ProcessWindowStyle style = ProcessWindowStyle.Normal)
         {
             // Ouvre dans le navigateur
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = name;
             startInfo.Arguments = args;
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.WindowStyle = style;
             startInfo.UseShellExecute = true;
 
             Process processTemp = new Process();
