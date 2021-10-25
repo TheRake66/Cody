@@ -308,7 +308,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     {
                         string f = Path.GetFileName(Directory.GetCurrentDirectory());
                         // Ouvre dans le navigateur
-                        Librairie.startProcess($"http://localhost/{f}");
+                        Librairie.startProcess($"http://localhost/{f}/index.php");
                         Console.WriteLine("Navigateur lancé.");
                     }
                     catch (Exception e)
