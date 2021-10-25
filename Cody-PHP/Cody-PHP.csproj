@@ -1,94 +1,50 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{56D3212D-A50B-4461-97DD-869ACD3E78F1}</ProjectGuid>
     <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Cody_PHP</RootNamespace>
-    <AssemblyName>Cody-PHP</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
+    <StartupObject></StartupObject>
+    <Version>2.5.12.0</Version>
+    <Authors>Thibault BUSTOS (TheRake66)</Authors>
+    <Description>Framework PHP/JavaScript/HTML/Less en français.</Description>
+    <Copyright>Copyright © 2021 - Thibault BUSTOS (TheRake66)</Copyright>
+    <PackageLicenseExpression>MIT License</PackageLicenseExpression>
+    <PackageIcon>Sans titre.ico</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/TheRake66/Cody-PHP</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Sans titre.ico</ApplicationIcon>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Security.Permissions" Version="5.0.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Commande.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="Projet.cs" />
-    <Compile Include="Librairie.cs" />
-    <Compile Include="Message.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
+    <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-    <None Include="Resources\base_composant.zip" />
-    <None Include="Resources\base_librairie.zip" />
-    <None Include="Resources\base_objet.zip" />
-    <None Include="Resources\base_projet.zip" />
-    <None Include="Resources\composant_base.zip" />
-    <None Include="Resources\modele.zip" />
-    <None Include="Resources\objet_base.zip" />
-    <None Include="Resources\projet_base.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="bin\Debug\Newtonsoft.Json.xml" />
-    <None Include="bin\Debug\Newtonsoft.Json.dll" />
-    <Content Include="icon.ico" />
-    <None Include="Resources\Newtonsoft.Json.xml" />
-    <None Include="Resources\Newtonsoft.Json.dll" />
-    <Content Include="Sans titre.ico" />
+    <None Include="..\images\Sans titre.ico">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\images\Sans titre.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

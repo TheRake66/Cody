@@ -5,7 +5,7 @@
 Framework PHP/JavaScript/HTML/Less en français.
 <br>
 <br>
-<a href="https://github.com/TheRake66/Cody-PHP/raw/main/cody.exe"><img alt="Télécharger" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/bouton.png"></a>
+<a href="https://github.com/TheRake66/Cody-PHP/raw/main/cody.zip"><img alt="Télécharger" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/bouton.png"></a>
 <br>
 <br>
 <a href="https://github.com/TheRake66/Cody-PHP/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody-PHP"></a>
@@ -21,7 +21,7 @@ Framework PHP/JavaScript/HTML/Less en français.
 <br>
 
 # Qu'est-ce que c'est ?
-Cody-PHP est un framework destiné à la création du site web en PHP, Javascript, HTML et Less.
+Cody-PHP est un framework destiné à la création du site web en PHP, Javascript, HTML et Less compatible Windows, Linux et Mac.
 Il permet des créer simplement et rapidement un site design et complet grace à sa structure MVC.
 Et tout ça sans aucune installation, pratique pour développer sur une machine où l'on n'a pas accès au compte administrateur !
 
@@ -39,7 +39,7 @@ Un petit aperçu :<br>
 
 # Liste des commandes
 
-**Pour la version _1.5.12.0_.**<br>
+**Pour la version _2.5.12.0_.**<br>
 ```
 aide                            
 ```

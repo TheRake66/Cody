@@ -14,6 +14,7 @@ namespace Cody_PHP
 {
     class Program
     {
+
         // Recupere la version du exe
         public static string version = typeof(Program).Assembly.GetName().Version.ToString();
 
@@ -21,8 +22,7 @@ namespace Cody_PHP
         // Point d'entree
         static void Main(string[] args)
         {
-            verifiLibrairies();
-            changerTaille();
+            // Affiche le logo
             afficherLogo();
 
 
@@ -39,7 +39,6 @@ namespace Cody_PHP
                 {
                     // Retire la commande de base des arguments
                     string[] argm = split.Skip(1).ToArray();
-                    changerTaille(); // Si setcursorposition est en dehors
 
                     // Dispatch dans les commandes
                     switch (cmd)
@@ -119,61 +118,6 @@ namespace Cody_PHP
         }
 
 
-        // Verification des librairies
-        static void verifiLibrairies()
-        {
-            string[] lib = new string[]
-            {
-                "Newtonsoft.Json.dll",
-                "Newtonsoft.Json.xml"
-            };
-            byte[][] bin = new byte[][]
-            {
-                Resources.Newtonsoft_Json1,
-                Encoding.ASCII.GetBytes(Resources.Newtonsoft_Json)
-            };
-            try
-            {
-                Console.WriteLine("Vérification des librairies...");
-                string ass = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
-                for (int i = 0; i < lib.Length; i++)
-                {
-                    string n = lib[i];
-                    string p = Path.Combine(ass, n);
-
-                    Console.Write("Vérification du fichier '");
-                    Message.writeIn(ConsoleColor.Magenta, n);
-                    Console.WriteLine("'...");
-
-                    if (File.Exists(n))
-                        Console.WriteLine("Fichier trouvé.");
-                    else
-                    {
-                        Console.Write("Création du fichier '");
-                        Message.writeIn(ConsoleColor.Green, n);
-                        Console.WriteLine("'...");
-
-                        File.WriteAllBytes(p, bin[i]);
-
-                        Console.WriteLine("Fichier crée.");
-                    }
-                }
-
-                Console.WriteLine("Librairies complètes.");
-                Thread.Sleep(2000);
-            }
-            catch (Exception e)
-            {
-                Message.writeExcept("Impossible de créer les librairies !", e);
-                Console.WriteLine();
-                Console.Write("Appuyez sur une touche pour quitter...");
-                Console.ReadKey();
-                Environment.Exit(1);
-            }
-        }
-
-
         // Affiche le prompt
         static void afficherPrompt()
         {
@@ -194,15 +138,6 @@ namespace Cody_PHP
             Message.writeIn(ConsoleColor.DarkYellow, " $");
             Console.ResetColor();
             Console.Write(": ");
-        }
-
-
-        // Change la taille de la console
-        static void changerTaille()
-        {
-            Console.SetWindowSize(
-                Math.Min(130, Console.LargestWindowWidth),
-                Math.Min(45, Console.LargestWindowHeight));
         }
 
 
@@ -231,7 +166,7 @@ namespace Cody_PHP
                                          ░░░▒▒▓▓ Cody-PHP ▓▓▒▒░░░");
 
             Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                    Version {version} du 24 octobre 2021
+                                    Version {version} du 25 octobre 2021
                               Copyright © 2021 - Thibault BUSTOS (TheRake66)");
 
             Console.WriteLine(@"

@@ -186,8 +186,16 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             if (cmd.Length == 0)
             {
                 // Ouvre dans le navigateur
-                try { Process.Start("https://github.com/TheRake66/Cody-PHP"); }
-                catch { }
+                try 
+                {
+                    // Ouvre dans le navigateur
+                    Librairie.startProcess("https://github.com/TheRake66/Cody-PHP");
+                    Console.WriteLine("Navigateur lancé.");
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Impossible d'ouvrir le navigateur !", e);
+                }
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
@@ -245,7 +253,8 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     try
                     {
                         // Ouvre dans le navigateur
-                        Process.Start(Directory.GetCurrentDirectory());
+                        Librairie.startProcess(Directory.GetCurrentDirectory());
+                        Console.WriteLine("Explorateur de fichiers lancé.");
                     }
                     catch (Exception e)
                     {
@@ -271,14 +280,8 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     try
                     {
                         // Ouvre dans le navigateur
-                        ProcessStartInfo startInfo = new ProcessStartInfo();
-                        startInfo.FileName = "code";
-                        startInfo.Arguments = ".";
-                        startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-
-                        Process processTemp = new Process();
-                        processTemp.StartInfo = startInfo;
-                        processTemp.Start();
+                        Librairie.startProcess("code", ".");
+                        Console.WriteLine("Visual Studio Code lancé.");
                     }
                     catch (Exception e)
                     {
@@ -301,10 +304,17 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 // Si le projet existe
                 if (File.Exists("project.json"))
                 {
-                    // Ouvre dans le navigateur
-                    string f = Path.GetFileName(Directory.GetCurrentDirectory());
-                    try { Process.Start($"http://localhost/{f}"); }
-                    catch { }
+                    try
+                    {
+                        string f = Path.GetFileName(Directory.GetCurrentDirectory());
+                        // Ouvre dans le navigateur
+                        Librairie.startProcess($"http://localhost/{f}");
+                        Console.WriteLine("Navigateur lancé.");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible de lancer le projet !", e);
+                    }
                 }
                 else
                     Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
@@ -331,14 +341,9 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         if (drive.DriveType == DriveType.Fixed
                             && drive.IsReady)
                         {
-                            Console.Write("Lecteur : '");
-                            Message.writeIn(ConsoleColor.DarkYellow, drive.Name);
-                            Console.WriteLine("'...");
-
                             for (int i = 0; i < folder.Length; i++)
                             {
                                 string f = $@"{drive.Name}{folder[i]}";
-                                Console.WriteLine($"Vérification du dossier {name[i]}...");
                                 if (Directory.Exists(f))
                                 {
                                     path = f;
@@ -397,15 +402,12 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             {
                 try
                 {
-                    Console.WriteLine("Récupération de la liste des dossiers...");
                     // Recupere tous les dossier du dossier courant
                     string[] dirs = Directory.GetDirectories(Directory.GetCurrentDirectory());
-                    Console.WriteLine("Liste récupérée.");
 
                     if (dirs.Length > 0)
                     {
                         int count = 0;
-                        Console.WriteLine();
                         Console.WriteLine("╔═════════════════════════════╦══════════════╦═════════════════╦═══════════════╦═════════════════════════╦════════════════╗");
                         Console.WriteLine("║ Nom                         ║ Fichier      ║ Taille          ║ Version       ║ Crée le                 ║ Par            ║");
                         Console.WriteLine("╠═════════════════════════════╩══════════════╩═════════════════╩═══════════════╩═════════════════════════╩════════════════╣");
@@ -413,7 +415,8 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         foreach (string dir in dirs)
                         {
                             // Si ca contient un index.php c'est un projet
-                            string f = $@"{dir}\project.json";
+                            string f = Path.Combine(dir, "project.json");
+
                             if (File.Exists(f))
                             {
                                 Console.WriteLine("║                                                                                                                         ║");
@@ -428,13 +431,11 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         if (count > 0)
                         {
                             Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
-                            Console.WriteLine();
                             Console.WriteLine("Listage terminé.");
                         }
                         else
                         {
                             Console.WriteLine("╚═════════════════════════════╩══════════════╩═════════════════╩═══════════════╩═════════════════════════╩════════════════╝");
-                            Console.WriteLine();
                             Console.WriteLine("Heuuu, il n'y a aucun projet dans ce dossier...");
                         }
                     }
@@ -523,7 +524,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             try
             {
                 // Creer le dossier du projet
-                Console.WriteLine("Création du dossier du projet...");
                 Directory.CreateDirectory(nom);
 
                 extractionArchiveProject(nom);
@@ -538,7 +538,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             try
             {
                 // Extrait l'archive des ressouces
-                Console.WriteLine("Extraction de l'archive...");
                 string zip = Path.Combine(nom, "base_projet.zip");
                 File.WriteAllBytes(zip, Resources.base_projet);
 
@@ -585,14 +584,12 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         {
             try
             {
-                Console.Write("Dossier : '");
-                Message.writeIn(ConsoleColor.Magenta, file);
-                Console.WriteLine("'...");
-
                 // Creer le dossier
                 Directory.CreateDirectory(path);
 
-                Console.WriteLine("Dossier ajouté.");
+                Console.Write("Dossier : '");
+                Message.writeIn(ConsoleColor.Magenta, file);
+                Console.WriteLine("' ajouté.");
             }
             catch (Exception e)
             {
@@ -603,16 +600,14 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         {
             try
             {
-                Console.Write("Fichier : '");
-                Message.writeIn(ConsoleColor.DarkGreen, file);
-                Console.WriteLine("'... ");
-
                 // Extrait le fichier de l'archive
                 ent.ExtractToFile(path);
 
-                Console.Write("Fichier extrait pour un total de ");
+                Console.Write("Fichier : '");
+                Message.writeIn(ConsoleColor.DarkGreen, file);
+                Console.Write("' extrait (");
                 Message.writeIn(ConsoleColor.DarkYellow, new FileInfo(path).Length);
-                Console.WriteLine(" octet(s).");
+                Console.WriteLine(" octet(s)).");
 
                 // Fichiers ou l'on rajoute le nom
                 string[] toedit = new string[]
@@ -627,10 +622,8 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 {
                     try
                     {
-                        Console.WriteLine("Édition du fichier...");
                         // Modifie le fichier
                         File.WriteAllText(path, File.ReadAllText(path).Replace("{PROJECT_NAME}", name));
-                        Console.WriteLine("Édition du fichier terminé.");
                     }
                     catch (Exception e)
                     {
@@ -648,9 +641,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             try
             {
                 // Supprime l'archive
-                Console.WriteLine("Suppression de l'archive...");
                 File.Delete(zip);
-                Console.WriteLine("Archive supprimée.");
             }
             catch (Exception e)
             {
@@ -663,8 +654,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             try
             {
                 // Creer le cody json
-                Console.WriteLine("Création du fichier d'information du projet...");
-
                 Projet inf = new Projet();
                 inf.createur = Environment.UserName;
                 inf.version = Program.version;
@@ -672,8 +661,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
                 string json = JsonConvert.SerializeObject(inf, Formatting.Indented);
                 File.WriteAllText(Path.Combine(name, "project.json"), json);
-
-                Console.WriteLine("Fichier d'information crée.");
             }
             catch (Exception e)
             {
@@ -686,11 +673,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             try
             {
                 // Change le dossier courant
-                Console.WriteLine("Changement du dossier courant...");
-
                 Directory.SetCurrentDirectory(Path.Combine(Directory.GetCurrentDirectory(), name));
-
-                Console.WriteLine("Dossier courant changé.");
             }
             catch (Exception e)
             {
@@ -838,7 +821,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             try
             {
                 // Extrait l'archive des ressouces
-                Console.WriteLine("Extraction de l'archive...");
                 string zip = archivenom;
                 File.WriteAllBytes(zip, archive);
 
@@ -905,13 +887,11 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 {
                     try
                     {
-                        Console.Write("Dossier : '");
-                        Message.writeIn(ConsoleColor.Magenta, path);
-                        Console.WriteLine("'...");
-
                         Directory.CreateDirectory(path);
 
-                        Console.WriteLine("Dossier ajouté.");
+                        Console.Write("Dossier : '");
+                        Message.writeIn(ConsoleColor.Magenta, path);
+                        Console.WriteLine("' ajouté.");
                     }
                     catch (Exception e)
                     {
@@ -922,20 +902,18 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
                 if (continu)
                 {
-                    // Extrait le fichier de l'archive
-                    Console.Write("Fichier : '");
-                    Message.writeIn(ConsoleColor.DarkGreen, file);
-                    Console.WriteLine("'...");
-
                     ent.ExtractToFile(file);
                     paths.Add(file);
 
-                    Console.WriteLine("Fichier extrait.");
+                    // Extrait le fichier de l'archive
+                    Console.Write("Fichier : '");
+                    Message.writeIn(ConsoleColor.DarkGreen, file);
+                    Console.Write("' extrait (");
+                    Message.writeIn(ConsoleColor.DarkYellow, new FileInfo(file).Length);
+                    Console.WriteLine(" octet(s)).");
 
                     try
                     {
-                        Console.WriteLine("Édition du fichier...");
-
                         // Modifie le fichier
                         string content = File.ReadAllText(file)
                             .Replace("{NAMESPACE}", namespce)
@@ -943,8 +921,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                             .Replace("{PATH}", nomlow.Replace('\\', '/'))
                             .Replace("{NAME_LOWER}", objlow);
                         File.WriteAllText(file, content);
-
-                        Console.WriteLine("Fichier édité.");
                     }
                     catch (Exception e)
                     {
@@ -962,9 +938,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             try
             {
                 // Supprime l'archive
-                Console.WriteLine("Suppression de l'archive...");
                 File.Delete(zip);
-                Console.WriteLine("Archive supprimée.");
             }
             catch (Exception e)
             {
@@ -975,8 +949,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         {
             try
             {
-                Console.WriteLine("Indexation de l'élément...");
-                
                 Item obj = new Item();
                 obj.nom = nom;
                 obj.createur = Environment.UserName;
@@ -986,8 +958,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
                 string json = JsonConvert.SerializeObject(objs, Formatting.Indented);
                 File.WriteAllText(jsoni, json);
-
-                Console.WriteLine("Elément indexé.");
             }
             catch (Exception e)
             {
@@ -1035,14 +1005,17 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     trouve = true;
                     foreach (string file in obj.chemins)
                     {
-                        if (File.Exists(file))
+                        // Complatibilite os
+                        string fcomp = Librairie.remplaceDirSep(file);
+
+                        if (File.Exists(fcomp))
                         {
-                            supprimerFichierItem(file, ref continu);
+                            supprimerFichierItem(fcomp, ref continu);
                         }
                         else
                         {
                             Console.Write("Le fichier '");
-                            Message.writeIn(ConsoleColor.DarkYellow, file);
+                            Message.writeIn(ConsoleColor.DarkYellow, fcomp);
                             Console.WriteLine("' est indexé mais est introuvable !");
                         }
                     }
@@ -1064,11 +1037,11 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         {
             try
             {
-                Console.Write("Suppression du fichier '");
-                Message.writeIn(ConsoleColor.Red, file);
-                Console.WriteLine("'...");
                 File.Delete(file);
-                Console.WriteLine("Fichier supprimé.");
+
+                Console.Write("Fichier : '");
+                Message.writeIn(ConsoleColor.Red, file);
+                Console.WriteLine("' supprimé.");
 
                 string folder = Path.GetDirectoryName(file);
                 if (Directory.GetFiles(folder).Length == 0 &&
@@ -1087,11 +1060,11 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         {
             try
             {
-                Console.Write("Suppression du dossier '");
-                Message.writeIn(ConsoleColor.Magenta, folder);
-                Console.WriteLine("'...");
                 Directory.Delete(folder);
-                Console.WriteLine("Dossier supprimé.");
+
+                Console.Write("Dossier : '");
+                Message.writeIn(ConsoleColor.Magenta, folder);
+                Console.WriteLine("' supprimé.");
             }
             catch (Exception e)
             {
@@ -1103,12 +1076,8 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         {
             try
             {
-                Console.WriteLine("Désindexation de l'élément...");
-
                 string json = JsonConvert.SerializeObject(objs, Formatting.Indented);
                 File.WriteAllText(jsoni, json);
-
-                Console.WriteLine("Elément désindexé.");
             }
             catch (Exception e)
             {
@@ -1123,15 +1092,12 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             {
                 try
                 {
-                    Console.WriteLine("Récupération de la liste des items...");
                     string json = File.ReadAllText(jsoni);
-                    Console.WriteLine("Liste récupérée.");
 
                     if (json != "")
                     {
                         List<Item> objs = JsonConvert.DeserializeObject<List<Item>>(json);
 
-                        Console.WriteLine();
                         Console.WriteLine("╔═════════════════════════════╦══════════════╦═════════════════════════╦════════════════╗");
                         Console.WriteLine("║ Nom                         ║ Fichier      ║ Crée le                 ║ Par            ║");
                         Console.WriteLine("╠═════════════════════════════╩══════════════╩═════════════════════════╩════════════════╣");
@@ -1150,13 +1116,11 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         if (count > 0)
                         {
                             Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════╝");
-                            Console.WriteLine();
                             Console.WriteLine("Listage terminé.");
                         }
                         else
                         {
                             Console.WriteLine("╚═════════════════════════════╩══════════════╩═════════════════════════╩════════════════╝");
-                            Console.WriteLine();
                             Console.WriteLine("Heuuu, il n'y a aucun élément dans ce projet...");
                         }
                     }
@@ -1180,7 +1144,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
             int count2 = 0;
             foreach (string file in obj.chemins)
-                if (File.Exists(file)) count2++;
+                if (File.Exists(Librairie.remplaceDirSep(file))) count2++;
 
             Console.SetCursorPosition(32, Console.CursorTop);
             if (count2 == obj.chemins.Count)

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30523.141
+VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cody-PHP", "Cody-PHP\Cody-PHP.csproj", "{56D3212D-A50B-4461-97DD-869ACD3E78F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cody-PHP", "Cody-PHP\Cody-PHP.csproj", "{22420588-0981-4BDA-9C3E-345CE4A67669}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{56D3212D-A50B-4461-97DD-869ACD3E78F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{56D3212D-A50B-4461-97DD-869ACD3E78F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{56D3212D-A50B-4461-97DD-869ACD3E78F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{56D3212D-A50B-4461-97DD-869ACD3E78F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22420588-0981-4BDA-9C3E-345CE4A67669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22420588-0981-4BDA-9C3E-345CE4A67669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22420588-0981-4BDA-9C3E-345CE4A67669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22420588-0981-4BDA-9C3E-345CE4A67669}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5B947110-E0E9-43C1-A280-169530DECD8E}
+		SolutionGuid = {813618BC-AD66-462B-954A-2F1055CB6F7A}
 	EndGlobalSection
 EndGlobal
