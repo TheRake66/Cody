@@ -224,6 +224,7 @@ projet
 <br>
 
 # Système de routage
+**Pour les versions de PHP antérieures à la version 8 veuillez vous referrer à la section package.**<br>
 Inclus dans un projet vierge, le fichier de routage (route.php) permet d'appeler le\les bon(s) controleur(s).
 Pour ce faire il faut lui donner une adresse de route, puis une fonction anonyme comme ceci :<br>
 ```php
@@ -248,6 +249,17 @@ Et aussi définir une route par défaut si aucune route n'est demandée ou si au
 Routeur::defaut('accueil');
 ```
 **Si aucune de ces deux routes n'est définie, le routeur utilisera la première route existante.**<br> 
+
+
+
+<br>
+
+# Les packages
+Via la commande ```dl```, vous pouvez installer des packages développés par un tiers comme ceci :<br> 
+```
+dl https://raw.githubusercontent.com/TheRake66/Cody-PHP/main/documents/routeur.php librairie\routeur.php
+```
+Afin de télécharger le routeur supportant les versions de PHP antérieures a la version 8.
 
 
 
