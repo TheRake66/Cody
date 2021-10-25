@@ -17,7 +17,7 @@ Framework PHP/JavaScript/HTML/Less en français.
 <br>
 
 
-### Nécessité le SDK .NET 5.0.11 (Runtime) :  https://dotnet.microsoft.com/download/dotnet/5.0
+### Nécessite le SDK .NET 5.0.11 (Runtime) :  https://dotnet.microsoft.com/download/dotnet/5.0
 
 
 <br>
