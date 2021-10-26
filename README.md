@@ -50,7 +50,7 @@ Affiche la liste des commandes disponible.<br>
 ```
 cd [*chemin]
 ```
-Change le dossier courant ou affiche la liste des fichiers et des dossier du dossier courant.<br>
+Change le dossier courant ou affiche la liste des fichiers et des dossiers du dossier courant.<br>
 
 ```
 cls

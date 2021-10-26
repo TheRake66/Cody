@@ -25,7 +25,7 @@ namespace Cody_PHP
                 // Affiche l'aide
                 Console.WriteLine(
 @"aide                            Affiche la liste des commandes disponible.
-cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossier
+cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
                                 du dossier courant.
 cls                             Nettoie la console.
 com [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un composant (controleur, vue, style,
