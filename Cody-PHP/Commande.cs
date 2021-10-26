@@ -40,7 +40,6 @@ maj                             Met à jour Cody-PHP via le depot GitHub.
 new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
 obj [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un objet (classe dto, classe dao)
                                 avec le nom spécifié.
-php                             Lance un serveur PHP.
 rep                             Ouvre la dépôt GitHub de Cody-PHP.
 run                             Ouvre le projet dans le navigateur.
 vs                              Ouvre le projet dans Visual Studio Code.
