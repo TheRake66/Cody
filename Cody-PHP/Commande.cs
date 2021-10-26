@@ -137,9 +137,15 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 // Recupere les args
                 string url = cmd[0];
                 string file = cmd[1];
+
+
                 // Prepapre l'animation
-                int x = Console.CursorLeft;
-                int y = Console.CursorTop;
+                Console.WriteLine(
+@"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+█                                                  █
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
+                int x = 0;
+                int y = Console.CursorTop - 3;
                 int x_barre = x + 1;
                 int y_barre = y + 1;
                 int x_byte = x + 53;
@@ -147,11 +153,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 object lk = new object(); // lock
                 bool ended = false;
                 Exception ex = null;
-                
-                Console.WriteLine(
-@"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-█                                                  █
-▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
 
                 Action<int, long, long> display_barre = (percent, receceid, total) =>
                 {
