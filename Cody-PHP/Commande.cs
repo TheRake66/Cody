@@ -102,10 +102,10 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     int max = longest.Length + 3;
 
 
-                    int x = Console.CursorLeft, y = Console.CursorTop;
+                    int x = Console.CursorLeft;
                     foreach (string i in all)
                     {
-                        Console.SetCursorPosition(x, y);
+                        Console.SetCursorPosition(x, Console.CursorTop);
                         Message.writeIn(dirs.Contains(i) ? 
                             Librairie.isFolderProject(i) ? ConsoleColor.Magenta : ConsoleColor.Blue : 
                             ConsoleColor.Cyan, Path.GetFileName(i));
@@ -113,7 +113,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         if (x + max >= Console.WindowWidth)
                         {
                             x = 0;
-                            y++;
+                            Console.WriteLine();
                         }
                     }
 
