@@ -1,7 +1,7 @@
 <!-- ================================================== -->
 <!-- Appel de l'autoloader et demarrage de la session -->
 <?php
-require_once 'librairie/autoloader.php';
+require_once 'librairie/php/autoloader.php';
 new Librairie\Autoloader();
 session_start();
 ?>
@@ -25,7 +25,7 @@ session_start();
 		<!-- ================================================== -->
 		<!-- Routage vers le bon controleur  -->
 		<?php
-		require_once 'route.php';
+		require_once 'composant/route.php';
 		Librairie\Routeur::routing();
 		?>
 		<!-- ================================================== -->
@@ -33,8 +33,9 @@ session_start();
 
 	<!-- ================================================== -->
 	<!-- Inclusion des fichiers globaux et de Less -->
-	<link rel="stylesheet/less" type="text/css" href="style/global.less">
-	<script type='text/javascript' src='script/global.js'></script>
+	<link rel="stylesheet/less" type="text/css" href="composant/global.less">
+	<link rel="stylesheet/less" type="text/css" href="composant/theme.less">
+	<script type='text/javascript' src='composant/global.js'></script>
 	<script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
 	<!-- ================================================== -->
 	

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modele\dto{NAMESPACE};
+namespace Modele\dto{NAMESPACE_SLASH};
 use Modele\Reflect\Hydrate;
 
 

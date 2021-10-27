@@ -1,0 +1,57 @@
+[
+  {
+    "nom": "accueil",
+    "creation": "2021-10-23T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "chemins": [
+      "composant\\accueil\\cont.accueil.php",
+      "composant\\accueil\\script.accueil.js",
+      "composant\\accueil\\style.accueil.less",
+      "composant\\accueil\\vue.accueil.php"
+    ]
+  },
+  {
+    "nom": "bas",
+    "creation": "2021-10-23T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "chemins": [
+      "composant\\bas\\cont.bas.php",
+      "composant\\bas\\script.bas.js",
+      "composant\\bas\\style.bas.less",
+      "composant\\bas\\vue.bas.php"
+    ]
+  },
+  {
+    "nom": "haut",
+    "creation": "2021-10-23T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "chemins": [
+      "composant\\haut\\cont.haut.php",
+      "composant\\haut\\script.haut.js",
+      "composant\\haut\\style.haut.less",
+      "composant\\haut\\vue.haut.php"
+    ]
+  },
+  {
+    "nom": "menu",
+    "creation": "2021-10-23T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "chemins": [
+      "composant\\menu\\cont.menu.php",
+      "composant\\menu\\script.menu.js",
+      "composant\\menu\\style.menu.less",
+      "composant\\menu\\vue.menu.php"
+    ]
+  },
+  {
+    "nom": "panneau",
+    "creation": "2021-10-23T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "chemins": [
+      "composant\\panneau\\cont.panneau.php",
+      "composant\\panneau\\script.panneau.js",
+      "composant\\panneau\\style.panneau.less",
+      "composant\\panneau\\vue.panneau.php"
+    ]
+  }
+]
