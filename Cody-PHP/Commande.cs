@@ -135,7 +135,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             {
                 // Recupere les args
                 string url = cmd[0];
-                string file = cmd[1];
+                string file = Librairie.remplaceDirSep(cmd[1]);
 
 
                 // Prepapre l'animation
