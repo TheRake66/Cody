@@ -964,13 +964,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 string path = Path.GetDirectoryName(file);
 
 
-
-                Console.WriteLine(file);
-                Console.WriteLine(path);
-                Console.WriteLine(ent.FullName);
-                Console.WriteLine(objlow);
-                Console.WriteLine(nomlow);
-
                 bool continu = true;
                 if (!Directory.Exists(path))
                 {
@@ -979,7 +972,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         Directory.CreateDirectory(path);
 
                         Console.Write("Dossier : '");
-                        Message.writeIn(ConsoleColor.Magenta, path.Replace('/', Path.DirectorySeparatorChar));
+                        Message.writeIn(ConsoleColor.Magenta, path);
                         Console.WriteLine("' ajouté.");
                     }
                     catch (Exception e)
@@ -996,7 +989,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
                     // Extrait le fichier de l'archive
                     Console.Write("Fichier : '");
-                    Message.writeIn(ConsoleColor.DarkGreen, file);
+                    Message.writeIn(ConsoleColor.DarkGreen, file.Replace('/', Path.DirectorySeparatorChar));
                     Console.Write("' extrait (");
                     Message.writeIn(ConsoleColor.DarkYellow, new FileInfo(file).Length);
                     Console.WriteLine(" octet(s)).");
@@ -1135,7 +1128,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 Console.WriteLine("' supprimé.");
 
                 string folder = Path.GetDirectoryName(file);
-                if (Directory.GetFiles(folder).Length == 0 &&
+                if (Directory.GetFiles(folder).Length == 0 && Directory.GetDirectories(folder).Length == 0 &&
                     Path.GetDirectoryName(Directory.GetCurrentDirectory()) != Path.GetDirectoryName(folder))
                 {
                     supprimerDossierItem(folder, ref continu);

@@ -102,6 +102,10 @@ namespace Cody_PHP
                             Commande.runProjet(argm);
                             break;
 
+                        case "tra":
+                            Commande.gestTrait(argm);
+                            break;
+
                         case "vs":
                             Commande.openVSCode(argm);
                             break;

@@ -4,7 +4,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "librairie\\php\\autoloader.php"
+      "librairie/php/autoloader.php"
     ]
   },
   {
@@ -12,7 +12,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "librairie\\php\\convert.php"
+      "librairie/php/convert.php"
     ]
   },
   {
@@ -20,7 +20,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "librairie\\php\\database.php"
+      "librairie/php/database.php"
     ]
   },
   {
@@ -28,7 +28,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "librairie\\php\\debug.php"
+      "librairie/php/debug.php"
     ]
   },
   {
@@ -36,7 +36,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "librairie\\php\\routeur.php"
+      "librairie/php/routeur.php"
     ]
   },
   {
@@ -44,7 +44,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "librairie\\php\\security.php"
+      "librairie/php/security.php"
     ]
   },
   {
@@ -52,7 +52,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "librairie\\js\\gmap.js"
+      "librairie/js/gmap.js"
     ]
   },
   {
@@ -60,7 +60,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "librairie\\php\\http.js"
+      "librairie/js/http.js"
     ]
   }
 ]

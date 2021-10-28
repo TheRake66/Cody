@@ -4,8 +4,8 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "modele\\dao\\jeton.php",
-      "modele\\dto\\jeton.php"
+      "modele/dao/jeton.php",
+      "modele/dto/jeton.php"
     ]
   },
   {
@@ -13,8 +13,8 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "modele\\dao\\typeutilisateur.php",
-      "modele\\dto\\typeutilisateur.php"
+      "modele/dao/typeutilisateur.php",
+      "modele/dto/typeutilisateur.php"
     ]
   },
   {
@@ -22,8 +22,8 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "modele\\dao\\utilisateur.php",
-      "modele\\dto\\utilisateur.php"
+      "modele/dao/utilisateur.php",
+      "modele/dto/utilisateur.php"
     ]
   }
 ]
