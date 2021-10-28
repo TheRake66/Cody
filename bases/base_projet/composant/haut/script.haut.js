@@ -1,10 +1,10 @@
-/**
- * @constructor
- */
-var Haut = function() {
 
-};
+class Haut {
 
+    /**
+     * Constructeur
+     */
+    constructor() {
+    }
 
-
-Haut = new Haut();
+}

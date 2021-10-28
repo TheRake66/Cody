@@ -1,10 +1,10 @@
-/**
- * @constructor
- */
-var Panneau = function() {
 
-};
+class Panneau {
 
+    /**
+     * Constructeur
+     */
+    constructor() {
+    }
 
-
-Panneau = new Panneau();
+}

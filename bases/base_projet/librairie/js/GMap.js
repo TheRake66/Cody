@@ -7,21 +7,26 @@ const MapType = {
 
 
 
-/**
- * @constructor
- */
-var GMap = function() {
+class GMap {
 
     /**
      * Array contenant les marker
      */
-    this.markers = [];
+    markers = [];
 
 
     /**
      * Map
      */
-    this.amp;
+    map;
+
+
+    /**
+     * Constructeur
+     */
+    constructor() {
+
+    }
 
 
     /**
@@ -33,7 +38,7 @@ var GMap = function() {
      * @param {int} zm - Zoom de depart
      * @param {MapType} type - Type de map
      */
-    this.createMap = function(cont, lt = 0, lg = 0, zm = 2, type = MapType.ROADMAP) {
+    createMap(cont, lt = 0, lg = 0, zm = 2, type = MapType.ROADMAP) {
         this.map = new google.maps.Map(
             cont, {
                 center: {
@@ -56,10 +61,10 @@ var GMap = function() {
      * @param {string} image - Image du marker
      * @return {Marker} Marker cree
      */
-    this.addMarker = function(lt, lg, name, image) {
+    addMarker(lt, lg, name, image) {
         let marker = new google.maps.Marker({ 
             position: new google.maps.LatLng(lt, lg),
-            map: map,
+            map: this.map,
             title: name,
             icon: image
         })
@@ -73,7 +78,7 @@ var GMap = function() {
      * 
      * @param {Marker} marker - Marker a supprimer
      */
-    this.clearMarkers = (marker) => {
+    clearMarkers(marker) {
         let index = this.markers.indexOf(marker);
         if (index > -1) {
             this.markers.splice(index, 1);
@@ -84,7 +89,7 @@ var GMap = function() {
     /**
      * Supprime tous les markers
      */
-    this.clearMarkers = () => {
+    clearMarkers() {
         this.markers.forEach(element => {
             element.setMap(null);
         });
@@ -92,7 +97,3 @@ var GMap = function() {
     };
 
 };
-
-
-
-GMap = new GMap();

@@ -1,10 +1,10 @@
-/**
- * @constructor
- */
-var Bas = function() {
 
-};
+class Bas {
 
+    /**
+     * Constructeur
+     */
+    constructor() {
+    }
 
-
-Bas = new Bas();
+}

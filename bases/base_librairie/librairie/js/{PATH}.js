@@ -1,13 +1,12 @@
 
-/**
- * @constructor
- */
-var {NAME_UPPER} = function() {
+class {NAME_UPPER} {
 
+    /**
+     * Constructeur
+     */
+    constructor() {
+    }
 
+}
 
-};
-
-
-
-{NAME_UPPER} = new {NAME_UPPER}();
+let {NAME_LOWER} = new {NAME_UPPER}();

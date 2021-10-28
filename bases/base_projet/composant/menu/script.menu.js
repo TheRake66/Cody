@@ -1,10 +1,10 @@
-/**
- * @constructor
- */
-var Menu = function() {
 
-};
+class Menu {
 
+    /**
+     * Constructeur
+     */
+    constructor() {
+    }
 
-
-Menu = new Menu();
+}

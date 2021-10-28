@@ -1,11 +1,9 @@
-/**
- * @constructor
- */
- var Accueil = function() {
 
-    this.cmd = document.getElementById('input');
+class Accueil {
 
-    this.loadEvent = () => {
+    cmd = document.getElementById('input');
+
+    loadEvent() {
         document.getElementById('cd').onclick = () => this.setConsoleText('cd C:\\wamp\\www');
         document.getElementById('ls').onclick = () => this.setConsoleText('ls');
         document.getElementById('new').onclick = () => this.setConsoleText('new mon-projet');
@@ -14,7 +12,7 @@
     }
 
     
-    this.setConsoleText = async (command) => {
+    async setConsoleText (command){
         while (this.cmd.innerText != '') {
             this.cmd.textContent = this.cmd.innerHTML.slice(0, -1); 
             await this.wait(20);
@@ -25,7 +23,8 @@
         }
     }
 
-    this.loopCursor = async () => {
+    
+    async loopCursor() {
         while (true) {
             this.cmd.textContent += '█'; 
             await this.wait(500);
@@ -33,15 +32,16 @@
             await this.wait(500);
         }
     }
+
     
-    this.wait = (ms) => {
+    wait (ms) {
         return new Promise(res => setTimeout(res, ms));
     }
 
 };
 
 
-Accueil = new Accueil();
 
-Accueil.loadEvent();
-Accueil.loopCursor();
+let a = new Accueil();
+a.loadEvent();
+a.loopCursor();
