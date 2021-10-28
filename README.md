@@ -19,7 +19,7 @@ Framework PHP/JavaScript/HTML/Less en français.
 
 ### Nécessite le SDK .NET 5.0.11 (Runtime) :  https://dotnet.microsoft.com/download/dotnet/5.0
 ### Sites exemple :
-* http://185.212.226.19:8080/ : IP to GMap
+* IP to GMap : http://185.212.226.19:8080/
 
 
 <br> 
