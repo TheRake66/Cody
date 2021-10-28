@@ -41,7 +41,7 @@ Un petit aperçu :<br>
 
 # Liste des commandes
 
-**Pour la version _2.8.19.0_.**<br>
+**Pour la version _3.5.20.0_.**<br>
 ```
 aide                            
 ```
@@ -113,6 +113,11 @@ run
 Ouvre le projet dans le navigateur.<br>
 
 ```
+tra [-s|-a|-l] [nom]
+```
+Ajoute, liste, ou supprime un trait.<br>
+
+```
 vs
 ```
 Ouvre le projet dans Visual Studio Code.<br>
@@ -137,20 +142,45 @@ Architecture d'un projet vierge :<br>
 ```
 projet
 │   .htaccess
-│   component.json
-│   database.json
 │   index.php
-│   library.json
-│   object.json
 │   project.json
-│   route.php
 │
-├───controleur
-│       accueil.php
-│       bas.php
-│       haut.php
-│       menu.php
-│       panneau.php
+├───composant
+│   │   component.json
+│   │   global.js
+│   │   global.less
+│   │   route.php
+│   │   theme.less
+│   │
+│   ├───accueil
+│   │       cont.accueil.php
+│   │       script.accueil.js
+│   │       style.accueil.less
+│   │       vue.accueil.php
+│   │
+│   ├───bas
+│   │       cont.bas.php
+│   │       script.bas.js
+│   │       style.bas.less
+│   │       vue.bas.php
+│   │
+│   ├───haut
+│   │       cont.haut.php
+│   │       script.haut.js
+│   │       style.haut.less
+│   │       vue.haut.php
+│   │
+│   ├───menu
+│   │       cont.menu.php
+│   │       script.menu.js
+│   │       style.menu.less
+│   │       vue.menu.php
+│   │
+│   └───panneau
+│           cont.panneau.php
+│           script.panneau.js
+│           style.panneau.less
+│           vue.panneau.php
 │
 ├───document
 │       bdd.sql
@@ -174,49 +204,37 @@ projet
 │       youtube.png
 │
 ├───librairie
-│       autoloader.php
-│       convert.php
-│       database.php
-│       debug.php
-│       routeur.php
-│       security.php
-│
-├───modele
-│   ├───dao
-│   │       jeton.php
-│   │       typeutilisateur.php
-│   │       utilisateur.php
+│   │   library.json
 │   │
-│   ├───dto
-│   │       jeton.php
-│   │       typeutilisateur.php
-│   │       utilisateur.php
+│   ├───js
+│   │       GMap.js
+│   │       HTTP.js
 │   │
-│   └───reflect
-│           hydrate.php
+│   └───php
+│           autoloader.php
+│           convert.php
+│           database.php
+│           debug.php
+│           routeur.php
+│           security.php
 │
-├───script
-│       accueil.js
-│       bas.js
-│       global.js
-│       haut.js
-│       menu.js
-│       panneau.js
-│
-├───style
-│       accueil.less
-│       bas.less
-│       global.less
-│       haut.less
-│       menu.less
-│       panneau.less
-│
-└───vue
-        accueil.php
-        bas.php
-        haut.php
-        menu.php
-        panneau.php
+└───modele
+    │   database.json
+    │   object.json
+    │   trait.json
+    │
+    ├───dao
+    │       jeton.php
+    │       typeutilisateur.php
+    │       utilisateur.php
+    │
+    ├───dto
+    │       jeton.php
+    │       typeutilisateur.php
+    │       utilisateur.php
+    │
+    └───reflect
+            hydrate.php
 ```
 
 
@@ -257,7 +275,7 @@ Routeur::defaut('accueil');
 # Les packages
 Via la commande ```dl```, vous pouvez installer des packages développés par un tiers comme ceci :<br> 
 ```
-dl https://raw.githubusercontent.com/TheRake66/Cody-PHP/main/documents/routeur.php librairie\routeur.php
+dl https://raw.githubusercontent.com/TheRake66/Cody-PHP/main/documents/routeur.php librairie/php/routeur.php
 ```
 Afin de télécharger le routeur supportant les versions de PHP antérieures a la version 8.
 
@@ -277,7 +295,7 @@ class Accueil {
 ```
 Il chargera le fichier :<br>
 ```php
-require_once "controleur/accueil.php";
+require_once "composant/accueil/cont.accueil.php";
 ```
 
 
