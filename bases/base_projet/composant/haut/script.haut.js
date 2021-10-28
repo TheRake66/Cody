@@ -8,3 +8,5 @@ class Haut {
     }
 
 }
+
+let haut = new Haut();

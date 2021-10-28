@@ -8,3 +8,5 @@ class Panneau {
     }
 
 }
+
+let panneau = new Panneau();

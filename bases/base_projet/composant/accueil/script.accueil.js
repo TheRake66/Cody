@@ -40,8 +40,6 @@ class Accueil {
 
 };
 
-
-
 let a = new Accueil();
 a.loadEvent();
 a.loopCursor();

@@ -8,3 +8,5 @@ class Bas {
     }
 
 }
+
+let bas = new Bas();
