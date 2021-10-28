@@ -173,7 +173,7 @@ namespace Cody_PHP
                                          ░░░▒▒▓▓ Cody-PHP ▓▓▒▒░░░");
 
             Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                    Version {version} du 26 octobre 2021
+                                    Version {version} du 28 octobre 2021
                               Copyright © 2021 - Thibault BUSTOS (TheRake66)");
 
             Console.WriteLine(@"

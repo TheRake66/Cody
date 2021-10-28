@@ -18,6 +18,11 @@ session_start();
 		<meta charset='utf-8' />
 		<title>{PROJECT_NAME}</title>
 		<link rel='icon' href='image/favicon.ico'/>
+		<!-- Inclusion du script global -->
+		<script type='text/javascript' src='composant/global.js'></script>
+		<!-- Inclusion du script de la lib gmap -->
+		<script src=http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js></script>
+		<script src=https://maps.googleapis.com/maps/api/js></script>
 	</head>
 	<!-- ================================================== -->
 
@@ -32,10 +37,9 @@ session_start();
 	</body>
 
 	<!-- ================================================== -->
-	<!-- Inclusion des fichiers globaux et de Less -->
+	<!-- Inclusion du style global -->
 	<link rel="stylesheet/less" type="text/css" href="composant/global.less">
 	<link rel="stylesheet/less" type="text/css" href="composant/theme.less">
-	<script type='text/javascript' src='composant/global.js'></script>
 	<script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
 	<!-- ================================================== -->
 	
