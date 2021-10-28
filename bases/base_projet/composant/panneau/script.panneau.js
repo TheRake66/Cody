@@ -7,4 +7,4 @@ var Panneau = function() {
 
 
 
-Script.Panneau = new Panneau();
+Panneau = new Panneau();

@@ -7,4 +7,4 @@ var Bas = function() {
 
 
 
-Script.Bas = new Bas();
+Bas = new Bas();

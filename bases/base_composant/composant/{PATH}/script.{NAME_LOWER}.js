@@ -7,4 +7,4 @@ var {NAME_UPPER} = function() {
 
 
 
-Script{NAMESPACE_POINT}.{NAME_UPPER} = new {NAME_UPPER}();
+{NAME_UPPER} = new {NAME_UPPER}();

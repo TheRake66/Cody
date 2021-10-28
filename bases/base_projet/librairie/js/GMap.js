@@ -95,4 +95,4 @@ var GMap = function() {
 
 
 
-Librairie.GMap = new GMap();
+GMap = new GMap();

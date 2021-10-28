@@ -31,4 +31,4 @@ var HTTP = function() {
 
 
 
-Librairie.HTTP = new HTTP();
+HTTP = new HTTP();

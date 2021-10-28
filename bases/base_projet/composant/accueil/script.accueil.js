@@ -6,31 +6,31 @@
     this.cmd = document.getElementById('input');
 
     this.loadEvent = () => {
-        document.getElementById('cd').onclick = () => setConsoleText('cd C:\\wamp\\www');
-        document.getElementById('ls').onclick = () => setConsoleText('ls');
-        document.getElementById('new').onclick = () => setConsoleText('new mon-projet');
-        document.getElementById('com').onclick = () => setConsoleText('com -a mon-composant');
-        document.getElementById('obj').onclick = () => setConsoleText('obj -a mon-objet');
+        document.getElementById('cd').onclick = () => this.setConsoleText('cd C:\\wamp\\www');
+        document.getElementById('ls').onclick = () => this.setConsoleText('ls');
+        document.getElementById('new').onclick = () => this.setConsoleText('new mon-projet');
+        document.getElementById('com').onclick = () => this.setConsoleText('com -a mon-composant');
+        document.getElementById('obj').onclick = () => this.setConsoleText('obj -a mon-objet');
     }
 
     
     this.setConsoleText = async (command) => {
-        while (cmd.innerText != '') {
-            cmd.textContent = cmd.innerHTML.slice(0, -1); 
-            await wait(20);
+        while (this.cmd.innerText != '') {
+            this.cmd.textContent = this.cmd.innerHTML.slice(0, -1); 
+            await this.wait(20);
         }
         for (let i = 0; i < command.length; i++) {
-            cmd.textContent += command.substring(i, i+1); 
-            await wait(20);
+            this.cmd.textContent += command.substring(i, i+1); 
+            await this.wait(20);
         }
     }
 
     this.loopCursor = async () => {
         while (true) {
-            cmd.textContent += '█'; 
-            await wait(500);
-            cmd.textContent = cmd.innerHTML.replace('█', ''); 
-            await wait(500);
+            this.cmd.textContent += '█'; 
+            await this.wait(500);
+            this.cmd.textContent = this.cmd.innerHTML.replace('█', ''); 
+            await this.wait(500);
         }
     }
     
@@ -41,7 +41,7 @@
 };
 
 
-Script.Accueil = new Accueil();
+Accueil = new Accueil();
 
-Script.Accueil.loadEvent();
-Script.Accueil.loopCursor();
+Accueil.loadEvent();
+Accueil.loopCursor();

@@ -7,4 +7,4 @@ var Menu = function() {
 
 
 
-Script.Menu = new Menu();
+Menu = new Menu();

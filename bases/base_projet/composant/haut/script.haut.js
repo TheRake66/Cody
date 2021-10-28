@@ -7,4 +7,4 @@ var Haut = function() {
 
 
 
-Script.Haut = new Haut();
+Haut = new Haut();
