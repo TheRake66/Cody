@@ -1,8 +1,15 @@
 
 class Accueil {
 
+    /**
+     * Array contenant les marker
+     */
     cmd = document.getElementById('input');
 
+
+    /**
+     * Charge les event de click sur les boutons
+     */
     loadEvent() {
         document.getElementById('cd').onclick = () => this.setConsoleText('cd C:\\wamp\\www');
         document.getElementById('ls').onclick = () => this.setConsoleText('ls');
@@ -11,7 +18,12 @@ class Accueil {
         document.getElementById('obj').onclick = () => this.setConsoleText('obj -a mon-objet');
     }
 
-    
+
+    /**
+     * Charge les event de click sur les boutons
+     * 
+     * @param {string} command - Commande a afficher
+     */
     async setConsoleText (command){
         while (this.cmd.innerText != '') {
             this.cmd.textContent = this.cmd.innerHTML.slice(0, -1); 
@@ -23,7 +35,10 @@ class Accueil {
         }
     }
 
-    
+
+    /**
+     * Boucle affichant le caractere du curseur
+     */
     async loopCursor() {
         while (true) {
             this.cmd.textContent += '█'; 
@@ -33,7 +48,12 @@ class Accueil {
         }
     }
 
-    
+
+    /**
+     * Met une pause dans le thread
+     * 
+     * @param {int} ms - Nombre de milliseconde
+     */
     wait (ms) {
         return new Promise(res => setTimeout(res, ms));
     }

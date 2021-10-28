@@ -25,7 +25,6 @@ class GMap {
      * Constructeur
      */
     constructor() {
-
     }
 
 
@@ -78,9 +77,10 @@ class GMap {
      * 
      * @param {Marker} marker - Marker a supprimer
      */
-    clearMarkers(marker) {
+    clearMarker(marker) {
         let index = this.markers.indexOf(marker);
         if (index > -1) {
+            marker.setMap(null);
             this.markers.splice(index, 1);
         }
     };
