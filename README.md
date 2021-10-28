@@ -41,7 +41,7 @@ Un petit aperçu :<br>
 
 # Liste des commandes
 
-**Pour la version _3.5.20.0_.**<br>
+**Pour la version _3.5.21.0_.**<br>
 ```
 aide                            
 ```
@@ -207,8 +207,8 @@ projet
 │   │   library.json
 │   │
 │   ├───js
-│   │       GMap.js
-│   │       HTTP.js
+│   │       gmap.js
+│   │       http.js
 │   │
 │   └───php
 │           autoloader.php
