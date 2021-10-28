@@ -17,7 +17,7 @@ class {NAME_UPPER} {
      * Destructeur
      */
     function __destruct() {
-        require_once 'composant/{PATH}/{NAME_LOWER}/vue.{NAME_LOWER}.php';
+        require_once 'composant/{PATH}/vue.{NAME_LOWER}.php';
     }
 
 }

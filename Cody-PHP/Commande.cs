@@ -762,20 +762,28 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         // Gere les objets
         public static void gestObjet(string[] cmd)
         {
-            gestItem(cmd, "base_objet.zip", Resources.base_objet, "object.json");
+            gestItem(cmd, "base_objet.zip", Resources.base_objet, "modele/object.json");
         }
 
         // Gere les librairies
         public static void gestLibrairie(string[] cmd)
         {
-            gestItem(cmd, "base_librairie.zip", Resources.base_librairie, "library.json");
+            gestItem(cmd, "base_librairie.zip", Resources.base_librairie, "librairie/library.json");
         }
 
         // Gere les composants
         public static void gestComposant(string[] cmd)
         {
-            gestItem(cmd, "base_composant.zip", Resources.base_composant, "component.json");
+            gestItem(cmd, "base_composant.zip", Resources.base_composant, "composant/component.json");
         }
+
+        // Gere les traits
+        public static void gestTrait(string[] cmd)
+        {
+            gestItem(cmd, "base_trait.zip", Resources.base_trait, "modele/trait.json");
+        }
+
+
 
         // Gere les item
         public static void gestItem(string[] cmd, string archivenom, byte[] archive, string jsoni)
@@ -844,42 +852,37 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         // Ajoute un item
         private static void ajouterItem(string nom, string archivenom, byte[] archive, string jsoni)
         {
-            if (nom != "global")
+            bool continu = true;
+            List<Item> objs = new List<Item>();
+
+            if (File.Exists(jsoni))
             {
-                bool continu = true;
-                List<Item> objs = new List<Item>();
-
-                if (File.Exists(jsoni))
+                try
                 {
-                    try
+                    string json = File.ReadAllText(jsoni);
+
+                    if (json != "")
                     {
-                        string json = File.ReadAllText(jsoni);
+                        objs = JsonConvert.DeserializeObject<List<Item>>(json);
 
-                        if (json != "")
+                        foreach (Item obj in objs)
                         {
-                            objs = JsonConvert.DeserializeObject<List<Item>>(json);
-
-                            foreach (Item obj in objs)
+                            if (obj.nom == nom)
                             {
-                                if (obj.nom == nom)
-                                {
-                                    Console.WriteLine("Heuuu, l'élément existe déjà...");
-                                    continu = false;
-                                }
+                                Console.WriteLine("Heuuu, l'élément existe déjà...");
+                                continu = false;
                             }
                         }
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Impossible de lire la liste des éléments existant !", e);
-                        continu = false;
-                    }
                 }
-
-                if (continu) extractionArchiveItem(objs, nom, archivenom, archive, jsoni);
+                catch (Exception e)
+                {
+                    Console.WriteLine("Impossible de lire la liste des éléments existant !", e);
+                    continu = false;
+                }
             }
-            else
-                Console.WriteLine("Le nom global est reservé, impossible de l'utiliser.");
+
+            if (continu) extractionArchiveItem(objs, nom, archivenom, archive, jsoni);
         }
         private static void extractionArchiveItem(List<Item> objs, string nom, string archivenom, byte[] archive, string jsoni)
         {
@@ -901,7 +904,9 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             try
             {
                 string[] spt = nom.Split(Path.DirectorySeparatorChar);
-                string namespce = ""; // \Namepace\Namespace
+                string namespce_slash = ""; // \Namepace\Namespace
+                string namespce_point = ""; // .Namepace.Namespace
+                string back_path = ""; // ../../
                 string objlow = ""; // obj
                 string objup = ""; // Obj
                 string nomlow = nom.ToLower(); // \namepace\namespace\obj
@@ -910,12 +915,21 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 for (int i = 0; i < spt.Length - 1; i++)
                 {
                     string n = spt[i];
-                    namespce += $@"\{n.Substring(0, 1).ToUpper()}";
-                    if (n.Length > 1) namespce += n.Substring(1).ToLower();
+                    string s = n.Substring(0, 1).ToUpper();
+                    namespce_slash += $@"\{s}";
+                    namespce_point += $@".{s}";
+                    back_path += $@"../";
+                    if (n.Length > 1)
+                    {
+                        string l = n.Substring(1).ToLower();
+                        namespce_slash += l;
+                        namespce_point += l;
+                    }
                 }
                 objlow = spt[spt.Length - 1].ToLower();
                 objup = objlow.Substring(0, 1).ToUpper();
                 if (objlow.Length > 1) objup += objlow.Substring(1);
+
 
                 // Ouvre l'archive
                 using (ZipArchive arc = ZipFile.OpenRead(zip))
@@ -925,7 +939,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     {
                         // Si c'est un fichier
                         if (ent.Name != "")
-                            extraireFichierItem(ent, ref paths, nomlow, namespce, objlow, objup);
+                            extraireFichierItem(ent, ref paths, nomlow, namespce_slash, namespce_point, back_path, objlow, objup);
                     }
                 }
 
@@ -939,13 +953,23 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 Message.writeExcept("Impossible d'extraire l'archive !", e);
             }
         }
-        private static void extraireFichierItem(ZipArchiveEntry ent, ref List<string> paths, string nomlow, string namespce, string objlow, string objup)
+        private static void extraireFichierItem(ZipArchiveEntry ent, ref List<string> paths, string nomlow, string namespce_slash, string namespce_point, string back_path,  string objlow, string objup)
         {
             try
             {
                 // modele\dto\*.php --> modele\dto\namepace\namespace\obh.php
-                string file = Path.Combine(Path.GetDirectoryName(ent.FullName), nomlow) + Path.GetExtension(ent.Name);
+                string file = ent.FullName
+                    .Replace("{NAME_LOWER}", objlow)
+                    .Replace("{PATH}", nomlow.Replace('\\', '/'));
                 string path = Path.GetDirectoryName(file);
+
+
+
+                Console.WriteLine(file);
+                Console.WriteLine(path);
+                Console.WriteLine(ent.FullName);
+                Console.WriteLine(objlow);
+                Console.WriteLine(nomlow);
 
                 bool continu = true;
                 if (!Directory.Exists(path))
@@ -955,7 +979,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         Directory.CreateDirectory(path);
 
                         Console.Write("Dossier : '");
-                        Message.writeIn(ConsoleColor.Magenta, path);
+                        Message.writeIn(ConsoleColor.Magenta, path.Replace('/', Path.DirectorySeparatorChar));
                         Console.WriteLine("' ajouté.");
                     }
                     catch (Exception e)
@@ -981,7 +1005,9 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     {
                         // Modifie le fichier
                         string content = File.ReadAllText(file)
-                            .Replace("{NAMESPACE}", namespce)
+                            .Replace("{NAMESPACE_SLASH}", namespce_slash)
+                            .Replace("{NAMESPACE_POINT}", namespce_point)
+                            .Replace("{BACK_PATH}", back_path)
                             .Replace("{NAME_UPPER}", objup)
                             .Replace("{PATH}", nomlow.Replace('\\', '/'))
                             .Replace("{NAME_LOWER}", objlow);

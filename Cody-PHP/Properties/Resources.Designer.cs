@@ -99,5 +99,15 @@ namespace Cody_PHP.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] base_trait {
+            get {
+                object obj = ResourceManager.GetObject("base_trait", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
