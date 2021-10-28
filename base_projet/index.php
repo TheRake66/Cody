@@ -34,7 +34,10 @@ session_start();
 	<!-- ================================================== -->
 	<!-- Inclusion des fichiers globaux et de Less -->
 	<link rel="stylesheet/less" type="text/css" href="composant/global.less">
+<<<<<<< Updated upstream
 	<link rel="stylesheet/less" type="text/css" href="composant/theme.less">
+=======
+>>>>>>> Stashed changes
 	<script type='text/javascript' src='composant/global.js'></script>
 	<script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
 	<!-- ================================================== -->

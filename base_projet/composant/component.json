@@ -4,10 +4,10 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "composant\\accueil\\cont.accueil.php",
-      "composant\\accueil\\script.accueil.js",
-      "composant\\accueil\\style.accueil.less",
-      "composant\\accueil\\vue.accueil.php"
+      "controleur\\accueil.php",
+      "script\\accueil.js",
+      "style\\accueil.less",
+      "vue\\accueil.php"
     ]
   },
   {
@@ -15,10 +15,10 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "composant\\bas\\cont.bas.php",
-      "composant\\bas\\script.bas.js",
-      "composant\\bas\\style.bas.less",
-      "composant\\bas\\vue.bas.php"
+      "controleur\\bas.php",
+      "script\\bas.js",
+      "style\\bas.less",
+      "vue\\bas.php"
     ]
   },
   {
@@ -26,10 +26,10 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "composant\\haut\\cont.haut.php",
-      "composant\\haut\\script.haut.js",
-      "composant\\haut\\style.haut.less",
-      "composant\\haut\\vue.haut.php"
+      "controleur\\haut.php",
+      "script\\haut.js",
+      "style\\haut.less",
+      "vue\\haut.php"
     ]
   },
   {
@@ -37,10 +37,10 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "composant\\menu\\cont.menu.php",
-      "composant\\menu\\script.menu.js",
-      "composant\\menu\\style.menu.less",
-      "composant\\menu\\vue.menu.php"
+      "controleur\\menu.php",
+      "script\\menu.js",
+      "style\\menu.less",
+      "vue\\menu.php"
     ]
   },
   {
@@ -48,10 +48,10 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "chemins": [
-      "composant\\panneau\\cont.panneau.php",
-      "composant\\panneau\\script.panneau.js",
-      "composant\\panneau\\style.panneau.less",
-      "composant\\panneau\\vue.panneau.php"
+      "controleur\\panneau.php",
+      "script\\panneau.js",
+      "style\\panneau.less",
+      "vue\\panneau.php"
     ]
   }
 ]

@@ -23,32 +23,12 @@ class Autoloader {
 
     /**
      * Cherche et inclut les fichiers contenant les classes
+     * Namespace\Classe
      * 
-     * @param string Namespace\Class
+     * @param string Namespace
      */
-    static function load($required) {
-
-        // Contoleur\Carte\Main
-        // composant/carte/cont.main.php
-
-        $_ = explode('\\', $required);
-        $class = end($_);
-        $first = array_shift($_);
-        $namespace = implode(array_slice($_, 1, -1));
-
-
-        $file = '';
-        switch ($first) {
-            case 'Librairie':
-                $file = str_replace($required, $first, 'librairie/php') . $namespace . '/' . $class . '.php';
-                break;
-
-            case 'Controleur':
-                $file = str_replace($required, $first, 'composant') . $namespace . '/' . $class . '/cont.' . $class . '.php';
-                break;
-        }
-
-        $file = strtolower($file);
+    static function load($class) {
+        $file = strtolower(str_replace('\\', '/', $class)) . '.php';
         if(is_file($file) && is_readable($file)) {
             require_once $file;
         }

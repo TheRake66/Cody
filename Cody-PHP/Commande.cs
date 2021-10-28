@@ -33,7 +33,7 @@ com [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un composant (control
 die                             Quitte Cody-PHP.
 dl [url] [fichier]              Télécharge un fichier avec l'URL spécifiée.
 exp                             Ouvre le projet dans l'explorateur de fichiers.
-lib [-s|-a|-l] [nom]            Ajoute, liste, ou supprime une librairie.
+lib [-s|-a|-l] [nom]            Ajoute, liste, ou supprime une librairie (PHP et JavaScript).
                                 avec le nom spécifié.
 ls                              Affiche la liste des projets.
 maj                             Met à jour Cody-PHP via le depot GitHub.
@@ -42,6 +42,7 @@ obj [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un objet (classe dto,
                                 avec le nom spécifié.
 rep                             Ouvre la dépôt GitHub de Cody-PHP.
 run                             Ouvre le projet dans le navigateur.
+tra [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un trait.
 vs                              Ouvre le projet dans Visual Studio Code.
 wamp                            Lance WAMP Serveur et défini le dossier courant sur le www.
 
