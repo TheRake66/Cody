@@ -21,7 +21,7 @@ class HTTP {
      * @param {function} callback - Fonction anonyme appeler lors de la reponse
      * @param {ReqType} type - Type de requete
      */
-    send(url, callback, type = ReqType.GET) {
+    static send(url, callback, type = ReqType.GET) {
         let xml = new XMLHttpRequest();
         xml.open(type, url, true);
         xml.onreadystatechange = () => {

@@ -2,6 +2,15 @@
 class Accueil {
 
     /**
+     * Constructeur
+     */
+	constructor() {
+		this.loadEvent();
+		this.loopCursor();
+	}
+	
+
+    /**
      * Array contenant les marker
      */
     cmd = document.getElementById('input');
@@ -61,5 +70,3 @@ class Accueil {
 };
 
 let a = new Accueil();
-a.loadEvent();
-a.loopCursor();
