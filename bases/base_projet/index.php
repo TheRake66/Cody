@@ -35,12 +35,12 @@ session_start();
 		?>
 		<!-- ================================================== -->
 	</body>
-
+	
 	<!-- ================================================== -->
 	<!-- Inclusion du style global -->
 	<link rel="stylesheet/less" type="text/css" href="composant/global.less">
-	<link rel="stylesheet/less" type="text/css" href="composant/theme.less">
+	<!-- Inclusion de Less -->
 	<script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
 	<!-- ================================================== -->
-	
+		
 </html>
