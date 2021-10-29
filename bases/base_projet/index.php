@@ -18,11 +18,11 @@ session_start();
 		<meta charset='utf-8' />
 		<title>{PROJECT_NAME}</title>
 		<link rel='icon' href='image/favicon.ico'/>
-		<!-- Inclusion du script global -->
-		<script type='text/javascript' src='composant/global.js'></script>
 		<!-- Inclusion du script de la lib gmap -->
 		<script src=http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js></script>
 		<script src=https://maps.googleapis.com/maps/api/js></script>
+		<!-- Inclusion du script global -->
+		<script type='text/javascript' src='composant/global.js'></script>
 	</head>
 	<!-- ================================================== -->
 
