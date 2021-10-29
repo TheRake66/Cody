@@ -63,7 +63,6 @@
 		<span id="input"></span>
 	</div>
 
-
 	<div id="icone">
 		<a href="https://www.facebook.com/TheRake66/">
 			<img src="image/facebook.png">
