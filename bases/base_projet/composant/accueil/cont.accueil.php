@@ -17,9 +17,7 @@ class Accueil {
      * Destructeur
      */
     function __destruct() {
-        new Haut();
         require_once 'composant/accueil/vue.accueil.php';
-        new Bas();
     }
 
 }

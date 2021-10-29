@@ -1,5 +1,8 @@
 <!-- ================================================== -->
 <!-- Creation de la page d'accueil -->
+
+<?php new Controleur\Haut(); ?>
+
 <main>
 	
 	<div id="logo">
@@ -80,6 +83,9 @@
 	</div>
 
 </main>
+
+<?php new Controleur\Bas(); ?>
+
 <!-- ================================================== -->
 
 
