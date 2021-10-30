@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
+using System.Net;
 
 namespace Cody_PHP
 {
@@ -93,6 +94,25 @@ namespace Cody_PHP
             }
             while (rep != "oui" && rep != "non");
             return rep == "oui";
+        }
+
+        
+        // Telecharge une archive depuis le github
+        public static bool downloadArchive(string name, string path = "")
+        {
+            try
+            {
+                // Prepare un client http
+                WebClient client = new WebClient();
+                string remoteUri = $"https://github.com/TheRake66/Cody-PHP/raw/main/bases/{name}.zip";
+                client.DownloadFile(remoteUri, Path.Combine(path, $"{name}.zip"));
+                return true;
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de télécharger l'archive source !", e);
+                return false;
+            }
         }
 
     }

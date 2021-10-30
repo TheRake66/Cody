@@ -15,12 +15,18 @@ session_start();
 	<!-- ================================================== -->
 	<!-- Definition du head -->
 	<head>
-		<meta charset='utf-8' />
+		<meta charset="UTF-8">
+		<meta name="description" content="{PROJECT_NAME}">
+		<meta name="keywords" content="{PROJECT_NAME}">
+		<meta name="author" content="{USERNAME}">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>{PROJECT_NAME}</title>
 		<link rel='icon' href='image/favicon.ico'/>
+		
 		<!-- Inclusion du script de la lib gmap -->
 		<script src=http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js></script>
 		<script src=https://maps.googleapis.com/maps/api/js></script>
+		
 		<!-- Inclusion du script global -->
 		<script type='text/javascript' src='composant/global.js'></script>
 	</head>
@@ -39,6 +45,7 @@ session_start();
 	<!-- ================================================== -->
 	<!-- Inclusion du style global -->
 	<link rel="stylesheet/less" type="text/css" href="composant/global.less">
+	
 	<!-- Inclusion de Less -->
 	<script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
 	<!-- ================================================== -->

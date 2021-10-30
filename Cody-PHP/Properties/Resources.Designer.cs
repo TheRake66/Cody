@@ -59,55 +59,5 @@ namespace Cody_PHP.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Byte[].
-        /// </summary>
-        internal static byte[] base_composant {
-            get {
-                object obj = ResourceManager.GetObject("base_composant", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Byte[].
-        /// </summary>
-        internal static byte[] base_librairie {
-            get {
-                object obj = ResourceManager.GetObject("base_librairie", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Byte[].
-        /// </summary>
-        internal static byte[] base_objet {
-            get {
-                object obj = ResourceManager.GetObject("base_objet", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Byte[].
-        /// </summary>
-        internal static byte[] base_projet {
-            get {
-                object obj = ResourceManager.GetObject("base_projet", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Byte[].
-        /// </summary>
-        internal static byte[] base_trait {
-            get {
-                object obj = ResourceManager.GetObject("base_trait", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

@@ -600,26 +600,15 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 // Creer le dossier du projet
                 Directory.CreateDirectory(nom);
 
-                extractionArchiveProject(nom);
+                if (Librairie.downloadArchive("base_projet", nom))
+                {
+                    string zip = Path.Combine(nom, "base_projet.zip");
+                    parcoursArchiveProjet(zip, nom);
+                }
             }
             catch (Exception e)
             {
                 Message.writeExcept("Impossible de créer le dossier du projet !", e);
-            }
-        }
-        private static void extractionArchiveProject(string nom)
-        {
-            try
-            {
-                // Extrait l'archive des ressouces
-                string zip = Path.Combine(nom, "base_projet.zip");
-                File.WriteAllBytes(zip, Resources.base_projet);
-
-                parcoursArchiveProjet(zip, nom);
-            }
-            catch (Exception e)
-            {
-                Message.writeExcept("Impossible d'extraire l'archive !", e);
             }
         }
         private static void parcoursArchiveProjet(string zip, string nom)
@@ -762,31 +751,31 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         // Gere les objets
         public static void gestObjet(string[] cmd)
         {
-            gestItem(cmd, "base_objet.zip", Resources.base_objet, "modele/object.json");
+            gestItem(cmd, "base_objet", "modele/object.json");
         }
 
         // Gere les librairies
         public static void gestLibrairie(string[] cmd)
         {
-            gestItem(cmd, "base_librairie.zip", Resources.base_librairie, "librairie/library.json");
+            gestItem(cmd, "base_librairie", "librairie/library.json");
         }
 
         // Gere les composants
         public static void gestComposant(string[] cmd)
         {
-            gestItem(cmd, "base_composant.zip", Resources.base_composant, "composant/component.json");
+            gestItem(cmd, "base_composant", "composant/component.json");
         }
 
         // Gere les traits
         public static void gestTrait(string[] cmd)
         {
-            gestItem(cmd, "base_trait.zip", Resources.base_trait, "modele/trait.json");
+            gestItem(cmd, "base_trait", "modele/trait.json");
         }
 
 
 
         // Gere les item
-        public static void gestItem(string[] cmd, string archivenom, byte[] archive, string jsoni)
+        public static void gestItem(string[] cmd, string archivenom, string jsoni)
         {
             if (cmd.Length == 1 || cmd.Length == 2)
             {
@@ -827,7 +816,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                                     break;
 
                                 case "-a":
-                                    if (cmd.Length == 2) ajouterItem(cmd[1].ToLower(), archivenom, archive, jsoni);
+                                    if (cmd.Length == 2) ajouterItem(cmd[1].ToLower(), archivenom, jsoni);
                                     else Console.WriteLine("Il manque le nom de l'élément !");
                                     break;
 
@@ -850,7 +839,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         }
 
         // Ajoute un item
-        private static void ajouterItem(string nom, string archivenom, byte[] archive, string jsoni)
+        private static void ajouterItem(string nom, string archivenom, string jsoni)
         {
             bool continu = true;
             List<Item> objs = new List<Item>();
@@ -882,17 +871,18 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 }
             }
 
-            if (continu) extractionArchiveItem(objs, nom, archivenom, archive, jsoni);
+            if (continu) extractionArchiveItem(objs, nom, archivenom, jsoni);
         }
-        private static void extractionArchiveItem(List<Item> objs, string nom, string archivenom, byte[] archive, string jsoni)
+        private static void extractionArchiveItem(List<Item> objs, string nom, string archivenom, string jsoni)
         {
             try
             {
                 // Extrait l'archive des ressouces
-                string zip = archivenom;
-                File.WriteAllBytes(zip, archive);
-
-                parcoursArchiveItem(objs, zip, nom, jsoni);
+                if (Librairie.downloadArchive(archivenom, nom))
+                {
+                    string zip = Path.Combine(nom, $"{archivenom}.zip");
+                    parcoursArchiveItem(objs, zip, nom, jsoni);
+                }
             }
             catch (Exception e)
             {
