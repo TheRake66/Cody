@@ -2,7 +2,7 @@
 <!-- Creation du header -->
 <header>
 	<img src="image/logo.png">
-	<span>Bienvenue dans Cody-PHP</span>
+	Bienvenue dans Cody-PHP
 </header>
 <!-- ================================================== -->
 

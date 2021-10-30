@@ -1,7 +1,7 @@
 <!-- ================================================== -->
 <!-- Creation du footer -->
 <footer>
-	<span>Copyright © 2021 - Thibault BUSTOS (TheRake66)</span>
+Copyright © 2021 - Thibault BUSTOS (TheRake66)
 </footer>
 <!-- ================================================== -->
 
