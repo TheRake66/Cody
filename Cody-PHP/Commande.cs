@@ -584,7 +584,15 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 string name = cmd[0];
 
                 if (!Directory.Exists(name))
+                {
                     creerDossierProjet(name);
+
+                    if (Librairie.downloadArchive("base_projet", name))
+                    {
+                        string zip = Path.Combine(name, "base_projet.zip");
+                        parcoursArchiveProjet(zip, name);
+                    }
+                }
                 else
                     Console.WriteLine("Heuuu, le projet existe déjà, ou un dossier...");
             }
@@ -599,12 +607,6 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             {
                 // Creer le dossier du projet
                 Directory.CreateDirectory(nom);
-
-                if (Librairie.downloadArchive("base_projet", nom))
-                {
-                    string zip = Path.Combine(nom, "base_projet.zip");
-                    parcoursArchiveProjet(zip, nom);
-                }
             }
             catch (Exception e)
             {
@@ -686,7 +688,10 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     try
                     {
                         // Modifie le fichier
-                        File.WriteAllText(path, File.ReadAllText(path).Replace("{PROJECT_NAME}", name));
+                        File.WriteAllText(path, File.ReadAllText(path)
+                            .Replace("{PROJECT_NAME}", name)
+                            .Replace("{USER_NAME}", Environment.UserName)
+                            );
                     }
                     catch (Exception e)
                     {
@@ -871,23 +876,8 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 }
             }
 
-            if (continu) extractionArchiveItem(objs, nom, archivenom, jsoni);
-        }
-        private static void extractionArchiveItem(List<Item> objs, string nom, string archivenom, string jsoni)
-        {
-            try
-            {
-                // Extrait l'archive des ressouces
-                if (Librairie.downloadArchive(archivenom, nom))
-                {
-                    string zip = Path.Combine(nom, $"{archivenom}.zip");
-                    parcoursArchiveItem(objs, zip, nom, jsoni);
-                }
-            }
-            catch (Exception e)
-            {
-                Message.writeExcept("Impossible d'extraire l'archive !", e);
-            }
+            if (continu && Librairie.downloadArchive(archivenom))
+                parcoursArchiveItem(objs, $"{archivenom}.zip", nom, jsoni);
         }
         private static void parcoursArchiveItem(List<Item> objs, string zip, string nom, string jsoni)
         {

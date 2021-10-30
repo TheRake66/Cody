@@ -18,7 +18,7 @@ session_start();
 		<meta charset="UTF-8">
 		<meta name="description" content="{PROJECT_NAME}">
 		<meta name="keywords" content="{PROJECT_NAME}">
-		<meta name="author" content="{USERNAME}">
+		<meta name="author" content="{USER_NAME}">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>{PROJECT_NAME}</title>
 		<link rel='icon' href='image/favicon.ico'/>
