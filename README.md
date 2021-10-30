@@ -307,7 +307,7 @@ require_once "composant/accueil/cont.accueil.php";
 # Licence
 *Licence MIT<br>
 <br>
-Copyright (c) 2021 TheRake66<br>
+Copyright © 2021 - Thibault BUSTOS (TheRake66)<br>
 <br>
 Permission est accordée, sans frais, à toute personne obtenant une copie
 de ce logiciel et des fichiers de documentation associés (le "Logiciel"), pour traiter
