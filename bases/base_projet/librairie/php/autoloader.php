@@ -50,7 +50,7 @@ class Autoloader {
                 break;
 
             default:
-				$file = strtolower(str_replace('\\', '/', $class)) . '.php';
+				$file = strtolower(str_replace('\\', '/', $required)) . '.php';
                 break;
         }
 
