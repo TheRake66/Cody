@@ -69,4 +69,4 @@ class Accueil {
 
 };
 
-let a = new Accueil();
+let accueil = new Accueil();
