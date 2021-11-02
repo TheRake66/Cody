@@ -134,10 +134,12 @@ class DataBase extends \PDO {
     static function fetchObjets($sql, $type, $params = []) {
         $rep = self::fetchAll($sql, $params);
         $arr = [];
-        foreach ($rep as $r) {
-            $obj = new $type();
-            $obj->hydrate($r);
-            $arr[] = $obj;
+        if (!is_null($rep) && !empty($rep)) {
+			foreach ($rep as $r) {
+				$obj = new $type();
+				$obj->hydrate($r);
+				$arr[] = $obj;
+			}
         }
         return $arr;
     }
