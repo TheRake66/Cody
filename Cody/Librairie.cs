@@ -7,7 +7,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Net;
 
-namespace Cody_PHP
+namespace Cody
 {
     public class Librairie
     {
@@ -69,7 +69,7 @@ namespace Cody_PHP
             if (File.Exists("project.json")) return true;
             else
             {
-                Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody-PHP...");
+                Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody...");
                 return false;
             }
                 
@@ -104,7 +104,7 @@ namespace Cody_PHP
             {
                 // Prepare un client http
                 WebClient client = new WebClient();
-                string remoteUri = $"https://github.com/TheRake66/Cody-PHP/raw/main/bases/{name}.zip";
+                string remoteUri = $"https://github.com/TheRake66/Cody/raw/main/bases/{name}.zip";
                 client.DownloadFile(remoteUri, Path.Combine(path, $"{name}.zip"));
                 return true;
             }

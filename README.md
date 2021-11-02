@@ -1,17 +1,17 @@
 <br>
 <p align="center">
-    <img src="https://github.com/TheRake66/Cody-PHP/blob/main/images/logo.png" alt="logo" width=300 height=157>
+    <img src="https://github.com/TheRake66/Cody/blob/main/images/logo.png" alt="logo" width=300 height=157>
 <p align="center">
 Framework PHP/JavaScript/HTML/Less en français.
 <br>
 <br>
-<a href="https://github.com/TheRake66/Cody-PHP/releases/tag/cody"><img alt="Télécharger" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/bouton.png"></a>
+<a href="https://github.com/TheRake66/Cody/releases/tag/cody">► Télécharger (5.5.27.0) ◄</a>
 <br>
 <br>
-<a href="https://github.com/TheRake66/Cody-PHP/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody-PHP"></a>
-<img alt="Taille du code" src="https://img.shields.io/github/languages/code-size/TheRake66/Cody-PHP">
-<a href="https://github.com/TheRake66/Cody-PHP/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheRake66/Cody-PHP"></a>
-<a href="https://packagist.org/packages/TheRake66/Cody-PHP"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/TheRake66/Cody-PHP?color=green"></a>
+<a href="https://github.com/TheRake66/Cody/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody"></a>
+<img alt="Taille du code" src="https://img.shields.io/github/languages/code-size/TheRake66/Cody">
+<a href="https://github.com/TheRake66/Cody/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheRake66/Cody"></a>
+<a href="https://packagist.org/packages/TheRake66/Cody"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/TheRake66/Cody?color=green"></a>
 </p>
 </p>
 <br>
@@ -25,7 +25,7 @@ Framework PHP/JavaScript/HTML/Less en français.
 <br> 
 
 # Qu'est-ce que c'est ?
-Cody-PHP est un framework destiné à la création du site web en PHP, Javascript, HTML et Less compatible Windows, Linux et Mac.
+Cody est un framework destiné à la création du site web en PHP, Javascript, HTML et Less compatible Windows, Linux et Mac.
 Il permet de créer simplement et rapidement un site design et complet grâce à sa structure MVC.
 Et tout ça sans aucune installation, pratique pour développer sur une machine où l'on n'a pas accès au compte administrateur !
 
@@ -33,17 +33,13 @@ L'architecture Model View Controler apporte un cadre de travail propre travail p
 
 Il inclut quelques librairies comme la gestion des bases de données, l'autoloader, un système de routage et bien d'autres. Malgré ses librairies complètes, un projet vierge pèse seulement 500 Ko !
 
-Un petit aperçu :<br>
-<br>
-<img alt="Console" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/cmd.png">
-
 
 
 <br>
 
 # Liste des commandes
 
-**Pour la version _4.5.27.0_.**<br>
+**Pour la version _5.5.27.0_.**<br>
 ```
 aide                            
 ```
@@ -67,7 +63,7 @@ Ajoute, liste, ou supprime un composant (controleur, vue, style, script) avec le
 ```
 die
 ```
-Quitte Cody-PHP.<br>
+Quitte Cody.<br>
 
 ```
 dl [url] [fichier]
@@ -92,7 +88,7 @@ Affiche la liste des projets.<br>
 ```
 maj
 ```
-Met à jour Cody-PHP via le depot GitHub.<br>
+Met à jour Cody via le depot GitHub.<br>
 
 ```
 new [nom]
@@ -107,7 +103,7 @@ Ajoute, liste, ou supprime un objet (classe dto, classe dao) avec le nom spécif
 ```
 rep
 ```
-Ouvre la dépôt GitHub de Cody-PHP.<br>
+Ouvre la dépôt GitHub de Cody.<br>
 
 ```
 run
@@ -135,9 +131,6 @@ Lance WAMP Serveur et défini le dossier courant sur le www.<br>
 
 # Projet vierge
 Lors de la création d'un nouveau projet un projet vierge sera créer, il contiendra toutes les librairies nécessaires ainsi que quelques composants et objets de base.
-Il intégrera aussi cette page d'accueil :<br>
-<br>
-<img alt="Page d'accueil" src="https://github.com/TheRake66/Cody-PHP/blob/main/images/projet.png">
 <br>
 <br>
 Architecture d'un projet vierge :<br>
@@ -277,7 +270,7 @@ Routeur::defaut('accueil');
 # Les packages
 Via la commande ```dl```, vous pouvez installer des packages développés par un tiers comme ceci :<br> 
 ```
-dl https://raw.githubusercontent.com/TheRake66/Cody-PHP/main/documents/routeur.php librairie/php/routeur.php
+dl https://raw.githubusercontent.com/TheRake66/Cody/main/documents/routeur.php librairie/php/routeur.php
 ```
 Afin de télécharger le routeur supportant les versions de PHP antérieures a la version 8.
 

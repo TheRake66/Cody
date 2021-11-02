@@ -1,4 +1,4 @@
-﻿using Cody_PHP.Properties;
+﻿using Cody.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cody_PHP
+namespace Cody
 {
     class Program
     {
@@ -154,29 +154,51 @@ namespace Cody_PHP
             // Nettoie si jamais l'user l'a lancer via commande
             Console.Clear();
             // Change le titre de la console
-            Console.Title = $"({version}) Cody-PHP";
+            Console.Title = $"({version}) Cody";
+            Console.OutputEncoding = Encoding.UTF8;
 
             // Entete
-            Message.writeIn(ConsoleColor.Blue, @"
-
-                     ██████╗                                  ██████╗ ██╗  ██╗██████╗ 
-                    ██╔════╝ ██████╗ ██████╗ ██╗   ██╗        ██╔══██╗██║  ██║██╔══██╗
-                    ██║     ██╔═══██╗██╔══██╗╚██╗ ██╔╝ █████╗ ██████╔╝███████║██████╔╝
-                    ██║     ██║   ██║██║  ██║ ╚████╔╝  ╚════╝ ██╔═══╝ ██╔══██║██╔═══╝ 
-                    ╚██████╗╚██████╔╝██████╔╝  ╚██╔╝          ██║     ██║  ██║██║     
-                     ╚═════╝ ╚═════╝ ╚═════╝   ██╔╝           ╚═╝     ╚═╝  ╚═╝╚═╝
-                                              ██╔╝
-                                              ╚═╝
+            Console.SetCursorPosition(0, 0);
+            Message.writeIn(ConsoleColor.White, @"
+                                                  ▄▄▄▄▄▄▄                      ▄▄
+                                                ▄████████▌                     ██
+                                               ████▀▀▀▀▀▀                      ██
+                                              ▐███           ▄▄▄▄▄▄      ▄▄▄▄▄▄██  ▄▄       ▄▄
+                                              ▐██▌          ████████    █████████ ▐██▌     ▐██▌
+                                              ▐██▌         ▐██▀  ▀██▌  ▐██▀  ▀███  ▐██▌   ▐██▌
+                                              ▐███         ██▌    ▐██  ██▌    ▐██   ▐██▌ ▐██▌
+                                               ████▄▄▄▄▄▄  ▐██▄  ▄██▌  ▐██▄  ▄██▌    ▐██▄██▌
+                                                ▀████████▌  ████████    ████████      ▐███▌
+                                                  ▀▀▀▀▀▀▀    ▀▀▀▀▀▀      ▀▀▀▀▀▀       ███▀
+                                                                                     ███
+                                                                                    ███
+                                                                                   ███
+                                                                                  ▀▀▀
 ");
-
+            // Entete
+            Console.SetCursorPosition(0, 0);
+            Message.writeIn(ConsoleColor.Blue, @"
+                                ▄▄▄▄▄▄▄
+                              ▄████████▌▐▄
+                             ████▀▀▀▀▀▀ ▀▀
+                            ▐███ ▐████████▌
+                            ███▌ ▄▄▄▄▄▄▄▄▄▄
+                            ███▌ ▀▀▀▀▀▀▀▀▀▀
+                            ▐███ ▐████████▌
+                             ████▄▄▄▄▄▄ ▄▄
+                              ▀████████▌▐▀
+                                ▀▀▀▀▀▀▀  
+");
+            // Entete
+            Console.SetCursorPosition(0, 16);
             Message.writeIn(ConsoleColor.DarkRed, @"
-                                         ░░░▒▒▓▓ Cody-PHP ▓▓▒▒░░░");
-
+                                                    ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
             Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                    Version {version} du 30 octobre 2021
-                              Copyright © 2021 - Thibault BUSTOS (TheRake66)");
+                                          ~ Version {version} du 1 novembre 2021 ~
+                                     ~ Copyright © 2021 - Thibault BUSTOS (TheRake66) ~");
 
             Console.WriteLine(@"
+
 
 Utilisez la commande 'aide' pour voir la liste des commandes.
 ");

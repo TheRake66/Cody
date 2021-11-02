@@ -3,9 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Cody_PHP</RootNamespace>
+    <RootNamespace>Cody</RootNamespace>
     <StartupObject></StartupObject>
-    <Version>4.5.27.0</Version>
+    <Version>5.5.27.0</Version>
     <Authors>Thibault BUSTOS (TheRake66)</Authors>
     <Description>Framework PHP/JavaScript/HTML/Less en français.</Description>
     <Copyright>Copyright © 2021 - Thibault BUSTOS (TheRake66)</Copyright>
@@ -14,8 +14,9 @@
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/TheRake66/Cody-PHP</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <AssemblyVersion>4.5.27.0</AssemblyVersion>
+    <AssemblyVersion>5.5.27.0</AssemblyVersion>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <AssemblyName>Cody</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,17 +37,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\images\Sans titre.ico">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\images\Sans titre.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
 </Project>

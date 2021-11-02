@@ -9,10 +9,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
-using Cody_PHP.Properties;
+using Cody.Properties;
 using Newtonsoft.Json;
 
-namespace Cody_PHP
+namespace Cody
 {
     public class Commande
     {
@@ -30,17 +30,17 @@ cd [*chemin]                    Change le dossier courant ou affiche la liste de
 cls                             Nettoie la console.
 com [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un composant (controleur, vue, style,
                                 script) avec le nom spécifié.
-die                             Quitte Cody-PHP.
+die                             Quitte Cody.
 dl [url] [fichier]              Télécharge un fichier avec l'URL spécifiée.
 exp                             Ouvre le projet dans l'explorateur de fichiers.
 lib [-s|-a|-l] [nom]            Ajoute, liste, ou supprime une librairie (PHP et JavaScript).
                                 avec le nom spécifié.
 ls                              Affiche la liste des projets.
-maj                             Met à jour Cody-PHP via le depot GitHub.
+maj                             Met à jour Cody via le depot GitHub.
 new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
 obj [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un objet (classe dto, classe dao)
                                 avec le nom spécifié.
-rep                             Ouvre la dépôt GitHub de Cody-PHP.
+rep                             Ouvre la dépôt GitHub de Cody.
 run                             Ouvre le projet dans le navigateur.
 tra [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un trait.
 vs                              Ouvre le projet dans Visual Studio Code.
@@ -251,7 +251,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 try 
                 {
                     // Ouvre dans le navigateur
-                    Librairie.startProcess("https://github.com/TheRake66/Cody-PHP");
+                    Librairie.startProcess("https://github.com/TheRake66/Cody");
                     Console.WriteLine("Navigateur lancé.");
                 }
                 catch (Exception e)
@@ -288,7 +288,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             {
                 // Prepare un client http
                 WebClient client = new WebClient();
-                string remoteUri = "https://raw.githubusercontent.com/TheRake66/Cody-PHP/master/version";
+                string remoteUri = "https://raw.githubusercontent.com/TheRake66/Cody/master/version";
                 string lastversion = client.DownloadString(remoteUri);
 
                 // Compare les version
@@ -306,7 +306,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     {
                         try
                         {
-                            Librairie.startProcess("https://github.com/TheRake66/Cody-PHP/releases/tag/cody");
+                            Librairie.startProcess("https://github.com/TheRake66/Cody/releases/tag/cody");
                         }
                         catch (Exception e)
                         {
@@ -798,7 +798,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         {
                             Console.Write("Attention, ce projet est fait pour fonctionner avec la version ");
                             Message.writeIn(ConsoleColor.DarkYellow, inf.version);
-                            Console.WriteLine(" de Cody-PHP.");
+                            Console.WriteLine(" de Cody.");
                             Console.Write("Vous êtes en version ");
                             Message.writeIn(ConsoleColor.Green, Program.version);
                             Console.WriteLine(", cela pourrait créer des problèmes de compatibilité, voulez vous continuer ?");
@@ -833,7 +833,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     }
                     catch (Exception e)
                     {
-                        Message.writeExcept("Impossible de lire le fichier d'information de Cody-PHP !", e);
+                        Message.writeExcept("Impossible de lire le fichier d'information de Cody !", e);
                     }
                 }
             }

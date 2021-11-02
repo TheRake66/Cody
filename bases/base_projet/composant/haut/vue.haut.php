@@ -1,8 +1,10 @@
 <!-- ================================================== -->
 <!-- Creation du header -->
 <header>
-	<img src="image/logo.png">
-	Bienvenue dans Cody-PHP
+	<div>
+		<img src="image/vector.svg">
+		<h1>Cody</h1>
+	</div>
 </header>
 <!-- ================================================== -->
 

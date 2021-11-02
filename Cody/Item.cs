@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cody_PHP
+namespace Cody
 {
-    class Projet
+    class Item
     {
 
-        // Informations contenues dans project.json
-        public string version;
+        // Informations
+        public string nom;
         public DateTime creation;
         public string createur;
+        public List<string> chemins;
 
     }
 }
