@@ -1,6 +1,6 @@
 <br>
 <p align="center">
-    <img src="https://github.com/TheRake66/Cody/blob/main/images/logo.png" alt="logo" width=300 height=157>
+    <img src="https://github.com/TheRake66/Cody/blob/main/images/logo.png" alt="logo" width=250 height=250>
 <p align="center">
 Framework PHP/JavaScript/HTML/Less en français.
 <br>
