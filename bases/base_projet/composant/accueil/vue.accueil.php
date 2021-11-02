@@ -18,19 +18,19 @@
 		<h1>Ressources</h1>
 		<span>Quelques liens si vous avez besoin d'aide.</span>
 		<div>
-			<a href="https://github.com/TheRake66/Cody-PHP">
+			<a href="https://github.com/TheRake66/Cody">
 				<img src="image/github.png">
-				<span>GitHub de Cody-PHP</span>
+				<span>GitHub de Cody</span>
 			</a>
-			<a href="https://www.youtube.com/results?search_query=Cody-PHP">
+			<a href="https://www.youtube.com/results?search_query=Cody">
 				<img src="image/youtube.png">
 				<span>Rechercher sur YouTube</span>
 			</a>
-			<a href="https://www.google.com/search?q=Cody-PHP">
+			<a href="https://www.google.com/search?q=Cody">
 				<img src="image/google.png">
 				<span>Recherche sur Google</span>
 			</a>
-			<a href="https://github.com/TheRake66/Cody-PHP/documents/">
+			<a href="https://github.com/TheRake66/Cody/documents/">
 				<img src="image/cli.png">
 				<span>Documentation des commandes</span>
 			</a>
