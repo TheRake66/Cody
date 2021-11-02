@@ -172,7 +172,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     Console.Write("...");
                 };
 
-                WebClient web = new WebClient();
+                WebClient web = Librairie.getProxyClient();
                 web.DownloadProgressChanged += (s, e) =>
                 {
                     lock (lk)
@@ -287,7 +287,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             try
             {
                 // Prepare un client http
-                WebClient client = new WebClient();
+                WebClient client = Librairie.getProxyClient();
                 string remoteUri = "https://raw.githubusercontent.com/TheRake66/Cody/master/version";
                 string lastversion = client.DownloadString(remoteUri);
 

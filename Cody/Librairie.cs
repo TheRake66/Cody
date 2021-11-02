@@ -96,6 +96,15 @@ namespace Cody
             return rep == "oui";
         }
 
+
+        // Prepare un client http avec un proxy par defaut
+        public static WebClient getProxyClient()
+        {
+            IWebProxy prox = WebRequest.DefaultWebProxy;
+            prox.Credentials = CredentialCache.DefaultCredentials;
+            return new WebClient { Proxy = prox };
+        }
+
         
         // Telecharge une archive depuis le github
         public static bool downloadArchive(string name, string path = "")
@@ -103,7 +112,7 @@ namespace Cody
             try
             {
                 // Prepare un client http
-                WebClient client = new WebClient();
+                WebClient client = getProxyClient();
                 string remoteUri = $"https://github.com/TheRake66/Cody/raw/main/bases/{name}.zip";
                 client.DownloadFile(remoteUri, Path.Combine(path, $"{name}.zip"));
                 return true;
