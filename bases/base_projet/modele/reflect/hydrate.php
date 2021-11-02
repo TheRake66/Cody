@@ -16,14 +16,16 @@ trait Hydrate {
      * 
      * @param array Resultat d'un fetchAll
      */
-    function hydrate($donnees) {        
-        foreach ($donnees as $key => $value) {
-            $method = 'set'.ucfirst($key);
-                     
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            } elseif (property_exists($this, $key)) {
-                $this->$key = $value;
+    function hydrate($donnees) {
+        if (!is_null($donnees) && !empty($donnees)) {
+            foreach ($donnees as $key => $value) {
+                $method = 'set'.ucfirst($key);
+                         
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                } elseif (property_exists($this, $key)) {
+                    $this->$key = $value;
+                }
             }
         }
     }

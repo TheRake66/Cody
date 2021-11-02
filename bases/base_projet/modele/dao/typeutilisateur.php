@@ -15,14 +15,11 @@ class TypeUtilisateur {
      * @return string le libelle
      */
     public static function statusByCode($code) {
-        $rqt = DataBase::getInstance()->prepare(
-			"SELECT libelle 
+        return DataBase::fetchCell(
+            "SELECT libelle 
 			FROM codeTypeUtilisateur
-			WHERE codeTypeUtilisateur = :code");
-        $rqt->bindParam(":code", $code);
-        $rqt->execute();
-        
-        return $rqt->fetch()[0];
+			WHERE codeTypeUtilisateur = ?",
+            [ $code ]);
     }
     
 }

@@ -15,20 +15,12 @@ class Utilisateur {
      * @return Utilisateur l'utilisateur
      */
     public static function utilisateur($login) {
-        $rqt = DataBase::getInstance()->prepare(
-			"SELECT * 
-			FROM utilisateur 
-			WHERE identifiant = :login");
-        $rqt->bindParam(":login", $login);
-        $rqt->execute();
-        
-        $liste = $rqt->fetch();
-
-        if (!empty($liste)) {
-            $user = new dto();
-            $user->hydrate($liste);
-            return $user;
-        }
+        return DataBase::fetchObjet(
+            "SELECT * 
+            FROM utilisateur 
+            WHERE identifiant = ?",
+            new dto(),
+            [ $login ]);
     }
 
 
@@ -39,21 +31,13 @@ class Utilisateur {
      * @return Utilisateur l'utilisateur
      */
     public static function autoConnexion($jeton) {
-        $rqt = DataBase::getInstance()->prepare(
-			"SELECT * 
+        return DataBase::fetchObjet(
+            "SELECT * 
 			FROM utilisateur AS u
             LEFT JOIN jeton AS j ON u.id = j.id
-            WHERE valeur = :jeton");
-        $rqt->bindParam(":jeton", $jeton);
-        $rqt->execute();
-        
-        $liste = $rqt->fetch();
-
-        if (!empty($liste)) {
-            $user = new dto();
-            $user->hydrate($liste);
-            return $user;
-        }
+            WHERE valeur = ?",
+            new dto(),
+            [ $jeton ]);
     }
 
 
@@ -65,16 +49,13 @@ class Utilisateur {
      * @return bool vrai ou faux
      */
     public static function verification($login, $pass) {
-        $rqt = DataBase::getInstance()->prepare(
-			"SELECT * 
+        return !empty(DataBase::fetchObjet(
+            "SELECT * 
 			FROM utilisateur 
-			WHERE identifiant = :login 
-			AND motDePasse = :pass");
-        $rqt->bindParam(":login", $login);
-        $rqt->bindParam(":pass", $pass);
-        $rqt->execute();
-
-        return !empty($rqt->fetch(\PDO::FETCH_ASSOC));
+			WHERE identifiant = ? 
+			AND motDePasse = ?",
+            new dto(),
+            [ $login , $pass ]));
     }
 
 
@@ -85,14 +66,11 @@ class Utilisateur {
      * @return string le sel
      */
     public static function sel($login) {
-        $rqt = DataBase::getInstance()->prepare(
-			"SELECT sel 
+        return DataBase::fetchCell(
+            "SELECT sel 
 			FROM utilisateur 
-			WHERE identifiant = :login");
-        $rqt->bindParam(":login", $login);
-        $rqt->execute();
-      
-        return $rqt->fetch()[0];
+			WHERE identifiant = ?",
+            [ $login ]);
     }
 
 
@@ -103,14 +81,11 @@ class Utilisateur {
      * @return bool vrai ou faux
      */
     public static function existe($login) {
-        $rqt = DataBase::getInstance()->prepare(
-			"SELECT * 
+        return !empty(DataBase::fetchCell(
+            "SELECT * 
 			FROM utilisateur 
-			WHERE identifiant = :login");
-        $rqt->bindParam(":login", $login);
-        $rqt->execute();
-        
-        return !empty($rqt->fetch()[0]);
+			WHERE identifiant = ?",
+            [ $login ]));
     }
 
 }

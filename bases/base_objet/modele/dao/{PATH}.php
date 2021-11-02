@@ -14,21 +14,12 @@ class {NAME_UPPER} {
      * @param string l'id
      * @return {NAME_UPPER} le {NAME_LOWER}
      */
-    public static function {NAME_LOWER} ($id) {
-        $rqt = DataBase::getInstance()->prepare(
+    public static function {NAME_LOWER}($id) {
+        return DataBase::fetchObjet(
 			"SELECT * 
 			FROM {NAME_LOWER} 
-			WHERE id{NAME_UPPER} = :id");
-        $rqt->bindParam(":id", $id);
-        $rqt->execute();
-        
-        $liste = $rqt->fetch();
-
-        if (!empty($liste)) {
-            $obj = new dto();
-            $obj->hydrate($liste);
-            return $obj;
-        }
+			WHERE id{NAME_UPPER} = ?",
+            [ $id ]);
     }
 
 }
