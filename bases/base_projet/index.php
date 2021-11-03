@@ -27,10 +27,11 @@ session_start();
 		<script src=http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js></script>
 		<script src=https://maps.googleapis.com/maps/api/js></script>
 		
-		<!-- Inclusion du script global -->
-		<script type='text/javascript' src='composant/global.js'></script>
+		<!-- Inclusion du script global de debut -->
+		<script type='text/javascript' src='composant/global_brefore.js'></script>
 	</head>
 	<!-- ================================================== -->
+
 
 	<body>
 		<!-- ================================================== -->
@@ -42,9 +43,16 @@ session_start();
 		<!-- ================================================== -->
 	</body>
 	
+	
 	<!-- ================================================== -->
+	<!-- Inclusion du script global de fin -->
+	<script type='text/javascript' src='composant/global_after.js'></script>
+		
 	<!-- Inclusion du style global -->
 	<link rel="stylesheet/less" type="text/css" href="composant/global.less">
+
+	<!-- Inclusion du style de la lib progress -->
+	<link rel="stylesheet/less" type="text/css" href="librairie/php/progress.less">
 	
 	<!-- Inclusion de Less -->
 	<script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
