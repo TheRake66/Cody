@@ -46,23 +46,9 @@ class DataBase extends \PDO {
      * @param array liste des parametres
      * @return object requete preparee
      */
-    static function send($sql, $params = []) {
-        $rqt = self::getInstance()->prepare($sql, $params);
+    static function send($sql) {
+        $rqt = self::getInstance()->prepare($sql);
         return $rqt;
-    }
-
-    
-    /**
-     * Retourne une ligne
-     * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return array ligne de la base
-     */
-    static function fetchRow($sql, $params = []) {
-        $rqt = self::send($sql, $params);
-        $rqt->execute();
-        return $rqt->fetch();
     }
 
     
@@ -74,8 +60,8 @@ class DataBase extends \PDO {
      * @return bool si la requete a reussite
      */
     static function execute($sql, $params = []) {
-        $rqt = self::send($sql, $params);
-        return $rqt->execute();
+        $rqt = self::send($sql);
+        return $rqt->execute($params);
     }
 
     
@@ -87,9 +73,23 @@ class DataBase extends \PDO {
      * @return object valeur de la base
      */
     static function fetchCell($sql, $params = []) {
-        $rqt = self::send($sql, $params);
-        $rqt->execute();
+        $rqt = self::send($sql);
+        $rqt->execute($params);
         return $rqt->fetch()[0];
+    }
+
+    
+    /**
+     * Retourne une ligne
+     * 
+     * @param string requete sql
+     * @param array liste des parametres
+     * @return array ligne de la base
+     */
+    static function fetchRow($sql, $params = []) {
+        $rqt = self::send($sql);
+        $rqt->execute($params);
+        return $rqt->fetch();
     }
 
     
@@ -101,8 +101,8 @@ class DataBase extends \PDO {
      * @return array les lignes de la base
      */
     static function fetchAll($sql, $params = []) {
-        $rqt = self::send($sql, $params);
-        $rqt->execute();
+        $rqt = self::send($sql);
+        $rqt->execute($params);
         return $rqt->fetchAll();
     }
 
@@ -117,9 +117,11 @@ class DataBase extends \PDO {
      */
     static function fetchObjet($sql, $type, $params = []) {
         $rep = self::fetchRow($sql, $params);
-        $obj = new $type();
-        $obj->hydrate($rep);
-        return $obj;
+        if (!is_null($rep) && !empty($rep)) {
+            $obj = new $type();
+            $obj->hydrate($rep);
+            return $obj;
+        }
     }
 
     
@@ -133,15 +135,15 @@ class DataBase extends \PDO {
      */
     static function fetchObjets($sql, $type, $params = []) {
         $rep = self::fetchAll($sql, $params);
-        $arr = [];
         if (!is_null($rep) && !empty($rep)) {
+            $arr = [];
 			foreach ($rep as $r) {
 				$obj = new $type();
 				$obj->hydrate($r);
 				$arr[] = $obj;
 			}
+            return $arr;
         }
-        return $arr;
     }
 
 }
