@@ -5,16 +5,16 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Cody</RootNamespace>
     <StartupObject></StartupObject>
-    <Version>5.5.28.0</Version>
+    <Version>5.5.29.0</Version>
     <Authors>Thibault BUSTOS (TheRake66)</Authors>
     <Description>Framework PHP/JavaScript/HTML/Less en français.</Description>
     <Copyright>Copyright © 2021 - Thibault BUSTOS (TheRake66)</Copyright>
     <PackageLicenseExpression>MIT License</PackageLicenseExpression>
     <PackageIcon>Sans titre.png</PackageIcon>
     <PackageIconUrl />
-    <RepositoryUrl>https://github.com/TheRake66/Cody-PHP</RepositoryUrl>
+    <RepositoryUrl>https://github.com/TheRake66/Cody</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <AssemblyVersion>5.5.28.0</AssemblyVersion>
+    <AssemblyVersion>5.5.29.0</AssemblyVersion>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyName>Cody</AssemblyName>
   </PropertyGroup>

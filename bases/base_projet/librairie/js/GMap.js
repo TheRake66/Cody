@@ -1,3 +1,4 @@
+// Different type de map
 const MapType = {
 	SATELLITE: "satellite",
 	ROADMAP: "roadmap",
@@ -25,6 +26,13 @@ class GMap {
      * Constructeur
      */
     constructor() {
+        // Ajoute les librairie gmap
+        let jquery = document.createElement("script");
+        jquery.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
+        document.head.append(jquery);
+        let api = document.createElement("script");
+        api.src = 'https://maps.googleapis.com/maps/api/js';
+        document.head.append(jquery);
     }
 
 

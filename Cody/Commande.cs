@@ -482,9 +482,9 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     if (dirs.Length > 0)
                     {
                         int count = 0;
-                        Console.WriteLine("╔═════════════════════════════╦══════════════╦═════════════════╦═══════════════╦═════════════════════════╦════════════════╗");
-                        Console.WriteLine("║ Nom                         ║ Fichier      ║ Taille          ║ Version       ║ Crée le                 ║ Par            ║");
-                        Console.WriteLine("╠═════════════════════════════╩══════════════╩═════════════════╩═══════════════╩═════════════════════════╩════════════════╣");
+                        Console.WriteLine("╔═════════════════════════════╦═════════════════╦═════════════════╦═══════════════╦═════════════════════════╦═══════════════════╗");
+                        Console.WriteLine("║ Nom                         ║ Fichier         ║ Taille          ║ Version       ║ Crée le                 ║ Par               ║");
+                        Console.WriteLine("╠═════════════════════════════╩═════════════════╩═════════════════╩═══════════════╩═════════════════════════╩═══════════════════╣");
 
                         foreach (string dir in dirs)
                         {
@@ -493,9 +493,9 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
                             if (File.Exists(f))
                             {
-                                Console.WriteLine("║                                                                                                                         ║");
+                                Console.WriteLine("║                                                                                                                               ║");
                                 calculerProjet(dir, f);
-                                Console.WriteLine("╟─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢");
+                                Console.WriteLine("╟───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢");
                                 count++;
                             }
                         }
@@ -504,12 +504,12 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
                         if (count > 0)
                         {
-                            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+                            Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
                             Console.WriteLine("Listage terminé.");
                         }
                         else
                         {
-                            Console.WriteLine("╚═════════════════════════════╩══════════════╩═════════════════╩═══════════════╩═════════════════════════╩════════════════╝");
+                            Console.WriteLine("╚═════════════════════════════╩═════════════════╩═════════════════╩═══════════════╩═════════════════════════╩═══════════════════╝");
                             Console.WriteLine("Heuuu, il n'y a aucun projet dans ce dossier...");
                         }
                     }
@@ -535,16 +535,16 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 long[] data = Librairie.getCountAndSizeFolder(dir);
 
                 Console.SetCursorPosition(32, Console.CursorTop);
-                Console.Write(data[0]);
-                Console.SetCursorPosition(47, Console.CursorTop);
-                Console.Write(data[1]);
+                Console.Write(String.Format("{0:n0}", data[0]));
+                Console.SetCursorPosition(50, Console.CursorTop);
+                Console.Write(String.Format("{0:n}", (double)data[1] / 1024 / 1024) + " Mo");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 Console.SetCursorPosition(32, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                Console.SetCursorPosition(47, Console.CursorTop);
+                Console.SetCursorPosition(50, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
             }
 
@@ -554,21 +554,21 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 string json = File.ReadAllText(file);
                 Projet inf = JsonConvert.DeserializeObject<Projet>(json);
 
-                Console.SetCursorPosition(65, Console.CursorTop);
+                Console.SetCursorPosition(68, Console.CursorTop);
                 Message.writeIn(inf.version == Program.version ? ConsoleColor.Green : ConsoleColor.DarkYellow, inf.version);
-                Console.SetCursorPosition(81, Console.CursorTop);
+                Console.SetCursorPosition(84, Console.CursorTop);
                 Console.Write(inf.creation.ToString());
-                Console.SetCursorPosition(107, Console.CursorTop);
+                Console.SetCursorPosition(110, Console.CursorTop);
                 Console.Write(inf.createur);
             }
             catch
             {
 
-                Console.SetCursorPosition(65, Console.CursorTop);
+                Console.SetCursorPosition(68, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                Console.SetCursorPosition(81, Console.CursorTop);
+                Console.SetCursorPosition(84, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                Console.SetCursorPosition(107, Console.CursorTop);
+                Console.SetCursorPosition(110, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
             }
 
@@ -816,12 +816,20 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                                     break;
 
                                 case "-s":
-                                    if (cmd.Length == 2) supprimerItem(cmd[1].ToLower(), jsoni);
+                                    if (cmd.Length == 2)
+                                    {
+                                        string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
+                                        supprimerItem(nom, jsoni);
+                                    }
                                     else Console.WriteLine("Il manque le nom de l'élément !");
                                     break;
 
                                 case "-a":
-                                    if (cmd.Length == 2) ajouterItem(cmd[1].ToLower(), archivenom, jsoni);
+                                    if (cmd.Length == 2)
+                                    {
+                                        string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
+                                        ajouterItem(nom, archivenom, jsoni);
+                                    }
                                     else Console.WriteLine("Il manque le nom de l'élément !");
                                     break;
 
@@ -1161,17 +1169,18 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     if (json != "")
                     {
                         List<Item> objs = JsonConvert.DeserializeObject<List<Item>>(json);
+                        List<Item> trier = objs.OrderBy(o => o.nom).ToList();
 
-                        Console.WriteLine("╔═════════════════════════════╦══════════════╦═════════════════════════╦════════════════╗");
-                        Console.WriteLine("║ Nom                         ║ Fichier      ║ Crée le                 ║ Par            ║");
-                        Console.WriteLine("╠═════════════════════════════╩══════════════╩═════════════════════════╩════════════════╣");
+                        Console.WriteLine("╔══════════════════════════════════╦══════════════╦═════════════════════════╦═══════════════════╗");
+                        Console.WriteLine("║ Nom                              ║ Fichier      ║ Crée le                 ║ Par               ║");
+                        Console.WriteLine("╠══════════════════════════════════╩══════════════╩═════════════════════════╩═══════════════════╣");
 
                         int count = 0;
-                        foreach (Item obj in objs)
+                        foreach (Item obj in trier)
                         {
-                            Console.WriteLine("║                                                                                       ║");
+                            Console.WriteLine("║                                                                                               ║");
                             affichierUnItem(obj);
-                            Console.WriteLine("╟───────────────────────────────────────────────────────────────────────────────────────╢");
+                            Console.WriteLine("╟───────────────────────────────────────────────────────────────────────────────────────────────╢");
                             count++;
                         }
 
@@ -1179,12 +1188,12 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
                         if (count > 0)
                         {
-                            Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════╝");
+                            Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
                             Console.WriteLine("Listage terminé.");
                         }
                         else
                         {
-                            Console.WriteLine("╚═════════════════════════════╩══════════════╩═════════════════════════╩════════════════╝");
+                            Console.WriteLine("╚══════════════════════════════════╩══════════════╩═════════════════════════╩═══════════════════╝");
                             Console.WriteLine("Heuuu, il n'y a aucun élément dans ce projet...");
                         }
                     }
@@ -1210,16 +1219,16 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             foreach (string file in obj.chemins)
                 if (File.Exists(Librairie.remplaceDirSep(file))) count2++;
 
-            Console.SetCursorPosition(32, Console.CursorTop);
+            Console.SetCursorPosition(37, Console.CursorTop);
             if (count2 == obj.chemins.Count)
-                Console.Write(obj.chemins.Count);
+                Console.Write(String.Format("{0:n0}", obj.chemins.Count));
             else
-                Message.writeIn(ConsoleColor.DarkRed, $"{count2} ({obj.chemins.Count})");
+                Message.writeIn(ConsoleColor.DarkRed, $"{String.Format("{0:n0}", count2)} ({String.Format("{0:n0}", obj.chemins.Count)})");
 
 
-            Console.SetCursorPosition(47, Console.CursorTop);
+            Console.SetCursorPosition(52, Console.CursorTop);
             Console.Write(obj.creation.ToString());
-            Console.SetCursorPosition(73, Console.CursorTop);
+            Console.SetCursorPosition(79, Console.CursorTop);
             Console.WriteLine(obj.createur);
         }
 

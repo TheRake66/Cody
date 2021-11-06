@@ -33,5 +33,28 @@ class Convert {
 
 		return "{$tmp}€";
 	}
+
+
+	/**
+	 * Coupe une chaine de caractere si elle est trop longue
+	 * 
+	 * @param string la chaine a verifier
+	 * @param int la taille max a couper
+	 * @return string la chaine coupe ou non
+	 */
+	public static function cutTooLong($string, $size = 50) {
+		return strlen($string) > $size ? substr($string, 0, $size - 3) . '...' : $string;
+	} 
+
+
+	/**
+	 * Convertir un double en format FR
+	 * 
+	 * @param double le nombre
+	 * @return string la chaine formatee
+	 */
+	public static function convertFr($decimal) {
+		return number_format($decimal, 0, ',', ' ');
+	} 
 	
 }

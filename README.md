@@ -5,7 +5,7 @@
 Framework PHP/JavaScript/HTML/Less en français.
 <br>
 <br>
-<a href="https://github.com/TheRake66/Cody/releases/tag/cody">► Télécharger (5.5.28.0) ◄</a>
+<a href="https://github.com/TheRake66/Cody/releases/tag/cody">► Télécharger (5.5.29.0) ◄</a>
 <br>
 <br>
 <a href="https://github.com/TheRake66/Cody/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody"></a>
@@ -39,7 +39,7 @@ Il inclut quelques librairies comme la gestion des bases de données, l'autoload
 
 # Liste des commandes
 
-**Pour la version _5.5.28.0_.**<br>
+**Pour la version _5.5.29.0_.**<br>
 ```
 aide                            
 ```

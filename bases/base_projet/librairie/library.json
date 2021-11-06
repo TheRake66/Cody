@@ -62,5 +62,14 @@
     "chemins": [
       "librairie/js/http.js"
     ]
+  },
+  {
+    "nom": "url",
+    "creation": "2021-10-23T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "chemins": [
+      "librairie/js/url.js",
+      "librairie/php/url.php"
+    ]
   }
 ]

@@ -36,17 +36,16 @@ class Autoloader {
         $_ = explode('\\', $required);
         $class = end($_);
         $first = array_shift($_);
-        $namespace = implode(array_slice($_, 1, -1));
-
+        $namespace = implode(array_slice($_, 0, -1));
 
         $file = '';
         switch ($first) {
             case 'Librairie':
-                $file = str_replace($required, $first, 'librairie/php') . $namespace . '/' . $class . '.php';
+                $file = str_replace($required, $first, 'librairie/php') . '/' . $namespace . '/' . $class . '.php';
                 break;
 
             case 'Controleur':
-                $file = str_replace($required, $first, 'composant') . $namespace . '/' . $class . '/cont.' . $class . '.php';
+                $file = str_replace($required, $first, 'composant') . '/' . $namespace . '/' . $class . '/cont.' . $class . '.php';
                 break;
 
             default:
