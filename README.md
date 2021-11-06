@@ -31,7 +31,7 @@ Et tout ça sans aucune installation, pratique pour développer sur une machine 
 
 L'architecture Model View Controler apporte un cadre de travail propre travail propre alliant traitement, gestion de la base de données et affichage dynamique.
 
-Il inclut quelques librairies comme la gestion des bases de données, l'autoloader, un système de routage et bien d'autres. Malgré ses librairies complètes, un projet vierge pèse seulement 500 Ko !
+Il inclut quelques librairies comme la gestion des bases de données, l'autoloader, un système de routage et bien d'autres. Malgré ses librairies complètes, un projet vierge pèse seulement 2 Mo !
 
 
 
