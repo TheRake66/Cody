@@ -118,8 +118,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     }
 
                     Console.WriteLine();
-                    Console.WriteLine();
-                    Console.WriteLine($"{dirs.Length} dossier(s) et {files.Length} fichier(s).");
+                    Console.WriteLine($"{Librairie.toNumberFr(dirs.Length)} dossier(s) et {Librairie.toNumberFr(files.Length)} fichier(s).");
                 }
                 catch (Exception e)
                 {
@@ -166,9 +165,9 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
                     Console.SetCursorPosition(x_byte, y_barre);
                     Console.Write($"{percent}% ");
-                    Message.writeIn(ConsoleColor.DarkYellow, receceid);
-                    Console.Write(" octet(s) sur ");
-                    Message.writeIn(ConsoleColor.DarkYellow, total);
+                    Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(receceid));
+                    Console.Write(" sur ");
+                    Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(total));
                     Console.Write("...");
                 };
 
@@ -535,9 +534,9 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 long[] data = Librairie.getCountAndSizeFolder(dir);
 
                 Console.SetCursorPosition(32, Console.CursorTop);
-                Console.Write(String.Format("{0:n0}", data[0]));
+                Console.Write(Librairie.toNumberFr((int)data[0]));
                 Console.SetCursorPosition(50, Console.CursorTop);
-                Console.Write(String.Format("{0:n}", (double)data[1] / 1024 / 1024) + " Mo");
+                Console.Write(Librairie.toNumberMem(data[1]));
             }
             catch (Exception e)
             {
@@ -671,7 +670,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 Console.Write("Fichier : '");
                 Message.writeIn(ConsoleColor.DarkGreen, file);
                 Console.Write("' extrait (");
-                Message.writeIn(ConsoleColor.DarkYellow, String.Format("{0:n}", (double)new FileInfo(path).Length / 1024) + " Ko");
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(path).Length));
                 Console.WriteLine(").");
 
                 // Fichiers ou l'on rajoute le nom
@@ -1221,9 +1220,9 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
             Console.SetCursorPosition(37, Console.CursorTop);
             if (count2 == obj.chemins.Count)
-                Console.Write(String.Format("{0:n0}", obj.chemins.Count));
+                Console.Write(Librairie.toNumberFr(obj.chemins.Count));
             else
-                Message.writeIn(ConsoleColor.DarkRed, $"{String.Format("{0:n0}", count2)} ({String.Format("{0:n0}", obj.chemins.Count)})");
+                Message.writeIn(ConsoleColor.DarkRed, $"{Librairie.toNumberFr(count2)} ({Librairie.toNumberFr(obj.chemins.Count)})");
 
 
             Console.SetCursorPosition(52, Console.CursorTop);

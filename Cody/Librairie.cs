@@ -124,5 +124,27 @@ namespace Cody
             }
         }
 
+
+        // Convertit un nombre en format fr
+        public static string toNumberFr(int num)
+        {
+            return String.Format("{0:n0}", num);
+        }
+
+
+        // Convertit un nombre en unite de memoire
+        public static string toNumberMem(double num)
+        {
+            string[] unit = new string[] { "o", "Ko", "Mo", "Go", "To" };
+            int count = 0;
+            while (Math.Round(num, 2) > 1000 && count < unit.Length)
+            {
+                num /= 1024;
+                count++;
+            }
+
+            return String.Format("{0:n}", num) + " " + unit[count];
+        }
+
     }
 }
