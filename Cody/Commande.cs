@@ -671,8 +671,8 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 Console.Write("Fichier : '");
                 Message.writeIn(ConsoleColor.DarkGreen, file);
                 Console.Write("' extrait (");
-                Message.writeIn(ConsoleColor.DarkYellow, new FileInfo(path).Length);
-                Console.WriteLine(" octet(s)).");
+                Message.writeIn(ConsoleColor.DarkYellow, String.Format("{0:n}", (double)new FileInfo(path).Length / 1024) + " Ko");
+                Console.WriteLine(").");
 
                 // Fichiers ou l'on rajoute le nom
                 string[] toedit = new string[]
