@@ -510,15 +510,26 @@ vs                              Ouvre le projet dans Visual Studio Code.
         {
             Package p = null;
             foreach (Package pck in list)
-                if (pck.nom == nom) p = pck;
+            {
+                if (pck.nom.ToLower() == nom)
+                {
+                    p = pck;
+                    break;
+                }
+            }
 
             if (p != null)
             {
+                Console.Write("Description : ");
+                Message.writeIn(ConsoleColor.DarkCyan, p.description);
+                Console.WriteLine(".");
+                Console.WriteLine("═══════════════════════════════════════");
+
                 int count = 0;
                 foreach (Archive arc in p.archives)
                 {
                     Console.Write("Élément : ");
-                    Message.writeIn(ConsoleColor.DarkYellow, arc.nom);
+                    Message.writeIn(ConsoleColor.Magenta, arc.nom);
                     Console.WriteLine(".");
 
                     if (ajouter)
@@ -535,7 +546,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 if (count > 0)
                 {
                     Console.Write("Traitement terminé. ");
-                    Message.writeIn(ConsoleColor.DarkYellow, count);
+                    Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberFr(count));
                     Console.WriteLine(" élément(s) ont/a été traité(s).");
 
                     if (count == p.archives.Count)
@@ -1075,14 +1086,14 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
                 if (continu)
                 {
-                    ent.ExtractToFile(file);
+                    ent.ExtractToFile(file, true);
                     paths.Add(file);
 
                     // Extrait le fichier de l'archive
                     Console.Write("Fichier : '");
                     Message.writeIn(ConsoleColor.DarkGreen, file.Replace('/', Path.DirectorySeparatorChar));
                     Console.Write("' extrait (");
-                    Message.writeIn(ConsoleColor.DarkYellow, new FileInfo(file).Length);
+                    Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(file).Length));
                     Console.WriteLine(" octet(s)).");
 
                     try

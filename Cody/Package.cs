@@ -13,6 +13,7 @@ namespace Cody
         public string nom;
         public DateTime creation;
         public string createur;
+        public string description;
         public string version;
         public List<Archive> archives;
 
