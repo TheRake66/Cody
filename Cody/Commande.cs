@@ -40,7 +40,7 @@ maj                             Met à jour Cody via le depot GitHub.
 new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
 obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe dto, classe dao)
                                 avec le nom spécifié.
-pkg [-t|-l] [*nom]              Telecharge un package ou liste les packages depuis le dépôt de Cody.
+pkg [-t|-l|-s] [*nom]           Télécharge, liste ou supprime un package depuis le dépôt de Cody.
 rep                             Ouvre la dépôt GitHub de Cody.
 run                             Lance un serveur PHP et ouvre le projet dans le navigateur.
 tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
@@ -420,6 +420,19 @@ vs                              Ouvre le projet dans Visual Studio Code.
                             else Console.WriteLine("Trop d'arguments !");
                             break;
 
+                        case "-s":
+                            if (cmd.Length == 2)
+                            {
+                                // Si le projet est en derniere version
+                                if (Librairie.isProject() && Librairie.checkProjetVersion())
+                                {
+                                    string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
+                                    supprimerPackage(nom, list);
+                                }
+                            }
+                            else Console.WriteLine("Il manque le nom du package !");
+                            break;
+
                         case "-t":
                             if (cmd.Length == 2)
                             {
@@ -490,6 +503,41 @@ vs                              Ouvre le projet dans Visual Studio Code.
             Console.WriteLine(pack.createur);
         }
 
+        private static void supprimerPackage(string nom, List<Package> list)
+        {
+            Package p = null;
+            foreach (Package pck in list)
+                if (pck.nom == nom) p = pck;
+
+            if (p != null)
+            {
+                int count = 0;
+                foreach (Archive arc in p.archives)
+                {
+                    if (supprimerItem(arc.nom, arc.index)) count++;
+                    Console.WriteLine("───────────────────────────────────────");
+                }
+
+                if (count > 0)
+                {
+                    Console.Write("Suppression terminé. ");
+                    Message.writeIn(ConsoleColor.DarkYellow, count);
+                    Console.WriteLine(" élément(s) ont/a été supprimé(s).");
+
+                    if (count == p.archives.Count)
+                        Console.WriteLine("Le package a été entièrement supprimé.");
+                    else
+                        Console.WriteLine("Le package a été partiellement supprimé.");
+                }
+                else
+                {
+                    Console.WriteLine("Aucun élément n'a été supprimé.");
+                }
+            }
+            else
+                Console.WriteLine("Heuuu, ce package n'existe pas...");
+        }
+
         private static void telechargerPackage(string nom, List<Package> list)
         {
             Package p = null;
@@ -498,12 +546,27 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
             if (p != null)
             {
+                int count = 0;
                 foreach (Archive arc in p.archives)
                 {
-                    Console.WriteLine(arc.nom);
-                    Console.WriteLine(arc.fichier);
-                    Console.WriteLine(arc.index);
-                    ajouterItem(arc.nom, arc.fichier, arc.index, "https://github.com/TheRake66/Cody/raw/main/packages/");
+                    if (ajouterItem(arc.nom, arc.fichier, arc.index, "https://github.com/TheRake66/Cody/raw/main/packages/")) count++;
+                    Console.WriteLine("───────────────────────────────────────");
+                }
+
+                if (count > 0)
+                {
+                    Console.Write("Téléchargement terminé. ");
+                    Message.writeIn(ConsoleColor.DarkYellow, count);
+                    Console.WriteLine(" élément(s) ont/a été ajouté(s).");
+
+                    if (count == p.archives.Count)
+                        Console.WriteLine("Le package a été entièrement installé.");
+                    else
+                        Console.WriteLine("Le package a été partiellement installé.");
+                }
+                else
+                {
+                    Console.WriteLine("Aucun élément n'a été ajouté.");
                 }
             }
             else
@@ -890,7 +953,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
         }
 
         // Ajoute un item
-        private static void ajouterItem(string nom, string archivenom, string jsoni, string url = "https://github.com/TheRake66/Cody/raw/main/bases/")
+        private static bool ajouterItem(string nom, string archivenom, string jsoni, string url = "https://github.com/TheRake66/Cody/raw/main/bases/")
         {
             bool continu = true;
             List<Item> objs = new List<Item>();
@@ -926,10 +989,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 url += archivenom;
                 if (downloadItem(archivenom, url))
-                {
-                    parcoursArchiveItem(objs, archivenom, nom, jsoni);
-                }
+                    return parcoursArchiveItem(objs, archivenom, nom, jsoni);
+                else return false;
             }
+            else return false;
         }
         private static bool downloadItem(string zip, string url)
         {
@@ -946,7 +1009,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 return false;
             }
         }
-        private static void parcoursArchiveItem(List<Item> objs, string zip, string nom, string jsoni)
+        private static bool parcoursArchiveItem(List<Item> objs, string zip, string nom, string jsoni)
         {
             try
             {
@@ -994,10 +1057,12 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 ajouterJsonItem(objs, paths, nom, jsoni);
 
                 Console.WriteLine("L'élément a été crée.");
+                return true;
             }
             catch (Exception e)
             {
                 Message.writeExcept("Impossible d'extraire l'archive !", e);
+                return false;
             }
         }
         private static void extraireFichierItem(ZipArchiveEntry ent, ref List<string> paths, string nomlow, string namespce_slash, string namespce_point, string back_path,  string objlow, string objup)
@@ -1097,7 +1162,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
         }
 
         // Suprime un item
-        private static void supprimerItem(string nom, string jsoni)
+        private static bool supprimerItem(string nom, string jsoni)
         {
             if (File.Exists(jsoni))
             {
@@ -1108,22 +1173,27 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     if (json != "")
                     {
                         List<Item> objs = JsonConvert.DeserializeObject<List<Item>>(json);
-                        parcoursPourSupprimerItem(objs, nom, jsoni);
+                        return parcoursPourSupprimerItem(objs, nom, jsoni);
                     }
                     else
                     {
                         Console.WriteLine("Heuuu, aucun élément n'est indexé...");
+                        return false;
                     }
                 }
                 catch (Exception e)
                 {
                     Message.writeExcept($"Impossible de lire la liste des éléments existant !", e);
+                    return false;
                 }
             }
             else
+            {
                 Console.WriteLine("Heuuu, aucune liste d'élément n'a été trouvée...");
+                return false;
+            }
         }
-        private static void parcoursPourSupprimerItem(List<Item> objs, string nom, string jsoni)
+        private static bool parcoursPourSupprimerItem(List<Item> objs, string nom, string jsoni)
         {
             bool trouve = false;
             bool continu = true;
@@ -1157,12 +1227,21 @@ vs                              Ouvre le projet dans Visual Studio Code.
             if (trouve)
             {
                 if (continu)
+                {
                     supprimerJsonItem(objs, jsoni);
+                    return true;
+                }
                 else
+                {
                     Console.WriteLine("L'élément a été partiellement supprimé.");
+                    return false;
+                }
             }
             else
+            {
                 Console.WriteLine("Heuuu, l'élément n'existe pas...");
+                return false;
+            }
         }
         private static void supprimerFichierItem(string file, ref bool continu)
         {
