@@ -3,6 +3,7 @@
     "nom": "progress-circle",
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
+    "description": "Une barre de chargement liquide ronde.",
     "version": "1.0.0.0",
     "archives": [
 	  {
@@ -16,6 +17,7 @@
     "nom": "Routeur-PHP-7.2",
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
+    "description": "Le routeur pour les version avant PHP 8.",
     "version": "1.0.0.0",
     "archives": [
 	  {
