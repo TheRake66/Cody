@@ -14,7 +14,7 @@ namespace Cody
         public DateTime creation;
         public string createur;
         public string version;
-        public List<Archive> archive;
+        public List<Archive> archives;
 
     }
 }

@@ -10,8 +10,9 @@ namespace Cody
     {
 
         // Informations
+        public string nom;
         public string fichier;
-        public string type;
+        public string index;
 
     }
 }

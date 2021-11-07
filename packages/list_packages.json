@@ -6,8 +6,9 @@
     "version": "1.0.0.0",
     "archives": [
 	  {
+	    "nom": "progress_circle",
 	    "fichier": "progress_circle.zip",
-		"type": "composant"
+		"index": "composant/component.json"
 	  }
     ]
   }

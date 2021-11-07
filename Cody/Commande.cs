@@ -396,46 +396,46 @@ vs                              Ouvre le projet dans Visual Studio Code.
         {
             if (cmd.Length == 1 || cmd.Length == 2)
             {
-                // Si le projet existe
-                if (Librairie.isProject() && Librairie.checkProjetVersion())
+                bool continu = true;
+                List<Package> list = null;
+                try
                 {
-                    bool continu = true;
-                    List<Package> list = null;
-                    try
-                    {
-                        // Prepare un client http
-                        WebClient client = Librairie.getProxyClient();
-                        string json = client.DownloadString("https://github.com/TheRake66/Cody/raw/main/packages/list_packages.json");
-                        list = JsonConvert.DeserializeObject<List<Package>>(json);
-                    }
-                    catch (Exception e)
-                    {
-                        Message.writeExcept("Erreur, impossible de télécharger la liste des packages !", e);
-                        continu = false;
-                    }
+                    // Prepare un client http
+                    WebClient client = Librairie.getProxyClient();
+                    string json = client.DownloadString("https://github.com/TheRake66/Cody/raw/main/packages/list_packages.json");
+                    list = JsonConvert.DeserializeObject<List<Package>>(json);
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Erreur, impossible de télécharger la liste des packages !", e);
+                    continu = false;
+                }
 
-                    if (continu)
+                if (continu)
+                {
+                    switch (cmd[0].ToLower())
                     {
-                        switch (cmd[0].ToLower())
-                        {
-                            case "-l":
-                                if (cmd.Length == 1) listerPackage(list);
-                                else Console.WriteLine("Trop d'arguments !");
-                                break;
+                        case "-l":
+                            if (cmd.Length == 1) listerPackage(list);
+                            else Console.WriteLine("Trop d'arguments !");
+                            break;
 
-                            case "-t":
-                                if (cmd.Length == 2)
+                        case "-t":
+                            if (cmd.Length == 2)
+                            {
+                                // Si le projet est en derniere version
+                                if (Librairie.isProject() && Librairie.checkProjetVersion())
                                 {
                                     string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
                                     telechargerPackage(nom, list);
                                 }
-                                else Console.WriteLine("Il manque le nom du package !");
-                                break;
+                            }
+                            else Console.WriteLine("Il manque le nom du package !");
+                            break;
 
-                            default:
-                                Console.WriteLine("Le type d'action est invalide !");
-                                break;
-                        }
+                        default:
+                            Console.WriteLine("Le type d'action est invalide !");
+                            break;
                     }
                 }
             }
@@ -466,12 +466,14 @@ vs                              Ouvre le projet dans Visual Studio Code.
             if (count > 0)
             {
                 Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
-                Console.WriteLine("Listage terminé.");
+                Console.Write("Listage terminé. Il y a ");
+                Message.writeIn(ConsoleColor.DarkYellow, count);
+                Console.WriteLine(" package(s).");
             }
             else
             {
                 Console.WriteLine("╚══════════════════════════════════╩══════════════╩═════════════════════════╩═══════════════════╝");
-                Console.WriteLine("Heuuu, il n'y a aucun packages...");
+                Console.WriteLine("Heuuu, il n'y a aucun package...");
             }
         }
         private static void afficherUnPackage(Package pack)
@@ -490,6 +492,19 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
         private static void telechargerPackage(string nom, List<Package> list)
         {
+            Package p = null;
+            foreach (Package pck in list)
+                if (pck.nom == nom) p = pck;
+
+            if (p != null)
+            {
+                foreach (Archive arc in p.archives)
+                {
+                    ajouterItem(arc.nom, arc.fichier, arc.index, "https://github.com/TheRake66/Cody/raw/main/packages/");
+                }
+            }
+            else
+                Console.WriteLine("Heuuu, ce package n'existe pas...");
         }
 
 
@@ -532,7 +547,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         if (count > 0)
                         {
                             Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
-                            Console.WriteLine("Listage terminé.");
+                            Console.Write("Listage terminé. Il y a ");
+                            Message.writeIn(ConsoleColor.DarkYellow, count);
+                            Console.WriteLine(" projet(s).");
                         }
                         else
                         {
@@ -870,7 +887,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
         }
 
         // Ajoute un item
-        private static void ajouterItem(string nom, string archivenom, string jsoni)
+        private static void ajouterItem(string nom, string archivenom, string jsoni, string url = "https://github.com/TheRake66/Cody/raw/main/bases/")
         {
             bool continu = true;
             List<Item> objs = new List<Item>();
@@ -905,19 +922,20 @@ vs                              Ouvre le projet dans Visual Studio Code.
             if (continu)
             {
                 string zip = $"{archivenom}.zip";
-                if (downloadItem(zip))
+                url += zip;
+                if (downloadItem(zip, url))
                 {
                     parcoursArchiveItem(objs, zip, nom, jsoni);
                 }
             }
         }
-        private static bool downloadItem(string zip)
+        private static bool downloadItem(string zip, string url)
         {
             try
             {
                 // Prepare un client http
                 WebClient client = Librairie.getProxyClient();
-                client.DownloadFile($"https://github.com/TheRake66/Cody/raw/main/bases/{zip}", zip);
+                client.DownloadFile(url, zip);
                 return true;
             }
             catch (Exception e)
@@ -1228,7 +1246,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         if (count > 0)
                         {
                             Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
-                            Console.WriteLine("Listage terminé.");
+                            Console.Write("Listage terminé. Il y a ");
+                            Message.writeIn(ConsoleColor.DarkYellow, count);
+                            Console.WriteLine(" élément(s).");
                         }
                         else
                         {
