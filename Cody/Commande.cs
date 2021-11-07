@@ -500,6 +500,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 foreach (Archive arc in p.archives)
                 {
+                    Console.WriteLine(arc.nom);
+                    Console.WriteLine(arc.fichier);
+                    Console.WriteLine(arc.index);
                     ajouterItem(arc.nom, arc.fichier, arc.index, "https://github.com/TheRake66/Cody/raw/main/packages/");
                 }
             }
@@ -818,25 +821,25 @@ vs                              Ouvre le projet dans Visual Studio Code.
         // Gere les objets
         public static void gestObjet(string[] cmd)
         {
-            gestItem(cmd, "base_objet", "modele/object.json");
+            gestItem(cmd, "base_objet.zip", "modele/object.json");
         }
 
         // Gere les librairies
         public static void gestLibrairie(string[] cmd)
         {
-            gestItem(cmd, "base_librairie", "librairie/library.json");
+            gestItem(cmd, "base_librairie.zip", "librairie/library.json");
         }
 
         // Gere les composants
         public static void gestComposant(string[] cmd)
         {
-            gestItem(cmd, "base_composant", "composant/component.json");
+            gestItem(cmd, "base_composant.zip", "composant/component.json");
         }
 
         // Gere les traits
         public static void gestTrait(string[] cmd)
         {
-            gestItem(cmd, "base_trait", "modele/trait.json");
+            gestItem(cmd, "base_trait.zip", "modele/trait.json");
         }
 
 
@@ -921,11 +924,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
             if (continu)
             {
-                string zip = $"{archivenom}.zip";
-                url += zip;
-                if (downloadItem(zip, url))
+                url += archivenom;
+                if (downloadItem(archivenom, url))
                 {
-                    parcoursArchiveItem(objs, zip, nom, jsoni);
+                    parcoursArchiveItem(objs, archivenom, nom, jsoni);
                 }
             }
         }
