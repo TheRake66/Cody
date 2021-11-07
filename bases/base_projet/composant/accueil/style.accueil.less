@@ -19,8 +19,8 @@ main {
             div {
                 color: white;
                 padding: 150px;
-                width: 1100px;
                 margin: auto;
+                max-width: 1100px;
 
                 h1 {
                     font-size: 38px;
@@ -28,14 +28,13 @@ main {
                 p {
                     font-size: 20px;
                     margin-top: 50px;
-                    width: 750px;
+                    max-width: 750px;
                 }
             }
         }
     }
 
     #mid {
-        width: 1100px;
         margin: auto;
         padding: 100px;
         padding-top: 0;
@@ -52,6 +51,7 @@ main {
             display: flex;
             flex-wrap: wrap;
             margin-top: 50px;
+            max-width: 1100px;
             
             a, div {
                 border-radius: 5px;
@@ -89,7 +89,6 @@ main {
         }
     
         #console {
-            width: 100%;
             border-radius: 5px;
             display: flex;
             flex-direction: column;
@@ -119,7 +118,7 @@ main {
 }
 
 
-@media all and (max-width: 800px) {
+@media all and (max-width: 1000px) {
     main {
         #top {
             > div {
