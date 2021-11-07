@@ -1,6 +1,6 @@
 [
   {
-    "nom": "test",
+    "nom": "progress-circle",
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "version": "1.0.0.0",
@@ -9,11 +9,19 @@
 	    "nom": "progress_circle",
 	    "fichier": "progress_circle.zip",
 		"index": "composant/component.json"
-	  },
+	  }
+    ]
+  },
+  {
+    "nom": "Routeur-PHP-7.2",
+    "creation": "2021-10-23T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "version": "1.0.0.0",
+    "archives": [
 	  {
-	    "nom": "table",
-	    "fichier": "table.zip",
-		"index": "librairie/library.json"
+	    "nom": "routeurPHP7.2",
+	    "fichier": "routeurPHP7.2.zip",
+		"index": "composant/component.json"
 	  }
     ]
   }
