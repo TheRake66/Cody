@@ -501,7 +501,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
             Console.SetCursorPosition(52, Console.CursorTop);
             Console.Write(pack.creation.ToString());
-            Console.SetCursorPosition(79, Console.CursorTop);
+            Console.SetCursorPosition(78, Console.CursorTop);
             Console.WriteLine(pack.createur);
         }
 
@@ -523,7 +523,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Console.Write("Description : ");
                 Message.writeIn(ConsoleColor.DarkCyan, p.description);
                 Console.WriteLine(".");
-                Console.WriteLine("═══════════════════════════════════════");
+                Console.WriteLine("═════════════════════════════════════════════════════════════════════");
 
                 int count = 0;
                 foreach (Archive arc in p.archives)
@@ -540,7 +540,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     {
                         if (supprimerItem(arc.nom, arc.index)) count++;
                     }
-                    Console.WriteLine("───────────────────────────────────────");
+                    Console.WriteLine("─────────────────────────────────────────────────────────────────────");
                 }
 
                 if (count > 0)
@@ -1355,10 +1355,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
             else
                 Message.writeIn(ConsoleColor.DarkRed, $"{Librairie.toNumberFr(count2)} ({Librairie.toNumberFr(obj.chemins.Count)})");
 
-
             Console.SetCursorPosition(52, Console.CursorTop);
             Console.Write(obj.creation.ToString());
-            Console.SetCursorPosition(79, Console.CursorTop);
+            Console.SetCursorPosition(78, Console.CursorTop);
             Console.WriteLine(obj.createur);
         }
 
