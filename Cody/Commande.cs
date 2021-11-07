@@ -370,9 +370,14 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 {
                     try
                     {
+                        // Ferme les serveur php
+                        foreach (Process process in Process.GetProcessesByName("php"))
+                            process.Kill();
+
                         // Lance PHP
-                        Librairie.startProcess($"php", "-S localhost:6600");
+                        Librairie.startProcess($"php", "-S localhost:6600", ProcessWindowStyle.Minimized);
                         Console.WriteLine("Serveur PHP lancé.");
+
                         // Ouvre dans le navigateur
                         Librairie.startProcess($"http://localhost:6600/index.php");
                         Console.WriteLine("Navigateur lancé.");
@@ -477,9 +482,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Console.WriteLine("║ Description :                                                                                 ║");
                 Console.WriteLine("║                                                                                               ║");
                 afficherDescriptionPackage(pck);
+                Console.WriteLine(".");
                 Console.WriteLine("╟───────────────────────────────────────────────────────────────────────────────────────────────╢");
 
-                afficherUnPackage(pck);
                 count++;
             }
 
@@ -501,7 +506,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
         private static void afficherDescriptionPackage(Package pack)
         {
             Console.SetCursorPosition(2, Console.CursorTop - 1);
-            Message.writeLineIn(ConsoleColor.DarkCyan, pack.description);
+            Message.writeIn(ConsoleColor.DarkCyan, pack.description);
         }
         private static void afficherUnPackage(Package pack)
         {
@@ -541,7 +546,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 foreach (Element arc in p.elements)
                 {
                     Console.Write("Élément : ");
-                    Message.writeIn(ConsoleColor.Magenta, arc.nom);
+                    Message.writeIn(ConsoleColor.DarkYellow, arc.nom);
                     Console.WriteLine(".");
 
                     if (ajouter)

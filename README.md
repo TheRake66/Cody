@@ -5,7 +5,7 @@
 Framework PHP/JavaScript/HTML/Less en français.
 <br>
 <br>
-<a href="https://github.com/TheRake66/Cody/releases/tag/cody">► Télécharger (5.5.31.0) ◄</a>
+<a href="https://github.com/TheRake66/Cody/releases/tag/cody">► Télécharger (5.9.32.0) ◄</a>
 <br>
 <br>
 <a href="https://github.com/TheRake66/Cody/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody"></a>
@@ -39,7 +39,7 @@ Il inclut quelques librairies comme la gestion des bases de données, l'autoload
 
 # Liste des commandes
 
-**Pour la version _5.5.31.0_.**<br>
+**Pour la version _5.9.32.0_.**<br>
 ```
 aide                            
 ```
@@ -56,7 +56,7 @@ cls
 Nettoie la console.<br>
 
 ```
-com [-s|-a|-l] [nom]
+com [-s|-a|-l] [*nom]
 ```
 Ajoute, liste, ou supprime un composant (controleur, vue, style, script) avec le nom spécifié.<br>
 
@@ -76,7 +76,7 @@ exp
 Ouvre le projet dans l'explorateur de fichiers.<br>
 
 ```
-lib [-s|-a|-l] [nom]
+lib [-s|-a|-l] [*nom]
 ```
 Ajoute, liste, ou supprime une librairie.<br>
 
@@ -96,9 +96,14 @@ new [nom]
 Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.<br>
 
 ```
-obj [-s|-a|-l] [nom]
+obj [-s|-a|-l] [*nom]
 ```
 Ajoute, liste, ou supprime un objet (classe dto, classe dao) avec le nom spécifié.<br>
+
+```
+pkg [-t|-l|-s] [*nom]
+```
+Télécharge, liste ou supprime un package depuis le dépôt de Cody.<br>
 
 ```
 rep
@@ -108,10 +113,10 @@ Ouvre la dépôt GitHub de Cody.<br>
 ```
 run
 ```
-Ouvre le projet dans le navigateur.<br>
+Lance un serveur PHP et ouvre le projet dans le navigateur.<br>
 
 ```
-tra [-s|-a|-l] [nom]
+tra [-s|-a|-l] [*nom]
 ```
 Ajoute, liste, ou supprime un trait.<br>
 
@@ -119,11 +124,6 @@ Ajoute, liste, ou supprime un trait.<br>
 vs
 ```
 Ouvre le projet dans Visual Studio Code.<br>
-
-```
-wamp
-```
-Lance WAMP Serveur et défini le dossier courant sur le www.<br>
 
 
 

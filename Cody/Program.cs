@@ -1,4 +1,5 @@
 ﻿using Cody.Properties;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +18,8 @@ namespace Cody
 
         // Recupere la version du exe
         public static string version = typeof(Program).Assembly.GetName().Version.ToString();
+        public static Configuration config = new Configuration();
+        public static string configFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "configuration.json");
 
 
         // Point d'entree
@@ -24,9 +27,10 @@ namespace Cody
         {
             // Affiche le logo
             afficherLogo();
-
             // Verifi les mise a jour
             Commande.checkUpdate(true);
+            // Charge la config
+            chargerConfig();
 
 
             while (true)
@@ -202,6 +206,70 @@ namespace Cody
 
 Utilisez la commande 'aide' pour voir la liste des commandes.
 ");
+        }
+
+
+        // Gere la configuration de cody
+        static void chargerConfig()
+        {
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => actualiserConfig();
+
+            if (File.Exists(Program.configFile))
+            {
+                bool continu = true;
+
+                try
+                {
+                    Program.config = JsonConvert.DeserializeObject<Configuration>(
+                        File.ReadAllText(Program.configFile));
+                }
+                catch (Exception e)
+                {
+                    Message.writeExcept("Impossible de charger la configuration de Cody !", e);
+                    continu = false;
+                }
+
+                if (continu) appliquerConfig();
+            }
+        }
+        static void appliquerConfig()
+        {
+            try
+            {
+                if (Directory.Exists(Program.config.dernierChemin)) Directory.SetCurrentDirectory(Program.config.dernierChemin);
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'appliquer la configuration de Cody !", e);
+            }
+        }
+        static void actualiserConfig()
+        {
+            bool continu = true;
+            try
+            {
+                Program.config.dernierChemin = Directory.GetCurrentDirectory();
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'actualiser la configuration de Cody !", e);
+                continu = false;
+            }
+
+            if (continu) sauvegarderConfig();
+        }
+        static void sauvegarderConfig()
+        {
+            try
+            {
+                File.WriteAllText(
+                    Program.configFile,
+                    JsonConvert.SerializeObject(Program.config, Formatting.Indented));
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de sauvegarder la configuration de Cody !", e);
+            }
         }
 
     }
