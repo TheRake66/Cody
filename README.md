@@ -268,11 +268,37 @@ Routeur::defaut('accueil');
 <br>
 
 # Les packages
-Via la commande ```dl```, vous pouvez installer des packages développés par un tiers comme ceci :<br> 
+Via la commande ```pkg```, vous pouvez télécharger des packages officiels. Pour télécharger le routeur supportant les versions de PHP antérieures a la version 8, vous devez :<br>
+```
+lib -s routeur
+```
+Supprimer le routeur existant.<br>
+```
+pkg -t Routeur-PHP-7.2
+```
+Télécharger le nouveau routeur.<br>
+<br>
+<br>
+Sinon via la commande ```dl```, vous pouvez installer des packages développés par un tiers comme ceci :<br> 
 ```
 dl https://raw.githubusercontent.com/TheRake66/Cody/main/documents/routeur.php librairie/php/routeur.php
 ```
-Afin de télécharger le routeur supportant les versions de PHP antérieures a la version 8.
+Puis l'ajouter dans le bon index :
+
+```
+librairie/library.json
+
+[
+  {
+    "nom": "routeur",
+    "creation": "2021-10-23T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "chemins": [
+      "librairie/php/routeur.php"
+    ]
+  }
+]
+```
 
 
 
