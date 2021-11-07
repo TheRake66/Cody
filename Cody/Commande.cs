@@ -28,23 +28,23 @@ namespace Cody
 cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
                                 du dossier courant.
 cls                             Nettoie la console.
-com [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un composant (controleur, vue, style,
+com [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un composant (controleur, vue, style,
                                 script) avec le nom spécifié.
 die                             Quitte Cody.
 dl [url] [fichier]              Télécharge un fichier avec l'URL spécifiée.
 exp                             Ouvre le projet dans l'explorateur de fichiers.
-lib [-s|-a|-l] [nom]            Ajoute, liste, ou supprime une librairie (PHP et JavaScript).
+lib [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une librairie (PHP et JavaScript).
                                 avec le nom spécifié.
 ls                              Affiche la liste des projets.
 maj                             Met à jour Cody via le depot GitHub.
 new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
-obj [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un objet (classe dto, classe dao)
+obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe dto, classe dao)
                                 avec le nom spécifié.
+pkg [-t|-l] [*nom]              Telecharge un package ou liste les packages depuis le dépôt de Cody.
 rep                             Ouvre la dépôt GitHub de Cody.
-run                             Ouvre le projet dans le navigateur.
-tra [-s|-a|-l] [nom]            Ajoute, liste, ou supprime un trait.
+run                             Lance un serveur PHP et ouvre le projet dans le navigateur.
+tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
 vs                              Ouvre le projet dans Visual Studio Code.
-wamp                            Lance WAMP Serveur et défini le dossier courant sur le www.
 
 *: Argument facultatif.");
             }
@@ -171,6 +171,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                     Console.Write("...");
                 };
 
+
                 WebClient web = Librairie.getProxyClient();
                 web.DownloadProgressChanged += (s, e) =>
                 {
@@ -182,24 +183,13 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         // Pour les tests
                         // dl https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar server.jar
                         // dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
-
-                        /*
-                        dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
-                        dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
-                        dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
-                        dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
-                        dl https://i.pinimg.com/originals/89/3c/48/893c48d2342c5e0336fdefe231c40d48.png a.png
-
-                        */
                     }
                 };
-
                 web.DownloadFileCompleted += (s, e) =>
                 {
                     ended = true;
                     ex = e.Error;
                 };
-
                 // Telecharge en asyncrone
                 web.DownloadFileTaskAsync(url, file);
 
@@ -287,8 +277,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             {
                 // Prepare un client http
                 WebClient client = Librairie.getProxyClient();
-                string remoteUri = "https://raw.githubusercontent.com/TheRake66/Cody/master/version";
-                string lastversion = client.DownloadString(remoteUri);
+                string lastversion = client.DownloadString("https://raw.githubusercontent.com/TheRake66/Cody/master/version");
 
                 // Compare les version
                 if (lastversion.Equals(Program.version))
@@ -371,7 +360,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         }
 
 
-        // Ouvre le projet dans le navigateur
+        // Ouvre le projet dans le navigateur et lance un serveur PHP
         public static void runProjet(string[] cmd)
         {
             if (cmd.Length == 0)
@@ -381,9 +370,11 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 {
                     try
                     {
-                        string f = Path.GetFileName(Directory.GetCurrentDirectory());
+                        // Lance PHP
+                        Librairie.startProcess($"php", "-S localhost:6600");
+                        Console.WriteLine("Serveur PHP lancé.");
                         // Ouvre dans le navigateur
-                        Librairie.startProcess($"http://localhost/{f}/index.php");
+                        Librairie.startProcess($"http://localhost:6600/index.php");
                         Console.WriteLine("Navigateur lancé.");
                     }
                     catch (Exception e)
@@ -397,71 +388,108 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
         }
 
 
-        // Gere wamp
-        public static void runWamp(string[] cmd)
+        // ########################################################################
+
+
+        // Gere les item
+        public static void gestPackage(string[] cmd)
         {
-            if (cmd.Length == 0)
+            if (cmd.Length == 1 || cmd.Length == 2)
             {
-                try
+                // Si le projet existe
+                if (Librairie.isProject() && Librairie.checkProjetVersion())
                 {
-                    bool founded = false;
-                    string path = "";
-                    string[] folder = new string[] { "wamp64", "wamp" };
-                    string[] name = new string[] { "WAMP 64-bit", "WAMP" };
-
-                    foreach (DriveInfo drive in DriveInfo.GetDrives())
+                    bool continu = true;
+                    List<Package> list = null;
+                    try
                     {
-                        if (drive.DriveType == DriveType.Fixed
-                            && drive.IsReady)
+                        // Prepare un client http
+                        WebClient client = Librairie.getProxyClient();
+                        string json = client.DownloadString("https://github.com/TheRake66/Cody/raw/main/packages/list_packages.json");
+                        list = JsonConvert.DeserializeObject<List<Package>>(json);
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Erreur, impossible de télécharger la liste des packages !", e);
+                        continu = false;
+                    }
+
+                    if (continu)
+                    {
+                        switch (cmd[0].ToLower())
                         {
-                            for (int i = 0; i < folder.Length; i++)
-                            {
-                                string f = $@"{drive.Name}{folder[i]}";
-                                if (Directory.Exists(f))
+                            case "-l":
+                                if (cmd.Length == 1) listerPackage(list);
+                                else Console.WriteLine("Trop d'arguments !");
+                                break;
+
+                            case "-t":
+                                if (cmd.Length == 2)
                                 {
-                                    path = f;
-                                    founded = true;
-                                    break;
+                                    string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
+                                    telechargerPackage(nom, list);
                                 }
-                            }
+                                else Console.WriteLine("Il manque le nom du package !");
+                                break;
 
-                            if (founded) break;
+                            default:
+                                Console.WriteLine("Le type d'action est invalide !");
+                                break;
                         }
                     }
-
-                    if (founded)
-                    {
-                        // Change le dossier
-                        try
-                        {
-                            Directory.SetCurrentDirectory($@"{path}\www");
-                            Console.WriteLine("Chemin WAMP trouvé.");
-                        }
-                        catch (Exception e)
-                        {
-                            Message.writeExcept("Impossible de définir le dossier WAMP !", e);
-                        }
-                        // Lance wamp
-                        try
-                        {
-                            Process.Start($@"{path}\wampmanager.exe");
-                            Console.WriteLine("WAMP lancé.");
-                        }
-                        catch (Exception e)
-                        {
-                            Message.writeExcept("Impossible de lancer WAMP !", e);
-                        }
-                    }
-                    else
-                        Console.WriteLine("Aucun dossier WAMP.");
-                }
-                catch (Exception e)
-                {
-                    Message.writeExcept("Impossible de récupérer la liste des lecteur !", e);
                 }
             }
+            else if (cmd.Length > 2)
+                Console.WriteLine("Problème, trop d'arguments ont été données !");
             else
-                Console.WriteLine("Problème, aucun argument n'est attendu !");
+                Console.WriteLine("Problème, il manque le type d'action ou le nom du package !");
+        }
+        private static void listerPackage(List<Package> list)
+        {
+            List<Package> trier = list.OrderBy(o => o.nom).ToList();
+
+            Console.WriteLine("╔══════════════════════════════════╦══════════════╦═════════════════════════╦═══════════════════╗");
+            Console.WriteLine("║ Nom                              ║ Version      ║ Crée le                 ║ Par               ║");
+            Console.WriteLine("╠══════════════════════════════════╩══════════════╩═════════════════════════╩═══════════════════╣");
+
+            int count = 0;
+            foreach (Package pck in trier)
+            {
+                Console.WriteLine("║                                                                                               ║");
+                afficherUnPackage(pck);
+                Console.WriteLine("╟───────────────────────────────────────────────────────────────────────────────────────────────╢");
+                count++;
+            }
+
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
+
+            if (count > 0)
+            {
+                Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
+                Console.WriteLine("Listage terminé.");
+            }
+            else
+            {
+                Console.WriteLine("╚══════════════════════════════════╩══════════════╩═════════════════════════╩═══════════════════╝");
+                Console.WriteLine("Heuuu, il n'y a aucun packages...");
+            }
+        }
+        private static void afficherUnPackage(Package pack)
+        {
+            Console.SetCursorPosition(2, Console.CursorTop - 1);
+            Message.writeIn(ConsoleColor.Magenta, pack.nom);
+
+            Console.SetCursorPosition(37, Console.CursorTop);
+            Console.Write(pack.version);
+
+            Console.SetCursorPosition(52, Console.CursorTop);
+            Console.Write(pack.creation.ToString());
+            Console.SetCursorPosition(79, Console.CursorTop);
+            Console.WriteLine(pack.createur);
+        }
+
+        private static void telechargerPackage(string nom, List<Package> list)
+        {
         }
 
 
@@ -584,12 +612,13 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
 
                 if (!Directory.Exists(name))
                 {
-                    creerDossierProjet(name);
-
-                    if (Librairie.downloadArchive("base_projet", name))
+                    if (creerDossierProjet(name))
                     {
                         string zip = Path.Combine(name, "base_projet.zip");
-                        parcoursArchiveProjet(zip, name);
+                        if (downloadProjet(zip))
+                        {
+                            parcoursArchiveProjet(zip, name);
+                        }
                     }
                 }
                 else
@@ -600,16 +629,33 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             else
                 Console.WriteLine("Problème, il manque le nom du nouveau projet !");
         }
-        private static void creerDossierProjet(string nom)
+        private static bool downloadProjet(string path)
+        {
+            try
+            {
+                // Prepare un client http
+                WebClient client = Librairie.getProxyClient();
+                client.DownloadFile("https://github.com/TheRake66/Cody/raw/main/bases/base_projet.zip", path);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de télécharger l'archive source de cet item !", e);
+                return false;
+            }
+        }
+        private static bool creerDossierProjet(string nom)
         {
             try
             {
                 // Creer le dossier du projet
                 Directory.CreateDirectory(nom);
+                return true;
             }
             catch (Exception e)
             {
                 Message.writeExcept("Impossible de créer le dossier du projet !", e);
+                return false;
             }
         }
         private static void parcoursArchiveProjet(string zip, string nom)
@@ -784,63 +830,36 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             if (cmd.Length == 1 || cmd.Length == 2)
             {
                 // Si le projet existe
-                if (Librairie.isProject())
+                if (Librairie.isProject() && Librairie.checkProjetVersion())
                 {
-                    try
+                    switch (cmd[0].ToLower())
                     {
-                        string json = File.ReadAllText("project.json");
-                        Projet inf = JsonConvert.DeserializeObject<Projet>(json);
-                        bool continu = true;
+                        case "-l":
+                            if (cmd.Length == 1) listerItem(jsoni);
+                            else Console.WriteLine("Trop d'arguments !");
+                            break;
 
-                        // Conflit de version
-                        if (inf.version != Program.version)
-                        {
-                            Console.Write("Attention, ce projet est fait pour fonctionner avec la version ");
-                            Message.writeIn(ConsoleColor.DarkYellow, inf.version);
-                            Console.WriteLine(" de Cody.");
-                            Console.Write("Vous êtes en version ");
-                            Message.writeIn(ConsoleColor.Green, Program.version);
-                            Console.WriteLine(", cela pourrait créer des problèmes de compatibilité, voulez vous continuer ?");
-
-                            continu = Librairie.inputYesNo();
-                        }
-
-                        if (continu)
-                        {
-                            switch (cmd[0].ToLower())
+                        case "-s":
+                            if (cmd.Length == 2)
                             {
-                                case "-l":
-                                    if (cmd.Length == 1) listerItem(jsoni);
-                                    else Console.WriteLine("Trop d'arguments !");
-                                    break;
-
-                                case "-s":
-                                    if (cmd.Length == 2)
-                                    {
-                                        string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
-                                        supprimerItem(nom, jsoni);
-                                    }
-                                    else Console.WriteLine("Il manque le nom de l'élément !");
-                                    break;
-
-                                case "-a":
-                                    if (cmd.Length == 2)
-                                    {
-                                        string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
-                                        ajouterItem(nom, archivenom, jsoni);
-                                    }
-                                    else Console.WriteLine("Il manque le nom de l'élément !");
-                                    break;
-
-                                default:
-                                    Console.WriteLine("Le type d'action est invalide !");
-                                    break;
+                                string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
+                                supprimerItem(nom, jsoni);
                             }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Message.writeExcept("Impossible de lire le fichier d'information de Cody !", e);
+                            else Console.WriteLine("Il manque le nom de l'élément !");
+                            break;
+
+                        case "-a":
+                            if (cmd.Length == 2)
+                            {
+                                string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
+                                ajouterItem(nom, archivenom, jsoni);
+                            }
+                            else Console.WriteLine("Il manque le nom de l'élément !");
+                            break;
+
+                        default:
+                            Console.WriteLine("Le type d'action est invalide !");
+                            break;
                     }
                 }
             }
@@ -883,8 +902,29 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                 }
             }
 
-            if (continu && Librairie.downloadArchive(archivenom))
-                parcoursArchiveItem(objs, $"{archivenom}.zip", nom, jsoni);
+            if (continu)
+            {
+                string zip = $"{archivenom}.zip";
+                if (downloadItem(zip))
+                {
+                    parcoursArchiveItem(objs, zip, nom, jsoni);
+                }
+            }
+        }
+        private static bool downloadItem(string zip)
+        {
+            try
+            {
+                // Prepare un client http
+                WebClient client = Librairie.getProxyClient();
+                client.DownloadFile($"https://github.com/TheRake66/Cody/raw/main/bases/{zip}", zip);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de télécharger l'archive source de cet item !", e);
+                return false;
+            }
         }
         private static void parcoursArchiveItem(List<Item> objs, string zip, string nom, string jsoni)
         {
@@ -1178,7 +1218,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
                         foreach (Item obj in trier)
                         {
                             Console.WriteLine("║                                                                                               ║");
-                            affichierUnItem(obj);
+                            afficherUnItem(obj);
                             Console.WriteLine("╟───────────────────────────────────────────────────────────────────────────────────────────────╢");
                             count++;
                         }
@@ -1209,7 +1249,7 @@ wamp                            Lance WAMP Serveur et défini le dossier courant
             else
                 Console.WriteLine("Heuuu, aucune liste d'élément a été trouvée...");
         }
-        private static void affichierUnItem(Item obj)
+        private static void afficherUnItem(Item obj)
         {
             Console.SetCursorPosition(2, Console.CursorTop - 1);
             Message.writeIn(ConsoleColor.Magenta, obj.nom);

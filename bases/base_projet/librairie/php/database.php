@@ -30,8 +30,8 @@ class DataBase extends \PDO {
     function __construct() {
         try {
             $param = json_decode(file_get_contents('modele/database.json'));
-            $dsn = $param->type . ':host=' . $param->host . ';dbname=' . $param->dbname . ';charset=' . $param->charset;
-            parent::__construct($dsn, $param->login, $param->password);
+            $dsn = $param->type . ':host=' . $param->hote . ':port=' . $param->port . ';dbname=' . $param->badeDeDonnees . ';charset=' . $param->encodage;
+            parent::__construct($dsn, $param->identifiant, $param->motDePasse);
         } catch (\Exception $e) {
             echo $e->getMessage();
             die();

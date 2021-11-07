@@ -94,6 +94,10 @@ namespace Cody
                             Commande.gestObjet(argm);
                             break;
 
+                        case "pkg":
+                            Commande.gestPackage(argm);
+                            break;
+
                         case "rep":
                             Commande.openRepo(argm);
                             break;
@@ -108,10 +112,6 @@ namespace Cody
 
                         case "vs":
                             Commande.openVSCode(argm);
-                            break;
-
-                        case "wamp":
-                            Commande.runWamp(argm);
                             break;
 
                         default:
@@ -194,7 +194,7 @@ namespace Cody
             Message.writeIn(ConsoleColor.DarkRed, @"
                                                     ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
             Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                          ~ Version {version} du 6 novembre 2021 ~
+                                          ~ Version {version} du 7 novembre 2021 ~
                                     ~ Copyright © 2021 - Thibault BUSTOS (TheRake66) ~");
 
             Console.WriteLine(@"

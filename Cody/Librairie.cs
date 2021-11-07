@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace Cody
 {
@@ -38,7 +39,7 @@ namespace Cody
 
 
         // Lance un processus proprement pour linux
-        public static void startProcess(string name, string args = "", ProcessWindowStyle style = ProcessWindowStyle.Normal)
+        public static Process startProcess(string name, string args = "", ProcessWindowStyle style = ProcessWindowStyle.Normal)
         {
             // Ouvre dans le navigateur
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -50,6 +51,8 @@ namespace Cody
             Process processTemp = new Process();
             processTemp.StartInfo = startInfo;
             processTemp.Start();
+
+            return processTemp;
         }
 
 
@@ -105,21 +108,34 @@ namespace Cody
             return new WebClient { Proxy = prox };
         }
 
-        
-        // Telecharge une archive depuis le github
-        public static bool downloadArchive(string name, string path = "")
+
+        // Verifi la version du projet
+        public static bool checkProjetVersion()
         {
             try
             {
-                // Prepare un client http
-                WebClient client = getProxyClient();
-                string remoteUri = $"https://github.com/TheRake66/Cody/raw/main/bases/{name}.zip";
-                client.DownloadFile(remoteUri, Path.Combine(path, $"{name}.zip"));
-                return true;
+                string json = File.ReadAllText("project.json");
+                Projet inf = JsonConvert.DeserializeObject<Projet>(json);
+                bool continu = true;
+
+                // Conflit de version
+                if (inf.version != Program.version)
+                {
+                    Console.Write("Attention, ce projet est fait pour fonctionner avec la version ");
+                    Message.writeIn(ConsoleColor.DarkYellow, inf.version);
+                    Console.WriteLine(" de Cody.");
+                    Console.Write("Vous êtes en version ");
+                    Message.writeIn(ConsoleColor.Green, Program.version);
+                    Console.WriteLine(", cela pourrait créer des problèmes de compatibilité, voulez vous continuer ?");
+
+                    continu = inputYesNo();
+                }
+
+                return continu;
             }
             catch (Exception e)
             {
-                Message.writeExcept("Impossible de télécharger l'archive source !", e);
+                Message.writeExcept("Impossible de lire le fichier d'information de Cody !", e);
                 return false;
             }
         }

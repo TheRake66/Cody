@@ -1,8 +1,9 @@
 {
-	"login" : "root", 
-	"password" : "", 
-	"host" : "localhost", 
-	"dbname" : "{PROJECT_NAME}", 
-	"charset" : "utf8", 
+	"identifiant" : "root", 
+	"motDePasse" : "", 
+	"hote" : "127.0.0.1", 
+	"port" : "3306", 
+	"badeDeDonnees" : "{PROJECT_NAME}", 
+	"encodage" : "utf8", 
 	"type" : "mysql" 
 }
