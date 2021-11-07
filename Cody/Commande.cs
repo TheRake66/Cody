@@ -473,6 +473,13 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Console.WriteLine("║                                                                                               ║");
                 afficherUnPackage(pck);
                 Console.WriteLine("╟───────────────────────────────────────────────────────────────────────────────────────────────╢");
+
+                Console.WriteLine("║ Description :                                                                                 ║");
+                Console.WriteLine("║                                                                                               ║");
+                afficherDescriptionPackage(pck);
+                Console.WriteLine("╟───────────────────────────────────────────────────────────────────────────────────────────────╢");
+
+                afficherUnPackage(pck);
                 count++;
             }
 
@@ -490,6 +497,11 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Console.WriteLine("╚══════════════════════════════════╩══════════════╩═════════════════════════╩═══════════════════╝");
                 Console.WriteLine("Heuuu, il n'y a aucun package...");
             }
+        }
+        private static void afficherDescriptionPackage(Package pack)
+        {
+            Console.SetCursorPosition(2, Console.CursorTop - 1);
+            Message.writeLineIn(ConsoleColor.DarkCyan, pack.description);
         }
         private static void afficherUnPackage(Package pack)
         {
@@ -526,7 +538,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Console.WriteLine("═════════════════════════════════════════════════════════════════════");
 
                 int count = 0;
-                foreach (Archive arc in p.archives)
+                foreach (Element arc in p.elements)
                 {
                     Console.Write("Élément : ");
                     Message.writeIn(ConsoleColor.Magenta, arc.nom);
@@ -534,7 +546,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
                     if (ajouter)
                     {
-                        if (ajouterItem(arc.nom, arc.fichier, arc.index, "https://github.com/TheRake66/Cody/raw/main/packages/")) count++;
+                        if (ajouterItem(arc.nom, arc.archive, arc.index, "https://github.com/TheRake66/Cody/raw/main/packages/")) count++;
                     }
                     else
                     {
@@ -549,7 +561,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberFr(count));
                     Console.WriteLine(" élément(s) ont/a été traité(s).");
 
-                    if (count == p.archives.Count)
+                    if (count == p.elements.Count)
                         Console.WriteLine("Le package a été entièrement traité.");
                     else
                         Console.WriteLine("Le package a été partiellement traité.");

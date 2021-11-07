@@ -5,10 +5,10 @@
     "createur": "thiba",
     "description": "Une barre de chargement liquide ronde",
     "version": "1.0.0.0",
-    "archives": [
+    "elements": [
 	  {
 	    "nom": "progress_circle",
-	    "fichier": "progress_circle.zip",
+	    "archive": "progress_circle.zip",
 		"index": "composant/component.json"
 	  }
     ]
@@ -19,10 +19,10 @@
     "createur": "thiba",
     "description": "Le routeur pour les versions avant PHP 8",
     "version": "1.0.0.0",
-    "archives": [
+    "elements": [
 	  {
 	    "nom": "routeur",
-	    "fichier": "routeurPHP7.2.zip",
+	    "archive": "routeurPHP7.2.zip",
 		"index": "librairie/library.json"
 	  }
     ]

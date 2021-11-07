@@ -15,7 +15,7 @@ namespace Cody
         public string createur;
         public string description;
         public string version;
-        public List<Archive> archives;
+        public List<Element> elements;
 
     }
 }

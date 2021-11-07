@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Cody
 {
-    class Archive
+    class Element
     {
 
         // Informations
         public string nom;
-        public string fichier;
+        public string archive;
         public string index;
 
     }
