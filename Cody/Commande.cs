@@ -427,7 +427,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                                 if (Librairie.isProject() && Librairie.checkProjetVersion())
                                 {
                                     string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
-                                    supprimerPackage(nom, list);
+                                    traitementPackage(nom, list, false);
                                 }
                             }
                             else Console.WriteLine("Il manque le nom du package !");
@@ -440,7 +440,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                                 if (Librairie.isProject() && Librairie.checkProjetVersion())
                                 {
                                     string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
-                                    telechargerPackage(nom, list);
+                                    traitementPackage(nom, list, true);
                                 }
                             }
                             else Console.WriteLine("Il manque le nom du package !");
@@ -457,6 +457,8 @@ vs                              Ouvre le projet dans Visual Studio Code.
             else
                 Console.WriteLine("Problème, il manque le type d'action ou le nom du package !");
         }
+
+        // Liste les package
         private static void listerPackage(List<Package> list)
         {
             List<Package> trier = list.OrderBy(o => o.nom).ToList();
@@ -503,7 +505,8 @@ vs                              Ouvre le projet dans Visual Studio Code.
             Console.WriteLine(pack.createur);
         }
 
-        private static void supprimerPackage(string nom, List<Package> list)
+        // Ajoute ou supprime un package
+        private static void traitementPackage(string nom, List<Package> list, bool ajouter)
         {
             Package p = null;
             foreach (Package pck in list)
@@ -514,59 +517,35 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 int count = 0;
                 foreach (Archive arc in p.archives)
                 {
-                    if (supprimerItem(arc.nom, arc.index)) count++;
+                    Console.Write("Élément : ");
+                    Message.writeIn(ConsoleColor.DarkYellow, arc.nom);
+                    Console.WriteLine(".");
+
+                    if (ajouter)
+                    {
+                        if (ajouterItem(arc.nom, arc.fichier, arc.index, "https://github.com/TheRake66/Cody/raw/main/packages/")) count++;
+                    }
+                    else
+                    {
+                        if (supprimerItem(arc.nom, arc.index)) count++;
+                    }
                     Console.WriteLine("───────────────────────────────────────");
                 }
 
                 if (count > 0)
                 {
-                    Console.Write("Suppression terminé. ");
+                    Console.Write("Traitement terminé. ");
                     Message.writeIn(ConsoleColor.DarkYellow, count);
-                    Console.WriteLine(" élément(s) ont/a été supprimé(s).");
+                    Console.WriteLine(" élément(s) ont/a été traité(s).");
 
                     if (count == p.archives.Count)
-                        Console.WriteLine("Le package a été entièrement supprimé.");
+                        Console.WriteLine("Le package a été entièrement traité.");
                     else
-                        Console.WriteLine("Le package a été partiellement supprimé.");
+                        Console.WriteLine("Le package a été partiellement traité.");
                 }
                 else
                 {
-                    Console.WriteLine("Aucun élément n'a été supprimé.");
-                }
-            }
-            else
-                Console.WriteLine("Heuuu, ce package n'existe pas...");
-        }
-
-        private static void telechargerPackage(string nom, List<Package> list)
-        {
-            Package p = null;
-            foreach (Package pck in list)
-                if (pck.nom == nom) p = pck;
-
-            if (p != null)
-            {
-                int count = 0;
-                foreach (Archive arc in p.archives)
-                {
-                    if (ajouterItem(arc.nom, arc.fichier, arc.index, "https://github.com/TheRake66/Cody/raw/main/packages/")) count++;
-                    Console.WriteLine("───────────────────────────────────────");
-                }
-
-                if (count > 0)
-                {
-                    Console.Write("Téléchargement terminé. ");
-                    Message.writeIn(ConsoleColor.DarkYellow, count);
-                    Console.WriteLine(" élément(s) ont/a été ajouté(s).");
-
-                    if (count == p.archives.Count)
-                        Console.WriteLine("Le package a été entièrement installé.");
-                    else
-                        Console.WriteLine("Le package a été partiellement installé.");
-                }
-                else
-                {
-                    Console.WriteLine("Aucun élément n'a été ajouté.");
+                    Console.WriteLine("Aucun élément n'a été traité.");
                 }
             }
             else
