@@ -21,7 +21,7 @@
     "version": "1.0.0.0",
     "archives": [
 	  {
-	    "nom": "routeurPHP7.2",
+	    "nom": "routeur",
 	    "fichier": "routeurPHP7.2.zip",
 		"index": "librairie/library.json"
 	  }
