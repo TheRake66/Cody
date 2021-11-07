@@ -621,7 +621,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         {
                             Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
                             Console.Write("Listage terminé. Il y a ");
-                            Message.writeIn(ConsoleColor.DarkYellow, count);
+                            Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberFr(count));
                             Console.WriteLine(" projet(s).");
                         }
                         else
@@ -1335,7 +1335,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         {
                             Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
                             Console.Write("Listage terminé. Il y a ");
-                            Message.writeIn(ConsoleColor.DarkYellow, count);
+                            Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberFr(count));
                             Console.WriteLine(" élément(s).");
                         }
                         else
