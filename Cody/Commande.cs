@@ -1111,7 +1111,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     Message.writeIn(ConsoleColor.DarkGreen, file.Replace('/', Path.DirectorySeparatorChar));
                     Console.Write("' extrait (");
                     Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(file).Length));
-                    Console.WriteLine(" octet(s)).");
+                    Console.WriteLine(").");
 
                     try
                     {
