@@ -2,7 +2,7 @@
 <!-- Creation de la page {NAME_UPPER} -->
 <main>
 
-	<p>{NAME_UPPER} fonctionne !</p>
+	<p>La page {NAME_UPPER} fonctionne !</p>
 	
 </main>
 <!-- ================================================== -->
