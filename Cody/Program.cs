@@ -163,43 +163,29 @@ namespace Cody
 
             // Entete
             Console.SetCursorPosition(0, 0);
-            Message.writeIn(ConsoleColor.White, @"
-                                                  ▄▄▄▄▄▄▄                      ▄▄
-                                                ▄████████▌                     ██
-                                               ████▀▀▀▀▀▀                      ██
-                                              ▐███           ▄▄▄▄▄▄      ▄▄▄▄▄▄██  ▄▄       ▄▄
-                                              ▐██▌          ████████    █████████ ▐██▌     ▐██▌
-                                              ▐██▌         ▐██▀  ▀██▌  ▐██▀  ▀███  ▐██▌   ▐██▌
-                                              ▐███         ██▌    ▐██  ██▌    ▐██   ▐██▌ ▐██▌
-                                               ████▄▄▄▄▄▄  ▐██▄  ▄██▌  ▐██▄  ▄██▌    ▐██▄██▌
-                                                ▀████████▌  ████████    ████████      ▐███▌
-                                                  ▀▀▀▀▀▀▀    ▀▀▀▀▀▀      ▀▀▀▀▀▀       ███▀
-                                                                                     ███
-                                                                                    ███
-                                                                                  ▄███
-                                                                                  ▀▀▀
-");
-            // Entete
-            Console.SetCursorPosition(0, 0);
             Message.writeIn(ConsoleColor.Blue, @"
-                                ▄▄▄▄▄▄▄
-                              ▄████████▌▐▄
-                             ████▀▀▀▀▀▀ ▀▀
-                            ▐███ ▐████████▌
-                            ███▌ ▄▄▄▄▄▄▄▄▄▄
-                            ███▌ ▀▀▀▀▀▀▀▀▀▀
-                            ▐███ ▐████████▌
-                             ████▄▄▄▄▄▄ ▄▄
-                              ▀████████▌▐▀
-                                ▀▀▀▀▀▀▀  
+                                        ▄▄▄▄▄▄▄                         ▄▄
+                                      ▄████████▌▐▄                      ██
+                                     ████▀▀▀▀▀▀ ▀▀                      ██
+                                    ▐███ ▐████████▌   ▄▄▄▄▄▄      ▄▄▄▄▄▄██  ▄▄       ▄▄
+                                    ███▌ ▄▄▄▄▄▄▄▄▄▄  ████████    █████████ ▐██▌     ▐██▌
+                                    ███▌ ▀▀▀▀▀▀▀▀▀▀ ▐██▀  ▀██▌  ▐██▀  ▀███  ▐██▌   ▐██▌
+                                    ▐███ ▐████████▌ ██▌    ▐██  ██▌    ▐██   ▐██▌ ▐██▌
+                                     ████▄▄▄▄▄▄ ▄▄  ▐██▄  ▄██▌  ▐██▄  ▄██▌    ▐██▄██▌
+                                      ▀████████▌▐▀   ████████    ████████      ▐███▌
+                                        ▀▀▀▀▀▀▀       ▀▀▀▀▀▀      ▀▀▀▀▀▀       ███▀
+                                                                              ███
+                                                                             ███
+                                                                           ▄███
+                                                                           ▀▀▀
 ");
             // Entete
-            Console.SetCursorPosition(0, 16);
+            Console.SetCursorPosition(0, 15);
             Message.writeIn(ConsoleColor.DarkRed, @"
                                                     ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
             Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                          ~ Version {version} du 7 novembre 2021 ~
-                                    ~ Copyright © 2021 - Thibault BUSTOS (TheRake66) ~");
+                                          ~ Version {version} du 10 novembre 2021 ~
+                                     ~ Copyright © 2021 - Thibault BUSTOS (TheRake66) ~");
 
             Console.WriteLine(@"
 

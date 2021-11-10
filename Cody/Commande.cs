@@ -36,7 +36,7 @@ exp                             Ouvre le projet dans l'explorateur de fichiers.
 lib [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une librairie (PHP et JavaScript).
                                 avec le nom spécifié.
 ls                              Affiche la liste des projets.
-maj                             Met à jour Cody via le depot GitHub.
+maj                             Vérifie les mises à jour disponibles.
 new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
 obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe dto, classe dao)
                                 avec le nom spécifié.
@@ -277,24 +277,40 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 // Prepare un client http
                 WebClient client = Librairie.getProxyClient();
-                string lastversion = client.DownloadString("https://raw.githubusercontent.com/TheRake66/Cody/master/version");
+                Prod lastversion = JsonConvert.DeserializeObject<Prod>(
+                    client.DownloadString("https://raw.githubusercontent.com/TheRake66/Cody/main/version.json"));
 
                 // Compare les version
-                if (lastversion.Equals(Program.version))
+                if (!lastversion.version.Equals(Program.version))
                 {
                     if (!silent) Console.WriteLine("Vous êtes à jour !");
                 }
                 else
                 {
+                    Console.WriteLine();
                     Console.Write("La version ");
-                    Message.writeIn(ConsoleColor.Green, lastversion);
+                    Message.writeIn(ConsoleColor.Green, lastversion.version);
                     Console.WriteLine(" est disponible, voulez vous la télécharger ?");
+                    Console.WriteLine();
+                    Console.WriteLine("Changelog :");
+                    foreach (string st in lastversion.changelog)
+                    {
+                        Console.WriteLine("   • " + st);
+                    }
+                    Console.WriteLine();
+                    Console.Write("Rétro-compatible : ");
+                    if (lastversion.retrocompatible)
+                        Message.writeLineIn(ConsoleColor.Green, "Oui");
+                    else
+                        Message.writeLineIn(ConsoleColor.DarkRed, "Non");
+                    Console.WriteLine();
+
                     bool continu = Librairie.inputYesNo();
                     if (continu)
                     {
                         try
                         {
-                            Librairie.startProcess("https://github.com/TheRake66/Cody/releases/tag/cody");
+                            Librairie.startProcess("https://cody-framework.fr/index.php?redirect=telecharger");
                         }
                         catch (Exception e)
                         {
