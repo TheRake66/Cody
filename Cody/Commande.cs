@@ -281,7 +281,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     client.DownloadString("https://raw.githubusercontent.com/TheRake66/Cody/main/version.json"));
 
                 // Compare les version
-                if (!lastversion.version.Equals(Program.version))
+                if (lastversion.version.Equals(Program.version))
                 {
                     if (!silent) Console.WriteLine("Vous êtes à jour !");
                 }
