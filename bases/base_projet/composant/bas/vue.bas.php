@@ -1,9 +1,10 @@
 <!-- ================================================== -->
 <!-- Creation du footer -->
+
 <footer>
-    <img src="image/vector.svg">
-    <span>Copyright © 2021 - Thibault BUSTOS (TheRake66)</span>
+    
 </footer>
+
 <!-- ================================================== -->
 
 
