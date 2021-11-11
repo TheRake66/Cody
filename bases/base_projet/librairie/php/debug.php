@@ -24,11 +24,17 @@ class Debug {
      * @param string Message a ajouter
      */
 	public static function logMessage($leMessage) {
-		file_put_contents(
-			'./logs/' . date('D M d') . '.log',
-			'[' . date('D M d, Y G:i') . '] ' . $leMessage . PHP_EOL,
-			FILE_APPEND
-		);
+        $continu = true;
+        if (!is_dir('logs')) {
+            $continu = mkdir('logs');
+        }
+        if ($continu) {
+            file_put_contents(
+                'logs/' . date('D M d') . '.log',
+                '[' . date('D M d, Y G:i') . '] ' . $leMessage . PHP_EOL,
+                FILE_APPEND
+            );
+        }
 	}
 	
 
