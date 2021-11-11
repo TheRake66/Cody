@@ -5,7 +5,7 @@
 Framework PHP/JavaScript/HTML/Less en français.
 <br>
 <br>
-<a href="https://github.com/TheRake66/Cody/releases/tag/cody">► Télécharger ◄</a>
+<a href="https://cody-framework.fr/?redirect=telecharger">► Télécharger ◄</a>
 <br>
 <br>
 <a href="https://github.com/TheRake66/Cody/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody"></a>
