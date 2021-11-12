@@ -32,7 +32,7 @@ class Debug {
             file_put_contents(
                 'logs/' . date('D M d') . '.log',
                 '[' . date('D M d, Y G:i') . '] ' . $leMessage . PHP_EOL,
-                FILE_APPEND
+                FILE_APPEND | LOCK_EX
             );
         }
 	}
