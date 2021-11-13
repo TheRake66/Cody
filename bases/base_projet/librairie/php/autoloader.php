@@ -55,7 +55,7 @@ class Autoloader {
 
         $file = strtolower($file);
         if(is_file($file) && is_readable($file)) {
-            require_once $file;
+            include $file;
         }
     }
     

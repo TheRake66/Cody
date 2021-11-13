@@ -17,7 +17,7 @@ class Bas {
      * Destructeur
      */
     function __destruct() {
-        require_once 'composant/bas/vue.bas.php';
+        include 'composant/bas/vue.bas.php';
     }
 
 }

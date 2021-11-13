@@ -17,7 +17,7 @@ class Menu {
      * Destructeur
      */
     function __destruct() {
-        require_once 'composant/menu/vue.menu.php';
+        include 'composant/menu/vue.menu.php';
     }
 
 }

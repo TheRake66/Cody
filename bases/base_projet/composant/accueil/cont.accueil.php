@@ -17,7 +17,7 @@ class Accueil {
      * Destructeur
      */
     function __destruct() {
-        require_once 'composant/accueil/vue.accueil.php';
+        include 'composant/accueil/vue.accueil.php';
     }
 
 }
