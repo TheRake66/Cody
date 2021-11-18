@@ -39,10 +39,11 @@ class Convert {
 	 * Convertir un double en format FR
 	 * 
 	 * @param double le nombre
+	 * @param int nombre de chiffre apres la virgule
 	 * @return string la chaine formatee
 	 */
-	public static function toFrench($decimal) {
-		return number_format($decimal, 0, ',', ' ');
+	public static function toFrench($decimal, $precision = 2) {
+		return number_format($decimal, $precision, ',', ' ');
 	} 
 
 
