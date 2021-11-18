@@ -4,7 +4,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "description": "Une barre de chargement liquide ronde",
-    "version": "1.1.1.0",
+    "version": "1.1.2.0",
     "elements": [
 	  {
 	    "nom": "progress_circle",
