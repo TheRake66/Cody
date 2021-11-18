@@ -1,6 +1,6 @@
 [
   {
-    "nom": "progress-circle",
+    "nom": "ProgressCircle",
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "description": "Une barre de chargement liquide ronde",
@@ -23,6 +23,20 @@
 	  {
 	    "nom": "routeur",
 	    "archive": "routeurPHP7.2.zip",
+		"index": "librairie/library.json"
+	  }
+    ]
+  },
+  {
+    "nom": "ToolTip",
+    "creation": "2021-10-23T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "description": "Ajouter les info-bulles de survol",
+    "version": "1.0.0.0",
+    "elements": [
+	  {
+	    "nom": "tooltip",
+	    "archive": "tooltip.zip",
 		"index": "librairie/library.json"
 	  }
     ]

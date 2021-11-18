@@ -1,10 +1,7 @@
 {
-	"version": "5.10.35.0",
+	"version": "5.10.36.0",
 	"changelog": [
-		"Modification des liens pour le site.",
-		"Ajout d'un système de package.",
-		"Ajout d'un serveur PHP via la commande 'run'.",
-		"Suppression de la commande 'wamp'."
+		"Correction librairie conversion en unité de mémoire."
 	],
-	"retrocompatible": false
+	"retrocompatible": true
 }

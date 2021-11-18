@@ -153,7 +153,7 @@ namespace Cody
         {
             string[] unit = new string[] { "o", "Ko", "Mo", "Go", "To" };
             int count = 0;
-            while (Math.Round(num, 2) > 1000 && count < unit.Length)
+            while (Math.Round(num, 0) > 1000 && count < unit.Length - 1)
             {
                 num /= 1024;
                 count++;

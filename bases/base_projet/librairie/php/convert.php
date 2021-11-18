@@ -6,32 +6,20 @@ namespace Librairie;
 
 class Convert {
 
+	/**
+	 * Unites de memoire utiliser pour la conversion
+	 */
+	public const UNITE_MEMOIRE = [ "o", "Ko", "Mo", "Go", "To" ];
+
+
     /**
      * Convertit un prix en format francais
      * 
      * @param string Prix brute 1000000.50000€
 	 * @return string Prix convertit 1 000 000,50€
      */
-	public static function toEuro($unPrix) {
-		$exp = explode('.', $unPrix);
-		$tmp = '';
-
-		$count = 1;
-		for ($i = strlen($exp[0]) - 1; $i >= 0; $i--) { // 000000 -> 000 000
-			$tmp = substr($exp[0], $i, 1) . $tmp;
-			if ($count%3==0 && $i > 0) $tmp = ".{$tmp}";
-			$count++;
-		}
-		
-		if (count($exp) > 1) {
-			$tmp .= ',';
-			$f = $exp[1];
-			$ln = strlen($f);
-			if ($ln == 1) $tmp .= "{$f}0"; // .0 -> .00
-			elseif ($ln >= 2) $tmp .= substr($exp[1], 0, 2); // .000000 -> .00
-		}
-
-		return "{$tmp}€";
+	public static function toEuro($num) {
+		return number_format($num, 2, ',', ' ') . '€';
 	}
 
 
@@ -53,8 +41,41 @@ class Convert {
 	 * @param double le nombre
 	 * @return string la chaine formatee
 	 */
-	public static function convertFr($decimal) {
+	public static function toFrench($decimal) {
 		return number_format($decimal, 0, ',', ' ');
 	} 
+
+
+	/**
+	 * Convertir un nombre en unite de memoire
+	 * 
+	 * @param int le nombre
+	 * @return string la chaine formatee
+	 */
+	public static function toMemory($num) {
+		$count = 0;
+		while ($count < count(self::UNITE_MEMOIRE) - 1 && round($num, 0) > 1000) {
+			$num /= 1024;
+			$count++;
+		}
+		return number_format($num, 2, ',', ' ') . ' ' . self::UNITE_MEMOIRE[$count];
+	}
+
+
+	/**
+	 * Convertir une unite de memoire en octet
+	 * 
+	 * @param int le nombre
+	 * @param string l'unite
+	 * @return string la chaine formatee
+	 */
+	public static function toBytes($num, $unite) {
+		$count = 0;
+		while ($count < count(self::UNITE_MEMOIRE) - 1 && self::UNITE_MEMOIRE[$count] != $unite) {
+			$num *= 1024;
+			$count++;
+		}
+		return round($num, 0);
+	}
 	
 }
