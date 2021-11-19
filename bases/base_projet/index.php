@@ -1,9 +1,13 @@
 <!-- ================================================== -->
-<!-- Appel de l'autoloader et demarrage de la session -->
+<!-- Preparation -->
 <?php
+// Autoloader
 require_once 'librairie/php/autoloader.php';
 new Librairie\Autoloader();
+// Demarrage de la session
 session_start();
+// Definition du fuseau horraire
+date_default_timezone_set('Europe/Paris');
 ?>
 <!-- ================================================== -->
 

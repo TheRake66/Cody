@@ -19,7 +19,6 @@ class Export {
         });
         csv = csv.slice(0, -1) + '\n';
 
-
         // Creer les lignes
         let rows = table.querySelectorAll('tbody tr');
         rows.forEach(row => {
@@ -32,15 +31,25 @@ class Export {
             }
         });
 
+        Export.telecharge(csv, file);
+    };
 
-        // Encore en utf8
-        let uint8 = new Uint8Array(csv.length);
+
+    /**
+	 * Telecharge un contenu
+	 * 
+	 * @param {any} content le contenu a telecharger
+	 * @param {string} file nom du fichier
+	 * @param {string} format format du contenu
+     */
+     static telecharge(content, file, format = 'text/plain;charset=utf8') {
+        // Encode en utf8
+        let uint8 = new Uint8Array(content.length);
         for (let i = 0; i < uint8.length; i++) {
-            uint8[i] = csv.charCodeAt(i);
+            uint8[i] = content.charCodeAt(i);
         }
-        let blob = new Blob([uint8], {type: 'text/plain;charset=utf8'});
+        let blob = new Blob([uint8], {type: format});
         let url = URL.createObjectURL(blob);
-
 
         // Creer le lien de telechargement
         let a = document.createElement('a')
@@ -51,6 +60,5 @@ class Export {
         a.click();
         window.URL.revokeObjectURL(url);
         a.remove();
-    };
-
+     }
 };
