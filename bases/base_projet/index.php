@@ -1,15 +1,17 @@
 <!-- ================================================== -->
 <!-- Preparation -->
 <?php
+// Definition du fuseau horraire
+date_default_timezone_set('Europe/Paris');
+
+// Autoloader
+require_once 'librairie/php/autoloader.php';
+new Librairie\Autoloader();
+
 // Demarrage de la session
 if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
-// Definition du fuseau horraire
-date_default_timezone_set('Europe/Paris');
-// Autoloader
-require_once 'librairie/php/autoloader.php';
-new Librairie\Autoloader();
 ?>
 <!-- ================================================== -->
 
