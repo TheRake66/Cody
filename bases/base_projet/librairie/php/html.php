@@ -13,7 +13,7 @@ class HTML {
 	 * @param string nom de l'attribut
 	 * @return string l'attribut formatte
 	 */
-	public static function setAttrib($value, $name = 'value') {
+	static function setAttrib($value, $name = 'value') {
 		return $name . '="' . str_replace('"', '\\"', $value) . '"';
 	}
 	
@@ -26,7 +26,7 @@ class HTML {
 	 * @param string propriete html
 	 * @return string la valeur
 	 */
-	public static function getValue($name, $default = '', $key = 'value') {
+	static function getValue($name, $default = '', $key = 'value') {
 		return self::setAttrib($_GET[$name] ?? $default, $key);
 	}
 	
@@ -39,7 +39,7 @@ class HTML {
 	 * @param string propriete html
 	 * @return string la valeur
 	 */
-	public static function postValue($name, $default = '', $key = 'value') {
+	static function postValue($name, $default = '', $key = 'value') {
 		return self::setAttrib($_POST[$name] ?? $default, $key);
 	}
 	

@@ -12,7 +12,7 @@ class Security {
      * @param int taille de la chaine
      * @return string chaine aleatoire
      */
-	public static function genererRandom($nbLetters) {
+	static function genererRandom($nbLetters) {
 		$randString = '';
 		$charUniverse = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\\=';
 		for($i = 0; $i < $nbLetters; $i++) {
@@ -25,7 +25,7 @@ class Security {
 	/**
 	 * Verifie et active le protocole SSL
 	 */
-	public static function activerSSL() {
+	static function activerSSL() {
 		if($_SERVER['SERVER_PORT'] !== 443 &&
 			(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')) {
 			header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
@@ -39,7 +39,7 @@ class Security {
 	 *
      * @return string adresse ip
 	 */
-	public static function getIPClient()
+	static function getIPClient()
 	{
 		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 			return $_SERVER['HTTP_CLIENT_IP'];

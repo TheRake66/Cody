@@ -11,7 +11,7 @@ class Debug {
      * 
      * @param string Message a afficher
      */
-	public static function consoleMessage($unMessage) {
+	static function consoleMessage($unMessage) {
 		echo '<script>';
 		echo 'console.log('. json_encode('[' .date('d/m/Y') . ' ' . date('H:i:s') . '] ==>' . $unMessage . '<==') .')';
 		echo '</script>';
@@ -23,7 +23,7 @@ class Debug {
      * 
      * @param string Message a ajouter
      */
-	public static function logMessage($leMessage) {
+	static function logMessage($leMessage) {
         $continu = true;
         if (!is_dir('logs')) {
             $continu = mkdir('logs');
@@ -43,7 +43,7 @@ class Debug {
      * 
      * @param string Message a afficher
      */
-	public static function boiteMessage($leMessage) {
+	static function boiteMessage($leMessage) {
         echo "<script>alert('{$leMessage}');</script>";
 	}
 

@@ -9,7 +9,7 @@ class Convert {
 	/**
 	 * Unites de memoire utiliser pour la conversion
 	 */
-	public const UNITE_MEMOIRE = [ "o", "Ko", "Mo", "Go", "To" ];
+	const UNITE_MEMOIRE = [ "o", "Ko", "Mo", "Go", "To" ];
 
 
     /**
@@ -18,7 +18,7 @@ class Convert {
      * @param string Prix brute 1000000.50000€
 	 * @return string Prix convertit 1 000 000,50€
      */
-	public static function toEuro($num) {
+	static function toEuro($num) {
 		return number_format($num, 2, ',', ' ') . '€';
 	}
 
@@ -30,7 +30,7 @@ class Convert {
 	 * @param int la taille max a couper
 	 * @return string la chaine coupe ou non
 	 */
-	public static function cutTooLong($string, $size = 50) {
+	static function cutTooLong($string, $size = 50) {
 		return strlen($string) > $size ? substr($string, 0, $size - 3) . '...' : $string;
 	} 
 
@@ -42,7 +42,7 @@ class Convert {
 	 * @param int nombre de chiffre apres la virgule
 	 * @return string la chaine formatee
 	 */
-	public static function toFrench($decimal, $precision = 2) {
+	static function toFrench($decimal, $precision = 2) {
 		return number_format($decimal, $precision, ',', ' ');
 	} 
 
@@ -53,7 +53,7 @@ class Convert {
 	 * @param int le nombre
 	 * @return string la chaine formatee
 	 */
-	public static function toMemory($num) {
+	static function toMemory($num) {
 		$count = 0;
 		while ($count < count(self::UNITE_MEMOIRE) - 1 && round($num, 0) > 1000) {
 			$num /= 1024;
@@ -70,7 +70,7 @@ class Convert {
 	 * @param string l'unite
 	 * @return string la chaine formatee
 	 */
-	public static function toBytes($num, $unite) {
+	static function toBytes($num, $unite) {
 		$count = 0;
 		while ($count < count(self::UNITE_MEMOIRE) - 1 && self::UNITE_MEMOIRE[$count] != $unite) {
 			$num *= 1024;
