@@ -31,7 +31,7 @@ class Autoloader {
     static function load($required) {
 
         // Contoleur\Carte\Main
-        // composant/carte/cont.main.php
+        // composant/carte/main/cont.main.php
 
         $_ = explode('\\', $required);
         $class = end($_);
