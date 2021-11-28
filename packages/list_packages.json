@@ -40,5 +40,33 @@
 		"index": "librairie/library.json"
 	  }
     ]
+  },
+  {
+    "nom": "Denied",
+    "creation": "2021-11-28T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "description": "Page 403 avec les fonctions adéquates",
+    "version": "1.0.0.0",
+    "elements": [
+	  {
+	    "nom": "denied",
+	    "archive": "denied.zip",
+		"index": "composant/component.json"
+	  }
+    ]
+  },
+  {
+    "nom": "Notfound",
+    "creation": "2021-11-28T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "description": "Page 404 avec les fonctions adéquates",
+    "version": "1.0.0.0",
+    "elements": [
+	  {
+	    "nom": "notfound",
+	    "archive": "notfound.zip",
+		"index": "composant/component.json"
+	  }
+    ]
   }
 ]
