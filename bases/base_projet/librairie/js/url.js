@@ -14,4 +14,17 @@ class Url {
         return (query.length > 2 ? query + "&" : "?") + (remplace ? param + "=" + remplace : '');
     };
 
+
+    /**
+     * Retourne un paramettre passe en GET
+     * 
+     * @param {string} name nom du paramettre
+     * @returns {string} valeur du paramettre
+     */
+    static paramGet(name) {
+        let queryString = window.location.search;
+        let urlParams = new URLSearchParams(queryString);
+        return urlParams.get(name);
+    }
+
 };

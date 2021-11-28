@@ -8,13 +8,6 @@ const ReqType = {
 class HTTP {
 
     /**
-     * Constructeur
-     */
-    constructor() {
-    }
-
-
-    /**
      * Execute une requete http(s) en async
      * 
      * @param {string} url - URL a requeter
