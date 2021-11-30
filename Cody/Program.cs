@@ -184,7 +184,7 @@ namespace Cody
             Message.writeIn(ConsoleColor.DarkRed, @"
                                                     ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
             Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                          ~ Version {version} du 10 novembre 2021 ~
+                                          ~ Version {version} du 30 novembre 2021 ~
                                      ~ Copyright © 2021 - Thibault BUSTOS (TheRake66) ~");
 
             Console.WriteLine(@"

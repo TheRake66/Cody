@@ -55,7 +55,7 @@ class Convert {
 	 */
 	static function toMemory($num) {
 		$count = 0;
-		while ($count < count(self::UNITE_MEMOIRE) - 1 && round($num, 0) > 1000) {
+		while ($count < count(self::UNITE_MEMOIRE) - 1 && round($num, 0) >= 1000) {
 			$num /= 1024;
 			$count++;
 		}
