@@ -14,7 +14,7 @@
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/TheRake66/Cody</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <AssemblyVersion>5.10.36.0</AssemblyVersion>
+    <AssemblyVersion>5.10.37.0</AssemblyVersion>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyName>Cody</AssemblyName>
   </PropertyGroup>
