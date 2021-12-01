@@ -4,7 +4,7 @@ namespace Librairie;
 
 
 
-class Routeur {
+class Router {
 
     /**
      * Liste des routes
@@ -27,7 +27,7 @@ class Routeur {
 	 * 
 	 * @param string nom de la route
      */
-	static function defaut($defaut) {
+	static function default($defaut) {
 		self::$defaut = $defaut;
 	}
 
@@ -37,7 +37,7 @@ class Routeur {
 	 * 
 	 * @param string nom de la route
      */
-	static function introuvable($notfound) {
+	static function notfound($notfound) {
 		self::$notfound = $notfound;
 	}
 
@@ -57,7 +57,7 @@ class Routeur {
      * Appel la bonne route
      */
 	static function routing() {
-		require_once '../../composant/route.php';
+		require_once 'composant/route.php';
 
 		if (isset($_GET['redirect'])) {
 			if (array_key_exists($_GET['redirect'], self::$routes)) {

@@ -28,7 +28,7 @@
 	<!-- ================================================== -->
 	<!-- Routage vers le bon controleur -->
 	<body>
-		<?php Librairie\Routeur::routing(); ?>
+		<?php Librairie\Router::routing(); ?>
 	</body>
 	<!-- ================================================== -->
 	
