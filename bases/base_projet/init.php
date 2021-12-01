@@ -5,7 +5,7 @@ require_once 'librairie/php/autoloader.php';
 use Librairie as l;
 
 /**
- * Creer une nouvelle instance pour l'autoloader de classe
+ * Cree une nouvelle instance pour l'autoloader de classe
  */
 new l\Autoloader();
 

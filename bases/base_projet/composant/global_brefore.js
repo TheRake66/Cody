@@ -1,1 +1,1 @@
-const SOUND = document.getElementsByTagName("audio");
+const SOUNDS = document.getElementsByTagName("audio");
