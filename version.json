@@ -1,7 +1,7 @@
 {
-	"version": "5.10.36.0",
+	"version": "5.10.37.0",
 	"changelog": [
-		"Correction librairie conversion en unité de mémoire."
+		"Correction librairie conversion en unité de mémoire (v2)."
 	],
 	"retrocompatible": true
 }
