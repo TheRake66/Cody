@@ -1,6 +1,6 @@
 <?php
 
-use Librairie\Routeur as r;
+use Librairie\Router as r;
 use Controleur as c;
 
 
@@ -11,6 +11,7 @@ use Controleur as c;
  * comme ceci :
  * 
  * r::add('la_route_dans_l'URL', fn() => new c\le_controleur());
+ * 
  * 
  * 
  * Pour definir des routes differentes suivant une donnee precise
@@ -31,6 +32,31 @@ use Controleur as c;
  * } else {
  *     r::add('accueil', fn() => new c\Accueil());
  * }
+ * 
+ * 
+ * 
+ * Pour definir la route par defaut, procedez comme ceci :
+ * 
+ * r::default('accueil');
+ * 
+ * Puis definissez la route :
+ * 
+ * r::add('accueil', fn() => new c\Accueil());
+ * 
+ * Si aucune route par defaut n'est definie, la premiere route definie
+ * sera utilisee.
+ * 
+ * 
+ * 
+ * Pour definir une route 404 procedez comme ceci :
+ *
+ * r::notfound('404');
+ * 
+ * Puis definissez la route :
+ * 
+ * r::add('404', fn() => new c\Notfound());
+ * 
+ * Si aucune route 404 n'est definie, la route par defaut sera utilisee.
  *
  */
 
