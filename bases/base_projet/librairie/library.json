@@ -87,5 +87,21 @@
     "chemins": [
       "librairie/php/html.php"
     ]
+  },
+  {
+    "nom": "date",
+    "creation": "2021-12-01T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "chemins": [
+      "librairie/php/date.php"
+    ]
+  },
+  {
+    "nom": "session",
+    "creation": "2021-12-01T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "chemins": [
+      "librairie/php/session.php"
+    ]
   }
 ]

@@ -1,12 +1,41 @@
 <?php
 
-use Librairie\Routeur;
+use Librairie\Routeur as r;
+use Controleur as c;
 
 
 
-# Route vers l'accueil
-Routeur::go('accueil', function() {
-	new Controleur\Accueil();
-});
+/**
+ * La table de routage permet de definir les routes URL pointant
+ * vers les controleur. Pour definir une nouvelle route, procedez
+ * comme ceci :
+ * 
+ * r::add('la_route_dans_l'URL', fn() => new c\le_controleur());
+ * 
+ * 
+ * Pour definir des routes differentes suivant une donnee precise
+ * (ex: un role utilisateur), procedez via un if ou un switch :
+ * 
+ * if (isset($_SESSION['user'])) {
+ *     switch ($_SESSION['user']->role) {
+ *         case 'eleve':
+ *             r::add('accueil', fn() => new c\Eleve\Accueil());
+ *             break;
+ *         case 'professeur':
+ *             r::add('accueil', fn() => new c\Prof\Accueil());
+ *             break;
+ *         case 'administrateur':
+ *             r::add('accueil', fn() => new c\Admin\Accueil());
+ *             break;
+ *     }
+ * } else {
+ *     r::add('accueil', fn() => new c\Accueil());
+ * }
+ *
+ */
+
+
+r::add('accueil', fn() => new c\Accueil());
+
 
 ?>

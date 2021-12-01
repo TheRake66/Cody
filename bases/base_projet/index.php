@@ -1,21 +1,4 @@
-<!-- ================================================== -->
-<!-- Preparation -->
-<?php
-// Definition du fuseau horraire
-date_default_timezone_set('Europe/Paris');
-
-// Autoloader
-require_once 'librairie/php/autoloader.php';
-new Librairie\Autoloader();
-
-// Demarrage de la session
-if (session_status() === PHP_SESSION_NONE) {
-	session_start();
-}
-?>
-<!-- ================================================== -->
-
-
+<?php require_once 'init.php'; ?>
 
 <!DOCTYPE html>
 <html lang='fr'>
@@ -45,10 +28,7 @@ if (session_status() === PHP_SESSION_NONE) {
 	<!-- ================================================== -->
 	<!-- Routage vers le bon controleur -->
 	<body>
-		<?php
-		include 'composant/route.php';
-		Librairie\Routeur::routing();
-		?>
+		<?php Librairie\Routeur::routing(); ?>
 	</body>
 	<!-- ================================================== -->
 	

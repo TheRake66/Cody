@@ -9,17 +9,17 @@ class Routeur {
     /**
      * Liste des routes
      */
-	static $routes = [];
+	private static $routes = [];
 
     /**
      * Route par defaut
      */
-	static $defaut;
+	private static $defaut;
 
     /**
      * Route si non trouve
      */
-	static $notfound;
+	private static $notfound;
 
 
     /**
@@ -48,7 +48,7 @@ class Routeur {
 	 * @param string nom de la route
 	 * @param function fonction anonyme contenant la route
      */
-	static function go($nom, $route) {
+	static function add($nom, $route) {
 		self::$routes[$nom] = $route;
 	}
 
@@ -57,6 +57,8 @@ class Routeur {
      * Appel la bonne route
      */
 	static function routing() {
+		require_once '../../composant/route.php';
+
 		if (isset($_GET['redirect'])) {
 			if (array_key_exists($_GET['redirect'], self::$routes)) {
 				self::$routes[$_GET['redirect']]();

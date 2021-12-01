@@ -42,7 +42,7 @@ class Convert {
 	 * @param int nombre de chiffre apres la virgule
 	 * @return string la chaine formatee
 	 */
-	static function toFrench($decimal, $precision = 2) {
+	static function toFrench($decimal, $precision = 3) {
 		return number_format($decimal, $precision, ',', ' ');
 	} 
 

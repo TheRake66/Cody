@@ -6,7 +6,6 @@ namespace Librairie;
 
 class Url {
 
-
 	/**
 	 * Accede a une url
 	 * 

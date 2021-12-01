@@ -9,7 +9,7 @@ class DataBase extends \PDO {
     /**
      * Instance PDO
      */
-    static $instance;
+    private static $instance;
 
 
     /**
