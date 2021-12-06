@@ -4,24 +4,22 @@ require_once 'kernel/php/autoloader.php';
 
 use Kernel as k;
 
-/**
- * Cree une nouvelle instance pour l'autoloader de classe
- */
-new k\Autoloader();
+// Enregistre l'autoloader de classe
+k\Autoloader::register();
 
-/**
- * Active le protocole SSL (HTTPS)
- */
+// Active le protocole SSL (HTTPS)
 //l\Security::activerSSL();
 
-/**
- * Defini le fuseau horraire par defaut
- */
+// Defini le fuseau horraire par defaut
 k\Date::timezone();
 
-/**
- * Lance une session PHP
- */
-k\Session::initSession();
+// Lance une session PHP
+k\Session::start();
+
+// Charge la configuration
+k\Configuration::load();
+
+// Prepare l'event des erreurs
+k\Error::handler();
 
 ?>

@@ -6,6 +6,16 @@ namespace Kernel;
 
 class Session {
 
+	/**
+	 * Initialise la session
+	 */
+	static function start() {
+		if (session_status() === PHP_SESSION_NONE) {
+			session_start();
+		}
+	}
+
+
     /**
      * Genere un jeton aleatoire de taille n
      * 
@@ -19,16 +29,6 @@ class Session {
 		   $randString .= $charUniverse[rand(0, strlen($charUniverse) - 1)];
 		}
 		return $randString;
-	}
-
-
-	/**
-	 * Demarre une session si il n'y en a pas
-	 */
-	static function initSession() {
-		if (session_status() === PHP_SESSION_NONE) {
-			session_start();
-		}
 	}
 
     

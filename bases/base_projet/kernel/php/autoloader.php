@@ -7,19 +7,12 @@ namespace Kernel;
 class Autoloader {
 
     /**
-     * Constructeur
+     * Initialise l'autoloader
      */
-    function __construct() {
+    static function register() {
         spl_autoload_register('Kernel\Autoloader::load');
     }
-   
-
-    /**
-     * Destructeur
-     */
-    function __destruct() {
-    }
-
+    
 
     /**
      * Cherche et inclut les fichiers contenant les classes
@@ -27,7 +20,6 @@ class Autoloader {
      * 
      * @param string Namespace
      */
-
     static function load($required) {
         // Contoleur\Carte\Main
         // composant/carte/main/cont.main.php
