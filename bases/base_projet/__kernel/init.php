@@ -1,6 +1,6 @@
 <?php
 
-require_once 'kernel/php/autoloader.php';
+require_once '__kernel/php/autoloader.php';
 
 use Kernel as k;
 

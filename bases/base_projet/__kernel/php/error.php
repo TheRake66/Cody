@@ -50,7 +50,7 @@ class Error {
             <div class="ERROR_CODY_BLOCK">
                 <div class="ERROR_CODY_HEAD">
                     <div>      
-                        <img src="kernel/logo_full.png" alt="Cody">
+                        <img src="__kernel/logo_full.png" alt="Cody">
                         <span>Une erreur est survenue !</span>
                     </div>
                 </div>

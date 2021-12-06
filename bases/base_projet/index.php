@@ -1,4 +1,4 @@
-<?php require_once 'kernel/init.php'; ?>
+<?php require_once '__kernel/init.php'; ?>
 
 
 
