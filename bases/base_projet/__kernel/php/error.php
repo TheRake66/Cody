@@ -97,6 +97,7 @@ class Error {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
+                    height: 100%;
                 }
                 .ERROR_CODY_HEAD div img {
                     margin: 25px;
