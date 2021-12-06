@@ -92,7 +92,7 @@ class Error {
                     height: 210px;
                 }
                 .ERROR_CODY_HEAD div {
-                    background-image: url(./kernel/triangles.svg);
+                    background-image: url(./__kernel/triangles.svg);
                     background-size: contain;
                     display: flex;
                     flex-direction: column;
