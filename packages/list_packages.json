@@ -18,12 +18,12 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "description": "Le routeur pour les versions avant PHP 8",
-    "version": "1.0.0.0",
+    "version": "2.0.0.0",
     "elements": [
 	  {
 	    "nom": "routeur",
 	    "archive": "routeurPHP7.2.zip",
-		"index": "librairie/library.json"
+		"index": ""
 	  }
     ]
   },
