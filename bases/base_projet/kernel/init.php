@@ -4,6 +4,8 @@ require_once 'kernel/php/autoloader.php';
 
 use Kernel as k;
 
+
+
 // Enregistre l'autoloader de classe
 k\Autoloader::register();
 
