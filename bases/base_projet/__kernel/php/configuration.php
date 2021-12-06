@@ -16,7 +16,7 @@ class Configuration {
 	 * Charge la configuration
 	 */
 	static function load() {
-		self::$current = json_decode(file_get_contents('kernel/configuration.json'));
+		self::$current = json_decode(file_get_contents('__kernel/configuration.json'));
 	}
 	
 
