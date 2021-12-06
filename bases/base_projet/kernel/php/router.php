@@ -72,7 +72,12 @@ class Router {
 		} else if (isset(self::$defaut)) {
 			self::$routes[self::$defaut]();
 		} else {
-			self::$routes[array_key_first(self::$routes)]();
+			if (count(self::$routes) > 0) {
+				self::$routes[array_key_first(self::$routes)]();
+			} else {
+				throw new \Exception("Aucune route n'a été définie.");
+				die;
+			}
 		}
 	}
 	

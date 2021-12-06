@@ -30,11 +30,18 @@ class DataBase extends \PDO {
     function __construct() {
         try {
             $param = json_decode(file_get_contents('modele/database.json'));
-            $dsn = $param->type . ':host=' . $param->hote . ';port=' . $param->port . ';dbname=' . $param->baseDeDonnees . ';charset=' . $param->encodage;
-            parent::__construct($dsn, $param->identifiant, $param->motDePasse);
+            $dsn = $param->type . 
+                ':host=' . $param->hote . 
+                ';port=' . $param->port . 
+                ';dbname=' . $param->baseDeDonnees . 
+                ';charset=' . $param->encodage;
+            parent::__construct(
+                $dsn, 
+                $param->identifiant, 
+                $param->motDePasse);
         } catch (\Exception $e) {
-            echo $e->getMessage();
-            die();
+            throw new \Exception('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
+            die;
         }
     }
 

@@ -21,7 +21,7 @@
 	
 	<!-- Routage vers le bon controleur -->
 	<body>
-		<?php Librairie\Router::routing(); ?>
+		<?php Kernel\Router::routing(); ?>
 	</body>
 	
 	<!-- Inclusion du script global de fin -->
