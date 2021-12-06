@@ -10,7 +10,7 @@ use Kernel as k;
 k\Autoloader::register();
 
 // Active le protocole SSL (HTTPS)
-//l\Security::activerSSL();
+// k\Security::activerSSL();
 
 // Defini le fuseau horraire par defaut
 k\Date::timezone();
