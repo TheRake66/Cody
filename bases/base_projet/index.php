@@ -31,6 +31,6 @@
 	<link rel="stylesheet/less" type="text/css" href="composant/global.less">
 	
 	<!-- Inclusion de Less -->
-	<script type='text/javascript' src="kernel/less@4.1.1.js"></script>
+	<script type='text/javascript' src="__kernel/less@4.1.1.js"></script>
 		
 </html>

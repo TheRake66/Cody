@@ -1,11 +1,11 @@
-const ReqType = {
+const reqType = {
 	GET: "GET",
 	POST: "POST"
 }
 
 
-
-class HTTP {
+// Librairie Http
+class Http {
 
     /**
      * Execute une requete http(s) en async
@@ -14,7 +14,7 @@ class HTTP {
      * @param {function} callback - Fonction anonyme appeler lors de la reponse
      * @param {ReqType} type - Type de requete
      */
-    static send(url, callback, type = ReqType.GET) {
+    static send(url, callback, type = reqType.GET) {
         let xml = new XMLHttpRequest();
         xml.open(type, url, true);
         xml.onreadystatechange = () => {

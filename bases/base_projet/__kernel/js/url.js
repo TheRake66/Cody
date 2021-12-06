@@ -1,3 +1,4 @@
+// Librairie Url
 class Url {
 
     /**
@@ -27,4 +28,4 @@ class Url {
         return urlParams.get(name);
     }
 
-};
+}

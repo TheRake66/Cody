@@ -1,5 +1,5 @@
 // Different type de map
-const MapType = {
+const mapType = {
 	SATELLITE: "satellite",
 	ROADMAP: "roadmap",
 	HYBRIDE: "hybrid",
@@ -7,8 +7,8 @@ const MapType = {
 }
 
 
-
-class GMap {
+// Librairie GMap
+class Gmap {
 
     /**
      * Array contenant les marker
@@ -45,7 +45,7 @@ class GMap {
      * @param {int} zm - Zoom de depart
      * @param {MapType} type - Type de map
      */
-    createMap(cont, lt = 0, lg = 0, zm = 2, type = MapType.ROADMAP) {
+    createMap(cont, lt = 0, lg = 0, zm = 2, type = mapType.ROADMAP) {
         this.map = new google.maps.Map(
             cont, {
                 center: {
