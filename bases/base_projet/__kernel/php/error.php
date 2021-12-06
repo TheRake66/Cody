@@ -44,7 +44,7 @@ class Error {
      * @param int le numero de la ligne
      */
     static function showError($severity, $message, $filename, $lineno) {
-        if (!Configuration::get()->debogage) {
+        if (Configuration::get()->debogage) {
             $search = urlencode($message);
             echo '
             <div class="ERROR_CODY_BLOCK">
