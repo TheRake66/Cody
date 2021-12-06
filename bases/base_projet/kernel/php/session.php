@@ -1,6 +1,6 @@
 <?php
-
-namespace Librairie;
+// Librairie Session
+namespace Kernel;
 
 
 
@@ -25,7 +25,7 @@ class Session {
 	/**
 	 * Demarre une session si il n'y en a pas
 	 */
-	static function createSession() {
+	static function initSession() {
 		if (session_status() === PHP_SESSION_NONE) {
 			session_start();
 		}

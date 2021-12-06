@@ -1,6 +1,6 @@
 <?php
-
-namespace Librairie;
+// Librairie Debug
+namespace Kernel;
 
 
 

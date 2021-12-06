@@ -1,6 +1,6 @@
 <?php
-
-namespace Librairie;
+// Librairie Autoloader
+namespace Kernel;
 
 
 
@@ -10,7 +10,7 @@ class Autoloader {
      * Constructeur
      */
     function __construct() {
-        spl_autoload_register('Librairie\Autoloader::load');
+        spl_autoload_register('Kernel\Autoloader::load');
     }
    
 
@@ -29,23 +29,26 @@ class Autoloader {
      */
 
     static function load($required) {
-
         // Contoleur\Carte\Main
         // composant/carte/main/cont.main.php
 
         $_ = explode('\\', $required);
         $class = end($_);
         $first = array_shift($_);
-        $namespace = implode(array_slice($_, 0, -1));
+        $namespace = implode('/', array_slice($_, 0, -1));
 
         $file = '';
         switch ($first) {
+            case 'Kernel':
+                $file = 'kernel/php/' . $namespace . '/' . $class . '.php';
+                break;
+
             case 'Librairie':
-                $file = str_replace($required, $first, 'librairie/php') . '/' . $namespace . '/' . $class . '.php';
+                $file = 'librairie/php/' . $namespace . '/' . $class . '.php';
                 break;
 
             case 'Controleur':
-                $file = str_replace($required, $first, 'composant') . '/' . $namespace . '/' . $class . '/cont.' . $class . '.php';
+                $file = 'composant/' . $namespace . '/' . $class . '/cont.' . $class . '.php';
                 break;
 
             default:

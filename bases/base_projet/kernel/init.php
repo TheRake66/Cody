@@ -1,13 +1,13 @@
 <?php
 
-require_once 'librairie/php/autoloader.php';
+require_once 'kernel/php/autoloader.php';
 
-use Librairie as l;
+use Kernel as k;
 
 /**
  * Cree une nouvelle instance pour l'autoloader de classe
  */
-new l\Autoloader();
+new k\Autoloader();
 
 /**
  * Active le protocole SSL (HTTPS)
@@ -17,11 +17,11 @@ new l\Autoloader();
 /**
  * Defini le fuseau horraire par defaut
  */
-l\Date::timezone();
+k\Date::timezone();
 
 /**
  * Lance une session PHP
  */
-l\Session::createSession();
+k\Session::initSession();
 
 ?>

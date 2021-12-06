@@ -1,10 +1,10 @@
 <?php
+// Librairie Html
+namespace Kernel;
 
-namespace Librairie;
 
 
-
-class HTML {
+class Html {
 
 	/**
 	 * Ajoute un attribut HTML

@@ -1,14 +1,10 @@
-<?php require_once 'init.php'; ?>
+<?php require_once 'kernel/init.php'; ?>
+
+
 
 <!DOCTYPE html>
 <html lang='fr'>
 
-    <!-- ================================================== -->
-	<!-- Les pistes audio -->
-	<!-- ================================================== -->
-
-
-	<!-- ================================================== -->
 	<!-- Definition du head -->
 	<head>
 		<meta charset="UTF-8">
@@ -18,27 +14,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>{PROJECT_NAME}</title>
 		<link rel='icon' href='image/favicon.ico'/>
-		
-		<!-- Inclusion du script global de debut -->
-		<script type='text/javascript' src='composant/global_brefore.js'></script>
 	</head>
-	<!-- ================================================== -->
-
-
-	<!-- ================================================== -->
+		
+	<!-- Inclusion du script global de debut -->
+	<script type='text/javascript' src='composant/global_brefore.js'></script>
+	
 	<!-- Routage vers le bon controleur -->
 	<body>
 		<?php Librairie\Router::routing(); ?>
 	</body>
-	<!-- ================================================== -->
 	
-
-	<!-- ================================================== -->
-	<!-- Librairies -->
-	<!-- ================================================== -->
-	
-	
-	<!-- ================================================== -->
 	<!-- Inclusion du script global de fin -->
 	<script type='text/javascript' src='composant/global_after.js'></script>
 		
@@ -46,7 +31,6 @@
 	<link rel="stylesheet/less" type="text/css" href="composant/global.less">
 	
 	<!-- Inclusion de Less -->
-	<script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
-	<!-- ================================================== -->
+	<script type='text/javascript' src="kernel/less@4.1.1.js"></script>
 		
 </html>

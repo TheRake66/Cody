@@ -1,6 +1,6 @@
 <?php
 
-use Librairie\Router as r;
+use Kernel\Router as r;
 use Controleur as c;
 
 
@@ -61,7 +61,8 @@ use Controleur as c;
  */
 
 
-r::add('accueil', fn() => new c\Accueil());
 
+// Commencez par creer un composant avec la commande "com -a accueil"
+// r::add('accueil', fn() => new c\Accueil());
 
 ?>
