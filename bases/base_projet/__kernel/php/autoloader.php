@@ -32,7 +32,7 @@ class Autoloader {
         $file = '';
         switch ($first) {
             case 'Kernel':
-                $file = 'kernel/php/' . $namespace . '/' . $class . '.php';
+                $file = '__kernel/php/' . $namespace . '/' . $class . '.php';
                 break;
 
             case 'Librairie':
