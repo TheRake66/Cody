@@ -25,13 +25,9 @@ class Error {
             $filename = $error["file"];
             $lineno = $error["line"];
             $message = $error["message"];
-        } else {            
-            $filename = "Inconnu";
-            $message = "Aucun";
-            $severity = E_CORE_ERROR;
-            $lineno = -1;
+            
+            self::showError($severity, $message, $filename, $lineno);
         }
-        self::showError($severity, $message, $filename, $lineno);
     }
 
 
@@ -56,7 +52,7 @@ class Error {
                 </div>
                 <div class="ERROR_CODY_CONT">
                     <span><b>Code erreur :</b><input type="text" value="' . $severity . '" readonly></span>
-                    <span><b>Message :</b><textarea readonly>' . $message . '"</textarea></span>
+                    <span><b>Message :</b><textarea readonly>' . $message . '</textarea></span>
                     <span><b>Fichier concerné :</b><input type="text" value="' . $filename . '" readonly></span>
                     <span><b>Ligne concernée :</b><input type="text" value="' . $lineno . '" readonly></span>
                     <div>
