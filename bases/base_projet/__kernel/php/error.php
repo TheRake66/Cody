@@ -56,7 +56,7 @@ class Error {
                 </div>
                 <div class="ERROR_CODY_CONT">
                     <span><b>Code erreur :</b><input type="text" value="' . $severity . '" readonly></span>
-                    <span><b>Message :</b><textarea>' . $message . '"</textarea></span>
+                    <span><b>Message :</b><textarea readonly>' . $message . '"</textarea></span>
                     <span><b>Fichier concerné :</b><input type="text" value="' . $filename . '" readonly></span>
                     <span><b>Ligne concernée :</b><input type="text" value="' . $lineno . '" readonly></span>
                     <div>
