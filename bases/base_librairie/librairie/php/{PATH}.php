@@ -24,5 +24,5 @@ class {NAME_UPPER} {
 ?>
 
 <!-- Inclusion des fichiers -->
-<link rel="stylesheet/less" type="text/css" href="librairie/less/{PATH}/{NAME_LOWER}.less">
-<script type='text/javascript' src='librairie/js/{PATH}/{NAME_LOWER}.js'></script>
+<link rel="stylesheet/less" type="text/css" href="librairie/less/{PATH}.less">
+<script type='text/javascript' src='librairie/js/{PATH}.js'></script>
