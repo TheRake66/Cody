@@ -1,6 +1,6 @@
 <?php
 
-namespace Modele\Reflect;
+namespace Kernel\Reflect;
 
 
 
