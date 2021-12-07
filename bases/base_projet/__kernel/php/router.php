@@ -14,7 +14,7 @@ class Router {
     /**
      * Route par defaut
      */
-	private static $defaut;
+	private static $default;
 
     /**
      * Route si non trouve
@@ -28,7 +28,7 @@ class Router {
 	 * @param string nom de la route
      */
 	static function default($defaut) {
-		self::$defaut = $defaut;
+		self::$default = $defaut;
 	}
 
 
@@ -51,6 +51,39 @@ class Router {
 	static function add($nom, $route) {
 		self::$routes[$nom] = $route;
 	}
+	
+
+	/**
+	 * Retourne la route actuelle
+	 * 
+	 * @return string le nom de la route
+	 */
+	static function get() {
+		return $_GET['redirect'] ?? null;
+	}
+
+
+	/**
+	 * Retourne la premiere route
+	 * 
+	 * @return string nom de la premiere route
+	 */
+	static function getFirst() {
+		if (count(self::$routes) > 0) {
+			return array_key_first(self::$routes);
+		}
+	}
+
+
+	/**
+	 * Verifi si une route existe
+	 * 
+	 * @param string nom de la route
+	 * @return bool si existe
+	 */
+	static function exist($name) {
+		return (!is_null($name) && array_key_exists($name, self::$routes));
+	}
 
 
     /**
@@ -59,26 +92,27 @@ class Router {
 	static function routing() {
 		require_once 'composant/route.php';
 
+		$r = null;
 		if (isset($_GET['redirect'])) {
-			if (array_key_exists($_GET['redirect'], self::$routes)) {
-				self::$routes[$_GET['redirect']]();
-			} else if (isset(self::$notfound)) {
-				self::$routes[self::$notfound]();
-			} else if (isset(self::$defaut)){
-				self::$routes[self::$defaut]();
-			} else {
-				self::$routes[array_key_first(self::$routes)]();
-			}
-		} else if (isset(self::$defaut)) {
-			self::$routes[self::$defaut]();
-		} else {
-			if (count(self::$routes) > 0) {
-				self::$routes[array_key_first(self::$routes)]();
-			} else {
-				throw new \Exception("Aucune route n'a été définie.");
-				die;
+			if (self::exist($_GET['redirect'])) {
+				$r = $_GET['redirect'];
+			} elseif(self::exist(self::$notfound)) {
+				$r = self::$notfound;
 			}
 		}
+		if (is_null($r)) {
+			if(self::exist(self::$default)) {
+				$r = self::$default;
+			} else {
+				$r = self::getFirst();
+				if (is_null($r)) {
+					trigger_error("Aucune route n'a été définie.");
+					die;
+				}
+			}
+		}
+
+		self::$routes[$r]();
 	}
 	
 }

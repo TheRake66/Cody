@@ -70,7 +70,7 @@ class Session {
      * @return object instance dto utilisateur en memoire
      */
 	static function getSession() {
-		return $_SESSION['utilisateur'];
+		return $_SESSION['utilisateur'] ?? null;
 	}
 
 
@@ -100,7 +100,7 @@ class Session {
      * Recupere le jeton de connexion
      */
 	static function getToken() {
-		return $_COOKIE['jeton'];
+		return $_COOKIE['jeton'] ?? null;
 	}
 
 

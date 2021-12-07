@@ -10,9 +10,8 @@ class Url {
 	 * Accede a une url
 	 * 
 	 * @param string la route
-	 * @param array les param
+	 * @param array les params
 	 * @param string le back
-	 * @return string le nouvel url
 	 */
 	static function go($route, $param = [], $addback = false) {
 		header('Location: ' . self::build($route, $param, $addback));
@@ -27,6 +26,16 @@ class Url {
 	 */
 	static function back() {
 		return 'href="' . ($_GET['back'] ?? '') . '"';
+	}
+
+	
+	/**
+	 * Retourne l'url actuelle
+	 * 
+	 * @return string l'url
+	 */
+	static function current() {
+		return $_SERVER['REQUEST_URI'];
 	}
 
 
@@ -64,6 +73,17 @@ class Url {
 		$query = $_GET;
 		$query[$param] = $remplace;
 		return $_SERVER['PHP_SELF'] . '?' . http_build_query($query);
+	}
+	
+
+	/**
+	 * Retourne un parametre passe en GET
+	 * 
+	 * @param string nom du parametre
+	 * @return string valeur du parametre
+	 */
+	static function paramGet($param) {
+		return $_GET[$param] ?? null;
 	}
 
 

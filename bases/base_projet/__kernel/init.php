@@ -1,7 +1,6 @@
 <?php
-
+ob_start();
 require_once '__kernel/php/autoloader.php';
-
 use Kernel as k;
 
 

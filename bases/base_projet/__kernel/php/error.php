@@ -64,10 +64,17 @@ class Error {
             <style>
 
                 body {
-                    font-size: 0;
+                    font-size: 0px;
+                }
+                body * {
+                    visibility: hidden;
                 }
 
+                .ERROR_CODY_BLOCK * {
+                    visibility: visible;
+                }
                 .ERROR_CODY_BLOCK {
+                    visibility: visible;
                     margin: auto;
                     font-family: Consolas;
                     font-size: 14px;
@@ -81,7 +88,7 @@ class Error {
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-
+                    background-color: white;
                 }
 
                 .ERROR_CODY_HEAD {
@@ -165,7 +172,7 @@ class Error {
         } else {
             echo '<style>
                 body {
-                    display: none;
+                    visibility: hidden;
                 }
             </style>';
         }
