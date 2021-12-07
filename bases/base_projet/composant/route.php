@@ -63,6 +63,6 @@ use Controleur as c;
 
 
 // Commencez par creer un composant avec la commande "com -a accueil"
-// r::add('accueil', c\s::class);
+// r::add('accueil', c\Accueil::class);
 
 ?>

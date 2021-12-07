@@ -119,8 +119,8 @@ class Suppervisor {
                 .SUPERVISOR_CODY_PANEL:hover {
                     transform: translate(0, 0);
                 }
-                .SUPERVISOR_CODY_PANEL * > {
-                    font-family: "Consolas";
+                .SUPERVISOR_CODY_PANEL * {
+                    font-family: "Consolas" !important;
                 }
                 
                 

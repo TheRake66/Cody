@@ -76,7 +76,7 @@ class Error {
                 .ERROR_CODY_BLOCK {
                     visibility: visible;
                     margin: auto;
-                    font-family: Consolas;
+                    font-family: "Consolas" !important;
                     font-size: 14px;
                     display: flex;
                     flex-direction: column;
