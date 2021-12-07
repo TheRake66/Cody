@@ -1,6 +1,7 @@
 <?php
 // Librairie Router
 namespace Kernel;
+use Kernel\Suppervisor;
 
 
 
@@ -112,7 +113,8 @@ class Router {
 			}
 		}
 
-		self::$routes[$r]();
+		new self::$routes[$r]();
+		Suppervisor::showSuppervisor($r, self::$routes[$r]);
 	}
 	
 }

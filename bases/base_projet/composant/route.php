@@ -10,7 +10,7 @@ use Controleur as c;
  * vers les controleur. Pour definir une nouvelle route, procedez
  * comme ceci :
  * 
- * r::add('la_route_dans_l'URL', fn() => new c\le_controleur());
+ * r::add('la_route_dans_l'URL', c\le_controleur::class);
  * 
  * 
  * 
@@ -20,17 +20,17 @@ use Controleur as c;
  * if (isset($_SESSION['user'])) {
  *     switch ($_SESSION['user']->role) {
  *         case 'eleve':
- *             r::add('accueil', fn() => new c\Eleve\Accueil());
+ *             r::add('accueil', c\Eleve\Accueil::class);
  *             break;
  *         case 'professeur':
- *             r::add('accueil', fn() => new c\Prof\Accueil());
+ *             r::add('accueil', c\Prof\Accueil::class);
  *             break;
  *         case 'administrateur':
- *             r::add('accueil', fn() => new c\Admin\Accueil());
+ *             r::add('accueil', c\Admin\Accueil::class);
  *             break;
  *     }
  * } else {
- *     r::add('accueil', fn() => new c\Accueil());
+ *     r::add('accueil', c\Accueil::class);
  * }
  * 
  * 
@@ -41,7 +41,7 @@ use Controleur as c;
  * 
  * Puis definissez la route :
  * 
- * r::add('accueil', fn() => new c\Accueil());
+ * r::add('accueil', c\Accueil::class);
  * 
  * Si aucune route par defaut n'est definie, la premiere route definie
  * sera utilisee.
@@ -54,7 +54,7 @@ use Controleur as c;
  * 
  * Puis definissez la route :
  * 
- * r::add('404', fn() => new c\Notfound());
+ * r::add('404', c\Notfound::class);
  * 
  * Si aucune route 404 n'est definie, la route par defaut sera utilisee.
  *
@@ -63,6 +63,6 @@ use Controleur as c;
 
 
 // Commencez par creer un composant avec la commande "com -a accueil"
-// r::add('accueil', fn() => new c\Accueil());
+// r::add('accueil', c\s::class);
 
 ?>

@@ -11,6 +11,9 @@ k\Autoloader::register();
 // Active le protocole SSL (HTTPS)
 // k\Security::activerSSL();
 
+// Lance le superviseur
+k\Suppervisor::suppervise();
+
 // Defini le fuseau horraire par defaut
 k\Date::timezone();
 
