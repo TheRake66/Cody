@@ -156,6 +156,7 @@ class Error {
                 .ERROR_CODY_CONT textarea {
                     height: 100px;
                     white-space: pre;
+                    overflow: scroll;
                 }
 
 
