@@ -40,6 +40,7 @@ class Error {
      * @param int le numero de la ligne
      */
     static function showError($severity, $message, $filename, $lineno) {
+        ob_get_clean();
         if (Configuration::get()->debogage) {
             $search = urlencode($message);
             echo '
@@ -62,17 +63,6 @@ class Error {
                 </div>
             </div>
             <style>
-
-                body {
-                    font-size: 0px;
-                }
-                body * {
-                    visibility: hidden;
-                }
-
-                .ERROR_CODY_BLOCK * {
-                    visibility: visible;
-                }
                 .ERROR_CODY_BLOCK {
                     visibility: visible;
                     margin: auto;
@@ -169,13 +159,8 @@ class Error {
                 }
                 
             </style>';
-        } else {
-            echo '<style>
-                body {
-                    visibility: hidden;
-                }
-            </style>';
         }
+        exit;
     }
     
 }

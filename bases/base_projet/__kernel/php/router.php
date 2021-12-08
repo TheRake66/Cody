@@ -114,6 +114,7 @@ class Router {
 		}
 
 		new self::$routes[$r]();
+		Suppervisor::log('Routage terminé.', Suppervisor::LEVEL_GOOD);
 		Suppervisor::showSuppervisor($r, self::$routes[$r]);
 	}
 	

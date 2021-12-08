@@ -91,7 +91,7 @@ class Url {
      * @param {string} name nom du parametre
      * @returns {string} le nouvel url
      */
-    static paramGet(name) {
+    static paramRem(name) {
         let queryString = window.location.search;
         let urlParams = new URLSearchParams(queryString);
         urlParams.delete(name);

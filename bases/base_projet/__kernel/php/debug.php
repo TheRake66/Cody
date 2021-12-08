@@ -6,16 +6,16 @@ namespace Kernel;
 
 class Debug {
 
+
     /**
-     * Affiche un message dans la console en JavaScript
+     * Ajoute une log dans la console
      * 
-     * @param string Message a afficher
+     * @param string le message a afficher
+     * @param int le niveau de criticite
      */
-	static function consoleMessage($unMessage) {
-		echo '<script>';
-		echo 'console.log('. json_encode('[' .date('d/m/Y') . ' ' . date('H:i:s') . '] ==>' . $unMessage . '<==') .')';
-		echo '</script>';
-	}
+    static function log($message, $level = 0) {
+        \Kernel\Suppervisor::log($message, $level);
+    }
 	
 
     /**
@@ -23,28 +23,19 @@ class Debug {
      * 
      * @param string Message a ajouter
      */
-	static function logMessage($leMessage) {
+	static function file($leMessage) {
         $continu = true;
         if (!is_dir('logs')) {
             $continu = mkdir('logs');
         }
         if ($continu) {
+            $now = \DateTime::createFromFormat('U.u', microtime(true));
             file_put_contents(
-                'logs/' . date('D M d') . '.log',
-                '[' . date('D M d, Y G:i') . '] ' . $leMessage . PHP_EOL,
+                'logs/' . $now->format('D M d') . '.log',
+                '[' . $now->format('D M d, Y H:i:s.v') . '] ' . $leMessage . PHP_EOL,
                 FILE_APPEND | LOCK_EX
             );
         }
-	}
-	
-
-    /**
-     * Affiche un message dans une message box
-     * 
-     * @param string Message a afficher
-     */
-	static function boiteMessage($leMessage) {
-        echo "<script>alert('{$leMessage}');</script>";
 	}
 
 }
