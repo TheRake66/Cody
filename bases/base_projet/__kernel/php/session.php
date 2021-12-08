@@ -19,16 +19,16 @@ class Session {
     /**
      * Genere un jeton aleatoire de taille n
      * 
-     * @param int taille de la chaine
-     * @return string chaine aleatoire
+     * @param int taille du token
+     * @return string le token
      */
-	static function makeToken($nbLetters) {
-		$randString = '';
-		$charUniverse = '!@#$%^&*()_+=-[]{}/<>,.?\\abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-		for($i = 0; $i < $nbLetters; $i++) {
-		   $randString .= $charUniverse[rand(0, strlen($charUniverse) - 1)];
+	static function makeToken($size) {
+		$token = '';
+		$charset = '!@#$%^&*()_+=-[]{}/<>,.?\\abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+		for ($i = 0; $i < $size; $i++) {
+		   $token .= $charset[rand(0, strlen($charset) - 1)];
 		}
-		return $randString;
+		return $token;
 	}
 
     

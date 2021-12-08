@@ -97,20 +97,17 @@ class Suppervisor {
             
             $array = "";
             foreach ($GLOBALS as $n => $a) {
-                if ($n != '_SERVER' && $n != '_REQUEST') { // N'affiche pas les variables serveur
-                    if ($n != 'GLOBALS' && is_array($a) && count($a) > 0 || $n == 'GLOBALS' && count($a) > 9) { // Si pas vide (9 == toutes les variable de base dans globals)
-                        $array .= '<h2>Données dans $' . $n . '</h2>';
-                        $array .= '<div>';
-                        foreach ($a as $k => $v) {
-                            if ($k != 'GLOBALS' && ($n != 'GLOBALS' || substr($k, 0, 1) != '_')) {
-                                $array .= '<span><b>' . $k . '</b>' . (
-                                    is_array($v) ? 'array(' . count($v) . ')' :  
-                                    (is_object($v) ? 'object(' . get_class($v) . ')' : $v
-                                )) . '</span>'; // Affiche la valeur sauf si array ou object
-                            }
-                        }
-                        $array .= '</div>';
+                if ($n != 'GLOBALS' && is_array($a) && count($a) > 0) {
+                    $array .= '<h2>Données dans $' . $n . '</h2>';
+                    $array .= '<div>';
+                    foreach ($a as $k => $v) {
+                        $array .= '<span><b>' . htmlspecialchars($k) . '</b><pre>' . (
+                            is_array($v) ? 'array(' . count($v) . ')<br>' . print_r($v, true) :  
+                            (is_object($v) ? 'object(' . get_class($v) . ')<br>' . print_r($v, true) : 
+                            htmlspecialchars($v)
+                        )) . '</pre></span>';
                     }
+                    $array .= '</div>';
                 }
             }
 
@@ -118,7 +115,7 @@ class Suppervisor {
             $log = '';
             foreach (self::$log as $l) {
                 $log .= '
-                <span class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . $l[0] . '</span><br>';
+                <span class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . htmlspecialchars($l[0]) . '</span><br>';
             }
 
             
@@ -134,10 +131,10 @@ class Suppervisor {
                     </form>
                     <h2>Informations</h2>
                     <div>
-                        <span><b>Session</b>' . $session . '</span>
-                        <span><b>Route</b>' . $route . '</span>
-                        <span><b>Composant</b>' . $controleur . '</span>
-                        <span><b>Version de PHP</b>' . phpversion() . '</span>
+                        <span><b>Session</b><pre>' . $session . '</pre></span>
+                        <span><b>Route</b><pre>' . $route . '</pre></span>
+                        <span><b>Composant</b><pre>' . $controleur . '</pre></span>
+                        <span><b>Version de PHP</b><pre>' . phpversion() . '</pre></span>
                     </div>
                     ' . $array . '
                 </div>
@@ -154,6 +151,22 @@ class Suppervisor {
                 SUPERVISOR_CODY_CONSOLE_SCROLLTOEND();
             </script>
             <style>
+                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar {
+                    height: 6px;
+                    width: 6px;
+                    background: #141414;
+                }
+                
+                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb {
+                    background: #444;
+                    -webkit-border-radius: 1ex;
+                }
+                
+                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-corner {
+                    background: #000;
+                }
+
+
                 #SUPERVISOR_CODY_PANEL {
                     display: flex;
                     flex-direction: column;
@@ -165,7 +178,7 @@ class Suppervisor {
                     height: 100vh;
                     background-color: #262626;
                     color: white;
-                    box-shadow: 0px 0px 10px grey;
+                    box-shadow: 3px 0px 3px grey;
                     transition: transform 0.3s ease-in-out;
                     transform: translate(-100%, 0);
                 }
@@ -177,7 +190,6 @@ class Suppervisor {
                 }
                 
                 
-                
                 #SUPERVISOR_CODY_PANEL > img {
                     position: absolute;
                     height: 30px;
@@ -186,13 +198,11 @@ class Suppervisor {
                     right: 0;
                     transform: translate(100%, -50%);
                     background-color: #262626;
-                    padding: 30px 15px;
+                    padding: 30px 15px 30px 12px;
                     border-radius: 0 30px 30px 0;
                     font-size: 30px;
-                    box-shadow: 0px 0px 10px grey;
-                    cursor: pointer;
+                    box-shadow: 3px 0px 3px grey;
                 }
-                
                 
                 
                 #SUPERVISOR_CODY_PANEL > div {
@@ -258,18 +268,24 @@ class Suppervisor {
                 #SUPERVISOR_CODY_PANEL > div div span {
                     min-width: 500px;
                     max-width: 500px;
-                    padding: 8px;
-                    word-break: break-word;
                     display: flex;
+                    align-items: baseline;
+                    overflow: auto;
+                    padding: 8px;
+                }
+                #SUPERVISOR_CODY_PANEL > div div span pre {
                 }
                 #SUPERVISOR_CODY_PANEL > div div span b {
                     min-width: 200px;
                     max-width: 200px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    margin-right: 20px;
                     font-weight: 500;
                     color: lightgray;
-                    word-break: break-word;
-                }
 
+                }
 
 
                 #SUPERVISOR_CODY_PANEL > span {

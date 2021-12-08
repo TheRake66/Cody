@@ -52,10 +52,10 @@ class Error {
                     </div>
                 </div>
                 <div class="ERROR_CODY_CONT">
-                    <span><b>Code erreur :</b><input type="text" value="' . $severity . '" readonly></span>
-                    <span><b>Message :</b><textarea readonly>' . $message . '</textarea></span>
-                    <span><b>Fichier concerné :</b><input type="text" value="' . $filename . '" readonly></span>
-                    <span><b>Ligne concernée :</b><input type="text" value="' . $lineno . '" readonly></span>
+                    <span><b>Code erreur :</b><input type="text" value="' . htmlspecialchars($severity) . '" readonly></span>
+                    <span><b>Message :</b><textarea readonly>' . htmlspecialchars($message) . '</textarea></span>
+                    <span><b>Fichier concerné :</b><input type="text" value="' . htmlspecialchars($filename) . '" readonly></span>
+                    <span><b>Ligne concernée :</b><input type="text" value="' . htmlspecialchars($lineno) . '" readonly></span>
                     <div>
                         <a href="https://www.google.com/search?q=' . $search . '">Rechercher sur google</a>
                         <a href="https://stackoverflow.com/search?q=' . $search . '">Rechercher sur stackoverflow</a>
@@ -63,6 +63,26 @@ class Error {
                 </div>
             </div>
             <style>
+                .ERROR_CODY_BLOCK *::-webkit-scrollbar {
+                    height: 6px;
+                    width: 6px;
+                    background: #3B78FF;
+                }
+                
+                .ERROR_CODY_BLOCK *::-webkit-scrollbar-thumb {
+                    background: #779FFF;
+                    -webkit-border-radius: 1ex;
+                }
+                
+                .ERROR_CODY_BLOCK *::-webkit-scrollbar-corner {
+                    background: #000;
+                }
+
+                .ERROR_CODY_BLOCK *::-webkit-resizer {
+                    background: #3B78FF;
+                }
+
+
                 .ERROR_CODY_BLOCK {
                     visibility: visible;
                     margin: auto;
@@ -80,6 +100,7 @@ class Error {
                     transform: translate(-50%, -50%);
                     background-color: white;
                 }
+
 
                 .ERROR_CODY_HEAD {
                     background-color: #3B78FF;
@@ -109,6 +130,7 @@ class Error {
                     margin-top: 10px;
                 }
 
+
                 .ERROR_CODY_CONT {
                     padding: 30px;
                     display: flex;
@@ -121,7 +143,8 @@ class Error {
                     margin-bottom: 20px;
                 }
                 .ERROR_CODY_CONT input, .ERROR_CODY_CONT textarea {
-                    width: 550px;
+                    max-width: 550px;
+                    min-width: 550px;
                     box-shadow: 0 0 10px grey;
                     border: solid 2px #3B78FF;
                     border-radius: 5px;
@@ -134,6 +157,7 @@ class Error {
                     height: 100px;
                     white-space: pre;
                 }
+
 
                 .ERROR_CODY_CONT div {
                     margin: auto;
