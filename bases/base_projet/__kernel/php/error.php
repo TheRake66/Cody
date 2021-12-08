@@ -52,10 +52,10 @@ class Error {
                     </div>
                 </div>
                 <div class="ERROR_CODY_CONT">
-                    <span><b>Code erreur :</b><input type="text" value="' . htmlspecialchars($severity) . '" readonly></span>
-                    <span><b>Message :</b><textarea readonly>' . htmlspecialchars($message) . '</textarea></span>
-                    <span><b>Fichier concerné :</b><input type="text" value="' . htmlspecialchars($filename) . '" readonly></span>
-                    <span><b>Ligne concernée :</b><input type="text" value="' . htmlspecialchars($lineno) . '" readonly></span>
+                    <span><b>Code erreur :</b><input type="text" value="' . $severity . '" readonly></span>
+                    <span><b>Message :</b><textarea readonly>' . $message . '</textarea></span>
+                    <span><b>Fichier concerné :</b><input type="text" value="' . $filename . '" readonly></span>
+                    <span><b>Ligne concernée :</b><input type="text" value="' . $lineno . '" readonly></span>
                     <div>
                         <a href="https://www.google.com/search?q=' . $search . '">Rechercher sur google</a>
                         <a href="https://stackoverflow.com/search?q=' . $search . '">Rechercher sur stackoverflow</a>

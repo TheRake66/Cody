@@ -101,10 +101,10 @@ class Suppervisor {
                     $array .= '<h2>Données dans $' . $n . '</h2>';
                     $array .= '<div>';
                     foreach ($a as $k => $v) {
-                        $array .= '<span><b>' . htmlspecialchars($k) . '</b><pre>' . (
+                        $array .= '<span><b>' . $k . '</b><pre>' . (
                             is_array($v) ? 'array(' . count($v) . ')<br>' . print_r($v, true) :  
                             (is_object($v) ? 'object(' . get_class($v) . ')<br>' . print_r($v, true) : 
-                            htmlspecialchars($v)
+                            $v
                         )) . '</pre></span>';
                     }
                     $array .= '</div>';
@@ -115,7 +115,7 @@ class Suppervisor {
             $log = '';
             foreach (self::$log as $l) {
                 $log .= '
-                <span class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . htmlspecialchars($l[0]) . '</span><br>';
+                <span class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . $l[0] . '</span><br>';
             }
 
             
@@ -178,7 +178,7 @@ class Suppervisor {
                     height: 100vh;
                     background-color: #262626;
                     color: white;
-                    box-shadow: 3px 0px 3px grey;
+                    border-right: solid 2px #777777;
                     transition: transform 0.3s ease-in-out;
                     transform: translate(-100%, 0);
                 }
@@ -201,7 +201,8 @@ class Suppervisor {
                     padding: 30px 15px 30px 12px;
                     border-radius: 0 30px 30px 0;
                     font-size: 30px;
-                    box-shadow: 3px 0px 3px grey;
+                    border: solid 2px #777777;
+                    border-left: none;
                 }
                 
                 
