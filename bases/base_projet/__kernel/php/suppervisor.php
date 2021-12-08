@@ -64,25 +64,27 @@ class Suppervisor {
                 $latency .= 'GOOD';
             } 
 
+            
             $array = "";
-            foreach ([
-                'foo' => array_slice(get_defined_vars(), 8),
-                '_GET' => $_GET,
-                '_POST' => $_POST,
-                '_SESSION' => $_SESSION,
-                '_FILES' => $_FILES,
-                '_COOKIE' => $_COOKIE
-            ] as $n => $a) {
-                if (count($a) > 0) {
-                    $array .= '<h2>Données dans $' . $n . '</h2>';
-                    $array .= '<div>';
-                    foreach ($a as $k => $v) {
-                        $array .= '<span><b>' . $k . '</b>' . $v . '</span>';
+            foreach ($GLOBALS as $n => $a) {
+                if ($n != '_SERVER') { // N'affiche pas les variables serveur
+                    if ($n != 'GLOBALS' && is_array($a) && count($a) > 0 || $n == 'GLOBALS' && count($a) > 9) { // Si pas vide (9 == toutes les variable de base dans globals)
+                        $array .= '<h2>Données dans $' . $n . '</h2>';
+                        $array .= '<div>';
+                        foreach ($a as $k => $v) {
+                            if ($k != 'GLOBALS' && ($n != 'GLOBALS' || substr($k, 0, 1) != '_')) {
+                                $array .= '<span><b>' . $k . '</b>' . (
+                                    is_array($v) ? 'array(' . count($v) . ')' :  
+                                    (is_object($v) ? 'object' : $v
+                                )) . '</span>'; // Affiche la valeur sauf si array ou object
+                            }
+                        }
+                        $array .= '</div>';
                     }
-                    $array .= '</div>';
                 }
             }
 
+            
             echo '
             <aside class="SUPERVISOR_CODY_PANEL">
                 <span>►</span>
