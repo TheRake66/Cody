@@ -8,7 +8,6 @@ use Kernel\Reflect\Hydrate;
 class {NAME_UPPER} {
 
     use Hydrate;
-	public $id{NAME_UPPER};
 	
 }
 

@@ -35,7 +35,10 @@ class Suppervisor {
      */
     static function log($message, $level = 0) {
         $now = \DateTime::createFromFormat('U.u', microtime(true));
-        self::$log[] = [ '[' . $now->format('H:i:s.v') . '] ' . $message, $level ];
+        self::$log[] = [ '[' . $now->format('H:i:s.v') . '] ' . (
+            is_array($message) || is_object($message) ? 
+            print_r($message, true) : 
+            $message), $level ];
     }
 
 
@@ -115,7 +118,7 @@ class Suppervisor {
             $log = '';
             foreach (self::$log as $l) {
                 $log .= '
-                <span class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . $l[0] . '</span><br>';
+                <pre class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . $l[0] . '</pre>';
             }
 
             
@@ -174,13 +177,14 @@ class Suppervisor {
                     z-index: 99999999999999999999;
                     left: 0;
                     top: 0;
-                    width: auto;
+                    min-width: 600px;
+                    max-width: 600px;
                     height: 100vh;
                     background-color: #262626;
                     color: white;
-                    border-right: solid 2px #777777;
                     transition: transform 0.3s ease-in-out;
                     transform: translate(-100%, 0);
+                    border-right: solid 2px #777777;
                 }
                 #SUPERVISOR_CODY_PANEL:hover {
                     transform: translate(0, 0);
@@ -203,6 +207,7 @@ class Suppervisor {
                     font-size: 30px;
                     border: solid 2px #777777;
                     border-left: none;
+
                 }
                 
                 
@@ -267,8 +272,6 @@ class Suppervisor {
                     flex-direction: column;
                 }
                 #SUPERVISOR_CODY_PANEL > div div span {
-                    min-width: 500px;
-                    max-width: 500px;
                     display: flex;
                     align-items: baseline;
                     overflow: auto;
@@ -289,7 +292,7 @@ class Suppervisor {
                 }
 
 
-                #SUPERVISOR_CODY_PANEL > span {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE {
                     background-color: #0C0C0C;
                     width: calc(100% - 10px);
                     height: 250px;
@@ -297,18 +300,18 @@ class Suppervisor {
                     padding: 5px;
                     border-top: solid 2px #777777;
                 }
-                #SUPERVISOR_CODY_PANEL > span span {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE pre {
                 }
-                #SUPERVISOR_CODY_PANEL > span .SUPPERVISOR_LEVEL_1 {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_1 {
                     color: #65a577;
                 }
-                #SUPERVISOR_CODY_PANEL > span .SUPPERVISOR_LEVEL_2 {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_2 {
                     color: #d18726;
                 }
-                #SUPERVISOR_CODY_PANEL > span .SUPPERVISOR_LEVEL_3 {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_3 {
                     color: #cc4f4a;
                 }
-                #SUPERVISOR_CODY_PANEL > span .SUPPERVISOR_LEVEL_4 {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_4 {
                     color: #b8127b;
                 }
             </style>

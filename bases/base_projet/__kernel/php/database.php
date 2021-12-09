@@ -15,6 +15,8 @@ class DataBase extends \PDO {
     /**
      * Retourne l'inctance PDO en cours, si aucune est
      * en cours on en creer une
+     * 
+     * @return object instance PDO
      */
     static function getInstance() {
         if (!self::$instance) {
@@ -151,6 +153,149 @@ class DataBase extends \PDO {
 			}
             return $arr;
         }
+    }
+
+
+    /**
+     * Retourne le nom d'une table via sa classe
+     * 
+     * @return string le nom
+     */
+    static function getTableName($obj) {
+        return strtolower((new \ReflectionClass($obj))->getShortName());
+    }
+
+
+    /**
+     * Retourne null si la valeur est vide, sinon retourne la valeur
+     * 
+     * @return object null ou la valeur
+     */
+    static function nullIfEmpty($value) {
+        return empty($value) ? null : $value;
+    }
+
+    
+    /**
+     * Construit la condition WHERE pour les cle primaire
+     * 
+     * @param object l'objet DTO a lier
+     * @param array les nom des cles primaire
+     */
+    static function buildPrimary($obj, $primary = null) {
+        $sql = '';
+        $arr = [];   
+        foreach ((array)$obj as $prop => $val) {
+            if (is_null($primary)) {
+                $sql .= 'WHERE ' . $prop . ' = ? ';
+                $arr[] = $val;
+                break;
+            } elseif (!is_array($primary) && $prop == $primary || 
+                is_array($primary) && in_array($prop, $primary)) {
+                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . $prop . ' = ? ';
+                $arr[] = $val;
+            }
+        }
+        return [ $sql, $arr ];
+    }
+
+
+    /**
+     * Retourne tous les objets d'une table
+     * 
+     * @param class classe DTO faisant reference a la table
+     * @return array les objets DTO
+     */
+    static function alls($class) {
+        return DataBase::fetchObjets(
+			"SELECT * FROM " . self::getTableName($class),
+            $class);
+    }
+
+
+    /**
+     * Vide une table
+     * 
+     * @param class classe DTO faisant reference a la table
+     * @return bool si ca reussit
+     */
+    static function truncat($class) { 
+        return DataBase::execute('TRUNCATE TABLE ' . self::getTableName($class));
+    }
+
+
+    /**
+     * Creer un objet dans une table
+     * 
+     * @param object objet a creer
+     * @return bool si ca reussit
+     */
+    static function create($obj) {
+        $col = '';
+        $pmv = '';
+        $pms = [];
+        foreach ((array)$obj as $prop => $val) {
+            $col .= $prop . ', ';
+            $pmv .= '?, ';
+            $pms[] = $val;
+        }
+        $col = substr($col, 0, strlen($col) - 2);
+        $pmv = substr($pmv, 0, strlen($pmv) - 2);
+        return DataBase::execute(
+			'INSERT INTO ' . self::getTableName($obj) . ' (' . $col . ') VALUES (' . $pmv . ')',
+            $pms);
+    }
+
+
+    /**
+     * Retourne un objet d'une table
+     * 
+     * @param object objet contenant les valeur a lire
+     * @param array les nom des cles primaire
+     * @return object l'objet DTO
+     */
+    static function read($obj, $primary = null) {
+        $pr = self::buildPrimary($obj, $primary);
+        return DataBase::fetchObjet(
+			'SELECT * FROM ' . self::getTableName($obj) . ' ' . $pr[0],
+            $obj,
+            $pr[1]);
+    }
+
+
+    /**
+     * Met a jour un objet dans une table
+     * 
+     * @param object objet a mettre a jour
+     * @param array les nom des cles primaire
+     * @return bool si ca reussit
+     */
+    static function update($obj, $primary = null) {
+        $set = '';
+        $col = [];
+        foreach ((array)$obj as $prop => $val) {
+            $set .= $prop . ' = ?, ';
+            $col[] = $val;
+        }
+        $pr = self::buildPrimary($obj, $primary);
+        $set = substr($set, 0, strlen($set) - 2);
+        return DataBase::execute(
+			'UPDATE ' . self::getTableName($obj) . ' SET ' . $set . ' ' . $pr[0],
+            array_merge($col, $pr[1]));
+    }
+
+
+    /**
+     * Supprime un objet dans une table
+     * 
+     * @param object objet a supprimer
+     * @return bool si ca reussit
+     */
+    static function delete($obj, $primary = null) { 
+        $pr = self::buildPrimary($obj, $primary);
+        return DataBase::execute(
+			'DELETE FROM ' . self::getTableName($obj) . ' ' . $pr[0],
+            $pr[1]);
     }
 
 }

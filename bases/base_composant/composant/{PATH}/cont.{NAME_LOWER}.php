@@ -10,6 +10,7 @@ class {NAME_UPPER} {
      * Constructeur
      */
     function __construct() {
+        
     }
 
 

@@ -40,7 +40,7 @@ class Error {
      * @param int le numero de la ligne
      */
     static function showError($severity, $message, $filename, $lineno) {
-        ob_get_clean();
+        http_response_code(500);
         if (Configuration::get()->debogage) {
             $search = urlencode($message);
             echo '
@@ -63,6 +63,11 @@ class Error {
                 </div>
             </div>
             <style>
+
+                body > *:not(.ERROR_CODY_BLOCK) {
+                    display: none !important;
+                }
+
                 .ERROR_CODY_BLOCK *::-webkit-scrollbar {
                     height: 6px;
                     width: 6px;
@@ -84,7 +89,6 @@ class Error {
 
 
                 .ERROR_CODY_BLOCK {
-                    visibility: visible;
                     margin: auto;
                     font-family: "Consolas" !important;
                     font-size: 14px;
@@ -184,8 +188,14 @@ class Error {
                 }
                 
             </style>';
+        } else {
+            echo '
+            <style>
+                * {
+                    display: none !important;
+                }
+            </style>';
         }
-        exit;
     }
     
 }

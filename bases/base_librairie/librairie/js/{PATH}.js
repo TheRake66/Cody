@@ -5,6 +5,7 @@ class {NAME_UPPER} {
      * Constructeur
      */
     constructor() {
+        
     }
 
 }
