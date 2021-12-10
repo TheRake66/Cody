@@ -25,7 +25,7 @@ trait Hydrate {
                 } elseif (property_exists($this, $key)) {
                     $this->$key = $value;
                 } else {
-                    Debug::log('Aucune affectation possible pour le champ ' . $key . '.', Debug::LEVEL_WARN);
+                    Debug::log('Aucune affectation possible pour le champ ' . $key . ' avec "' . $value . '".', Debug::LEVEL_WARN);
                 }
             }
         }

@@ -84,9 +84,7 @@ class DataBase extends \PDO {
      * @return object valeur de la base
      */
     static function fetchCell($sql, $params = []) {
-        $rqt = self::send($sql);
-        $rqt->execute($params);
-        return $rqt->fetch()[0];
+        return self::fetchRow($sql, $params)[0];
     }
 
     
@@ -100,7 +98,7 @@ class DataBase extends \PDO {
     static function fetchRow($sql, $params = []) {
         $rqt = self::send($sql);
         $rqt->execute($params);
-        return $rqt->fetch();
+        return $rqt->fetch(\PDO::FETCH_ASSOC);
     }
 
     
@@ -114,7 +112,7 @@ class DataBase extends \PDO {
     static function fetchAll($sql, $params = []) {
         $rqt = self::send($sql);
         $rqt->execute($params);
-        return $rqt->fetchAll();
+        return $rqt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     

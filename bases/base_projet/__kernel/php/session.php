@@ -81,6 +81,7 @@ class Session {
      */
 	static function remSession() {
 		session_destroy();
+        Debug::log('Session supprimée.');
 	}
 
     

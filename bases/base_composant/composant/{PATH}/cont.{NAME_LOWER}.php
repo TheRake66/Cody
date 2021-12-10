@@ -10,14 +10,7 @@ class {NAME_UPPER} {
      * Constructeur
      */
     function __construct() {
-        
-    }
-
-
-    /**
-     * Destructeur
-     */
-    function __destruct() {
+        // Appel de la vue
         include 'composant/{PATH}/vue.{NAME_LOWER}.php';
     }
 

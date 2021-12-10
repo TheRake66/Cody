@@ -33,7 +33,7 @@ class Suppervisor {
      * @param string le message a afficher
      * @param int le niveau de criticite
      */
-    static function log($message, $level) {
+    static function log($message, $level = self::LEVEL_OK) {
         $now = \DateTime::createFromFormat('U.u', microtime(true));
         self::$log[] = [ '[' . $now->format('H:i:s.v') . '] ' . (
             is_array($message) || is_object($message) ? 
