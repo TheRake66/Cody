@@ -30,6 +30,7 @@ class DataBase extends \PDO {
      * Creer une instance PDO
      */
     function __construct() {
+        Debug::log('Connexion à la base de données...', Debug::LEVEL_PROGRESS);
         try {
             $param = json_decode(file_get_contents('modele/database.json'));
             $dsn = $param->type . 
@@ -43,8 +44,8 @@ class DataBase extends \PDO {
                 $param->motDePasse);
         } catch (\Exception $e) {
             throw new \Exception('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
-            die;
         }
+        Debug::log('Connexion reussite.', Debug::LEVEL_GOOD);
     }
 
     
@@ -56,6 +57,7 @@ class DataBase extends \PDO {
      * @return object requete preparee
      */
     static function send($sql) {
+        Debug::log('Préparation de la requête : "' . $sql . '"');
         $rqt = self::getInstance()->prepare($sql);
         return $rqt;
     }

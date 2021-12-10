@@ -33,7 +33,7 @@ class Suppervisor {
      * @param string le message a afficher
      * @param int le niveau de criticite
      */
-    static function log($message, $level = 0) {
+    static function log($message, $level) {
         $now = \DateTime::createFromFormat('U.u', microtime(true));
         self::$log[] = [ '[' . $now->format('H:i:s.v') . '] ' . (
             is_array($message) || is_object($message) ? 
@@ -47,18 +47,17 @@ class Suppervisor {
      */
     static function suppervise() {
         if (isset($_POST['supervisor_refresh'])) {
-            Suppervisor::log('Page actualisée.', 1);
-        }
-        if (isset($_POST['supervisor_clear'])) {
+            self::log('Page actualisée.', self::LEVEL_GOOD);
+        }elseif (isset($_POST['supervisor_clear'])) {
             header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
             header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
             header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
             header("Cache-Control: post-check=0, pre-check=0", false);
             header("Pragma: no-cache");
-            Suppervisor::log('Cache vidé.', 1);
+            self::log('Cache vidé.', self::LEVEL_GOOD);
         }
 
-		Suppervisor::log('Lancement du superviseur...', self::LEVEL_PROGRESS);
+		self::log('Lancement du superviseur...', self::LEVEL_PROGRESS);
         self::$started = microtime(true);
     }
 
@@ -71,6 +70,7 @@ class Suppervisor {
      */
     static function showSuppervisor($route, $controleur) {
         if (Configuration::get()->supperviseur) {
+            self::log('Suppervision terminé.', self::LEVEL_GOOD);
             
             $ms = round((microtime(true) - self::$started) * 1000);
             $latency = 'SUPPERVISOR_LATENCY_';

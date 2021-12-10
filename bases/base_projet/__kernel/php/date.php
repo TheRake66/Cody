@@ -13,6 +13,7 @@ class Date {
      */
     static function timezone($zone = 'Europe/Paris') {
         date_default_timezone_set($zone);
+        Debug::log('Fuseau horaire défini sur ' . $zone);
     }
     
 }

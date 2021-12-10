@@ -2,7 +2,7 @@
 
 namespace Kernel\Reflect;
 
-
+use Kernel\Debug;
 
 trait Hydrate {
     
@@ -20,11 +20,12 @@ trait Hydrate {
         if (!is_null($donnees) && !empty($donnees)) {
             foreach ($donnees as $key => $value) {
                 $method = 'set'.ucfirst($key);
-                         
                 if (method_exists($this, $method)) {
                     $this->$method($value);
                 } elseif (property_exists($this, $key)) {
                     $this->$key = $value;
+                } else {
+                    Debug::log('Aucune affectation possible pour le champ ' . $key . '.', Debug::LEVEL_WARN);
                 }
             }
         }

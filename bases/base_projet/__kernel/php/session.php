@@ -11,7 +11,9 @@ class Session {
 	 */
 	static function start() {
 		if (session_status() === PHP_SESSION_NONE) {
+			Debug::log('Démarrage de la session...', Debug::LEVEL_PROGRESS);
 			session_start();
+			Debug::log('Session démarrée.', Debug::LEVEL_GOOD);
 		}
 	}
 
@@ -93,6 +95,7 @@ class Session {
 			$token = self::makeToken(50);
 		}
 		setcookie("jeton", $token, time() + $nbdays*60*60*24);
+        Debug::log('Jeton de connexion : ' . $token . ', défini pour ' . $nbdays . '...');
 	}
 
 
@@ -111,6 +114,7 @@ class Session {
      */
 	static function remToken() {
 		setcookie("jeton", "");
+        Debug::log('Jeton supprimé.');
 	}
 
 }

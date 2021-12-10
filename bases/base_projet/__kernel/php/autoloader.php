@@ -53,7 +53,6 @@ class Autoloader {
             include $file;
         } else {
             throw new \Exception('Impossible de charger : "' . $required . '".');
-            die;
         }
     }
     
