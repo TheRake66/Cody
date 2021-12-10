@@ -4,7 +4,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "description": "Une barre de chargement liquide ronde",
-    "version": "1.1.2.0",
+    "version": "1.1.3.0",
     "elements": [
 	  {
 	    "nom": "progress_circle",
@@ -18,7 +18,7 @@
     "creation": "2021-10-23T19:30:52.6687298+02:00",
     "createur": "thiba",
     "description": "Le routeur pour les versions avant PHP 8",
-    "version": "2.0.0.0",
+    "version": "2.0.1.0",
     "elements": [
 	  {
 	    "nom": "routeur",
@@ -46,7 +46,7 @@
     "creation": "2021-11-28T19:30:52.6687298+02:00",
     "createur": "thiba",
     "description": "Page 403 avec les fonctions adéquates",
-    "version": "1.0.0.0",
+    "version": "1.0.1.0",
     "elements": [
 	  {
 	    "nom": "denied",
@@ -60,7 +60,7 @@
     "creation": "2021-11-28T19:30:52.6687298+02:00",
     "createur": "thiba",
     "description": "Page 404 avec les fonctions adéquates",
-    "version": "1.0.0.0",
+    "version": "1.0.1.0",
     "elements": [
 	  {
 	    "nom": "notfound",

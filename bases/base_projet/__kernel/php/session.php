@@ -57,9 +57,19 @@ class Session {
 
     
     /**
+     * Verifi si une session existe
+     * 
+     * @return bool si elle existe
+     */
+	static function hasSession() {
+		return isset($_SESSION['utilisateur']) && !is_null($_SESSION['utilisateur']);
+	}
+
+    
+    /**
      * Defini une session utilisateur
      * 
-     * @param object instance dto de l'utilisateur a memoriser
+     * @param object objet DTO de l'utilisateur a memoriser
      */
 	static function setSession($user) {
 		$_SESSION['utilisateur'] = $user;
