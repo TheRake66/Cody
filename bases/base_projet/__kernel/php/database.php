@@ -57,7 +57,7 @@ class DataBase extends \PDO {
      * @return object requete preparee
      */
     static function send($sql) {
-        Debug::log('Préparation de la requête : "' . $sql . '"');
+        Debug::log('Préparation de la requête : "' . $sql . '".');
         $rqt = self::getInstance()->prepare($sql);
         return $rqt;
     }
@@ -72,19 +72,8 @@ class DataBase extends \PDO {
      */
     static function execute($sql, $params = []) {
         $rqt = self::send($sql);
+        Debug::log('Paramètres de la requête (execute) : "' . print_r($params, true) . '".');
         return $rqt->execute($params);
-    }
-
-    
-    /**
-     * Retourne une valeur
-     * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return object valeur de la base
-     */
-    static function fetchCell($sql, $params = []) {
-        return self::fetchRow($sql, $params)[0];
     }
 
     
@@ -97,6 +86,7 @@ class DataBase extends \PDO {
      */
     static function fetchRow($sql, $params = []) {
         $rqt = self::send($sql);
+        Debug::log('Paramètres de la requête (row) : "' . print_r($params, true) . '".');
         $rqt->execute($params);
         return $rqt->fetch(\PDO::FETCH_ASSOC);
     }
@@ -111,8 +101,21 @@ class DataBase extends \PDO {
      */
     static function fetchAll($sql, $params = []) {
         $rqt = self::send($sql);
+        Debug::log('Paramètres de la requête (all) : "' . print_r($params, true) . '".');
         $rqt->execute($params);
         return $rqt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    
+    /**
+     * Retourne une valeur
+     * 
+     * @param string requete sql
+     * @param array liste des parametres
+     * @return object valeur de la base
+     */
+    static function fetchCell($sql, $params = []) {
+        return self::fetchRow($sql, $params)[0];
     }
 
     
@@ -196,6 +199,10 @@ class DataBase extends \PDO {
                 $arr[] = $val;
             }
         }
+        $len = strlen($sql);
+        if ($len > 0) {
+            $sql = substr($sql, 0, $len - 1);
+        }
         return [ $sql, $arr ];
     }
 
@@ -239,8 +246,14 @@ class DataBase extends \PDO {
             $pmv .= '?, ';
             $pms[] = $val;
         }
-        $col = substr($col, 0, strlen($col) - 2);
-        $pmv = substr($pmv, 0, strlen($pmv) - 2);
+        $len = strlen($col);
+        if ($len > 0) {
+            $col = substr($col, 0, $len - 2);
+        }
+        $len2 = strlen($pmv);
+        if ($len2 > 0) {
+            $pmv = substr($pmv, 0, $len2 - 2);
+        }
         return DataBase::execute(
 			'INSERT INTO ' . self::getTableName($obj) . ' (' . $col . ') VALUES (' . $pmv . ')',
             $pms);
@@ -278,7 +291,10 @@ class DataBase extends \PDO {
             $col[] = $val;
         }
         $pr = self::buildPrimary($obj, $primary);
-        $set = substr($set, 0, strlen($set) - 2);
+        $len = strlen($set);
+        if ($len > 0) {
+            $set = substr($set, 0, $len - 2);
+        }
         return DataBase::execute(
 			'UPDATE ' . self::getTableName($obj) . ' SET ' . $set . ' ' . $pr[0],
             array_merge($col, $pr[1]));
