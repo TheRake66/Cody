@@ -35,7 +35,8 @@ class Suppervisor {
      */
     static function log($message, $level = self::LEVEL_OK) {
         $now = \DateTime::createFromFormat('U.u', microtime(true));
-        self::$log[] = [ '[' . $now->format('H:i:s.v') . '] ' . (
+        $now = $now ? $now->format('H:i:s.v') : '??:??:??.???';
+        self::$log[] = [ '[' . $now . '] ' . (
             is_array($message) || is_object($message) ? 
             print_r($message, true) : 
             $message), $level ];
@@ -123,7 +124,7 @@ class Suppervisor {
 
             
             echo '
-            <aside id="SUPERVISOR_CODY_PANEL">
+            <SUPERVISOR_CODY_PANEL id="SUPERVISOR_CODY_PANEL">
                 <img src="__kernel/logo.svg" alt="Logo">
                 <div>
                     <h1 class="SUPPERVISOR_HTTP_' . $type . '">HTTP ' . $http . '</h1>
@@ -144,7 +145,7 @@ class Suppervisor {
                 <span id="SUPERVISOR_CODY_CONSOLE">
                     ' . $log . '
                 </span>
-            </aside>
+            </SUPERVISOR_CODY_PANEL>
             <script>
                 async function SUPERVISOR_CODY_CONSOLE_SCROLLTOEND() {
                     await new Promise(r => setTimeout(r, 500));
@@ -165,8 +166,16 @@ class Suppervisor {
                     -webkit-border-radius: 1ex;
                 }
                 
+                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb:hover {
+                    background: #555;
+                }
+                
+                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb:hover {
+                    background: #666;
+                }
+                
                 #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-corner {
-                    background: #000;
+                    background: #262626;
                 }
 
 

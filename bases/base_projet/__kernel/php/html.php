@@ -1,6 +1,7 @@
 <?php
 // Librairie Html
 namespace Kernel;
+use Kernel\Url;
 
 
 
@@ -15,6 +16,30 @@ class Html {
 	 */
 	static function setAttrib($value, $name = 'value') {
 		return $name . '="' . str_replace('"', '\\"', $value) . '"';
+	}
+
+
+	/**
+	 * Ajoute un lien HREF
+	 * 
+	 * @param string le lien
+	 * @return string l'attribut formatte
+	 */
+	static function setHref($link) {
+		return Html::setAttrib($link, 'href');
+	}
+
+
+	/**
+	 * Construit et ajoute un lien HREF
+	 * 
+	 * @param string la route
+	 * @param array les param
+	 * @param string le back
+	 * @return string l'attribut formatte
+	 */
+	static function buildHref($route, $param = [], $addback = false) {
+		return Html::setHref(Url::build($route, $param, $addback));
 	}
 	
 

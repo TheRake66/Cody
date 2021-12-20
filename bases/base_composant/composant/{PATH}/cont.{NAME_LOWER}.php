@@ -1,6 +1,7 @@
 <?php
 // Controleur de la page {NAME_UPPER}
 namespace Controleur{NAMESPACE_SLASH};
+use Kernel\Ajax;
 
 
 
