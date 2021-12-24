@@ -20,12 +20,12 @@ class Url {
 
 
 	/**
-	 * Defini un href avec le parametre de retour
+	 * Retourne le parametre de retour
 	 * 
-	 * @return string le href
+	 * @return string le back
 	 */
 	static function back() {
-		return 'href="' . ($_GET['back'] ?? '') . '"';
+		return $_GET['back'] ?? '';
 	}
 
 	
