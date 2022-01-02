@@ -7,6 +7,15 @@ namespace Kernel;
 class Url {
 
 	/**
+	 * Recharge la page
+	 */
+	static function reload() {
+		header('Location: ' . self::current());
+		exit;
+	}
+	
+
+	/**
 	 * Accede a une url
 	 * 
 	 * @param string la route
@@ -22,7 +31,7 @@ class Url {
 	/**
 	 * Retourne le parametre de retour
 	 * 
-	 * @return string le back
+	 * @return string le retour
 	 */
 	static function back() {
 		return $_GET['back'] ?? '';

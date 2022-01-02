@@ -58,8 +58,8 @@ class Error {
                     <span><b>Fichier concerné :</b><input type="text" value="' . $filename . '" readonly></span>
                     <span><b>Ligne concernée :</b><input type="text" value="' . $lineno . '" readonly></span>
                     <div>
-                        <a href="https://www.google.com/search?q=' . $search . '">Rechercher sur google</a>
-                        <a href="https://stackoverflow.com/search?q=' . $search . '">Rechercher sur stackoverflow</a>
+                        <a target="_blank" href="https://www.google.com/search?q=' . $search . '">Rechercher sur google</a>
+                        <a target="_blank" href="https://stackoverflow.com/search?q=' . $search . '">Rechercher sur stackoverflow</a>
                     </div>
                 </div>
             </div>

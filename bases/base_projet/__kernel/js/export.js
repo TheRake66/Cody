@@ -41,25 +41,14 @@ class Export {
 	 * 
 	 * @param {any} content le contenu a telecharger
 	 * @param {string} file nom du fichier
-	 * @param {string} format format du contenu
      */
-     static telecharge(content, file, format = 'text/plain;charset=utf8') {
-        // Encode en utf8
-        let uint8 = new Uint8Array(content.length);
-        for (let i = 0; i < uint8.length; i++) {
-            uint8[i] = content.charCodeAt(i);
-        }
-        let blob = new Blob([uint8], {type: format});
-        let url = URL.createObjectURL(blob);
-
-        // Creer le lien de telechargement
-        let a = document.createElement('a')
-        a.style = 'display: none';
-        document.body.append(a);
-        a.href = url;
-        a.download = file;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove();
+     static telecharge(content, file) {
+        let element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+        element.setAttribute('download', file);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
      }
 };

@@ -178,7 +178,6 @@ class Suppervisor {
                     background: #262626;
                 }
 
-
                 #SUPERVISOR_CODY_PANEL {
                     display: flex;
                     flex-direction: column;
@@ -194,12 +193,14 @@ class Suppervisor {
                     transition: transform 0.3s ease-in-out;
                     transform: translate(-100%, 0);
                     border-right: solid 2px #777777;
+                    scroll-behavior: auto;
                 }
                 #SUPERVISOR_CODY_PANEL:hover {
                     transform: translate(0, 0);
                 }
                 #SUPERVISOR_CODY_PANEL * {
                     font-family: "Consolas" !important;
+                    scroll-behavior: auto;
                 }
                 
                 
