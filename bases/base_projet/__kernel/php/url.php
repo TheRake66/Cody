@@ -86,6 +86,18 @@ class Url {
 	
 
 	/**
+	 * Ajoute un parametre de l'url
+	 * 
+	 * @param string le nom du parametre
+	 * @param string sa valeur
+	 * @return string le nouvel url
+	 */
+	static function addGet($param, $value = true) {
+		return self::changeGet($param, $value);
+	}
+	
+
+	/**
 	 * Retourne un parametre passe en GET
 	 * 
 	 * @param string nom du parametre

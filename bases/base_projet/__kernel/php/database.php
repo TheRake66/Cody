@@ -115,7 +115,7 @@ class DataBase extends \PDO {
      * @return object valeur de la base
      */
     static function fetchCell($sql, $params = []) {
-        return self::fetchRow($sql, $params)[0];
+        return array_values(self::fetchRow($sql, $params))[0];
     }
 
     
@@ -217,6 +217,17 @@ class DataBase extends \PDO {
         return DataBase::fetchObjets(
 			"SELECT * FROM " . self::getTableName($class),
             $class);
+    }
+
+
+    /**
+     * Compte les lignes d'une table
+     * 
+     * @param class classe DTO faisant reference a la table
+     * @return int le nombre de ligne
+     */
+    static function count($class) { 
+        return DataBase::fetchCell('SELECT COUNT(1) FROM ' . self::getTableName($class));
     }
 
 
