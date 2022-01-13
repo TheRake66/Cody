@@ -46,7 +46,7 @@
     "creation": "2021-11-28T19:30:52.6687298+02:00",
     "createur": "thiba",
     "description": "Page 403 avec les fonctions adéquates",
-    "version": "1.0.2.0",
+    "version": "1.1.2.0",
     "elements": [
 	  {
 	    "nom": "denied",
@@ -65,6 +65,34 @@
 	  {
 	    "nom": "notfound",
 	    "archive": "notfound.zip",
+		"index": "composant/component.json"
+	  }
+    ]
+  },
+  {
+    "nom": "Theme",
+    "creation": "2021-01-13T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "description": "Switcher de theme CSS",
+    "version": "1.0.0.0",
+    "elements": [
+	  {
+	    "nom": "theme",
+	    "archive": "theme.zip",
+		"index": "librairie/library.json"
+	  }
+    ]
+  },
+  {
+    "nom": "Code_pan",
+    "creation": "2021-01-13T19:30:52.6687298+02:00",
+    "createur": "thiba",
+    "description": "Section de code avec ligne et coloration",
+    "version": "1.0.0.0",
+    "elements": [
+	  {
+	    "nom": "code_pan",
+	    "archive": "code_pan.zip",
 		"index": "composant/component.json"
 	  }
     ]
