@@ -22,6 +22,11 @@ class Router {
      */
 	private static $notfound;
 
+    /**
+     * Route actuelle
+     */
+	private static $current;
+
 
     /**
      * Configure la route par defaut
@@ -47,7 +52,7 @@ class Router {
      * Ajoute une route
 	 * 
 	 * @param string nom de la route
-	 * @param function fonction anonyme contenant la route
+	 * @param object classe du controleur
      */
 	static function add($nom, $route) {
 		self::$routes[$nom] = $route;
@@ -60,7 +65,41 @@ class Router {
 	 * @return string le nom de la route
 	 */
 	static function get() {
-		return $_GET['redirect'] ?? null;
+		if (is_null(self::$current)) {
+			$r = null;
+			if (isset($_GET['redirect'])) {
+				if (self::exist($_GET['redirect'])) {
+					$r = $_GET['redirect'];
+				} elseif(self::exist(self::$notfound)) {
+					$r = self::$notfound;
+				}
+			}
+			if (is_null($r)) {
+				if(self::exist(self::$default)) {
+					$r = self::$default;
+				} else {
+					$r = self::getFirst();
+					if (is_null($r)) {
+						trigger_error("Aucune route n'a été définie.");
+						die;
+					}
+				}
+			}
+			self::$current = $r;
+			return $r;
+		} else {
+			return self::$current;
+		}
+	}
+	
+
+	/**
+	 * Retourne le controleur actuel
+	 * 
+	 * @return object le controleur
+	 */
+	static function getController() {
+		return self::$routes[self::get()];
 	}
 
 
@@ -92,30 +131,9 @@ class Router {
      */
 	static function routing() {
 		require_once 'composant/route.php';
-
-		$r = null;
-		if (isset($_GET['redirect'])) {
-			if (self::exist($_GET['redirect'])) {
-				$r = $_GET['redirect'];
-			} elseif(self::exist(self::$notfound)) {
-				$r = self::$notfound;
-			}
-		}
-		if (is_null($r)) {
-			if(self::exist(self::$default)) {
-				$r = self::$default;
-			} else {
-				$r = self::getFirst();
-				if (is_null($r)) {
-					trigger_error("Aucune route n'a été définie.");
-					die;
-				}
-			}
-		}
-
-		new self::$routes[$r]();
+		$c = self::getController();
+		new $c();
 		Suppervisor::log('Routage fait.');
-		Suppervisor::showSuppervisor($r, self::$routes[$r]);
 	}
 	
 }

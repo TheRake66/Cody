@@ -8,10 +8,15 @@ class Session {
 
 	/**
 	 * Initialise la session
+     * 
+     * @param bool active le nom de session pour le multi app
 	 */
-	static function start() {
+	static function start($multiple = false) {
 		if (session_status() === PHP_SESSION_NONE) {
 			Debug::log('Démarrage de la session...', Debug::LEVEL_PROGRESS);
+            if ($multiple) {
+                session_name(basename(dirname(dirname(__DIR__))));
+            }
 			session_start();
 			Debug::log('Session démarrée.', Debug::LEVEL_GOOD);
 		}

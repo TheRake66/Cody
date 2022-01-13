@@ -2,6 +2,8 @@
 // Librairie Suppervisor
 namespace Kernel;
 use Kernel\Router;
+use Kernel\Url;
+
 
 
 
@@ -65,11 +67,8 @@ class Suppervisor {
 
     /**
      * Affiche le superviseur
-     * 
-     * @param string le nom de la route actuelle
-     * @param object la classe du controleur
      */
-    static function showSuppervisor($route, $controleur) {
+    static function showSuppervisor() {
         if (Configuration::get()->supperviseur) {
             self::log('Suppervision terminé.', self::LEVEL_GOOD);
             
@@ -106,9 +105,9 @@ class Suppervisor {
                     $array .= '<div>';
                     foreach ($a as $k => $v) {
                         $array .= '<span><b>' . $k . '</b><pre>' . (
-                            is_array($v) ? 'array(' . count($v) . ')<br>' . print_r($v, true) :  
-                            (is_object($v) ? 'object(' . get_class($v) . ')<br>' . print_r($v, true) : 
-                            $v
+                            is_array($v) ? 'array(' . count($v) . ')<br>' . htmlspecialchars(print_r($v, true)) :  
+                            (is_object($v) ? 'object(' . get_class($v) . ')<br>' . htmlspecialchars(print_r($v, true)) : 
+                            htmlspecialchars($v)
                         )) . '</pre></span>';
                     }
                     $array .= '</div>';
@@ -119,7 +118,7 @@ class Suppervisor {
             $log = '';
             foreach (self::$log as $l) {
                 $log .= '
-                <pre class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . $l[0] . '</pre>';
+                <pre class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . htmlspecialchars($l[0]) . '</pre>';
             }
 
             
@@ -129,15 +128,15 @@ class Suppervisor {
                 <div>
                     <h1 class="SUPPERVISOR_HTTP_' . $type . '">HTTP ' . $http . '</h1>
                     <h1 class="' . $latency . '">' . $ms . ' ms</h1>
-                    <form action="' . \Kernel\Url::current() . '" method="post">
+                    <form action="' . Url::current() . '" method="post">
                         <input type="submit" name="supervisor_refresh" value="Actualiser">
                         <input type="submit" name="supervisor_clear" value="Vider le cache">
                     </form>
                     <h2>Informations</h2>
                     <div>
                         <span><b>Session</b><pre>' . $session . '</pre></span>
-                        <span><b>Route</b><pre>' . $route . '</pre></span>
-                        <span><b>Composant</b><pre>' . $controleur . '</pre></span>
+                        <span><b>Route</b><pre>' . Router::get() . '</pre></span>
+                        <span><b>Composant</b><pre>' . Router::getController() . '</pre></span>
                         <span><b>Version de PHP</b><pre>' . phpversion() . '</pre></span>
                     </div>
                     ' . $array . '

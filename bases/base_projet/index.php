@@ -34,3 +34,7 @@
 	<script type='text/javascript' src="__kernel/less@4.1.1.js"></script>
 		
 </html>
+
+
+
+<?php require_once '__kernel/quit.php'; ?>
