@@ -9,14 +9,15 @@ class Session {
 	/**
 	 * Initialise la session
      * 
-     * @param bool active le nom de session pour le multi app
+     * @param string le nom de la session, par defaut c'est le nom du dossier
 	 */
-	static function start($multiple = false) {
+	static function start($name = null) {
 		if (session_status() === PHP_SESSION_NONE) {
 			Debug::log('Démarrage de la session...', Debug::LEVEL_PROGRESS);
-            if ($multiple) {
-                session_name(basename(dirname(dirname(__DIR__))));
+            if (is_null($name)) {
+				$name = basename(dirname(dirname(__DIR__)));
             }
+            session_name($name);
 			session_start();
 			Debug::log('Session démarrée.', Debug::LEVEL_GOOD);
 		}
