@@ -38,6 +38,14 @@ class Router {
 	}
 
 
+	/**
+	 * Charge les routes
+	 */
+	static function load() {
+		require_once 'composant/route.php';
+	}
+
+
     /**
      * Configure la route en cas de route non trouvee (404)
 	 * 
@@ -66,6 +74,7 @@ class Router {
 	 */
 	static function get() {
 		if (is_null(self::$current)) {
+
 			$r = null;
 			if (isset($_GET['redirect'])) {
 				if (self::exist($_GET['redirect'])) {
@@ -130,7 +139,6 @@ class Router {
      * Appel la bonne route
      */
 	static function routing() {
-		require_once 'composant/route.php';
 		$c = self::getController();
 		new $c();
 		Suppervisor::log('Routage fait.');

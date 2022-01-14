@@ -26,4 +26,7 @@ k\Date::timezone();
 // Lance une session PHP
 k\Session::start();
 
+// Charge les routes
+k\Router::load();
+
 ?>
