@@ -8,6 +8,16 @@ use Kernel\Reflect\Hydrate;
 class {NAME_UPPER} {
 
     use Hydrate;
+
+
+    const PRIMARY = [
+
+    ];
+
+    
+    function __construct() {
+        
+    }
 	
 }
 
