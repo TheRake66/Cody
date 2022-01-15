@@ -169,7 +169,7 @@ class Suppervisor {
                     background: #555;
                 }
                 
-                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb:hover {
+                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb:active {
                     background: #666;
                 }
                 
