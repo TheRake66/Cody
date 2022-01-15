@@ -56,7 +56,7 @@ class Gmap {
                 mapTypeId: type
             }
         );
-    };
+    }
 
 
     /**
@@ -77,7 +77,7 @@ class Gmap {
         })
         this.markers.push(marker);
         return marker;
-    };
+    }
 
 
     /**
@@ -91,7 +91,7 @@ class Gmap {
             marker.setMap(null);
             this.markers.splice(index, 1);
         }
-    };
+    }
 
 
     /**
@@ -102,6 +102,6 @@ class Gmap {
             element.setMap(null);
         });
         this.markers.length = 0;
-    };
+    }
 
-};
+}

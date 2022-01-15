@@ -18,7 +18,7 @@ k\Error::handler();
 k\Suppervisor::suppervise();
 
 // Active le protocole SSL (HTTPS)
-// k\Security::activerSSL();
+k\Security::activerSSL();
 
 // Defini le fuseau horraire par defaut
 k\Date::timezone();

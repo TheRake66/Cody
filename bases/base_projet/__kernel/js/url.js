@@ -69,7 +69,7 @@ class Url {
         let query = window.location.search.replace(regex, "$1").replace(/&$/, '');
 
         return (query.length > 2 ? query + "&" : "?") + (remplace ? param + "=" + remplace : '');
-    };
+    }
 
 
     /**

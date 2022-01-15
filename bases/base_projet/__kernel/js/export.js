@@ -33,7 +33,7 @@ class Export {
         });
 
         Export.telecharge(csv, file);
-    };
+    }
 
 
     /**
@@ -42,7 +42,7 @@ class Export {
 	 * @param {any} content le contenu a telecharger
 	 * @param {string} file nom du fichier
      */
-     static telecharge(content, file) {
+    static telecharge(content, file) {
         let element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
         element.setAttribute('download', file);
@@ -50,5 +50,6 @@ class Export {
         document.body.appendChild(element);
         element.click();
         document.body.removeChild(element);
-     }
-};
+    }
+    
+}

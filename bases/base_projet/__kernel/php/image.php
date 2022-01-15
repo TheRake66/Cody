@@ -33,6 +33,7 @@ class Image {
             case 'image/png':
                 imagepng($dest);
                 break;
+
         }
         $compress =  ob_get_contents();
         ob_end_clean();

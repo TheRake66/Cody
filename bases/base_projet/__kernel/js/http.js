@@ -22,6 +22,6 @@ class Http {
                 callback(xml.response);
         }
         xml.send();
-    };
+    }
 
-};
+}

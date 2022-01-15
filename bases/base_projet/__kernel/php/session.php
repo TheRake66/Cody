@@ -9,12 +9,12 @@ class Session {
 	/**
 	 * Initialise la session
      * 
-     * @param string le nom de la session, par defaut c'est le nom du dossier
+     * @param string le nom de la session, par defaut c'est le nom de domaine
 	 */
 	static function start($name = null) {
-		if (session_status() === PHP_SESSION_NONE) {
+		if (Configuration::get()->ouvrir_session && session_status() === PHP_SESSION_NONE) {
 			Debug::log('Démarrage de la session...', Debug::LEVEL_PROGRESS);
-            if (is_null($name)) {
+            if (Configuration::get()->session_multisite) {
 				$name = basename(dirname(dirname(__DIR__)));
             }
             session_name($name);

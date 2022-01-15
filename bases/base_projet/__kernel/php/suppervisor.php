@@ -60,7 +60,7 @@ class Suppervisor {
             self::log('Cache vidé.', self::LEVEL_GOOD);
         }
 
-		self::log('Lancement du superviseur...', self::LEVEL_PROGRESS);
+        self::log('Lancement du superviseur...', self::LEVEL_PROGRESS);
         self::$started = microtime(true);
     }
 
@@ -69,7 +69,7 @@ class Suppervisor {
      * Affiche le superviseur
      */
     static function showSuppervisor() {
-        if (Configuration::get()->supperviseur) {
+        if (Configuration::get()->activer_supperviseur) {
             self::log('Suppervision terminé.', self::LEVEL_GOOD);
             
             $ms = round((microtime(true) - self::$started) * 1000);

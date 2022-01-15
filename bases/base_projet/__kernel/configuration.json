@@ -1,4 +1,8 @@
 {
-	"debogage" : true,
-	"supperviseur" : true
+	"activer_debogage" : true,
+	"activer_supperviseur" : true,
+	"activer_ssl": false,
+	"ouvrir_session" : true,
+	"session_multisite" : true,
+	"fuseau_horraire" : "Europe/Paris"
 }
