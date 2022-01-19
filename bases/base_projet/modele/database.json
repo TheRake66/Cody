@@ -1,9 +1,9 @@
 {
 	"identifiant" : "root", 
-	"motDePasse" : "", 
+	"mot_de_passe" : "", 
 	"hote" : "localhost", 
 	"port" : "3306", 
-	"baseDeDonnees" : "{PROJECT_NAME}", 
+	"catalogue" : "{PROJECT_NAME}", 
 	"encodage" : "utf8", 
 	"type" : "mysql" 
 }

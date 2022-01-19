@@ -36,12 +36,12 @@ class DataBase extends \PDO {
             $dsn = $param->type . 
                 ':host=' . $param->hote . 
                 ';port=' . $param->port . 
-                ';dbname=' . $param->baseDeDonnees . 
+                ';dbname=' . $param->catalogue . 
                 ';charset=' . $param->encodage;
             parent::__construct(
                 $dsn, 
                 $param->identifiant, 
-                $param->motDePasse);
+                $param->mot_de_passe);
         } catch (\Exception $e) {
             throw new \Exception('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
         }
