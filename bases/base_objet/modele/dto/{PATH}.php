@@ -19,6 +19,7 @@ class {NAME_UPPER} {
     const PRIMARY = [
 
     ];
+	
 
     /**
      * Constructeur
