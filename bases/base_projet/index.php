@@ -34,15 +34,7 @@
 	<script type='text/javascript' src="__kernel/less@4.1.1.js"></script>
 	
 	<!-- Affichage de la page apres le traitement de Less -->
-	<script>
-		async function load() {
-			await new Promise(r => setTimeout(r, 200));
-			document.getElementsByTagName('html')[0].style.opacity = 1;
-		}
-		window.addEventListener("DOMContentLoaded", e => {
-			load();
-		});
-	</script>
+	<script>document.getElementsByTagName('html')[0].style.opacity = 1;</script>
 		
 </html>
 
