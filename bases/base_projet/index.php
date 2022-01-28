@@ -31,10 +31,13 @@
 	<link rel="stylesheet/less" type="text/css" href="composant/global.less">
 	
 	<!-- Inclusion de Less -->
-	<script type='text/javascript' src="__kernel/less@4.1.1.js"></script>
-	
-	<!-- Affichage de la page apres le traitement de Less -->
-	<script>document.getElementsByTagName('html')[0].style.opacity = 1;</script>
+	<script>
+		async function load() {
+			await new Promise(r => setTimeout(r, 200));
+			document.getElementsByTagName('html')[0].style.opacity = 1;
+		}
+		document.addEventListener("DOMContentLoaded", load);
+	</script>
 		
 </html>
 
