@@ -12,6 +12,9 @@
 		<meta name="keywords" content="{PROJECT_NAME}">
 		<meta name="author" content="{USER_NAME}">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="theme-color" content="#3B78FF">
+		<meta name="msapplication-navbutton-color" content="#3B78FF">
+		<meta name="apple-mobile-web-app-status-bar-style" content="#3B78FF">
 		<title>{PROJECT_NAME}</title>
 		<link rel='icon' href='image/favicon.ico'/>
 	</head>
