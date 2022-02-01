@@ -33,7 +33,7 @@ class Render {
         echo '<link rel="stylesheet/less" type="text/css" href="' . $folder . 'style.' . $name . '.less">';
         // Inclut et initialise le script
         echo '<script type="text/javascript" src="' . $folder . 'script.' . $name . '.js"></script>';
-        echo '<script>var ' . $name . ' = new ' . $class .'();</script>';
+        echo '<script>const ' . $name . ' = new ' . $class .'();</script>';
 	}
 	
 }
