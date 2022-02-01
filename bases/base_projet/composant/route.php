@@ -1,5 +1,4 @@
 <?php
-
 use Kernel\Router as r;
 use Controleur as c;
 

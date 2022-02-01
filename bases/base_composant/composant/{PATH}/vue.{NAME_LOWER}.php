@@ -1,5 +1,5 @@
-<!-- Creation de la page {NAME_UPPER} -->
-<?php 
+<?php
+// Creation de la page {NAME_UPPER} 
 use Kernel\Html;
 use Kernel\Url;
 use Kernel\Convert;
