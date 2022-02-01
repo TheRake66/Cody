@@ -7,15 +7,6 @@ namespace Kernel;
 class Url {
 
 	/**
-	 * Recharge la page
-	 */
-	static function reload() {
-		header('Location: ' . self::current());
-		exit;
-	}
-	
-
-	/**
 	 * Accede a une url
 	 * 
 	 * @param string la route
@@ -24,6 +15,15 @@ class Url {
 	 */
 	static function go($route, $param = [], $addback = false) {
 		header('Location: ' . self::build($route, $param, $addback));
+		exit;
+	}
+	
+
+	/**
+	 * Recharge la page
+	 */
+	static function reload() {
+		header('Location: ' . self::current());
 		exit;
 	}
 
@@ -57,14 +57,14 @@ class Url {
 	 * @return string le nouvel url
 	 */
 	static function build($route, $param = [], $addback = false) {
-		$url = '?redirect=' . $route;
+		$url = '?r=' . $route;
 
 		foreach ($param as $name => $value) {
 			$url .= '&' . $name . '=' . urlencode($value);
 		}
 
 		if ($addback) {
-			$url .= '&back=' . urlencode($_SERVER['REQUEST_URI']);
+			$url .= '&b=' . urlencode($_SERVER['REQUEST_URI']);
 		}
 
 		return $url;
@@ -78,9 +78,9 @@ class Url {
 	 * @param string sa nouvelle valeur
 	 * @return string le nouvel url
 	 */
-	static function changeGet($param, $remplace) {
+	static function changeGet($name, $value) {
 		$query = $_GET;
-		$query[$param] = $remplace;
+		$query[$name] = $value;
 		return $_SERVER['PHP_SELF'] . '?' . http_build_query($query);
 	}
 	
@@ -92,8 +92,8 @@ class Url {
 	 * @param string sa valeur
 	 * @return string le nouvel url
 	 */
-	static function addGet($param, $value = true) {
-		return self::changeGet($param, $value);
+	static function addGet($name, $value = true) {
+		return self::changeGet($name, $value);
 	}
 	
 
@@ -103,8 +103,8 @@ class Url {
 	 * @param string nom du parametre
 	 * @return string valeur du parametre
 	 */
-	static function paramGet($param) {
-		return $_GET[$param] ?? null;
+	static function paramGet($name) {
+		return $_GET[$name] ?? null;
 	}
 
 
@@ -114,9 +114,9 @@ class Url {
 	 * @param string le nom du parametre
 	 * @return string le nouvel url
 	 */
-	static function removeGet($param) {
+	static function removeGet($name) {
 		$query = $_GET;
-		unset($query[$param]);
+		unset($query[$name]);
 		return $_SERVER['PHP_SELF'] . '?' . http_build_query($query);
 	}
 

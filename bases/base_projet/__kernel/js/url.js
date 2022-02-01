@@ -12,14 +12,22 @@ class Url {
         window.location.href = Url.build(route, param, addback);
 	}
 
+	
+	/**
+	 * Recharge la page
+	 */
+	static reload() {
+		window.location.reload();
+	}
+
 
 	/**
-	 * Defini un href avec le parametre de retour
+	 * Retourne le parametre de retour
 	 * 
-	 * @return {string} le href
+	 * @return {string} le retour
 	 */
 	static back() {
-		return 'href="' + Url.paramGet('back') + '"';
+		return Url.paramGet('b') ?? '';
 	}
 
 	
@@ -32,7 +40,7 @@ class Url {
 		return window.location;
 	}
 
-
+	
 	/**
 	 * Contruit une url
 	 * 
@@ -42,7 +50,7 @@ class Url {
 	 * @return {string} le nouvel url
 	 */
 	static build(route, param = [], addback = false) {
-		let url = '?redirect=' + route;
+		let url = '?r=' + route;
 
         for (let name in param) {
             let value = param[name];
@@ -50,7 +58,7 @@ class Url {
         }
 
 		if (addback) {
-			url += '&back=' + encodeURIComponent(window.location);
+			url += '&b=' + encodeURIComponent(window.location);
 		}
 
 		return url;
@@ -60,15 +68,15 @@ class Url {
     /**
 	 * Remplace un parametre de l'url
 	 * 
-	 * @param {string} param le nom du parametre
-	 * @param {string} remplace sa nouvelle valeur
+	 * @param {string} name le nom du parametre
+	 * @param {string} value sa nouvelle valeur
 	 * @return {string} le nouvel url
      */
-    static changeGet(param, remplace) {
-        let regex = new RegExp("([?;&])" + param + "[^&;]*[;&]?");
+    static changeGet(name, value) {
+        let regex = new RegExp("([?;&])" + name + "[^&;]*[;&]?");
         let query = window.location.search.replace(regex, "$1").replace(/&$/, '');
 
-        return (query.length > 2 ? query + "&" : "?") + (remplace ? param + "=" + remplace : '');
+        return (query.length > 2 ? query + "&" : "?") + (value ? name + "=" + value : '');
     }
 
 

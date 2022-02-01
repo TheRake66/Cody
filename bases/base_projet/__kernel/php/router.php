@@ -76,9 +76,9 @@ class Router {
 		if (is_null(self::$current)) {
 
 			$r = null;
-			if (isset($_GET['redirect'])) {
-				if (self::exist($_GET['redirect'])) {
-					$r = $_GET['redirect'];
+			if (isset($_GET['r'])) {
+				if (self::exist($_GET['r'])) {
+					$r = $_GET['r'];
 				} elseif(self::exist(self::$notfound)) {
 					$r = self::$notfound;
 				}
