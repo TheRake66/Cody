@@ -1,4 +1,4 @@
-// Ajout de script de la page {NAME_UPPER}
+// Ajout du script de la page {NAME_UPPER}
 class {NAME_UPPER} {
 
     /**
@@ -9,7 +9,3 @@ class {NAME_UPPER} {
     }
 
 }
-
-
-
-let {NAME_LOWER} = new {NAME_UPPER}();
