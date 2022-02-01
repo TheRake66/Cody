@@ -9,10 +9,10 @@ class Render {
     /**
      * Inclut les fichiers pour afficher la vue
      * 
-     * @param object le controleur a afficher
+     * @param array les variables a passer a la vue
      */
-	static function view($controler) {
-		$full = get_class($controler);
+	function view($variables = []) {
+		$full = get_class($this);
 
         $explode = explode('\\', $full);
         $class = end($explode);
@@ -21,6 +21,8 @@ class Render {
         $folder = 'composant/' . strtolower(implode('/', $namespace)) . '/';
         $name = strtolower($class);
         
+        extract($variables);
+
         include $folder . 'vue.' . $name . '.php';
         echo '<link rel="stylesheet/less" type="text/css" href="' . $folder . 'style.' . $name . '.less">';
         echo '<script type="text/javascript" src="' . $folder . 'script.' . $name . '.js"></script>';

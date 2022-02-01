@@ -1,6 +1,6 @@
 <?php
-use Kernel\Router;
-use Controleur;
+use Kernel\Router as r;
+use Controleur as c;
 
 
 
@@ -62,6 +62,6 @@ use Controleur;
 
 
 // Commencez par creer un composant avec la commande "com -a accueil"
-// Router::add('accueil', Controleur\Accueil::class);
+// r::add('accueil', c\Accueil::class);
 
 ?>
