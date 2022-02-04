@@ -1,8 +1,9 @@
 <?php
-
+// Trait Hydrate
 namespace Kernel\Reflect;
-
 use Kernel\Debug;
+
+
 
 trait Hydrate {
     
