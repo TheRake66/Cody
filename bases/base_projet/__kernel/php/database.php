@@ -32,7 +32,7 @@ class DataBase extends \PDO {
     function __construct() {
         Debug::log('Connexion à la base de données...', Debug::LEVEL_PROGRESS);
         try {
-            $param = json_decode(file_get_contents('modele/database.json'));
+            $param = json_decode(file_get_contents('src/data/database.json'));
             $dsn = $param->type . 
                 ':host=' . $param->hote . 
                 ';port=' . $param->port . 

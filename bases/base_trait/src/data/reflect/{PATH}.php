@@ -1,6 +1,6 @@
 <?php
 // Trait {NAME_UPPER}
-namespace Modele\Reflect{NAMESPACE_SLASH};
+namespace Model\Reflect{NAMESPACE_SLASH};
 
 
 

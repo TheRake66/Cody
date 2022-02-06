@@ -10,9 +10,9 @@ namespace Cody
     {
 
         // Informations
-        public string nom;
-        public DateTime creation;
-        public string createur;
+        public string name;
+        public DateTime created;
+        public string madeby;
         public string description;
         public string version;
         public List<Element> elements;

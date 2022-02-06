@@ -69,7 +69,8 @@ namespace Cody
         public static bool isProject()
         {
             // Si le projet existe
-            if (File.Exists("project.json")) return true;
+            if (File.Exists("project.json")) 
+                return true;
             else
             {
                 Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody...");
@@ -138,6 +139,13 @@ namespace Cody
                 Message.writeExcept("Impossible de lire le fichier d'information de Cody !", e);
                 return false;
             }
+        }
+
+
+        // Retourne le lien vers le depot en fonction de la branche
+        public static string getGitBranch()
+        {
+            return "https://raw.githubusercontent.com/TheRake66/Cody/" + (Program.config.modeBeta ? "dev" : "main");
         }
 
 

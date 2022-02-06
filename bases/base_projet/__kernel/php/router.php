@@ -42,7 +42,7 @@ class Router {
 	 * Charge les routes
 	 */
 	static function load() {
-		require_once 'composant/route.php';
+		require_once 'src/app/route.php';
 	}
 
 

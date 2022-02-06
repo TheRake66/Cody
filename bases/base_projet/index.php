@@ -16,11 +16,11 @@
 		<meta name="msapplication-navbutton-color" content="#3B78FF">
 		<meta name="apple-mobile-web-app-status-bar-style" content="#3B78FF">
 		<title>{PROJECT_NAME}</title>
-		<link rel='icon' href='image/favicon.ico'/>
+		<link rel='icon' href='favicon.ico'/>
 	</head>
 		
 	<!-- Inclusion du script global de debut -->
-	<script type='text/javascript' src='composant/global_brefore.js'></script>
+	<script type='text/javascript' src='src/app/global_brefore.js'></script>
 	
 	<!-- Routage vers le bon controleur -->
 	<body>
@@ -28,10 +28,10 @@
 	</body>
 	
 	<!-- Inclusion du script global de fin -->
-	<script type='text/javascript' src='composant/global_after.js'></script>
+	<script type='text/javascript' src='src/app/global_after.js'></script>
 		
 	<!-- Inclusion du style global -->
-	<link rel="stylesheet/less" type="text/css" href="composant/global.less">
+	<link rel="stylesheet/less" type="text/css" href="src/app/global.less">
 	
 	<!-- Inclusion de Less -->
 	<script type='text/javascript' src='__kernel/less@4.1.1.js'></script>

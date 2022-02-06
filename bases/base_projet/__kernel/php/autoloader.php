@@ -35,12 +35,16 @@ class Autoloader {
                 $file = '__kernel/php/' . $namespace . '/' . $class . '.php';
                 break;
 
-            case 'Librairie':
-                $file = 'librairie/php/' . $namespace . '/' . $class . '.php';
+            case 'Librairy':
+                $file = 'src/lib/php/' . $namespace . '/' . $class . '.php';
                 break;
 
-            case 'Controleur':
-                $file = 'composant/' . $namespace . '/' . $class . '/cont.' . $class . '.php';
+            case 'Controler':
+                $file = 'src/app/' . $namespace . '/' . $class . '/cont.' . $class . '.php';
+                break;
+
+            case 'Model':
+                $file = 'src/data/' . $namespace . '/' . $class . '/' . $class . '.php';
                 break;
 
             default:
@@ -51,6 +55,7 @@ class Autoloader {
         $file = strtolower($file);
         if(is_file($file) && is_readable($file)) {
             include $file;
+            Debug::log('Classe "' . $required . '" chargée.', Debug::LEVEL_OK);
         } else {
             throw new \Exception('Impossible de charger : "' . $required . '".');
         }

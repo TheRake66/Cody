@@ -10,7 +10,7 @@ namespace Cody
     {
 
         // Informations
-        public string nom;
+        public string name;
         public string archive;
         public string index;
 

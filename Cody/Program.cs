@@ -35,97 +35,107 @@ namespace Cody
 
             while (true)
             {
+                // Affiche le prompt
                 afficherPrompt();
 
                 // Recupere les inputs, trim, et remplace les doublon d'espaces
                 string input = Console.ReadLine().Trim();
                 string[] split = input.Replace("  ", " ").Split(' ');
-                string cmd = split[0];
-
-                if (cmd.Length > 0)
-                {
-                    // Retire la commande de base des arguments
-                    string[] argm = split.Skip(1).ToArray();
-
-                    // Dispatch dans les commandes
-                    switch (cmd)
-                    {
-                        case "aide":
-                            Commande.aideCom(argm);
-                            break;
-
-                        case "cd":
-                            Commande.changeDir(argm);
-                            break;
-
-                        case "cls":
-                            Commande.clearCons(argm);
-                            break;
-
-                        case "com":
-                            Commande.gestComposant(argm);
-                            break;
-
-                        case "die":
-                            Commande.quitterApp(argm);
-                            break;
-
-                        case "dl":
-                            Commande.downFile(argm);
-                            break;
-
-                        case "exp":
-                            Commande.openExplorer(argm);
-                            break;
-
-                        case "lib":
-                            Commande.gestLibrairie(argm);
-                            break;
-
-                        case "ls":
-                            Commande.listProjet(argm);
-                            break;
-
-                        case "maj":
-                            Commande.verifMAJ(argm);
-                            break;
-
-                        case "new":
-                            Commande.creerProjet(argm);
-                            break;
-
-                        case "obj":
-                            Commande.gestObjet(argm);
-                            break;
-
-                        case "pkg":
-                            Commande.gestPackage(argm);
-                            break;
-
-                        case "rep":
-                            Commande.openRepo(argm);
-                            break;
-
-                        case "run":
-                            Commande.runProjet(argm);
-                            break;
-
-                        case "tra":
-                            Commande.gestTrait(argm);
-                            break;
-
-                        case "vs":
-                            Commande.openVSCode(argm);
-                            break;
-
-                        default:
-                            Console.WriteLine($"Erreur, commande '{cmd}' inconnue !");
-                            break;
-                    }
-                }
-                else
-                    Console.WriteLine("Aucune commande, essayer la commande 'aide'.");
+                dispatchCmd(split);
             }
+        }
+
+
+        // Dispatch dans les commandes
+        static void dispatchCmd(string[] line)
+        {
+            if (line.Length > 0)
+            {
+                string cmd = line[0];
+                // Retire la commande de base des arguments
+                string[] argm = line.Skip(1).ToArray();
+
+                switch (cmd)
+                {
+                    case "aide":
+                        Commande.aideCom(argm);
+                        break;
+
+                    case "cd":
+                        Commande.changeDir(argm);
+                        break;
+
+                    case "cls":
+                        Commande.clearCons(argm);
+                        break;
+
+                    case "com":
+                        Commande.gestComposant(argm);
+                        break;
+
+                    case "dev":
+                        Commande.devMode(argm);
+                        break;
+
+                    case "die":
+                        Commande.quitterApp(argm);
+                        break;
+
+                    case "dl":
+                        Commande.downFile(argm);
+                        break;
+
+                    case "exp":
+                        Commande.openExplorer(argm);
+                        break;
+
+                    case "lib":
+                        Commande.gestLibrairie(argm);
+                        break;
+
+                    case "ls":
+                        Commande.listProjet(argm);
+                        break;
+
+                    case "maj":
+                        Commande.verifMAJ(argm);
+                        break;
+
+                    case "new":
+                        Commande.creerProjet(argm);
+                        break;
+
+                    case "obj":
+                        Commande.gestObjet(argm);
+                        break;
+
+                    case "pkg":
+                        Commande.gestPackage(argm);
+                        break;
+
+                    case "rep":
+                        Commande.openRepo(argm);
+                        break;
+
+                    case "run":
+                        Commande.runProjet(argm);
+                        break;
+
+                    case "tra":
+                        Commande.gestTrait(argm);
+                        break;
+
+                    case "vs":
+                        Commande.openVSCode(argm);
+                        break;
+
+                    default:
+                        Console.WriteLine($"Erreur, commande '{cmd}' inconnue !");
+                        break;
+                }
+            }
+            else
+                Console.WriteLine("Aucune commande, essayer la commande 'aide'.");
         }
 
 
@@ -143,8 +153,12 @@ namespace Cody
             Message.writeIn(ConsoleColor.Blue, Environment.MachineName);
             Message.writeIn(ConsoleColor.DarkRed, "├─┤");
             Message.writeIn(ConsoleColor.DarkGreen, Directory.GetCurrentDirectory());
+            if (Program.config.modeBeta)
+            {
+                Message.writeIn(ConsoleColor.DarkRed, "├─┤");
+                Message.writeIn(ConsoleColor.DarkYellow, "Mode développeur");
+            }
             Message.writeLineIn(ConsoleColor.DarkRed, "│ ");
-
             Message.writeIn(ConsoleColor.DarkRed, "└────►");
             Message.writeIn(ConsoleColor.DarkYellow, " $");
             Console.ResetColor();
@@ -161,9 +175,11 @@ namespace Cody
             Console.Title = $"({version}) Cody";
             Console.OutputEncoding = Encoding.UTF8;
 
-            // Entete
-            Console.SetCursorPosition(0, 0);
-            Message.writeIn(ConsoleColor.Blue, @"
+            if (Console.WindowHeight > 10)
+            {
+                // Entete
+                Console.SetCursorPosition(0, 0);
+                Message.writeIn(ConsoleColor.Blue, @"
                                        ▄▄▄▄▄▄▄                          ▄▄
                                      ▄████████▌▐▄                       ██
                                     ████▀▀▀▀▀▀ ▀▀                       ██
@@ -179,26 +195,27 @@ namespace Cody
                                                                             ▄███
                                                                             ▀▀▀
 ");
-            // Entete
-            Console.SetCursorPosition(0, 15);
-            Message.writeIn(ConsoleColor.DarkRed, @"
+                // Entete
+                Console.SetCursorPosition(0, 15);
+                Message.writeIn(ConsoleColor.DarkRed, @"
                                                     ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
-            Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                          ~ Version {version} du 30 novembre 2021 ~
-                                     ~ Copyright © 2021 - Thibault BUSTOS (TheRake66) ~");
+                Message.writeLineIn(ConsoleColor.DarkYellow, $@"
+                                          ~ Version {version} du 6 février 2022 ~
+                                     ~ Copyright © " + DateTime.Now.Year + " - Thibault BUSTOS (TheRake66) ~");
 
-            Console.WriteLine(@"
+                Console.WriteLine(@"
 
 
 Utilisez la commande 'aide' pour voir la liste des commandes.
 ");
+            }
         }
 
 
         // Gere la configuration de cody
         static void chargerConfig()
         {
-            AppDomain.CurrentDomain.ProcessExit += (s, e) => actualiserConfig();
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => sauvegarderConfig();
 
             if (File.Exists(Program.configFile))
             {
@@ -222,27 +239,13 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
         {
             try
             {
-                if (Directory.Exists(Program.config.dernierChemin)) Directory.SetCurrentDirectory(Program.config.dernierChemin);
+                if (Directory.Exists(Program.config.lastPath)) 
+                    Directory.SetCurrentDirectory(Program.config.lastPath);
             }
             catch (Exception e)
             {
                 Message.writeExcept("Impossible d'appliquer la configuration de Cody !", e);
             }
-        }
-        static void actualiserConfig()
-        {
-            bool continu = true;
-            try
-            {
-                Program.config.dernierChemin = Directory.GetCurrentDirectory();
-            }
-            catch (Exception e)
-            {
-                Message.writeExcept("Impossible d'actualiser la configuration de Cody !", e);
-                continu = false;
-            }
-
-            if (continu) sauvegarderConfig();
         }
         static void sauvegarderConfig()
         {

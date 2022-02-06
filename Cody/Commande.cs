@@ -17,6 +17,7 @@ namespace Cody
     public class Commande
     {
 
+
         // Affiche l'aide
         public static void aideCom(string[] cmd)
         {
@@ -30,6 +31,7 @@ cd [*chemin]                    Change le dossier courant ou affiche la liste de
 cls                             Nettoie la console.
 com [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un composant (controleur, vue, style,
                                 script) avec le nom spécifié.
+dev                             Active ou désactive le mode développeur (bêta-testeur).
 die                             Quitte Cody.
 dl [url] [fichier]              Télécharge un fichier avec l'URL spécifiée.
 exp                             Ouvre le projet dans l'explorateur de fichiers.
@@ -46,8 +48,27 @@ run                             Lance un serveur PHP et ouvre le projet dans le 
 tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
 vs                              Ouvre le projet dans Visual Studio Code.
 
-*: Argument facultatif.");
+* : Argument facultatif.");
             }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+
+
+        // Nettoire la console
+        public static void devMode(string[] cmd)
+        {
+            if (cmd.Length == 0)
+                if (Program.config.modeBeta)
+                {
+                    Program.config.modeBeta = false;
+                    Console.WriteLine("Mode développeur désactivé.");
+                }
+                else
+                {
+                    Program.config.modeBeta = true;
+                    Console.WriteLine("Mode développeur activé.");
+                }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
@@ -67,6 +88,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     {
                         // Change le dossier
                         Directory.SetCurrentDirectory(path);
+                        Program.config.lastPath = Directory.GetCurrentDirectory();
                         Console.WriteLine("Chemin changé.");
                     }
                     catch (Exception e)
@@ -278,7 +300,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 // Prepare un client http
                 WebClient client = Librairie.getProxyClient();
                 Prod lastversion = JsonConvert.DeserializeObject<Prod>(
-                    client.DownloadString("https://raw.githubusercontent.com/TheRake66/Cody/main/version.json"));
+                    client.DownloadString(Librairie.getGitBranch() + "/version.json"));
 
                 // Compare les version
                 if (lastversion.version.Equals(Program.version))
@@ -310,7 +332,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     {
                         try
                         {
-                            Librairie.startProcess("https://cody-framework.fr/index.php?redirect=telecharger");
+                            Librairie.startProcess("https://cody-framework.fr/index.php?r=telecharger");
                         }
                         catch (Exception e)
                         {
@@ -423,7 +445,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 {
                     // Prepare un client http
                     WebClient client = Librairie.getProxyClient();
-                    string json = client.DownloadString("https://github.com/TheRake66/Cody/raw/main/packages/list_packages.json");
+                    string json = client.DownloadString(Librairie.getGitBranch() + "/packages/list_packages.json");
                     list = JsonConvert.DeserializeObject<List<Package>>(json);
                 }
                 catch (Exception e)
@@ -479,10 +501,11 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Console.WriteLine("Problème, il manque le type d'action ou le nom du package !");
         }
 
+
         // Liste les package
         private static void listerPackage(List<Package> list)
         {
-            List<Package> trier = list.OrderBy(o => o.nom).ToList();
+            List<Package> trier = list.OrderBy(o => o.name).ToList();
 
             Console.WriteLine("╔══════════════════════════════════╦══════════════╦═════════════════════════╦═══════════════════╗");
             Console.WriteLine("║ Nom                              ║ Version      ║ Crée le                 ║ Par               ║");
@@ -527,16 +550,17 @@ vs                              Ouvre le projet dans Visual Studio Code.
         private static void afficherUnPackage(Package pack)
         {
             Console.SetCursorPosition(2, Console.CursorTop - 1);
-            Message.writeIn(ConsoleColor.Magenta, pack.nom);
+            Message.writeIn(ConsoleColor.Magenta, pack.name);
 
             Console.SetCursorPosition(37, Console.CursorTop);
             Console.Write(pack.version);
 
             Console.SetCursorPosition(52, Console.CursorTop);
-            Console.Write(pack.creation.ToString());
+            Console.Write(pack.created.ToString());
             Console.SetCursorPosition(78, Console.CursorTop);
-            Console.WriteLine(pack.createur);
+            Console.WriteLine(pack.madeby);
         }
+
 
         // Ajoute ou supprime un package
         private static void traitementPackage(string nom, List<Package> list, bool ajouter)
@@ -544,7 +568,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
             Package p = null;
             foreach (Package pck in list)
             {
-                if (pck.nom.ToLower() == nom)
+                if (pck.name.ToLower() == nom)
                 {
                     p = pck;
                     break;
@@ -562,16 +586,16 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 foreach (Element arc in p.elements)
                 {
                     Console.Write("Élément : ");
-                    Message.writeIn(ConsoleColor.DarkYellow, arc.nom);
+                    Message.writeIn(ConsoleColor.DarkYellow, arc.name);
                     Console.WriteLine(".");
 
                     if (ajouter)
                     {
-                        if (ajouterItem(arc.nom, arc.archive, arc.index, "https://github.com/TheRake66/Cody/raw/main/packages/")) count++;
+                        if (ajouterItem(arc.name, arc.archive, arc.index, Librairie.getGitBranch() + "/packages/")) count++;
                     }
                     else
                     {
-                        if (supprimerItem(arc.nom, arc.index)) count++;
+                        if (supprimerItem(arc.name, arc.index)) count++;
                     }
                     Console.WriteLine("─────────────────────────────────────────────────────────────────────");
                 }
@@ -690,9 +714,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Console.SetCursorPosition(68, Console.CursorTop);
                 Message.writeIn(inf.version == Program.version ? ConsoleColor.Green : ConsoleColor.DarkYellow, inf.version);
                 Console.SetCursorPosition(84, Console.CursorTop);
-                Console.Write(inf.creation.ToString());
+                Console.Write(inf.created.ToString());
                 Console.SetCursorPosition(110, Console.CursorTop);
-                Console.Write(inf.createur);
+                Console.Write(inf.madeby);
             }
             catch
             {
@@ -708,6 +732,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
             Console.WriteLine();
         }
 
+
         // Creer un nouveau projet
         public static void creerProjet(string[] cmd)
         {
@@ -716,7 +741,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 // Verifi si projet existe deja
                 string name = cmd[0];
 
-                if (!Directory.Exists(name))
+                if (!File.Exists(Path.Combine(name, "project.json")))
                 {
                     if (creerDossierProjet(name))
                     {
@@ -728,7 +753,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     }
                 }
                 else
-                    Console.WriteLine("Heuuu, le projet existe déjà, ou un dossier...");
+                    Console.WriteLine("Heuuu, le projet existe déjà...");
             }
             else if (cmd.Length > 1)
                 Console.WriteLine("Problème, seul le nom du nouveau projet est attendu !");
@@ -741,7 +766,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 // Prepare un client http
                 WebClient client = Librairie.getProxyClient();
-                client.DownloadFile("https://github.com/TheRake66/Cody/raw/main/bases/base_projet.zip", path);
+                client.DownloadFile(Librairie.getGitBranch() + "/bases/base_projet.zip", path);
                 return true;
             }
             catch (Exception e)
@@ -786,6 +811,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 }
 
                 supprimerArchiveProjet(zip);
+                cacherKernelProjet(nom);
                 creerJsonProject(nom);
                 changerDossierProjet(nom);
 
@@ -867,6 +893,19 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Message.writeExcept("Impossible de supprimer l'archive !", e);
             }
         }
+        private static void cacherKernelProjet(string name)
+        {
+            try
+            {
+                DirectoryInfo di = new DirectoryInfo(Path.Combine(name, "__kernel"));
+                if ((di.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
+                    di.Attributes |= FileAttributes.Hidden;
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de cacher le dossier du kernel !", e);
+            }
+        }
         private static void creerJsonProject(string name)
         {
 
@@ -874,9 +913,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 // Creer le cody json
                 Projet inf = new Projet();
-                inf.createur = Environment.UserName;
+                inf.madeby = Environment.UserName;
                 inf.version = Program.version;
-                inf.creation = DateTime.Now;
+                inf.created = DateTime.Now;
 
                 string json = JsonConvert.SerializeObject(inf, Formatting.Indented);
                 File.WriteAllText(Path.Combine(name, "project.json"), json);
@@ -907,25 +946,28 @@ vs                              Ouvre le projet dans Visual Studio Code.
         // Gere les objets
         public static void gestObjet(string[] cmd)
         {
-            gestItem(cmd, "base_objet.zip", "modele/object.json");
+            gestItem(cmd, "base_objet.zip", "src/data/object.json");
         }
+
 
         // Gere les librairies
         public static void gestLibrairie(string[] cmd)
         {
-            gestItem(cmd, "base_librairie.zip", "librairie/library.json");
+            gestItem(cmd, "base_librairie.zip", "src/lib/library.json");
         }
+
 
         // Gere les composants
         public static void gestComposant(string[] cmd)
         {
-            gestItem(cmd, "base_composant.zip", "composant/component.json");
+            gestItem(cmd, "base_composant.zip", "src/app/component.json");
         }
+
 
         // Gere les traits
         public static void gestTrait(string[] cmd)
         {
-            gestItem(cmd, "base_trait.zip", "modele/trait.json");
+            gestItem(cmd, "base_trait.zip", "src/data/trait.json");
         }
 
 
@@ -975,9 +1017,13 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Console.WriteLine("Problème, il manque le type d'action ou le nom de l'élément !");
         }
 
+
         // Ajoute un item
-        private static bool ajouterItem(string nom, string archivenom, string jsoni, string url = "https://github.com/TheRake66/Cody/raw/main/bases/")
+        private static bool ajouterItem(string nom, string archivenom, string jsoni, string url = null)
         {
+            if (url == null)
+                url = Librairie.getGitBranch() + "bases/";
+
             bool continu = true;
             List<Item> objs = new List<Item>();
 
@@ -993,7 +1039,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
                         foreach (Item obj in objs)
                         {
-                            if (obj.nom == nom)
+                            if (obj.name == nom)
                             {
                                 Console.WriteLine("Heuuu, l'élément existe déjà...");
                                 continu = false;
@@ -1169,10 +1215,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
             try
             {
                 Item obj = new Item();
-                obj.nom = nom;
-                obj.createur = Environment.UserName;
-                obj.creation = DateTime.Now;
-                obj.chemins = paths;
+                obj.name = nom;
+                obj.madeby = Environment.UserName;
+                obj.created = DateTime.Now;
+                obj.paths = paths;
                 objs.Add(obj);
 
                 string json = JsonConvert.SerializeObject(objs, Formatting.Indented);
@@ -1183,6 +1229,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Message.writeExcept("Impossible d'indexé l'élément !", e);
             }
         }
+
 
         // Suprime un item
         private static bool supprimerItem(string nom, string jsoni)
@@ -1223,11 +1270,11 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
             foreach (Item obj in objs)
             {
-                if (obj.nom == nom)
+                if (obj.name == nom)
                 {
                     objs.Remove(obj);
                     trouve = true;
-                    foreach (string file in obj.chemins)
+                    foreach (string file in obj.paths)
                     {
                         // Complatibilite os
                         string fcomp = Librairie.remplaceDirSep(file);
@@ -1318,6 +1365,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
             }
         }
 
+
         // Liste les item
         private static void listerItem(string jsoni)
         {
@@ -1330,7 +1378,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     if (json != "")
                     {
                         List<Item> objs = JsonConvert.DeserializeObject<List<Item>>(json);
-                        List<Item> trier = objs.OrderBy(o => o.nom).ToList();
+                        List<Item> trier = objs.OrderBy(o => o.name).ToList();
 
                         Console.WriteLine("╔══════════════════════════════════╦══════════════╦═════════════════════════╦═══════════════════╗");
                         Console.WriteLine("║ Nom                              ║ Fichier      ║ Crée le                 ║ Par               ║");
@@ -1376,22 +1424,22 @@ vs                              Ouvre le projet dans Visual Studio Code.
         private static void afficherUnItem(Item obj)
         {
             Console.SetCursorPosition(2, Console.CursorTop - 1);
-            Message.writeIn(ConsoleColor.Magenta, obj.nom);
+            Message.writeIn(ConsoleColor.Magenta, obj.name);
 
             int count2 = 0;
-            foreach (string file in obj.chemins)
+            foreach (string file in obj.paths)
                 if (File.Exists(Librairie.remplaceDirSep(file))) count2++;
 
             Console.SetCursorPosition(37, Console.CursorTop);
-            if (count2 == obj.chemins.Count)
-                Console.Write(Librairie.toNumberFr(obj.chemins.Count));
+            if (count2 == obj.paths.Count)
+                Console.Write(Librairie.toNumberFr(obj.paths.Count));
             else
-                Message.writeIn(ConsoleColor.DarkRed, $"{Librairie.toNumberFr(count2)} ({Librairie.toNumberFr(obj.chemins.Count)})");
+                Message.writeIn(ConsoleColor.DarkRed, $"{Librairie.toNumberFr(count2)} ({Librairie.toNumberFr(obj.paths.Count)})");
 
             Console.SetCursorPosition(52, Console.CursorTop);
-            Console.Write(obj.creation.ToString());
+            Console.Write(obj.created.ToString());
             Console.SetCursorPosition(78, Console.CursorTop);
-            Console.WriteLine(obj.createur);
+            Console.WriteLine(obj.madeby);
         }
 
 

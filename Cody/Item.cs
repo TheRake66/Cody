@@ -10,10 +10,10 @@ namespace Cody
     {
 
         // Informations
-        public string nom;
-        public DateTime creation;
-        public string createur;
-        public List<string> chemins;
+        public string name;
+        public DateTime created;
+        public string madeby;
+        public List<string> paths;
 
     }
 }

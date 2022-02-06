@@ -42,7 +42,7 @@ class Export {
 	 * @param {any} content le contenu a telecharger
 	 * @param {string} file nom du fichier
      */
-    static telecharge(content, file) {
+    static download(content, file) {
         let element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
         element.setAttribute('download', file);

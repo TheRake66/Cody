@@ -1,7 +1,11 @@
 {
-	"version": "5.10.37.0",
+	"version": "6.11.39.0",
 	"changelog": [
-		"Correction librairie conversion en unité de mémoire (v2)."
+		"Changement de l'architecture globale d'un projet.",
+		"Ajout d'un mode bêta-testeur.",
+		"Cache le dossier kernel lors de la création d'un projet.",
+		"Correction du plantage lors d'un lancement sur un terminal trop petit.",
+		"Ajout du chemin d'installation dans le PATH.",
 	],
-	"retrocompatible": true
+	"retrocompatible": false
 }

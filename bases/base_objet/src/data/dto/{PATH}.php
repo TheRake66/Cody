@@ -1,6 +1,6 @@
 <?php
 // Classe DTO {NAME_UPPER}
-namespace Modele\dto{NAMESPACE_SLASH};
+namespace Model\dto{NAMESPACE_SLASH};
 use Kernel\Reflect\Hydrate;
 
 

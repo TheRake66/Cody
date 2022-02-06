@@ -11,8 +11,8 @@ namespace Cody
 
         // Informations contenues dans project.json
         public string version;
-        public DateTime creation;
-        public string createur;
+        public DateTime created;
+        public string madeby;
 
     }
 }
