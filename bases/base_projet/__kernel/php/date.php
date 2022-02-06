@@ -16,7 +16,7 @@ class Date {
             $zone = Configuration::get()->fuseau_horraire;
         }
         date_default_timezone_set($zone);
-        Debug::log('Fuseau horaire défini sur ' . $zone);
+        Debug::log('Fuseau horaire défini sur ' . $zone . '.');
     }
     
 }

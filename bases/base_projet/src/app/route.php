@@ -1,6 +1,6 @@
 <?php
 use Kernel\Router as r;
-use Controleur as c;
+use Controler as c;
 
 
 

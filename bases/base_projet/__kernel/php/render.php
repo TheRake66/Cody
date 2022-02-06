@@ -21,7 +21,7 @@ class Render {
         $namespace = array_slice($explode, 1, count($explode) - 1);
         
         // Construit les nom de fichier et le dossier
-        $folder = 'composant/' . strtolower(implode('/', $namespace)) . '/';
+        $folder = 'src/app/' . strtolower(implode('/', $namespace)) . '/';
         $name = strtolower($class);
         
         // Envoi les variables a la vue

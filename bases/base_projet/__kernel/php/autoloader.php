@@ -44,7 +44,7 @@ class Autoloader {
                 break;
 
             case 'Model':
-                $file = 'src/data/' . $namespace . '/' . $class . '/' . $class . '.php';
+                $file = 'src/data/' . $namespace . '/' . $class . '.php';
                 break;
 
             default:
@@ -55,7 +55,6 @@ class Autoloader {
         $file = strtolower($file);
         if(is_file($file) && is_readable($file)) {
             include $file;
-            Debug::log('Classe "' . $required . '" chargée.', Debug::LEVEL_OK);
         } else {
             throw new \Exception('Impossible de charger : "' . $required . '".');
         }

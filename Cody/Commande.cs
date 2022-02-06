@@ -1022,7 +1022,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
         private static bool ajouterItem(string nom, string archivenom, string jsoni, string url = null)
         {
             if (url == null)
-                url = Librairie.getGitBranch() + "bases/";
+                url = Librairie.getGitBranch() + "/bases/";
 
             bool continu = true;
             List<Item> objs = new List<Item>();

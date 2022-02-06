@@ -49,9 +49,10 @@ namespace Cody
         // Dispatch dans les commandes
         static void dispatchCmd(string[] line)
         {
-            if (line.Length > 0)
+            string cmd = line[0];
+
+            if (cmd.Length > 0)
             {
-                string cmd = line[0];
                 // Retire la commande de base des arguments
                 string[] argm = line.Skip(1).ToArray();
 
