@@ -6,6 +6,6 @@
 		"Cache le dossier kernel lors de la création d'un projet.",
 		"Correction du plantage lors d'un lancement sur un terminal trop petit.",
 		"Ajout du chemin d'installation dans le PATH."
-	],
+	], 
 	"retrocompatible": false
 }
