@@ -69,7 +69,7 @@ class Suppervisor {
      * Affiche le superviseur
      */
     static function showSuppervisor() {
-        if (Configuration::get()->activer_supperviseur) {
+        if (Configuration::get()->enable_supervisor) {
             self::log('Suppervision terminé.', self::LEVEL_GOOD);
             
             $ms = round((microtime(true) - self::$started) * 1000);

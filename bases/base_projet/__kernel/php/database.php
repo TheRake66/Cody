@@ -34,14 +34,14 @@ class DataBase extends \PDO {
         try {
             $param = json_decode(file_get_contents('src/data/database.json'));
             $dsn = $param->type . 
-                ':host=' . $param->hote . 
+                ':host=' . $param->host . 
                 ';port=' . $param->port . 
-                ';dbname=' . $param->catalogue . 
-                ';charset=' . $param->encodage;
+                ';dbname=' . $param->name . 
+                ';charset=' . $param->encoding;
             parent::__construct(
                 $dsn, 
-                $param->identifiant, 
-                $param->mot_de_passe);
+                $param->login, 
+                $param->password);
         } catch (\Exception $e) {
             throw new \Exception('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
         }

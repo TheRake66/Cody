@@ -127,7 +127,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     int x = Console.CursorLeft;
                     foreach (string i in all)
                     {
-                        Console.SetCursorPosition(x, Console.CursorTop);
+                        Message.setPos(x, Console.CursorTop);
                         Message.writeIn(dirs.Contains(i) ? 
                             Librairie.isFolderProject(i) ? ConsoleColor.Magenta : ConsoleColor.Blue : 
                             ConsoleColor.Cyan, Path.GetFileName(i));
@@ -178,14 +178,14 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Action<int, long, long> display_barre = (percent, receceid, total) =>
                 {
                     // Progress
-                    Console.SetCursorPosition(x_barre, y_barre);
+                    Message.setPos(x_barre, y_barre);
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     // Pas de percent / 2, le modulo est plus rapide que la division flotante
                     for (float i = 0; i < percent; i++)
                         if (i % 2 == 0) Console.Write("▓");
                     Console.ResetColor();
 
-                    Console.SetCursorPosition(x_byte, y_barre);
+                    Message.setPos(x_byte, y_barre);
                     Console.Write($"{percent}% ");
                     Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(receceid));
                     Console.Write(" sur ");
@@ -227,12 +227,12 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 {
                     // Progress complete
                     display_barre(100, total_byte, total_byte);
-                    Console.SetCursorPosition(x, y + 3);
+                    Message.setPos(x, y + 3);
                     Console.WriteLine("Téléchargement terminé.");
                 }
                 else
                 {
-                    Console.SetCursorPosition(x, y + 3);
+                    Message.setPos(x, y + 3);
                     Message.writeExcept("Impossible de télécharger ce fichier !", ex);
                 }
             }
@@ -527,7 +527,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 count++;
             }
 
-            Console.SetCursorPosition(0, Console.CursorTop - 1);
+            Message.setPos(0, Console.CursorTop - 1);
 
             if (count > 0)
             {
@@ -544,20 +544,20 @@ vs                              Ouvre le projet dans Visual Studio Code.
         }
         private static void afficherDescriptionPackage(Package pack)
         {
-            Console.SetCursorPosition(2, Console.CursorTop - 1);
+            Message.setPos(2, Console.CursorTop - 1);
             Message.writeIn(ConsoleColor.DarkCyan, pack.description);
         }
         private static void afficherUnPackage(Package pack)
         {
-            Console.SetCursorPosition(2, Console.CursorTop - 1);
+            Message.setPos(2, Console.CursorTop - 1);
             Message.writeIn(ConsoleColor.Magenta, pack.name);
 
-            Console.SetCursorPosition(37, Console.CursorTop);
+            Message.setPos(37, Console.CursorTop);
             Console.Write(pack.version);
 
-            Console.SetCursorPosition(52, Console.CursorTop);
+            Message.setPos(52, Console.CursorTop);
             Console.Write(pack.created.ToString());
-            Console.SetCursorPosition(78, Console.CursorTop);
+            Message.setPos(78, Console.CursorTop);
             Console.WriteLine(pack.madeby);
         }
 
@@ -655,7 +655,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                             }
                         }
 
-                        Console.SetCursorPosition(0, Console.CursorTop - 1);
+                        Message.setPos(0, Console.CursorTop - 1);
 
                         if (count > 0)
                         {
@@ -683,7 +683,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
         }
         private static void calculerProjet(string dir, string file)
         {
-            Console.SetCursorPosition(2, Console.CursorTop - 1);
+            Message.setPos(2, Console.CursorTop - 1);
             Message.writeIn(ConsoleColor.Magenta, Path.GetFileName(dir));
 
             // Calcule ne nb de fichier et la taille total
@@ -691,17 +691,17 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 long[] data = Librairie.getCountAndSizeFolder(dir);
 
-                Console.SetCursorPosition(32, Console.CursorTop);
+                Message.setPos(32, Console.CursorTop);
                 Console.Write(Librairie.toNumberFr((int)data[0]));
-                Console.SetCursorPosition(50, Console.CursorTop);
+                Message.setPos(50, Console.CursorTop);
                 Console.Write(Librairie.toNumberMem(data[1]));
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                Console.SetCursorPosition(32, Console.CursorTop);
+                Message.setPos(32, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                Console.SetCursorPosition(50, Console.CursorTop);
+                Message.setPos(50, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
             }
 
@@ -711,21 +711,21 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 string json = File.ReadAllText(file);
                 Projet inf = JsonConvert.DeserializeObject<Projet>(json);
 
-                Console.SetCursorPosition(68, Console.CursorTop);
+                Message.setPos(68, Console.CursorTop);
                 Message.writeIn(inf.version == Program.version ? ConsoleColor.Green : ConsoleColor.DarkYellow, inf.version);
-                Console.SetCursorPosition(84, Console.CursorTop);
+                Message.setPos(84, Console.CursorTop);
                 Console.Write(inf.created.ToString());
-                Console.SetCursorPosition(110, Console.CursorTop);
+                Message.setPos(110, Console.CursorTop);
                 Console.Write(inf.madeby);
             }
             catch
             {
 
-                Console.SetCursorPosition(68, Console.CursorTop);
+                Message.setPos(68, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                Console.SetCursorPosition(84, Console.CursorTop);
+                Message.setPos(84, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
-                Console.SetCursorPosition(110, Console.CursorTop);
+                Message.setPos(110, Console.CursorTop);
                 Message.writeIn(ConsoleColor.DarkRed, "Erreur");
             }
 
@@ -1393,7 +1393,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                             count++;
                         }
 
-                        Console.SetCursorPosition(0, Console.CursorTop - 1);
+                        Message.setPos(0, Console.CursorTop - 1);
 
                         if (count > 0)
                         {
@@ -1423,22 +1423,22 @@ vs                              Ouvre le projet dans Visual Studio Code.
         }
         private static void afficherUnItem(Item obj)
         {
-            Console.SetCursorPosition(2, Console.CursorTop - 1);
+            Message.setPos(2, Console.CursorTop - 1);
             Message.writeIn(ConsoleColor.Magenta, obj.name);
 
             int count2 = 0;
             foreach (string file in obj.paths)
                 if (File.Exists(Librairie.remplaceDirSep(file))) count2++;
 
-            Console.SetCursorPosition(37, Console.CursorTop);
+            Message.setPos(37, Console.CursorTop);
             if (count2 == obj.paths.Count)
                 Console.Write(Librairie.toNumberFr(obj.paths.Count));
             else
                 Message.writeIn(ConsoleColor.DarkRed, $"{Librairie.toNumberFr(count2)} ({Librairie.toNumberFr(obj.paths.Count)})");
 
-            Console.SetCursorPosition(52, Console.CursorTop);
+            Message.setPos(52, Console.CursorTop);
             Console.Write(obj.created.ToString());
-            Console.SetCursorPosition(78, Console.CursorTop);
+            Message.setPos(78, Console.CursorTop);
             Console.WriteLine(obj.madeby);
         }
 

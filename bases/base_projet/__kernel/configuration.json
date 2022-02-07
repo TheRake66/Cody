@@ -1,8 +1,8 @@
 {
-	"activer_debogage" : true,
-	"activer_supperviseur" : true,
-	"activer_ssl": false,
-	"ouvrir_session" : true,
-	"session_multisite" : true,
-	"fuseau_horraire" : "Europe/Paris"
+	"enable_debug" : true,
+	"enable_supervisor" : true,
+	"enable_ssl": false,
+	"open_session" : true,
+	"multiple_session" : true,
+	"timezone" : "Europe/Paris"
 }

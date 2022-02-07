@@ -5,18 +5,20 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Cody</RootNamespace>
     <StartupObject></StartupObject>
-    <Version>6.11.39.0</Version>
+    <Version>6.12.40.0</Version>
     <Authors>Thibault BUSTOS (TheRake66)</Authors>
     <Description>Framework PHP/JavaScript/HTML/Less en français.</Description>
-    <Copyright>Copyright © 2021 - Thibault BUSTOS (TheRake66)</Copyright>
-    <PackageLicenseExpression>MIT License</PackageLicenseExpression>
+    <Copyright>Copyright © 2022 - Thibault BUSTOS (TheRake66)</Copyright>
+    <PackageLicenseExpression></PackageLicenseExpression>
     <PackageIcon>Sans titre.png</PackageIcon>
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/TheRake66/Cody</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <AssemblyVersion>6.11.39.0</AssemblyVersion>
+    <AssemblyVersion>6.12.40.0</AssemblyVersion>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyName>Cody</AssemblyName>
+    <FileVersion>6.12.40.0</FileVersion>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +39,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

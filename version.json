@@ -1,10 +1,12 @@
 {
-	"version": "6.11.39.0",
+	"version": "6.12.40.0",
 	"changelog": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
 		"Cache le dossier kernel lors de la création d'un projet.",
 		"Correction du plantage lors d'un lancement sur un terminal trop petit.",
+		"Correction des sorties de buffer.",
+		"Support d'un chemin passé en argument.",
 		"Ajout du chemin d'installation dans le PATH."
 	], 
 	"retrocompatible": false

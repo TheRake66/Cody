@@ -42,7 +42,7 @@ class Error {
     static function showError($severity, $message, $filename, $lineno) {
         ob_end_clean();
         http_response_code(500);
-        if (Configuration::get()->activer_debogage) {
+        if (Configuration::get()->enable_debug) {
             $search = urlencode($message);
             echo '
             <div class="ERROR_CODY_BLOCK">

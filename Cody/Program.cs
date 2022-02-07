@@ -18,13 +18,19 @@ namespace Cody
 
         // Recupere la version du exe
         public static string version = typeof(Program).Assembly.GetName().Version.ToString();
+        // La configuration en objet
         public static Configuration config = new Configuration();
+        // Le fichier configuration, dans le dossier du exe
         public static string configFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "configuration.json");
+        // Si un chemin est en argument on applique pas celui de la config
+        private static bool pathInArgument = false;
 
 
         // Point d'entree
         static void Main(string[] args)
         {
+            // Gere les arguments
+            gererArguments(args);
             // Affiche le logo
             afficherLogo();
             // Verifi les mise a jour
@@ -43,6 +49,79 @@ namespace Cody
                 string[] split = input.Replace("  ", " ").Split(' ');
                 dispatchCmd(split);
             }
+        }
+
+
+        // Affiche le logo
+        static void afficherLogo()
+        {
+            // Nettoie si jamais l'user l'a lancer via commande
+            Console.Clear();
+            // Change le titre de la console
+            Console.Title = $"({version}) Cody";
+            Console.OutputEncoding = Encoding.UTF8;
+
+            if (Console.WindowHeight > 10)
+            {
+                // Entete
+                Message.setPos(0, 0);
+                Message.writeIn(ConsoleColor.Blue, @"
+                                       ▄▄▄▄▄▄▄                          ▄▄
+                                     ▄████████▌▐▄                       ██
+                                    ████▀▀▀▀▀▀ ▀▀                       ██
+                                   ▐███ ▐████████▌    ▄▄▄▄▄▄      ▄▄▄▄▄▄██   ▄▄       ▄▄
+                                   ███▌ ▄▄▄▄▄▄▄▄▄▄   ████████    █████████  ▐██▌     ▐██▌
+                                   ███▌ ▀▀▀▀▀▀▀▀▀▀  ▐██▀  ▀██▌  ▐██▀  ▀███   ▐██▌   ▐██▌
+                                   ▐███ ▐████████▌  ██▌    ▐██  ██▌    ▐██    ▐██▌ ▐██▌
+                                    ████▄▄▄▄▄▄ ▄▄   ▐██▄  ▄██▌  ▐██▄  ▄██▌     ▐██▄██▌
+                                     ▀████████▌▐▀    ████████    ████████       ▐███▌
+                                       ▀▀▀▀▀▀▀        ▀▀▀▀▀▀      ▀▀▀▀▀▀        ███▀
+                                                                               ███
+                                                                              ███
+                                                                            ▄███
+                                                                            ▀▀▀
+");
+                // Entete
+                Message.setPos(0, 15);
+                Message.writeIn(ConsoleColor.DarkRed, @"
+                                                    ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
+                Message.writeLineIn(ConsoleColor.DarkYellow, $@"
+                                          ~ Version {version} du 6 février 2022 ~
+                                     ~ Copyright © " + DateTime.Now.Year + " - Thibault BUSTOS (TheRake66) ~");
+
+                Console.WriteLine(@"
+
+
+Utilisez la commande 'aide' pour voir la liste des commandes.
+");
+            }
+        }
+
+
+        // Affiche le prompt
+        static void afficherPrompt()
+        {
+            // Saut apres une commande
+            Console.WriteLine();
+            Console.WriteLine();
+
+            // Change le prompt
+            Message.writeIn(ConsoleColor.DarkRed, "┌──┤");
+            Message.writeIn(ConsoleColor.Cyan, Environment.UserName);
+            Message.writeIn(ConsoleColor.DarkYellow, "@");
+            Message.writeIn(ConsoleColor.Blue, Environment.MachineName);
+            Message.writeIn(ConsoleColor.DarkRed, "├─┤");
+            Message.writeIn(ConsoleColor.DarkGreen, Directory.GetCurrentDirectory());
+            if (Program.config.modeBeta)
+            {
+                Message.writeIn(ConsoleColor.DarkRed, "├─┤");
+                Message.writeIn(ConsoleColor.DarkYellow, "Mode développeur");
+            }
+            Message.writeLineIn(ConsoleColor.DarkRed, "│ ");
+            Message.writeIn(ConsoleColor.DarkRed, "└────►");
+            Message.writeIn(ConsoleColor.DarkYellow, " $");
+            Console.ResetColor();
+            Console.Write(": ");
         }
 
 
@@ -140,78 +219,37 @@ namespace Cody
         }
 
 
-        // Affiche le prompt
-        static void afficherPrompt()
+        // Gere les arguments
+        static void gererArguments(string[] args)
         {
-            // Saut apres une commande
-            Console.WriteLine();
-            Console.WriteLine();
-
-            // Change le prompt
-            Message.writeIn(ConsoleColor.DarkRed, "┌──┤");
-            Message.writeIn(ConsoleColor.Cyan, Environment.UserName);
-            Message.writeIn(ConsoleColor.DarkYellow, "@");
-            Message.writeIn(ConsoleColor.Blue, Environment.MachineName);
-            Message.writeIn(ConsoleColor.DarkRed, "├─┤");
-            Message.writeIn(ConsoleColor.DarkGreen, Directory.GetCurrentDirectory());
-            if (Program.config.modeBeta)
+            // Charge le path en argument
+            if (args.Length > 0)
             {
-                Message.writeIn(ConsoleColor.DarkRed, "├─┤");
-                Message.writeIn(ConsoleColor.DarkYellow, "Mode développeur");
-            }
-            Message.writeLineIn(ConsoleColor.DarkRed, "│ ");
-            Message.writeIn(ConsoleColor.DarkRed, "└────►");
-            Message.writeIn(ConsoleColor.DarkYellow, " $");
-            Console.ResetColor();
-            Console.Write(": ");
-        }
-
-
-        // Affiche le logo
-        static void afficherLogo()
-        {
-            // Nettoie si jamais l'user l'a lancer via commande
-            Console.Clear();
-            // Change le titre de la console
-            Console.Title = $"({version}) Cody";
-            Console.OutputEncoding = Encoding.UTF8;
-
-            if (Console.WindowHeight > 10)
-            {
-                // Entete
-                Console.SetCursorPosition(0, 0);
-                Message.writeIn(ConsoleColor.Blue, @"
-                                       ▄▄▄▄▄▄▄                          ▄▄
-                                     ▄████████▌▐▄                       ██
-                                    ████▀▀▀▀▀▀ ▀▀                       ██
-                                   ▐███ ▐████████▌    ▄▄▄▄▄▄      ▄▄▄▄▄▄██   ▄▄       ▄▄
-                                   ███▌ ▄▄▄▄▄▄▄▄▄▄   ████████    █████████  ▐██▌     ▐██▌
-                                   ███▌ ▀▀▀▀▀▀▀▀▀▀  ▐██▀  ▀██▌  ▐██▀  ▀███   ▐██▌   ▐██▌
-                                   ▐███ ▐████████▌  ██▌    ▐██  ██▌    ▐██    ▐██▌ ▐██▌
-                                    ████▄▄▄▄▄▄ ▄▄   ▐██▄  ▄██▌  ▐██▄  ▄██▌     ▐██▄██▌
-                                     ▀████████▌▐▀    ████████    ████████       ▐███▌
-                                       ▀▀▀▀▀▀▀        ▀▀▀▀▀▀      ▀▀▀▀▀▀        ███▀
-                                                                               ███
-                                                                              ███
-                                                                            ▄███
-                                                                            ▀▀▀
-");
-                // Entete
-                Console.SetCursorPosition(0, 15);
-                Message.writeIn(ConsoleColor.DarkRed, @"
-                                                    ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
-                Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                          ~ Version {version} du 6 février 2022 ~
-                                     ~ Copyright © " + DateTime.Now.Year + " - Thibault BUSTOS (TheRake66) ~");
-
-                Console.WriteLine(@"
-
-
-Utilisez la commande 'aide' pour voir la liste des commandes.
-");
+                string path = args[0];
+                bool continu = true;
+                if (path == ".")
+                {
+                    try
+                    {
+                        string curr = Directory.GetCurrentDirectory();
+                        path = curr;
+                    }
+                    catch
+                    {
+                        continu = false;
+                    }
+                }
+                if (continu && Directory.Exists(path))
+                {
+                    try
+                    {
+                        Directory.SetCurrentDirectory(path);
+                        Program.pathInArgument = true;
+                    }
+                    catch { }
+                }
             }
         }
-
 
         // Gere la configuration de cody
         static void chargerConfig()
@@ -240,8 +278,9 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
         {
             try
             {
-                if (Directory.Exists(Program.config.lastPath)) 
-                    Directory.SetCurrentDirectory(Program.config.lastPath);
+                if (!Program.pathInArgument)
+                    if (Directory.Exists(Program.config.lastPath)) 
+                        Directory.SetCurrentDirectory(Program.config.lastPath);
             }
             catch (Exception e)
             {
