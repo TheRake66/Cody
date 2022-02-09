@@ -32,3 +32,10 @@ cd base_trait
 move base_trait.zip ..\base_trait.zip
 
 cd ..
+
+del base_test.zip
+cd base_test
+"D:\Program Files\WinRAR\WinRAR.exe" a -r base_test.zip
+move base_test.zip ..\base_test.zip
+
+cd ..

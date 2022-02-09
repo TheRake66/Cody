@@ -1,0 +1,9 @@
+{
+	"enable_debug" : true,
+	"enable_supervisor" : true,
+	"enable_ssl": false,
+	"open_session" : true,
+	"multiple_session" : true,
+	"show_sql_error" : true,
+	"timezone" : "Europe/Paris"
+}

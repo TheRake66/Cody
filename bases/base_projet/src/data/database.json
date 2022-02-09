@@ -1,9 +1,0 @@
-{
-	"login" : "root", 
-	"password" : "", 
-	"host" : "localhost", 
-	"port" : "3306", 
-	"name" : "{PROJECT_NAME}", 
-	"encoding" : "utf8", 
-	"type" : "mysql" 
-}

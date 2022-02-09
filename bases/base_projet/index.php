@@ -1,4 +1,4 @@
-<?php require_once '__kernel/init.php'; ?>
+<?php require_once '.kernel/init.php'; ?>
 
 
 
@@ -20,7 +20,7 @@
 	</head>
 		
 	<!-- Inclusion du script global de debut -->
-	<script type='text/javascript' src='src/app/global_brefore.js'></script>
+	<script type='text/javascript' src='debug/app/global_brefore.js'></script>
 	
 	<!-- Routage vers le bon controleur -->
 	<body>
@@ -28,13 +28,13 @@
 	</body>
 	
 	<!-- Inclusion du script global de fin -->
-	<script type='text/javascript' src='src/app/global_after.js'></script>
+	<script type='text/javascript' src='debug/app/global_after.js'></script>
 		
 	<!-- Inclusion du style global -->
-	<link rel="stylesheet/less" type="text/css" href="src/app/global.less">
+	<link rel="stylesheet/less" type="text/css" href="debug/app/global.less">
 	
 	<!-- Inclusion de Less -->
-	<script type='text/javascript' src='__kernel/less@4.1.1.js'></script>
+	<script type='text/javascript' src='.kernel/less@4.1.1.js'></script>
 	<script>
 		async function load() {
 			await new Promise(r => setTimeout(r, 200));
@@ -47,4 +47,4 @@
 
 
 
-<?php require_once '__kernel/quit.php'; ?>
+<?php require_once '.kernel/quit.php'; ?>
