@@ -22,10 +22,10 @@ class DataBase extends \PDO {
     static function getInstance() {
         if (!self::$instance) {
             self::$instance = new DataBase();
-            if (Configuration::get()->database->show_sql_error) {
-                self::$instance->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-                self::$instance->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
-            }
+            self::$instance->setAttribute(parent::ATTR_ERRMODE,
+                Configuration::get()->database->show_sql_error ?
+                parent::ERRMODE_EXCEPTION :
+                parent::ERRMODE_SILENT);
         }
         return self::$instance;
     }
@@ -127,7 +127,7 @@ class DataBase extends \PDO {
         $parsed = self::paramsToSQL($params);
         Debug::log('Paramètres de la requête (row) : "' . print_r($parsed, true) . '".');
         $rqt->execute($parsed);
-        return $rqt->fetch(\PDO::FETCH_ASSOC);
+        return $rqt->fetch(parent::FETCH_ASSOC);
     }
 
     
@@ -143,7 +143,7 @@ class DataBase extends \PDO {
         $parsed = self::paramsToSQL($params);
         Debug::log('Paramètres de la requête (all) : "' . print_r($parsed, true) . '".');
         $rqt->execute($parsed);
-        return $rqt->fetchAll(\PDO::FETCH_ASSOC);
+        return $rqt->fetchAll(parent::FETCH_ASSOC);
     }
 
     

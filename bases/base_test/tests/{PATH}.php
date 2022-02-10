@@ -1,5 +1,6 @@
 <?php
 namespace Test{NAMESPACE_SLASH};
+use Kernel\Testing;
 
 
 
