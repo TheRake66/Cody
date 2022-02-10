@@ -53,7 +53,7 @@ class Session {
      * @return bool si elle existe
      */
 	static function hasSession() {
-		return isset($_SESSION['utilisateur']) && !is_null($_SESSION['utilisateur']);
+		return isset($_SESSION['user']) && !is_null($_SESSION['user']);
 	}
 
     
@@ -63,7 +63,7 @@ class Session {
      * @param object objet DTO de l'utilisateur a memoriser
      */
 	static function setSession($user) {
-		$_SESSION['utilisateur'] = $user;
+		$_SESSION['user'] = $user;
 	}
 
 
@@ -73,7 +73,7 @@ class Session {
      * @return object instance dto utilisateur en memoire
      */
 	static function getSession() {
-		return $_SESSION['utilisateur'] ?? null;
+		return $_SESSION['user'] ?? null;
 	}
 
 
@@ -96,26 +96,26 @@ class Session {
 		if (is_null($token)) {
 			$token = Security::makeToken(50);
 		}
-		setcookie("jeton", $token, time() + $nbdays*60*60*24);
+		setcookie("token", $token, time() + $nbdays*60*60*24);
         Debug::log('Jeton de connexion : ' . $token . ', défini pour ' . $nbdays . '...');
 	}
 
 
     /**
      * Recupere le jeton de connexion
+     * 
+     * @return string le jeton de connexion en memoire
      */
 	static function getToken() {
-		return $_COOKIE['jeton'] ?? null;
+		return $_COOKIE['token'] ?? null;
 	}
 
 
     /**
      * Detruit le jeton de connexion
-     * 
-     * @return string le jeton de connexion en memoire
      */
 	static function remToken() {
-		setcookie("jeton", "");
+		setcookie("token", "");
         Debug::log('Jeton supprimé.');
 	}
 

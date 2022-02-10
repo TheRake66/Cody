@@ -22,7 +22,7 @@ class DataBase extends \PDO {
     static function getInstance() {
         if (!self::$instance) {
             self::$instance = new DataBase();
-            if (Configuration::get('show_sql_error')) {
+            if (Configuration::get()->database->show_sql_error) {
                 self::$instance->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                 self::$instance->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
             }
@@ -37,20 +37,20 @@ class DataBase extends \PDO {
     function __construct() {
         Debug::log('Connexion à la base de données...', Debug::LEVEL_PROGRESS);
         try {
-            $param = json_decode(file_get_contents('{PROJECT_NAME}/data/database.json'));
-            $dsn = $param->type . 
-                ':host=' . $param->host . 
-                ';port=' . $param->port . 
-                ';dbname=' . $param->name . 
-                ';charset=' . $param->encoding;
+            $c = Configuration::get()->database;
+            $dsn = $c->type . 
+                ':host=' . $c->host . 
+                ';port=' . $c->port . 
+                ';dbname=' . $c->name . 
+                ';charset=' . $c->encoding;
             parent::__construct(
                 $dsn, 
-                $param->login, 
-                $param->password);
+                $c->login, 
+                $c->password);
         } catch (\Exception $e) {
             throw new \Exception('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
         }
-        Debug::log('Connexion reussite.', Debug::LEVEL_GOOD);
+        Debug::log('Connexion réussite.', Debug::LEVEL_GOOD);
     }
 
 
@@ -229,7 +229,7 @@ class DataBase extends \PDO {
         $sql = '';
         $arr = [];
         if (is_null($primary)) {
-            $primary = $obj->PRIMARY;
+            $primary = $obj::PRIMARY;
         }   
         foreach ((array)$obj as $prop => $val) {
             if (count($primary) == 0) {

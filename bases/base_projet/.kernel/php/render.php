@@ -1,6 +1,7 @@
 <?php
 // Librairie Render
 namespace Kernel;
+use Kernel\Html;
 
 
 
@@ -30,10 +31,9 @@ class Render {
         // Inclut la vue
         include $folder . 'vue.' . $name . '.php';
         // Inclut le style
-        echo '<link rel="stylesheet/less" type="text/css" href="' . $folder . 'style.' . $name . '.less">';
+        echo Html::importStyle($folder . 'style.' . $name . '.less');
         // Inclut et initialise le script
-        echo '<script type="text/javascript" src="' . $folder . 'script.' . $name . '.js"></script>';
-        echo '<script>const ' . $name . ' = new ' . $class .'();</script>';
+        echo Html::importScript($folder . 'script.' . $name . '.js', $name, $class);
 	}
 	
 }

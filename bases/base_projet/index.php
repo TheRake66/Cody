@@ -1,4 +1,8 @@
-<?php require_once '.kernel/init.php'; ?>
+<?php 
+require_once '.kernel/init.php';
+use Kernel\Router;
+use Kernel\Html;
+?>
 
 
 
@@ -20,21 +24,21 @@
 	</head>
 		
 	<!-- Inclusion du script global de debut -->
-	<script type='text/javascript' src='debug/app/global_brefore.js'></script>
+	<?= Html::importScript('debug/app/global_brefore.js') ?>
 	
 	<!-- Routage vers le bon controleur -->
 	<body>
-		<?php Kernel\Router::routing(); ?>
+		<?php Router::routing(); ?>
 	</body>
 	
 	<!-- Inclusion du script global de fin -->
-	<script type='text/javascript' src='debug/app/global_after.js'></script>
+	<?= Html::importScript('debug/app/global_after.js') ?>
 		
 	<!-- Inclusion du style global -->
-	<link rel="stylesheet/less" type="text/css" href="debug/app/global.less">
+	<?= Html::importStyle('debug/app/global.less') ?>
 	
 	<!-- Inclusion de Less -->
-	<script type='text/javascript' src='.kernel/less@4.1.1.js'></script>
+	<?= Html::importScript('.kernel/less@4.1.1.js') ?>
 	<script>
 		async function load() {
 			await new Promise(r => setTimeout(r, 200));

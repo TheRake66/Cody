@@ -68,4 +68,32 @@ class Html {
 		return self::setAttrib($_POST[$name] ?? $default, $key);
 	}
 	
+
+	/**
+	 * Importe un fichier javascript
+	 * 
+	 * @param string le fichier a importer
+	 * @param string le nom de la variable a instancier
+	 * @param string le nom de la classe a instancier
+	 * @return string le code HTML qui importe le script
+	 */
+	static function importScript($file, $name = null, $class = null) {
+		$js = '<script type="text/javascript" src="' . $file . '"></script>';
+		if (!is_null($name) && !is_null($class)) {
+			$js .= '<script>const ' . $name . ' = new ' . $class .'();</script>';
+		}
+        return $js;
+	}
+	
+
+	/**
+	 * Importe un fichier less
+	 * 
+	 * @param string le fichier a importer
+	 * @return string le code HTML qui importe le style
+	 */
+	static function importStyle($file) {
+        return '<link rel="stylesheet/less" type="text/css" href="' . $file . '">';
+	}
+	
 }
