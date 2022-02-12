@@ -28,7 +28,7 @@ namespace Cody
                 // Affiche l'aide
                 Console.WriteLine(
 @"aide                            Affiche la liste des commandes disponible.
-build                           Construit le projet, minifie et compile les fichiers.
+build                           Construit le projet, minifie et compile les fichiers. Nécessite npm.
 cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
                                 du dossier courant.
 cls                             Nettoie la console.
@@ -473,14 +473,14 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
                     try
                     {
-                        //Librairie.installNpmPackage("less");
-                        //Librairie.installNpmPackage("minify");
+                        Librairie.installNpmPackage("less");
+                        Librairie.installNpmPackage("minify");
                         string c = Directory.GetCurrentDirectory();
                         string t = Path.Combine(c, "release");
                         Directory.Delete(t, true);
                         Directory.CreateDirectory(t);
                         recursiveCopyAndMinify(c, c, t, excludedFiles, excludedFolder, toMinifi);
-                        Console.WriteLine("Le projet a été construit.");
+                        Console.WriteLine("Le projet a été construit. N'oubliez pas de modifier le fichier de configuration afin de faire la mise en production.");
                     }
                     catch (Exception e)
                     {
@@ -498,28 +498,22 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 if (!exFi.Contains(Path.GetFileName(f)))
                 {
-                    string ex = Path.GetExtension(f);
-                    string exl = ex.ToLower();
+                    string ex = Path.GetExtension(f).ToLower();
                     string rel = f.Substring(origin.Length + 1);
+                    string nf = Path.Combine(originto, rel);
 
-                    if (toMin.Contains(exl))
+                    if (toMin.Contains(ex))
                     {
-                        rel = rel.Substring(0, rel.Length - ex.Length) + ".min" + ex;
-                        string nf = Path.Combine(originto, rel);
-
                         // Si less on compile puis minifi
-                        if (exl == ".less")
+                        if (ex == ".less")
                             compileMinifyLess(f, nf, rel);
                         // Juste minifi
                         else
-                            minifyFile(f, nf, rel);
+                            minifyFile(f, nf, rel, ex);
                     }
                     // Juste copie
                     else
-                    {
-                        string nf = Path.Combine(originto, rel);
                         moveFileToRelease(f, nf, rel);
-                    }
                 }
             }
 
@@ -569,10 +563,12 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Message.writeExcept("Impossible de copier le fichier !", e);
             }
         }
-        private static void minifyFile(string file, string to, string rel)
+        private static void minifyFile(string file, string to, string rel, string ex)
         {
             try
             {
+                rel = rel.Substring(0, rel.Length - ex.Length) + ".min" + ex;
+                to = to.Substring(0, to.Length - ex.Length) + ".min" + ex;
                 Process p = Librairie.startProcess("minify", file + " > " + to, ProcessWindowStyle.Hidden);
                 p.WaitForExit();
 

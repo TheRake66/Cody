@@ -31,9 +31,9 @@ class Render {
         // Inclut la vue
         include $folder . 'vue.' . $name . '.php';
         // Inclut le style
-        echo Html::importStyle($folder . 'style.' . $name . (Configuration::get()->in_production ? '.min.css' : '.less'));
+        echo Html::importStyle($folder . 'style.' . $name . '.less');
         // Inclut et initialise le script
-        echo Html::importScript($folder . 'script.' . $name . (Configuration::get()->in_production ? '.min.js' : '.js'), $name, $class);
+        echo Html::importScript($folder . 'script.' . $name . '.js', $name, $class);
     }
     
 }
