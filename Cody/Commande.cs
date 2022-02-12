@@ -16,6 +16,8 @@ namespace Cody
 {
     public class Commande
     {
+        // L'instance du serveur lancer
+        private static Process serverRun;
 
 
         // Affiche l'aide
@@ -26,6 +28,7 @@ namespace Cody
                 // Affiche l'aide
                 Console.WriteLine(
 @"aide                            Affiche la liste des commandes disponible.
+build                           Construit le projet, minifie et compile les fichiers. Nécessite npm.
 cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
                                 du dossier courant.
 cls                             Nettoie la console.
@@ -45,7 +48,9 @@ obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe dto,
 pkg [-t|-l|-s] [*nom]           Télécharge, liste ou supprime un package depuis le dépôt de Cody.
 rep                             Ouvre la dépôt GitHub de Cody.
 run                             Lance un serveur PHP et ouvre le projet dans le navigateur.
+tes [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une classe de test unitaire.
 tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
+unit                            Lance les tests unitaires.
 vs                              Ouvre le projet dans Visual Studio Code.
 
 * : Argument facultatif.");
@@ -398,6 +403,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
         }
 
 
+        // ########################################################################
+
+
         // Ouvre le projet dans le navigateur et lance un serveur PHP
         public static void runProjet(string[] cmd)
         {
@@ -409,11 +417,11 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     try
                     {
                         // Ferme les serveur php
-                        foreach (Process process in Process.GetProcessesByName("php"))
-                            process.Kill();
+                        if (Commande.serverRun != null && !Commande.serverRun.HasExited)
+                            Commande.serverRun.Kill();
 
                         // Lance PHP
-                        Librairie.startProcess($"php", "-S localhost:6600", ProcessWindowStyle.Minimized);
+                        Commande.serverRun = Librairie.startProcess("php", "-S localhost:6600", ProcessWindowStyle.Minimized);
                         Console.WriteLine("Serveur PHP lancé.");
 
                         // Ouvre dans le navigateur
@@ -428,6 +436,271 @@ vs                              Ouvre le projet dans Visual Studio Code.
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+
+
+        // Minify le projet
+        public static void buildProject(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                // Si le projet existe
+                if (Librairie.isProject())
+                {
+                    string[] excludedFiles = new string[]
+                    {
+                        ".gitignore",
+                        "project.json",
+                        "component.json",
+                        "object.json",
+                        "trait.json",
+                        "library.json",
+                        "test.json"
+                    };
+                    string[] excludedFolder = new string[]
+                    {
+                        "release",
+                        "documents",
+                        "tests"
+                    };
+                    string[] toMinifi = new string[]
+                    {
+                    ".js",
+                    ".less",
+                    ".html"
+                    };
+
+                    try
+                    {
+                        Librairie.installNpmPackage("less");
+                        Librairie.installNpmPackage("minify");
+                        string c = Directory.GetCurrentDirectory();
+                        string t = Path.Combine(c, "release");
+                        Directory.Delete(t, true);
+                        Directory.CreateDirectory(t);
+                        recursiveCopyAndMinify(c, c, t, excludedFiles, excludedFolder, toMinifi);
+                        Console.WriteLine("Le projet a été construit. N'oubliez pas de modifier le fichier de configuration afin de faire la mise en production.");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible de construire le projet !", e);
+                    }
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+        private static void recursiveCopyAndMinify(string path, string origin, string originto, string[] exFi, string[] exFo, string[] toMin)
+        {
+            // Traite les fichier
+            foreach (string f in Directory.GetFiles(path))
+            {
+                if (!exFi.Contains(Path.GetFileName(f)))
+                {
+                    string ex = Path.GetExtension(f).ToLower();
+                    string rel = f.Substring(origin.Length + 1);
+                    string nf = Path.Combine(originto, rel);
+
+                    if (toMin.Contains(ex))
+                    {
+                        // Si less on compile puis minifi
+                        if (ex == ".less")
+                            compileMinifyLess(f, nf, rel);
+                        // Juste minifi
+                        else
+                            minifyFile(f, nf, rel, ex);
+                    }
+                    // Juste copie
+                    else
+                        moveFileToRelease(f, nf, rel);
+                }
+            }
+
+            // Creer les dossier puis recursive
+            foreach (string d in Directory.GetDirectories(path))
+            {
+                if (!exFo.Contains(Path.GetFileName(d)))
+                {
+                    string rel = d.Substring(origin.Length + 1);
+                    string nd = Path.Combine(originto, rel);
+                    if (createDirToRelease(nd, rel))
+                        recursiveCopyAndMinify(d, origin, originto, exFi, exFo, toMin);
+                }
+            }
+        }
+        private static bool createDirToRelease(string dir, string rel)
+        {
+            try
+            {
+                Directory.CreateDirectory(dir);
+
+                Console.Write("Dossier : '");
+                Message.writeIn(ConsoleColor.Magenta, rel);
+                Console.WriteLine("' ajouté.");
+                return true;
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de créer le dossier !", e);
+                return false;
+            }
+        }
+        private static void moveFileToRelease(string file, string to, string rel)
+        {
+            try
+            {
+                File.Copy(file, to);
+
+                Console.Write("Fichier : '");
+                Message.writeIn(ConsoleColor.DarkGreen, rel);
+                Console.Write("' copié (");
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(file).Length));
+                Console.WriteLine(").");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de copier le fichier !", e);
+            }
+        }
+        private static void minifyFile(string file, string to, string rel, string ex)
+        {
+            try
+            {
+                rel = rel.Substring(0, rel.Length - ex.Length) + ".min" + ex;
+                to = to.Substring(0, to.Length - ex.Length) + ".min" + ex;
+                Process p = Librairie.startProcess("minify", file + " > " + to, ProcessWindowStyle.Hidden);
+                p.WaitForExit();
+
+                Console.Write("Fichier : '");
+                Message.writeIn(ConsoleColor.DarkGreen, rel);
+                Console.Write("' minifié (");
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(to).Length));
+                Console.WriteLine(").");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de minifier le fichier !", e);
+            }
+        }
+        private static void compileMinifyLess(string file, string to, string rel)
+        {
+            try
+            {
+                // Minify n'accepte pas les fichiers less meme si ils contiennent du css
+                string wext = to.Substring(0, to.Length - 5);
+                string css = wext + ".css";
+                string min = wext + ".min.css";
+                Process p = Librairie.startProcess("lessc", file + " > " + css, ProcessWindowStyle.Hidden);
+                p.WaitForExit();
+                p = Librairie.startProcess("minify", css + " > " + min, ProcessWindowStyle.Hidden);
+                p.WaitForExit();
+                File.Delete(css);
+
+                Console.Write("Fichier : '");
+                Message.writeIn(ConsoleColor.DarkGreen, rel);
+                Console.Write("' compilé puis minifié (");
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(min).Length));
+                Console.WriteLine(").");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de compiler et minifier le fichier !", e);
+            }
+        }
+
+
+        // Lance les tests unitaires
+        public static void runUnit(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                // Si le projet existe
+                if (Librairie.isProject())
+                {
+                    Console.WriteLine("Lancement des tests...");
+                    string p = Path.Combine(Directory.GetCurrentDirectory(), "tests");
+                    bool passedAlls = recursiveTest(p, p);
+                    if (passedAlls)
+                        Console.WriteLine("Tous les tests sont passés.");
+                    else
+                        Console.WriteLine("Un des tests n'est pas passé.");
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+        private static bool recursiveTest(string path, string origin)
+        {
+
+            foreach (string f in Directory.GetFiles(path))
+            {
+                if (Path.GetExtension(f).ToLower() == ".php")
+                {
+                    // Retire le chemin C:\...\projet\tests de C:\...\projet\tests\machin.php ce qui donne machin.php
+                    // Puis retire l'extension
+                    string rel = f.Substring(origin.Length + 1);
+                    string wext = rel.Substring(0, rel.Length - 4);
+                    string[] spt = wext.Split(Path.DirectorySeparatorChar);
+                    string classNspm = "Test";
+                    foreach (string s in spt)
+                    {
+                        if (s.Length > 0)
+                        {
+                            classNspm += "\\" + s.Substring(0, 1).ToUpper();
+                            if (s.Length > 1)
+                                classNspm += s.Substring(1).ToLower();
+                        }
+                    }
+
+                    try
+                    {
+                        // Lance PHP
+                        Process p = Librairie.startProcess($"php", "-r \"" +
+                            "set_error_handler(function() { }); " +
+                            "register_shutdown_function(function() { }); " +
+                            "include '.kernel/php/autoloader.php'; " +
+                            "Kernel\\Autoloader::register(); " +
+                            "include '" + f + "'; " +
+                            classNspm + "::run();" +
+                            "\"", ProcessWindowStyle.Hidden, true);
+
+                        p.WaitForExit();
+
+                        if (p.ExitCode == 0)
+                        {
+                            Console.Write("[");
+                            Message.writeIn(ConsoleColor.DarkGreen, "√");
+                            Console.Write("] Test : '");
+                            Message.writeIn(ConsoleColor.DarkYellow, classNspm);
+                            Console.WriteLine("', test réussi.");
+                        }
+                        else
+                        {
+                            Console.Write("[");
+                            Message.writeIn(ConsoleColor.DarkRed, "×");
+                            Console.Write("] Test : '");
+                            Message.writeIn(ConsoleColor.DarkYellow, classNspm);
+                            Console.WriteLine("', test échoué !");
+                            Console.Write("Raison : ");
+                            Message.writeLineIn(ConsoleColor.DarkRed, p.StandardOutput.ReadToEnd());
+                            return false;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible de lancer les tests du fichier '" + f + "' !", e);
+                        return false;
+                    }
+                }
+            }
+
+            foreach (string d in Directory.GetDirectories(path))
+            {
+                if (!recursiveTest(d, origin))
+                    return false;
+            }
+
+            return true;
         }
 
 
@@ -897,7 +1170,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
         {
             try
             {
-                DirectoryInfo di = new DirectoryInfo(Path.Combine(name, "__kernel"));
+                DirectoryInfo di = new DirectoryInfo(Path.Combine(name, "..kernel"));
                 if ((di.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
                     di.Attributes |= FileAttributes.Hidden;
             }
@@ -946,60 +1219,69 @@ vs                              Ouvre le projet dans Visual Studio Code.
         // Gere les objets
         public static void gestObjet(string[] cmd)
         {
-            gestItem(cmd, "base_objet.zip", "src/data/object.json");
+            gestItem(cmd, "base_objet.zip", "debug/data/object.json");
         }
 
 
         // Gere les librairies
         public static void gestLibrairie(string[] cmd)
         {
-            gestItem(cmd, "base_librairie.zip", "src/lib/library.json");
+            gestItem(cmd, "base_librairie.zip", "debug/lib/library.json");
         }
 
 
         // Gere les composants
         public static void gestComposant(string[] cmd)
         {
-            gestItem(cmd, "base_composant.zip", "src/app/component.json");
+            gestItem(cmd, "base_composant.zip", "debug/app/component.json");
         }
 
 
         // Gere les traits
         public static void gestTrait(string[] cmd)
         {
-            gestItem(cmd, "base_trait.zip", "src/data/trait.json");
+            gestItem(cmd, "base_trait.zip", "debug/data/trait.json");
+        }
+
+
+        // Gere les tests
+        public static void gestTest(string[] cmd)
+        {
+            gestItem(cmd, "base_test.zip", "tests/test.json");
         }
 
 
 
         // Gere les item
-        public static void gestItem(string[] cmd, string archivenom, string jsoni)
+        public static void gestItem(string[] args, string archivenom, string jsoni)
         {
-            if (cmd.Length == 1 || cmd.Length == 2)
+            if (args.Length == 1 || args.Length == 2)
             {
                 // Si le projet existe
                 if (Librairie.isProject() && Librairie.checkProjetVersion())
                 {
-                    switch (cmd[0].ToLower())
+                    switch (args[0].ToLower())
                     {
                         case "-l":
-                            if (cmd.Length == 1) listerItem(jsoni);
-                            else Console.WriteLine("Trop d'arguments !");
+                            if (args.Length == 1) 
+                                listerItem(jsoni);
+                            else 
+                                Console.WriteLine("Trop d'arguments !");
                             break;
 
                         case "-s":
-                            if (cmd.Length == 2)
+                            if (args.Length == 2)
                             {
-                                string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
+                                string nom = Librairie.remplaceDirSep(args[1].ToLower());
                                 supprimerItem(nom, jsoni);
                             }
                             else Console.WriteLine("Il manque le nom de l'élément !");
                             break;
 
                         case "-a":
-                            if (cmd.Length == 2)
+                            if (args.Length == 2)
                             {
-                                string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
+                                string nom = Librairie.remplaceDirSep(args[1].ToLower());
                                 ajouterItem(nom, archivenom, jsoni);
                             }
                             else Console.WriteLine("Il manque le nom de l'élément !");
@@ -1011,7 +1293,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     }
                 }
             }
-            else if (cmd.Length > 2)
+            else if (args.Length > 2)
                 Console.WriteLine("Problème, trop d'arguments ont été données !");
             else
                 Console.WriteLine("Problème, il manque le type d'action ou le nom de l'élément !");

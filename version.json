@@ -1,5 +1,5 @@
 {
-	"version": "6.12.40.0",
+	"version": "7.14.41.0",
 	"changelog": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -7,7 +7,10 @@
 		"Correction du plantage lors d'un lancement sur un terminal trop petit.",
 		"Correction des sorties de buffer.",
 		"Support d'un chemin passé en argument.",
-		"Ajout du chemin d'installation dans le PATH."
+		"Ajout du chemin d'installation dans le PATH.",
+		"Ajout d'un compiler/minifier.",
+		"Support des tests unitaires.",
+		"La commande run ne tue pas toutes les instances de PHP."
 	], 
 	"retrocompatible": false
 }

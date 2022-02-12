@@ -1,0 +1,19 @@
+{
+    "in_production" : false,
+    "enable_debug" : true,
+    "enable_supervisor" : true,
+    "enable_ssl": false,
+    "open_session" : true,
+    "multiple_session" : true,
+    "timezone" : "Europe/Paris",
+    "database" : {
+        "login" : "root", 
+        "password" : "", 
+        "host" : "localhost", 
+        "port" : "3306", 
+        "name" : "{PROJECT_NAME}", 
+        "encoding" : "utf8", 
+        "type" : "mysql",
+        "show_sql_error" : true
+    }
+}

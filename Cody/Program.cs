@@ -21,7 +21,9 @@ namespace Cody
         // La configuration en objet
         public static Configuration config = new Configuration();
         // Le fichier configuration, dans le dossier du exe
-        public static string configFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "configuration.json");
+        public static string configFile = Path.Combine(
+            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), 
+            "configuration.json");
         // Si un chemin est en argument on applique pas celui de la config
         private static bool pathInArgument = false;
 
@@ -86,7 +88,7 @@ namespace Cody
                 Message.writeIn(ConsoleColor.DarkRed, @"
                                                     ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
                 Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                          ~ Version {version} du 6 février 2022 ~
+                                          ~ Version {version} du 12 février 2022 ~
                                      ~ Copyright © " + DateTime.Now.Year + " - Thibault BUSTOS (TheRake66) ~");
 
                 Console.WriteLine(@"
@@ -139,6 +141,10 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
                 {
                     case "aide":
                         Commande.aideCom(argm);
+                        break;
+
+                    case "build":
+                        Commande.buildProject(argm);
                         break;
 
                     case "cd":
@@ -201,8 +207,16 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
                         Commande.runProjet(argm);
                         break;
 
+                    case "tes":
+                        Commande.gestTest(argm);
+                        break;
+
                     case "tra":
                         Commande.gestTrait(argm);
+                        break;
+
+                    case "unit":
+                        Commande.runUnit(argm);
                         break;
 
                     case "vs":
@@ -250,6 +264,7 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
                 }
             }
         }
+
 
         // Gere la configuration de cody
         static void chargerConfig()

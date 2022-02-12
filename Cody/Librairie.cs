@@ -38,15 +38,37 @@ namespace Cody
         }
 
 
+        // Install un package npm
+        public static void installNpmPackage(string pkgName)
+        {
+            Console.Write("Installation de '");
+            Message.writeIn(ConsoleColor.DarkYellow, pkgName);
+            Console.WriteLine("' via npm...");
+            Process p = startProcess("npm", "i " + pkgName + " -g", ProcessWindowStyle.Hidden);
+            p.WaitForExit();
+        }
+
+
         // Lance un processus proprement pour linux
-        public static Process startProcess(string name, string args = "", ProcessWindowStyle style = ProcessWindowStyle.Normal)
+        public static Process startProcess(string name, string args = "", ProcessWindowStyle style = ProcessWindowStyle.Normal, bool redirectOutPut = false)
         {
             // Ouvre dans le navigateur
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = name;
             startInfo.Arguments = args;
             startInfo.WindowStyle = style;
-            startInfo.UseShellExecute = true;
+
+            if (redirectOutPut)
+            {
+                startInfo.UseShellExecute = false;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.RedirectStandardInput = true;
+            }
+            else
+            {
+                startInfo.UseShellExecute = true;
+            }
 
             Process processTemp = new Process();
             processTemp.StartInfo = startInfo;
@@ -76,7 +98,6 @@ namespace Cody
                 Console.WriteLine("Heuu, le dossier courant n'est pas un projet de Cody...");
                 return false;
             }
-                
         }
 
 
