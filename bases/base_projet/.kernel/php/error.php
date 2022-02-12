@@ -1,9 +1,9 @@
 <?php
-// Librairie Error
 namespace Kernel;
 
 
 
+// Librairie Error
 class Error {
 
     /**

@@ -1,10 +1,10 @@
 <?php
-// Librairie Security
 namespace Kernel;
 use Kernel\Error;
 
 
 
+// Librairie Security
 class Security {
 
 	/**

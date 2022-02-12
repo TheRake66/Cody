@@ -1,10 +1,10 @@
 <?php
-// Librairie Render
 namespace Kernel;
 use Kernel\Html;
 
 
 
+// Librairie Render
 class Render {
 
     /**

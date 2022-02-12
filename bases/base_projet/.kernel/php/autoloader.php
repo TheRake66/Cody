@@ -1,9 +1,9 @@
 <?php
-// Librairie Autoloader
 namespace Kernel;
 
 
 
+// Librairie Autoloader
 class Autoloader {
 
     /**

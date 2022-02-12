@@ -1,9 +1,9 @@
 <?php
-// Librairie Url
 namespace Kernel;
 
 
 
+// Librairie Url
 class Url {
 
 	/**

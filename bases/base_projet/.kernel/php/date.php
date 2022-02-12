@@ -1,9 +1,9 @@
 <?php
-// Librairie Date
 namespace Kernel;
 
 
 
+// Librairie Date
 class Date {
 
     /**

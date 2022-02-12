@@ -1,10 +1,10 @@
 <?php
-// Librairie Session
 namespace Kernel;
 use Kernel\Security;
 
 
 
+// Librairie Session
 class Session {
 
 	/**

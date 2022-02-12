@@ -1,9 +1,9 @@
 <?php
-// Librairie Configuration
 namespace Kernel;
 
 
 
+// Librairie Configuration
 class Configuration {
 
 	/**

@@ -1,10 +1,10 @@
 <?php
-// Trait Hydrate
 namespace Kernel\Reflect;
 use Kernel\Debug;
 
 
 
+// Trait Hydrate
 trait Hydrate {
     
     /**

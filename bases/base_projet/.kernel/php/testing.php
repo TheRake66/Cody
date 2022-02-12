@@ -1,9 +1,9 @@
 <?php
-// Librairie Testing
 namespace Kernel;
 
 
 
+// Librairie Testing
 class Testing {
 
     /**

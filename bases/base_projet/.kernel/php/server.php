@@ -1,9 +1,9 @@
 <?php
-// Librairie Server
 namespace Kernel;
 
 
 
+// Librairie Server
 class Server {
 
 	/**

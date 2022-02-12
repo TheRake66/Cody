@@ -431,6 +431,39 @@ vs                              Ouvre le projet dans Visual Studio Code.
         }
 
 
+        // Minify le projet
+        public static void buildProject(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                // Si le projet existe
+                if (Librairie.isProject())
+                {
+                    try
+                    {
+                        // Ferme les serveur php
+                        foreach (Process process in Process.GetProcessesByName("php"))
+                            process.Kill();
+
+                        // Lance PHP
+                        Librairie.startProcess($"php", "-S localhost:6600", ProcessWindowStyle.Minimized);
+                        Console.WriteLine("Serveur PHP lancé.");
+
+                        // Ouvre dans le navigateur
+                        Librairie.startProcess($"http://localhost:6600/index.php");
+                        Console.WriteLine("Navigateur lancé.");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible de lancer le projet !", e);
+                    }
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+
+
         // ########################################################################
 
 
@@ -946,28 +979,35 @@ vs                              Ouvre le projet dans Visual Studio Code.
         // Gere les objets
         public static void gestObjet(string[] cmd)
         {
-            gestItem(cmd, "base_objet.zip", "src/data/object.json");
+            gestItem(cmd, "base_objet.zip", "debug/data/object.json");
         }
 
 
         // Gere les librairies
         public static void gestLibrairie(string[] cmd)
         {
-            gestItem(cmd, "base_librairie.zip", "src/lib/library.json");
+            gestItem(cmd, "base_librairie.zip", "debug/lib/library.json");
         }
 
 
         // Gere les composants
         public static void gestComposant(string[] cmd)
         {
-            gestItem(cmd, "base_composant.zip", "src/app/component.json");
+            gestItem(cmd, "base_composant.zip", "debug/app/component.json");
         }
 
 
         // Gere les traits
         public static void gestTrait(string[] cmd)
         {
-            gestItem(cmd, "base_trait.zip", "src/data/trait.json");
+            gestItem(cmd, "base_trait.zip", "debug/data/trait.json");
+        }
+
+
+        // Gere les tests
+        public static void gestTest(string[] cmd)
+        {
+            gestItem(cmd, "base_test.zip", "tests/test.json");
         }
 
 

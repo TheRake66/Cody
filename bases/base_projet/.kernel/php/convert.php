@@ -1,9 +1,9 @@
 <?php
-// Librairie Convert
 namespace Kernel;
 
 
 
+// Librairie Convert
 class Convert {
 
 	/**

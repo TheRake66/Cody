@@ -21,7 +21,9 @@ namespace Cody
         // La configuration en objet
         public static Configuration config = new Configuration();
         // Le fichier configuration, dans le dossier du exe
-        public static string configFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "configuration.json");
+        public static string configFile = Path.Combine(
+            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), 
+            "configuration.json");
         // Si un chemin est en argument on applique pas celui de la config
         private static bool pathInArgument = false;
 
@@ -141,6 +143,10 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
                         Commande.aideCom(argm);
                         break;
 
+                    case "build":
+                        Commande.buildProject(argm);
+                        break;
+
                     case "cd":
                         Commande.changeDir(argm);
                         break;
@@ -199,6 +205,10 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
 
                     case "run":
                         Commande.runProjet(argm);
+                        break;
+
+                    case "tes":
+                        Commande.gestTest(argm);
                         break;
 
                     case "tra":

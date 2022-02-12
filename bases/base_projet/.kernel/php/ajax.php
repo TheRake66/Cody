@@ -1,9 +1,9 @@
 <?php
-// Librairie Ajax
 namespace Kernel;
 
 
 
+// Librairie Ajax
 class Ajax {
 
 	/**

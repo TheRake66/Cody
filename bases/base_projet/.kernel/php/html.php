@@ -1,10 +1,10 @@
 <?php
-// Librairie Html
 namespace Kernel;
 use Kernel\Url;
 
 
 
+// Librairie Html
 class Html {
 
 	/**
@@ -20,7 +20,7 @@ class Html {
 
 
 	/**
-	 * Ajoute un lien HREF
+	 * Ajoute un lien href
 	 * 
 	 * @param string le lien
 	 * @return string l'attribut formatte
@@ -31,7 +31,40 @@ class Html {
 
 
 	/**
-	 * Construit et ajoute un lien HREF
+	 * Ajoute un id
+	 * 
+	 * @param string le lien
+	 * @return string l'attribut formatte
+	 */
+	static function setId($id) {
+		return Html::setAttrib($id, 'id');
+	}
+
+
+	/**
+	 * Ajoute une classe
+	 * 
+	 * @param string la classe
+	 * @return string l'attribut formatte
+	 */
+	static function setClass($class) {
+		return Html::setAttrib($class, 'class');
+	}
+
+
+	/**
+	 * Ajoute une src
+	 * 
+	 * @param string la src
+	 * @return string l'attribut formatte
+	 */
+	static function setSrc($src) {
+		return Html::setAttrib($src, 'src');
+	}
+
+
+	/**
+	 * Construit et ajoute un lien href
 	 * 
 	 * @param string la route
 	 * @param array les param

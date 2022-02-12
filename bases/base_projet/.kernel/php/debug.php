@@ -1,9 +1,9 @@
 <?php
-// Librairie Debug
 namespace Kernel;
 
 
 
+// Librairie Debug
 class Debug {
 
 	/**

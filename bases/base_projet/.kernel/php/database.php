@@ -1,10 +1,10 @@
 <?php
-// Librairie DataBase
 namespace Kernel;
 use DateTime;
 
 
 
+// Librairie DataBase
 class DataBase extends \PDO {
     
     /**
@@ -155,7 +155,10 @@ class DataBase extends \PDO {
      * @return object valeur de la base
      */
     static function fetchCell($sql, $params = []) {
-        return array_values(self::fetchRow($sql, $params))[0];
+        $rep = self::fetchRow($sql, $params);
+        if (!is_null($rep) && !empty($rep)) {
+            return array_values($rep)[0];
+        }
     }
 
     
@@ -167,7 +170,7 @@ class DataBase extends \PDO {
      * @param array liste des parametres
      * @return object objet hydrate
      */
-    static function fetchObjet($sql, $type, $params = []) {
+    static function fetchObject($sql, $type, $params = []) {
         $rep = self::fetchRow($sql, $params);
         if (!is_null($rep) && !empty($rep)) {
             $obj = new $type();
@@ -185,7 +188,7 @@ class DataBase extends \PDO {
      * @param array liste des parametres
      * @return array liste d'objets hydrate
      */
-    static function fetchObjets($sql, $type, $params = []) {
+    static function fetchObjects($sql, $type, $params = []) {
         $rep = self::fetchAll($sql, $params);
         if (!is_null($rep) && !empty($rep)) {
             $arr = [];
@@ -225,19 +228,18 @@ class DataBase extends \PDO {
      * @param object l'objet DTO a lier
      * @param array les nom des cles primaire
      */
-    static function buildPrimary($obj, $primary = null) {
+    static function buildClause($obj, $clause = null) {
         $sql = '';
         $arr = [];
-        if (is_null($primary)) {
-            $primary = $obj::PRIMARY;
-        }   
+        if (is_null($clause)) {
+            $clause = $obj::PRIMARY;
+        }
         foreach ((array)$obj as $prop => $val) {
-            if (count($primary) == 0) {
+            if (!is_array($clause) || count($clause) == 0) {
                 $sql .= 'WHERE ' . str_replace('*', '', $prop) . ' = ? ';
                 $arr[] = $val;
                 break;
-            } elseif (!is_array($primary) && $prop == $primary || 
-                is_array($primary) && in_array($prop, $primary)) {
+            } elseif (in_array($prop, $clause)) {
                 $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . $prop . ' = ? ';
                 $arr[] = $val;
             }
@@ -257,7 +259,7 @@ class DataBase extends \PDO {
      * @return array les objets DTO
      */
     static function alls($class) {
-        return DataBase::fetchObjets(
+        return DataBase::fetchObjects(
 			"SELECT * FROM " . self::getTableName($class),
             $class);
     }
@@ -269,8 +271,9 @@ class DataBase extends \PDO {
      * @param class classe DTO faisant reference a la table
      * @return int le nombre de ligne
      */
-    static function count($class) { 
-        return DataBase::fetchCell('SELECT COUNT(1) FROM ' . self::getTableName($class));
+    static function size($class) { 
+        return DataBase::fetchCell(
+            'SELECT COUNT(1) FROM ' . self::getTableName($class));
     }
 
 
@@ -282,6 +285,36 @@ class DataBase extends \PDO {
      */
     static function truncat($class) { 
         return DataBase::execute('TRUNCATE TABLE ' . self::getTableName($class));
+    }
+
+
+    /**
+     * Verifie si un resultat existe
+     * 
+     * @param object objet contenant les valeurs a lire
+     * @param array les proprietes dans la clause
+     * @return bool si il existe
+     */
+    static function exists($obj, $clause = null) {
+        $pr = self::buildClause($obj, $clause);
+        return DataBase::fetchCell(
+            'SELECT EXISTS (SELECT 1 FROM ' . self::getTableName($obj) . ' ' . $pr[0] . ')',
+            $pr[1]);    
+    }
+
+
+    /**
+     * Compte les lignes d'une table pour un objet
+     * 
+     * @param object objet contenant les valeurs a lire
+     * @param array les proprietes dans la clause
+     * @return int le nombre de ligne
+     */
+    static function count($obj, $clause = null) {
+        $pr = self::buildClause($obj, $clause);
+        return DataBase::fetchCell(
+            'SELECT COUNT(1) FROM ' . self::getTableName($obj) . ' ' . $pr[0],
+            $pr[1]);    
     }
 
 
@@ -315,15 +348,15 @@ class DataBase extends \PDO {
 
 
     /**
-     * Retourne un objet d'une table
+     * Lis un objet dans une table
      * 
-     * @param object objet contenant les valeur a lire
-     * @param array les nom des cles primaire
-     * @return object l'objet DTO
+     * @param object objet contenant les valeurs a lire
+     * @param array les proprietes dans la clause
+     * @return object les objets DTO
      */
-    static function read($obj, $primary = null) {
-        $pr = self::buildPrimary($obj, $primary);
-        return DataBase::fetchObjet(
+    static function read($obj, $clause = null) {
+        $pr = self::buildClause($obj, $clause);
+        return DataBase::fetchObject(
 			'SELECT * FROM ' . self::getTableName($obj) . ' ' . $pr[0],
             $obj,
             $pr[1]);
@@ -334,17 +367,17 @@ class DataBase extends \PDO {
      * Met a jour un objet dans une table
      * 
      * @param object objet a mettre a jour
-     * @param array les nom des cles primaire
+     * @param array les proprietes dans la clause
      * @return bool si ca reussit
      */
-    static function update($obj, $primary = null) {
+    static function update($obj, $clause = null) {
         $set = '';
         $col = [];
         foreach ((array)$obj as $prop => $val) {
             $set .= str_replace('*', '', $prop) . ' = ?, ';
             $col[] = $val;
         }
-        $pr = self::buildPrimary($obj, $primary);
+        $pr = self::buildClause($obj, $clause);
         $len = strlen($set);
         if ($len > 0) {
             $set = substr($set, 0, $len - 2);
@@ -359,12 +392,29 @@ class DataBase extends \PDO {
      * Supprime un objet dans une table
      * 
      * @param object objet a supprimer
+     * @param array les proprietes dans la clause
      * @return bool si ca reussit
      */
-    static function delete($obj, $primary = null) { 
-        $pr = self::buildPrimary($obj, $primary);
+    static function delete($obj, $clause = null) { 
+        $pr = self::buildClause($obj, $clause);
         return DataBase::execute(
 			'DELETE FROM ' . self::getTableName($obj) . ' ' . $pr[0],
+            $pr[1]);
+    }
+
+
+    /**
+     * Lis plusieurs objets dans une table
+     * 
+     * @param object objet contenant les valeurs a lire
+     * @param array les proprietes dans la clause
+     * @return object les objets DTO
+     */
+    static function readMany($obj, $clause = null) {
+        $pr = self::buildClause($obj, $clause);
+        return DataBase::fetchObjects(
+			'SELECT * FROM ' . self::getTableName($obj) . ' ' . $pr[0],
+            $obj,
             $pr[1]);
     }
 

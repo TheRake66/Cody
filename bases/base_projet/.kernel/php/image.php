@@ -1,9 +1,9 @@
 <?php
-// Librairie Image
 namespace Kernel;
 
 
 
+// Librairie Image
 class Image {
 
     /**
