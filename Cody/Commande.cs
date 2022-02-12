@@ -473,15 +473,13 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
                     try
                     {
-                        Librairie.installNpmPackage("less");
-                        Librairie.installNpmPackage("minify");
-                        Console.WriteLine("===========================================");
+                        //Librairie.installNpmPackage("less");
+                        //Librairie.installNpmPackage("minify");
                         string c = Directory.GetCurrentDirectory();
                         string t = Path.Combine(c, "release");
                         Directory.Delete(t, true);
                         Directory.CreateDirectory(t);
                         recursiveCopyAndMinify(c, c, t, excludedFiles, excludedFolder, toMinifi);
-
                         Console.WriteLine("Le projet a été construit.");
                     }
                     catch (Exception e)
@@ -500,13 +498,17 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 if (!exFi.Contains(Path.GetFileName(f)))
                 {
+                    string ex = Path.GetExtension(f);
+                    string exl = ex.ToLower();
                     string rel = f.Substring(origin.Length + 1);
-                    string nf = Path.Combine(originto, rel);
-                    string ex = Path.GetExtension(f).ToLower();
-                    if (toMin.Contains(ex))
+
+                    if (toMin.Contains(exl))
                     {
+                        rel = rel.Substring(0, rel.Length - ex.Length) + ".min" + ex;
+                        string nf = Path.Combine(originto, rel);
+
                         // Si less on compile puis minifi
-                        if (ex == ".less")
+                        if (exl == ".less")
                             compileMinifyLess(f, nf, rel);
                         // Juste minifi
                         else
@@ -514,7 +516,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     }
                     // Juste copie
                     else
+                    {
+                        string nf = Path.Combine(originto, rel);
                         moveFileToRelease(f, nf, rel);
+                    }
                 }
             }
 
@@ -568,12 +573,13 @@ vs                              Ouvre le projet dans Visual Studio Code.
         {
             try
             {
-                Librairie.startProcess("minify", file + " > " + to, ProcessWindowStyle.Hidden);
+                Process p = Librairie.startProcess("minify", file + " > " + to, ProcessWindowStyle.Hidden);
+                p.WaitForExit();
 
                 Console.Write("Fichier : '");
                 Message.writeIn(ConsoleColor.DarkGreen, rel);
                 Console.Write("' minifié (");
-                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(file).Length));
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(to).Length));
                 Console.WriteLine(").");
             }
             catch (Exception e)
@@ -586,17 +592,19 @@ vs                              Ouvre le projet dans Visual Studio Code.
             try
             {
                 // Minify n'accepte pas les fichiers less meme si ils contiennent du css
-                string css = to + ".css";
+                string wext = to.Substring(0, to.Length - 5);
+                string css = wext + ".css";
+                string min = wext + ".min.css";
                 Process p = Librairie.startProcess("lessc", file + " > " + css, ProcessWindowStyle.Hidden);
                 p.WaitForExit();
-                p = Librairie.startProcess("minify", css + " > " + css.Substring(0, css.Length - 4), ProcessWindowStyle.Hidden);
+                p = Librairie.startProcess("minify", css + " > " + min, ProcessWindowStyle.Hidden);
                 p.WaitForExit();
                 File.Delete(css);
 
                 Console.Write("Fichier : '");
                 Message.writeIn(ConsoleColor.DarkGreen, rel);
                 Console.Write("' compilé puis minifié (");
-                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(to).Length));
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(min).Length));
                 Console.WriteLine(").");
             }
             catch (Exception e)
@@ -1260,8 +1268,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     switch (args[0].ToLower())
                     {
                         case "-l":
-                            if (args.Length == 1) listerItem(jsoni);
-                            else Console.WriteLine("Trop d'arguments !");
+                            if (args.Length == 1) 
+                                listerItem(jsoni);
+                            else 
+                                Console.WriteLine("Trop d'arguments !");
                             break;
 
                         case "-s":

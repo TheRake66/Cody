@@ -1,4 +1,5 @@
 {
+	"in_production" : false,
 	"enable_debug" : true,
 	"enable_supervisor" : true,
 	"enable_ssl": false,
