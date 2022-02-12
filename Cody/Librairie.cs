@@ -39,14 +39,25 @@ namespace Cody
 
 
         // Lance un processus proprement pour linux
-        public static Process startProcess(string name, string args = "", ProcessWindowStyle style = ProcessWindowStyle.Normal)
+        public static Process startProcess(string name, string args = "", ProcessWindowStyle style = ProcessWindowStyle.Normal, bool redirectOutPut = false)
         {
             // Ouvre dans le navigateur
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = name;
             startInfo.Arguments = args;
             startInfo.WindowStyle = style;
-            startInfo.UseShellExecute = true;
+
+            if (redirectOutPut)
+            {
+                startInfo.UseShellExecute = false;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.RedirectStandardInput = true;
+            }
+            else
+            {
+                startInfo.UseShellExecute = true;
+            }
 
             Process processTemp = new Process();
             processTemp.StartInfo = startInfo;

@@ -16,6 +16,8 @@ namespace Cody
 {
     public class Commande
     {
+        // L'instance du serveur lancer
+        private static Process serverRun;
 
 
         // Affiche l'aide
@@ -26,6 +28,7 @@ namespace Cody
                 // Affiche l'aide
                 Console.WriteLine(
 @"aide                            Affiche la liste des commandes disponible.
+build                           Minifie et compile les fichiers.
 cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
                                 du dossier courant.
 cls                             Nettoie la console.
@@ -45,7 +48,9 @@ obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe dto,
 pkg [-t|-l|-s] [*nom]           Télécharge, liste ou supprime un package depuis le dépôt de Cody.
 rep                             Ouvre la dépôt GitHub de Cody.
 run                             Lance un serveur PHP et ouvre le projet dans le navigateur.
+tes [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une classe de test unitaire.
 tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
+unit                            Lance les tests unitaires.
 vs                              Ouvre le projet dans Visual Studio Code.
 
 * : Argument facultatif.");
@@ -409,11 +414,11 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     try
                     {
                         // Ferme les serveur php
-                        foreach (Process process in Process.GetProcessesByName("php"))
-                            process.Kill();
+                        if (Commande.serverRun != null && !Commande.serverRun.HasExited)
+                            Commande.serverRun.Kill();
 
                         // Lance PHP
-                        Librairie.startProcess($"php", "-S localhost:6600", ProcessWindowStyle.Minimized);
+                        Commande.serverRun = Librairie.startProcess($"php", "-S localhost:6600", ProcessWindowStyle.Minimized);
                         Console.WriteLine("Serveur PHP lancé.");
 
                         // Ouvre dans le navigateur
@@ -434,33 +439,100 @@ vs                              Ouvre le projet dans Visual Studio Code.
         // Minify le projet
         public static void buildProject(string[] cmd)
         {
+        }
+
+
+        // Lance les tests unitaires
+        public static void runUnit(string[] cmd)
+        {
             if (cmd.Length == 0)
             {
                 // Si le projet existe
                 if (Librairie.isProject())
                 {
-                    try
-                    {
-                        // Ferme les serveur php
-                        foreach (Process process in Process.GetProcessesByName("php"))
-                            process.Kill();
-
-                        // Lance PHP
-                        Librairie.startProcess($"php", "-S localhost:6600", ProcessWindowStyle.Minimized);
-                        Console.WriteLine("Serveur PHP lancé.");
-
-                        // Ouvre dans le navigateur
-                        Librairie.startProcess($"http://localhost:6600/index.php");
-                        Console.WriteLine("Navigateur lancé.");
-                    }
-                    catch (Exception e)
-                    {
-                        Message.writeExcept("Impossible de lancer le projet !", e);
-                    }
+                    Console.WriteLine("Lancement des tests...");
+                    string p = Path.Combine(Directory.GetCurrentDirectory(), "tests");
+                    bool passedAlls = recursiveTest(p, p);
+                    if (passedAlls)
+                        Console.WriteLine("Tous les tests sont passés.");
+                    else
+                        Console.WriteLine("Un des tests n'est pas passé.");
                 }
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+        private static bool recursiveTest(string path, string origin)
+        {
+            foreach (string f in Directory.GetFiles(path))
+            {
+                if (Path.GetExtension(f).ToLower() == ".php")
+                {
+                    // Retire le chemin C:\...\projet\tests de C:\...\projet\tests\machin.php ce qui donne machin.php
+                    // Puis retire l'extension
+                    string rel = f.Substring(origin.Length);
+                    string wext = rel.Substring(0, rel.Length - 4);
+                    string[] spt = wext.Split(Path.DirectorySeparatorChar);
+                    string classNspm = "Test";
+                    foreach (string s in spt)
+                    {
+                        if (s.Length > 0)
+                        {
+                            classNspm += "\\" + s.Substring(0, 1).ToUpper();
+                            if (s.Length > 1)
+                                classNspm += s.Substring(1).ToLower();
+                        }
+                    }
+
+                    try
+                    {
+                        // Lance PHP
+                        Process p = Librairie.startProcess($"php", "-r \"" +
+                            "set_error_handler(function() { }); " +
+                            "register_shutdown_function(function() { }); " +
+                            "include '.kernel/php/autoloader.php'; " +
+                            "Kernel\\Autoloader::register(); " +
+                            "include '" + f + "'; " +
+                            classNspm + "::run();" +
+                            "\"", ProcessWindowStyle.Hidden, true);
+
+                        p.WaitForExit();
+
+                        if (p.ExitCode == 0)
+                        {
+                            Console.Write("[");
+                            Message.writeIn(ConsoleColor.DarkGreen, "√");
+                            Console.Write("] Test : '");
+                            Message.writeIn(ConsoleColor.DarkYellow, classNspm);
+                            Console.WriteLine("', test réussi.");
+                        }
+                        else
+                        {
+                            Console.Write("[");
+                            Message.writeIn(ConsoleColor.DarkRed, "×");
+                            Console.Write("] Test : '");
+                            Message.writeIn(ConsoleColor.DarkYellow, classNspm);
+                            Console.WriteLine("', test échoué !");
+                            Console.Write("Raison : ");
+                            Message.writeLineIn(ConsoleColor.DarkRed, p.StandardOutput.ReadToEnd());
+                            return false;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible de lancer les tests du fichier '" + f + "' !", e);
+                        return false;
+                    }
+                }
+            }
+
+            foreach (string d in Directory.GetDirectories(path))
+            {
+                if (!recursiveTest(d, origin))
+                    return false;
+            }
+
+            return true;
         }
 
 
@@ -1013,33 +1085,33 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
 
         // Gere les item
-        public static void gestItem(string[] cmd, string archivenom, string jsoni)
+        public static void gestItem(string[] args, string archivenom, string jsoni)
         {
-            if (cmd.Length == 1 || cmd.Length == 2)
+            if (args.Length == 1 || args.Length == 2)
             {
                 // Si le projet existe
                 if (Librairie.isProject() && Librairie.checkProjetVersion())
                 {
-                    switch (cmd[0].ToLower())
+                    switch (args[0].ToLower())
                     {
                         case "-l":
-                            if (cmd.Length == 1) listerItem(jsoni);
+                            if (args.Length == 1) listerItem(jsoni);
                             else Console.WriteLine("Trop d'arguments !");
                             break;
 
                         case "-s":
-                            if (cmd.Length == 2)
+                            if (args.Length == 2)
                             {
-                                string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
+                                string nom = Librairie.remplaceDirSep(args[1].ToLower());
                                 supprimerItem(nom, jsoni);
                             }
                             else Console.WriteLine("Il manque le nom de l'élément !");
                             break;
 
                         case "-a":
-                            if (cmd.Length == 2)
+                            if (args.Length == 2)
                             {
-                                string nom = Librairie.remplaceDirSep(cmd[1].ToLower());
+                                string nom = Librairie.remplaceDirSep(args[1].ToLower());
                                 ajouterItem(nom, archivenom, jsoni);
                             }
                             else Console.WriteLine("Il manque le nom de l'élément !");
@@ -1051,7 +1123,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     }
                 }
             }
-            else if (cmd.Length > 2)
+            else if (args.Length > 2)
                 Console.WriteLine("Problème, trop d'arguments ont été données !");
             else
                 Console.WriteLine("Problème, il manque le type d'action ou le nom de l'élément !");

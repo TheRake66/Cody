@@ -215,6 +215,10 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
                         Commande.gestTrait(argm);
                         break;
 
+                    case "unit":
+                        Commande.runUnit(argm);
+                        break;
+
                     case "vs":
                         Commande.openVSCode(argm);
                         break;
