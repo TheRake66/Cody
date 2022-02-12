@@ -12,9 +12,9 @@ class Render {
      * 
      * @param array les variables a passer a la vue
      */
-	function view($variables = []) {
+    function view($variables = []) {
         // Recupere le namespace\class
-		$full = get_class($this);
+        $full = get_class($this);
 
         // Coupe le namespace et de la class
         $explode = explode('\\', $full);
@@ -31,11 +31,11 @@ class Render {
         // Inclut la vue
         include $folder . 'vue.' . $name . '.php';
         // Inclut le style
-        echo Html::importStyle($folder . 'style.' . $name . '.less');
+        echo Html::importStyle($folder . 'style.' . $name . (Configuration::get()->in_production ? '.min.css' : '.less'));
         // Inclut et initialise le script
-        echo Html::importScript($folder . 'script.' . $name . '.js', $name, $class);
-	}
-	
+        echo Html::importScript($folder . 'script.' . $name . (Configuration::get()->in_production ? '.min.js' : '.js'), $name, $class);
+    }
+    
 }
 
 ?>
