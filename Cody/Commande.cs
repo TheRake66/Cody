@@ -28,7 +28,7 @@ namespace Cody
                 // Affiche l'aide
                 Console.WriteLine(
 @"aide                            Affiche la liste des commandes disponible.
-build                           Minifie et compile les fichiers.
+build                           Construit le projet, minifie et compile les fichiers.
 cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
                                 du dossier courant.
 cls                             Nettoie la console.
@@ -403,6 +403,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
         }
 
 
+        // ########################################################################
+
+
         // Ouvre le projet dans le navigateur et lance un serveur PHP
         public static void runProjet(string[] cmd)
         {
@@ -418,7 +421,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                             Commande.serverRun.Kill();
 
                         // Lance PHP
-                        Commande.serverRun = Librairie.startProcess($"php", "-S localhost:6600", ProcessWindowStyle.Minimized);
+                        Commande.serverRun = Librairie.startProcess("php", "-S localhost:6600", ProcessWindowStyle.Minimized);
                         Console.WriteLine("Serveur PHP lancé.");
 
                         // Ouvre dans le navigateur
@@ -439,6 +442,167 @@ vs                              Ouvre le projet dans Visual Studio Code.
         // Minify le projet
         public static void buildProject(string[] cmd)
         {
+            if (cmd.Length == 0)
+            {
+                // Si le projet existe
+                if (Librairie.isProject())
+                {
+                    string[] excludedFiles = new string[]
+                    {
+                        ".gitignore",
+                        "project.json",
+                        "component.json",
+                        "object.json",
+                        "trait.json",
+                        "library.json",
+                        "test.json"
+                    };
+                    string[] excludedFolder = new string[]
+                    {
+                        "release",
+                        "documents",
+                        "tests"
+                    };
+                    string[] toMinifi = new string[]
+                    {
+                    ".js",
+                    ".less",
+                    ".html"
+                    };
+
+
+                    try
+                    {
+                        Librairie.installNpmPackage("less");
+                        Librairie.installNpmPackage("minify");
+                        Console.WriteLine("===========================================");
+                        string c = Directory.GetCurrentDirectory();
+                        string t = Path.Combine(c, "release");
+                        Directory.Delete(t, true);
+                        Directory.CreateDirectory(t);
+                        recursiveCopyAndMinify(c, c, t, excludedFiles, excludedFolder, toMinifi);
+
+                        Console.WriteLine("Le projet a été construit.");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible de construire le projet !", e);
+                    }
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+        private static void recursiveCopyAndMinify(string path, string origin, string originto, string[] exFi, string[] exFo, string[] toMin)
+        {
+            // Traite les fichier
+            foreach (string f in Directory.GetFiles(path))
+            {
+                if (!exFi.Contains(Path.GetFileName(f)))
+                {
+                    string rel = f.Substring(origin.Length + 1);
+                    string nf = Path.Combine(originto, rel);
+                    string ex = Path.GetExtension(f).ToLower();
+                    if (toMin.Contains(ex))
+                    {
+                        // Si less on compile puis minifi
+                        if (ex == ".less")
+                            compileMinifyLess(f, nf, rel);
+                        // Juste minifi
+                        else
+                            minifyFile(f, nf, rel);
+                    }
+                    // Juste copie
+                    else
+                        moveFileToRelease(f, nf, rel);
+                }
+            }
+
+            // Creer les dossier puis recursive
+            foreach (string d in Directory.GetDirectories(path))
+            {
+                if (!exFo.Contains(Path.GetFileName(d)))
+                {
+                    string rel = d.Substring(origin.Length + 1);
+                    string nd = Path.Combine(originto, rel);
+                    if (createDirToRelease(nd, rel))
+                        recursiveCopyAndMinify(d, origin, originto, exFi, exFo, toMin);
+                }
+            }
+        }
+        private static bool createDirToRelease(string dir, string rel)
+        {
+            try
+            {
+                Directory.CreateDirectory(dir);
+
+                Console.Write("Dossier : '");
+                Message.writeIn(ConsoleColor.Magenta, rel);
+                Console.WriteLine("' ajouté.");
+                return true;
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de créer le dossier !", e);
+                return false;
+            }
+        }
+        private static void moveFileToRelease(string file, string to, string rel)
+        {
+            try
+            {
+                File.Copy(file, to);
+
+                Console.Write("Fichier : '");
+                Message.writeIn(ConsoleColor.DarkGreen, rel);
+                Console.Write("' copié (");
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(file).Length));
+                Console.WriteLine(").");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de copier le fichier !", e);
+            }
+        }
+        private static void minifyFile(string file, string to, string rel)
+        {
+            try
+            {
+                Librairie.startProcess("minify", file + " > " + to, ProcessWindowStyle.Hidden);
+
+                Console.Write("Fichier : '");
+                Message.writeIn(ConsoleColor.DarkGreen, rel);
+                Console.Write("' minifié (");
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(file).Length));
+                Console.WriteLine(").");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de minifier le fichier !", e);
+            }
+        }
+        private static void compileMinifyLess(string file, string to, string rel)
+        {
+            try
+            {
+                // Minify n'accepte pas les fichiers less meme si ils contiennent du css
+                string css = to + ".css";
+                Process p = Librairie.startProcess("lessc", file + " > " + css, ProcessWindowStyle.Hidden);
+                p.WaitForExit();
+                p = Librairie.startProcess("minify", css + " > " + css.Substring(0, css.Length - 4), ProcessWindowStyle.Hidden);
+                p.WaitForExit();
+                File.Delete(css);
+
+                Console.Write("Fichier : '");
+                Message.writeIn(ConsoleColor.DarkGreen, rel);
+                Console.Write("' compilé puis minifié (");
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(to).Length));
+                Console.WriteLine(").");
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de compiler et minifier le fichier !", e);
+            }
         }
 
 
@@ -464,13 +628,14 @@ vs                              Ouvre le projet dans Visual Studio Code.
         }
         private static bool recursiveTest(string path, string origin)
         {
+
             foreach (string f in Directory.GetFiles(path))
             {
                 if (Path.GetExtension(f).ToLower() == ".php")
                 {
                     // Retire le chemin C:\...\projet\tests de C:\...\projet\tests\machin.php ce qui donne machin.php
                     // Puis retire l'extension
-                    string rel = f.Substring(origin.Length);
+                    string rel = f.Substring(origin.Length + 1);
                     string wext = rel.Substring(0, rel.Length - 4);
                     string[] spt = wext.Split(Path.DirectorySeparatorChar);
                     string classNspm = "Test";
@@ -1002,7 +1167,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
         {
             try
             {
-                DirectoryInfo di = new DirectoryInfo(Path.Combine(name, "__kernel"));
+                DirectoryInfo di = new DirectoryInfo(Path.Combine(name, "..kernel"));
                 if ((di.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
                     di.Attributes |= FileAttributes.Hidden;
             }
