@@ -470,7 +470,6 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     ".html"
                     };
 
-
                     try
                     {
                         Librairie.installNpmPackage("less");

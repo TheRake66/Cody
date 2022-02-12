@@ -88,7 +88,7 @@ namespace Cody
                 Message.writeIn(ConsoleColor.DarkRed, @"
                                                     ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
                 Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                          ~ Version {version} du 6 février 2022 ~
+                                          ~ Version {version} du 12 février 2022 ~
                                      ~ Copyright © " + DateTime.Now.Year + " - Thibault BUSTOS (TheRake66) ~");
 
                 Console.WriteLine(@"
@@ -264,6 +264,7 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
                 }
             }
         }
+
 
         // Gere la configuration de cody
         static void chargerConfig()
