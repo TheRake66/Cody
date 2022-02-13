@@ -66,31 +66,16 @@ namespace Cody
         {
             try
             {
-                string[] rep = outputProcessShelll("npm", "list -g");
-                if (!rep[1].Contains(pkgName))
-                {
-                    try
-                    {
-                        Console.Write("Installation de '");
-                        Message.writeIn(ConsoleColor.DarkYellow, pkgName);
-                        Console.WriteLine("' via npm...");
-                        Process p2 = startProcess("npm", "i \"" + pkgName + "\" -g", ProcessWindowStyle.Hidden);
-                        p2.WaitForExit();
-                        return true;
-                    }
-                    catch (Exception e)
-                    {
-                        Message.writeExcept("Erreur lors de l'installation du paquet npm '" + pkgName + "' !", e);
-                        return false;
-                    }
-                } else
-                {
-                    return true;
-                }
+                Console.Write("Installation de '");
+                Message.writeIn(ConsoleColor.DarkYellow, pkgName);
+                Console.WriteLine("' via npm...");
+                Process p2 = startProcess("npm", "i \"" + pkgName + "\" -g", ProcessWindowStyle.Hidden);
+                p2.WaitForExit();
+                return true;
             }
             catch (Exception e)
             {
-                Message.writeExcept("Npm n'est pas installé ou n'est pas accessible !", e);
+                Message.writeExcept("Erreur lors de l'installation du paquet npm '" + pkgName + "' !", e);
                 return false;
             }
         }
@@ -147,17 +132,6 @@ namespace Cody
             Process p = startProcess(name, args, ProcessWindowStyle.Hidden, true);
             p.WaitForExit();
             return new string[] { p.ExitCode.ToString(), p.StandardOutput.ReadToEnd() };
-        }
-
-
-        // Retourne la sortie d'un process avec shell execute
-        public static string[] outputProcessShelll (string name, string args = "")
-        {
-            Process p = startProcess(name, args + " > cody.lock", ProcessWindowStyle.Hidden);
-            p.WaitForExit();
-            string rep = File.ReadAllText("cody.lock");
-            File.Delete("cody.lock");
-            return new string[] { p.ExitCode.ToString(), rep };
         }
 
 

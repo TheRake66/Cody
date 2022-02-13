@@ -1,5 +1,5 @@
 {
-	"version": "7.15.43.0",
+	"version": "7.15.44.0",
 	"changelog": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -13,7 +13,8 @@
 		"La commande run ne tue pas toutes les instances de PHP.",
 		"Support des espaces dans les arguments.",
 		"Les avertissements de version ne s'affichent qu'une fois.",
-		"Correction du build avec des espaces."
+		"Correction du build avec des espaces.",
+		"Correction npm sur Ubuntu."
 	], 
 	"retrocompatible": false
 }

@@ -1451,10 +1451,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         // Si c'est un fichier
                         if (ent.Name != "")
                         {
+                            total++;
                             if (extraireFichierItem(ent, ref paths, nomlow, namespce_slash, namespce_point, back_path, objlow, objup))
                                 count++;
                         }
-                        total++;
                     }
                 }
 
@@ -1465,7 +1465,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     if (count == total)
                         Console.WriteLine("L'élément a été crée.");
                     else
-                        Console.WriteLine("L'élément a partiellement été crée.");
+                        Console.WriteLine("L'élément a été partiellement crée.");
                     return true;
                 }
                 else
