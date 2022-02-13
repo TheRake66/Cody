@@ -203,10 +203,18 @@ class Suppervisor {
                     scroll-behavior: auto;
 					box-sizing: unset;
                 }
+                #SUPERVISOR_CODY_PANEL ::selection {
+                    user-select: auto;
+                }
+                #SUPERVISOR_CODY_PANEL *::selection {
+                    user-select: auto;
+                }
+            
+
 
                 @font-face {
                     font-family: "Open Sans";
-                    src: url(".kernel/consolas.ttf") format("truetype"),
+                    src: url(".kernel/consolas.ttf") format("truetype");
                 }
 
                 

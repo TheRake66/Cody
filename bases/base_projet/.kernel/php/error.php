@@ -101,10 +101,13 @@ class Error {
                     transform: translate(-50%, -50%);
                     background-color: white;
                 }
+                .ERROR_CODY_BLOCK * {
+                    font-family: "cody_consolas" !important;
+                }
 
                 @font-face {
                     font-family: "Open Sans";
-                    src: url(".kernel/consolas.ttf") format("truetype"),
+                    src: url(".kernel/consolas.ttf") format("truetype");
                 }
 
 
