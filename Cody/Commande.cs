@@ -596,7 +596,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Console.Write("Fichier : '");
                 Message.writeIn(ConsoleColor.DarkGreen, rel);
                 Console.Write("' copié (");
-                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(file).Length));
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.getFileSize(file));
                 Console.WriteLine(").");
             }
             catch (Exception e)
@@ -615,7 +615,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     Console.Write("Fichier : '");
                     Message.writeIn(ConsoleColor.DarkGreen, rel);
                     Console.Write("' minifié (");
-                    Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(to).Length));
+                    Message.writeIn(ConsoleColor.DarkYellow, Librairie.getFileSize(to));
                     Console.WriteLine(").");
                 }
             }
@@ -639,7 +639,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         Console.Write("Fichier : '");
                         Message.writeIn(ConsoleColor.DarkGreen, rel);
                         Console.Write("' compilé puis minifié (");
-                        Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(min).Length));
+                        Message.writeIn(ConsoleColor.DarkYellow, Librairie.getFileSize(min));
                         Console.WriteLine(").");
                     }
                     File.Delete(css);
@@ -763,6 +763,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     nspc + "::run();" +
                     "\"");
 
+
                 if (rep[0] == "0")
                 {
                     Console.Write("[");
@@ -774,6 +775,8 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 }
                 else
                 {
+                    if (rep[0] != "1")
+                        rep[1] = "Erreur interne de PHP, code de sortie : " + rep[0] + " !";
                     Console.Write("[");
                     Message.writeIn(ConsoleColor.DarkRed, "×");
                     Console.Write("] Test : '");
@@ -1209,7 +1212,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Console.Write("Fichier : '");
                 Message.writeIn(ConsoleColor.DarkGreen, file);
                 Console.Write("' extrait (");
-                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(path).Length));
+                Message.writeIn(ConsoleColor.DarkYellow, Librairie.getFileSize(path));
                 Console.WriteLine(").");
 
                 // Fichiers ou l'on rajoute le nom
@@ -1560,7 +1563,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     Console.Write("Fichier : '");
                     Message.writeIn(ConsoleColor.DarkGreen, file.Replace('/', Path.DirectorySeparatorChar));
                     Console.Write("' extrait (");
-                    Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(file).Length));
+                    Message.writeIn(ConsoleColor.DarkYellow, Librairie.getFileSize(file));
                     Console.WriteLine(").");
 
                     try

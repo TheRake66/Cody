@@ -249,5 +249,18 @@ namespace Cody
             return String.Format("{0:n}", num) + " " + unit[count];
         }
 
+
+        // Retourne la taille d'un fichier en formater
+        public static string getFileSize(string file)
+        {
+            try
+            {
+                return toNumberMem(new FileInfo(file).Length);
+            }
+            catch
+            {
+                return "??? o";
+            }
+        }
     }
 }
