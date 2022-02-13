@@ -1,5 +1,5 @@
 {
-	"version": "7.15.44.0",
+	"version": "7.16.44.0",
 	"changelog": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -14,7 +14,8 @@
 		"Support des espaces dans les arguments.",
 		"Les avertissements de version ne s'affichent qu'une fois.",
 		"Correction du build avec des espaces.",
-		"Correction npm sur Ubuntu."
+		"Correction npm sur Ubuntu.",
+		"Ajout d'une commande stop."
 	], 
 	"retrocompatible": false
 }

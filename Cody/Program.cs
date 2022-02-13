@@ -53,6 +53,7 @@ namespace Cody
             }
         }
 
+
         // Affiche le logo
         static void afficherLogo()
         {
@@ -146,6 +147,10 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
                         Commande.buildProject(argm);
                         break;
 
+                    case "bye":
+                        Commande.quitterApp(argm);
+                        break;
+
                     case "cd":
                         Commande.changeDir(argm);
                         break;
@@ -160,10 +165,6 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
 
                     case "dev":
                         Commande.devMode(argm);
-                        break;
-
-                    case "die":
-                        Commande.quitterApp(argm);
                         break;
 
                     case "dl":
@@ -204,6 +205,10 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
 
                     case "run":
                         Commande.runProjet(argm);
+                        break;
+
+                    case "stop":
+                        Commande.stopProjet(argm);
                         break;
 
                     case "tes":

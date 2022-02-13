@@ -35,7 +35,7 @@ cls                             Nettoie la console.
 com [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un composant (controleur, vue, style,
                                 script) avec le nom spécifié.
 dev                             Active ou désactive le mode développeur (bêta-testeur).
-die                             Quitte Cody.
+bye                             Quitte Cody en fermant le serveur PHP si il y en a un.
 dl [url] [fichier]              Télécharge un fichier avec l'URL spécifiée.
 exp                             Ouvre le projet dans l'explorateur de fichiers.
 lib [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une librairie (PHP et JavaScript).
@@ -48,6 +48,7 @@ obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe dto,
 pkg [-t|-l|-s] [*nom]           Télécharge, liste ou supprime un package depuis le dépôt de Cody.
 rep                             Ouvre la dépôt GitHub de Cody.
 run                             Lance un serveur PHP et ouvre le projet dans le navigateur.
+stop                            Arrête le serveur PHP.
 tes [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une classe de test unitaire.
 tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
 unit                            Lance les tests unitaires.
@@ -283,8 +284,13 @@ vs                              Ouvre le projet dans Visual Studio Code.
         // Ferme l'app
         public static void quitterApp(string[] cmd)
         {
-            if (cmd.Length == 0) 
+            if (cmd.Length == 0)
+            {
+                // Ferme les serveur php
+                if (Commande.serverRun != null && !Commande.serverRun.HasExited)
+                    Commande.serverRun.Kill();
                 Environment.Exit(0); // Ferme avec un code 0
+            }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
@@ -431,6 +437,40 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     catch (Exception e)
                     {
                         Message.writeExcept("Impossible de lancer le projet !", e);
+                    }
+                }
+            }
+            else
+                Console.WriteLine("Problème, aucun argument n'est attendu !");
+        }
+
+        // Ferme le serveur PHP
+        public static void stopProjet(string[] cmd)
+        {
+            if (cmd.Length == 0)
+            {
+                // Si le projet existe
+                if (Librairie.isProject())
+                {
+                    try
+                    {
+                        // Ferme les serveur php
+                        if (Commande.serverRun != null)
+                        {
+                            if (!Commande.serverRun.HasExited)
+                            {
+                                Commande.serverRun.Kill();
+                                Console.WriteLine("Le serveur a été arrêté.");
+                            }
+                            else
+                                Console.WriteLine("Le serveur s'est déjà arrêté !");
+                        }
+                        else
+                            Console.WriteLine("Aucun serveur n'a été lancé !");
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Impossible d'arrêter le serveur !", e);
                     }
                 }
             }
