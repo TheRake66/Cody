@@ -106,7 +106,7 @@ class Error {
                 }
 
                 @font-face {
-                    font-family: "Open Sans";
+                    font-family: "cody_consolas";
                     src: url(".kernel/consolas.ttf") format("truetype");
                 }
 
