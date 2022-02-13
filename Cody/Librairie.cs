@@ -12,6 +12,10 @@ namespace Cody
 {
     public class Librairie
     {
+        // Si on a deja accepte le warining de version anterieur
+        private static bool acceptWarn = false;
+
+
         // Decoupe un string en argument avec guillemet
         public static string[] lineToArgs(string line)
         {
@@ -58,13 +62,54 @@ namespace Cody
 
 
         // Install un package npm
-        public static void installNpmPackage(string pkgName)
+        public static bool installNpmPackage(string pkgName)
         {
-            Console.Write("Installation de '");
-            Message.writeIn(ConsoleColor.DarkYellow, pkgName);
-            Console.WriteLine("' via npm...");
-            Process p = startProcess("npm", "i " + pkgName + " -g", ProcessWindowStyle.Hidden);
-            p.WaitForExit();
+            try
+            {
+                string[] rep = outputProcessShelll("npm", "list -g");
+                if (!rep[1].Contains(pkgName))
+                {
+                    try
+                    {
+                        Console.Write("Installation de '");
+                        Message.writeIn(ConsoleColor.DarkYellow, pkgName);
+                        Console.WriteLine("' via npm...");
+                        Process p2 = startProcess("npm", "i \"" + pkgName + "\" -g", ProcessWindowStyle.Hidden);
+                        p2.WaitForExit();
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        Message.writeExcept("Erreur lors de l'installation du paquet npm '" + pkgName + "' !", e);
+                        return false;
+                    }
+                } else
+                {
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Npm n'est pas installé ou n'est pas accessible !", e);
+                return false;
+            }
+        }
+
+
+        // Lance et attends la commande npm
+        public static bool runNpmCmd(string pkgName, string args)
+        {
+            try
+            {
+                Process p = startProcess(pkgName, args, ProcessWindowStyle.Hidden);
+                p.WaitForExit();
+                return p.ExitCode == 0;
+            }
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible d'exécuter le package npm '" + pkgName + "' !", e);
+                return false;
+            }
         }
 
 
@@ -76,7 +121,6 @@ namespace Cody
             startInfo.FileName = name;
             startInfo.Arguments = args;
             startInfo.WindowStyle = style;
-
             if (redirectOutPut)
             {
                 startInfo.UseShellExecute = false;
@@ -94,6 +138,26 @@ namespace Cody
             processTemp.Start();
 
             return processTemp;
+        }
+
+
+        // Retourne la sortie d'un process
+        public static string[] outputProcess(string name, string args = "")
+        {
+            Process p = startProcess(name, args, ProcessWindowStyle.Hidden, true);
+            p.WaitForExit();
+            return new string[] { p.ExitCode.ToString(), p.StandardOutput.ReadToEnd() };
+        }
+
+
+        // Retourne la sortie d'un process avec shell execute
+        public static string[] outputProcessShelll (string name, string args = "")
+        {
+            Process p = startProcess(name, args + " > cody.lock", ProcessWindowStyle.Hidden);
+            p.WaitForExit();
+            string rep = File.ReadAllText("cody.lock");
+            File.Delete("cody.lock");
+            return new string[] { p.ExitCode.ToString(), rep };
         }
 
 
@@ -160,7 +224,7 @@ namespace Cody
                 bool continu = true;
 
                 // Conflit de version
-                if (inf.version != Program.version)
+                if (inf.version != Program.version && !Librairie.acceptWarn)
                 {
                     Console.Write("Attention, ce projet est fait pour fonctionner avec la version ");
                     Message.writeIn(ConsoleColor.DarkYellow, inf.version);
@@ -170,6 +234,7 @@ namespace Cody
                     Console.WriteLine(", cela pourrait créer des problèmes de compatibilité, voulez vous continuer ?");
 
                     continu = inputYesNo();
+                    Librairie.acceptWarn = continu;
                 }
 
                 return continu;

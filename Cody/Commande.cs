@@ -472,14 +472,16 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
                     try
                     {
-                        Librairie.installNpmPackage("less");
-                        Librairie.installNpmPackage("minify");
-                        string c = Directory.GetCurrentDirectory();
-                        string t = Path.Combine(c, "release");
-                        Directory.Delete(t, true);
-                        Directory.CreateDirectory(t);
-                        recursiveCopyAndMinify(c, c, t, excludedFiles, excludedFolder, toMinifi);
-                        Console.WriteLine("Le projet a été construit. N'oubliez pas de modifier le fichier de configuration afin de faire la mise en production.");
+                        if (Librairie.installNpmPackage("less") && 
+                            Librairie.installNpmPackage("minify"))
+                        {
+                            string c = Directory.GetCurrentDirectory();
+                            string t = Path.Combine(c, "release");
+                            Directory.Delete(t, true);
+                            Directory.CreateDirectory(t);
+                            recursiveCopyAndMinify(c, c, t, excludedFiles, excludedFolder, toMinifi);
+                            Console.WriteLine("Le projet a été construit. N'oubliez pas de modifier le fichier de configuration afin de faire la mise en production.");
+                        }
                     }
                     catch (Exception e)
                     {
@@ -566,16 +568,16 @@ vs                              Ouvre le projet dans Visual Studio Code.
         {
             try
             {
-                rel = rel.Substring(0, rel.Length - ex.Length) + ".min" + ex;
-                to = to.Substring(0, to.Length - ex.Length) + ".min" + ex;
-                Process p = Librairie.startProcess("minify", file + " > " + to, ProcessWindowStyle.Hidden);
-                p.WaitForExit();
-
-                Console.Write("Fichier : '");
-                Message.writeIn(ConsoleColor.DarkGreen, rel);
-                Console.Write("' minifié (");
-                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(to).Length));
-                Console.WriteLine(").");
+                rel = Path.ChangeExtension(rel, ".min" + ex);
+                to = Path.ChangeExtension(to, ".min" + ex);
+                if (Librairie.runNpmCmd("minify", "\"" + file + "\" > \"" + to + "\""))
+                {
+                    Console.Write("Fichier : '");
+                    Message.writeIn(ConsoleColor.DarkGreen, rel);
+                    Console.Write("' minifié (");
+                    Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(to).Length));
+                    Console.WriteLine(").");
+                }
             }
             catch (Exception e)
             {
@@ -587,20 +589,21 @@ vs                              Ouvre le projet dans Visual Studio Code.
             try
             {
                 // Minify n'accepte pas les fichiers less meme si ils contiennent du css
-                string wext = to.Substring(0, to.Length - 5);
-                string css = wext + ".css";
-                string min = wext + ".min.css";
-                Process p = Librairie.startProcess("lessc", file + " > " + css, ProcessWindowStyle.Hidden);
-                p.WaitForExit();
-                p = Librairie.startProcess("minify", css + " > " + min, ProcessWindowStyle.Hidden);
-                p.WaitForExit();
-                File.Delete(css);
-
-                Console.Write("Fichier : '");
-                Message.writeIn(ConsoleColor.DarkGreen, rel);
-                Console.Write("' compilé puis minifié (");
-                Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(min).Length));
-                Console.WriteLine(").");
+                string css = Path.ChangeExtension(rel, ".css");
+                string min = Path.ChangeExtension(rel, ".min.css");
+                rel = Path.ChangeExtension(rel, ".min.css");
+                if (Librairie.runNpmCmd("lessc", "\"" + file + "\" > \"" + css + "\""))
+                {
+                    if (Librairie.runNpmCmd("minify", "\""+ css + "\" > \"" + min + "\""))
+                    {
+                        Console.Write("Fichier : '");
+                        Message.writeIn(ConsoleColor.DarkGreen, rel);
+                        Console.Write("' compilé puis minifié (");
+                        Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberMem(new FileInfo(min).Length));
+                        Console.WriteLine(").");
+                    }
+                    File.Delete(css);
+                }
             }
             catch (Exception e)
             {
@@ -711,18 +714,16 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
 
                 // Lance PHP
-                Process p = Librairie.startProcess($"php", "-r \"" +
+                string[] rep = Librairie.outputProcess("php", "-r \"" +
                     "set_error_handler(function() { }); " +
                     "register_shutdown_function(function() { }); " +
                     "include '.kernel/php/autoloader.php'; " +
                     "Kernel\\Autoloader::register(); " +
                     "include '" + obj.paths[0] + "'; " +
                     nspc + "::run();" +
-                    "\"", ProcessWindowStyle.Hidden, true);
+                    "\"");
 
-                p.WaitForExit();
-
-                if (p.ExitCode == 0)
+                if (rep[0] == "0")
                 {
                     Console.Write("[");
                     Message.writeIn(ConsoleColor.DarkGreen, "√");
@@ -736,10 +737,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     Console.Write("[");
                     Message.writeIn(ConsoleColor.DarkRed, "×");
                     Console.Write("] Test : '");
-                    Message.writeIn(ConsoleColor.DarkYellow, obj.paths[0]);
+                    Message.writeIn(ConsoleColor.DarkYellow, nspc);
                     Console.WriteLine("', test échoué !");
                     Console.Write(" └──► Raison : ");
-                    Message.writeLineIn(ConsoleColor.DarkRed, p.StandardOutput.ReadToEnd());
+                    Message.writeLineIn(ConsoleColor.DarkRed, rep[1]);
                     return false;
                 }
             }
@@ -749,7 +750,6 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 return false;
             }
         }
-
 
 
         // ########################################################################
