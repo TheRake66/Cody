@@ -53,10 +53,13 @@ class Autoloader {
         }
 
         $file = strtolower($file);
+        if (!is_file($file) && !is_readable($file)) {
+            $file = str_replace('_', ' ', $file);
+        }
         if(is_file($file) && is_readable($file)) {
             include $file;
         } else {
-            throw new \Exception('Impossible de charger : "' . $required . '".');
+            throw new \Exception('Impossible de charger : "' . $file . '".');
         }
     }
     

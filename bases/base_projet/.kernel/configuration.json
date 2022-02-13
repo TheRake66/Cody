@@ -3,9 +3,12 @@
     "enable_debug" : true,
     "enable_supervisor" : true,
     "enable_ssl": false,
-    "open_session" : true,
-    "multiple_session" : true,
     "timezone" : "Europe/Paris",
+    "session" : {
+        "open_session" : true,
+        "multiple_session" : true,
+        "session_name" : "{PROJECT_NAME}"
+    },
     "database" : {
         "login" : "root", 
         "password" : "", 

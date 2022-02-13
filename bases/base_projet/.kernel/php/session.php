@@ -13,10 +13,10 @@ class Session {
      * @param string le nom de la session, par defaut c'est le nom de domaine
 	 */
 	static function start($name = null) {
-		if (Configuration::get()->open_session && session_status() === PHP_SESSION_NONE) {
+		if (Configuration::get()->session->open_session && session_status() === PHP_SESSION_NONE) {
 			Debug::log('Démarrage de la session...', Debug::LEVEL_PROGRESS);
-            if (Configuration::get()->multiple_session) {
-				$name = basename(dirname(dirname(__DIR__)));
+            if (Configuration::get()->session->multiple_session) {
+				$name = str_replace(' ', '_', Configuration::get()->session->session_name);
             }
             session_name($name);
 			session_start();

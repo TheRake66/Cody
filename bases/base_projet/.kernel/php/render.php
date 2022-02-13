@@ -29,11 +29,25 @@ class Render {
         extract($variables);
 
         // Inclut la vue
-        include $folder . 'vue.' . $name . '.php';
-        // Inclut le style
-        echo Html::importStyle($folder . 'style.' . $name . '.less');
-        // Inclut et initialise le script
-        echo Html::importScript($folder . 'script.' . $name . '.js', $name, $class);
+        $cont = $folder . 'vue.' . $name . '.php';
+        $style = $folder . 'style.' . $name . '.less';
+        $script = $folder . 'script.' . $name . '.js';
+
+        if (!is_file($cont) && !is_readable($cont)) {
+            $cont = str_replace('_', ' ', $cont);
+            $style = str_replace('_', ' ', $style);
+            $script = str_replace('_', ' ', $script);
+        }
+        if (is_file($cont) && is_readable($cont)) {
+            include $cont ;
+            // Inclut le style
+            echo Html::importStyle($style);
+            // Inclut et initialise le script
+            echo Html::importScript($script, $class);
+        } else {
+            throw new \Exception('Impossible de faire le rendu de : "' . $full . '".');
+        }
+
     }
     
 }
