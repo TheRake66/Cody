@@ -199,11 +199,16 @@ class Suppervisor {
                     transform: translate(0, 0);
                 }
                 #SUPERVISOR_CODY_PANEL * {
-                    font-family: "Consolas" !important;
+                    font-family: "cody_consolas" !important;
                     scroll-behavior: auto;
 					box-sizing: unset;
                 }
-                
+
+                @font-face {
+                    font-family: "Open Sans";
+                    src: url(".kernel/consolas.ttf") format("truetype"),
+                }
+
                 
                 #SUPERVISOR_CODY_PANEL > img {
                     position: absolute;

@@ -87,7 +87,7 @@ class Error {
 
                 .ERROR_CODY_BLOCK {
                     margin: auto;
-                    font-family: "Consolas" !important;
+                    font-family: "cody_consolas" !important;
                     font-size: 14px;
                     display: flex;
                     flex-direction: column;
@@ -100,6 +100,11 @@ class Error {
                     left: 50%;
                     transform: translate(-50%, -50%);
                     background-color: white;
+                }
+
+                @font-face {
+                    font-family: "Open Sans";
+                    src: url(".kernel/consolas.ttf") format("truetype"),
                 }
 
 
