@@ -617,91 +617,139 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 // Si le projet existe
                 if (Librairie.isProject())
                 {
-                    Console.WriteLine("Lancement des tests...");
-                    string p = Path.Combine(Directory.GetCurrentDirectory(), "tests");
-                    bool passedAlls = recursiveTest(p, p);
-                    if (passedAlls)
-                        Console.WriteLine("Tous les tests sont passés.");
+                    string jsoni = "tests/test.json";
+                    if (File.Exists(jsoni))
+                    {
+                        try
+                        {
+                            string json = File.ReadAllText(jsoni);
+
+                            if (json != "")
+                            {
+                                Console.WriteLine("Lancement des tests...");
+                                Console.WriteLine("═════════════════════════════════════════════════════════════════════");
+
+                                List<Item> objs = JsonConvert.DeserializeObject<List<Item>>(json);
+                                int count = 0;
+                                foreach (Item obj in objs)
+                                {
+                                    if (obj.paths.Count > 0)
+                                    {
+                                        string file = obj.paths[0];
+                                        if (File.Exists(file))
+                                        {
+                                            if (runTestFile(obj))
+                                                count++;
+                                        }
+                                        else
+                                        {
+                                            Console.Write("Le fichier de test '");
+                                            Message.writeIn(ConsoleColor.DarkYellow, file);
+                                            Console.WriteLine("' est indexé mais est introuvable !");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Aucun fichier de test pour le test '" + obj.name + "'.");
+                                    }
+                                }
+
+                                Console.WriteLine("═════════════════════════════════════════════════════════════════════");
+                                if (count > 0)
+                                {
+                                    if (count == objs.Count)
+                                    {
+                                        Message.writeIn(ConsoleColor.DarkGreen, count);
+                                        Console.Write(" test(s) sur ");
+                                        Message.writeIn(ConsoleColor.DarkGreen, objs.Count);
+                                        Console.WriteLine(". Tous les tests sont passés.");
+                                    }
+                                    else
+                                    {
+                                        Message.writeIn(ConsoleColor.DarkRed, count);
+                                        Console.Write(" test(s) sur ");
+                                        Message.writeIn(ConsoleColor.DarkRed, objs.Count);
+                                        Console.WriteLine(". Un ou plusieurs des tests n'est pas passé.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Heuuu, il n'y a aucun fichier de test dans ce projet...");
+                                }
+                            }
+                            else
+                                Console.WriteLine("Heuuu, aucun élément n'est indexé...");
+                        }
+                        catch (Exception e)
+                        {
+                            Message.writeExcept("Impossible de lire la liste des tests existant !", e);
+                        }
+                    }
                     else
-                        Console.WriteLine("Un des tests n'est pas passé.");
+                        Console.WriteLine("Heuuu, aucune liste de tests n'a été trouvée...");
                 }
             }
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
-        private static bool recursiveTest(string path, string origin)
+        private static bool runTestFile(Item obj)
         {
-
-            foreach (string f in Directory.GetFiles(path))
+            try
             {
-                if (Path.GetExtension(f).ToLower() == ".php")
+                string[] sp = Librairie.remplaceDirSep(obj.name).Split(Path.DirectorySeparatorChar);
+                string nspc = "Test";
+                foreach (string s in sp)
                 {
-                    // Retire le chemin C:\...\projet\tests de C:\...\projet\tests\machin.php ce qui donne machin.php
-                    // Puis retire l'extension
-                    string rel = f.Substring(origin.Length + 1);
-                    string wext = rel.Substring(0, rel.Length - 4);
-                    string[] spt = wext.Split(Path.DirectorySeparatorChar);
-                    string classNspm = "Test";
-                    foreach (string s in spt)
+                    if (s.Length > 0)
                     {
-                        if (s.Length > 0)
-                        {
-                            classNspm += "\\" + s.Substring(0, 1).ToUpper();
-                            if (s.Length > 1)
-                                classNspm += s.Substring(1).ToLower();
-                        }
-                    }
-
-                    try
-                    {
-                        // Lance PHP
-                        Process p = Librairie.startProcess($"php", "-r \"" +
-                            "set_error_handler(function() { }); " +
-                            "register_shutdown_function(function() { }); " +
-                            "include '.kernel/php/autoloader.php'; " +
-                            "Kernel\\Autoloader::register(); " +
-                            "include '" + f + "'; " +
-                            classNspm + "::run();" +
-                            "\"", ProcessWindowStyle.Hidden, true);
-
-                        p.WaitForExit();
-
-                        if (p.ExitCode == 0)
-                        {
-                            Console.Write("[");
-                            Message.writeIn(ConsoleColor.DarkGreen, "√");
-                            Console.Write("] Test : '");
-                            Message.writeIn(ConsoleColor.DarkYellow, classNspm);
-                            Console.WriteLine("', test réussi.");
-                        }
-                        else
-                        {
-                            Console.Write("[");
-                            Message.writeIn(ConsoleColor.DarkRed, "×");
-                            Console.Write("] Test : '");
-                            Message.writeIn(ConsoleColor.DarkYellow, classNspm);
-                            Console.WriteLine("', test échoué !");
-                            Console.Write("Raison : ");
-                            Message.writeLineIn(ConsoleColor.DarkRed, p.StandardOutput.ReadToEnd());
-                            return false;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Message.writeExcept("Impossible de lancer les tests du fichier '" + f + "' !", e);
-                        return false;
+                        nspc += "\\" + s.Substring(0, 1).ToUpper();
+                        if (s.Length > 1)
+                            nspc += s.Substring(1).ToLower();
                     }
                 }
-            }
+                nspc = nspc.Replace(" ", "_");
 
-            foreach (string d in Directory.GetDirectories(path))
-            {
-                if (!recursiveTest(d, origin))
+
+                // Lance PHP
+                Process p = Librairie.startProcess($"php", "-r \"" +
+                    "set_error_handler(function() { }); " +
+                    "register_shutdown_function(function() { }); " +
+                    "include '.kernel/php/autoloader.php'; " +
+                    "Kernel\\Autoloader::register(); " +
+                    "include '" + obj.paths[0] + "'; " +
+                    nspc + "::run();" +
+                    "\"", ProcessWindowStyle.Hidden, true);
+
+                p.WaitForExit();
+
+                if (p.ExitCode == 0)
+                {
+                    Console.Write("[");
+                    Message.writeIn(ConsoleColor.DarkGreen, "√");
+                    Console.Write("] Test : '");
+                    Message.writeIn(ConsoleColor.DarkYellow, nspc);
+                    Console.WriteLine("', test réussi.");
+                    return true;
+                }
+                else
+                {
+                    Console.Write("[");
+                    Message.writeIn(ConsoleColor.DarkRed, "×");
+                    Console.Write("] Test : '");
+                    Message.writeIn(ConsoleColor.DarkYellow, obj.paths[0]);
+                    Console.WriteLine("', test échoué !");
+                    Console.Write(" └──► Raison : ");
+                    Message.writeLineIn(ConsoleColor.DarkRed, p.StandardOutput.ReadToEnd());
                     return false;
+                }
             }
-
-            return true;
+            catch (Exception e)
+            {
+                Message.writeExcept("Impossible de lancer les tests du fichier '" + obj.paths[0] + "' !", e);
+                return false;
+            }
         }
+
 
 
         // ########################################################################
@@ -1393,6 +1441,8 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
 
                 // Ouvre l'archive
+                int count = 0;
+                int total = 0;
                 using (ZipArchive arc = ZipFile.OpenRead(zip))
                 {
                     // Parcour chaque entree
@@ -1400,15 +1450,30 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     {
                         // Si c'est un fichier
                         if (ent.Name != "")
-                            extraireFichierItem(ent, ref paths, nomlow, namespce_slash, namespce_point, back_path, objlow, objup);
+                        {
+                            if (extraireFichierItem(ent, ref paths, nomlow, namespce_slash, namespce_point, back_path, objlow, objup))
+                                count++;
+                        }
+                        total++;
                     }
                 }
 
-                supprimerArchiveItem(zip);
-                ajouterJsonItem(objs, paths, nom, jsoni);
+                if (count > 0)
+                {
+                    supprimerArchiveItem(zip);
+                    ajouterJsonItem(objs, paths, nom, jsoni);
+                    if (count == total)
+                        Console.WriteLine("L'élément a été crée.");
+                    else
+                        Console.WriteLine("L'élément a partiellement été crée.");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("L'élément n'a pas été crée.");
+                    return false;
+                }
 
-                Console.WriteLine("L'élément a été crée.");
-                return true;
             }
             catch (Exception e)
             {
@@ -1416,7 +1481,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 return false;
             }
         }
-        private static void extraireFichierItem(ZipArchiveEntry ent, ref List<string> paths, string nomlow, string namespce_slash, string namespce_point, string back_path,  string objlow, string objup)
+        private static bool extraireFichierItem(ZipArchiveEntry ent, ref List<string> paths, string nomlow, string namespce_slash, string namespce_point, string back_path,  string objlow, string objup)
         {
             try
             {
@@ -1440,6 +1505,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     }
                     catch (Exception e)
                     {
+                        Console.WriteLine("'" + path + "'");
                         Message.writeExcept("Impossible d'ajouter le(s) dossier(s) !", e);
                         continu = false;
                     }
@@ -1461,23 +1527,27 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     {
                         // Modifie le fichier
                         string content = File.ReadAllText(file)
-                            .Replace("{NAMESPACE_SLASH}", namespce_slash)
-                            .Replace("{NAMESPACE_POINT}", namespce_point)
+                            .Replace("{NAMESPACE_SLASH}", namespce_slash.Replace(" ", "_"))
+                            .Replace("{NAMESPACE_POINT}", namespce_point.Replace(" ", "_"))
+                            .Replace("{NAME_LOWER}", objlow.Replace(" ", "_"))
+                            .Replace("{NAME_UPPER}", objup.Replace(" ", "_"))
                             .Replace("{BACK_PATH}", back_path)
-                            .Replace("{NAME_UPPER}", objup)
-                            .Replace("{PATH}", nomlow.Replace('\\', '/'))
-                            .Replace("{NAME_LOWER}", objlow);
+                            .Replace("{PATH}", nomlow.Replace('\\', '/'));
                         File.WriteAllText(file, content);
+                        return true;
                     }
                     catch (Exception e)
                     {
                         Message.writeExcept("Impossible d'éditer le fichier !", e);
+                        return false;
                     }
                 }
+                return false;
             }
             catch (Exception e)
             {
                 Message.writeExcept("Impossible d'extraire le fichier !", e);
+                return false;
             }
         }
         private static void supprimerArchiveItem(string zip)
@@ -1701,7 +1771,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 }
             }
             else
-                Console.WriteLine("Heuuu, aucune liste d'élément a été trouvée...");
+                Console.WriteLine("Heuuu, aucune liste d'élément n'a été trouvée...");
         }
         private static void afficherUnItem(Item obj)
         {

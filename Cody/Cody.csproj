@@ -5,7 +5,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Cody</RootNamespace>
     <StartupObject></StartupObject>
-    <Version>7.14.41.0</Version>
+    <Version>7.15.41.0</Version>
     <Authors>Thibault BUSTOS (TheRake66)</Authors>
     <Description>Framework PHP/JavaScript/HTML/Less en français.</Description>
     <Copyright>Copyright © 2022 - Thibault BUSTOS (TheRake66)</Copyright>
@@ -14,10 +14,10 @@
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/TheRake66/Cody</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <AssemblyVersion>7.14.41.0</AssemblyVersion>
+    <AssemblyVersion>7.15.41.0</AssemblyVersion>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyName>Cody</AssemblyName>
-    <FileVersion>7.14.41.0</FileVersion>
+    <FileVersion>7.15.41.0</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 

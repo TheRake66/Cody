@@ -1,5 +1,5 @@
 {
-	"version": "7.14.41.0",
+	"version": "7.15.41.0",
 	"changelog": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -10,7 +10,8 @@
 		"Ajout du chemin d'installation dans le PATH.",
 		"Ajout d'un compiler/minifier.",
 		"Support des tests unitaires.",
-		"La commande run ne tue pas toutes les instances de PHP."
+		"La commande run ne tue pas toutes les instances de PHP.",
+		"Support des espaces dans les arguments."
 	], 
 	"retrocompatible": false
 }

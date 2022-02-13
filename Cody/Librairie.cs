@@ -12,6 +12,25 @@ namespace Cody
 {
     public class Librairie
     {
+        // Decoupe un string en argument avec guillemet
+        public static string[] lineToArgs(string line)
+        {
+            char[] cs = line.ToCharArray();
+            bool qt = false;
+            for (int i = 0; i < cs.Length; i++)
+            {
+                char c = cs[i];
+                if (c == '"')
+                    qt = !qt;
+                if (!qt && c == ' ')
+                    cs[i] = '\n';
+            }
+            string[] r = (new string(cs)).Split('\n');
+            for (int i = 0; i < r.Length; i++)
+                r[i] = r[i].Replace("\"", "");
+            return r;
+        }
+
 
         // Recupere en recursif le nombre et la taille total des fichier
         // d'un dossier et ses sous dossiers

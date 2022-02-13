@@ -48,11 +48,10 @@ namespace Cody
 
                 // Recupere les inputs, trim, et remplace les doublon d'espaces
                 string input = Console.ReadLine().Trim();
-                string[] split = input.Replace("  ", " ").Split(' ');
+                string[] split = Librairie.lineToArgs(input);
                 dispatchCmd(split);
             }
         }
-
 
         // Affiche le logo
         static void afficherLogo()
@@ -88,7 +87,7 @@ namespace Cody
                 Message.writeIn(ConsoleColor.DarkRed, @"
                                                     ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
                 Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                          ~ Version {version} du 12 février 2022 ~
+                                          ~ Version {version} du 13 février 2022 ~
                                      ~ Copyright © " + DateTime.Now.Year + " - Thibault BUSTOS (TheRake66) ~");
 
                 Console.WriteLine(@"
