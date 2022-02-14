@@ -11,8 +11,8 @@ class Less {
 	 * Charge et lance less
 	 */
 	static function compileLessToCss() {
-		if (Configuration::get()->in_production) {
-			Html::importScript('.kernel/less@4.1.1.js');
+		if (!Configuration::get()->in_production) {
+			echo Html::importScript('.kernel/less@4.1.1.js');
 			echo '<script>
 					async function load() {
 						await new Promise(r => setTimeout(r, 200));
