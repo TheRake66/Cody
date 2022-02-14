@@ -539,9 +539,18 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 if (!exFi.Contains(Path.GetFileName(f)))
                 {
+                    // Extension to lower
                     string ex = Path.GetExtension(f).ToLower();
-                    string rel = f.Substring(origin.Length + 1);
-                    string nf = Path.Combine(originto, rel);
+                    // C:\projet = origin
+                    // C:\projet\release = originto
+                    // C:\projet\debug\app\global.less = f
+                    // release = premier substring
+                    // debug\app\global.less = deuxieme substring
+                    // release\debug\app\global.less = combine
+                    string rel = Path.Combine(
+                            originto.Substring(origin.Length + 1),
+                            f.Substring(origin.Length + 1));
+                    string nf = Path.Combine(origin, rel);
 
                     if (toMin.Contains(ex))
                     {
@@ -563,8 +572,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 if (!exFo.Contains(Path.GetFileName(d)))
                 {
-                    string rel = d.Substring(origin.Length + 1);
-                    string nd = Path.Combine(originto, rel);
+                    string rel = Path.Combine(
+                            originto.Substring(origin.Length + 1),
+                            d.Substring(origin.Length + 1));
+                    string nd = Path.Combine(origin, rel);
                     if (createDirToRelease(nd, rel))
                         recursiveCopyAndMinify(d, origin, originto, exFi, exFo, toMin);
                 }
@@ -629,8 +640,8 @@ vs                              Ouvre le projet dans Visual Studio Code.
             try
             {
                 // Minify n'accepte pas les fichiers less meme si ils contiennent du css
-                string css = Path.ChangeExtension(rel, ".css");
-                string min = Path.ChangeExtension(rel, ".min.css");
+                string css = Path.ChangeExtension(to, ".css");
+                string min = Path.ChangeExtension(to, ".min.css");
                 rel = Path.ChangeExtension(rel, ".min.css");
                 if (Librairie.runNpmCmd("lessc", "\"" + file + "\" > \"" + css + "\""))
                 {

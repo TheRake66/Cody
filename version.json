@@ -1,5 +1,5 @@
 {
-	"version": "7.16.46.0",
+	"version": "7.16.47.0",
 	"changelog": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -15,7 +15,8 @@
 		"Les avertissements de version ne s'affichent qu'une fois.",
 		"Correction du build avec des espaces.",
 		"Correction npm sur Ubuntu.",
-		"Ajout d'une commande stop."
+		"Ajout d'une commande stop.",
+		"Correction build des fichiers less"
 	], 
 	"retrocompatible": false
 }
