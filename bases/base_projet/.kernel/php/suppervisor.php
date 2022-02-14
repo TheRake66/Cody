@@ -192,8 +192,6 @@ class Suppervisor {
                     transition: transform 0.3s ease-in-out;
                     transform: translate(-100%, 0);
                     border-right: solid 2px #777777;
-                    scroll-behavior: auto;
-					box-sizing: unset;
                 }
                 #SUPERVISOR_CODY_PANEL:hover {
                     transform: translate(0, 0);
@@ -202,6 +200,8 @@ class Suppervisor {
                     font-family: "cody_consolas" !important;
                     scroll-behavior: auto;
 					box-sizing: unset;
+                    margin: 0;
+                    padding: 0;
                 }
             
 

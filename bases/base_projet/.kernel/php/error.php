@@ -103,6 +103,8 @@ class Error {
                 }
                 .ERROR_CODY_BLOCK * {
                     font-family: "cody_consolas" !important;
+                    margin: 0;
+                    padding: 0;
                 }
 
                 @font-face {
