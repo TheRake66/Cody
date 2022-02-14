@@ -1122,9 +1122,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     {
                         string zip = Path.Combine(name, "base_projet.zip");
                         if (downloadProjet(zip))
-                        {
                             parcoursArchiveProjet(zip, name);
-                        }
                     }
                 }
                 else
@@ -1272,7 +1270,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
         {
             try
             {
-                DirectoryInfo di = new DirectoryInfo(Path.Combine(name, "..kernel"));
+                DirectoryInfo di = new DirectoryInfo(Path.Combine(name, ".kernel"));
                 if ((di.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
                     di.Attributes |= FileAttributes.Hidden;
             }
