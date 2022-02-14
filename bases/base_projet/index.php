@@ -36,16 +36,6 @@ use Kernel\Html;
 		
 	<!-- Inclusion du style global -->
 	<?= Html::importStyle('debug/app/global.less') ?>
-	
-	<!-- Inclusion de Less -->
-	<?= Html::importScript('.kernel/less@4.1.1.js') ?>
-	<script>
-		async function load() {
-			await new Promise(r => setTimeout(r, 200));
-			document.getElementsByTagName('html')[0].style.opacity = 1;
-		}
-		document.addEventListener("DOMContentLoaded", load);
-	</script>
 		
 </html>
 
