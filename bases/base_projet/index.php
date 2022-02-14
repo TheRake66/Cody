@@ -7,7 +7,7 @@ use Kernel\Html;
 
 
 <!DOCTYPE html>
-<html lang='fr' style="opacity: 0;">
+<html lang='fr'>
 
 	<!-- Definition du head -->
 	<head>
