@@ -23,6 +23,9 @@ use Kernel\Html;
 		<link rel='icon' href='favicon.ico'/>
 	</head>
 		
+	<!-- Inclusion du style global -->
+	<?= Html::importStyle('debug/app/global.less') ?>
+		
 	<!-- Inclusion du script global de debut -->
 	<?= Html::importScript('debug/app/global_brefore.js') ?>
 	
@@ -33,9 +36,6 @@ use Kernel\Html;
 	
 	<!-- Inclusion du script global de fin -->
 	<?= Html::importScript('debug/app/global_after.js') ?>
-		
-	<!-- Inclusion du style global -->
-	<?= Html::importStyle('debug/app/global.less') ?>
 		
 </html>
 
