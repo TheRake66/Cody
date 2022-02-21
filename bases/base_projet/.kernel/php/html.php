@@ -56,10 +56,15 @@ class Html {
      * Ajoute une src
      * 
      * @param string la src
+     * @param string le texte alternatif
      * @return string l'attribut formatte
      */
-    static function setSrc($src) {
-        return Html::setAttrib($src, 'src');
+    static function setSrc($src, $alt = null) {
+        $html = Html::setAttrib($src, 'src');
+        if (!is_null($alt)) {
+            $html .= Html::setAttrib($alt, 'alt');
+        }
+        return $html;
     }
 
 
