@@ -39,7 +39,7 @@ class Html {
         echo Html::importScript('debug/app/global_after.js');
         echo '<script>
                 async function loaded() {
-                    await new Promise(r => setTimeout(r, ' . Configuration::get()->region->render_delay . '));
+                    await new Promise(r => setTimeout(r, 200));
                     document.getElementsByTagName(\'html\')[0].style.opacity = 1;
                 }
                 window.addEventListener("DOMContentLoaded", (event) => {
@@ -49,6 +49,7 @@ class Html {
 
         </html>';
     }
+    
 
     /**
      * Ajoute un attribut HTML

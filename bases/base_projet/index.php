@@ -8,7 +8,6 @@ use Kernel\Html;
 
 <?= Html::begin() ?>
 
-	<!-- Routage vers le bon controleur -->
 	<body>
 		<?php Router::routing(); ?>
 	</body>
