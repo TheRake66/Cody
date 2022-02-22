@@ -43,7 +43,7 @@ class Render {
             // Inclut le style
             echo Html::importStyle($style);
             // Inclut et initialise le script
-            echo Html::importScript($script, $class);
+            echo Html::importScript($script, $name, $class);
         } else {
             throw new \Exception('Impossible de faire le rendu de : "' . $full . '".');
         }
