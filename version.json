@@ -1,5 +1,5 @@
 {
-	"version": "7.16.48.0",
+	"version": "7.16.50.0",
 	"changelog": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",

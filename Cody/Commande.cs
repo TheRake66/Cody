@@ -452,26 +452,26 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 // Si le projet existe
                 if (Librairie.isProject())
                 {
-                    try
+                    // Ferme les serveur php
+                    if (Commande.serverRun != null)
                     {
-                        // Ferme les serveur php
-                        if (Commande.serverRun != null)
+                        if (!Commande.serverRun.HasExited)
                         {
-                            if (!Commande.serverRun.HasExited)
+                            try
                             {
                                 Commande.serverRun.Kill();
                                 Console.WriteLine("Le serveur a été arrêté.");
                             }
-                            else
-                                Console.WriteLine("Le serveur s'est déjà arrêté !");
+                            catch (Exception e)
+                            {
+                                Message.writeExcept("Impossible d'arrêter le serveur !", e);
+                            }
                         }
                         else
-                            Console.WriteLine("Aucun serveur n'a été lancé !");
+                            Console.WriteLine("Le serveur s'est déjà arrêté !");
                     }
-                    catch (Exception e)
-                    {
-                        Message.writeExcept("Impossible d'arrêter le serveur !", e);
-                    }
+                    else
+                        Console.WriteLine("Aucun serveur n'a été lancé !");
                 }
             }
             else
@@ -490,6 +490,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     string[] excludedFiles = new string[]
                     {
                         ".gitignore",
+                        ".gitattributes",
                         "project.json",
                         "component.json",
                         "object.json",
@@ -499,15 +500,11 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     };
                     string[] excludedFolder = new string[]
                     {
+                        ".git",
+                        ".vs",
                         "release",
                         "documents",
                         "tests"
-                    };
-                    string[] toMinifi = new string[]
-                    {
-                    ".js",
-                    ".less",
-                    ".html"
                     };
 
                     try
@@ -519,7 +516,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                             string t = Path.Combine(c, "release");
                             Directory.Delete(t, true);
                             Directory.CreateDirectory(t);
-                            recursiveCopyAndMinify(c, c, t, excludedFiles, excludedFolder, toMinifi);
+                            recursiveCopyAndMinify(c, c, t, excludedFiles, excludedFolder);
                             Console.WriteLine("Le projet a été construit. N'oubliez pas de modifier le fichier de configuration afin de faire la mise en production.");
                         }
                     }
@@ -532,7 +529,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
             else
                 Console.WriteLine("Problème, aucun argument n'est attendu !");
         }
-        private static void recursiveCopyAndMinify(string path, string origin, string originto, string[] exFi, string[] exFo, string[] toMin)
+        private static void recursiveCopyAndMinify(string path, string origin, string originto, string[] exFi, string[] exFo)
         {
             // Traite les fichier
             foreach (string f in Directory.GetFiles(path))
@@ -552,15 +549,12 @@ vs                              Ouvre le projet dans Visual Studio Code.
                             f.Substring(origin.Length + 1));
                     string nf = Path.Combine(origin, rel);
 
-                    if (toMin.Contains(ex))
-                    {
-                        // Si less on compile puis minifi
-                        if (ex == ".less")
-                            compileMinifyLess(f, nf, rel);
-                        // Juste minifi
-                        else
-                            minifyFile(f, nf, rel, ex);
-                    }
+                    // Si less on compile puis minifi
+                    if (ex == ".less")
+                        compileMinifyLess(f, nf, rel);
+                    // Juste minifi
+                    else if (ex == ".js")
+                        minifyFile(f, nf, rel, ex);
                     // Juste copie
                     else
                         moveFileToRelease(f, nf, rel);
@@ -577,7 +571,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                             d.Substring(origin.Length + 1));
                     string nd = Path.Combine(origin, rel);
                     if (createDirToRelease(nd, rel))
-                        recursiveCopyAndMinify(d, origin, originto, exFi, exFo, toMin);
+                        recursiveCopyAndMinify(d, origin, originto, exFi, exFo);
                 }
             }
         }
