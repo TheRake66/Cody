@@ -2,7 +2,7 @@
 ob_start(function($o) {
     return preg_replace(
         ['/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/'], 
-        ['>','<','\\1'], $o);
+        ['>', '<', '\\1'], $o);
 });
 require_once '.kernel/php/autoloader.php';
 use Kernel as k;

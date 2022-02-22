@@ -3,7 +3,19 @@
     "enable_debug" : true,
     "enable_supervisor" : true,
     "enable_ssl": false,
-    "timezone" : "Europe/Paris",
+    "website_head" : {
+        "charset" : "utf-8",
+        "description" : "{PROJECT_NAME}",
+        "keywords" : "{PROJECT_NAME}",
+        "author" : "{USER_NAME}",
+        "viewport" : "width=device-width, initial-scale=1.0",
+        "theme_color" : "#3B78FF",
+        "title" : "{PROJECT_NAME}"
+    },
+    "region" : {
+        "timezone" : "Europe/Paris",
+        "main_lang" : "fr"
+    },
     "session" : {
         "open_session" : true,
         "multiple_session" : true,

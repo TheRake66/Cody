@@ -1,11 +1,54 @@
 <?php
 namespace Kernel;
 use Kernel\Url;
+use Kernel\Configuration;
 
 
 
 // Librairie Html
 class Html {
+
+    /**
+     * Ouvre une balise HTML et ecris l'entete
+     */
+    static function begin() {
+        echo '<!DOCTYPE html>
+            <html lang="' . Configuration::get()->region->main_lang . '" style="opacity: 0;">
+                <head>
+                    <meta charset="' . Configuration::get()->website_head->charset . '">
+                    <meta name="description" content="' . Configuration::get()->website_head->description . '">
+                    <meta name="keywords" content="' . Configuration::get()->website_head->keywords . '">
+                    <meta name="author" content="' . Configuration::get()->website_head->author . '">
+                    <meta name="viewport" content="' . Configuration::get()->website_head->viewport . '">
+                    <meta name="theme-color" content="' . Configuration::get()->website_head->theme_color . '">
+                    <meta name="msapplication-navbutton-color" content="' . Configuration::get()->website_head->theme_color . '">
+                    <meta name="apple-mobile-web-app-status-bar-style" content="' . Configuration::get()->website_head->theme_color . '">
+                    <title>' . Configuration::get()->website_head->title . '</title>
+                    <link rel="icon" href="favicon.ico"/>
+                </head>';
+    
+        echo Html::importStyle('debug/app/global.less');
+        echo Html::importScript('debug/app/global_brefore.js');
+    }
+
+
+    /**
+     * Ferme la balise HTML
+     */
+    static function end() {
+        echo Html::importScript('debug/app/global_after.js');
+        echo '<script>
+                async function loaded() {
+                    await new Promise(r => setTimeout(r, ' . Configuration::get()->region->render_delay . '));
+                    document.getElementsByTagName(\'html\')[0].style.opacity = 1;
+                }
+                window.addEventListener("DOMContentLoaded", (event) => {
+                    loaded();
+                });
+            </script>
+
+        </html>';
+    }
 
     /**
      * Ajoute un attribut HTML
