@@ -1,0 +1,48 @@
+@import "../theme.less";
+
+
+
+// Librairie Table
+.table {
+	background-color: @white;
+	border-radius: @radius;
+	box-shadow: 0 2px 4px @shadow;
+	border-collapse: collapse;
+	overflow: hidden;
+
+	th, td {
+		padding: 16px;
+		font-size: @font-medium;
+		font-size: @font-medium;
+	}
+
+	thead {
+		tr {
+			background-color: @blue;
+			
+			th {
+				color: @white;
+				font-weight: 500;
+			}
+		}
+	}
+
+	tbody {
+		tr {
+			&.odd {
+				background-color: @dark-white;
+			}
+			td {
+			}
+		}
+	}
+}
+
+
+
+// Librairie responsive Table
+@media all and (max-width: 1000px) {
+	.table {
+
+	}
+}

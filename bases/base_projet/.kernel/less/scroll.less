@@ -1,0 +1,45 @@
+@import "../theme.less";
+
+
+
+// Librairie Scroll
+.scroll {
+	
+	&::-webkit-scrollbar {
+		height: 12px;
+		width: 12px;
+		background: @dark-white;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: @blue;
+		border-radius: @radius-hard;
+		box-shadow: 0 2px 4px @shadow;
+
+		&:hover {
+			filter: brightness(110%);
+		}
+
+		&:active {
+			filter: brightness(120%);
+		}
+	}
+
+	&::-webkit-scrollbar-corner {
+		background: @dark-white;
+	}
+
+	&::-webkit-resizer {
+		background: #3B78FF;
+	}
+	
+}
+
+
+
+// Librairie responsive Scroll
+@media all and (max-width: 1000px) {
+	.scroll {
+
+	}
+}

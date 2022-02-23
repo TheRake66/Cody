@@ -1,0 +1,27 @@
+@import "../theme.less";
+
+
+
+// Librairie Tile
+.tile {
+	background-color: @white;
+	width: fit-content;
+	padding: 32px;
+	border-radius: @radius;
+	box-shadow: 0 2px 4px @shadow;
+}
+
+
+.tile-old {
+	.tile();
+	filter: opacity(50%);
+}
+
+
+
+// Librairie responsive Tile
+@media all and (max-width: 1000px) {
+	.tile {
+
+	}
+}

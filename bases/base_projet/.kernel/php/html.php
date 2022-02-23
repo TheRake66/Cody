@@ -12,6 +12,8 @@ class Html {
      * Ouvre une balise HTML et ecris l'entete
      */
     static function begin() {
+        Debug::log('Ouverture du HTML...', Debug::LEVEL_PROGRESS);
+
         echo '<!DOCTYPE html>
             <html lang="' . Configuration::get()->region->main_lang . '" style="opacity: 0;">
                 <head>
@@ -26,9 +28,15 @@ class Html {
                     <title>' . Configuration::get()->website_head->title . '</title>
                     <link rel="icon" href="favicon.ico"/>
                 </head>';
+        Debug::log('Définition de l\'entête.');
     
         echo Html::importStyle('debug/app/global.less');
+        Debug::log('Style global importé.');
+
         echo Html::importScript('debug/app/global_brefore.js');
+        Debug::log('Script d\'initialisation importé.');
+        
+        Debug::log('HTML ouvert.', Debug::LEVEL_GOOD);
     }
 
 
@@ -36,7 +44,11 @@ class Html {
      * Ferme la balise HTML
      */
     static function end() {
+        Debug::log('Fermeture du HTML...', Debug::LEVEL_PROGRESS);
+
         echo Html::importScript('debug/app/global_after.js');
+        Debug::log('Script d\'extinction importé.');
+
         echo '<script>
                 async function loaded() {
                     await new Promise(r => setTimeout(r, 200));
@@ -48,6 +60,9 @@ class Html {
             </script>
 
         </html>';
+        Debug::log('Définition de la fonction de rendu.');
+        
+        Debug::log('HTML fermé.', Debug::LEVEL_GOOD);
     }
     
 

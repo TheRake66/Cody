@@ -1,0 +1,57 @@
+@import "../theme.less";
+
+
+
+// Librairie Progress
+.progress {
+	-webkit-appearance: none;
+	box-shadow: 0 2px 4px @shadow;
+	overflow: hidden;
+	border-radius: @radius;
+	height: 32px;
+	width: 100%;
+
+	&::-webkit-progress-bar {
+		background-color: @dark-white;
+	}
+
+	&::-webkit-progress-value {
+		background-color: @blue;
+	}
+}
+
+
+.progress-good {
+	.progress();
+
+	&::-webkit-progress-value {
+		background-color: @green;
+	}
+}
+
+
+.progress-warn {
+	.progress();
+
+	&::-webkit-progress-value {
+		background-color: @yellow;
+	}
+}
+
+
+.progress-bad {
+	.progress();
+
+	&::-webkit-progress-value {
+		background-color: @red;
+	}
+}
+
+
+
+// Librairie responsive Progress
+@media all and (max-width: 1000px) {
+	.progress {
+
+	}
+}

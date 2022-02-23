@@ -73,11 +73,11 @@ class Error {
                 
                 .ERROR_CODY_BLOCK *::-webkit-scrollbar-thumb {
                     background: #779FFF;
-                    -webkit-border-radius: 1ex;
+                    border-radius: 1ex;
                 }
                 
                 .ERROR_CODY_BLOCK *::-webkit-scrollbar-corner {
-                    background: #000;
+                    background: #3B78FF;
                 }
 
                 .ERROR_CODY_BLOCK *::-webkit-resizer {

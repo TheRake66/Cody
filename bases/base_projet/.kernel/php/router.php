@@ -139,9 +139,15 @@ class Router {
      * Appel la bonne route
      */
 	static function routing() {
+        Debug::log('Routage...', Debug::LEVEL_PROGRESS);
+
 		$c = self::getController();
+        Debug::log('Contrôleur récupéré.');
+
 		new $c();
-		Suppervisor::log('Routage fait.');
+        Debug::log('Contrôleur instancié.');
+
+		Suppervisor::log('Routage fait.', Debug::LEVEL_GOOD);
 	}
 	
 }

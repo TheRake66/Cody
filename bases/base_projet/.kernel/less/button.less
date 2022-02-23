@@ -1,0 +1,64 @@
+@import "../theme.less";
+
+
+
+// Librairie Button
+.button {
+	color: @white;
+	background-color: @blue;
+	width: fit-content;
+	outline: none;
+	border: none;
+	text-decoration: none;
+	padding: 8px 16px;
+	border-radius: @radius;
+	box-shadow: 0 2px 4px @shadow;
+	font-size: @font-medium;
+	transition: @transition;
+	cursor: pointer;
+	
+	&:hover {
+		filter: brightness(110%);
+	}
+
+	&:active {
+		filter: brightness(120%);
+	}
+
+	&:disabled {
+		background-color: @light-gray;
+		color: @black;
+		cursor: not-allowed;
+		
+		&:hover {
+			filter: brightness(90%);
+		}
+	}
+}
+
+
+.button-bad {
+	.button();
+	background-color: @red;
+}
+
+
+.button-good {
+	.button();
+	background-color: @green;
+}
+
+
+.button-warn {
+	.button();
+	background-color: @yellow;
+}
+
+
+
+// Librairie responsive Button
+@media all and (max-width: 1000px) {
+	.button {
+
+	}
+}

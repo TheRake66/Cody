@@ -162,7 +162,7 @@ class Suppervisor {
                 
                 #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb {
                     background: #444;
-                    -webkit-border-radius: 1ex;
+                    border-radius: 1ex;
                 }
                 
                 #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb:hover {
@@ -174,7 +174,7 @@ class Suppervisor {
                 }
                 
                 #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-corner {
-                    background: #262626;
+                    background: #141414;
                 }
 
                 #SUPERVISOR_CODY_PANEL {
@@ -319,6 +319,9 @@ class Suppervisor {
                     border-top: solid 2px #777777;
                 }
                 #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE pre {
+                }
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_0 {
+                    color: #CCCCCC;
                 }
                 #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_1 {
                     color: #65a577;

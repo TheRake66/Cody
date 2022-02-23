@@ -1,0 +1,55 @@
+@import "../theme.less";
+
+
+
+// Librairie Check
+.check {
+	background-color: @white;
+	width: fit-content;
+	border-radius: @radius;
+	box-shadow: 0 2px 4px @shadow;
+	width: 24px;
+	height: 24px;
+	appearance: none;
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+
+	&:hover {
+		filter: brightness(110%);
+	}
+
+	&:checked {
+		background-color: @blue;
+		color: @white;
+		font-size: @font-big;
+
+		&:before {
+			content: '✕';
+			display: block;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		background-color: @light-gray;
+		color: @black;
+
+		&:hover {
+			filter: brightness(90%);
+		}
+	}
+}
+
+
+
+// Librairie responsive Check
+@media all and (max-width: 1000px) {
+	.check {
+
+	}
+}
