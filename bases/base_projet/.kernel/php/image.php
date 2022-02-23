@@ -41,6 +41,21 @@ class Image {
         return $compress;
     }
     
+
+    /**
+     * Recupere une image depuis un fichier SVG
+     * 
+     * @param string le chemin vers le fichier
+     * @return string le SVG
+     */
+    static function svg($file) {
+        if (is_file($file) && is_readable($file)) {
+            return file_get_contents($file);
+        } else {
+            Debug::log('Impossible de charger l\'image vectorielle "' . $file . '" !', Debug::LEVEL_ERROR);
+        }
+    }
+    
 }
 
 ?>
