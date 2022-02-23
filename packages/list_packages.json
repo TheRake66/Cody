@@ -60,7 +60,7 @@
     "created": "2021-01-13T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Switcher de theme CSS",
-    "version": "3.0.0.0",
+    "version": "3.0.2.0",
     "elements": [
 	  {
 	    "name": "theme",
