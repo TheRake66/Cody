@@ -9,7 +9,7 @@
 	  {
 	    "name": "progress_circle",
 	    "archive": "progress_circle.zip",
-		"index": "src/app/component.json"
+		"index": "debug/app/component.json"
 	  }
     ]
   },
@@ -23,7 +23,7 @@
 	  {
 	    "name": "tooltip",
 	    "archive": "tooltip.zip",
-		"index": "src/lib/library.json"
+		"index": "debug/lib/library.json"
 	  }
     ]
   },
@@ -37,7 +37,7 @@
 	  {
 	    "name": "denied",
 	    "archive": "denied.zip",
-		"index": "src/app/component.json"
+		"index": "debug/app/component.json"
 	  }
     ]
   },
@@ -51,7 +51,7 @@
 	  {
 	    "name": "notfound",
 	    "archive": "notfound.zip",
-		"index": "src/app/component.json"
+		"index": "debug/app/component.json"
 	  }
     ]
   },
@@ -65,7 +65,7 @@
 	  {
 	    "name": "theme",
 	    "archive": "theme.zip",
-		"index": "src/lib/library.json"
+		"index": "debug/lib/library.json"
 	  }
     ]
   },
@@ -79,7 +79,21 @@
 	  {
 	    "name": "code_pan",
 	    "archive": "code_pan.zip",
-		"index": "src/app/component.json"
+		"index": "debug/app/component.json"
+	  }
+    ]
+  },
+  {
+    "name": "GMap",
+    "created": "2021-01-13T19:30:52.6687298+02:00",
+    "madeby": "thiba",
+    "description": "Création de carte Google Map en JS",
+    "version": "1.0.0.0",
+    "elements": [
+	  {
+	    "name": "gmap",
+	    "archive": "gmap.zip",
+		"index": "debug/lib/library.json"
 	  }
     ]
   }
