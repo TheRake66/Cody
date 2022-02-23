@@ -1,6 +1,5 @@
 {
 	"version" : "7.16.50.0",
-	"url" : "https://github.com/TheRake66/Cody/releases/download/cody/cody.zip",
 	"changelog" : [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
