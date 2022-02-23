@@ -1,6 +1,7 @@
 {
-	"version": "7.16.50.0",
-	"changelog": [
+	"version" : "7.16.50.0",
+	"url" : "https://github.com/TheRake66/Cody/releases/download/cody/cody.zip",
+	"changelog" : [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
 		"Cache le dossier kernel lors de la création d'un projet.",
@@ -19,5 +20,5 @@
 		"Correction build des fichiers less",
 		"Correction cacher dossier kernel"
 	], 
-	"retrocompatible": false
+	"retrocompatible" : false
 }
