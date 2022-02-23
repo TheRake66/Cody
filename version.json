@@ -1,5 +1,5 @@
 {
-	"version" : "7.16.50.0",
+	"version" : "7.16.51.0",
 	"changelog" : [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -16,8 +16,9 @@
 		"Correction du build avec des espaces.",
 		"Correction npm sur Ubuntu.",
 		"Ajout d'une commande stop.",
-		"Correction build des fichiers less",
-		"Correction cacher dossier kernel"
+		"Correction build des fichiers less.",
+		"Correction cacher dossier kernel.",
+		"Exclusion des fichiers thème et less."
 	], 
 	"retrocompatible" : false
 }

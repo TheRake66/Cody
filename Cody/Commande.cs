@@ -491,6 +491,8 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     {
                         ".gitignore",
                         ".gitattributes",
+                        "less@4.1.1.js",
+                        "theme.less",
                         "project.json",
                         "component.json",
                         "object.json",
