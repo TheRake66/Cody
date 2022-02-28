@@ -1,5 +1,5 @@
 // Librairie Export
-class Export {
+export default class Export {
 
     /**
 	 * Exporte un tableau en CSV

@@ -67,6 +67,18 @@ class Html {
     
 
     /**
+     * Ajoute une URL dans l'attribut de formulaire action
+     * 
+     * @param string la route de l'action, si null alors route courante
+     * @param string les parametres en plus
+     * @return bool si on ajoute le parametre de retour
+     */
+    static function setAction($route = null, $param = [], $addback = false) {
+        return Html::setAttrib(Url::build($route ?? Router::get(), $param, $addback), 'action');
+    }
+    
+
+    /**
      * Ajoute un attribut HTML
      * 
      * @param string valeur de l'attribut
@@ -170,18 +182,24 @@ class Html {
      * Importe un fichier javascript
      * 
      * @param string le fichier a importer
+     * @param string le type de script
      * @param string le nom de la variable a instancier
      * @param string le nom de la classe a instancier
      * @return string le code HTML qui importe le script
      */
-    static function importScript($file, $name = null, $class = null) {
+    static function importScript($file, $type = 'module', $name = null, $class = null) {
         if (Configuration::get()->in_production) {
             $inf = pathinfo($file);
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.js';
         }
-        $js = '<script type="text/javascript" src="' . $file . '"></script>';
-        if (!is_null($name) && !is_null($class)) {
-            $js .= '<script>const ' . $name . ' = new ' . $class .'();</script>';
+        
+        if (is_null($name) && is_null($class)) {
+            $js = '<script type="' . $type . '" src="' . $file . '"></script>';
+        } else {
+            $js = '<script type="' . $type . '">
+                    import ' . $class . ' from "./' . $file . '";
+                    window.' . $name . ' = new ' . $class .'();
+                </script>';
         }
         return $js;
     }

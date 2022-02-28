@@ -1,5 +1,7 @@
 <?php
 namespace Librairy{NAMESPACE_SLASH};
+echo Html::importStyle('debug/lib/less/{PATH}.less');
+echo Html::importScript('debug/lib/js/{PATH}.js');
 
 
 

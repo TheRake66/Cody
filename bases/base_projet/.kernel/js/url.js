@@ -1,5 +1,5 @@
 // Librairie Url
-class Url {
+export default class Url {
 
 	/**
 	 * Accede a une url

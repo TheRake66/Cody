@@ -1,4 +1,5 @@
 <?php
+ob_clean();
 ob_start(function($o) {
     return preg_replace(
         ['/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/'], 

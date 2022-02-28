@@ -1,6 +1,5 @@
 <?php
 namespace Controler{NAMESPACE_SLASH};
-use Kernel\Ajax;
 use Kernel\Render;
 
 
