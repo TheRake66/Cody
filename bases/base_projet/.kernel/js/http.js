@@ -34,17 +34,26 @@ export default class Http {
      * @param {string} route la route
      * @param {string} ajax le nom du parametre Ajax
      * @param {function} callback fonction anonyme appeler lors de la reponse
+     * @param {function} empty fonction anonyme appeler si resultat vide
+     * @param {function} fail fonction anonyme appeler si echec de Ajax
      * @param {Array} param les parametres supplementaires a l'URL
      */
-    static ajax(route, ajax, callback, param = {}) {
+    static ajax(route, ajax, callback = null, empty = null, fail = null, param = {}) {
         let _ = {};
         _[ajax] = true;
         Http.send(
             Url.build(route, Object.assign({}, _, param)),
             response => {
-                let j = JSON.parse(response);
-                if (j !== null) {
-                    callback(j);
+                try {
+                    let j = JSON.parse(response);
+                    if (j !== null) {
+                        if (callback !== null) callback(j);
+                    } else {
+                        if (empty !== null) empty();
+                    }
+                } catch (error) {
+                    console.log(error);
+                    if (fail !== null) fail();
                 }
             }
         );
@@ -56,20 +65,33 @@ export default class Http {
      * 
      * @param {string} route la route
      * @param {string} ajax le nom du parametre Ajax
-     * @param {function} callback fonction anonyme appeler lors de la reponse
+     * @param {function} callback fonction anonyme appeler sur chaque reponse
+     * @param {function} pre fonction anonyme appeler avant l'iteration
+     * @param {function} post fonction anonyme appeler apres l'iteration
+     * @param {function} empty fonction anonyme appeler si resultat vide
+     * @param {function} fail fonction anonyme appeler si echec de Ajax
      * @param {Array} param les parametres supplementaires a l'URL
      */
-    static ajaxForEach(route, ajax, callback, param = {}) {
+    static ajaxForEach(route, ajax, callback = null, pre = null, post = null, empty = null, fail = null, param = {}) {
         let _ = {};
         _[ajax] = true;
         Http.send(
             Url.build(route, Object.assign({}, _, param)),
             response => {
-                let j = JSON.parse(response);
-                if (j !== null) {
-                    j.forEach(element => {
-                        callback(element);
-                    });
+                try {
+                    let j = JSON.parse(response);
+                    if (j !== null && j.length > 0) {
+                        if (pre !== null) pre();
+                        j.forEach(element => {
+                            callback(element);
+                        });
+                        if (post !== null) post();
+                    } else {
+                        if (empty !== null) empty();
+                    }
+                } catch (error) {
+                    console.log(error);
+                    if (fail !== null) fail();
                 }
             }
         );
