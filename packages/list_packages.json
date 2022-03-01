@@ -18,7 +18,7 @@
     "created": "2021-10-23T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Ajouter les info-bulles de survol",
-    "version": "3.0.3.0",
+    "version": "3.0.4.0",
     "elements": [
 	  {
 	    "name": "tooltip",
@@ -88,7 +88,7 @@
     "created": "2021-03-01T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Création de boite de dialogue",
-    "version": "1.0.0.0",
+    "version": "1.0.1.0",
     "elements": [
 	  {
 	    "name": "msgbox",

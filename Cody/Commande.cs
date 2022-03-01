@@ -617,8 +617,13 @@ vs                              Ouvre le projet dans Visual Studio Code.
             {
                 rel = Path.ChangeExtension(rel, ".min" + ex);
                 to = Path.ChangeExtension(to, ".min" + ex);
+
                 if (Librairie.runNpmCmd("minify", "\"" + file + "\" > \"" + to + "\""))
                 {
+                    // Pour les imports
+                    string code = File.ReadAllText(to);
+                    File.WriteAllText(to, code.Replace(ex, ".min" + ex));
+
                     Console.Write("Fichier : '");
                     Message.writeIn(ConsoleColor.DarkGreen, rel);
                     Console.Write("' minifié (");
