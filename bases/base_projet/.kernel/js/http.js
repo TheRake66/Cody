@@ -4,27 +4,26 @@ import Url from './url.js';
 
 // Librairie Http
 export default class Http {
-    
-    static reqType = {
-        GET: "GET",
-        POST: "POST"
-    }
 
     /**
      * Execute une requete http(s) en async
      * 
      * @param {string} url URL a requeter
-     * @param {function} callback fonction anonyme appeler lors de la reponse
-     * @param {ReqType} type type de requete
+     * @param {function} callback fonction anonyme appeler lors de la reponse correcte
+     * @param {function} fail fonction anonyme appeler lors de la reponse en erreur
+     * @param {string} type type de requete
+     * @param {string} body corps de la requete
      */
-    static send(url, callback, type = Http.reqType.GET) {
+    static send(url, callback = null, fail = null, type = 'GET', body = null) {
         let xml = new XMLHttpRequest();
         xml.open(type, url, true);
-        xml.onreadystatechange = () => {
-            if (xml.status == 200 && xml.readyState == 4)
-                callback(xml.response);
-        }
-        xml.send();
+        xml.onload = () => {
+            if (callback) callback(xml.response);
+        };
+        xml.onerror = () => {
+            if (fail) fail();
+        };
+        xml.send(body);
     }
 
 
@@ -46,16 +45,16 @@ export default class Http {
             response => {
                 try {
                     let j = JSON.parse(response);
-                    if (j !== null) {
-                        if (callback !== null) callback(j);
+                    if (j) {
+                        if (callback) callback(j);
                     } else {
-                        if (empty !== null) empty();
+                        if (empty) empty();
                     }
-                } catch (error) {
-                    console.log(error);
-                    if (fail !== null) fail();
+                } catch {
+                    if (fail) fail();
                 }
-            }
+            },
+            fail
         );
     }
 
@@ -80,20 +79,18 @@ export default class Http {
             response => {
                 try {
                     let j = JSON.parse(response);
-                    if (j !== null && j.length > 0) {
-                        if (pre !== null) pre();
-                        j.forEach(element => {
-                            callback(element);
-                        });
-                        if (post !== null) post();
+                    if (j && j.length > 0) {
+                        if (pre) pre();
+                        j.forEach(element => callback(element));
+                        if (post) post();
                     } else {
-                        if (empty !== null) empty();
+                        if (empty) empty();
                     }
-                } catch (error) {
-                    console.log(error);
-                    if (fail !== null) fail();
+                } catch {
+                    if (fail) fail();
                 }
-            }
+            },
+            fail
         );
     }
 

@@ -55,6 +55,18 @@ class Image {
             Debug::log('Impossible de charger l\'image vectorielle "' . $file . '" !', Debug::LEVEL_ERROR);
         }
     }
+
+
+    /**
+     * Convertit une entree binaire en image base64
+     *
+     * @param object le binaire de l'image
+     * @param string le format de l'image
+     * @return string l'image en base64
+     */
+    static function binToB64($bin, $format = 'png') {
+        return 'data:image/'  . $format . ';base64,' . base64_encode($bin);
+    }
     
 }
 

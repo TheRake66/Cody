@@ -15,10 +15,7 @@ class Ajax {
 	static function askGET($name, $fn) {
         if (isset($_GET[$name])) {
 			ob_end_clean();
-			$res = $fn();
-			if (!is_object($res)) {
-				echo json_encode($res);
-			}
+			echo json_encode($fn());
             exit;
         }
 	}
@@ -33,10 +30,7 @@ class Ajax {
 	static function askPOST($name, $fn) {
         if (isset($_POST[$name])) {
 			ob_end_clean();
-			$res = $fn();
-			if (!is_object($res)) {
-				echo json_encode($res);
-			}
+			echo json_encode($fn());
             exit;
         }
 	}

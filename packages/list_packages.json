@@ -18,7 +18,7 @@
     "created": "2021-10-23T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Ajouter les info-bulles de survol",
-    "version": "3.0.2.0",
+    "version": "3.0.3.0",
     "elements": [
 	  {
 	    "name": "tooltip",
@@ -60,7 +60,7 @@
     "created": "2021-01-13T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Switcher de theme CSS",
-    "version": "3.0.2.0",
+    "version": "3.0.3.0",
     "elements": [
 	  {
 	    "name": "theme",
@@ -74,12 +74,26 @@
     "created": "2021-01-13T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Section de code avec ligne et coloration",
-    "version": "3.0.1.0",
+    "version": "3.0.2.0",
     "elements": [
 	  {
 	    "name": "code_pan",
 	    "archive": "code_pan.zip",
 		"index": "debug/app/component.json"
+	  }
+    ]
+  },
+  {
+    "name": "Msgbox",
+    "created": "2021-03-01T19:30:52.6687298+02:00",
+    "madeby": "thiba",
+    "description": "Création de boite de dialogue",
+    "version": "1.0.0.0",
+    "elements": [
+	  {
+	    "name": "msgbox",
+	    "archive": "msgbox.zip",
+		"index": "debug/lib/library.json"
 	  }
     ]
   },

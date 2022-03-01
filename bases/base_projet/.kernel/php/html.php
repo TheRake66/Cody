@@ -150,6 +150,19 @@ class Html {
     static function buildHref($route, $param = [], $addback = false) {
         return Html::setHref(Url::build($route, $param, $addback));
     }
+
+
+    /**
+     * Convertit une entree binaire en src base64
+     *
+     * @param object le binaire
+     * @param string le texte alt
+     * @param string le format de l'image
+     * @return string la src
+     */
+    static function binImgToSrcB64($bin, $alt = null, $format = 'png') {
+        return Html::setSrc(Image::binToB64($bin, $format), $alt);
+    }
     
 
     /**
