@@ -95,7 +95,7 @@ class Session {
 			$token = Security::makeToken(50);
 		}
 		setcookie("token", $token, time() + $nbdays*60*60*24);
-        Debug::log('Jeton de connexion : ' . $token . ', défini pour ' . $nbdays . '...');
+        Debug::log('Jeton de connexion : ' . $token . ', défini pour ' . $nbdays . ' jour(s)...');
 	}
 
 
