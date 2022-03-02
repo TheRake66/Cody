@@ -52,4 +52,16 @@ export default class Export {
         document.body.removeChild(element);
     }
     
+
+    /**
+     * Affiche du texte dans un nouvel onglet
+     * 
+     * @param {string} content le contenu de la page
+     */
+    static fullScreen(content) {
+        let tab = window.open('about:blank', '_blank');
+        tab.document.write('<pre>' + content + '</pre>');
+        tab.document.close();
+    }
+    
 }
