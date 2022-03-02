@@ -14,8 +14,9 @@ class Ajax {
 	 */
 	static function askGET($name, $fn) {
         if (isset($_GET[$name])) {
+			$res = $fn();
 			ob_end_clean();
-			echo json_encode($fn());
+			echo json_encode($res);
             exit;
         }
 	}
@@ -29,8 +30,9 @@ class Ajax {
 	 */
 	static function askPOST($name, $fn) {
         if (isset($_POST[$name])) {
+			$res = $fn();
 			ob_end_clean();
-			echo json_encode($fn());
+			echo json_encode($res);
             exit;
         }
 	}

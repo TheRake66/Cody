@@ -27,11 +27,11 @@ class Security {
      * Genere un jeton aleatoire de taille n
      * 
      * @param int taille du token
+     * @param string le jeu de caracteres
      * @return string le token
      */
-	static function makeToken($size) {
+	static function makeToken($size, $charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
 		$token = '';
-		$charset = '!@#$%^&*()_+=-[]{}/<>,.?\\abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		for ($i = 0; $i < $size; $i++) {
 		   $token .= $charset[rand(0, strlen($charset) - 1)];
 		}

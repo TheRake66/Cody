@@ -1,6 +1,5 @@
 <?php
 namespace Model\dto{NAMESPACE_SLASH};
-use Kernel\Reflect\Hydrate;
 
 
 
@@ -8,9 +7,8 @@ use Kernel\Reflect\Hydrate;
 class {NAME_UPPER} {
 
     /**
-     * Traits et proprietes
+     * Proprietes
      */
-    use Hydrate;
 
 
     /**

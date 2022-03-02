@@ -22,6 +22,7 @@ class DataBase extends \PDO {
     static function getInstance() {
         if (!self::$instance) {
             self::$instance = new DataBase();
+            self::$instance->setAttribute(parent::ATTR_EMULATE_PREPARES, false);
             self::$instance->setAttribute(parent::ATTR_ERRMODE,
                 Configuration::get()->database->show_sql_error ?
                 parent::ERRMODE_EXCEPTION :
@@ -171,12 +172,12 @@ class DataBase extends \PDO {
      * @return object objet hydrate
      */
     static function fetchObject($sql, $type, $params = []) {
-        $rep = self::fetchRow($sql, $params);
-        if (!is_null($rep) && !empty($rep)) {
-            $obj = new $type();
-            $obj->hydrate($rep);
-            return $obj;
-        }
+        $rqt = self::send($sql);
+        $rqt->setFetchMode(parent::FETCH_INTO, new $type());
+        $parsed = self::paramsToSQL($params);
+        Debug::log('Paramètres de la requête (object) : "' . print_r($parsed, true) . '".');
+        $rqt->execute($parsed);
+        return $rqt->fetch();
     }
 
     
@@ -189,16 +190,11 @@ class DataBase extends \PDO {
      * @return array liste d'objets hydrate
      */
     static function fetchObjects($sql, $type, $params = []) {
-        $rep = self::fetchAll($sql, $params);
-        if (!is_null($rep) && !empty($rep)) {
-            $arr = [];
-			foreach ($rep as $r) {
-				$obj = new $type();
-				$obj->hydrate($r);
-				$arr[] = $obj;
-			}
-            return $arr;
-        }
+        $rqt = self::send($sql);
+        $parsed = self::paramsToSQL($params);
+        Debug::log('Paramètres de la requête (objects) : "' . print_r($parsed, true) . '".');
+        $rqt->execute($parsed);
+        return $rqt->fetchAll(parent::FETCH_CLASS | parent::FETCH_PROPS_LATE, $type);
     }
 
 
