@@ -43,15 +43,21 @@ export default class Http {
         Http.send(
             Url.build(route, Object.assign({}, _, param)),
             response => {
+                let json = null;
+                let continu = true;
                 try {
-                    let j = JSON.parse(response);
-                    if (j) {
-                        if (callback) callback(j);
+                    json = JSON.parse(response);
+                } catch (error) {
+                    console.error(error);
+                    continu = false;
+                    if (fail) fail();
+                }
+                if (continu) {
+                    if (json) {
+                        if (callback) callback(json);
                     } else {
                         if (empty) empty();
                     }
-                } catch {
-                    if (fail) fail();
                 }
             },
             fail
@@ -77,17 +83,23 @@ export default class Http {
         Http.send(
             Url.build(route, Object.assign({}, _, param)),
             response => {
+                let json = null;
+                let continu = true;
                 try {
-                    let j = JSON.parse(response);
-                    if (j && j.length > 0) {
+                    json = JSON.parse(response);
+                } catch (error) {
+                    console.error(error);
+                    continu = false;
+                    if (fail) fail();
+                }
+                if (continu) {
+                    if (json && json.length > 0) {
                         if (pre) pre();
-                        j.forEach(element => callback(element));
+                        json.forEach(element => callback(element));
                         if (post) post();
                     } else {
                         if (empty) empty();
                     }
-                } catch {
-                    if (fail) fail();
                 }
             },
             fail
