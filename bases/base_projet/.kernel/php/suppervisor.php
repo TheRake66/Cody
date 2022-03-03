@@ -105,9 +105,9 @@ class Suppervisor {
                     $array .= '<div>';
                     foreach ($a as $k => $v) {
                         $array .= '<span><b>' . $k . '</b><pre>' . (
-                            is_array($v) ? 'array(' . count($v) . ')<br>' . print_r($v, true) :  
-                            (is_object($v) ? 'object(' . get_class($v) . ')<br>' . print_r($v, true) : 
-                            $v
+                            is_array($v) ? 'array(' . count($v) . ')<br>' . htmlspecialchars(print_r($v, true), ENT_IGNORE) :  
+                            (is_object($v) ? 'object(' . get_class($v) . ')<br>' . htmlspecialchars(print_r($v, true), ENT_IGNORE) : 
+                            htmlspecialchars($v, ENT_IGNORE)
                         )) . '</pre></span>';
                     }
                     $array .= '</div>';
@@ -118,7 +118,7 @@ class Suppervisor {
             $log = '';
             foreach (self::$log as $l) {
                 $log .= '
-                <pre class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . $l[0] . '</pre>';
+                <pre class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . htmlspecialchars($l[0], ENT_IGNORE) . '</pre>';
             }
 
             
