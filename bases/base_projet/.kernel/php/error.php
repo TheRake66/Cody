@@ -44,10 +44,6 @@ class Error {
             $lineno = $error["line"];
             $message = $error["message"];
             self::showError($severity, $message, $filename, $lineno);
-        } else {
-            ob_end_clean();
-            http_response_code(500);
-            die;
         }
     }
 
