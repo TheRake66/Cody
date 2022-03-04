@@ -43,13 +43,17 @@ class DataBase extends \PDO {
     function __construct($options = []) {
         Debug::log('Connexion à la base de données...', Debug::LEVEL_PROGRESS);
         try {
-            $c = Configuration::get()->database;
-            $dsn = $c->type . 
-                ':host=' . $c->host . 
-                ';port=' . $c->port . 
-                ';dbname=' . $c->name . 
-                ';charset=' . $c->encoding;
-            parent::__construct($dsn, $c->login,  $c->password, $options);
+            $conf = Configuration::get()->database;
+            $dsn = $conf->type . 
+                ':host=' . $conf->host . 
+                ';port=' . $conf->port . 
+                ';dbname=' . $conf->name . 
+                ';charset=' . $conf->encoding;
+            parent::__construct(
+                $dsn, 
+                $conf->login,  
+                $conf->password, 
+                $options);
         } catch (\Exception $e) {
             throw new \Exception('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
         }
