@@ -7,11 +7,20 @@ use Exception;
 class Error {
 
     /**
+     * Empeche l'appel des evennements dans l'affichage de l'erreur
+     * Evite les appels en boucle
+     */
+    private static $showing = false;
+
+
+    /**
      * Initialise les evennements d'appel
      */
     static function handler() {
-        set_error_handler('Kernel\Error::showError');
-        register_shutdown_function('Kernel\Error::showFatal');
+        if (!self::$showing) {
+            set_error_handler('Kernel\Error::showError');
+            register_shutdown_function('Kernel\Error::showFatal');
+        }
     }
 
 
@@ -34,8 +43,11 @@ class Error {
             $filename = $error["file"];
             $lineno = $error["line"];
             $message = $error["message"];
-            
             self::showError($severity, $message, $filename, $lineno);
+        } else {
+            ob_end_clean();
+            http_response_code(500);
+            die;
         }
     }
 
@@ -49,10 +61,13 @@ class Error {
      * @param int le numero de la ligne
      */
     static function showError($severity, $message, $filename, $lineno) {
+        self::remove();
+        self::$showing = true;
+        $message .= PHP_EOL . (new Exception())->getTraceAsString();
+        Debug::log($message, Debug::LEVEL_ERROR);
         ob_end_clean();
         http_response_code(500);
         if (Configuration::get()->show_error_message) {
-            $message .= PHP_EOL . (new Exception())->getTraceAsString();
             $search = urlencode($message);
             echo '
             <div class="ERROR_CODY_BLOCK">
