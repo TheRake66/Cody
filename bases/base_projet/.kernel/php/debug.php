@@ -30,7 +30,7 @@ class Debug {
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
                 Error::remove();
                 $_ = file_put_contents(
-                    'logs/' . $now->format('D M d') . '.txt',
+                    'logs/' . Server::getClientIP() . '/' . $now->format('D M d') . '.txt',
                     '[' . $now->format('D M d, Y H:i:s.v') . '] [LEVEL:' . $level . '] ' . $message . PHP_EOL,
                     FILE_APPEND | LOCK_EX
                 );
