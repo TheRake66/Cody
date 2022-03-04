@@ -59,7 +59,7 @@ class Autoloader {
         if(is_file($file) && is_readable($file)) {
             include $file;
         } else {
-            throw new \Exception('Impossible de charger : "' . $file . '".');
+            trigger_error('Impossible de charger la classe "' . $required . '" !');
         }
     }
     

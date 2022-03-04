@@ -90,7 +90,6 @@ class Router {
 					$r = self::getFirst();
 					if (is_null($r)) {
 						trigger_error("Aucune route n'a été définie.");
-						die;
 					}
 				}
 			}

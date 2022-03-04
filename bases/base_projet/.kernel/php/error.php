@@ -1,7 +1,7 @@
 <?php
 namespace Kernel;
 
-
+use Exception;
 
 // Librairie Error
 class Error {
@@ -52,6 +52,7 @@ class Error {
         ob_end_clean();
         http_response_code(500);
         if (Configuration::get()->show_error_message) {
+            $message .= PHP_EOL . (new Exception())->getTraceAsString();
             $search = urlencode($message);
             echo '
             <div class="ERROR_CODY_BLOCK">

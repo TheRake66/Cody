@@ -37,7 +37,6 @@ class Debug {
                 Error::handler();
                 if ($_ === false) {
                     trigger_error("Impossible d'accéder au journal d'événement !");
-                    die;
                 }
             }
         }
