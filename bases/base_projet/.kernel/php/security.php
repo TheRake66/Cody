@@ -11,7 +11,7 @@ class Security {
 	 * Verifie et active le protocole SSL
 	 */
 	static function enableSSL() {
-		if (Configuration::get()->enable_ssl) {
+		if (Configuration::get()->redirect_to_https) {
 			if($_SERVER['SERVER_PORT'] !== 443 &&
 				(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')) {
 				header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
@@ -54,7 +54,7 @@ class Security {
 		if ($con = ldap_connect($host, $port)) {
 			ldap_set_option($con, LDAP_OPT_PROTOCOL_VERSION, 3);
 			ldap_set_option($con, LDAP_OPT_REFERRALS, 0);
-			set_error_handler(function() { });
+			Error::remove();
 			$response = ldap_bind($con, $dn . '\\' . $login, $password);
 			Error::handler();
 			ldap_close($con);

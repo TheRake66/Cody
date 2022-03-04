@@ -36,12 +36,14 @@ class Suppervisor {
      * @param int le niveau de criticite
      */
     static function log($message, $level = self::LEVEL_OK) {
-        $now = \DateTime::createFromFormat('U.u', microtime(true));
-        $now = $now ? $now->format('H:i:s.v') : '??:??:??.???';
-        self::$log[] = [ '[' . $now . '] ' . (
-            is_array($message) || is_object($message) ? 
-            print_r($message, true) : 
-            $message), $level ];
+        if (Configuration::get()->show_supervisor) {
+            $now = \DateTime::createFromFormat('U.u', microtime(true));
+            $now = $now ? $now->format('H:i:s.v') : '??:??:??.???';
+            self::$log[] = [ '[' . $now . '] ' . (
+                is_array($message) || is_object($message) ? 
+                print_r($message, true) : 
+                $message), $level ];
+        }
     }
 
 
@@ -49,19 +51,21 @@ class Suppervisor {
      * Initialise un superviseur
      */
     static function suppervise() {
-        if (isset($_POST['supervisor_refresh'])) {
-            self::log('Page actualisée.', self::LEVEL_GOOD);
-        }elseif (isset($_POST['supervisor_clear'])) {
-            header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
-            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-            header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-            header("Cache-Control: post-check=0, pre-check=0", false);
-            header("Pragma: no-cache");
-            self::log('Cache vidé.', self::LEVEL_GOOD);
-        }
+        if (Configuration::get()->show_supervisor) {
+            if (isset($_POST['supervisor_refresh'])) {
+                self::log('Page actualisée.', self::LEVEL_GOOD);
+            }elseif (isset($_POST['supervisor_clear'])) {
+                header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
+                header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+                header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+                header("Cache-Control: post-check=0, pre-check=0", false);
+                header("Pragma: no-cache");
+                self::log('Cache vidé.', self::LEVEL_GOOD);
+            }
 
-        self::log('Lancement du superviseur...', self::LEVEL_PROGRESS);
-        self::$started = microtime(true);
+            self::log('Lancement du superviseur...', self::LEVEL_PROGRESS);
+            self::$started = microtime(true);
+        }
     }
 
 
@@ -69,7 +73,7 @@ class Suppervisor {
      * Affiche le superviseur
      */
     static function showSuppervisor() {
-        if (Configuration::get()->enable_supervisor) {
+        if (Configuration::get()->show_supervisor) {
             self::log('Suppervision terminé.', self::LEVEL_GOOD);
             
             $ms = round((microtime(true) - self::$started) * 1000);

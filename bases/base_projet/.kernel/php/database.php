@@ -23,7 +23,7 @@ class DataBase extends \PDO {
         if (!self::$instance) {
             $conf = Configuration::get()->database;
             $options = [
-                parent::ATTR_PERSISTENT => $conf->mode_persistent,
+                parent::ATTR_PERSISTENT => $conf->persistent_mode,
                 parent::ATTR_EMULATE_PREPARES => $conf->emulate_prepare,
                 parent::ATTR_ERRMODE => $conf->show_sql_error ?
                         parent::ERRMODE_EXCEPTION :
@@ -55,7 +55,7 @@ class DataBase extends \PDO {
                 $conf->password, 
                 $options);
         } catch (\Exception $e) {
-            throw new \Exception('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
+            trigger_error('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
         }
         Debug::log('Connexion réussite.', Debug::LEVEL_GOOD);
     }

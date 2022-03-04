@@ -147,7 +147,7 @@ class Router {
 		new $c();
         Debug::log('Contrôleur instancié.');
 
-		Suppervisor::log('Routage fait.', Debug::LEVEL_GOOD);
+		Debug::log('Routage fait.', Debug::LEVEL_GOOD);
 	}
 	
 }

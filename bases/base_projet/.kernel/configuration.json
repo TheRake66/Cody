@@ -1,8 +1,9 @@
 {
     "in_production" : false,
-    "enable_debug" : true,
-    "enable_supervisor" : true,
-    "enable_ssl": false,
+    "show_error_message" : true,
+    "show_supervisor" : true,
+    "redirect_to_https": false,
+    "use_log_file": true,
     "website_head" : {
         "charset" : "utf-8",
         "description" : "{PROJECT_NAME}",
@@ -31,6 +32,6 @@
         "type" : "mysql",
         "show_sql_error" : true,
         "emulate_prepare" : false,
-        "mode_persistent" : false
+        "persistent_mode" : false
     }
 }

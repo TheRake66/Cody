@@ -7,11 +7,20 @@ namespace Kernel;
 class Error {
 
     /**
-     * Initialise les messages d'erreur
+     * Initialise les evennements d'appel
      */
     static function handler() {
         set_error_handler('Kernel\Error::showError');
         register_shutdown_function('Kernel\Error::showFatal');
+    }
+
+
+    /**
+     * Supprime les evennements d'appel
+     */
+    static function remove() {    
+        set_error_handler(function() { });
+        register_shutdown_function(function() { });
     }
 
 
@@ -42,7 +51,7 @@ class Error {
     static function showError($severity, $message, $filename, $lineno) {
         ob_end_clean();
         http_response_code(500);
-        if (Configuration::get()->enable_debug) {
+        if (Configuration::get()->show_error_message) {
             $search = urlencode($message);
             echo '
             <div class="ERROR_CODY_BLOCK">

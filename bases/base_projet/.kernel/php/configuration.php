@@ -16,13 +16,11 @@ class Configuration {
 	 * Charge la configuration
 	 */
 	static function load() {
-        Debug::log('Chargement de la configuration...', Debug::LEVEL_PROGRESS);
 		try {
 			self::$current = json_decode(file_get_contents('.kernel/configuration.json'));
 		} catch (\Exception $e) {
             throw new \Exception('Impossible de se charger la configuration, message : "' . $e->getMessage() . '".');
 		}
-        Debug::log('Configuration chargée.', Debug::LEVEL_GOOD);
 	}
 	
 
