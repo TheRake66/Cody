@@ -1,37 +1,40 @@
 {
-    "in_production" : false,
-    "show_error_message" : true,
-    "show_supervisor" : true,
+    "in_production": false,
+    "show_error_message": true,
+    "show_supervisor": true,
     "redirect_to_https": false,
-    "use_log_file": true,
-    "website_head" : {
-        "charset" : "utf-8",
-        "description" : "{PROJECT_NAME}",
-        "keywords" : "{PROJECT_NAME}",
-        "author" : "{USER_NAME}",
-        "viewport" : "width=device-width, initial-scale=1.0",
-        "theme_color" : "#3B78FF",
-        "title" : "{PROJECT_NAME}"
+    "log": {
+        "use_log_file": true,
+        "ip_identify": false
     },
-    "region" : {
-        "timezone" : "Europe/Paris",
-        "main_lang" : "fr"
+    "website_head": {
+        "charset": "utf-8",
+        "description": "{PROJECT_NAME}",
+        "keywords": "{PROJECT_NAME}",
+        "author": "{USER_NAME}",
+        "viewport": "width=device-width, initial-scale=1.0",
+        "theme_color": "#3B78FF",
+        "title": "{PROJECT_NAME}"
     },
-    "session" : {
-        "open_session" : true,
-        "multiple_session" : true,
-        "session_name" : "{PROJECT_NAME}"
+    "region": {
+        "timezone": "Europe/Paris",
+        "main_lang": "fr"
     },
-    "database" : {
-        "login" : "root", 
-        "password" : "", 
-        "host" : "localhost", 
-        "port" : "3306", 
-        "name" : "{PROJECT_NAME}", 
-        "encoding" : "utf8", 
-        "type" : "mysql",
-        "show_sql_error" : true,
-        "emulate_prepare" : false,
-        "persistent_mode" : false
+    "session": {
+        "open_session": true,
+        "multiple_session": true,
+        "session_name": "{PROJECT_NAME}"
+    },
+    "database": {
+        "login": "root", 
+        "password": "", 
+        "host": "localhost", 
+        "port": "3306", 
+        "name": "{PROJECT_NAME}", 
+        "encoding": "utf8", 
+        "type": "mysql",
+        "show_sql_error": true,
+        "emulate_prepare": false,
+        "persistent_mode": false
     }
 }

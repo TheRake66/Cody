@@ -1,6 +1,5 @@
 <?php
 namespace Kernel;
-use Exception;
 
 
 
@@ -25,19 +24,53 @@ class Debug {
      */
     static function log($message, $level = self::LEVEL_OK) {
         Suppervisor::log($message, $level);
-        if (Configuration::get()->use_log_file) {
-            if (is_dir('logs') || mkdir('logs')) {
+
+        $conf = Configuration::get()->log;
+        if ($conf->use_log_file) {
+
+            $error = false;
+            $folder = 'logs';
+            if ($conf->ip_identify) {
+                $folder .= '/' . str_replace(':', '-', Server::getClientIP());
+            }
+            $levelstr = '';
+            switch ($level) {
+                case self::LEVEL_OK:
+                    $levelstr = 'OK      ';
+                    break;
+                case self::LEVEL_GOOD:
+                    $levelstr = 'GOOD    ';
+                    break;
+                case self::LEVEL_WARN:
+                    $levelstr = 'WARN    ';
+                    break;
+                case self::LEVEL_ERROR:
+                    $levelstr = 'ERROR   ';
+                    break;
+                case self::LEVEL_PROGRESS:
+                    $levelstr = 'PROGRESS';
+                    break;
+            }
+
+            if (is_dir($folder) || mkdir($folder, 0777, true)) {
+
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
+                $file = $folder. '/' . $now->format('D M d') . '.txt';
+                $message = '[' . $now->format('D M d, Y H:i:s.v') . '] [LEVEL : ' . $levelstr . '] ' . $message . PHP_EOL;
+                
                 Error::remove();
-                $_ = file_put_contents(
-                    'logs/' . Server::getClientIP() . '/' . $now->format('D M d') . '.txt',
-                    '[' . $now->format('D M d, Y H:i:s.v') . '] [LEVEL:' . $level . '] ' . $message . PHP_EOL,
-                    FILE_APPEND | LOCK_EX
-                );
+                $_ = file_put_contents($file, $message, FILE_APPEND | LOCK_EX);
                 Error::handler();
+                
                 if ($_ === false) {
-                    trigger_error("Impossible d'accéder au journal d'événement !");
+                    $error = true;
                 }
+            } else {
+                $error = true;
+            }
+
+            if ($error) {
+                trigger_error("Impossible d'accéder au journal d'événement !");
             }
         }
     }
