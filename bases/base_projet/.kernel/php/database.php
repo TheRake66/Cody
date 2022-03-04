@@ -21,12 +21,15 @@ class DataBase extends \PDO {
      */
     static function getInstance() {
         if (!self::$instance) {
-            self::$instance = new DataBase();
-            self::$instance->setAttribute(parent::ATTR_EMULATE_PREPARES, false);
-            self::$instance->setAttribute(parent::ATTR_ERRMODE,
-                Configuration::get()->database->show_sql_error ?
-                parent::ERRMODE_EXCEPTION :
-                parent::ERRMODE_SILENT);
+            $conf = Configuration::get()->database;
+            $options = [
+                parent::ATTR_PERSISTENT => $conf->mode_persistent,
+                parent::ATTR_EMULATE_PREPARES => $conf->emulate_prepare,
+                parent::ATTR_ERRMODE => $conf->show_sql_error ?
+                        parent::ERRMODE_EXCEPTION :
+                        parent::ERRMODE_SILENT
+            ];
+            self::$instance = new DataBase($options);
         }
         return self::$instance;
     }
@@ -34,8 +37,10 @@ class DataBase extends \PDO {
     
     /**
      * Creer une instance PDO
+     *
+     * @param array liste des attribut PDO
      */
-    function __construct() {
+    function __construct($options = []) {
         Debug::log('Connexion à la base de données...', Debug::LEVEL_PROGRESS);
         try {
             $c = Configuration::get()->database;
@@ -44,10 +49,7 @@ class DataBase extends \PDO {
                 ';port=' . $c->port . 
                 ';dbname=' . $c->name . 
                 ';charset=' . $c->encoding;
-            parent::__construct(
-                $dsn, 
-                $c->login, 
-                $c->password);
+            parent::__construct($dsn, $c->login,  $c->password, $options);
         } catch (\Exception $e) {
             throw new \Exception('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
         }

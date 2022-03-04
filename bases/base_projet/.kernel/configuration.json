@@ -29,6 +29,8 @@
         "name" : "{PROJECT_NAME}", 
         "encoding" : "utf8", 
         "type" : "mysql",
-        "show_sql_error" : true
+        "show_sql_error" : true,
+        "emulate_prepare" : false,
+        "mode_persistent" : false
     }
 }
