@@ -19,7 +19,7 @@ class Configuration {
 		try {
 			self::$current = json_decode(file_get_contents('.kernel/configuration.json'));
 		} catch (\Exception $e) {
-            throw new \Exception('Impossible de se charger la configuration, message : "' . $e->getMessage() . '".');
+            trigger_error('Impossible de se charger la configuration, message : "' . $e->getMessage() . '" !');
 		}
 	}
 	

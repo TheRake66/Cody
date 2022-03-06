@@ -39,13 +39,13 @@ class Render {
             $script = str_replace('_', ' ', $script);
         }
         if (is_file($cont) && is_readable($cont)) {
-            include $cont ;
+            include $cont;
             // Inclut le style
             echo Html::importStyle($style);
             // Inclut et initialise le script
             echo Html::importScript($script, 'module', $name, $class);
         } else {
-            throw new \Exception('Impossible de faire le rendu de : "' . $full . '".');
+            trigger_error('Impossible de faire le rendu de : "' . $full . '" !');
         }
 
     }
