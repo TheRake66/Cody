@@ -9,7 +9,7 @@ class Debug {
 	/**
 	 * Les niveaux de criticite
 	 */
-    const LEVEL_OK = 0;
+    const LEVEL_INFO = 0;
     const LEVEL_GOOD = 1;
     const LEVEL_WARN = 2;
     const LEVEL_ERROR = 3;
@@ -22,9 +22,27 @@ class Debug {
      * @param string le message a afficher
      * @param int le niveau de criticite
      */
-    static function log($message, $level = self::LEVEL_OK) {
+    static function log($message, $level = self::LEVEL_INFO) {
         Suppervisor::log($message, $level);
+        self::file($message, $level);
+    }
 
+
+    /**
+     * Ajoute un separateur dans le fichier log
+     */
+    static function separator() {
+        self::file('--------------------------------------------------------');
+    }
+
+
+    /**
+     * Ajoute une log un fichier
+     * 
+     * @param string le message a afficher
+     * @param int le niveau de criticite
+     */
+    static function file($message, $level = self::LEVEL_INFO) {
         $conf = Configuration::get()->log;
         if ($conf->use_log_file) {
 
@@ -35,8 +53,8 @@ class Debug {
             }
             $levelstr = '';
             switch ($level) {
-                case self::LEVEL_OK:
-                    $levelstr = 'OK      ';
+                case self::LEVEL_INFO:
+                    $levelstr = 'INFO    ';
                     break;
                 case self::LEVEL_GOOD:
                     $levelstr = 'GOOD    ';
@@ -55,8 +73,8 @@ class Debug {
             if (is_dir($folder) || mkdir($folder, 0777, true)) {
 
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
-                $file = $folder. '/' . $now->format('D M d') . '.txt';
-                $message = '[' . $now->format('D M d, Y H:i:s.v') . '] [LEVEL : ' . $levelstr . '] ' . $message . PHP_EOL;
+                $file = $folder. '/' . $now->format('D M d') . '.log';
+                $message = '[' . $now->format('Y-m-d H:i:s,v') . '] [' . $levelstr . '] ' . $message . PHP_EOL;
                 
                 Error::remove();
                 $_ = file_put_contents($file, $message, FILE_APPEND | LOCK_EX);

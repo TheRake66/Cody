@@ -61,6 +61,7 @@ class Error {
         self::$showing = true;
         $message .= PHP_EOL . (new Exception())->getTraceAsString();
         Debug::log($message, Debug::LEVEL_ERROR);
+        Debug::separator();
         ob_end_clean();
         http_response_code(500);
         if (Configuration::get()->show_error_message) {

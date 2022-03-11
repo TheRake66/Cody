@@ -12,7 +12,7 @@ class Suppervisor {
 	/**
 	 * Les niveaux de criticite
 	 */
-    const LEVEL_OK = 0;
+    const LEVEL_INFO = 0;
     const LEVEL_GOOD = 1;
     const LEVEL_WARN = 2;
     const LEVEL_ERROR = 3;
@@ -35,10 +35,10 @@ class Suppervisor {
      * @param string le message a afficher
      * @param int le niveau de criticite
      */
-    static function log($message, $level = self::LEVEL_OK) {
+    static function log($message, $level = self::LEVEL_INFO) {
         if (Configuration::get()->show_supervisor) {
             $now = \DateTime::createFromFormat('U.u', microtime(true));
-            $now = $now ? $now->format('H:i:s.v') : '??:??:??.???';
+            $now = $now->format('H:i:s.v');
             self::$log[] = [ '[' . $now . '] ' . (
                 is_array($message) || is_object($message) ? 
                 print_r($message, true) : 
