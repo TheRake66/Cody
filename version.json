@@ -1,5 +1,5 @@
 {
-	"version" : "7.16.52.0",
+	"version" : "7.17.52.0",
 	"changelog" : [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -19,7 +19,8 @@
 		"Correction build des fichiers less.",
 		"Correction cacher dossier kernel.",
 		"Exclusion des fichiers thème et less.",
-		"Modification de la compilation pour la nouvelle structure JS."
+		"Modification de la compilation pour la nouvelle structure JS.",
+		"Balise HTML par composant"
 	], 
 	"retrocompatible" : false
 }

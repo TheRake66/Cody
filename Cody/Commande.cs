@@ -1474,6 +1474,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 string nomlow = nom.ToLower(); // namepace\namespace\obj
                 string full_dash = nomlow.Replace('\\', '-'); // namepace-namespace-obj
                 List<string> paths = new List<string>();
+                string[] toedit = new string[] { ".php", ".js", ".less", ".json" };
 
                 for (int i = 0; i < spt.Length - 1; i++)
                 {
@@ -1506,7 +1507,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         if (ent.Name != "")
                         {
                             total++;
-                            if (extraireFichierItem(ent, ref paths, nomlow, full_dash, namespce_slash, namespce_point, back_path, objlow, objup))
+                            if (extraireFichierItem(ent, ref paths, toedit, nomlow, full_dash, namespce_slash, namespce_point, back_path, objlow, objup))
                                 count++;
                         }
                     }
@@ -1535,7 +1536,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 return false;
             }
         }
-        private static bool extraireFichierItem(ZipArchiveEntry ent, ref List<string> paths, string nomlow, string full_dash, string namespce_slash, string namespce_point, string back_path,  string objlow, string objup)
+        private static bool extraireFichierItem(ZipArchiveEntry ent, ref List<string> paths, string[] toedit, string nomlow, string full_dash, string namespce_slash, string namespce_point, string back_path,  string objlow, string objup)
         {
             try
             {
@@ -1578,7 +1579,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     Message.writeIn(ConsoleColor.DarkYellow, Librairie.getFileSize(file));
                     Console.WriteLine(").");
 
-                    if (new string[] { ".php", ".js", ".less", ".json" }.Contains(ext)) {
+                    if (toedit.Contains(ext)) {
                         try
                         {
                             // Modifie le fichier
