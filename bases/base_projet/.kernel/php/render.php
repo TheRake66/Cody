@@ -23,6 +23,7 @@ class Render {
         
         // Construit les nom de fichier et le dossier
         $folder = 'debug/app/' . strtolower(implode('/', $namespace)) . '/';
+        $varname = strtolower(implode('_', $namespace));
         $name = strtolower($class);
         
         // Envoi les variables a la vue
@@ -43,7 +44,7 @@ class Render {
             // Inclut le style
             echo Html::importStyle($style);
             // Inclut et initialise le script
-            echo Html::importScript($script, 'module', $name, $class);
+            echo Html::importScript($script, 'module', $varname, $class);
         } else {
             trigger_error('Impossible de faire le rendu de : "' . $full . '" !');
         }

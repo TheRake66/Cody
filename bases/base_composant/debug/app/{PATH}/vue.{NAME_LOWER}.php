@@ -6,7 +6,7 @@ use Kernel\Convert;
 
 
 
-<!-- Creation de la page {NAME_UPPER}  -->
-<main>
-	<p>La page {NAME_UPPER} fonctionne !</p>
-</main>
+<!-- Creation du composant {NAME_UPPER}  -->
+<{NAME_LOWER}>
+	<p>Le composant {NAME_UPPER} fonctionne !</p>
+</{NAME_LOWER}>

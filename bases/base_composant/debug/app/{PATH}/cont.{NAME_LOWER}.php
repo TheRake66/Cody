@@ -4,7 +4,7 @@ use Kernel\Render;
 
 
 
-// Controleur de la page {NAME_UPPER}
+// Controleur du composant {NAME_UPPER}
 class {NAME_UPPER} extends Render {
 
     /**
