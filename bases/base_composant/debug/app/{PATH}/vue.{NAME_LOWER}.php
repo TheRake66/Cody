@@ -7,6 +7,6 @@ use Kernel\Convert;
 
 
 <!-- Creation du composant {NAME_UPPER}  -->
-<{NAME_LOWER}>
+<{FULL_DASH}>
 	<p>Le composant {NAME_UPPER} fonctionne !</p>
-</{NAME_LOWER}>
+</{FULL_DASH}>

@@ -1471,7 +1471,8 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 string back_path = ""; // ../../
                 string objlow = ""; // obj
                 string objup = ""; // Obj
-                string nomlow = nom.ToLower(); // \namepace\namespace\obj
+                string nomlow = nom.ToLower(); // namepace\namespace\obj
+                string full_dash = nomlow.Replace('\\', '-'); // namepace-namespace-obj
                 List<string> paths = new List<string>();
 
                 for (int i = 0; i < spt.Length - 1; i++)
@@ -1505,7 +1506,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         if (ent.Name != "")
                         {
                             total++;
-                            if (extraireFichierItem(ent, ref paths, nomlow, namespce_slash, namespce_point, back_path, objlow, objup))
+                            if (extraireFichierItem(ent, ref paths, nomlow, full_dash, namespce_slash, namespce_point, back_path, objlow, objup))
                                 count++;
                         }
                     }
@@ -1534,7 +1535,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 return false;
             }
         }
-        private static bool extraireFichierItem(ZipArchiveEntry ent, ref List<string> paths, string nomlow, string namespce_slash, string namespce_point, string back_path,  string objlow, string objup)
+        private static bool extraireFichierItem(ZipArchiveEntry ent, ref List<string> paths, string nomlow, string full_dash, string namespce_slash, string namespce_point, string back_path,  string objlow, string objup)
         {
             try
             {
@@ -1543,6 +1544,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     .Replace("{NAME_LOWER}", objlow)
                     .Replace("{PATH}", nomlow.Replace('\\', '/'));
                 string path = Path.GetDirectoryName(file);
+                string ext = Path.GetExtension(file);
 
 
                 bool continu = true;
@@ -1576,26 +1578,32 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     Message.writeIn(ConsoleColor.DarkYellow, Librairie.getFileSize(file));
                     Console.WriteLine(").");
 
-                    try
-                    {
-                        // Modifie le fichier
-                        string content = File.ReadAllText(file)
-                            .Replace("{NAMESPACE_SLASH}", namespce_slash.Replace(" ", "_"))
-                            .Replace("{NAMESPACE_POINT}", namespce_point.Replace(" ", "_"))
-                            .Replace("{NAME_LOWER}", objlow.Replace(" ", "_"))
-                            .Replace("{NAME_UPPER}", objup.Replace(" ", "_"))
-                            .Replace("{BACK_PATH}", back_path)
-                            .Replace("{PATH}", nomlow.Replace('\\', '/'));
-                        File.WriteAllText(file, content);
+                    if (new string[] { ".php", ".js", ".less", ".json" }.Contains(ext)) {
+                        try
+                        {
+                            // Modifie le fichier
+                            string content = File.ReadAllText(file)
+                                .Replace("{NAMESPACE_SLASH}", namespce_slash.Replace(" ", "_"))
+                                .Replace("{NAMESPACE_POINT}", namespce_point.Replace(" ", "_"))
+                                .Replace("{NAME_LOWER}", objlow.Replace(" ", "_"))
+                                .Replace("{NAME_UPPER}", objup.Replace(" ", "_"))
+                                .Replace("{FULL_DASH}", full_dash)
+                                .Replace("{BACK_PATH}", back_path)
+                                .Replace("{PATH}", nomlow.Replace('\\', '/'));
+                            File.WriteAllText(file, content);
+                            return true;
+                        }
+                        catch (Exception e)
+                        {
+                            Message.writeExcept("Impossible d'éditer le fichier !", e);
+                            return false;
+                        }
+                    } else {
                         return true;
                     }
-                    catch (Exception e)
-                    {
-                        Message.writeExcept("Impossible d'éditer le fichier !", e);
-                        return false;
-                    }
+                } else {
+                    return false;
                 }
-                return false;
             }
             catch (Exception e)
             {
