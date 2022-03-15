@@ -40,6 +40,22 @@ export default class Url {
 		return window.location;
 	}
 
+
+	/**
+	 * Formatte un tableau ou un objet en paramettre
+	 * 
+	 * @param {array} param l'objet ou le tableau a convertir
+	 * @returns {string} les parametres formates
+	 */
+	static objectToParam(param) {
+		let str = ''
+		for (let name in param) {
+            let value = param[name];
+			str += (str !== '' ? '&' : '') + name + '=' + encodeURIComponent(value ?? '');
+        }
+		return str;
+	}
+
 	
 	/**
 	 * Contruit une url
@@ -49,19 +65,13 @@ export default class Url {
 	 * @param {string} addback le back
 	 * @return {string} le nouvel url
 	 */
-	static build(route, param = [], addback = false) {
-		let url = '?r=' + route;
-
-        for (let name in param) {
-            let value = param[name];
-			url += '&' + name + '=' + encodeURIComponent(value);
-        }
-
+	static build(route, param = {}, addback = false) {
+		let _ = {};
+        _['r'] = route;
 		if (addback) {
-			url += '&b=' + encodeURIComponent(window.location);
+			_['b'] = encodeURIComponent(window.location);
 		}
-
-		return url;
+        return `/index.php?${Url.objectToParam(Object.assign({}, _, param))}`;
 	}
 
 

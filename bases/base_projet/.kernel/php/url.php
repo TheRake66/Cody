@@ -57,10 +57,10 @@ class Url {
 	 * @return string le nouvel url
 	 */
 	static function build($route, $param = [], $addback = false) {
-		$url = '?r=' . $route;
+		$url = '/index.php?r=' . $route;
 
 		foreach ($param as $name => $value) {
-			$url .= '&' . $name . '=' . urlencode($value);
+			$url .= '&' . $name . '=' . urlencode($value ?? '');
 		}
 
 		if ($addback) {

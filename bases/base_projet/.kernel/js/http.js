@@ -6,24 +6,40 @@ import Url from './url.js';
 export default class Http {
 
     /**
+     * Les methodes d'envoie
+     */
+    static METHOD_GET = 'GET';
+    static METHOD_POST = 'POST';
+    
+
+    /**
      * Execute une requete http(s) en async
      * 
      * @param {string} url URL a requeter
      * @param {function} callback fonction anonyme appeler lors de la reponse correcte
      * @param {function} fail fonction anonyme appeler lors de la reponse en erreur
-     * @param {string} type type de requete
-     * @param {string} body corps de la requete
+     * @param {string} method type de requete
+     * @param {string} param corps de la requete
      */
-    static send(url, callback = null, fail = null, type = 'GET', body = null) {
+    static send(url, callback = null, fail = null, method = 'GET', param = null) {
         let xml = new XMLHttpRequest();
-        xml.open(type, url, true);
+        xml.open(method, method === Http.METHOD_GET ? `${url}?${Url.objectToParam(param)}`: url, true);
         xml.onload = () => {
             if (callback) callback(xml.response);
         };
         xml.onerror = () => {
             if (fail) fail();
         };
-        xml.send(body);
+        if (method === Http.METHOD_POST) {
+            let frm = new FormData();
+            for (let name in param) {
+                let value = param[name];
+                frm.append(name, value);
+            }
+            xml.send(frm);
+        } else {
+            xml.send();
+        }
     }
 
 
@@ -36,12 +52,16 @@ export default class Http {
      * @param {function} empty fonction anonyme appeler si resultat vide
      * @param {function} fail fonction anonyme appeler si echec de Ajax
      * @param {Array} param les parametres supplementaires a l'URL
+     * @param {string} method la methode d'envoi
      */
-    static ajax(route, ajax, callback = null, empty = null, fail = null, param = {}) {
+    static ajax(route, ajax, callback = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
         let _ = {};
+        _['r'] = route;
         _[ajax] = true;
+        param = Object.assign({}, _, param);
+
         Http.send(
-            Url.build(route, Object.assign({}, _, param)),
+            '/index.php',
             response => {
                 let json = null;
                 let continu = true;
@@ -60,7 +80,9 @@ export default class Http {
                     }
                 }
             },
-            fail
+            fail,
+            method,
+            param
         );
     }
 
@@ -76,12 +98,16 @@ export default class Http {
      * @param {function} empty fonction anonyme appeler si resultat vide
      * @param {function} fail fonction anonyme appeler si echec de Ajax
      * @param {Array} param les parametres supplementaires a l'URL
+     * @param {string} method la methode d'envoi
      */
-    static ajaxForEach(route, ajax, callback = null, pre = null, post = null, empty = null, fail = null, param = {}) {
+    static ajaxForEach(route, ajax, callback = null, pre = null, post = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
         let _ = {};
+        _['r'] = route;
         _[ajax] = true;
+        param = Object.assign({}, _, param);
+
         Http.send(
-            Url.build(route, Object.assign({}, _, param)),
+            '/index.php',
             response => {
                 let json = null;
                 let continu = true;
@@ -102,7 +128,9 @@ export default class Http {
                     }
                 }
             },
-            fail
+            fail,
+            method,
+            param
         );
     }
 

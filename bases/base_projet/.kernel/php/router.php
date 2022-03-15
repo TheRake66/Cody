@@ -76,11 +76,14 @@ class Router {
 		if (is_null(self::$current)) {
 
 			$r = null;
-			if (isset($_GET['r'])) {
-				if (self::exist($_GET['r'])) {
-					$r = $_GET['r'];
-				} elseif(self::exist(self::$notfound)) {
-					$r = self::$notfound;
+			foreach ([ $_GET, $_POST, $_SESSION ] as $a) {
+				if (isset($a['r'])) {
+					if (self::exist($a['r'])) {
+						$r = $a['r'];
+					} elseif(self::exist(self::$notfound)) {
+						$r = self::$notfound;
+					}
+					break;
 				}
 			}
 			if (is_null($r)) {
@@ -138,14 +141,12 @@ class Router {
      * Appel la bonne route
      */
 	static function routing() {
-        Debug::log('Routage...', Debug::LEVEL_PROGRESS);
+        Debug::log('Routage (url : "' . $_SERVER['REQUEST_URI'] . '")...', Debug::LEVEL_PROGRESS);
 
 		$c = self::getController();
-        Debug::log('Contrôleur récupéré.');
+        Debug::log('Contrôleur identifié : "' . $c . '".');
 
 		new $c();
-        Debug::log('Contrôleur instancié.');
-
 		Debug::log('Routage fait.', Debug::LEVEL_GOOD);
 	}
 	
