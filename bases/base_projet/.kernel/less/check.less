@@ -3,44 +3,47 @@
 
 
 // Librairie Check
-.check {
-	background-color: @white;
-	width: fit-content;
-	border-radius: @radius;
-	box-shadow: 0 2px 4px @shadow;
-	width: 24px;
+.check {	
+	width: 48px;
 	height: 24px;
+	border-radius: @radius;
+	box-shadow: 0 2px 3px @shadow;
 	appearance: none;
 	cursor: pointer;
-	overflow: hidden;
 	position: relative;
+	background-color: @dark-white;
+	transition: 0.2s;
 
-	&:hover {
-		filter: brightness(110%);
+	&::after {
+		content: '';
+		width: 20px;
+		height: 20px;
+		top: 2px;
+		transform: translateX(2px);
+		position: absolute;
+		background-color: @blue;
+		border-radius: @radius;
+		transition: 0.3s;
 	}
 
 	&:checked {
 		background-color: @blue;
-		color: @white;
-		font-size: @font-big;
 
-		&:before {
-			content: '✕';
-			display: block;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
+		&::after {
+			background-color: @dark-white;
+			transform: translateX(26px);
 		}
+	}
+
+	&:hover {
+		filter: brightness(90%);
 	}
 
 	&:disabled {
 		cursor: not-allowed;
-		background-color: @light-gray;
-		color: @black;
 
-		&:hover {
-			filter: brightness(90%);
+		&::after {
+			background-color: @light-gray;
 		}
 	}
 }
