@@ -73,8 +73,8 @@ class Debug {
             if (is_dir($folder) || mkdir($folder, 0777, true)) {
 
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
-                $file = $folder. '/' . $now->format('D M d') . '.log';
-                $message = '[' . $now->format('Y-m-d H:i:s,v') . '] [' . $levelstr . '] ' . $message . PHP_EOL;
+                $file = $folder. '/' . ($now ? $now->format('D M d') : '### ### ##') . '.log';
+                $message = '[' . ($now ? $now->format('Y-m-d H:i:s,v') : '????-??-?? ??:??:??,???') . '] [' . $levelstr . '] ' . $message . PHP_EOL;
                 
                 Error::remove();
                 $_ = file_put_contents($file, $message, FILE_APPEND | LOCK_EX);

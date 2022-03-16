@@ -38,7 +38,7 @@ class Suppervisor {
     static function log($message, $level = self::LEVEL_INFO) {
         if (Configuration::get()->show_supervisor) {
             $now = \DateTime::createFromFormat('U.u', microtime(true));
-            $now = $now->format('H:i:s.v');
+            $now = $now ? $now->format('H:i:s.v') : '??:??:??.???';
             self::$log[] = [ '[' . $now . '] ' . (
                 is_array($message) || is_object($message) ? 
                 print_r($message, true) : 
