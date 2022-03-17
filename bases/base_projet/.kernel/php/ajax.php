@@ -38,10 +38,10 @@ class Ajax {
 	 */
 	private static function ajaxRun($array, $method, $name, $fn) {
         if (isset($array[$name])) {
-			Debug::log('Requête AJAX (méthode : "' . $method . '", composant : "' . debug_backtrace()[2]['class'] . '", fonction : "' .  $name . '", url : "' . $_SERVER['REQUEST_URI'] . '")...', Debug::LEVEL_PROGRESS);
-			Debug::log('Paramètres de la requête (ajax) : "' . print_r($array, true) . '".', Debug::LEVEL_INFO);
+			Debug::log('Exécution de la requête AJAX (méthode : "' . $method . '", composant : "' . debug_backtrace()[2]['class'] . '", fonction : "' .  $name . '", url : "' . $_SERVER['REQUEST_URI'] . '")...', Debug::LEVEL_PROGRESS);
+			Debug::log('Paramètres de la requête AJAX : "' . print_r($array, true) . '".');
 			$res = $fn();
-			Debug::log('Requête terminée (ajax) : "' . print_r(json_encode($res, JSON_PRETTY_PRINT), true) . '".', Debug::LEVEL_GOOD);
+			Debug::log('Requête AJAX exécutée.', Debug::LEVEL_GOOD);
 			Debug::separator();
 			ob_end_clean();
 			echo json_encode($res);

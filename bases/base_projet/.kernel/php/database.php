@@ -62,16 +62,23 @@ class DataBase extends \PDO {
     
 
     /**
-     * Prepare et retourne une requete
+     * Prepare, execute et retourne une requete
      * 
      * @param string requete sql
-     * @param string type de requete sql
      * @param array liste des parametres
-     * @return object requete preparee
+     * @param object classe si on veut un objet
+     * @return object requete executee
      */
-    private static function send($sql, $type) {
-        Debug::log('Préparation de la requête (' . $type . ') : "' . $sql . '".');
+    private static function send($sql, $params, $class = null) {
+        $parsed = self::paramsToSQL($params);
+        Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS);
+        Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".');
         $rqt = self::getInstance()->prepare($sql);
+        if (!is_null($class)) {
+            $rqt->setFetchMode(parent::FETCH_INTO, new $class());
+        }
+        $rqt->execute($parsed);
+        Debug::log('Requête SQL exécutée.', Debug::LEVEL_GOOD);
         return $rqt;
     }
 
@@ -146,12 +153,7 @@ class DataBase extends \PDO {
      * @return bool si la requete a reussite
      */
     static function execute($sql, $params = []) {
-        $rqt = self::send($sql, 'execute');
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (execute) : "' . print_r($parsed, true) . '".');
-        $res = $rqt->execute($parsed);
-        Debug::log('Requête terminée (execute) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
-        return $res;
+        return self::send($sql, $params)->errorCode() === '00000';
     }
 
     
@@ -163,13 +165,7 @@ class DataBase extends \PDO {
      * @return array ligne de la base
      */
     static function fetchRow($sql, $params = []) {
-        $rqt = self::send($sql, 'row');
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (row) : "' . print_r($parsed, true) . '".');
-        $rqt->execute($parsed);
-        $res = $rqt->fetch(parent::FETCH_ASSOC);
-        Debug::log('Requête terminée (row) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
-        return $res;
+        return self::send($sql, $params)->fetch(parent::FETCH_ASSOC);
     }
 
     
@@ -181,13 +177,7 @@ class DataBase extends \PDO {
      * @return array les lignes de la base
      */
     static function fetchAll($sql, $params = []) {
-        $rqt = self::send($sql, 'all');
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (all) : "' . print_r($parsed, true) . '".');
-        $rqt->execute($parsed);
-        $res = $rqt->fetchAll(parent::FETCH_ASSOC);
-        Debug::log('Requête terminée (all) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
-        return $res;
+        return self::send($sql, $params)->fetchAll(parent::FETCH_ASSOC);
     }
 
     
@@ -199,16 +189,10 @@ class DataBase extends \PDO {
      * @return object valeur de la base
      */
     static function fetchCell($sql, $params = []) {
-        $rqt = self::send($sql, 'cell');
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (cell) : "' . print_r($parsed, true) . '".');
-        $rqt->execute($parsed);
-        $res = $rqt->fetch(parent::FETCH_ASSOC);
+        $res = self::send($sql, $params)->fetch(parent::FETCH_ASSOC);
         if (!is_null($res) && !empty($res)) {
-            $res = array_values($res)[0];
+            return array_values($res)[0];
         }
-        Debug::log('Requête terminée (cell) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
-        return $res;
     }
 
     
@@ -221,14 +205,7 @@ class DataBase extends \PDO {
      * @return object objet hydrate
      */
     static function fetchObject($sql, $type, $params = []) {
-        $rqt = self::send($sql, 'object');
-        $rqt->setFetchMode(parent::FETCH_INTO, new $type());
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (object) : "' . print_r($parsed, true) . '".');
-        $rqt->execute($parsed);
-        $res = $rqt->fetch();
-        Debug::log('Requête terminée (object) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
-        return $res;
+        return self::send($sql, $params, $type)->fetch();
     }
 
     
@@ -241,13 +218,7 @@ class DataBase extends \PDO {
      * @return array liste d'objets hydrate
      */
     static function fetchObjects($sql, $type, $params = []) {
-        $rqt = self::send($sql, 'objects');
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (objects) : "' . print_r($parsed, true) . '".');
-        $rqt->execute($parsed);
-        $res =$rqt->fetchAll(parent::FETCH_CLASS | parent::FETCH_PROPS_LATE, $type);
-        Debug::log('Requête terminée (objects) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
-        return $res;
+        return self::send($sql, $params)->fetchAll(parent::FETCH_CLASS | parent::FETCH_PROPS_LATE, $type);
     }
 
 
