@@ -11,7 +11,7 @@ class Less {
 	 * Charge et lance less
 	 */
 	static function compileLessToCss() {
-		if (!Configuration::get()->in_production) {
+		if (!Configuration::get()->use_minifying) {
 			echo Html::importScript('.kernel/less@4.1.1.js');
 		}
 	}

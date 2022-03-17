@@ -29,14 +29,6 @@ class Debug {
 
 
     /**
-     * Ajoute un separateur dans le fichier log
-     */
-    static function separator() {
-        self::file('--------------------------------------------------------');
-    }
-
-
-    /**
      * Ajoute une log un fichier
      * 
      * @param string le message a afficher
@@ -74,6 +66,10 @@ class Debug {
 
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
                 $file = $folder. '/' . ($now ? $now->format('D M d') : '### ### ##') . '.log';
+                $max = $conf->max_lenght;
+                if ($max > 0) {
+                    $message = mb_strimwidth($message, 0, $max, ' ... [plus de ' . (strlen($message) - $max) . ' caractère(s) restant(s)]');
+                }
                 $message = '[' . ($now ? $now->format('Y-m-d H:i:s,v') : '????-??-?? ??:??:??,???') . '] [' . $levelstr . '] ' . $message . PHP_EOL;
                 
                 Error::remove();
@@ -91,6 +87,14 @@ class Debug {
                 trigger_error("Impossible d'accéder au journal d'événement !");
             }
         }
+    }
+
+
+    /**
+     * Ajoute un separateur dans le fichier log
+     */
+    static function separator() {
+        self::file('--------------------------------------------------------');
     }
 
 }

@@ -11,28 +11,6 @@ class DataBase extends \PDO {
      * Instance PDO
      */
     private static $instance;
-
-
-    /**
-     * Retourne l'inctance PDO en cours, si aucune est
-     * en cours on en creer une
-     * 
-     * @return object instance PDO
-     */
-    static function getInstance() {
-        if (!self::$instance) {
-            $conf = Configuration::get()->database;
-            $options = [
-                parent::ATTR_PERSISTENT => $conf->persistent_mode,
-                parent::ATTR_EMULATE_PREPARES => $conf->emulate_prepare,
-                parent::ATTR_ERRMODE => $conf->show_sql_error ?
-                        parent::ERRMODE_EXCEPTION :
-                        parent::ERRMODE_SILENT
-            ];
-            self::$instance = new DataBase($options);
-        }
-        return self::$instance;
-    }
     
     
     /**
@@ -40,7 +18,7 @@ class DataBase extends \PDO {
      *
      * @param array liste des attribut PDO
      */
-    function __construct($options = []) {
+    private function __construct($options = []) {
         Debug::log('Connexion à la base de données...', Debug::LEVEL_PROGRESS);
         try {
             $conf = Configuration::get()->database;
@@ -62,12 +40,49 @@ class DataBase extends \PDO {
 
 
     /**
+     * Retourne l'inctance PDO en cours, si aucune est
+     * en cours on en creer une
+     * 
+     * @return object instance PDO
+     */
+    private static function getInstance() {
+        if (!self::$instance) {
+            $conf = Configuration::get()->database;
+            $options = [
+                parent::ATTR_PERSISTENT => $conf->persistent_mode,
+                parent::ATTR_EMULATE_PREPARES => $conf->emulate_prepare,
+                parent::ATTR_ERRMODE => $conf->show_sql_error ?
+                        parent::ERRMODE_EXCEPTION :
+                        parent::ERRMODE_SILENT
+            ];
+            self::$instance = new DataBase($options);
+        }
+        return self::$instance;
+    }
+    
+
+    /**
+     * Prepare et retourne une requete
+     * 
+     * @param string requete sql
+     * @param string type de requete sql
+     * @param array liste des parametres
+     * @return object requete preparee
+     */
+    private static function send($sql, $type) {
+        Debug::log('Préparation de la requête (' . $type . ') : "' . $sql . '".');
+        $rqt = self::getInstance()->prepare($sql);
+        return $rqt;
+    }
+
+
+    /**
      * Convertit un parametre en parametre SQL
      * 
      * @param object le parametre
      * @return object le parametre en SQL
      */
-    static function paramToSQL($param) {
+    private static function paramToSQL($param) {
         if ($param instanceof DateTime) {
             return $param->format('Y-m-d H:i:s');
         } elseif (is_bool($param)) {
@@ -84,143 +99,12 @@ class DataBase extends \PDO {
      * @param array les parametres
      * @return array les parametres en SQL
      */
-    static function paramsToSQL($params) {
+    private static function paramsToSQL($params) {
         $parsed = [];
         foreach ($params as $param) {
             $parsed[] = self::paramToSQL($param);
         }
         return $parsed;
-    }
-    
-
-    /**
-     * Prepare et retourne une requete
-     * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return object requete preparee
-     */
-    static function send($sql) {
-        Debug::log('Préparation de la requête : "' . $sql . '".');
-        $rqt = self::getInstance()->prepare($sql);
-        return $rqt;
-    }
-
-    
-    /**
-     * Execture une requete de mise a jour
-     * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return bool si la requete a reussite
-     */
-    static function execute($sql, $params = []) {
-        $rqt = self::send($sql);
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (execute) : "' . print_r($parsed, true) . '".');
-        return $rqt->execute($parsed);
-    }
-
-    
-    /**
-     * Retourne une ligne
-     * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return array ligne de la base
-     */
-    static function fetchRow($sql, $params = []) {
-        $rqt = self::send($sql);
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (row) : "' . print_r($parsed, true) . '".');
-        $rqt->execute($parsed);
-        return $rqt->fetch(parent::FETCH_ASSOC);
-    }
-
-    
-    /**
-     * Retourne plusieurs lignes
-     * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return array les lignes de la base
-     */
-    static function fetchAll($sql, $params = []) {
-        $rqt = self::send($sql);
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (all) : "' . print_r($parsed, true) . '".');
-        $rqt->execute($parsed);
-        return $rqt->fetchAll(parent::FETCH_ASSOC);
-    }
-
-    
-    /**
-     * Retourne une valeur
-     * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return object valeur de la base
-     */
-    static function fetchCell($sql, $params = []) {
-        $rep = self::fetchRow($sql, $params);
-        if (!is_null($rep) && !empty($rep)) {
-            return array_values($rep)[0];
-        }
-    }
-
-    
-    /**
-     * Recupere une ligne et l'hydrate dans un objet
-     * 
-     * @param string requete sql
-     * @param object type d'objet a retourne
-     * @param array liste des parametres
-     * @return object objet hydrate
-     */
-    static function fetchObject($sql, $type, $params = []) {
-        $rqt = self::send($sql);
-        $rqt->setFetchMode(parent::FETCH_INTO, new $type());
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (object) : "' . print_r($parsed, true) . '".');
-        $rqt->execute($parsed);
-        return $rqt->fetch();
-    }
-
-    
-    /**
-     * Recupere plusieurs lignes et les hydrate dans une liste d'objet
-     * 
-     * @param string requete sql
-     * @param object type d'objet a retourne
-     * @param array liste des parametres
-     * @return array liste d'objets hydrate
-     */
-    static function fetchObjects($sql, $type, $params = []) {
-        $rqt = self::send($sql);
-        $parsed = self::paramsToSQL($params);
-        Debug::log('Paramètres de la requête (objects) : "' . print_r($parsed, true) . '".');
-        $rqt->execute($parsed);
-        return $rqt->fetchAll(parent::FETCH_CLASS | parent::FETCH_PROPS_LATE, $type);
-    }
-
-
-    /**
-     * Retourne le nom d'une table via sa classe
-     * 
-     * @return string le nom
-     */
-    static function getTableName($obj) {
-        return strtolower((new \ReflectionClass($obj))->getShortName());
-    }
-
-
-    /**
-     * Retourne null si la valeur est vide, sinon retourne la valeur
-     * 
-     * @return object null ou la valeur
-     */
-    static function nullIfEmpty($value) {
-        return empty($value) ? null : $value;
     }
 
     
@@ -230,7 +114,7 @@ class DataBase extends \PDO {
      * @param object l'objet DTO a lier
      * @param array les nom des cles primaire
      */
-    static function buildClause($obj, $clause = null) {
+    private static function buildClause($obj, $clause = null) {
         $sql = '';
         $arr = [];
         if (is_null($clause)) {
@@ -251,6 +135,119 @@ class DataBase extends \PDO {
             $sql = substr($sql, 0, $len - 1);
         }
         return [ $sql, $arr ];
+    }
+
+    
+    /**
+     * Execture une requete de mise a jour
+     * 
+     * @param string requete sql
+     * @param array liste des parametres
+     * @return bool si la requete a reussite
+     */
+    static function execute($sql, $params = []) {
+        $rqt = self::send($sql, 'execute');
+        $parsed = self::paramsToSQL($params);
+        Debug::log('Paramètres de la requête (execute) : "' . print_r($parsed, true) . '".');
+        $res = $rqt->execute($parsed);
+        Debug::log('Requête terminée (execute) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
+        return $res;
+    }
+
+    
+    /**
+     * Retourne une ligne
+     * 
+     * @param string requete sql
+     * @param array liste des parametres
+     * @return array ligne de la base
+     */
+    static function fetchRow($sql, $params = []) {
+        $rqt = self::send($sql, 'row');
+        $parsed = self::paramsToSQL($params);
+        Debug::log('Paramètres de la requête (row) : "' . print_r($parsed, true) . '".');
+        $rqt->execute($parsed);
+        $res = $rqt->fetch(parent::FETCH_ASSOC);
+        Debug::log('Requête terminée (row) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
+        return $res;
+    }
+
+    
+    /**
+     * Retourne plusieurs lignes
+     * 
+     * @param string requete sql
+     * @param array liste des parametres
+     * @return array les lignes de la base
+     */
+    static function fetchAll($sql, $params = []) {
+        $rqt = self::send($sql, 'all');
+        $parsed = self::paramsToSQL($params);
+        Debug::log('Paramètres de la requête (all) : "' . print_r($parsed, true) . '".');
+        $rqt->execute($parsed);
+        $res = $rqt->fetchAll(parent::FETCH_ASSOC);
+        Debug::log('Requête terminée (all) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
+        return $res;
+    }
+
+    
+    /**
+     * Retourne une valeur
+     * 
+     * @param string requete sql
+     * @param array liste des parametres
+     * @return object valeur de la base
+     */
+    static function fetchCell($sql, $params = []) {
+        $rqt = self::send($sql, 'cell');
+        $parsed = self::paramsToSQL($params);
+        Debug::log('Paramètres de la requête (cell) : "' . print_r($parsed, true) . '".');
+        $rqt->execute($parsed);
+        $res = $rqt->fetch(parent::FETCH_ASSOC);
+        if (!is_null($res) && !empty($res)) {
+            $res = array_values($res)[0];
+        }
+        Debug::log('Requête terminée (cell) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
+        return $res;
+    }
+
+    
+    /**
+     * Recupere une ligne et l'hydrate dans un objet
+     * 
+     * @param string requete sql
+     * @param object type d'objet a retourne
+     * @param array liste des parametres
+     * @return object objet hydrate
+     */
+    static function fetchObject($sql, $type, $params = []) {
+        $rqt = self::send($sql, 'object');
+        $rqt->setFetchMode(parent::FETCH_INTO, new $type());
+        $parsed = self::paramsToSQL($params);
+        Debug::log('Paramètres de la requête (object) : "' . print_r($parsed, true) . '".');
+        $rqt->execute($parsed);
+        $res = $rqt->fetch();
+        Debug::log('Requête terminée (object) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
+        return $res;
+    }
+
+    
+    /**
+     * Recupere plusieurs lignes et les hydrate dans une liste d'objet
+     * 
+     * @param string requete sql
+     * @param object type d'objet a retourne
+     * @param array liste des parametres
+     * @return array liste d'objets hydrate
+     */
+    static function fetchObjects($sql, $type, $params = []) {
+        $rqt = self::send($sql, 'objects');
+        $parsed = self::paramsToSQL($params);
+        Debug::log('Paramètres de la requête (objects) : "' . print_r($parsed, true) . '".');
+        $rqt->execute($parsed);
+        $res =$rqt->fetchAll(parent::FETCH_CLASS | parent::FETCH_PROPS_LATE, $type);
+        Debug::log('Requête terminée (objects) : "' . print_r($res, true) . '".', Debug::LEVEL_GOOD);
+        return $res;
     }
 
 
@@ -418,6 +415,28 @@ class DataBase extends \PDO {
 			'SELECT * FROM ' . self::getTableName($obj) . ' ' . $pr[0],
             $obj,
             $pr[1]);
+    }
+
+
+    /**
+     * Retourne le nom d'une table via sa classe
+     * 
+     * @param object l'objet DTO
+     * @return string le nom
+     */
+    static function getTableName($obj) {
+        return strtolower((new \ReflectionClass($obj))->getShortName());
+    }
+
+
+    /**
+     * Retourne null si la valeur est vide, sinon retourne la valeur
+     * 
+     * @param object la valeur a verifier
+     * @return object null ou la valeur
+     */
+    static function nullIfEmpty($value) {
+        return empty($value) ? null : $value;
     }
 
 }

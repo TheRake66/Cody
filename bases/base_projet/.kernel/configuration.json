@@ -1,11 +1,12 @@
 {
-    "in_production": false,
+    "use_minifying": false,
     "show_error_message": true,
     "show_supervisor": true,
     "redirect_to_https": false,
     "log": {
         "use_log_file": true,
-        "ip_identify": false
+        "ip_identify": false,
+        "max_lenght": 1000
     },
     "website_head": {
         "charset": "utf-8",

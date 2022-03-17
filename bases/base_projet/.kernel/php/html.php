@@ -201,7 +201,7 @@ class Html {
      * @return string le code HTML qui importe le script
      */
     static function importScript($file, $type = 'module', $name = null, $class = null) {
-        if (Configuration::get()->in_production) {
+        if (Configuration::get()->use_minifying) {
             $inf = pathinfo($file);
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.js';
         }
@@ -226,7 +226,7 @@ class Html {
      * @return string le code HTML qui importe le style
      */
     static function importStyle($file, $rel = 'stylesheet/less') {
-        if (Configuration::get()->in_production) {
+        if (Configuration::get()->use_minifying) {
             $inf = pathinfo($file);
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.css';
             $rel = 'stylesheet';
