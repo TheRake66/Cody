@@ -10,7 +10,6 @@ use Kernel\Html;
 <!-- Ouvre la balise HTML et l'entete -->
 <?= Html::begin() ?>
 
-	
 	<!-- Routage vers le bon controleur -->
 	<body>
 		<?php Router::routing(); ?>
