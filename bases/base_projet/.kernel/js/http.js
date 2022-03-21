@@ -73,7 +73,7 @@ export default class Http {
                     if (fail) fail();
                 }
                 if (continu) {
-                    if (json) {
+                    if (json !== null) {
                         if (callback) callback(json);
                     } else {
                         if (empty) empty();
@@ -119,7 +119,7 @@ export default class Http {
                     if (fail) fail();
                 }
                 if (continu) {
-                    if (json && json.length > 0) {
+                    if (json !== null && json.length > 0) {
                         if (pre) pre();
                         json.forEach(element => callback(element));
                         if (post) post();
