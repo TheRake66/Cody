@@ -6,7 +6,12 @@
     "log": {
         "use_log_file": true,
         "ip_identify": false,
-        "max_lenght": 1000
+        "max_lenght": 1000,
+        "query": {
+            "print_query": true,
+            "print_parameters": true,
+            "print_results": true
+        }
     },
     "website_head": {
         "charset": "utf-8",

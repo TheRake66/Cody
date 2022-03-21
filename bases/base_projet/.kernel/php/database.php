@@ -71,15 +71,21 @@ class DataBase extends \PDO {
      */
     private static function send($sql, $params, $class = null) {
         $parsed = self::paramsToSQL($params);
-        Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS);
-        Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".');
+        Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
+        Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
         $rqt = self::getInstance()->prepare($sql);
         if (!is_null($class)) {
             $rqt->setFetchMode(parent::FETCH_INTO, new $class());
         }
         $rqt->execute($parsed);
-        Debug::log('Requête SQL exécutée.', Debug::LEVEL_GOOD);
+        Debug::log('Requête SQL exécutée.', Debug::LEVEL_GOOD, Debug::TYPE_QUERY);
         return $rqt;
+    }
+
+
+    private static function returnLog($data) {
+        Debug::log('Résultat de la requête SQL : "' . print_r($data, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_RESULTS);
+        return $data;
     }
 
 
@@ -153,7 +159,7 @@ class DataBase extends \PDO {
      * @return bool si la requete a reussite
      */
     static function execute($sql, $params = []) {
-        return self::send($sql, $params)->errorCode() === '00000';
+        return self::returnLog(self::send($sql, $params)->errorCode() === '00000');
     }
 
     
@@ -165,7 +171,7 @@ class DataBase extends \PDO {
      * @return array ligne de la base
      */
     static function fetchRow($sql, $params = []) {
-        return self::send($sql, $params)->fetch(parent::FETCH_ASSOC);
+        return self::returnLog(self::send($sql, $params)->fetch(parent::FETCH_ASSOC));
     }
 
     
@@ -177,7 +183,7 @@ class DataBase extends \PDO {
      * @return array les lignes de la base
      */
     static function fetchAll($sql, $params = []) {
-        return self::send($sql, $params)->fetchAll(parent::FETCH_ASSOC);
+        return self::returnLog(self::send($sql, $params)->fetchAll(parent::FETCH_ASSOC));
     }
 
     
@@ -191,7 +197,7 @@ class DataBase extends \PDO {
     static function fetchCell($sql, $params = []) {
         $res = self::send($sql, $params)->fetch(parent::FETCH_ASSOC);
         if (!is_null($res) && !empty($res)) {
-            return array_values($res)[0];
+            return self::returnLog(array_values($res)[0]);
         }
     }
 
@@ -205,7 +211,7 @@ class DataBase extends \PDO {
      * @return object objet hydrate
      */
     static function fetchObject($sql, $type, $params = []) {
-        return self::send($sql, $params, $type)->fetch();
+        return self::returnLog(self::send($sql, $params, $type)->fetch());
     }
 
     
@@ -218,7 +224,7 @@ class DataBase extends \PDO {
      * @return array liste d'objets hydrate
      */
     static function fetchObjects($sql, $type, $params = []) {
-        return self::send($sql, $params)->fetchAll(parent::FETCH_CLASS | parent::FETCH_PROPS_LATE, $type);
+        return self::returnLog(self::send($sql, $params)->fetchAll(parent::FETCH_CLASS | parent::FETCH_PROPS_LATE, $type));
     }
 
 

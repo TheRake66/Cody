@@ -17,14 +17,24 @@ class Debug {
 
 
     /**
+     * Les types de log
+     */
+    const TYPE_NONE = 0;
+    const TYPE_QUERY = 1;
+    const TYPE_QUERY_PARAMETERS = 2;
+    const TYPE_QUERY_RESULTS = 3;
+
+
+    /**
      * Ajoute une log dans la console et dans un fichier
      * 
      * @param string le message a afficher
      * @param int le niveau de criticite
+     * @param int le type de log
      */
-    static function log($message, $level = self::LEVEL_INFO) {
+    static function log($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
         Suppervisor::log($message, $level);
-        self::file($message, $level);
+        self::file($message, $level, $type);
     }
 
 
@@ -33,10 +43,16 @@ class Debug {
      * 
      * @param string le message a afficher
      * @param int le niveau de criticite
+     * @param int le type de log
      */
-    static function file($message, $level = self::LEVEL_INFO) {
+    static function file($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
         $conf = Configuration::get()->log;
-        if ($conf->use_log_file) {
+        $confq = $conf->query;
+
+        if ($conf->use_log_file &&
+            ($type !== self::TYPE_QUERY || $confq->print_query) &&
+            ($type !== self::TYPE_QUERY_PARAMETERS || $confq->print_parameters) &&
+            ($type !== self::TYPE_QUERY_RESULTS || $confq->print_results)) {
 
             $error = false;
             $folder = 'logs';
