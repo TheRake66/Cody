@@ -3,7 +3,9 @@ namespace Kernel;
 
 
 
-// Librairie Url
+/**
+ * Librairie gerant les URL
+ */
 class Url {
 
 	/**

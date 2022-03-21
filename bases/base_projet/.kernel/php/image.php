@@ -3,7 +3,9 @@ namespace Kernel;
 
 
 
-// Librairie Image
+/**
+ * Librairie traitant les images
+ */
 class Image {
 
     /**

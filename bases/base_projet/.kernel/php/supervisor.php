@@ -5,9 +5,10 @@ use Kernel\Url;
 
 
 
-
-// Librairie Suppervisor
-class Suppervisor {
+/**
+ * Librairie du superviseur
+ */
+class Supervisor {
 
 	/**
 	 * Les niveaux de criticite
@@ -50,7 +51,7 @@ class Suppervisor {
     /**
      * Initialise un superviseur
      */
-    static function suppervise() {
+    static function supervise() {
         if (Configuration::get()->show_supervisor) {
             if (isset($_POST['supervisor_refresh'])) {
                 self::log('Page actualisée.', self::LEVEL_GOOD);
@@ -72,12 +73,12 @@ class Suppervisor {
     /**
      * Affiche le superviseur
      */
-    static function showSuppervisor() {
+    static function show() {
         if (Configuration::get()->show_supervisor) {
-            self::log('Suppervision terminé.', self::LEVEL_GOOD);
+            self::log('Supervision terminé.', self::LEVEL_GOOD);
             
             $ms = round((microtime(true) - self::$started) * 1000);
-            $latency = 'SUPPERVISOR_LATENCY_';
+            $latency = 'SUPERVISOR_LATENCY_';
             if ($ms > 1000) {
                 $latency .= 'BAD';
             } elseif ($ms > 500) {
@@ -122,7 +123,7 @@ class Suppervisor {
             $log = '';
             foreach (self::$log as $l) {
                 $log .= '
-                <pre class="SUPPERVISOR_LEVEL_' . $l[1] . '">' . htmlspecialchars($l[0], ENT_IGNORE) . '</pre>';
+                <pre class="SUPERVISOR_LEVEL_' . $l[1] . '">' . htmlspecialchars($l[0], ENT_IGNORE) . '</pre>';
             }
 
             
@@ -130,7 +131,7 @@ class Suppervisor {
             <SUPERVISOR_CODY_PANEL id="SUPERVISOR_CODY_PANEL">
                 <img src=".kernel/logo.svg" alt="Logo">
                 <div>
-                    <h1 class="SUPPERVISOR_HTTP_' . $type . '">HTTP ' . $http . '</h1>
+                    <h1 class="SUPERVISOR_HTTP_' . $type . '">HTTP ' . $http . '</h1>
                     <h1 class="' . $latency . '">' . $ms . ' ms</h1>
                     <form action="' . Url::current() . '" method="post">
                         <input type="submit" name="supervisor_refresh" value="Actualiser">
@@ -246,22 +247,22 @@ class Suppervisor {
                     text-align: center;
                     margin-bottom: 2px;
                 }
-                #SUPERVISOR_CODY_PANEL > div .SUPPERVISOR_HTTP_1 {
+                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_1 {
                     background-color: #3C7CFC;
                 }
-                #SUPERVISOR_CODY_PANEL > div .SUPPERVISOR_HTTP_2,
-                #SUPERVISOR_CODY_PANEL > div .SUPPERVISOR_LATENCY_GOOD {
+                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_2,
+                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_LATENCY_GOOD {
                     background-color: #4F805D;
                 }
-                #SUPERVISOR_CODY_PANEL > div .SUPPERVISOR_HTTP_3,
-                #SUPERVISOR_CODY_PANEL > div .SUPPERVISOR_LATENCY_WARN {
+                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_3,
+                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_LATENCY_WARN {
                     background-color: #A46A1F;
                 }
-                #SUPERVISOR_CODY_PANEL > div .SUPPERVISOR_HTTP_4,
-                #SUPERVISOR_CODY_PANEL > div .SUPPERVISOR_LATENCY_BAD {
+                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_4,
+                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_LATENCY_BAD {
                     background-color: #B0413E;
                 }
-                #SUPERVISOR_CODY_PANEL > div .SUPPERVISOR_HTTP_5 {
+                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_5 {
                     background-color: #77064E;
                 }
                 #SUPERVISOR_CODY_PANEL > div form {
@@ -324,19 +325,19 @@ class Suppervisor {
                 }
                 #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE pre {
                 }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_0 {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_0 {
                     color: #CCCCCC;
                 }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_1 {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_1 {
                     color: #65a577;
                 }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_2 {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_2 {
                     color: #d18726;
                 }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_3 {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_3 {
                     color: #cc4f4a;
                 }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPPERVISOR_LEVEL_4 {
+                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_4 {
                     color: #b8127b;
                 }
             </style>

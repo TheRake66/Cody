@@ -3,7 +3,9 @@ namespace Kernel;
 
 
 
-// Librairie Convert
+/**
+ * Librairie de conversion
+ */
 class Convert {
 
 	/**
@@ -30,8 +32,8 @@ class Convert {
 	 * @param int la taille max a couper
 	 * @return string la chaine coupe ou non
 	 */
-	static function cutTooLong($string, $size = 50) {
-		return strlen($string) > $size ? substr($string, 0, $size - 3) . '...' : $string;
+	static function cutTooLong($text, $size = 50) {
+		return mb_strimwidth($text, 0, $size, '...');
 	} 
 
 

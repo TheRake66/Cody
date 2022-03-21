@@ -3,7 +3,9 @@ namespace Kernel;
 
 
 
-// Librairie Testing
+/**
+ * Librairie gerant les tests unitaire
+ */
 class Testing {
 
     /**

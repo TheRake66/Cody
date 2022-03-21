@@ -4,13 +4,15 @@ use Kernel\Error;
 
 
 
-// Librairie Security
+/**
+ * Librairie gerant la securite
+ */
 class Security {
 
 	/**
 	 * Verifie et active le protocole SSL
 	 */
-	static function enableSSL() {
+	static function enableSsl() {
 		if (Configuration::get()->redirect_to_https) {
 			if($_SERVER['SERVER_PORT'] !== 443 &&
 				(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')) {

@@ -3,7 +3,9 @@ namespace Librairy{NAMESPACE_SLASH};
 
 
 
-// Librairie {NAME_UPPER}
+/**
+ * // Librairie {NAME_UPPER}
+ */
 class {NAME_UPPER} {
 
     /**

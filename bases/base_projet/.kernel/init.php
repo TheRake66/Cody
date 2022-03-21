@@ -20,10 +20,10 @@ k\Configuration::load();
 k\Error::handler();
 
 // Lance le superviseur
-k\Suppervisor::suppervise();
+k\Supervisor::supervise();
 
 // Active le protocole SSL (HTTPS)
-k\Security::enableSSL();
+k\Security::enableSsl();
 
 // Defini le fuseau horraire par defaut
 k\Date::timezone();

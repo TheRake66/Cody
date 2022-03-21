@@ -3,7 +3,9 @@ namespace Kernel;
 
 
 
-// Librairie Configuration
+/**
+ * Librairie gerant la configuration du noyau
+ */
 class Configuration {
 
 	/**

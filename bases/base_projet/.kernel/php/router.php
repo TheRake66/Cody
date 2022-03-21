@@ -1,10 +1,11 @@
 <?php
 namespace Kernel;
-use Kernel\Suppervisor;
 
 
 
-// Librairie Router
+/**
+ * Librairie gerant le routage des pages
+ */
 class Router {
 
     /**

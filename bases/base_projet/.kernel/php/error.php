@@ -1,9 +1,12 @@
 <?php
 namespace Kernel;
-
 use Exception;
 
-// Librairie Error
+
+
+/**
+ * Librairie gerant les messages d'erreur
+ */
 class Error {
 
     /**

@@ -1,4 +1,6 @@
-// Librairie Export
+/**
+ * Librairie d'exportation des donnees
+ */
 export default class Export {
 
     /**

@@ -4,7 +4,9 @@ use Kernel\Render;
 
 
 
-// Controleur du composant {NAME_UPPER}
+/**
+ * Controleur du composant {NAME_UPPER}
+ */
 class {NAME_UPPER} extends Render {
 
     /**

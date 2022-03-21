@@ -1,4 +1,6 @@
-// Librairie Url
+/**
+ * Librairie de traitement des URL
+ */
 export default class Url {
 
 	/**

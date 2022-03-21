@@ -3,7 +3,9 @@ namespace Model\dto{NAMESPACE_SLASH};
 
 
 
-// Classe DTO {NAME_UPPER}
+/**
+ * Classe DTO {NAME_UPPER}
+ */
 class {NAME_UPPER} {
 
     /**

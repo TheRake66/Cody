@@ -3,7 +3,9 @@ namespace Kernel;
 
 
 
-// Librairie Date
+/**
+ * Librairie gerant les dates
+ */
 class Date {
 
     /**

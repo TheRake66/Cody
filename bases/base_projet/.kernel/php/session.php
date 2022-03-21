@@ -4,7 +4,9 @@ use Kernel\Security;
 
 
 
-// Librairie Session
+/**
+ * Librairie gerant la session cote serveur
+ */
 class Session {
 
 	/**

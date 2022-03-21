@@ -1,4 +1,6 @@
-// Librairie {NAME_UPPER}
+/**
+ * Librairie {NAME_UPPER}
+ */
 export default class {NAME_UPPER} {
 
     /**

@@ -3,7 +3,9 @@ namespace Kernel;
 
 
 
-// Librairie Debug
+/**
+ * Librairie gerant les logs
+ */
 class Debug {
 
 	/**
@@ -33,7 +35,7 @@ class Debug {
      * @param int le type de log
      */
     static function log($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
-        Suppervisor::log($message, $level);
+        Supervisor::log($message, $level);
         self::file($message, $level, $type);
     }
 
@@ -57,7 +59,7 @@ class Debug {
             $error = false;
             $folder = 'logs';
             if ($conf->ip_identify) {
-                $folder .= '/' . str_replace(':', '-', Server::getClientIP());
+                $folder .= '/' . str_replace(':', '-', Server::getClientIp());
             }
             $levelstr = '';
             switch ($level) {

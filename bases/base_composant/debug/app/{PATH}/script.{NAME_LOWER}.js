@@ -1,4 +1,6 @@
-// Ajout du script du composant {NAME_UPPER}
+/**
+ * Script du composant {NAME_UPPER}
+ */
 export default class {NAME_UPPER} {
 
     /**

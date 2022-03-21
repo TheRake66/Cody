@@ -4,7 +4,9 @@ use Kernel\Html;
 
 
 
-// Librairie Render
+/**
+ * Librairie gerant le rendu des vues
+ */
 class Render {
 
     /**

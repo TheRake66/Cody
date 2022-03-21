@@ -5,7 +5,9 @@ use Kernel\Configuration;
 
 
 
-// Librairie Html
+/**
+ * Librairie gerant les balises HTML
+ */
 class Html {
 
     /**

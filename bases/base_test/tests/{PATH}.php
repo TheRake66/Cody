@@ -4,7 +4,9 @@ use Kernel\Testing;
 
 
 
-// Classe de test Utilisateur
+/**
+ * Classe de test Utilisateur
+ */
 class {NAME_UPPER} {
 
     /**

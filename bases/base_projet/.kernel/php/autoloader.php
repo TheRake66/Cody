@@ -3,7 +3,9 @@ namespace Kernel;
 
 
 
-// Librairie Autoloader
+/**
+ * Librairie chargeant les classes demandees
+ */
 class Autoloader {
 
     /**

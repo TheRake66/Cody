@@ -4,7 +4,9 @@ use DateTime;
 
 
 
-// Librairie DataBase
+/**
+ * Librairie de connexion et de traitement (CRUD) a la base de donnees
+ */
 class DataBase extends \PDO {
     
     /**
