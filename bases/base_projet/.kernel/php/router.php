@@ -75,12 +75,11 @@ class Router {
 	 */
 	static function get() {
 		if (is_null(self::$current)) {
-
 			$r = null;
 			foreach ([ $_GET, $_POST, $_SESSION ] as $a) {
-				if (isset($a['r'])) {
-					if (self::exist($a['r'])) {
-						$r = $a['r'];
+				if (isset($a['routePage'])) {
+					if (self::exist($a['routePage'])) {
+						$r = $a['routePage'];
 					} elseif(self::exist(self::$notfound)) {
 						$r = self::$notfound;
 					}

@@ -4,8 +4,10 @@ use Controler as c;
 
 
 
-// r::notfound('404');
-// r::default('accueil');
-// r::add('accueil', c\Accueil::class);
+// r::notfound('');
+// r::default('');
+// r::add('', c\::class);
+
+
 
 ?>

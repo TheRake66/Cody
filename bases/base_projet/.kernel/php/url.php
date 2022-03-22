@@ -36,7 +36,7 @@ class Url {
 	 * @return string le retour
 	 */
 	static function back() {
-		return $_GET['back'] ?? '';
+		return $_GET['redirectUrl'] ?? '';
 	}
 
 	
@@ -59,14 +59,14 @@ class Url {
 	 * @return string le nouvel url
 	 */
 	static function build($route, $param = [], $addback = false) {
-		$url = '/index.php?r=' . $route;
+		$url = '/index.php?routePage=' . $route;
 
 		foreach ($param as $name => $value) {
 			$url .= '&' . $name . '=' . urlencode($value ?? '');
 		}
 
 		if ($addback) {
-			$url .= '&b=' . urlencode($_SERVER['REQUEST_URI']);
+			$url .= '&redirectUrl=' . urlencode($_SERVER['REQUEST_URI']);
 		}
 
 		return $url;

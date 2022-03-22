@@ -29,7 +29,7 @@ export default class Url {
 	 * @return {string} le retour
 	 */
 	static back() {
-		return Url.paramGet('b') ?? '';
+		return Url.paramGet('redirectUrl') ?? '';
 	}
 
 	
@@ -69,9 +69,9 @@ export default class Url {
 	 */
 	static build(route, param = {}, addback = false) {
 		let _ = {};
-        _['r'] = route;
+        _['routePage'] = route;
 		if (addback) {
-			_['b'] = encodeURIComponent(window.location);
+			_['redirectUrl'] = encodeURIComponent(window.location);
 		}
         return `/index.php?${Url.objectToParam(Object.assign({}, _, param))}`;
 	}

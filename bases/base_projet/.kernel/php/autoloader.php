@@ -18,14 +18,10 @@ class Autoloader {
 
     /**
      * Cherche et inclut les fichiers contenant les classes
-     * Namespace\Classe
      * 
      * @param string Namespace
      */
     static function load($required) {
-        // Contoleur\Carte\Main
-        // composant/carte/main/cont.main.php
-
         $_ = explode('\\', $required);
         $class = end($_);
         $first = array_shift($_);
@@ -55,13 +51,15 @@ class Autoloader {
         }
 
         $file = strtolower($file);
-        if (!is_file($file) && !is_readable($file)) {
-            $file = str_replace('_', ' ', $file);
-        }
-        if(is_file($file) && is_readable($file)) {
+        if (is_file($file) && is_readable($file)) {
             include $file;
         } else {
-            trigger_error('Impossible de charger la classe "' . $required . '" !');
+            $file = str_replace('_', ' ', $file);
+            if(is_file($file) && is_readable($file)) {
+                include $file;
+            } else {
+                trigger_error('Impossible de charger la classe "' . $required . '" !');
+            }
         }
     }
     

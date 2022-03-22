@@ -91,21 +91,22 @@ export default class Rest {
         Http.send(
             '/index.php',
             response => {
-                let json = null;
-                let continu = true;
-                try {
-                    json = JSON.parse(response);
-                } catch (error) {
-                    console.error(error);
-                    continu = false;
-                    if (fail) fail();
-                }
-                if (continu) {
-                    if (json !== null) {
+                if (response !== '') {
+                    let json = null;
+                    let continu = true;
+                    try {
+                        json = JSON.parse(response);
+                    } catch (error) {
+                        console.error(error);
+                        continu = false;
+                    }
+                    if (continu) {
                         if (callback) callback(json);
                     } else {
-                        if (empty) empty();
+                        if (fail) fail();
                     }
+                } else {
+                    if (empty) empty();
                 }
             },
             fail,
@@ -137,23 +138,28 @@ export default class Rest {
         Http.send(
             '/index.php',
             response => {
-                let json = null;
-                let continu = true;
-                try {
-                    json = JSON.parse(response);
-                } catch (error) {
-                    console.error(error);
-                    continu = false;
-                    if (fail) fail();
-                }
-                if (continu) {
-                    if (json !== null && json.length > 0) {
-                        if (pre) pre();
-                        json.forEach(element => callback(element));
-                        if (post) post();
-                    } else {
-                        if (empty) empty();
+                if (response !== '') {
+                    let json = null;
+                    let continu = true;
+                    try {
+                        json = JSON.parse(response);
+                    } catch (error) {
+                        console.error(error);
+                        continu = false;
                     }
+                    if (continu) {
+                        if (json.length > 0) {
+                            if (pre) pre();
+                            json.forEach(element => callback(element));
+                            if (post) post();
+                        } else {
+                            if (empty) empty();
+                        }
+                    } else {
+                        if (fail) fail();
+                    }
+                } else {
+                    if (fail) fail();
                 }
             },
             fail,
