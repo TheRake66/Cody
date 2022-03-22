@@ -2,6 +2,7 @@
 namespace Kernel;
 use Kernel\Router;
 use Kernel\Url;
+use Kernel\Debug;
 
 
 
@@ -9,15 +10,6 @@ use Kernel\Url;
  * Librairie du superviseur
  */
 class Supervisor {
-
-	/**
-	 * Les niveaux de criticite
-	 */
-    const LEVEL_INFO = 0;
-    const LEVEL_GOOD = 1;
-    const LEVEL_WARN = 2;
-    const LEVEL_ERROR = 3;
-    const LEVEL_PROGRESS = 4;
 
     /**
      * Temps UNIX en MS au demarrage du superviseur
@@ -36,7 +28,7 @@ class Supervisor {
      * @param string le message a afficher
      * @param int le niveau de criticite
      */
-    static function log($message, $level = self::LEVEL_INFO) {
+    static function log($message, $level = Debug::LEVEL_INFO) {
         if (Configuration::get()->show_supervisor) {
             $now = \DateTime::createFromFormat('U.u', microtime(true));
             $now = $now ? $now->format('H:i:s.v') : '??:??:??.???';
@@ -54,17 +46,17 @@ class Supervisor {
     static function supervise() {
         if (Configuration::get()->show_supervisor) {
             if (isset($_POST['supervisor_refresh'])) {
-                self::log('Page actualisée.', self::LEVEL_GOOD);
+                self::log('Page actualisée.', Debug::LEVEL_GOOD);
             }elseif (isset($_POST['supervisor_clear'])) {
                 header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
                 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
                 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
                 header("Cache-Control: post-check=0, pre-check=0", false);
                 header("Pragma: no-cache");
-                self::log('Cache vidé.', self::LEVEL_GOOD);
+                self::log('Cache vidé.', Debug::LEVEL_GOOD);
             }
 
-            self::log('Lancement du superviseur...', self::LEVEL_PROGRESS);
+            self::log('Lancement du superviseur...', Debug::LEVEL_PROGRESS);
             self::$started = microtime(true);
         }
     }
@@ -75,7 +67,7 @@ class Supervisor {
      */
     static function show() {
         if (Configuration::get()->show_supervisor) {
-            self::log('Supervision terminé.', self::LEVEL_GOOD);
+            self::log('Supervision terminé.', Debug::LEVEL_GOOD);
             
             $ms = round((microtime(true) - self::$started) * 1000);
             $latency = 'SUPERVISOR_LATENCY_';

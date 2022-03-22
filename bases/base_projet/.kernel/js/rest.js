@@ -6,6 +6,70 @@ import Http from './http.js';
  * Librairie de communication avec l'API REST en PHP
  */
 export default class Rest {
+    
+    /**
+     * Execute une requete REST de type GET puis retourne le resultat
+     * 
+     * @param {string} route la route
+     * @param {string} rest le nom de la fonction cote API
+     * @param {function} callback fonction anonyme appeler lors de la reponse
+     * @param {function} empty fonction anonyme appeler si resultat vide
+     * @param {function} fail fonction anonyme appeler si echec
+     * @param {Array} param les parametres supplementaires a l'URL
+     */
+    static get(route, rest, callback = null, empty = null, fail = null, param = {}) {
+        return Rest.#ask(route, rest, callback, empty, fail, param, Http.METHOD_GET);
+    }
+    
+
+    /**
+     * Execute une requete REST de type POST puis retourne le resultat
+     * 
+     * @param {string} route la route
+     * @param {string} rest le nom de la fonction cote API
+     * @param {function} callback fonction anonyme appeler lors de la reponse
+     * @param {function} empty fonction anonyme appeler si resultat vide
+     * @param {function} fail fonction anonyme appeler si echec
+     * @param {Array} param les parametres supplementaires dans le corps de la requete
+     */
+    static post(route, rest, callback = null, empty = null, fail = null, param = {}) {
+        return Rest.#ask(route, rest, callback, empty, fail, param, Http.METHOD_POST);
+    }
+
+    
+    /**
+     * Execute une requete REST de type GET puis boucle sur les resultats
+     * 
+     * @param {string} route la route
+     * @param {string} rest le nom de la fonction cote API
+     * @param {function} callback fonction anonyme appeler sur chaque reponse
+     * @param {function} pre fonction anonyme appeler avant l'iteration
+     * @param {function} post fonction anonyme appeler apres l'iteration
+     * @param {function} empty fonction anonyme appeler si resultat vide
+     * @param {function} fail fonction anonyme appeler si echec
+     * @param {Array} param les parametres supplementaires a l'URL
+     */
+    static getFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}) {
+        return Rest.#askFor(route, rest, callback, pre, post, empty, fail, param, Http.METHOD_GET);
+    }
+
+    
+    /**
+     * Execute une requete REST de type POST puis boucle sur les resultats
+     * 
+     * @param {string} route la route
+     * @param {string} rest le nom de la fonction cote API
+     * @param {function} callback fonction anonyme appeler sur chaque reponse
+     * @param {function} pre fonction anonyme appeler avant l'iteration
+     * @param {function} post fonction anonyme appeler apres l'iteration
+     * @param {function} empty fonction anonyme appeler si resultat vide
+     * @param {function} fail fonction anonyme appeler si echec
+     * @param {Array} param les parametres supplementaires dans le corps de la requete
+     */
+    static postFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}) {
+        return Rest.#askFor(route, rest, callback, pre, post, empty, fail, param, Http.METHOD_POST);
+    }
+
 
     /**
      * Execute une requete REST puis retourne le resultat
@@ -14,11 +78,11 @@ export default class Rest {
      * @param {string} rest le nom de la fonction cote API
      * @param {function} callback fonction anonyme appeler lors de la reponse
      * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} fail fonction anonyme appeler si echec de Ajax
+     * @param {function} fail fonction anonyme appeler si echec
      * @param {Array} param les parametres supplementaires a l'URL
      * @param {string} method la methode d'envoi
      */
-    static ask(route, rest, callback = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
+    static #ask(route, rest, callback = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
         let _ = {};
         _['r'] = route;
         _[rest] = true;
@@ -60,11 +124,11 @@ export default class Rest {
      * @param {function} pre fonction anonyme appeler avant l'iteration
      * @param {function} post fonction anonyme appeler apres l'iteration
      * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} fail fonction anonyme appeler si echec de Ajax
+     * @param {function} fail fonction anonyme appeler si echec
      * @param {Array} param les parametres supplementaires a l'URL
      * @param {string} method la methode d'envoi
      */
-    static askFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
+    static #askFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
         let _ = {};
         _['r'] = route;
         _[rest] = true;
