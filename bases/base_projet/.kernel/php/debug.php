@@ -85,6 +85,9 @@ class Debug {
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
                 $file = $folder. '/' . ($now ? $now->format('D M d') : '### ### ##') . '.log';
                 $max = $conf->max_lenght;
+                if (is_object($message) || is_array($message)) {
+                    $message = print_r($message, true);
+                }
                 if ($max > 0) {
                     $message = mb_strimwidth($message, 0, $max, ' ... [plus de ' . (strlen($message) - $max) . ' caractère(s) restant(s)]');
                 }
