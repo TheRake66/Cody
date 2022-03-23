@@ -84,7 +84,7 @@ export default class Rest {
      */
     static #ask(route, rest, callback = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
         let _ = {};
-        _['r'] = route;
+        _['routePage'] = route;
         _[rest] = true;
         param = Object.assign({}, _, param);
 
@@ -131,7 +131,7 @@ export default class Rest {
      */
     static #askFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
         let _ = {};
-        _['r'] = route;
+        _['routePage'] = route;
         _[rest] = true;
         param = Object.assign({}, _, param);
 
@@ -159,7 +159,7 @@ export default class Rest {
                         if (fail) fail();
                     }
                 } else {
-                    if (fail) fail();
+                    if (empty) empty();
                 }
             },
             fail,
