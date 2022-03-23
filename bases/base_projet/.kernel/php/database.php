@@ -132,16 +132,17 @@ class DataBase extends \PDO {
     private static function buildClause($obj, $clause = null) {
         $sql = '';
         $arr = [];
-        if (is_null($clause)) {
-            $clause = $obj::PRIMARY;
-        }
+        if (is_null($clause)) $clause = $obj::PRIMARY;
         foreach ((array)$obj as $prop => $val) {
-            if (!is_array($clause) || count($clause) == 0) {
+            if (is_null($clause) ||
+                !is_array($clause) && empty($clause) ||
+                is_array($clause) && count($clause) == 0) {
                 $sql .= 'WHERE ' . str_replace('*', '', $prop) . ' = ? ';
                 $arr[] = $val;
                 break;
-            } elseif (in_array($prop, $clause)) {
-                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . $prop . ' = ? ';
+            } elseif (!is_array($clause) && $prop == $clause ||
+                       is_array($clause) && in_array($prop, $clause)) {
+                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . str_replace('*', '', $prop) . ' = ? ';
                 $arr[] = $val;
             }
         }
