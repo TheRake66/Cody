@@ -392,7 +392,7 @@ class DataBase extends \PDO {
         $pr = self::buildClause($obj, $clause);
         return DataBase::fetchObjects(
 			'SELECT * FROM ' . self::getTableName($obj) . ' ' . $pr[0],
-            $obj,
+            get_class($obj),
             $pr[1]);
     }
 
