@@ -1,8 +1,14 @@
 {
-    "use_minifying": false,
-    "show_error_message": true,
-    "show_supervisor": true,
-    "redirect_to_https": false,
+    "security": {
+        "redirect_to_https": false
+    },
+    "render": {
+        "use_minifying": false,
+        "show_error_message": true,
+        "show_supervisor": true,
+        "wait_dom_loaded": true,
+        "delay_after_load": 200
+    },
     "log": {
         "use_log_file": true,
         "ip_identify": false,

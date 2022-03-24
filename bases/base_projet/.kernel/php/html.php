@@ -16,18 +16,22 @@ class Html {
     static function begin() {
         Debug::log('Ouverture du HTML...', Debug::LEVEL_PROGRESS);
 
+        $head = Configuration::get()->website_head;
+        $render = Configuration::get()->render;
+        $region = Configuration::get()->region;
+
         echo '<!DOCTYPE html>
-            <html lang="' . Configuration::get()->region->main_lang . '" style="opacity: 0;">
+            <html lang="' . $region->main_lang . '" ' . ($render->wait_dom_loaded ? 'style="opacity: 0;' : '') . '">
                 <head>
-                    <meta charset="' . Configuration::get()->website_head->charset . '">
-                    <meta name="description" content="' . Configuration::get()->website_head->description . '">
-                    <meta name="keywords" content="' . Configuration::get()->website_head->keywords . '">
-                    <meta name="author" content="' . Configuration::get()->website_head->author . '">
-                    <meta name="viewport" content="' . Configuration::get()->website_head->viewport . '">
-                    <meta name="theme-color" content="' . Configuration::get()->website_head->theme_color . '">
-                    <meta name="msapplication-navbutton-color" content="' . Configuration::get()->website_head->theme_color . '">
-                    <meta name="apple-mobile-web-app-status-bar-style" content="' . Configuration::get()->website_head->theme_color . '">
-                    <title>' . Configuration::get()->website_head->title . '</title>
+                    <meta charset="' . $head->charset . '">
+                    <meta name="description" content="' . $head->description . '">
+                    <meta name="keywords" content="' . $head->keywords . '">
+                    <meta name="author" content="' . $head->author . '">
+                    <meta name="viewport" content="' . $head->viewport . '">
+                    <meta name="theme-color" content="' . $head->theme_color . '">
+                    <meta name="msapplication-navbutton-color" content="' . $head->theme_color . '">
+                    <meta name="apple-mobile-web-app-status-bar-style" content="' . $head->theme_color . '">
+                    <title>' . $head->title . '</title>
                     <link rel="icon" href="favicon.ico"/>
                 </head>';
         Debug::log('Définition de l\'entête.');
@@ -51,19 +55,21 @@ class Html {
         echo Html::importScript('debug/app/global_after.js');
         Debug::log('Script d\'extinction importé.');
 
-        echo '<script>
+        $render = Configuration::get()->render;
+        if ($render->wait_dom_loaded) {
+            echo '<script>
                 async function loaded() {
-                    await new Promise(r => setTimeout(r, 200));
+                    await new Promise(r => setTimeout(r, ' . $render->delay_after_load . '));
                     document.getElementsByTagName(\'html\')[0].style.opacity = 1;
                 }
                 window.addEventListener("DOMContentLoaded", (event) => {
                     loaded();
                 });
-            </script>
+            </script>';
+            Debug::log('Définition de la fonction de rendu.');
+        }
 
-        </html>';
-        Debug::log('Définition de la fonction de rendu.');
-        
+        echo '</html>';
         Debug::log('HTML fermé.', Debug::LEVEL_GOOD);
     }
     
@@ -203,7 +209,7 @@ class Html {
      * @return string le code HTML qui importe le script
      */
     static function importScript($file, $type = 'module', $name = null, $class = null) {
-        if (Configuration::get()->use_minifying) {
+        if (Configuration::get()->render->use_minifying) {
             $inf = pathinfo($file);
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.js';
         }
@@ -228,7 +234,7 @@ class Html {
      * @return string le code HTML qui importe le style
      */
     static function importStyle($file, $rel = 'stylesheet/less') {
-        if (Configuration::get()->use_minifying) {
+        if (Configuration::get()->render->use_minifying) {
             $inf = pathinfo($file);
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.css';
             $rel = 'stylesheet';

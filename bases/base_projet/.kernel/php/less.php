@@ -13,7 +13,7 @@ class Less {
 	 * Charge et lance less
 	 */
 	static function compile() {
-		if (!Configuration::get()->use_minifying) {
+		if (!Configuration::get()->render->use_minifying) {
 			echo Html::importScript('.kernel/less@4.1.1.js');
 		}
 	}

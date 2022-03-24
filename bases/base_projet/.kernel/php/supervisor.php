@@ -29,7 +29,7 @@ class Supervisor {
      * @param int le niveau de criticite
      */
     static function log($message, $level = Debug::LEVEL_INFO) {
-        if (Configuration::get()->show_supervisor) {
+        if (Configuration::get()->render->show_supervisor) {
             $now = \DateTime::createFromFormat('U.u', microtime(true));
             $now = $now ? $now->format('H:i:s.v') : '??:??:??.???';
             self::$log[] = [ '[' . $now . '] ' . (
@@ -44,7 +44,7 @@ class Supervisor {
      * Initialise un superviseur
      */
     static function supervise() {
-        if (Configuration::get()->show_supervisor) {
+        if (Configuration::get()->render->show_supervisor) {
             if (isset($_POST['supervisor_refresh'])) {
                 self::log('Page actualisée.', Debug::LEVEL_GOOD);
             }elseif (isset($_POST['supervisor_clear'])) {
@@ -66,7 +66,7 @@ class Supervisor {
      * Affiche le superviseur
      */
     static function show() {
-        if (Configuration::get()->show_supervisor) {
+        if (Configuration::get()->render->show_supervisor) {
             self::log('Supervision terminé.', Debug::LEVEL_GOOD);
             
             $ms = round((microtime(true) - self::$started) * 1000);

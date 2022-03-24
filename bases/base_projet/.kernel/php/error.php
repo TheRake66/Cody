@@ -67,7 +67,7 @@ class Error {
         Debug::separator();
         ob_end_clean();
         http_response_code(500);
-        if (Configuration::get()->show_error_message) {
+        if (Configuration::get()->render->show_error_message) {
             $search = urlencode($message);
             echo '
             <div class="ERROR_CODY_BLOCK">
