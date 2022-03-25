@@ -132,6 +132,24 @@ class Html {
 
 
     /**
+     * Ajoute un ou des styles
+     * 
+     * @param string|array le/les style(s)
+     * @return string l'attribut formatte
+     */
+    static function setStyle($style) {
+        if (is_array($style)) {
+            $_ = '';
+            foreach ($style as $s => $v) {
+                $_ .= $s . ':' . $v . ';';
+            }
+            $style = $_;
+        }
+        return Html::setAttrib($style, 'style');
+    }
+
+
+    /**
      * Ajoute une src
      * 
      * @param string la src
@@ -141,7 +159,7 @@ class Html {
     static function setSrc($src, $alt = null) {
         $html = Html::setAttrib($src, 'src');
         if (!is_null($alt)) {
-            $html .= Html::setAttrib($alt, 'alt');
+            $html .= ' ' . Html::setAttrib($alt, 'alt');
         }
         return $html;
     }

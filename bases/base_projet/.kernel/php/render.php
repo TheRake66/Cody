@@ -14,7 +14,7 @@ class Render {
      * 
      * @param array les variables a passer a la vue
      */
-    function view($variables = []) {
+    protected function view($variables = []) {
         // Recupere le namespace\class
         $full = get_class($this);
 

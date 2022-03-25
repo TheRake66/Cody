@@ -11,7 +11,7 @@ class Convert {
 	/**
 	 * Unites de memoire utiliser pour la conversion
 	 */
-	const UNITE_MEMOIRE = [ "o", "Ko", "Mo", "Go", "To" ];
+	private const UNITE_MEMOIRE = [ "o", "Ko", "Mo", "Go", "To" ];
 
 
     /**

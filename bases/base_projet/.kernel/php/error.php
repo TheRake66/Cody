@@ -21,8 +21,12 @@ class Error {
      */
     static function handler() {
         if (!self::$showing) {
-            set_error_handler('Kernel\Error::showError');
-            register_shutdown_function('Kernel\Error::showFatal');
+            set_error_handler(function($severity, $message, $filename, $lineno) {
+                self::showError($severity, $message, $filename, $lineno);
+            });
+            register_shutdown_function(function() {
+                self::showFatal();
+            });
         }
     }
 
@@ -39,7 +43,7 @@ class Error {
     /**
      * Recupere et affiche un message d'erreur fatal
      */
-    static function showFatal() {
+    private static function showFatal() {
         $error = error_get_last();
         if($error !== null) {
             $severity = $error["type"];
@@ -59,7 +63,7 @@ class Error {
      * @param string le fichier concerner
      * @param int le numero de la ligne
      */
-    static function showError($severity, $message, $filename, $lineno) {
+    private static function showError($severity, $message, $filename, $lineno) {
         self::remove();
         self::$showing = true;
         $message .= PHP_EOL . (new Exception())->getTraceAsString();

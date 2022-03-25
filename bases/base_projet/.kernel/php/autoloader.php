@@ -12,7 +12,9 @@ class Autoloader {
      * Initialise l'autoloader
      */
     static function register() {
-        spl_autoload_register('Kernel\Autoloader::load');
+        spl_autoload_register(function ($class) {
+            self::load($class);
+        });
     }
     
 
@@ -21,7 +23,7 @@ class Autoloader {
      * 
      * @param string Namespace
      */
-    static function load($required) {
+    private static function load($required) {
         $_ = explode('\\', $required);
         $class = end($_);
         $first = array_shift($_);
