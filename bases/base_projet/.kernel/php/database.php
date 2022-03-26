@@ -5,7 +5,7 @@ use DateTime;
 
 
 /**
- * Librairie de connexion et de traitement (CRUD) a la base de donnees
+ * Librairie de connexion et de traitement (CRUD) de la base de donnees
  */
 class DataBase extends \PDO {
     
@@ -13,6 +13,11 @@ class DataBase extends \PDO {
      * Instance PDO
      */
     private static $instance;
+
+    /**
+     * La base de donnees utilisee
+     */
+    private static $current;
     
     
     /**
@@ -50,14 +55,25 @@ class DataBase extends \PDO {
     private static function getInstance() {
         if (!self::$instance) {
             $conf = Configuration::get()->database;
-            $options = [
-                parent::ATTR_PERSISTENT => $conf->persistent_mode,
-                parent::ATTR_EMULATE_PREPARES => $conf->emulate_prepare,
-                parent::ATTR_ERRMODE => $conf->show_sql_error ?
-                        parent::ERRMODE_EXCEPTION :
-                        parent::ERRMODE_SILENT
-            ];
-            self::$instance = new DataBase($options);
+            if (is_null(self::$current)) {
+                self::$current = $conf->default_database;
+            }
+            if ($conf->progressive_connection) {
+
+            } else {
+                foreach ($conf->databases_list as $database) {
+                    $options = [
+                        parent::ATTR_PERSISTENT => $database->persistent_mode,
+                        parent::ATTR_EMULATE_PREPARES => $database->emulate_prepare,
+                        parent::ATTR_ERRMODE => $database->throw_sql_error ?
+                                parent::ERRMODE_EXCEPTION :
+                                parent::ERRMODE_SILENT
+                    ];
+                    self::$instance = new DataBase($options);
+                }
+            }
+
+
         }
         return self::$instance;
     }
@@ -85,6 +101,12 @@ class DataBase extends \PDO {
     }
 
 
+    /**
+     * Retourne le resultat puis l'enregistre dans la log
+     * 
+     * @param object le resultat de la requete
+     * @return object le resultat de la requete
+     */
     private static function returnLog($data) {
         Debug::log('Résultat de la requête SQL : "' . print_r($data, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_RESULTS);
         return $data;
@@ -153,7 +175,49 @@ class DataBase extends \PDO {
         return [ $sql, $arr ];
     }
 
-    
+
+    /**
+     * Demarre une transaction SQL
+     * 
+     * @param bool faux si une erreur est survenue
+     */
+    static function begin() {
+        $conf = Configuration::get()->database;
+        if (!$conf->throw_sql_error && $conf->throw_transaction) {
+            self::getInstance()->setAttribute(parent::ATTR_ERRMODE, parent::ERRMODE_EXCEPTION);
+        }
+        return self::getInstance()->beginTransaction();
+    }
+
+
+    /**
+     * Annule une transaction SQL
+     * 
+     * @param bool faux si une erreur est survenue
+     */
+    static function reverse() {
+        $conf = Configuration::get()->database;
+        if (!$conf->throw_sql_error && $conf->throw_transaction) {
+            self::getInstance()->setAttribute(parent::ATTR_ERRMODE, parent::ERRMODE_SILENT);
+        }
+        return self::getInstance()->rollBack();
+    }
+
+
+    /**
+     * Valide une transaction SQL
+     * 
+     * @param bool faux si une erreur est survenue
+     */
+    static function end() {
+        $conf = Configuration::get()->database;
+        if (!$conf->throw_sql_error && $conf->throw_transaction) {
+            self::getInstance()->setAttribute(parent::ATTR_ERRMODE, parent::ERRMODE_SILENT);
+        }
+        return self::getInstance()->commit();
+    }
+
+
     /**
      * Execture une requete de mise a jour
      * 

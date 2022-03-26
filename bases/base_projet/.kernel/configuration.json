@@ -38,15 +38,22 @@
         "session_name": "{PROJECT_NAME}"
     },
     "database": {
-        "login": "root", 
-        "password": "", 
-        "host": "localhost", 
-        "port": "3306", 
-        "name": "{PROJECT_NAME}", 
-        "encoding": "utf8", 
-        "type": "mysql",
-        "show_sql_error": true,
-        "emulate_prepare": false,
-        "persistent_mode": false
+        "default_database": "{PROJECT_NAME}",
+        "progressive_connection": true,
+        "databases_list": [
+            {
+				"login": "root", 
+				"password": "", 
+				"host": "localhost", 
+				"port": "3306", 
+				"name": "{PROJECT_NAME}", 
+                "encoding": "utf8", 
+                "type": "mysql",
+                "throw_sql_error": true,
+                "throw_transaction": true,
+                "emulate_prepare": false,
+                "persistent_mode": false
+            }
+        ]
     }
 }
