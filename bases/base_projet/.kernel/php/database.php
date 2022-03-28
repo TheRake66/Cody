@@ -168,8 +168,8 @@ class DataBase extends \PDO {
      */
     private static function paramsToSQL($params) {
         $parsed = [];
-        foreach ($params as $param) {
-            $parsed[] = self::paramToSQL($param);
+        foreach ($params as $name => $value) {
+            $parsed[$name] = self::paramToSQL($value);
         }
         return $parsed;
     }
