@@ -13,6 +13,7 @@ class Rest {
 	 * 
 	 * @param string nom de la fonction demandee
 	 * @param object fonction anonyme a executee en cas de demande
+	 * @return void
 	 */
 	static function get($name, $fn) {
 		self::run($_GET, 'get', $name, $fn);
@@ -24,6 +25,7 @@ class Rest {
 	 * 
 	 * @param string nom de la fonction demandee
 	 * @param object fonction anonyme a executee en cas de demande
+	 * @return void
 	 */
 	static function post($name, $fn) {
 		self::run($_POST, 'post', $name, $fn);
@@ -37,6 +39,7 @@ class Rest {
 	 * @param string le nom de la methode
 	 * @param string nom de la fonction demandee
 	 * @param object fonction anonyme a executee en cas de demande
+	 * @return void
 	 */
 	private static function run($array, $method, $name, $fn) {
         if (isset($array[$name])) {

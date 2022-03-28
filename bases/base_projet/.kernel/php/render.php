@@ -13,6 +13,8 @@ class Render {
      * Inclut les fichiers pour afficher la vue
      * 
      * @param array les variables a passer a la vue
+     * @return void
+     * @throws \Exception Si le fichier de vue n'est pas trouvé
      */
     protected function view($variables = []) {
         // Recupere le namespace\class

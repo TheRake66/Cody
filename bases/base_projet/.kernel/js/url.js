@@ -9,6 +9,7 @@ export default class Url {
 	 * @param {string} route la route
 	 * @param {array} param les param
 	 * @param {string} addback le back
+     * @returns void
 	 */
 	static go(route, param = [], addback = false) {
         window.location.href = Url.build(route, param, addback);
@@ -17,6 +18,8 @@ export default class Url {
 	
 	/**
 	 * Recharge la page
+	 * 
+     * @returns void
 	 */
 	static reload() {
 		window.location.reload();

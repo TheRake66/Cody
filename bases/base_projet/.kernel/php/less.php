@@ -11,6 +11,8 @@ class Less {
 
 	/**
 	 * Charge et lance less
+	 * 
+	 * @return void
 	 */
 	static function compile() {
 		if (!Configuration::get()->render->use_minifying) {

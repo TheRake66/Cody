@@ -11,6 +11,8 @@ class Session {
 
 	/**
 	 * Initialise la session
+     * 
+     * @return void
 	 */
 	static function start() {
 		if (Configuration::get()->session->open_session && session_status() === PHP_SESSION_NONE) {
@@ -31,6 +33,7 @@ class Session {
      * @param object instance dto de l'utilisateur a memoriser
      * @param string son jeton
      * @param int le nombre de jours de validite du jeton
+     * @return void
      */
     static function login($user, $token = null, $nbdays = 31) {
         self::setSession($user);
@@ -40,6 +43,8 @@ class Session {
 
     /**
      * Detruit une session utilisateur
+     * 
+     * @return void
      */
     static function logout() {
         self::remSession();
@@ -61,6 +66,7 @@ class Session {
      * Defini une session utilisateur
      * 
      * @param object objet DTO de l'utilisateur a memoriser
+     * @return void
      */
 	static function setSession($user) {
 		$_SESSION['user'] = $user;
@@ -79,6 +85,8 @@ class Session {
 
     /**
      * Detruit la session utilisateur
+     * 
+     * @return void
      */
 	static function remSession() {
 		session_destroy();
@@ -91,6 +99,7 @@ class Session {
      * 
      * @param string son jeton
      * @param int le nombre de jours de validite du jeton
+     * @return void
      */
 	static function setToken($token = null, $nbdays = 31) {
 		if (is_null($token)) {
@@ -113,6 +122,8 @@ class Session {
 
     /**
      * Detruit le jeton de connexion
+     * 
+     * @return void
      */
 	static function remToken() {
 		setcookie("token", "");

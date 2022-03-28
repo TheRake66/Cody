@@ -10,6 +10,8 @@ class Convert {
 
 	/**
 	 * Unites de memoire utiliser pour la conversion
+	 * 
+	 * @var array
 	 */
 	private const UNITE_MEMOIRE = [ "o", "Ko", "Mo", "Go", "To" ];
 

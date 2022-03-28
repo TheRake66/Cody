@@ -13,11 +13,15 @@ class Supervisor {
 
     /**
      * Temps UNIX en MS au demarrage du superviseur
+     * 
+     * @var int
      */
     private static $started;
 
     /**
      * Log de la console
+     * 
+     * @var array
      */
     private static $log;
 
@@ -27,6 +31,7 @@ class Supervisor {
      * 
      * @param string le message a afficher
      * @param int le niveau de criticite
+     * @return void
      */
     static function log($message, $level = Debug::LEVEL_INFO) {
         if (Configuration::get()->render->show_supervisor) {
@@ -42,6 +47,8 @@ class Supervisor {
 
     /**
      * Initialise un superviseur
+     * 
+     * @return void
      */
     static function supervise() {
         if (Configuration::get()->render->show_supervisor) {
@@ -64,6 +71,8 @@ class Supervisor {
 
     /**
      * Affiche le superviseur
+     * 
+     * @return void
      */
     static function show() {
         if (Configuration::get()->render->show_supervisor) {

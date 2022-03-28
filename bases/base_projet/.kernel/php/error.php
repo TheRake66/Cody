@@ -12,12 +12,16 @@ class Error {
     /**
      * Empeche l'appel des evennements dans l'affichage de l'erreur
      * Evite les appels en boucle
+     * 
+     * @var bool
      */
     private static $showing = false;
 
 
     /**
      * Initialise les evennements d'appel
+     * 
+     * @return void
      */
     static function handler() {
         if (!self::$showing) {
@@ -33,6 +37,8 @@ class Error {
 
     /**
      * Supprime les evennements d'appel
+     * 
+     * @return void
      */
     static function remove() {    
         set_error_handler(function() { });
@@ -42,6 +48,8 @@ class Error {
 
     /**
      * Recupere et affiche un message d'erreur fatal
+     * 
+     * @return void
      */
     private static function showFatal() {
         $error = error_get_last();
@@ -62,6 +70,7 @@ class Error {
      * @param string le message
      * @param string le fichier concerner
      * @param int le numero de la ligne
+     * @return void
      */
     private static function showError($severity, $message, $filename, $lineno) {
         self::remove();

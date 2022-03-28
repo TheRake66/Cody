@@ -11,29 +11,41 @@ class DataBase extends \PDO {
     
     /**
      * Instance PDO
+     * 
+     * @var array[string => \PDO]
      */
-    private static $instance;
+    private static $instances;
 
     /**
      * La base de donnees utilisee
+     * 
+     * @var string
      */
     private static $current;
     
-    
+
     /**
      * Creer une instance PDO
      *
-     * @param array liste des attribut PDO
+     * @param array configuration de la base de donnees
+     * @return void
+     * @throws Exception si la connexion echoue
      */
-    private function __construct($options = []) {
-        Debug::log('Connexion à la base de données...', Debug::LEVEL_PROGRESS);
+    private function __construct($conf) {
+        Debug::log('Connexion à la base de données "' . $conf->name . '"...', Debug::LEVEL_PROGRESS);
         try {
-            $conf = Configuration::get()->database;
             $dsn = $conf->type . 
                 ':host=' . $conf->host . 
                 ';port=' . $conf->port . 
                 ';dbname=' . $conf->name . 
                 ';charset=' . $conf->encoding;
+            $options = [
+                parent::ATTR_PERSISTENT => $conf->persistent_mode,
+                parent::ATTR_EMULATE_PREPARES => $conf->emulate_prepare,
+                parent::ATTR_ERRMODE => $conf->throw_sql_error ?
+                        parent::ERRMODE_EXCEPTION :
+                        parent::ERRMODE_SILENT
+            ];
             parent::__construct(
                 $dsn, 
                 $conf->login,  
@@ -47,35 +59,53 @@ class DataBase extends \PDO {
 
 
     /**
-     * Retourne l'inctance PDO en cours, si aucune est
-     * en cours on en creer une
+     * Retourne l'instance PDO en cours, si aucune est en cours on en creer une
      * 
      * @return object instance PDO
+     * @throws \Exception si la base de donnees n'est pas definie
      */
     private static function getInstance() {
-        if (!self::$instance) {
-            $conf = Configuration::get()->database;
-            if (is_null(self::$current)) {
-                self::$current = $conf->default_database;
-            }
+        $conf = Configuration::get()->database;
+        if (is_null(self::$current)) {
+            self::$current = $conf->default_database;
+        }
+        if (is_null(self::$instances)) {
+            self::$instances = [];
+        }
+        if (array_key_exists(self::$current, self::$instances)) {
+            return self::$instances[self::$current];
+        } else {
             if ($conf->progressive_connection) {
-
+                self::$instances[self::$current] = new DataBase(self::getConfiguration());
+                return self::$instances[self::$current];
             } else {
                 foreach ($conf->databases_list as $database) {
-                    $options = [
-                        parent::ATTR_PERSISTENT => $database->persistent_mode,
-                        parent::ATTR_EMULATE_PREPARES => $database->emulate_prepare,
-                        parent::ATTR_ERRMODE => $database->throw_sql_error ?
-                                parent::ERRMODE_EXCEPTION :
-                                parent::ERRMODE_SILENT
-                    ];
-                    self::$instance = new DataBase($options);
+                    self::$instances[$database->name] = new DataBase($database);
+                } 
+                if (array_key_exists(self::$current, self::$instances)) {
+                    return self::$instances[self::$current];
+                } else {
+                    trigger_error('Aucune configuration pour la base de données "' . self::$current . '" !');
                 }
             }
-
-
         }
-        return self::$instance;
+    }
+
+
+    /**
+     * Retourne la configuration de la base de donnees actuelle
+     * 
+     * @return object configuration de la base de donnees
+     * @throws \Exception si la base de donnees par défaut n'est pas définie
+     */
+    private static function getConfiguration() {
+        $conf = Configuration::get()->database;
+        foreach ($conf->databases_list as $database) {
+            if ($database->name == self::$current) {
+                return $database;
+            }
+        }
+        trigger_error('Aucune configuration pour la base de données "' . self::$current . '" !');
     }
     
 
@@ -175,6 +205,19 @@ class DataBase extends \PDO {
         return [ $sql, $arr ];
     }
 
+    
+    /**
+     * Change la base de donnees courante
+     * 
+     * @param string le nom de la base de donnees, si null, la base par defaut est utilisee
+     * @return object instance PDO
+     */
+    static function switch($database = null) {
+        self::$current = !is_null($database) ? 
+            $database : 
+            Configuration::get()->database->default_database;
+    }
+
 
     /**
      * Demarre une transaction SQL
@@ -182,7 +225,7 @@ class DataBase extends \PDO {
      * @param bool faux si une erreur est survenue
      */
     static function begin() {
-        $conf = Configuration::get()->database;
+        $conf = self::getConfiguration();
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
             self::getInstance()->setAttribute(parent::ATTR_ERRMODE, parent::ERRMODE_EXCEPTION);
         }
@@ -196,7 +239,7 @@ class DataBase extends \PDO {
      * @param bool faux si une erreur est survenue
      */
     static function reverse() {
-        $conf = Configuration::get()->database;
+        $conf = self::getConfiguration();
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
             self::getInstance()->setAttribute(parent::ATTR_ERRMODE, parent::ERRMODE_SILENT);
         }
@@ -210,11 +253,21 @@ class DataBase extends \PDO {
      * @param bool faux si une erreur est survenue
      */
     static function end() {
-        $conf = Configuration::get()->database;
+        $conf = self::getConfiguration();
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
             self::getInstance()->setAttribute(parent::ATTR_ERRMODE, parent::ERRMODE_SILENT);
         }
         return self::getInstance()->commit();
+    }
+
+
+    /**
+     * Verifi si une transaction SQL est en cours
+     * 
+     * @param bool vrai si une transaction est en cours sinon faux
+     */
+    static function hasBegun() {
+        return self::getInstance()->inTransaction();
     }
 
 

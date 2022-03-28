@@ -9,6 +9,8 @@ export default class Http {
 
     /**
      * Les methodes d'envoie
+     * 
+     * @type {string}
      */
     static METHOD_GET = 'GET';
     static METHOD_POST = 'POST';
@@ -22,6 +24,7 @@ export default class Http {
      * @param {function} fail fonction anonyme appeler lors de la reponse en erreur
      * @param {string} method type de requete
      * @param {string} param corps de la requete
+     * @returns void
      */
     static send(url, callback = null, fail = null, method = 'GET', param = null) {
         let xml = new XMLHttpRequest();

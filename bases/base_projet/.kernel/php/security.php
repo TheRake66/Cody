@@ -11,6 +11,8 @@ class Security {
 
 	/**
 	 * Verifie et active le protocole SSL
+	 * 
+	 * @return void
 	 */
 	static function enableSsl() {
 		if (Configuration::get()->security->redirect_to_https) {

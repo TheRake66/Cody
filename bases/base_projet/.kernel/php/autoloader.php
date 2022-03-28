@@ -10,6 +10,8 @@ class Autoloader {
 
     /**
      * Initialise l'autoloader
+     * 
+     * @return void
      */
     static function register() {
         spl_autoload_register(function ($class) {
@@ -20,8 +22,10 @@ class Autoloader {
 
     /**
      * Cherche et inclut les fichiers contenant les classes
-     * 
+
      * @param string Namespace
+     * @return void
+     * @throws \Exception Si le fichier n'est pas trouvé
      */
     private static function load($required) {
         $_ = explode('\\', $required);

@@ -14,6 +14,7 @@ class Url {
 	 * @param string la route
 	 * @param array les params
 	 * @param string le back
+     * @return void
 	 */
 	static function go($route, $param = [], $addback = false) {
 		header('Location: ' . self::build($route, $param, $addback));
@@ -23,6 +24,8 @@ class Url {
 
 	/**
 	 * Recharge la page
+	 * 
+     * @return void
 	 */
 	static function reload() {
 		header('Location: ' . self::current());

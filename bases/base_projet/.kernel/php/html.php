@@ -12,6 +12,8 @@ class Html {
 
     /**
      * Ouvre une balise HTML et ecris l'entete
+     * 
+     * @return void
      */
     static function begin() {
         Debug::log('Ouverture du HTML...', Debug::LEVEL_PROGRESS);
@@ -48,6 +50,8 @@ class Html {
 
     /**
      * Ferme la balise HTML
+     * 
+     * @return void
      */
     static function end() {
         Debug::log('Fermeture du HTML...', Debug::LEVEL_PROGRESS);

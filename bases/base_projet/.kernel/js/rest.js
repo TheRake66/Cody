@@ -16,6 +16,7 @@ export default class Rest {
      * @param {function} empty fonction anonyme appeler si resultat vide
      * @param {function} fail fonction anonyme appeler si echec
      * @param {Array} param les parametres supplementaires a l'URL
+     * @returns void
      */
     static get(route, rest, callback = null, empty = null, fail = null, param = {}) {
         return Rest.#ask(route, rest, callback, empty, fail, param, Http.METHOD_GET);
@@ -31,6 +32,7 @@ export default class Rest {
      * @param {function} empty fonction anonyme appeler si resultat vide
      * @param {function} fail fonction anonyme appeler si echec
      * @param {Array} param les parametres supplementaires dans le corps de la requete
+     * @returns void
      */
     static post(route, rest, callback = null, empty = null, fail = null, param = {}) {
         return Rest.#ask(route, rest, callback, empty, fail, param, Http.METHOD_POST);
@@ -48,6 +50,7 @@ export default class Rest {
      * @param {function} empty fonction anonyme appeler si resultat vide
      * @param {function} fail fonction anonyme appeler si echec
      * @param {Array} param les parametres supplementaires a l'URL
+     * @returns void
      */
     static getFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}) {
         return Rest.#askFor(route, rest, callback, pre, post, empty, fail, param, Http.METHOD_GET);
@@ -65,6 +68,7 @@ export default class Rest {
      * @param {function} empty fonction anonyme appeler si resultat vide
      * @param {function} fail fonction anonyme appeler si echec
      * @param {Array} param les parametres supplementaires dans le corps de la requete
+     * @returns void
      */
     static postFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}) {
         return Rest.#askFor(route, rest, callback, pre, post, empty, fail, param, Http.METHOD_POST);
@@ -81,6 +85,7 @@ export default class Rest {
      * @param {function} fail fonction anonyme appeler si echec
      * @param {Array} param les parametres supplementaires a l'URL
      * @param {string} method la methode d'envoi
+     * @returns void
      */
     static #ask(route, rest, callback = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
         let _ = {};
@@ -128,6 +133,7 @@ export default class Rest {
      * @param {function} fail fonction anonyme appeler si echec
      * @param {Array} param les parametres supplementaires a l'URL
      * @param {string} method la methode d'envoi
+     * @returns void
      */
     static #askFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
         let _ = {};

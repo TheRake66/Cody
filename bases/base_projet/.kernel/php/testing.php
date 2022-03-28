@@ -12,6 +12,7 @@ class Testing {
      * Termine le test avec un code de sortie et un message d'erreur
      * 
      * @param string le message
+     * @return void
      */
     static function fail($message = null) {
         if (!is_null($message)) {
@@ -26,6 +27,7 @@ class Testing {
      * 
      * @param bool la valeur a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertFalse($bool, $message = 'Doit être faux.') {
         if (!is_bool($bool) || $bool) {
@@ -39,6 +41,7 @@ class Testing {
      * 
      * @param bool la valeur a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertTrue($bool, $message = 'Doit être vrai.') {
         if (!is_bool($bool) || !$bool) {
@@ -52,6 +55,7 @@ class Testing {
      * 
      * @param object la valeur a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertNull($object, $message = 'Doit être null.') {
         if (!is_null($object)) {
@@ -65,6 +69,7 @@ class Testing {
      * 
      * @param object la valeur a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertNotNull($object, $message = 'Ne doit pas être null.') {
         if (is_null($object)) {
@@ -79,6 +84,7 @@ class Testing {
      * @param object la valeur a verifier
      * @param string le type requis
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertType($object, $type, $message = 'N\'est pas du type requis.') {
         if (gettype($object) != $type) {
@@ -93,6 +99,7 @@ class Testing {
      * @param object la valeur a verifier
      * @param string le type indesirable
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertNotType($object, $type, $message = 'Est du type indesirable.') {
         if (gettype($object) == $type) {
@@ -107,6 +114,7 @@ class Testing {
      * @param object l'objet a verifier
      * @param string la classe requise
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertClass($object, $class, $message = 'N\'est pas de la bonne classe.') {
         if (get_class($object) != $class) {
@@ -121,6 +129,7 @@ class Testing {
      * @param object l'objet a verifier
      * @param string la classe indesirable
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertNotClass($object, $class, $message = 'Est de la classe indesirable.') {
         if (get_class($object) == $class) {
@@ -136,6 +145,7 @@ class Testing {
      * @param object la premiere valeur a verifier
      * @param object la deuxieme valeur a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertEquals($object1, $object2, $message = 'Doit être égales.') {
         if ($object1 != $object2) {
@@ -151,6 +161,7 @@ class Testing {
      * @param object la premiere valeur a verifier
      * @param object la deuxieme valeur a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertNotEquals($object1, $object2, $message = 'Ne doit pas être égales.') {
         if ($object1 == $object2) {
@@ -165,6 +176,7 @@ class Testing {
      * @param object le premier objet a verifier
      * @param object le deuxieme objet a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertSame($object1, $object2, $message = 'Doit être identique.') {
         if ($object1 !== $object2) {
@@ -179,6 +191,7 @@ class Testing {
      * @param object le premier objet a verifier
      * @param object le deuxieme objet a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertNotSame($object1, $object2, $message = 'Ne doit pas être identique.') {
         if ($object1 === $object2) {
@@ -193,6 +206,7 @@ class Testing {
      * @param object le premier objet a verifier
      * @param object le deuxieme objet a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertSameClass($object1, $object2, $message = 'Doit être de la meme clase.') {
         if (get_class($object1) != get_class($object2)) {
@@ -207,6 +221,7 @@ class Testing {
      * @param object le premier objet a verifier
      * @param object le deuxieme objet a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertNotSameClass($object1, $object2, $message = 'Ne doit pas être de la meme clase.') {
         if (get_class($object1) == get_class($object2)) {
@@ -221,6 +236,7 @@ class Testing {
      * @param object la premiere valeur a verifier
      * @param object la deuxieme valeur a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertSameType($object1, $object2, $message = 'Doit être du meme type.') {
         if (gettype($object1) != gettype($object2)) {
@@ -235,6 +251,7 @@ class Testing {
      * @param object la premiere valeur a verifier
      * @param object la deuxieme valeur a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertNotSameType($object1, $object2, $message = 'Ne doit pas être du meme type.') {
         if (gettype($object1) == gettype($object2)) {
@@ -250,6 +267,7 @@ class Testing {
      * @param array la liste a verifier
      * @param bool si on verifie les types
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertInArray($object, $array, $checktype = false, $message = 'Doit être dans la liste.') {
         if (!in_array($object, $array, $checktype)) {
@@ -265,6 +283,7 @@ class Testing {
      * @param array la liste a verifier
      * @param bool si on verifie les types
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertNotInArray($object, $array, $checktype = false, $message = 'Ne doit pas être dans la liste.') {
         if (in_array($object, $array, $checktype)) {
@@ -279,6 +298,7 @@ class Testing {
      * @param array la premiere liste a verifier
      * @param array la deuxieme liste a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertArraySameValues($array1, $array2, $message = 'Doivent avoir les même valeurs.') {
         sort($array1);
@@ -295,6 +315,7 @@ class Testing {
      * @param array la premiere liste a verifier
      * @param array la deuxieme liste a verifier
      * @param string le message en cas d'echec
+     * @return void
      */
     static function assertArrayNotSameValues($array1, $array2, $message = 'Ne doivent pas avoir les même valeurs.') {
         sort($array1);

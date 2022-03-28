@@ -10,6 +10,8 @@ class Debug {
 
 	/**
 	 * Les niveaux de criticite
+     * 
+     * @var int
 	 */
     const LEVEL_INFO = 0;
     const LEVEL_GOOD = 1;
@@ -20,6 +22,8 @@ class Debug {
 
     /**
      * Les types de log
+     * 
+     * @var int
      */
     const TYPE_NONE = 0;
     const TYPE_QUERY = 1;
@@ -33,6 +37,7 @@ class Debug {
      * @param string le message a afficher
      * @param int le niveau de criticite
      * @param int le type de log
+     * @return void
      */
     static function log($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
         Supervisor::log($message, $level);
@@ -46,6 +51,7 @@ class Debug {
      * @param string le message a afficher
      * @param int le niveau de criticite
      * @param int le type de log
+     * @return void
      */
     static function file($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
         $conf = Configuration::get()->log;
@@ -81,7 +87,6 @@ class Debug {
             }
 
             if (is_dir($folder) || mkdir($folder, 0777, true)) {
-
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
                 $file = $folder. '/' . ($now ? $now->format('D M d') : '### ### ##') . '.log';
                 if (is_object($message) || is_array($message)) {
@@ -113,6 +118,8 @@ class Debug {
 
     /**
      * Ajoute un separateur dans le fichier log
+     * 
+     * @return void
      */
     static function separator() {
         self::file('--------------------------------------------------------');
