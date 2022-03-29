@@ -10,8 +10,8 @@
 		"Support des espaces dans les arguments.",
 		"Ajout d'une commande stop.",
 		"Modification de la compilation pour la nouvelle structure JS.",
-		"Balise HTML par composant",
-		"Différenciation entre les modifications et les bugs dans la version"
+		"Balise HTML par composant.",
+		"Différenciation entre les modifications et les bugs dans la version."
 	], 
 	"bugs": [
 		"Correction du plantage lors d'un lancement sur un terminal trop petit.",
@@ -22,7 +22,7 @@
 		"Correction npm sur Ubuntu.",
 		"Correction build des fichiers less.",
 		"Cache le dossier kernel lors de la création d'un projet.",
-		"Exclusion du dossier de logs pour la compilation"
+		"Exclusion du dossier de logs pour la compilation."
 	],
 	"retrocompatible": false
 }
