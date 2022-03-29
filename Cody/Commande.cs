@@ -325,11 +325,12 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     Message.writeIn(ConsoleColor.Green, lastversion.version);
                     Console.WriteLine(" est disponible, voulez vous la télécharger ?");
                     Console.WriteLine();
-                    Console.WriteLine("Changelog :");
-                    foreach (string st in lastversion.changelog)
-                    {
+                    Console.WriteLine("Modifications :");
+                    foreach (string st in lastversion.modifications)
                         Console.WriteLine("   • " + st);
-                    }
+                    Console.WriteLine("Bugs :");
+                    foreach (string st in lastversion.bugs)
+                        Console.WriteLine("   • " + st);
                     Console.WriteLine();
                     Console.Write("Rétro-compatible : ");
                     if (lastversion.retrocompatible)
@@ -343,7 +344,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     {
                         try
                         {
-                            Librairie.startProcess("https://cody-framework.fr/index.php?r=telecharger");
+                            Librairie.startProcess("https://cody-framework.fr/index.php?routePage=telecharger");
                         }
                         catch (Exception e)
                         {
@@ -504,8 +505,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     {
                         ".git",
                         ".vs",
+                        ".vscode",
                         "release",
                         "documents",
+                        "logs",
                         "tests"
                     };
 

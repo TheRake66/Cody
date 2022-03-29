@@ -11,7 +11,8 @@ namespace Cody
 
         // Information sur la version en prod
         public string version;
-        public List<string> changelog;
+        public List<string> modifications;
+        public List<string> bugs;
         public bool retrocompatible;
 
     }
