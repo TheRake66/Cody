@@ -13,7 +13,7 @@
 		"Balise HTML par composant",
 		"Différenciation entre les modifications et les bugs dans la version"
 	], 
-	"bugs": {
+	"bugs": [
 		"Correction du plantage lors d'un lancement sur un terminal trop petit.",
 		"Correction des sorties de buffer.",
 		"La commande run ne tue pas toutes les instances de PHP.",
@@ -23,6 +23,6 @@
 		"Correction build des fichiers less.",
 		"Cache le dossier kernel lors de la création d'un projet.",
 		"Exclusion du dossier de logs pour la compilation"
-	},
+	],
 	"retrocompatible": false
 }
