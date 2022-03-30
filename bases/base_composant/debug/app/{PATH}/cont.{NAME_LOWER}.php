@@ -1,5 +1,7 @@
 <?php
 namespace Controler{NAMESPACE_SLASH};
+use Kernel\Rest;
+use Kernel\DataBase;
 use Kernel\Render;
 
 
