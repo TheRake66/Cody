@@ -51,19 +51,24 @@ class Security {
 	 * @param string le dn (distinguished name)
 	 * @param string le serveur
 	 * @param int le port
-	 * @return bool si les identifiants sont bon
+	 * @return bool Si les identifiants sont bon
+	 * @throws Si l'extension LDAP n'est pas installee
 	 */
 	static function authLDAP($login, $password, $dn, $host, $port = 389) {
-		$response = false;
-		if ($con = ldap_connect($host, $port)) {
-			ldap_set_option($con, LDAP_OPT_PROTOCOL_VERSION, 3);
-			ldap_set_option($con, LDAP_OPT_REFERRALS, 0);
-			Error::remove();
-			$response = ldap_bind($con, $dn . '\\' . $login, $password);
-			Error::handler();
-			ldap_close($con);
+		if (extension_loaded('ldap') && extension_loaded('openssl')) {
+			$response = false;
+			if ($con = ldap_connect($host, $port)) {
+				ldap_set_option($con, LDAP_OPT_PROTOCOL_VERSION, 3);
+				ldap_set_option($con, LDAP_OPT_REFERRALS, 0);
+				Error::remove();
+				$response = ldap_bind($con, $dn . '\\' . $login, $password);
+				Error::handler();
+				ldap_close($con);
+			}
+			return $response;
+		} else {
+			trigger_error('Les extensions "ldap" et "openssl" ne sont pas activées !');
 		}
-		return $response;
 	}
 
 }

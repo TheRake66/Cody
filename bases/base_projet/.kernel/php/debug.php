@@ -52,6 +52,7 @@ class Debug {
      * @param int le niveau de criticite
      * @param int le type de log
      * @return void
+     * @throws Si le fichier n'est pas accessible
      */
     static function file($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
         $conf = Configuration::get()->log;
@@ -94,7 +95,10 @@ class Debug {
                 }
                 $max = $conf->max_lenght;
                 if ($max > 0) {
-                    $message = mb_strimwidth($message, 0, $max, ' ... [plus de ' . (strlen($message) - $max) . ' caractère(s) restant(s)]');
+                    $len = strlen($message);
+                    if ($len > $max) {
+                        $message = substr($message, 0, $max) . '...[plus de ' . ($len - $max) . ' caractère(s) restant(s)]';
+                    }
                 }
                 $message = '[' . ($now ? $now->format('Y-m-d H:i:s,v') : '????-??-?? ??:??:??,???') . '] [' . $levelstr . '] ' . $message . PHP_EOL;
                 

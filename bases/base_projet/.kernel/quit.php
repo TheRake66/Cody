@@ -12,8 +12,7 @@ k\Less::compile();
 // Ajoute un separateur
 k\Debug::separator();
 
-
-
-ob_flush();
+// Ferme le flux de donnees
+k\Stream::close();
 
 ?>

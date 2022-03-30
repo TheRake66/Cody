@@ -78,9 +78,10 @@ class Error {
         $message .= PHP_EOL . (new Exception())->getTraceAsString();
         Debug::log($message, Debug::LEVEL_ERROR);
         Debug::separator();
-        ob_end_clean();
+        Stream::destroy();
         http_response_code(500);
         if (Configuration::get()->render->show_error_message) {
+            Stream::start();
             $search = urlencode($message);
             echo '
             <div class="ERROR_CODY_BLOCK">
@@ -233,6 +234,7 @@ class Error {
                 }
                 
             </style>';
+            Stream::close();
         }
         die;
     }

@@ -49,7 +49,17 @@ class Url {
 	 * @return string l'url
 	 */
 	static function current() {
-		return $_SERVER['REQUEST_URI'];
+		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	}
+
+
+	/**
+	 * Retourne l'url sans les parametres
+	 * 
+	 * @return string l'url sans les parametres
+	 */
+	static function root() {
+		return explode('?', self::current())[0];
 	}
 
 
@@ -62,16 +72,13 @@ class Url {
 	 * @return string le nouvel url
 	 */
 	static function build($route, $param = [], $addback = false) {
-		$url = '/index.php?routePage=' . $route;
-
+		$url = self::root() . '?routePage=' . $route;
 		foreach ($param as $name => $value) {
 			$url .= '&' . $name . '=' . urlencode($value ?? '');
 		}
-
 		if ($addback) {
-			$url .= '&redirectUrl=' . urlencode($_SERVER['REQUEST_URI']);
+			$url .= '&redirectUrl=' . urlencode(self::current());
 		}
-
 		return $url;
 	}
 	
@@ -86,7 +93,7 @@ class Url {
 	static function changeGet($name, $value) {
 		$query = $_GET;
 		$query[$name] = $value;
-		return $_SERVER['PHP_SELF'] . '?' . http_build_query($query);
+		return self::root() . '?' . http_build_query($query);
 	}
 	
 
@@ -122,7 +129,7 @@ class Url {
 	static function removeGet($name) {
 		$query = $_GET;
 		unset($query[$name]);
-		return $_SERVER['PHP_SELF'] . '?' . http_build_query($query);
+		return self::root() . '?' . http_build_query($query);
 	}
 
 }

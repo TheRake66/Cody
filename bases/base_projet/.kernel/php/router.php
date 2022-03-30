@@ -52,7 +52,7 @@ class Router {
 	 * Charge les routes
 	 * 
 	 * @return void
-	 * @throws \Exception Si le fichier de route n'est pas trouvé
+	 * @throws Si le fichier de route n'est pas trouvé
 	 */
 	static function load() {
 		$f = 'debug/app/route.php';
@@ -91,7 +91,7 @@ class Router {
 	 * Retourne la route actuelle
 	 * 
 	 * @return string le nom de la route
-	 * @throws \Exception Si aucune route n'a ete definie
+	 * @throws Si aucune route n'a ete definie
 	 */
 	static function get() {
 		if (is_null(self::$current)) {
@@ -101,6 +101,7 @@ class Router {
 					if (self::exist($a['routePage'])) {
 						$r = $a['routePage'];
 					} elseif(self::exist(self::$notfound)) {
+						http_response_code(404);
 						$r = self::$notfound;
 					}
 					break;
@@ -163,7 +164,7 @@ class Router {
 	 * @return void
      */
 	static function routing() {
-        Debug::log('Routage (url : "' . $_SERVER['REQUEST_URI'] . '")...', Debug::LEVEL_PROGRESS);
+        Debug::log('Routage (url : "' . Url::current() . '")...', Debug::LEVEL_PROGRESS);
 
 		$c = self::getController();
         Debug::log('Contrôleur identifié : "' . $c . '".');

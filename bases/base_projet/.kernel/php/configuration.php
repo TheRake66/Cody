@@ -20,7 +20,7 @@ class Configuration {
 	 * Charge la configuration
 	 * 
 	 * @return void
-	 * @throws \Exception Si le fichier de configuration n'est pas trouvé
+	 * @throws Si le fichier de configuration n'est pas trouvé
 	 */
 	static function load() {
 		try {
@@ -35,13 +35,13 @@ class Configuration {
 	 * Retourne la configuration actuelle
 	 * 
 	 * @return object la configuration
-	 * @throws \Exception Si la configuration n'est pas chargee
+	 * @throws Si la configuration n'est pas chargee
 	 */
 	static function get() {
 		if (!is_null(self::$current)) {
 			return self::$current;
 		} else {
-			throw new \Exception('La configuration n\'est pas chargée !');
+			trigger_error('La configuration n\'est pas chargée !');
 		}
 	}
 	

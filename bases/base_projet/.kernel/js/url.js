@@ -42,7 +42,17 @@ export default class Url {
 	 * @return {string} l'url
 	 */
 	static current() {
-		return window.location;
+		return window.location.href;
+	}
+
+
+	/**
+	 * Retourne l'url sans les parametres
+	 * 
+	 * @returns {string} l'url sans les parametres
+	 */
+	static root() {
+		return Url.current().split('?')[0];
 	}
 
 
@@ -74,9 +84,9 @@ export default class Url {
 		let _ = {};
         _['routePage'] = route;
 		if (addback) {
-			_['redirectUrl'] = encodeURIComponent(window.location);
+			_['redirectUrl'] = encodeURIComponent(Url.current());
 		}
-        return `/index.php?${Url.objectToParam(Object.assign({}, _, param))}`;
+        return `${Url.root()}?${Url.objectToParam(Object.assign({}, _, param))}`;
 	}
 
 
@@ -90,7 +100,6 @@ export default class Url {
     static changeGet(name, value) {
         let regex = new RegExp("([?;&])" + name + "[^&;]*[;&]?");
         let query = window.location.search.replace(regex, "$1").replace(/&$/, '');
-
         return (query.length > 2 ? query + "&" : "?") + (value ? name + "=" + value : '');
     }
 

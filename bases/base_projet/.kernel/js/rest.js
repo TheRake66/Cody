@@ -1,4 +1,5 @@
 import Http from './http.js';
+import Url from './url.js';
 
 
 
@@ -94,7 +95,7 @@ export default class Rest {
         param = Object.assign({}, _, param);
 
         Http.send(
-            '/index.php',
+            Url.root(),
             response => {
                 if (response !== '') {
                     let json = null;
@@ -102,7 +103,6 @@ export default class Rest {
                     try {
                         json = JSON.parse(response);
                     } catch (error) {
-                        console.error(error);
                         continu = false;
                     }
                     if (continu) {
@@ -140,9 +140,9 @@ export default class Rest {
         _['routePage'] = route;
         _[rest] = true;
         param = Object.assign({}, _, param);
-
+        
         Http.send(
-            '/index.php',
+            Url.root(),
             response => {
                 if (response !== '') {
                     let json = null;
@@ -150,7 +150,6 @@ export default class Rest {
                     try {
                         json = JSON.parse(response);
                     } catch (error) {
-                        console.error(error);
                         continu = false;
                     }
                     if (continu) {

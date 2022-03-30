@@ -24,7 +24,7 @@ class Image {
         $height_or = imagesy($source);
 
         imagecopyresampled($dest, $source, 0, 0, 0, 0, $width, $height, $width_or, $height_or);
-        ob_start();
+        Stream::start();
         switch ($info['mime']) {
             case 'image/jpeg':
                 imagejpeg($dest);
@@ -37,8 +37,8 @@ class Image {
                 break;
 
         }
-        $compress =  ob_get_contents();
-        ob_end_clean();
+        $compress =  Stream::get();
+        Stream::destroy();
 
         return $compress;
     }

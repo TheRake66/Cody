@@ -1,10 +1,4 @@
 <?php
-ob_clean();
-ob_start(function($o) {
-    return preg_replace(
-        ['/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/'], 
-        ['>', '<', '\\1'], $o);
-});
 require_once '.kernel/php/autoloader.php';
 use Kernel as k;
 
@@ -19,6 +13,9 @@ k\Configuration::load();
 // Prepare l'event des erreurs
 k\Error::handler();
 
+// Demarre le flux de donnees
+k\Stream::reset();
+
 // Lance le superviseur
 k\Supervisor::supervise();
 
@@ -28,7 +25,7 @@ k\Security::enableSsl();
 // Defini le fuseau horraire par defaut
 k\Date::timezone();
 
-// Lance une session PHP
+// Lance une session
 k\Session::start();
 
 // Charge les routes

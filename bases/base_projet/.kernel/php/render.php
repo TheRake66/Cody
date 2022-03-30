@@ -14,7 +14,7 @@ class Render {
      * 
      * @param array les variables a passer a la vue au format cle => valeur
      * @return void
-     * @throws \Exception Si le fichier de vue n'est pas trouvé
+     * @throws Si le fichier de vue n'est pas trouvé
      */
     protected function render($variables = null) {
         // Recupere le namespace\class
