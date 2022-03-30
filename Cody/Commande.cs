@@ -355,7 +355,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
             }
             catch (Exception e)
             {
-                if (!silent) Message.writeExcept("Impossible de vérifier les mise à jour !", e);
+                if (!silent) Message.writeExcept("Impossible de vérifier les mises à jour !", e);
             }
         }
 
