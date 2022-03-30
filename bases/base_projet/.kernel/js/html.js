@@ -8,10 +8,11 @@ export default class Html {
      * Retourne un élément HTML via son ID
      * 
      * @param {string} id l'id de l'élément
+     * @param {HTMLElement} parent le parent de l'élément HTML par défaut (body)
      * @returns {HTMLElement} l'élément
      */
-    static id(id) {
-        return document.getElementById(id);
+    static id(id, parent = document.body) {
+        return parent.getElementById(id);
     }
 
 
@@ -19,24 +20,11 @@ export default class Html {
      * Retourne des éléments HTML via leur tag
      * 
      * @param {string} id l'id de l'élément
+     * @param {HTMLElement} parent le parent de l'élément HTML par défaut (body)
      * @returns {HTMLCollectionOf<any>} l'élément
      */
-    static tags(tag) {
-        return document.getElementsByTagName(tag);
-    }
-
-    
-    /**
-     * Retourne un élément HTML via son tag
-     * 
-     * @param {string} id l'id de l'élément
-     * @returns {HTMLElement} l'élément
-     */
-    static tag(tag) {
-        let _ = Html.tags(tag);
-        if (_.length > 0) {
-            return _[0];
-        }
+    static tag(tag, parent = document.body) {
+        return parent.getElementsByTagName(tag);
     }
 
 
@@ -44,10 +32,11 @@ export default class Html {
      * Retourne un élément HTML depuis un selecteur CSS
      * 
      * @param {string} selector le sélecteur css
+     * @param {HTMLElement} parent le parent de l'élément HTML par défaut (body)
      * @returns {HTMLElement} l'élément
      */
-    static query(selector) {
-        return document.querySelector(selector);
+    static query(selector, parent = document.body) {
+        return parent.querySelector(selector);
     }
     
 
@@ -55,10 +44,11 @@ export default class Html {
      * Retourne des éléments HTML depuis leur selecteur CSS
      * 
      * @param {string} selector le sélecteur css
+     * @param {HTMLElement} parent le parent de l'élément HTML par défaut (body)
      * @returns {NodeListOf<Element>} les éléments
      */
-    static queryAll(selector) {
-        return document.querySelectorAll(selector);
+    static queryAll(selector, parent = document.body) {
+        return parent.querySelectorAll(selector);
     }
 
 

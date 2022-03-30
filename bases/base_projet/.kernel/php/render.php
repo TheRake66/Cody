@@ -5,17 +5,17 @@ use Kernel\Html;
 
 
 /**
- * Librairie gerant le rendu des vues
+ * Librairie gerant le rendu composants
  */
 class Render {
 
     /**
-     * Inclut les fichiers pour afficher la vue
+     * Inclut les fichiers pour afficher le composant
      * 
-     * @param object le controlleur en lien avec la vue
+     * @param object le controleur en lien avec le composant
      * @param array les variables a passer a la vue au format cle => valeur
      * @return void
-     * @throws Si le fichier de vue n'est pas trouvé
+     * @throws Si les fichiers (vue, style, script) n'existent pas ou ne sont pas lisible
      */
     static function view($controler = null, $variables = null) {
         // Recupere le namespace\class du controlleur
@@ -49,23 +49,27 @@ class Render {
         }
         
         // Inclut la vue
-        $cont = $folder . 'vue.' . $name . '.php';
+        $vue = $folder . 'vue.' . $name . '.php';
         $style = $folder . 'style.' . $name . '.less';
         $script = $folder . 'script.' . $name . '.js';
 
-        if (!is_file($cont) && !is_readable($cont)) {
-            $cont = str_replace('_', ' ', $cont);
+        if (!is_file($vue) || !is_readable($vue) ||
+            !is_file($style) || !is_readable($style) || 
+            !is_file($script) || !is_readable($script)) {
+            $vue = str_replace('_', ' ', $cont);
             $style = str_replace('_', ' ', $style);
             $script = str_replace('_', ' ', $script);
         }
-        if (is_file($cont) && is_readable($cont)) {
-            include $cont;
+        if (is_file($vue) && is_readable($vue) &&
+            is_file($style) && is_readable($style) &&
+            is_file($script) && is_readable($script)) {
+            include $vue;
             // Inclut le style
             echo Html::importStyle($style);
             // Inclut et initialise le script
             echo Html::importScript($script, 'module', $varname, $class);
         } else {
-            trigger_error('Impossible de faire le rendu de : "' . $full . '" !');
+            trigger_error('Impossible de faire le rendu du composant "' . $full . '" !');
         }
     }
     
