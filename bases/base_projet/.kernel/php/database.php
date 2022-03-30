@@ -1,13 +1,13 @@
 <?php
 namespace Kernel;
 use DateTime;
-
+use PDO;
 
 
 /**
  * Librairie de connexion et de traitement (CRUD) de la base de donnees
  */
-class DataBase extends \PDO {
+class DataBase {
     
     /**
      * Instance PDO
@@ -28,33 +28,31 @@ class DataBase extends \PDO {
      * Creer une instance PDO
      *
      * @param array configuration de la base de donnees
-     * @return void
+     * @return object instance PDO
      * @throws si la connexion echoue
      */
-    private function __construct($conf) {
+    private function init($conf) {
         Debug::log('Connexion à la base de données "' . $conf->name . '"...', Debug::LEVEL_PROGRESS);
+        $pdo = null;
+        $dsn = $conf->type . 
+            ':host=' . $conf->host . 
+            ';port=' . $conf->port . 
+            ';dbname=' . $conf->name . 
+            ';charset=' . $conf->encoding;
+        $options = [
+            PDO::ATTR_PERSISTENT => $conf->persistent_mode,
+            PDO::ATTR_EMULATE_PREPARES => $conf->emulate_prepare,
+            PDO::ATTR_ERRMODE => $conf->throw_sql_error ?
+                    PDO::ERRMODE_EXCEPTION :
+                    PDO::ERRMODE_SILENT
+        ];
         try {
-            $dsn = $conf->type . 
-                ':host=' . $conf->host . 
-                ';port=' . $conf->port . 
-                ';dbname=' . $conf->name . 
-                ';charset=' . $conf->encoding;
-            $options = [
-                parent::ATTR_PERSISTENT => $conf->persistent_mode,
-                parent::ATTR_EMULATE_PREPARES => $conf->emulate_prepare,
-                parent::ATTR_ERRMODE => $conf->throw_sql_error ?
-                        parent::ERRMODE_EXCEPTION :
-                        parent::ERRMODE_SILENT
-            ];
-            parent::__construct(
-                $dsn, 
-                $conf->login,  
-                $conf->password, 
-                $options);
+            $pdo = new PDO($dsn, $conf->login, $conf->password, $options);
         } catch (\Exception $e) {
             trigger_error('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
         }
         Debug::log('Connexion réussite.', Debug::LEVEL_GOOD);
+        return $pdo;
     }
 
 
@@ -76,11 +74,11 @@ class DataBase extends \PDO {
             return self::$instances[self::$current];
         } else {
             if ($conf->progressive_connection) {
-                self::$instances[self::$current] = new DataBase(self::getConfiguration());
+                self::$instances[self::$current] = self::init(self::getConfiguration());
                 return self::$instances[self::$current];
             } else {
                 foreach ($conf->databases_list as $database) {
-                    self::$instances[$database->name] = new DataBase($database);
+                    self::$instances[$database->name] = self::init($database);
                 } 
                 if (array_key_exists(self::$current, self::$instances)) {
                     return self::$instances[self::$current];
@@ -123,7 +121,7 @@ class DataBase extends \PDO {
         Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
         $rqt = self::getInstance()->prepare($sql);
         if (!is_null($class)) {
-            $rqt->setFetchMode(parent::FETCH_INTO, new $class());
+            $rqt->setFetchMode(PDO::FETCH_INTO, new $class());
         }
         $rqt->execute($parsed);
         Debug::log('Requête SQL exécutée.', Debug::LEVEL_GOOD, Debug::TYPE_QUERY);
@@ -227,7 +225,7 @@ class DataBase extends \PDO {
     static function begin() {
         $conf = self::getConfiguration();
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
-            self::getInstance()->setAttribute(parent::ATTR_ERRMODE, parent::ERRMODE_EXCEPTION);
+            self::getInstance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         return self::getInstance()->beginTransaction();
     }
@@ -241,7 +239,7 @@ class DataBase extends \PDO {
     static function reverse() {
         $conf = self::getConfiguration();
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
-            self::getInstance()->setAttribute(parent::ATTR_ERRMODE, parent::ERRMODE_SILENT);
+            self::getInstance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
         }
         return self::getInstance()->rollBack();
     }
@@ -255,7 +253,7 @@ class DataBase extends \PDO {
     static function end() {
         $conf = self::getConfiguration();
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
-            self::getInstance()->setAttribute(parent::ATTR_ERRMODE, parent::ERRMODE_SILENT);
+            self::getInstance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
         }
         return self::getInstance()->commit();
     }
@@ -291,7 +289,7 @@ class DataBase extends \PDO {
      * @return array ligne de la base
      */
     static function fetchRow($sql, $params = []) {
-        return self::returnLog(self::send($sql, $params)->fetch(parent::FETCH_ASSOC));
+        return self::returnLog(self::send($sql, $params)->fetch(PDO::FETCH_ASSOC));
     }
 
     
@@ -303,7 +301,7 @@ class DataBase extends \PDO {
      * @return array les lignes de la base
      */
     static function fetchAll($sql, $params = []) {
-        return self::returnLog(self::send($sql, $params)->fetchAll(parent::FETCH_ASSOC));
+        return self::returnLog(self::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC));
     }
 
     
@@ -315,7 +313,7 @@ class DataBase extends \PDO {
      * @return object valeur de la base
      */
     static function fetchCell($sql, $params = []) {
-        $res = self::send($sql, $params)->fetch(parent::FETCH_ASSOC);
+        $res = self::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
         if (!is_null($res) && !empty($res)) {
             return self::returnLog(array_values($res)[0]);
         }
@@ -344,7 +342,7 @@ class DataBase extends \PDO {
      * @return array liste d'objets hydrate
      */
     static function fetchObjects($sql, $type, $params = []) {
-        return self::returnLog(self::send($sql, $params)->fetchAll(parent::FETCH_CLASS | parent::FETCH_PROPS_LATE, $type));
+        return self::returnLog(self::send($sql, $params)->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
     }
 
 
