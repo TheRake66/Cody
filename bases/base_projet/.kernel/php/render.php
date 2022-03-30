@@ -12,13 +12,14 @@ class Render {
     /**
      * Inclut les fichiers pour afficher la vue
      * 
+     * @param object le controlleur en lien avec la vue
      * @param array les variables a passer a la vue au format cle => valeur
      * @return void
      * @throws Si le fichier de vue n'est pas trouvé
      */
-    protected function render($variables = null) {
-        // Recupere le namespace\class
-        $full = get_class($this);
+    static function view($controler = null, $variables = null) {
+        // Recupere le namespace\class du controlleur
+        $full = is_null($controler) ? debug_backtrace()[1]['class'] : get_class($controler);
 
         // Coupe le namespace et de la class
         $explode = explode('\\', $full);

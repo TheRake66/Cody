@@ -7,14 +7,14 @@ use Kernel\Render;
 /**
  * Controleur du composant {NAME_UPPER}
  */
-class {NAME_UPPER} extends Render {
+class {NAME_UPPER} {
 
     /**
      * Constructeur
      */
     function __construct() {
         // Rendu de la vue
-        $this->render();
+        Render::display();
     }
 
 }
