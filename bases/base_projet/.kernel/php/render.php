@@ -12,11 +12,11 @@ class Render {
     /**
      * Inclut les fichiers pour afficher la vue
      * 
-     * @param array les variables a passer a la vue
+     * @param array les variables a passer a la vue au format cle => valeur
      * @return void
      * @throws \Exception Si le fichier de vue n'est pas trouvé
      */
-    protected function view($variables = []) {
+    protected function render($variables = null) {
         // Recupere le namespace\class
         $full = get_class($this);
 
@@ -25,14 +25,28 @@ class Render {
         $class = end($explode);
         $namespace = array_slice($explode, 1, count($explode) - 1);
         
-        // Construit les nom de fichier et le dossier
+        // Construit les noms de fichier et le dossier
         $folder = 'debug/app/' . strtolower(implode('/', $namespace)) . '/';
         $varname = strtolower(implode('_', $namespace));
         $name = strtolower($class);
         
         // Envoi les variables a la vue
-        extract($variables);
-
+        if (!is_null($variables)) {
+            if (is_array($variables)) {
+                if (count(array_filter(array_keys($variables), 'is_string')) > 0) {
+                    extract($variables);
+                } else {
+                    $_ = [];
+                    for ($i = 0; $i < count($variables); $i++) {
+                        $_['_'.$i] = $variables[$i];
+                    }
+                    extract($_);
+                }
+            } else {
+                extract([ '_0' => $variables ]);
+            }
+        }
+        
         // Inclut la vue
         $cont = $folder . 'vue.' . $name . '.php';
         $style = $folder . 'style.' . $name . '.less';
@@ -52,7 +66,6 @@ class Render {
         } else {
             trigger_error('Impossible de faire le rendu de : "' . $full . '" !');
         }
-
     }
     
 }

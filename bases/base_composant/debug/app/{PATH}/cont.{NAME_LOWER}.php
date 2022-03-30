@@ -14,7 +14,7 @@ class {NAME_UPPER} extends Render {
      */
     function __construct() {
         // Rendu de la vue
-        $this->view();
+        $this->render();
     }
 
 }
