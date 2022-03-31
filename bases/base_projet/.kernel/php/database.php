@@ -31,7 +31,7 @@ class DataBase {
      * @return object instance PDO
      * @throws si la connexion echoue
      */
-    private function init($conf) {
+    private static function init($conf) {
         Debug::log('Connexion à la base de données "' . $conf->name . '"...', Debug::LEVEL_PROGRESS);
         $pdo = null;
         $dsn = $conf->type . 
