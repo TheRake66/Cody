@@ -19,7 +19,9 @@ class Render {
      */
     static function view($controler = null, $variables = null) {
         // Recupere le namespace\class du controlleur
-        $full = is_null($controler) ? debug_backtrace()[1]['class'] : get_class($controler);
+        $full = is_null($controler) ? 
+            debug_backtrace()[1]['class'] : 
+            get_class($controler);
 
         // Coupe le namespace et de la class
         $explode = explode('\\', $full);
@@ -63,7 +65,7 @@ class Render {
         if (is_file($vue) && is_readable($vue) &&
             is_file($style) && is_readable($style) &&
             is_file($script) && is_readable($script)) {
-            include $vue;
+            require $vue;
             // Inclut le style
             echo Html::importStyle($style);
             // Inclut et initialise le script

@@ -91,6 +91,45 @@ class Html {
     
 
     /**
+     * Ajoute des attributs HTML
+     * 
+     * @param array les attributs [attribut => valeur]
+     * @return string l'attribut formatte
+     */
+    static function setAttribs($array) {
+        $_ = '';
+        foreach ($array as $name => $value) {
+            $_ .= Html::setAttrib($value, $name);
+        }
+        return $_;
+    }
+
+
+    /**
+     * Cree un attribut HTML
+     * 
+     * @param string la balise HTML
+     * @param array les attributs [attribut => valeur]
+     * @param string le contenu de la balise
+     * @return string l'attribut formatte
+     */
+    static function createElement($tag, $attr = null, $content = null) {
+        $_ = '<' . $tag;
+        if ($attr) {
+            foreach ($attr as $key => $value) {
+                $_ .= ' ' . $key . '="' . $value . '"';
+            }
+        }
+        if ($content) {
+            $_ .= '>' . $content . '</' . $tag . '>';
+        } else {
+            $_ .= '/>';
+        }
+        return $_;
+    }
+    
+
+    /**
      * Ajoute un attribut HTML
      * 
      * @param string valeur de l'attribut
