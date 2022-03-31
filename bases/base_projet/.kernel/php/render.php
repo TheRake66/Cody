@@ -55,16 +55,13 @@ class Render {
         $style = $folder . 'style.' . $name . '.less';
         $script = $folder . 'script.' . $name . '.js';
 
-        if (!is_file($vue) || !is_readable($vue) ||
-            !is_file($style) || !is_readable($style) || 
-            !is_file($script) || !is_readable($script)) {
-            $vue = str_replace('_', ' ', $cont);
+        if (!is_file($vue) || !is_readable($vue)) {
+            $vue = str_replace('_', ' ', $vue);
             $style = str_replace('_', ' ', $style);
             $script = str_replace('_', ' ', $script);
         }
-        if (is_file($vue) && is_readable($vue) &&
-            is_file($style) && is_readable($style) &&
-            is_file($script) && is_readable($script)) {
+        
+        if (is_file($vue) && is_readable($vue)) {
             require $vue;
             // Inclut le style
             echo Html::importStyle($style);

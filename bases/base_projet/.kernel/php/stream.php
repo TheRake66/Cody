@@ -18,7 +18,7 @@ class Stream {
 	static function start($callback = null) {
 		$conf = Configuration::get();
 		if ($conf->render->use_minifying) {
-			if (extension_loaded('ob_gzhandler')) {
+			if (extension_loaded('zlib')) {
 				ob_start('ob_gzhandler');
 			} else {
 				trigger_error('L\'extension zlib n\'est pas activée !');

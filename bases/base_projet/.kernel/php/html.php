@@ -274,7 +274,6 @@ class Html {
             $inf = pathinfo($file);
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.js';
         }
-        
         if (is_null($name) && is_null($class)) {
             $js = '<script type="' . $type . '" src="' . $file . '"></script>';
         } else {
