@@ -106,7 +106,11 @@ export default class Rest {
                         continu = false;
                     }
                     if (continu) {
-                        if (callback) callback(json);
+                        if (json !== null) {
+                            if (callback) callback(json);
+                        } else {
+                            if (empty) empty();
+                        }
                     } else {
                         if (fail) fail();
                     }
@@ -153,7 +157,7 @@ export default class Rest {
                         continu = false;
                     }
                     if (continu) {
-                        if (json.length > 0) {
+                        if (json !== null && json.length > 0) {
                             if (pre) pre();
                             json.forEach(element => callback(element));
                             if (post) post();
