@@ -16,7 +16,7 @@ class {NAME_UPPER} {
      */
     function __construct() {
         // Rendu de la vue
-        Render::display();
+        Render::view();
     }
 
 }
