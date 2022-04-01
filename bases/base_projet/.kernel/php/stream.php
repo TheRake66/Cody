@@ -18,11 +18,11 @@ class Stream {
 	static function start($callback = null) {
 		$conf = Configuration::get();
 		if ($conf->render->use_minifying) {
-			if (extension_loaded('zlib')) {
-				ob_start('ob_gzhandler');
-			} else {
-				trigger_error('L\'extension zlib n\'est pas activée !');
-			}
+			ob_start(function($o) {
+				return preg_replace(
+					['/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/'], 
+					['>', '<', '\\1'], $o);
+			});
 		} else {
 			ob_start($callback);
 		}
