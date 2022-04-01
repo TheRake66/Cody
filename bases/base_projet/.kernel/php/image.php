@@ -16,31 +16,43 @@ class Image {
      * @param int la hauteur finale
      * @return string l'image compressee
      */
-    static function compressFromString($data, $width = 128, $height = 128) {
-        $source = imagecreatefromstring($data);
-        $info = getimagesizefromstring($data);
-        $dest = imagecreatetruecolor($width, $height);
-        $width_or = imagesx($source);
-        $height_or = imagesy($source);
+    static function compressFromString($data, $width = 128, $height = 128, $stretch = false) {
+        if (extension_loaded('gd') || extension_loaded('gd2')) {
+            $source = imagecreatefromstring($data);
+            $info = getimagesizefromstring($data);
+            $width_or = imagesx($source);
+            $height_or = imagesy($source);
 
-        imagecopyresampled($dest, $source, 0, 0, 0, 0, $width, $height, $width_or, $height_or);
-        Stream::start();
-        switch ($info['mime']) {
-            case 'image/jpeg':
-                imagejpeg($dest);
-                break;
-            case 'image/gif':
-                imagegif($dest);
-                break;
-            case 'image/png':
-                imagepng($dest);
-                break;
+            if (!$stretch) {
+                $ratio = min($width / $width_or, $height / $height_or);
+                $width = $width_or * $ratio;
+                $height = $height_or * $ratio;
+            }
 
+            $dest = imagecreatetruecolor($width, $height);
+            imagealphablending($dest, false);
+            imagesavealpha($dest, true);
+            imagecopyresampled($dest, $source, 0, 0, 0, 0, $width, $height, $width_or, $height_or);
+            
+            Stream::start();
+            switch ($info['mime']) {
+                case 'image/jpeg':
+                    imagejpeg($dest);
+                    break;
+                case 'image/gif':
+                    imagegif($dest);
+                    break;
+                case 'image/png':
+                    imagepng($dest);
+                    break;
+            }
+            $compress =  Stream::get();
+            Stream::destroy();
+    
+            return $compress;
+        } else {
+            trigger_error('L\'extension GD/GD2 n\'est pas disponible !');
         }
-        $compress =  Stream::get();
-        Stream::destroy();
-
-        return $compress;
     }
     
 
