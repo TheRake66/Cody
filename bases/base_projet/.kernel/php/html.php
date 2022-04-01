@@ -111,9 +111,10 @@ class Html {
      * @param string la balise HTML
      * @param array les attributs [attribut => valeur]
      * @param string le contenu de la balise
+     * @param bool si la balise est une balise autofermante
      * @return string l'attribut formatte
      */
-    static function createElement($tag, $attr = null, $content = null) {
+    static function createElement($tag, $attr = null, $content = null, $selfClose = true) {
         $_ = '<' . $tag;
         if ($attr) {
             foreach ($attr as $key => $value) {
@@ -123,7 +124,11 @@ class Html {
         if ($content) {
             $_ .= '>' . $content . '</' . $tag . '>';
         } else {
-            $_ .= '/>';
+            if ($selfClose) {
+                $_ .= ' />';
+            } else {
+                $_ .= '></' . $tag . '>';
+            }
         }
         return $_;
     }
