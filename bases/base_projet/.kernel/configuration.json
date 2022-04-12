@@ -4,6 +4,7 @@
     },
     "render": {
         "use_minifying": false,
+        "catch_error": true, 
         "show_error_message": true,
         "show_supervisor": true,
         "wait_dom_loaded": true,

@@ -24,7 +24,7 @@ class Error {
      * @return void
      */
     static function handler() {
-        if (!self::$showing) {
+        if (!self::$showing && Configuration::get()->render->catch_error) {
             set_error_handler(function($severity, $message, $filename, $lineno) {
                 self::showError($severity, $message, $filename, $lineno);
             });
@@ -40,9 +40,11 @@ class Error {
      * 
      * @return void
      */
-    static function remove() {    
-        set_error_handler(function() { });
-        register_shutdown_function(function() { });
+    static function remove() { 
+        if (Configuration::get()->render->catch_error) {
+            set_error_handler(function() { });
+            register_shutdown_function(function() { });
+        }
     }
 
 

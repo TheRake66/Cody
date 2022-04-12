@@ -86,7 +86,10 @@ class Html {
      * @return bool si on ajoute le parametre de retour
      */
     static function setAction($route = null, $param = [], $addback = false) {
-        return Html::setAttrib(Url::build($route ?? Router::get(), $param, $addback), 'action');
+        $url = $route !== null ? 
+            Url::build($route, $param, $addback) :
+            Url::current();
+        return Html::setAttrib($url, 'action');
     }
     
 
