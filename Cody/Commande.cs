@@ -519,7 +519,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         {
                             string c = Directory.GetCurrentDirectory();
                             string t = Path.Combine(c, "release");
-                            Directory.Delete(t, true);
+                            if (Directory.Exists(t)) {
+                                Directory.Delete(t, true);
+                            }
                             Directory.CreateDirectory(t);
                             recursiveCopyAndMinify(c, c, t, excludedFiles, excludedFolder);
                             Console.WriteLine("Le projet a été construit. N'oubliez pas de modifier le fichier de configuration afin de faire la mise en production.");

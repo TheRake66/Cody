@@ -1,5 +1,5 @@
 {
-	"version": "7.18.53.0",
+	"version": "7.18.54.0",
 	"modifications": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -22,7 +22,8 @@
 		"Correction npm sur Ubuntu.",
 		"Correction build des fichiers less.",
 		"Cache le dossier kernel lors de la création d'un projet.",
-		"Exclusion du dossier de logs pour la compilation."
+		"Exclusion du dossier de logs pour la compilation.",
+		"Vérification de l'existance du dossier release."
 	],
 	"retrocompatible": false
 }
