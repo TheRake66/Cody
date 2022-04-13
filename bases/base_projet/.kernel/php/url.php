@@ -44,12 +44,32 @@ class Url {
 
 	
 	/**
+	 * Retourne le protocol actuel (http ou https)
+	 * 
+	 * @return string le protocol
+	 */
+	static function protocol() {
+		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+	}
+
+	
+	/**
+	 * Retourne l'adresse du serveur (https://localhost:6600)
+	 * 
+	 * @return string l'adresse
+	 */
+	static function host() {
+		return self::protocol() . '://' . $_SERVER['HTTP_HOST'];
+	}
+
+	
+	/**
 	 * Retourne l'url actuelle
 	 * 
 	 * @return string l'url
 	 */
 	static function current() {
-		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		return self::host() . $_SERVER['REQUEST_URI'];
 	}
 
 
@@ -59,7 +79,7 @@ class Url {
 	 * @return string l'url sans les parametres
 	 */
 	static function root() {
-		return explode('?', self::current())[0];
+		return self::host() . $_SERVER['PHP_SELF'];
 	}
 
 
