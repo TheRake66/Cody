@@ -60,7 +60,7 @@ export default class Rest {
      * @returns void
      */
     static getFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = null) {
-        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, Http.METHOD_GET, timeout = null);
+        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, Http.METHOD_GET, timeout);
     }
 
     
