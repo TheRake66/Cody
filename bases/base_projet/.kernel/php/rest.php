@@ -48,7 +48,6 @@ class Rest {
 			$res = $fn();
 			Debug::log('Requête REST exécutée.', Debug::LEVEL_GOOD, Debug::TYPE_QUERY);
 			Debug::log('Résultat de la requête REST : "' . print_r(json_encode($res, JSON_PRETTY_PRINT), true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_RESULTS);
-			Debug::separator();
 			Stream::destroy();
 			Stream::start();
 			echo json_encode($res);

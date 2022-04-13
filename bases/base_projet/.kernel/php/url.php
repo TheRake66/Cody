@@ -11,14 +11,24 @@ class Url {
 	/**
 	 * Accede a une url
 	 * 
+	 * @param string l'url
+     * @return void
+	 */
+	static function location($url) {
+		header('Location: ' . $url);
+		exit;
+	}
+
+	/**
+	 * Accede a une url dans l'appli
+	 * 
 	 * @param string la route
 	 * @param array les params
 	 * @param string le back
      * @return void
 	 */
 	static function go($route, $param = [], $addback = false) {
-		header('Location: ' . self::build($route, $param, $addback));
-		exit;
+		self::location(self::build($route, $param, $addback));
 	}
 	
 
@@ -28,8 +38,7 @@ class Url {
      * @return void
 	 */
 	static function reload() {
-		header('Location: ' . self::current());
-		exit;
+		self::location(self::current());
 	}
 
 

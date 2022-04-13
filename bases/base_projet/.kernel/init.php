@@ -16,6 +16,9 @@ k\Error::handler();
 // Demarre le flux de donnees
 k\Stream::reset();
 
+// Ajoute un separateur dans la log
+k\Debug::separator();
+
 // Lance le superviseur
 k\Supervisor::supervise();
 
