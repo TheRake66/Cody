@@ -13,14 +13,16 @@ export default class Rest {
      * 
      * @param {string} route la route
      * @param {string} rest le nom de la fonction cote API
-     * @param {function} callback fonction anonyme appeler lors de la reponse
+     * @param {function} sucess fonction anonyme appeler lors de la reponse
      * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} fail fonction anonyme appeler si echec
+     * @param {function} failed fonction anonyme appeler si echec
+     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
      * @param {Array} param les parametres supplementaires a l'URL
+     * @param {Number} timeout le temps d'attente avant echec
      * @returns void
      */
-    static get(route, rest, callback = null, empty = null, fail = null, param = {}) {
-        return Rest.#ask(route, rest, callback, empty, fail, param, Http.METHOD_GET);
+    static get(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = null) {
+        return Rest.#ask(route, rest, sucess, empty, failed, expired, param, Http.METHOD_GET, timeout);
     }
     
 
@@ -29,14 +31,16 @@ export default class Rest {
      * 
      * @param {string} route la route
      * @param {string} rest le nom de la fonction cote API
-     * @param {function} callback fonction anonyme appeler lors de la reponse
+     * @param {function} sucess fonction anonyme appeler lors de la reponse
      * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} fail fonction anonyme appeler si echec
+     * @param {function} failed fonction anonyme appeler si echec
+     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
      * @param {Array} param les parametres supplementaires dans le corps de la requete
+     * @param {Number} timeout le temps d'attente avant echec
      * @returns void
      */
-    static post(route, rest, callback = null, empty = null, fail = null, param = {}) {
-        return Rest.#ask(route, rest, callback, empty, fail, param, Http.METHOD_POST);
+    static post(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = null) {
+        return Rest.#ask(route, rest, sucess, empty, failed, expired, param, Http.METHOD_POST, timeout);
     }
 
     
@@ -45,16 +49,18 @@ export default class Rest {
      * 
      * @param {string} route la route
      * @param {string} rest le nom de la fonction cote API
-     * @param {function} callback fonction anonyme appeler sur chaque reponse
+     * @param {function} sucess fonction anonyme appeler sur chaque reponse
      * @param {function} pre fonction anonyme appeler avant l'iteration
      * @param {function} post fonction anonyme appeler apres l'iteration
      * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} fail fonction anonyme appeler si echec
+     * @param {function} failed fonction anonyme appeler si echec
+     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
      * @param {Array} param les parametres supplementaires a l'URL
+     * @param {Number} timeout le temps d'attente avant echec
      * @returns void
      */
-    static getFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}) {
-        return Rest.#askFor(route, rest, callback, pre, post, empty, fail, param, Http.METHOD_GET);
+    static getFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = null) {
+        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, Http.METHOD_GET, timeout = null);
     }
 
     
@@ -63,16 +69,18 @@ export default class Rest {
      * 
      * @param {string} route la route
      * @param {string} rest le nom de la fonction cote API
-     * @param {function} callback fonction anonyme appeler sur chaque reponse
+     * @param {function} sucess fonction anonyme appeler sur chaque reponse
      * @param {function} pre fonction anonyme appeler avant l'iteration
      * @param {function} post fonction anonyme appeler apres l'iteration
      * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} fail fonction anonyme appeler si echec
+     * @param {function} failed fonction anonyme appeler si echec
+     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
      * @param {Array} param les parametres supplementaires dans le corps de la requete
+     * @param {Number} timeout le temps d'attente avant echec
      * @returns void
      */
-    static postFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}) {
-        return Rest.#askFor(route, rest, callback, pre, post, empty, fail, param, Http.METHOD_POST);
+    static postFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = null) {
+        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, Http.METHOD_POST, timeout);
     }
 
 
@@ -81,14 +89,16 @@ export default class Rest {
      * 
      * @param {string} route la route
      * @param {string} rest le nom de la fonction cote API
-     * @param {function} callback fonction anonyme appeler lors de la reponse
+     * @param {function} sucess fonction anonyme appeler lors de la reponse
      * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} fail fonction anonyme appeler si echec
+     * @param {function} failed fonction anonyme appeler si echec
+     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
      * @param {Array} param les parametres supplementaires a l'URL
      * @param {string} method la methode d'envoi
+     * @param {Number} timeout le temps d'attente avant echec
      * @returns void
      */
-    static #ask(route, rest, callback = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
+    static #ask(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, method = Http.METHOD_GET, timeout = null) {
         let _ = {};
         _['routePage'] = route;
         _['restFunction'] = rest;
@@ -107,20 +117,22 @@ export default class Rest {
                     }
                     if (continu) {
                         if (json !== null) {
-                            if (callback) callback(json);
+                            if (sucess) sucess(json);
                         } else {
                             if (empty) empty();
                         }
                     } else {
-                        if (fail) fail();
+                        if (failed) failed();
                     }
                 } else {
                     if (empty) empty();
                 }
             },
-            fail,
+            failed,
+            expired,
             method,
-            param
+            param,
+            timeout
         );
     }
 
@@ -130,16 +142,18 @@ export default class Rest {
      * 
      * @param {string} route la route
      * @param {string} rest le nom de la fonction cote API
-     * @param {function} callback fonction anonyme appeler sur chaque reponse
+     * @param {function} sucess fonction anonyme appeler sur chaque reponse
      * @param {function} pre fonction anonyme appeler avant l'iteration
      * @param {function} post fonction anonyme appeler apres l'iteration
      * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} fail fonction anonyme appeler si echec
+     * @param {function} failed fonction anonyme appeler si echec
+     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
      * @param {Array} param les parametres supplementaires a l'URL
      * @param {string} method la methode d'envoi
+     * @param {Number} timeout le temps d'attente avant echec
      * @returns void
      */
-    static #askFor(route, rest, callback = null, pre = null, post = null, empty = null, fail = null, param = {}, method = Http.METHOD_GET) {
+    static #askFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, method = Http.METHOD_GET, timeout = null) {
         let _ = {};
         _['routePage'] = route;
         _['restFunction'] = rest;
@@ -159,21 +173,23 @@ export default class Rest {
                     if (continu) {
                         if (json !== null && json.length > 0) {
                             if (pre) pre();
-                            json.forEach(element => callback(element));
+                            json.forEach(element => sucess(element));
                             if (post) post();
                         } else {
                             if (empty) empty();
                         }
                     } else {
-                        if (fail) fail();
+                        if (failed) failed();
                     }
                 } else {
                     if (empty) empty();
                 }
             },
-            fail,
+            failed,
+            expired,
             method,
-            param
+            param,
+            timeout
         );
     }
 
