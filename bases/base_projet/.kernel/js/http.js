@@ -26,11 +26,12 @@ export default class Http {
      * @param {string} method type de requete
      * @param {string} param corps de la requete 
      * @param {Number} timeout temps d'attente avant expiration de la requete
+     * @param {boolean} asynchronous si la requete s'execute en asynchrone
      * @returns void
      */
-    static send(url, success = null, failed = null, expired = null, method = 'GET', param = null, timeout = null) {
+    static send(url, success = null, failed = null, expired = null, method = 'GET', param = {}, timeout = 0, asynchronous = true) {
         let xml = new XMLHttpRequest();
-        xml.open(method, method === Http.METHOD_GET ? `${url}?${Url.objectToParam(param)}`: url, false);
+        xml.open(method, method === Http.METHOD_GET ? `${url}?${Url.objectToParam(param)}`: url, asynchronous);
         if (timeout) xml.timeout = timeout;
         if (expired) xml.ontimeout = expired;
         if (failed) xml.onerror = failed;

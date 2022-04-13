@@ -19,10 +19,11 @@ export default class Rest {
      * @param {function} expired fonction anonyme appeler si temps d'attente depasse
      * @param {Array} param les parametres supplementaires a l'URL
      * @param {Number} timeout le temps d'attente avant echec
+     * @param {boolean} asynchronous si la requete s'execute en asynchrone
      * @returns void
      */
-    static get(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = null) {
-        return Rest.#ask(route, rest, sucess, empty, failed, expired, param, Http.METHOD_GET, timeout);
+    static get(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
+        return Rest.#ask(route, rest, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_GET);
     }
     
 
@@ -37,10 +38,11 @@ export default class Rest {
      * @param {function} expired fonction anonyme appeler si temps d'attente depasse
      * @param {Array} param les parametres supplementaires dans le corps de la requete
      * @param {Number} timeout le temps d'attente avant echec
+     * @param {boolean} asynchronous si la requete s'execute en asynchrone
      * @returns void
      */
-    static post(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = null) {
-        return Rest.#ask(route, rest, sucess, empty, failed, expired, param, Http.METHOD_POST, timeout);
+    static post(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
+        return Rest.#ask(route, rest, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_POST);
     }
 
     
@@ -57,10 +59,11 @@ export default class Rest {
      * @param {function} expired fonction anonyme appeler si temps d'attente depasse
      * @param {Array} param les parametres supplementaires a l'URL
      * @param {Number} timeout le temps d'attente avant echec
+     * @param {boolean} asynchronous si la requete s'execute en asynchrone
      * @returns void
      */
-    static getFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = null) {
-        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, Http.METHOD_GET, timeout);
+    static getFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
+        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_GET);
     }
 
     
@@ -77,10 +80,11 @@ export default class Rest {
      * @param {function} expired fonction anonyme appeler si temps d'attente depasse
      * @param {Array} param les parametres supplementaires dans le corps de la requete
      * @param {Number} timeout le temps d'attente avant echec
+     * @param {boolean} asynchronous si la requete s'execute en asynchrone
      * @returns void
      */
-    static postFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = null) {
-        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, Http.METHOD_POST, timeout);
+    static postFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
+        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_POST);
     }
 
 
@@ -96,9 +100,10 @@ export default class Rest {
      * @param {Array} param les parametres supplementaires a l'URL
      * @param {string} method la methode d'envoi
      * @param {Number} timeout le temps d'attente avant echec
+     * @param {boolean} asynchronous si la requete s'execute en asynchrone
      * @returns void
      */
-    static #ask(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, method = Http.METHOD_GET, timeout = null) {
+    static #ask(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true, method = Http.METHOD_GET) {
         let _ = {};
         _['routePage'] = route;
         _['restFunction'] = rest;
@@ -132,7 +137,8 @@ export default class Rest {
             expired,
             method,
             param,
-            timeout
+            timeout,
+            asynchrone
         );
     }
 
@@ -151,9 +157,10 @@ export default class Rest {
      * @param {Array} param les parametres supplementaires a l'URL
      * @param {string} method la methode d'envoi
      * @param {Number} timeout le temps d'attente avant echec
+     * @param {boolean} asynchronous si la requete s'execute en asynchrone
      * @returns void
      */
-    static #askFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, method = Http.METHOD_GET, timeout = null) {
+    static #askFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true, method = Http.METHOD_GET) {
         let _ = {};
         _['routePage'] = route;
         _['restFunction'] = rest;
@@ -189,7 +196,8 @@ export default class Rest {
             expired,
             method,
             param,
-            timeout
+            timeout,
+            asynchrone
         );
     }
 
