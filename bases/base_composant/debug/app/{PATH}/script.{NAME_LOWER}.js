@@ -1,6 +1,6 @@
-import Html from '{BACK_PATH}../../../html.js';
-import Rest from '{BACK_PATH}../../../rest.js';
-import Url from '{BACK_PATH}../../../url.js';
+import Html from '{BACK_PATH}../../../.kernel/js/html.js';
+import Rest from '{BACK_PATH}../../../.kernel/js/rest.js';
+import Url from '{BACK_PATH}../../../.kernel/js/url.js';
 
 
 
