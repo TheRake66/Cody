@@ -183,18 +183,25 @@ class DataBase {
     private static function buildClause($obj, $clause = null) {
         $sql = '';
         $arr = [];
+        $none = is_null($clause) ||
+                !is_array($clause) && empty($clause) ||
+                is_array($clause) && count($clause) == 0;
         if (is_null($clause)) $clause = $obj::PRIMARY;
         foreach ((array)$obj as $prop => $val) {
-            if (is_null($clause) ||
-                !is_array($clause) && empty($clause) ||
-                is_array($clause) && count($clause) == 0) {
-                $sql .= 'WHERE ' . str_replace('*', '', $prop) . ' = ? ';
-                $arr[] = $val;
-                break;
-            } elseif (!is_array($clause) && $prop == $clause ||
-                       is_array($clause) && in_array($prop, $clause)) {
-                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . str_replace('*', '', $prop) . ' = ? ';
-                $arr[] = $val;
+            $prop = str_replace('*', '', $prop);
+            if ($none ||
+                (!is_array($clause) && $prop == $clause ||
+                is_array($clause) && in_array($prop, $clause))) {
+                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . $prop;
+                if (!is_null($val)) {
+                    $sql .= ' = ? ';
+                    $arr[] = $val;
+                } else {
+                    $sql .= ' IS NULL ';
+                }
+                if ($none) {
+                    break;
+                }
             }
         }
         $len = strlen($sql);
