@@ -101,7 +101,7 @@
     "name": "Modal",
     "created": "2022-04-19T10:17:52.6687298+02:00",
     "madeby": "thiba",
-    "description": "Création de boite de dialogue avec contenu.",
+    "description": "Création de boite de dialogue avec contenu",
     "version": "1.0.0.0",
     "elements": [
       {
