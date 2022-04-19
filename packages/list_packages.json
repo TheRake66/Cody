@@ -4,13 +4,13 @@
     "created": "2021-10-23T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Une barre de chargement liquide ronde",
-    "version": "3.1.4.0",
+    "version": "4.1.4.0",
     "elements": [
-	  {
-	    "name": "progress_circle",
-	    "archive": "progress_circle.zip",
-		"index": "debug/app/component.json"
-	  }
+      {
+        "name": "progress_circle",
+        "archive": "progress_circle.zip",
+        "index": "debug/app/component.json"
+      }
     ]
   },
   {
@@ -18,13 +18,13 @@
     "created": "2021-10-23T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Ajouter les info-bulles de survol",
-    "version": "3.0.4.0",
+    "version": "4.0.4.0",
     "elements": [
-	  {
-	    "name": "tooltip",
-	    "archive": "tooltip.zip",
-		"index": "debug/lib/library.json"
-	  }
+      {
+        "name": "tooltip",
+        "archive": "tooltip.zip",
+        "index": "debug/lib/library.json"
+      }
     ]
   },
   {
@@ -32,13 +32,13 @@
     "created": "2021-11-28T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Page 403 avec les fonctions adéquates",
-    "version": "3.1.2.0",
+    "version": "4.1.2.0",
     "elements": [
-	  {
-	    "name": "denied",
-	    "archive": "denied.zip",
-		"index": "debug/app/component.json"
-	  }
+      {
+        "name": "denied",
+        "archive": "denied.zip",
+        "index": "debug/app/component.json"
+      }
     ]
   },
   {
@@ -46,13 +46,13 @@
     "created": "2021-11-28T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Page 404 avec les fonctions adéquates",
-    "version": "3.0.1.0",
+    "version": "4.0.1.0",
     "elements": [
-	  {
-	    "name": "notfound",
-	    "archive": "notfound.zip",
-		"index": "debug/app/component.json"
-	  }
+      {
+        "name": "notfound",
+        "archive": "notfound.zip",
+        "index": "debug/app/component.json"
+      }
     ]
   },
   {
@@ -60,13 +60,13 @@
     "created": "2021-01-13T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Switcher de theme CSS",
-    "version": "3.0.3.0",
+    "version": "4.0.3.0",
     "elements": [
-	  {
-	    "name": "theme",
-	    "archive": "theme.zip",
-		"index": "debug/lib/library.json"
-	  }
+      {
+        "name": "theme",
+        "archive": "theme.zip",
+        "index": "debug/lib/library.json"
+      }
     ]
   },
   {
@@ -74,13 +74,13 @@
     "created": "2021-01-13T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Section de code avec ligne et coloration",
-    "version": "3.0.2.0",
+    "version": "4.0.2.0",
     "elements": [
-	  {
-	    "name": "code_pan",
-	    "archive": "code_pan.zip",
-		"index": "debug/app/component.json"
-	  }
+      {
+        "name": "code_pan",
+        "archive": "code_pan.zip",
+        "index": "debug/app/component.json"
+      }
     ]
   },
   {
@@ -88,13 +88,27 @@
     "created": "2021-03-01T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Création de boite de dialogue",
-    "version": "1.0.2.0",
+    "version": "2.0.2.0",
     "elements": [
-	  {
-	    "name": "msgbox",
-	    "archive": "msgbox.zip",
-		"index": "debug/lib/library.json"
-	  }
+      {
+        "name": "msgbox",
+        "archive": "msgbox.zip",
+        "index": "debug/lib/library.json"
+      }
+    ]
+  },
+  {
+    "name": "Modal",
+    "created": "2022-04-19T10:17:52.6687298+02:00",
+    "madeby": "thiba",
+    "description": "Création de boite de dialogue avec contenu.",
+    "version": "1.0.0.0",
+    "elements": [
+      {
+        "name": "modal",
+        "archive": "modal.zip",
+        "index": "debug/lib/library.json"
+      }
     ]
   },
   {
@@ -102,13 +116,13 @@
     "created": "2021-01-13T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Création de carte Google Map en JS",
-    "version": "1.0.0.0",
+    "version": "2.0.0.0",
     "elements": [
-	  {
-	    "name": "gmap",
-	    "archive": "gmap.zip",
-		"index": "debug/lib/library.json"
-	  }
+      {
+        "name": "gmap",
+        "archive": "gmap.zip",
+        "index": "debug/lib/library.json"
+      }
     ]
   }
 ]
