@@ -72,7 +72,7 @@ class Mail {
 			Debug::log('Le mail a été accepté pour la livraison.', Debug::LEVEL_GOOD, Debug::TYPE_MAIL);
 			return true;
 		} else {
-			Debug::log('Le mail n\'a pas été accepté pour la livraison.', Debug::LEVEL_ERROR, Debug::TYPE_MAIL);
+			Debug::log('Le mail n\'a pas été accepté pour la livraison !', Debug::LEVEL_ERROR, Debug::TYPE_MAIL);
 			return false;
 		}
 	}
