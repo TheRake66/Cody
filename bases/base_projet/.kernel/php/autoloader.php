@@ -25,7 +25,7 @@ class Autoloader {
 
      * @param string Namespace
      * @return void
-     * @throws Si le fichier n'est pas trouvé
+     * @throws Error si le fichier n'est pas trouvé
      */
     private static function load($required) {
         $_ = explode('\\', $required);

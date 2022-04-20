@@ -25,6 +25,39 @@ class Security {
 		}
 	}
 
+
+	/**
+     * Defini de maniere securise un cookie
+     * 
+     * @param string le nom du cookie
+     * @param string la valeur du cookie
+     * @param string le timestamp correspondant a l'expiration du cookie
+	 * @return void
+	 */
+	static function setCookie($name, $value = '', $time = 0) {
+        $conf = Configuration::get()->security;
+		setcookie(
+            session_name() . '_' . str_replace(' ', '', $name), 
+            $value, 
+            $time, 
+            $conf->token_path,
+            $conf->token_domain,
+            $conf->token_only_https,
+            $conf->token_prevent_xss
+        );
+	}
+
+
+	/**
+     * Recupere un cookie
+     * 
+     * @param string le nom du cookie
+     * @return any la valeur du cookie
+	 */
+	static function getCookie($name) {
+		return $_COOKIE[session_name() . '_' . str_replace(' ', '', $name)] ?? null;
+	}
+
 	
     /**
      * Genere un jeton aleatoire de taille n
@@ -50,8 +83,8 @@ class Security {
 	 * @param string le dn (distinguished name)
 	 * @param string le serveur
 	 * @param int le port
-	 * @return bool Si les identifiants sont bon
-	 * @throws Si l'extension LDAP n'est pas installee
+	 * @return bool si les identifiants sont bon
+	 * @throws Error si l'extension LDAP n'est pas installee
 	 */
 	static function authLDAP($login, $password, $dn, $host, $port = 389) {
 		if (extension_loaded('ldap') && extension_loaded('openssl')) {

@@ -13,7 +13,7 @@ class Stream {
 	 * Demarre un flux de donnees
 	 * 
 	 * @param object la fonction de traitement du flux
-	 * @throws Si l'extension ob_gzhandler n'est pas active en cas de mignification du flux
+	 * @throws Error si l'extension ob_gzhandler n'est pas active en cas de mignification du flux
 	 */
 	static function start($callback = null) {
 		$conf = Configuration::get();
@@ -33,7 +33,7 @@ class Stream {
 	 * Detruit le flux de donnees existant puis en demarre un nouveau
 	 * 
 	 * @param object la fonction de traitement du flux
-	 * @throws Si l'extension ob_gzhandler n'est pas active en cas de mignification du flux
+	 * @throws Error si l'extension ob_gzhandler n'est pas active en cas de mignification du flux
 	 */
 	static function reset($callback = null) {
 		self::destroy();

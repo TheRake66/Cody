@@ -1,6 +1,10 @@
 {
     "security": {
-        "redirect_to_https": false
+        "redirect_to_https": false,
+        "token_path": "/",
+        "token_domain": "www.{PROJECT_NAME}.com",
+        "token_only_https": false,
+        "token_prevent_xss": true
     },
     "render": {
         "use_minifying": false,

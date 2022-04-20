@@ -15,7 +15,7 @@ class Render {
      * @param object le controleur en lien avec le composant
      * @param array les variables a passer a la vue au format cle => valeur
      * @return void
-     * @throws Si les fichiers (vue, style, script) n'existent pas ou ne sont pas lisible
+     * @throws Error si les fichiers (vue, style, script) n'existent pas ou ne sont pas lisible
      */
     static function view($controler = null, $variables = null) {
         // Recupere le namespace\class du controlleur

@@ -20,7 +20,7 @@ class Configuration {
 	 * Charge la configuration
 	 * 
 	 * @return void
-	 * @throws Si le fichier de configuration n'est pas trouvé
+	 * @throws Error si le fichier de configuration n'est pas trouvé
 	 */
 	static function load() {
 		try {
@@ -35,7 +35,7 @@ class Configuration {
 	 * Retourne la configuration actuelle
 	 * 
 	 * @return object la configuration
-	 * @throws Si la configuration n'est pas chargee
+	 * @throws Error si la configuration n'est pas chargee
 	 */
 	static function get() {
 		if (!is_null(self::$current)) {

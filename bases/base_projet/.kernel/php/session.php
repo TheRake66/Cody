@@ -15,10 +15,11 @@ class Session {
      * @return void
 	 */
 	static function start() {
-		if (Configuration::get()->session->open_session && session_status() === PHP_SESSION_NONE) {
+        $conf = Configuration::get()->session;
+		if ($conf->open_session && session_status() === PHP_SESSION_NONE) {
 			Debug::log('Démarrage de la session...', Debug::LEVEL_PROGRESS);
-            if (Configuration::get()->session->multiple_session) {
-				$name = str_replace(' ', '_', Configuration::get()->session->session_name);
+            if ($conf->multiple_session) {
+				$name = str_replace(' ', '_', $conf->session_name);
                 session_name($name);
             }
 			session_start();
@@ -105,7 +106,7 @@ class Session {
 		if (is_null($token)) {
 			$token = Security::makeToken(50);
 		}
-		setcookie("token", $token, time() + $nbdays*60*60*24);
+        Security::setCookie('token', $token, time() + $nbdays*60*60*24);
         Debug::log('Jeton de connexion : ' . $token . ', défini pour ' . $nbdays . ' jour(s)...');
 	}
 
@@ -116,7 +117,7 @@ class Session {
      * @return string le jeton de connexion en memoire
      */
 	static function getToken() {
-		return $_COOKIE['token'] ?? null;
+		return Security::getCookie('token');
 	}
 
 
@@ -126,7 +127,7 @@ class Session {
      * @return void
      */
 	static function remToken() {
-		setcookie("token", "");
+        Security::setCookie('token', '');
         Debug::log('Jeton supprimé.');
 	}
 

@@ -52,7 +52,7 @@ class Router {
 	 * Charge les routes
 	 * 
 	 * @return void
-	 * @throws Si le fichier de route n'est pas trouvé
+	 * @throws Error si le fichier de route n'est pas trouvé
 	 */
 	static function load() {
 		$f = 'debug/app/route.php';
@@ -91,7 +91,7 @@ class Router {
 	 * Retourne la route actuelle
 	 * 
 	 * @return string le nom de la route
-	 * @throws Si aucune route n'a ete definie
+	 * @throws Error si aucune route n'a ete definie
 	 */
 	static function get() {
 		if (is_null(self::$current)) {

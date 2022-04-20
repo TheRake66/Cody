@@ -30,7 +30,7 @@ class DataBase {
      *
      * @param array configuration de la base de donnees
      * @return object instance PDO
-     * @throws si la connexion echoue
+     * @throws Error si la connexion echoue
      */
     private static function init($conf) {
         Debug::log('Connexion à la base de données "' . $conf->name . '"...', Debug::LEVEL_PROGRESS);
@@ -61,7 +61,7 @@ class DataBase {
      * Retourne l'instance PDO en cours, si aucune est en cours on en creer une
      * 
      * @return object instance PDO
-     * @throws si la base de donnees n'est pas definie
+     * @throws Error si la base de donnees n'est pas definie
      */
     private static function getInstance() {
         $conf = Configuration::get()->database;
@@ -95,7 +95,7 @@ class DataBase {
      * Retourne la configuration de la base de donnees actuelle
      * 
      * @return object configuration de la base de donnees
-     * @throws si la base de donnees par défaut n'est pas définie
+     * @throws Error si la base de donnees par défaut n'est pas définie
      */
     private static function getConfiguration() {
         $conf = Configuration::get()->database;

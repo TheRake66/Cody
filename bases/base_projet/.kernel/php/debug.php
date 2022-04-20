@@ -52,7 +52,7 @@ class Debug {
      * @param int le niveau de criticite
      * @param int le type de log
      * @return void
-     * @throws Si le fichier n'est pas accessible
+     * @throws Error Si le fichier n'est pas accessible
      */
     static function file($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
         $conf = Configuration::get()->log;
