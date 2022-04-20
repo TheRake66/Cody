@@ -25,8 +25,8 @@ class Error {
      */
     static function handler() {
         if (!self::$showing && Configuration::get()->render->catch_error) {
-            set_error_handler(function($severity, $message, $filename, $lineno) {
-                self::showError($severity, $message, $filename, $lineno);
+            set_error_handler(function($severity, $message, $file_name, $lineno) {
+                self::showError($severity, $message, $file_name, $lineno);
             });
             register_shutdown_function(function() {
                 self::showFatal();
@@ -47,6 +47,22 @@ class Error {
         }
     }
 
+    
+    /**
+     * Declenche une erreur
+     * 
+     * @param string le message a afficher
+     * @param Exception l'exception en lien avec l'erreur
+     * @return void
+     */
+    static function trigger($message, $exception = null) {
+        if (is_null($exception)) {
+            trigger_error($message);
+        } else {
+            trigger_error($message . PHP_EOL . 'Raison : ' . $exception->getMessage());
+        }
+    }
+
 
     /**
      * Recupere et affiche un message d'erreur fatal
@@ -55,12 +71,12 @@ class Error {
      */
     private static function showFatal() {
         $error = error_get_last();
-        if($error !== null) {
+        if ($error !== null) {
             $severity = $error["type"];
-            $filename = $error["file"];
+            $file_name = $error["file"];
             $lineno = $error["line"];
             $message = $error["message"];
-            self::showError($severity, $message, $filename, $lineno);
+            self::showError($severity, $message, $file_name, $lineno);
         }
     }
 
@@ -74,7 +90,7 @@ class Error {
      * @param int le numero de la ligne
      * @return void
      */
-    private static function showError($severity, $message, $filename, $lineno) {
+    private static function showError($severity, $message, $file_name, $lineno) {
         self::remove();
         self::$showing = true;
         $message .= PHP_EOL . (new Exception())->getTraceAsString();
@@ -95,7 +111,7 @@ class Error {
                 <div class="ERROR_CODY_CONT">
                     <span><b>Code erreur :</b><input type="text" value="' . $severity . '" readonly></span>
                     <span><b>Message :</b><textarea readonly>' . $message . '</textarea></span>
-                    <span><b>Fichier concerné :</b><input type="text" value="' . $filename . '" readonly></span>
+                    <span><b>Fichier concerné :</b><input type="text" value="' . $file_name . '" readonly></span>
                     <span><b>Ligne concernée :</b><input type="text" value="' . $lineno . '" readonly></span>
                     <div>
                         <a target="_blank" href="https://www.google.com/search?q=' . $search . '">Rechercher sur google</a>

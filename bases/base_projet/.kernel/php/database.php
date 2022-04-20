@@ -50,7 +50,7 @@ class DataBase {
         try {
             $pdo = new PDO($dsn, $conf->login, $conf->password, $options);
         } catch (\Exception $e) {
-            trigger_error('Impossible de se connecter à la base de données, message : "' . $e->getMessage() . '".');
+            Error::trigger('Impossible de se connecter à la base de données "' . $conf->name . '".', $e);
         }
         Debug::log('Connexion réussite.', Debug::LEVEL_GOOD);
         return $pdo;
@@ -84,7 +84,7 @@ class DataBase {
                 if (array_key_exists(self::$current, self::$instances)) {
                     return self::$instances[self::$current];
                 } else {
-                    trigger_error('Aucune configuration pour la base de données "' . self::$current . '" !');
+                    Error::trigger('Aucune configuration pour la base de données "' . self::$current . '" !');
                 }
             }
         }
@@ -104,7 +104,7 @@ class DataBase {
                 return $database;
             }
         }
-        trigger_error('Aucune configuration pour la base de données "' . self::$current . '" !');
+        Error::trigger('Aucune configuration pour la base de données "' . self::$current . '" !');
     }
     
 

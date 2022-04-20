@@ -21,7 +21,10 @@
         "query": {
             "print_query": true,
             "print_parameters": true,
-            "print_results": true
+            "print_results": true,
+            "print_mail": true,
+            "print_mail_header": true,
+            "print_mail_content": true
         }
     },
     "website_head": {

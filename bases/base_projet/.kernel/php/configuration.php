@@ -26,7 +26,7 @@ class Configuration {
 		try {
 			self::$current = json_decode(file_get_contents('.kernel/configuration.json'));
 		} catch (\Exception $e) {
-            trigger_error('Impossible de charger la configuration, message : "' . $e->getMessage() . '" !');
+            Error::trigger('Impossible de charger la configuration.', $e);
 		}
 	}
 	
@@ -41,7 +41,7 @@ class Configuration {
 		if (!is_null(self::$current)) {
 			return self::$current;
 		} else {
-			trigger_error('La configuration n\'est pas chargée !');
+			Error::trigger('La configuration n\'est pas chargée !');
 		}
 	}
 	

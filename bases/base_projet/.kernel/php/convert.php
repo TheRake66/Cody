@@ -48,7 +48,19 @@ class Convert {
 	 */
 	static function toFrench($decimal, $precision = 3) {
 		return number_format($decimal, $precision, ',', ' ');
-	} 
+	}
+	
+
+	/**
+	 * Verifi si un tableau est associatif (cle => valeur)
+	 * 
+	 * @param array le tableau a verifier
+	 * @return bool si il est associatif
+	 */
+	static function isAssoc($array) {
+		if (array() === $array) return false;
+		return array_keys($array) !== range(0, count($array) - 1);
+	}
 
 
 	/**

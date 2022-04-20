@@ -64,7 +64,7 @@ class Autoloader {
             if(is_file($file) && is_readable($file)) {
                 require $file;
             } else {
-                trigger_error('Impossible de charger la classe "' . $required . '" !');
+                Error::trigger('Impossible de charger la classe "' . $required . '" !');
             }
         }
     }

@@ -36,7 +36,7 @@ class Render {
         // Envoi les variables a la vue
         if (!is_null($variables)) {
             if (is_array($variables)) {
-                if (count(array_filter(array_keys($variables), 'is_string')) > 0) {
+                if (Convert::isAssoc($variables)) {
                     extract($variables);
                 } else {
                     $_ = [];
@@ -68,7 +68,7 @@ class Render {
             // Inclut et initialise le script
             echo Html::importScript($script, 'module', $varname, $class);
         } else {
-            trigger_error('Impossible de faire le rendu du composant "' . $full . '" !');
+            Error::trigger('Impossible de faire le rendu du composant "' . $full . '" !');
         }
     }
     

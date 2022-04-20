@@ -29,6 +29,9 @@ class Debug {
     const TYPE_QUERY = 1;
     const TYPE_QUERY_PARAMETERS = 2;
     const TYPE_QUERY_RESULTS = 3;
+    const TYPE_MAIL = 4;
+    const TYPE_MAIL_HEADER = 5;
+    const TYPE_MAIL_CONTENT = 6;
 
 
     /**
@@ -61,7 +64,11 @@ class Debug {
         if ($conf->use_log_file &&
             ($type !== self::TYPE_QUERY || $confq->print_query) &&
             ($type !== self::TYPE_QUERY_PARAMETERS || $confq->print_parameters) &&
-            ($type !== self::TYPE_QUERY_RESULTS || $confq->print_results)) {
+            ($type !== self::TYPE_QUERY_RESULTS || $confq->print_results) &&
+            ($type !== self::TYPE_MAIL || $confq->print_mail) &&
+            ($type !== self::TYPE_MAIL_HEADER || $confq->print_mail_header) &&
+            ($type !== self::TYPE_MAIL_CONTENT || $confq->print_mail_content)
+            ) {
 
             $error = false;
             $folder = 'logs';
@@ -114,7 +121,7 @@ class Debug {
             }
 
             if ($error) {
-                trigger_error("Impossible d'accéder au journal d'événement !");
+                Error::trigger("Impossible d'accéder au journal d'événement !");
             }
         }
     }

@@ -99,7 +99,7 @@ class Security {
 			}
 			return $response;
 		} else {
-			trigger_error('Les extensions "ldap" et "openssl" ne sont pas activées !');
+			Error::trigger('Les extensions "ldap" et "openssl" ne sont pas activées !');
 		}
 	}
 

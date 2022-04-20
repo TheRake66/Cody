@@ -51,7 +51,7 @@ class Image {
     
             return $compress;
         } else {
-            trigger_error('L\'extension GD/GD2 n\'est pas disponible !');
+            Error::trigger('L\'extension GD/GD2 n\'est pas disponible !');
         }
     }
     

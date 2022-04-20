@@ -59,7 +59,7 @@ class Router {
 		if (is_file($f) && is_readable($f)) {
 			include $f;
 		} else {
-			trigger_error('Impossible de charger les routes, le fichier "' . $f . '" est introuvable !');
+			Error::trigger('Impossible de charger les routes, le fichier "' . $f . '" est introuvable !');
 		}
 	}
 
@@ -113,7 +113,7 @@ class Router {
 				} else {
 					$r = self::getFirst();
 					if (is_null($r)) {
-						trigger_error("Aucune route n'a été définie.");
+						Error::trigger("Aucune route n'a été définie.");
 					}
 				}
 			}
@@ -142,7 +142,7 @@ class Router {
 	 */
 	static function getFirst() {
 		if (count(self::$routes) > 0) {
-			return array_key_first(self::$routes);
+			return array_keys(self::$routes)[0];
 		}
 	}
 
