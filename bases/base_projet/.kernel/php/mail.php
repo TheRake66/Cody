@@ -63,8 +63,8 @@ class Mail {
         $message = wordwrap($message, 70, "\r\n", true);
         $headers = implode("\r\n", $headers);
 		Debug::log('Envoi du mail (to : "' . print_r($to, true) . '", subject : "' . $subject . '")...', Debug::LEVEL_PROGRESS, Debug::TYPE_MAIL);
-		Debug::log('Entête du mail : "' . print_r($headers, true) . '"', Debug::LEVEL_INFO, Debug::TYPE_MAIL_HEADER);
-		Debug::log('Contenu du mail : "' . print_r($message, true) . '"', Debug::LEVEL_INFO, Debug::TYPE_MAIL_CONTENT);
+		Debug::log('Entête du mail : "' . print_r($headers, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_MAIL_HEADER);
+		Debug::log('Contenu du mail : "' . print_r($message, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_MAIL_CONTENT);
 		Error::remove();
 		$response = mail($to, $subject, $message, $headers);
 		Error::handler();
