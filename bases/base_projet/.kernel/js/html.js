@@ -96,9 +96,9 @@ export default class Html {
     /**
      * Insert du code HTML dans un élément HTML a une position donnée
      * 
-     * @param {HTMLElement} html le contenu HTML
+     * @param {string} html le contenu HTML
      * @param {HTMLElement} el l'élément HTML (par défaut body)
-     * @param {HTMLElement} position l'endroit où insérer le contenu HTML par défaut (beforeend)
+     * @param {string} position l'endroit où insérer le contenu HTML par défaut (beforeend)
      */
     static insert(html, el = document.body, position = 'beforeend') {
         el.insertAdjacentHTML(position, html);
@@ -108,7 +108,7 @@ export default class Html {
     /**
      * Vide le contenu d'un élément HTML puis insert du code HTML dedans
      * 
-     * @param {HTMLElement} html le contenu HTML
+     * @param {string} html le contenu HTML
      * @param {HTMLElement} el l'élément HTML (par défaut body)
      */
     static replace(html, el) {
