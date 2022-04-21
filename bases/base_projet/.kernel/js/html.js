@@ -108,7 +108,7 @@ export default class Html {
     /**
      * Vide le contenu d'un élément HTML puis insert du code HTML dedans
      * 
-     * @param {string} html le contenu HTML
+     * @param {HTMLElement} html le contenu HTML
      * @param {HTMLElement} el l'élément HTML (par défaut body)
      */
     static replace(html, el) {

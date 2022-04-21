@@ -16,7 +16,7 @@ class Less {
 	 */
 	static function compile() {
 		if (!Configuration::get()->render->use_minifying) {
-			echo Html::importScript('.kernel/less@4.1.1.js');
+			Html::add(Html::importScript('.kernel/less@4.1.1.js'));
 		}
 	}
 

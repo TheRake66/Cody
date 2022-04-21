@@ -13,7 +13,7 @@ class Html {
     /**
      * Ouvre une balise HTML et ecris l'entete
      * 
-     * @return void
+     * @return string le code HTML
      */
     static function begin() {
         Debug::log('Ouverture du HTML...', Debug::LEVEL_PROGRESS);
@@ -22,8 +22,8 @@ class Html {
         $render = Configuration::get()->render;
         $region = Configuration::get()->region;
 
-        echo '<!DOCTYPE html>
-            <html lang="' . $region->main_lang . '" ' . ($render->wait_dom_loaded ? 'style="opacity: 0;' : '') . '">
+        self::add('<!DOCTYPE html>
+            <html lang="' . $region->main_lang . '" ' . ($render->wait_dom_loaded ? 'style="opacity: 0;"' : '') . '>
                 <head>
                     <meta charset="' . $head->charset . '">
                     <meta name="description" content="' . $head->description . '">
@@ -35,13 +35,13 @@ class Html {
                     <meta name="apple-mobile-web-app-status-bar-style" content="' . $head->theme_color . '">
                     <title>' . $head->title . '</title>
                     <link rel="icon" href="favicon.ico"/>
-                </head>';
+                </head>');
         Debug::log('Définition de l\'entête.');
     
-        echo Html::importStyle('debug/app/global.less');
+        self::add(self::importStyle('debug/app/global.less'));
         Debug::log('Style global importé.');
 
-        echo Html::importScript('debug/app/global_brefore.js');
+        self::add(self::importScript('debug/app/global_brefore.js'));
         Debug::log('Script d\'initialisation importé.');
         
         Debug::log('HTML ouvert.', Debug::LEVEL_GOOD);
@@ -51,17 +51,17 @@ class Html {
     /**
      * Ferme la balise HTML
      * 
-     * @return void
+     * @return string le code HTML
      */
     static function end() {
         Debug::log('Fermeture du HTML...', Debug::LEVEL_PROGRESS);
 
-        echo Html::importScript('debug/app/global_after.js');
+        self::add(self::importScript('debug/app/global_after.js'));
         Debug::log('Script d\'extinction importé.');
 
         $render = Configuration::get()->render;
         if ($render->wait_dom_loaded) {
-            echo '<script>
+            self::add('<script>
                 async function loaded() {
                     await new Promise(r => setTimeout(r, ' . $render->delay_after_load . '));
                     document.getElementsByTagName(\'html\')[0].style.opacity = 1;
@@ -69,11 +69,11 @@ class Html {
                 window.addEventListener("DOMContentLoaded", (event) => {
                     loaded();
                 });
-            </script>';
+            </script>');
             Debug::log('Définition de la fonction de rendu.');
         }
 
-        echo '</html>';
+        self::add('</html>');
         Debug::log('HTML fermé.', Debug::LEVEL_GOOD);
     }
     
@@ -83,13 +83,14 @@ class Html {
      * 
      * @param string la route de l'action, si null alors route courante
      * @param string les parametres en plus
-     * @return bool si on ajoute le parametre de retour
+     * @param bool si on ajoute le parametre de retour
+     * @return string le code HTML
      */
     static function setAction($route = null, $param = [], $addback = false) {
         $url = $route !== null ? 
             Url::build($route, $param, $addback) :
             Url::current();
-        return Html::setAttrib($url, 'action');
+        return self::setAttrib($url, 'action');
     }
     
 
@@ -97,12 +98,12 @@ class Html {
      * Ajoute des attributs HTML
      * 
      * @param array les attributs [attribut => valeur]
-     * @return string l'attribut formatte
+     * @return string le code HTML
      */
     static function setAttribs($array) {
         $_ = '';
         foreach ($array as $name => $value) {
-            $_ .= Html::setAttrib($value, $name);
+            $_ .= self::setAttrib($value, $name);
         }
         return $_;
     }
@@ -115,7 +116,7 @@ class Html {
      * @param array les attributs [attribut => valeur]
      * @param string le contenu de la balise
      * @param bool si la balise est une balise autofermante
-     * @return string l'attribut formatte
+     * @return string le code HTML
      */
     static function createElement($tag, $attr = null, $content = null, $selfClose = true) {
         $_ = '<' . $tag;
@@ -142,7 +143,7 @@ class Html {
      * 
      * @param string valeur de l'attribut
      * @param string nom de l'attribut
-     * @return string l'attribut formatte
+     * @return string le code HTML
      */
     static function setAttrib($value, $name = 'value') {
         return $name . '="' . str_replace('"', '\\"', $value) . '"';
@@ -153,10 +154,10 @@ class Html {
      * Ajoute un lien href
      * 
      * @param string le lien
-     * @return string l'attribut formatte
+     * @return string le code HTML
      */
     static function setHref($link) {
-        return Html::setAttrib($link, 'href');
+        return self::setAttrib($link, 'href');
     }
 
 
@@ -164,10 +165,10 @@ class Html {
      * Ajoute un id
      * 
      * @param string le lien
-     * @return string l'attribut formatte
+     * @return string le code HTML
      */
     static function setId($id) {
-        return Html::setAttrib($id, 'id');
+        return self::setAttrib($id, 'id');
     }
 
 
@@ -175,10 +176,10 @@ class Html {
      * Ajoute une classe
      * 
      * @param string la classe
-     * @return string l'attribut formatte
+     * @return string le code HTML
      */
     static function setClass($class) {
-        return Html::setAttrib($class, 'class');
+        return self::setAttrib($class, 'class');
     }
 
 
@@ -186,7 +187,7 @@ class Html {
      * Ajoute un ou des styles
      * 
      * @param string|array le/les style(s)
-     * @return string l'attribut formatte
+     * @return string le code HTML
      */
     static function setStyle($style) {
         if (is_array($style)) {
@@ -196,7 +197,7 @@ class Html {
             }
             $style = $_;
         }
-        return Html::setAttrib($style, 'style');
+        return self::setAttrib($style, 'style');
     }
 
 
@@ -205,12 +206,12 @@ class Html {
      * 
      * @param string la src
      * @param string le texte alternatif
-     * @return string l'attribut formatte
+     * @return string le code HTML
      */
     static function setSrc($src, $alt = null) {
-        $html = Html::setAttrib($src, 'src');
+        $html = self::setAttrib($src, 'src');
         if (!is_null($alt)) {
-            $html .= ' ' . Html::setAttrib($alt, 'alt');
+            $html .= ' ' . self::setAttrib($alt, 'alt');
         }
         return $html;
     }
@@ -222,10 +223,10 @@ class Html {
      * @param string la route
      * @param array les param
      * @param string le back
-     * @return string l'attribut formatte
+     * @return string le code HTML
      */
     static function buildHref($route, $param = [], $addback = false) {
-        return Html::setHref(Url::build($route, $param, $addback));
+        return self::setHref(Url::build($route, $param, $addback));
     }
 
 
@@ -235,10 +236,10 @@ class Html {
      * @param object le binaire
      * @param string le texte alt
      * @param string le format de l'image
-     * @return string la src
+     * @return string le code HTML
      */
     static function binImgToSrcB64($bin, $alt = null, $format = 'png') {
-        return Html::setSrc(Image::binToB64($bin, $format), $alt);
+        return self::setSrc(Image::binToB64($bin, $format), $alt);
     }
     
 
@@ -248,7 +249,7 @@ class Html {
      * @param string nom du parametre
      * @param string valeur par defaut
      * @param string propriete html
-     * @return string la valeur
+     * @return string le code HTML
      */
     static function getValue($name, $default = '', $key = 'value') {
         return self::setAttrib($_GET[$name] ?? $default, $key);
@@ -261,7 +262,7 @@ class Html {
      * @param string nom du parametre
      * @param string valeur par defaut
      * @param string propriete html
-     * @return string la valeur
+     * @return string le code HTML
      */
     static function postValue($name, $default = '', $key = 'value') {
         return self::setAttrib($_POST[$name] ?? $default, $key);
@@ -275,7 +276,7 @@ class Html {
      * @param string le type de script
      * @param string le nom de la variable a instancier
      * @param string le nom de la classe a instancier
-     * @return string le code HTML qui importe le script
+     * @return string le code HTML
      */
     static function importScript($file, $type = 'module', $name = null, $class = null) {
         if (Configuration::get()->render->use_minifying) {
@@ -299,7 +300,7 @@ class Html {
      * 
      * @param string le fichier a importer
      * @param string le type de ressource
-     * @return string le code HTML qui importe le style
+     * @return string le code HTML
      */
     static function importStyle($file, $rel = 'stylesheet/less') {
         if (Configuration::get()->render->use_minifying) {
@@ -308,6 +309,32 @@ class Html {
             $rel = 'stylesheet';
         }
         return '<link rel="' . $rel . '" type="text/css" href="' . $file . '">';
+    }
+
+
+    /**
+     * Execute du code javascript
+     * 
+     * @param string le code javascript
+     * @param string le type de script
+     * @return string le code HTML
+     */
+    static function runScript($script, $type = 'module') {
+        return '<script type="' . $type . '">' . $script . '</script>';
+    }
+
+
+    /**
+     * Ajoute du code HTML
+     * 
+     * @param string|array le code HTML
+     * @return void
+     */
+    static function add($html) {
+        if (is_array($html)) {
+            $html = implode('', $html);
+        }
+        echo $html;
     }
     
 }

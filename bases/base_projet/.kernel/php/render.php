@@ -64,9 +64,9 @@ class Render {
         if (is_file($vue) && is_readable($vue)) {
             require $vue;
             // Inclut le style
-            echo Html::importStyle($style);
+            Html::add(Html::importStyle($style));
             // Inclut et initialise le script
-            echo Html::importScript($script, 'module', $varname, $class);
+            Html::add(Html::importScript($script, 'module', $varname, $class));
         } else {
             Error::trigger('Impossible de faire le rendu du composant "' . $full . '" !');
         }

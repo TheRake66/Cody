@@ -15,7 +15,9 @@ class Url {
      * @return void
 	 */
 	static function location($url) {
+		Stream::clean();
 		header('Location: ' . $url);
+		Stream::close();
 		exit;
 	}
 
