@@ -48,10 +48,16 @@ class Security {
 	}
 
 
+	/**
+     * Supprime un cookie
+     * 
+     * @param string le nom du cookie
+	 * @return void
+	 */
 	static function deleteCookie($name) {
 		$name = self::getRealCookieName($name);
-		if (isset($name)) {
-			unset($name); 
+		if (isset($_COOKIE[$name])) {
+			unset($_COOKIE[$name]); 
 			setcookie($name, null, -1, '/'); 
 			return true;
 		} else {
