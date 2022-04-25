@@ -127,7 +127,7 @@ class Session {
      * @return void
      */
 	static function remToken() {
-        Security::setCookie('token', '');
+        Security::deleteCookie('token');
         Debug::log('Jeton supprimé.');
 	}
 

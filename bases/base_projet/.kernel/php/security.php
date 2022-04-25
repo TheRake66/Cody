@@ -37,7 +37,7 @@ class Security {
 	static function setCookie($name, $value = '', $time = 0) {
         $conf = Configuration::get()->security;
 		setcookie(
-            session_name() . '_' . str_replace(' ', '', $name), 
+            self::getRealCookieName($name), 
             $value, 
             $time, 
             $conf->token_path,
@@ -48,6 +48,18 @@ class Security {
 	}
 
 
+	static function deleteCookie($name) {
+		$name = self::getRealCookieName($name);
+		if (isset($name)) {
+			unset($name); 
+			setcookie($name, null, -1, '/'); 
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
 	/**
      * Recupere un cookie
      * 
@@ -55,9 +67,20 @@ class Security {
      * @return any la valeur du cookie
 	 */
 	static function getCookie($name) {
-		return $_COOKIE[session_name() . '_' . str_replace(' ', '', $name)] ?? null;
+		return $_COOKIE[self::getRealCookieName($name)] ?? null;
 	}
 
+
+	/**
+     * Recupere le nom complet d'un cookie
+     * 
+     * @param string le nom du cookie
+     * @return string le nom complet du cookie
+	 */
+	static function getRealCookieName($name) {
+		return session_name() . '_' . str_replace(' ', '', $name);
+	}
+	
 	
     /**
      * Genere un jeton aleatoire de taille n
