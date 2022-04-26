@@ -148,4 +148,73 @@ export default class Html {
         return coor;
     }
     
+
+    /**
+     * Ajoute une classe à un élément HTML
+     * 
+     * @param {Element} el l'élément HTML
+     * @param {string} className la classe à ajouter
+     * @returns void
+     */
+    static addClass(el, className) {
+        el.classList.add(className);
+    }
+
+
+    /**
+     * Supprime une classe à un élément HTML
+     * 
+     * @param {Element} el l'élément HTML
+     * @param {string} className la classe à supprimer
+     * @returns void
+     */
+    static removeClass(el, className) {
+        el.classList.remove(className);
+    }
+
+
+    /**
+     * Verifie si une classe est présente sur un élément HTML
+     * 
+     * @param {Element} el l'élément HTML
+     * @param {string} className la classe à ajouter
+     * @returns {boolean} true si la classe est présente, false sinon
+     */
+    static hasClass(el, className) {
+        return el.classList.contains(className);
+    }
+
+
+    /**
+     * Ajoute une classe à un élément HTML si elle n'est pas présente, sinon la supprime
+     * 
+     * @param {Element} el l'élément HTML
+     * @param {string} className la classe à ajouter
+     * @returns void
+     */
+    static toggleClass(el, className) {
+        el.classList.toggle(className);
+    }
+
+    
+    /**
+     * Ajoute un écouteur d'événement à un élément HTML
+     * 
+     * @param {Element} el l'élément HTML
+     * @param {string} event le nom de l'événement
+     * @param {function} callback la fonction à exécuter
+     * @param {boolean} capture si repercute l'événement sur les éléments enfants
+     * @param {boolean} once si l'événement doit être écouté une seule fois
+     * @param {boolean} passive si la fonction peut appeler la méthode preventDefault()
+     */
+    static addEvent(el, event, callback, capture = false, once = false, passive = false) {
+        el.addEventListener(event, callback, {
+            capture: capture,
+            once: once,
+            passive: passive
+        });
+    }
+
+
+
 }

@@ -79,18 +79,23 @@ class Html {
     
 
     /**
-     * Ajoute une URL dans l'attribut de formulaire action
+     * Formate les attributs d'un formulaire
      * 
-     * @param string la route de l'action, si null alors route courante
-     * @param string les parametres en plus
-     * @param bool si on ajoute le parametre de retour
-     * @return string le code HTML
+     * @param string la methode HTTP
+     * @param boolean si des fichiers sont envoyés
+     * @param string la route de redirection
+     * @param string les parametres de redirection (uniquement en methode POST)
+     * @param string si on ajoute le parametre de retour
      */
-    static function setAction($route = null, $param = [], $addback = false) {
-        $url = $route !== null ? 
+    static function setForm($method = 'GET', $isMultipart = false, $route = null, $param = [], $addback = false) {
+        $action = $route !== null ? 
             Url::build($route, $param, $addback) :
             Url::current();
-        return self::setAttrib($url, 'action');
+        $enctype = $isMultipart ? 'multipart/form-data' : '';
+        return 
+            self::setAttrib($action, 'action') . 
+            self::setAttrib($enctype, 'enctype') . 
+            self::setAttrib($method, 'method');
     }
     
 
@@ -321,6 +326,17 @@ class Html {
      */
     static function runScript($script, $type = 'module') {
         return '<script type="' . $type . '">' . $script . '</script>';
+    }
+
+
+    /**
+     * Envoi une alerte javascript
+     * 
+     * @param string le message
+     * @return string le code HTML
+     */
+    static function alert($message) {
+        return self::runScript('alert("' . str_replace('"', '\\"', $message) . '")');
     }
 
 
