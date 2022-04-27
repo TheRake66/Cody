@@ -10,7 +10,7 @@ export default class Export {
 	 * @param {string} file nom du fichier
 	 * @param {string} spearator separateur de colonne
 	 * @param {string} arround caractere autour de chaque cellules
-     * @returns void
+     * @returns {void}
      */
     static tableToCSV(id, file = 'export.csv', spearator = ';', arround = '"') {
         let csv = '';
@@ -44,7 +44,7 @@ export default class Export {
 	 * 
 	 * @param {any} content le contenu a telecharger
 	 * @param {string} file nom du fichier
-     * @returns void
+     * @returns {void}
      */
     static download(content, file) {
         let element = document.createElement('a');
@@ -61,7 +61,7 @@ export default class Export {
      * Affiche du texte dans un nouvel onglet
      * 
      * @param {string} content le contenu de la page
-     * @returns void
+     * @returns {void}
      */
     static fullScreen(content) {
         let tab = window.open('about:blank', '_blank');
@@ -77,7 +77,7 @@ export default class Export {
      * @param {string} value la valeur du cookie
      * @param {Number} days la durée de vie du cookie en jours
      * @param {string} path le chemin du cookie
-     * @returns void
+     * @returns {void}
      */
     static setCookie(name, value = null, days = null, path = null) {
         let expires = null;
@@ -111,7 +111,7 @@ export default class Export {
      * Supprime un cookie
      * 
      * @param {string} name le nom du cookie
-     * @returns void
+     * @returns {void}
      */
     static deleteCookie(name) {
         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;

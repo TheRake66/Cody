@@ -23,7 +23,7 @@ class Convert {
 	 * @return string Prix convertit 1 000 000,50€
      */
 	static function toEuro($num) {
-		return number_format($num, 2, ',', ' ') . '€';
+		return number_format($num, 2, ',', ' ') . ' €';
 	}
 
 
@@ -94,5 +94,38 @@ class Convert {
 		}
 		return round($num, 0);
 	}
-	
+
+
+	/**
+	 * Verifie si un nombre est pair
+	 * 
+	 * @param int le nombre
+	 * @return bool si il est pair
+	 */
+	static function isEven($num) {
+		return $num % 2 == 0;
+	}
+
+
+	/**
+	 * Verifie si un nombre est impair
+	 * 
+	 * @param int le nombre
+	 * @return bool si il est impair
+	 */
+	static function isOdd($num) {
+		return $num % 2 != 0;
+	}
+
+
+	/**
+	 * Retourne un tiret si la valeur est vide
+	 * 
+	 * @param string la valeur
+	 * @return string|any la valeur ou un tiret
+	 */
+	static function emptyToHyphen($value) {
+		return empty($value) ? '-' : $value;
+	}
+
 }

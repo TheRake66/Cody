@@ -27,7 +27,7 @@ export default class Http {
      * @param {string} param corps de la requete 
      * @param {Number} timeout temps d'attente avant expiration de la requete
      * @param {boolean} asynchronous si la requete s'execute en asynchrone
-     * @returns void
+     * @returns {void}
      */
     static send(url, success = null, failed = null, expired = null, method = 'GET', param = {}, timeout = 0, asynchronous = true) {
         let xml = new XMLHttpRequest();

@@ -154,7 +154,7 @@ export default class Html {
      * 
      * @param {Element} el l'élément HTML
      * @param {string} className la classe à ajouter
-     * @returns void
+     * @returns {void}
      */
     static addClass(el, className) {
         el.classList.add(className);
@@ -166,7 +166,7 @@ export default class Html {
      * 
      * @param {Element} el l'élément HTML
      * @param {string} className la classe à supprimer
-     * @returns void
+     * @returns {void}
      */
     static removeClass(el, className) {
         el.classList.remove(className);
@@ -190,7 +190,7 @@ export default class Html {
      * 
      * @param {Element} el l'élément HTML
      * @param {string} className la classe à ajouter
-     * @returns void
+     * @returns {void}
      */
     static toggleClass(el, className) {
         el.classList.toggle(className);
@@ -206,6 +206,7 @@ export default class Html {
      * @param {boolean} capture si repercute l'événement sur les éléments enfants
      * @param {boolean} once si l'événement doit être écouté une seule fois
      * @param {boolean} passive si la fonction peut appeler la méthode preventDefault()
+     * @returns {void}
      */
     static addEvent(el, event, callback, capture = false, once = false, passive = false) {
         el.addEventListener(event, callback, {
@@ -216,5 +217,70 @@ export default class Html {
     }
 
 
+    /**
+     * Desactive un élément HTML
+     * 
+     * @param {Element} el l'élément HTML
+     * @returns {void}
+     */
+    static disabled(el) {
+        el.disabled = true;
+    }
+
+
+    /**
+     * Active un élément HTML
+     * 
+     * @param {Element} el l'élément HTML
+     * @returns {void}
+     * @returns {void}
+     */
+    static enabled(el) {
+        el.disabled = false;
+    }
+
+
+    /**
+     * Passe un élément HTML en mode lecture seule
+     * 
+     * @param {Element} el l'élément HTML
+     * @returns {void}
+     */
+    static readonly(el) {
+        el.readOnly = true;
+    }
+
+
+    /**
+     * Passe un élément HTML en mode écriture
+     * 
+     * @param {Element} el l'élément HTML
+     * @returns {void}
+     */
+    static writable(el) {
+        el.readOnly = false;
+    }
+
+
+    /**
+     * Cache un élément HTML
+     * 
+     * @param {Element} el l'élément HTML
+     * @returns {void}
+     */
+    static hide(el) {
+        el.style.display = 'none';
+    }
+
+
+    /**
+     * Affiche un élément HTML
+     * 
+     * @param {Element} el l'élément HTML
+     * @returns {void}
+     */
+    static show(el) {
+        el.style.display = 'unset';
+    }
 
 }

@@ -48,8 +48,8 @@ class Session {
      * @return void
      */
     static function logout() {
-        self::remSession();
-        self::remToken();
+        self::remmoveSession();
+        self::remmoveToken();
     }
 
     
@@ -89,7 +89,7 @@ class Session {
      * 
      * @return void
      */
-	static function remSession() {
+	static function remmoveSession() {
 		session_destroy();
         Debug::log('Session supprimée.');
 	}
@@ -126,7 +126,7 @@ class Session {
      * 
      * @return void
      */
-	static function remToken() {
+	static function remmoveToken() {
         Security::deleteCookie('token');
         Debug::log('Jeton supprimé.');
 	}
