@@ -11,16 +11,12 @@ use PDO;
 class DataBase {
     
     /**
-     * Instance PDO
-     * 
-     * @var array[string => \PDO]
+     * @var array Instance PDO [string => \PDO]
      */
     private static $instances;
-
+    
     /**
-     * La base de donnees utilisee
-     * 
-     * @var string
+     * @var string La base de donnees utilisee
      */
     private static $current;
     
@@ -120,6 +116,9 @@ class DataBase {
         $parsed = self::paramsToSQL($params);
         Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
         Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
+        if (!is_null($class)) {
+            self::switch($class::DATABASE ?? null);
+        }
         $rqt = self::getInstance()->prepare($sql);
         if (!is_null($class)) {
             $rqt->setFetchMode(PDO::FETCH_INTO, new $class());
@@ -183,15 +182,11 @@ class DataBase {
     private static function buildClause($obj, $clause = null) {
         $sql = '';
         $arr = [];
-        $none = is_null($clause) ||
-                !is_array($clause) && empty($clause) ||
-                is_array($clause) && count($clause) == 0;
-        if (is_null($clause)) $clause = $obj::PRIMARY;
+        $clause = $clause ?? $obj::PRIMARY ?? self::getColumnName($obj)[0];
         foreach ((array)$obj as $prop => $val) {
             $prop = str_replace('*', '', $prop);
-            if ($none ||
-                (!is_array($clause) && $prop == $clause ||
-                is_array($clause) && in_array($prop, $clause))) {
+            if (!is_array($clause) && $prop == $clause ||
+                is_array($clause) && in_array($prop, $clause)) {
                 $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . $prop;
                 if (!is_null($val)) {
                     $sql .= ' = ? ';
@@ -199,7 +194,7 @@ class DataBase {
                 } else {
                     $sql .= ' IS NULL ';
                 }
-                if ($none) {
+                if (!is_array($clause) || count($clause) == count($arr)) {
                     break;
                 }
             }
@@ -219,9 +214,51 @@ class DataBase {
      * @return object instance PDO
      */
     static function switch($database = null) {
-        self::$current = !is_null($database) ? 
-            $database : 
-            Configuration::get()->database->default_database;
+        if (is_null($database)) {
+            $database = Configuration::get()->database->default_database;
+        }
+        if (self::$current != $database) {
+            self::$current = $database;
+            Debug::log('Changement de base de données vers "' . $database .'".', Debug::LEVEL_GOOD);
+        }
+    }
+
+
+    /**
+     * Retourne le nom d'une table via sa classe
+     * 
+     * @param object l'objet DTO
+     * @return string le nom
+     */
+    static function getTableName($obj) {
+        return strtolower((new \ReflectionClass($obj))->getShortName());
+    }
+
+
+    /**
+     * Retourne les noms des colonnes d'une table
+     * 
+     * @param object l'objet DTO
+     * @return array les noms
+     */
+    static function getColumnName($obj) {
+        $props = (new \ReflectionClass($obj))->getProperties();
+        $_ = [];
+        foreach ($props as $prop) {
+            $_[] = str_replace('*', '', strtolower($prop->name));
+        }
+        return $_;
+    }
+
+
+    /**
+     * Retourne null si la valeur est vide, sinon retourne la valeur
+     * 
+     * @param object la valeur a verifier
+     * @return object null ou la valeur
+     */
+    static function nullIfEmpty($value) {
+        return empty($value) ? null : $value;
     }
 
 
@@ -350,6 +387,7 @@ class DataBase {
      * @return array liste d'objets hydrate
      */
     static function fetchObjects($sql, $type, $params = []) {
+        self::switch($type::DATABASE ?? null);
         return self::returnLog(self::send($sql, $params)->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
     }
 
@@ -518,28 +556,6 @@ class DataBase {
 			'SELECT * FROM ' . self::getTableName($obj) . ' ' . $pr[0],
             get_class($obj),
             $pr[1]);
-    }
-
-
-    /**
-     * Retourne le nom d'une table via sa classe
-     * 
-     * @param object l'objet DTO
-     * @return string le nom
-     */
-    static function getTableName($obj) {
-        return strtolower((new \ReflectionClass($obj))->getShortName());
-    }
-
-
-    /**
-     * Retourne null si la valeur est vide, sinon retourne la valeur
-     * 
-     * @param object la valeur a verifier
-     * @return object null ou la valeur
-     */
-    static function nullIfEmpty($value) {
-        return empty($value) ? null : $value;
     }
 
 }

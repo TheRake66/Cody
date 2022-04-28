@@ -12,16 +12,12 @@ use Kernel\Debug;
 class Supervisor {
 
     /**
-     * Temps UNIX en MS au demarrage du superviseur
-     * 
-     * @var int
+     * @var int Temps UNIX en MS au demarrage du superviseur
      */
     private static $started;
 
     /**
-     * Log de la console
-     * 
-     * @var array
+     * @var array Log de la console
      */
     private static $log;
 

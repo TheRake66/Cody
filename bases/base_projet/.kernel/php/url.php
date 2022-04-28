@@ -9,9 +9,7 @@ namespace Kernel;
 class Url {
 
 	/**
-	 * Les methodes d'envoie
-     * 
-     * @var string
+     * @var string Les methodes d'envoie
 	 */
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';

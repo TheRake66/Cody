@@ -9,8 +9,6 @@ namespace Kernel;
 class Configuration {
 
 	/**
-	 * Configuration actuelle
-	 * 
 	 * @var array la configuration
 	 */
 	private static $current;

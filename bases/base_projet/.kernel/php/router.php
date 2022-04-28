@@ -9,30 +9,22 @@ namespace Kernel;
 class Router {
 
     /**
-     * Liste des routes
-	 * 
-	 * @var array
+	 * @var array Liste des routes
      */
 	private static $routes = [];
 
     /**
-     * Route par defaut
-	 * 
-	 * @var string
+	 * @var string Route par defaut
      */
 	private static $default;
 
     /**
-     * Route si non trouve
-	 * 
-	 * @var string
+	 * @var string Route si non trouve
      */
 	private static $notfound;
 
     /**
-     * Route actuelle
-	 * 
-	 * @var string
+	 * @var string Route actuelle
      */
 	private static $current;
 

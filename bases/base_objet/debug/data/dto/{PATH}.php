@@ -9,23 +9,27 @@ namespace Model\dto{NAMESPACE_SLASH};
 class {NAME_UPPER} {
 
     /**
-     * Proprietes
+     * @var string La base de donnees
      */
-
+    const DATABASE = '';
 
     /**
-     * Liste des cles primaires
+     * @var string|array La ou les cles primaires
      */
-    const PRIMARY = [
+    const PRIMARY = '';
+    
 
-    ];
+    /**
+     * Proprietes
+     */
+    public $;
 	
 
     /**
      * Constructeur
      */
-    function __construct() {
-        
+    function __construct($ = null) {
+        $this->$ = $;
     }
 	
 }

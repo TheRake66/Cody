@@ -9,9 +9,7 @@ namespace Kernel;
 class Convert {
 
 	/**
-	 * Unites de memoire utiliser pour la conversion
-	 * 
-	 * @var array
+	 * @var array Unites de memoire utiliser pour la conversion
 	 */
 	private const UNITE_MEMOIRE = [ "o", "Ko", "Mo", "Go", "To" ];
 

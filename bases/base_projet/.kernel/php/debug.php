@@ -9,9 +9,7 @@ namespace Kernel;
 class Debug {
 
 	/**
-	 * Les niveaux de criticite
-     * 
-     * @var int
+     * @var int Les niveaux de criticite
 	 */
     const LEVEL_INFO = 0;
     const LEVEL_GOOD = 1;
@@ -21,9 +19,7 @@ class Debug {
 
 
     /**
-     * Les types de log
-     * 
-     * @var int
+     * @var int Les types de log
      */
     const TYPE_NONE = 0;
     const TYPE_QUERY = 1;

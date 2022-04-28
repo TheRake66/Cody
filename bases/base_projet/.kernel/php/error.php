@@ -10,10 +10,8 @@ use Exception;
 class Error {
 
     /**
-     * Empeche l'appel des evennements dans l'affichage de l'erreur
-     * Evite les appels en boucle
-     * 
-     * @var bool
+     * @var bool Empeche l'appel des evennements dans l'affichage de 
+     * l'erreur. Evite les appels en boucle
      */
     private static $showing = false;
 
