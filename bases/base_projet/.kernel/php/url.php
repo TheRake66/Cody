@@ -9,6 +9,15 @@ namespace Kernel;
 class Url {
 
 	/**
+	 * Les methodes d'envoie
+     * 
+     * @var string
+	 */
+    const METHOD_GET = 'GET';
+    const METHOD_POST = 'POST';
+
+
+	/**
 	 * Accede a une url
 	 * 
 	 * @param string l'url
@@ -21,16 +30,46 @@ class Url {
 		exit;
 	}
 
+
 	/**
-	 * Accede a une url dans l'appli
+	 * Accede a une url dans l'application
 	 * 
-	 * @param string la route
-	 * @param array les params
-	 * @param string le back
+	 * @param string route la route vers le composant
+	 * @param array param les parametres
+	 * @param boolean addback si on ajoute le parametre de retour
+	 * @param string method la methode (GET, POST)
      * @return void
 	 */
-	static function go($route, $param = [], $addback = false) {
-		self::location(self::build($route, $param, $addback));
+	static function go($route, $param = [], $addback = false, $method = Url::METHOD_GET) {
+		if ($method == Url::METHOD_GET) {
+			self::location(self::build($route, $param, $addback));
+		} else {
+			$html = Html::createElement('form', [
+				'action' => self::build($route),
+				'method' => 'post',
+				'id' => 'KERNEL_REDIRECT_FORM'
+			]);
+			foreach ($param as $key => $value) {
+				$html .= Html::createElement('input', [
+					'type' => 'hidden',
+					'name' => $key,
+					'value' => $value
+				]);
+			}
+			if ($addback) {
+				$html .= Html::createElement('input', [
+					'type' => 'hidden',
+					'name' => 'redirectUrl',
+					'value' => self::current()
+				]);
+			}
+			$html .= Html::runScript('
+				let f = document.getElementById("KERNEL_REDIRECT_FORM");
+				f.submit();
+				f.remove();
+			');
+			Html::add($html);
+		}
 	}
 	
 

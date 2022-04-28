@@ -1,18 +1,58 @@
+import Http from './http.js';
+import Html from './html.js';
+
+
+
 /**
  * Librairie de traitement des URL
  */
 export default class Url {
 
+    /**
+     * Les methodes d'envoie
+     * 
+     * @type {string}
+     */
+    static METHOD_GET = 'GET';
+    static METHOD_POST = 'POST';
+
+
 	/**
-	 * Accede a une url
+	 * Accede a une url dans l'application
 	 * 
-	 * @param {string} route la route
-	 * @param {array} param les param
-	 * @param {string} addback le back
+	 * @param {string} route la route vers le composant
+	 * @param {array} param les parametres
+	 * @param {boolean} addback si on ajoute le parametre de retour
+	 * @param {string} method la methode (GET, POST)
      * @returns {void}
 	 */
-	static go(route, param = [], addback = false) {
-        window.location.href = Url.build(route, param, addback);
+	static go(route, param = [], addback = false, method = Url.METHOD_GET) {
+		if (method === Http.METHOD_GET) {
+			window.location.href = Url.build(route, param, addback);
+		} else if (method === Http.METHOD_POST) {
+			let f = Html.create('form', {
+				method: 'post',
+				action: Url.build(route)
+			});
+			Object.entries(obj).forEach(entry => {
+				const [key, value] = entry;
+				f.append(Html.create('input', {
+					type: 'hidden',
+					name: key,
+					value: value
+				}));
+			});
+			if (addback) {
+				f.append(Html.create('input', {
+					type: 'hidden',
+					name: 'redirectUrl',
+					value: Url.current()
+				}));
+			}
+			Html.append(f);
+			f.submit();
+			f.remove();
+		}
 	}
 
 	
