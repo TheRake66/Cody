@@ -120,7 +120,7 @@ class Convert {
 	 * Retourne un tiret si la valeur est vide
 	 * 
 	 * @param string la valeur
-	 * @return string|any la valeur ou un tiret
+	 * @return string|mixed la valeur ou un tiret
 	 */
 	static function emptyToHyphen($value) {
 		return empty($value) ? '-' : $value;

@@ -67,7 +67,7 @@ class Security {
      * Recupere un cookie
      * 
      * @param string le nom du cookie
-     * @return any la valeur du cookie
+     * @return mixed la valeur du cookie
 	 */
 	static function getCookie($name) {
 		return $_COOKIE[self::getRealCookieName($name)] ?? null;

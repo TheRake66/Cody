@@ -109,7 +109,7 @@ class DataBase {
      * 
      * @param string requete sql
      * @param array liste des parametres
-     * @param object classe si on veut un objet
+     * @param object classe si on veut des objets
      * @return object requete executee
      */
     private static function send($sql, $params, $class = null) {
@@ -117,12 +117,18 @@ class DataBase {
         Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
         Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
         if (!is_null($class)) {
-            DataBase::switch($class::DATABASE);
-        }
-        $rqt = self::getInstance()->prepare($sql);
-        if (!is_null($class)) {
-            $rqt->setFetchMode(PDO::FETCH_INTO, new $class());
-            DataBase::switch();
+            if (self::isValidConstant($class, 'DATABASE')) {
+                $last = self::$current;
+                DataBase::switch($class::DATABASE);
+                $rqt = self::getInstance()->prepare($sql);
+                $rqt->setFetchMode(PDO::FETCH_INTO, new $class());
+                DataBase::switch($last);
+            } else {
+                $rqt = self::getInstance()->prepare($sql);
+                $rqt->setFetchMode(PDO::FETCH_INTO, new $class());
+            }
+        } else {
+            $rqt = self::getInstance()->prepare($sql);
         }
         $rqt->execute($parsed);
         Debug::log('Requête SQL exécutée.', Debug::LEVEL_GOOD, Debug::TYPE_QUERY);
@@ -133,8 +139,8 @@ class DataBase {
     /**
      * Retourne le resultat puis l'enregistre dans la log
      * 
-     * @param object le resultat de la requete
-     * @return object le resultat de la requete
+     * @param mixed le resultat de la requete
+     * @return mixed le resultat de la requete
      */
     private static function returnLog($data) {
         Debug::log('Résultat de la requête SQL : "' . print_r($data, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_RESULTS);
@@ -145,8 +151,8 @@ class DataBase {
     /**
      * Convertit un parametre en parametre SQL
      * 
-     * @param object le parametre
-     * @return object le parametre en SQL
+     * @param mixed le parametre
+     * @return mixed le parametre en SQL
      */
     private static function paramToSQL($param) {
         if ($param instanceof DateTime) {
@@ -179,12 +185,13 @@ class DataBase {
      * 
      * @param object l'objet DTO a lier
      * @param array les nom des cles primaire
+     * @return array la condition WHERE pour les cle primaire et leurs valeurs
      */
     private static function buildClause($obj, $clause = null) {
         $sql = '';
         $arr = [];
         if (is_null($clause) || empty($clause)) {
-            if (!is_null($obj::PRIMARY) && !empty($obj::PRIMARY)) {
+            if (self::isValidConstant($obj, 'PRIMARY')) {
                 $clause = $obj::PRIMARY;
             } else {
                 $_ = self::getColumnName($obj);
@@ -218,14 +225,57 @@ class DataBase {
         return [ $sql, $arr ];
     }
 
+
+    /**
+     * Retourne le nom d'une table via sa classe
+     * 
+     * @param object l'objet DTO
+     * @return string le nom
+     */
+    private static function getTableName($obj) {
+        return strtolower((new \ReflectionClass($obj))->getShortName());
+    }
+
+
+    /**
+     * Retourne les noms des colonnes d'une table
+     * 
+     * @param object l'objet DTO
+     * @return array les noms
+     */
+    private static function getColumnName($obj) {
+        $props = (new \ReflectionClass($obj))->getProperties();
+        $_ = [];
+        foreach ($props as $prop) {
+            $_[] = str_replace('*', '', strtolower($prop->name));
+        }
+        return $_;
+    }
+
+
+    /**
+     * Verifie qu'une constante est definie et non vide
+     * 
+     * @param object la classe ou verifier la constante
+     * @param string le nom de la constante
+     * @return bool true si definie et non vide
+     */
+    private static function isValidConstant($class, $constant) {
+        return (new \ReflectionClass($class))->hasConstant($constant) &&
+            !is_null($class::$constant) && !empty($class::$constant);
+    }
+
     
     /**
      * Change la base de donnees courante
      * 
-     * @param string le nom de la base de donnees, si null, la base par defaut est utilisee
+     * @param string|object le nom de la base de donnees, en string ou en object DTO, si null, la base par defaut est utilisee
      * @return object instance PDO
      */
     static function switch($database = null) {
+        if (self::isValidConstant($database, 'DATABASE')) {
+            $database = $database::DATABASE;
+        }
         if (is_null($database) || empty($database)) {
             $database = Configuration::get()->database->default_database;
         }
@@ -237,37 +287,10 @@ class DataBase {
 
 
     /**
-     * Retourne le nom d'une table via sa classe
-     * 
-     * @param object l'objet DTO
-     * @return string le nom
-     */
-    static function getTableName($obj) {
-        return strtolower((new \ReflectionClass($obj))->getShortName());
-    }
-
-
-    /**
-     * Retourne les noms des colonnes d'une table
-     * 
-     * @param object l'objet DTO
-     * @return array les noms
-     */
-    static function getColumnName($obj) {
-        $props = (new \ReflectionClass($obj))->getProperties();
-        $_ = [];
-        foreach ($props as $prop) {
-            $_[] = str_replace('*', '', strtolower($prop->name));
-        }
-        return $_;
-    }
-
-
-    /**
      * Retourne null si la valeur est vide, sinon retourne la valeur
      * 
-     * @param object la valeur a verifier
-     * @return object null ou la valeur
+     * @param mixed la valeur a verifier
+     * @return mixed null ou la valeur
      */
     static function nullIfEmpty($value) {
         return empty($value) ? null : $value;
@@ -343,7 +366,7 @@ class DataBase {
      * 
      * @param string requete sql
      * @param array liste des parametres
-     * @return array ligne de la base
+     * @return array la ligne retournee
      */
     static function fetchRow($sql, $params = []) {
         return self::returnLog(self::send($sql, $params)->fetch(PDO::FETCH_ASSOC));
@@ -355,7 +378,7 @@ class DataBase {
      * 
      * @param string requete sql
      * @param array liste des parametres
-     * @return array les lignes de la base
+     * @return array les lignes retournees
      */
     static function fetchAll($sql, $params = []) {
         return self::returnLog(self::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC));
@@ -367,7 +390,7 @@ class DataBase {
      * 
      * @param string requete sql
      * @param array liste des parametres
-     * @return object valeur de la base
+     * @return mixed valeur de la cellule
      */
     static function fetchCell($sql, $params = []) {
         $res = self::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
@@ -378,12 +401,12 @@ class DataBase {
 
     
     /**
-     * Recupere une ligne et l'hydrate dans un objet
+     * Recupere une ligne et l'hydrate dans un objet DTO
      * 
      * @param string requete sql
-     * @param object type d'objet a retourne
-     * @param array liste des parametres
-     * @return object objet hydrate
+     * @param object la classe DTO a hydrater
+     * @param array la liste des parametres
+     * @return object objet DTO hydrate
      */
     static function fetchObject($sql, $type, $params = []) {
         return self::returnLog(self::send($sql, $params, $type)->fetch());
@@ -391,17 +414,25 @@ class DataBase {
 
     
     /**
-     * Recupere plusieurs lignes et les hydrate dans une liste d'objet
+     * Recupere plusieurs lignes et les hydrate dans une liste d'objet DTO
      * 
      * @param string requete sql
-     * @param object type d'objet a retourne
-     * @param array liste des parametres
-     * @return array liste d'objets hydrate
+     * @param object la classe DTO a hydrater
+     * @param array la liste des parametres
+     * @return array liste d'objets DTO hydrates
      */
     static function fetchObjects($sql, $type, $params = []) {
-        DataBase::switch($type::DATABASE);
-        $_ = self::returnLog(self::send($sql, $params)->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
-        return $_;
+        if ((new \ReflectionClass($type))->getConstant('DATABASE')) {
+            $last = self::$current;
+            DataBase::switch($type::DATABASE);
+            $_ = self::returnLog(self::send($sql, $params)
+                ->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
+            DataBase::switch($last);
+            return $_;
+        } else {
+            return self::returnLog(self::send($sql, $params)
+            ->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
+        }
     }
 
 

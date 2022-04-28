@@ -23,7 +23,7 @@ class Autoloader {
     /**
      * Cherche et inclut les fichiers contenant les classes
 
-     * @param string Namespace
+     * @param string namespace
      * @return void
      * @throws Error si le fichier n'est pas trouvé
      */

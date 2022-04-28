@@ -20,7 +20,7 @@ class {NAME_UPPER} {
     
 
     /**
-     * Proprietes
+     * @var mixed Les proprietes
      */
 	
 

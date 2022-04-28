@@ -12,7 +12,7 @@ class Rest {
 	 * Verifi si une requete REST a ete envoyer en GET
 	 * 
 	 * @param string nom de la fonction demandee
-	 * @param object fonction anonyme a executee en cas de demande
+	 * @param function fonction anonyme a executee en cas de demande
 	 * @return void
 	 */
 	static function get($name, $fn) {
@@ -24,7 +24,7 @@ class Rest {
 	 * Verifi si une requete REST a ete envoyer en POST
 	 * 
 	 * @param string nom de la fonction demandee
-	 * @param object fonction anonyme a executee en cas de demande
+	 * @param function fonction anonyme a executee en cas de demande
 	 * @return void
 	 */
 	static function post($name, $fn) {
@@ -38,7 +38,7 @@ class Rest {
 	 * @param array la liste des variable a verifier
 	 * @param string le nom de la methode
 	 * @param string nom de la fonction demandee
-	 * @param object fonction anonyme a executee en cas de demande
+	 * @param function fonction anonyme a executee en cas de demande
 	 * @return void
 	 */
 	private static function run($array, $method, $name, $fn) {

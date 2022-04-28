@@ -31,7 +31,7 @@ class Session {
     /**
      * Creer une session de connexion pour un utilisateur
      * 
-     * @param object instance dto de l'utilisateur a memoriser
+     * @param object instance DTO de l'utilisateur a memoriser
      * @param string son jeton
      * @param int le nombre de jours de validite du jeton
      * @return void

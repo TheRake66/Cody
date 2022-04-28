@@ -9,7 +9,7 @@ namespace Kernel;
 class Router {
 
     /**
-	 * @var array Liste des routes
+	 * @var array Liste des routes [ string => class ]
      */
 	private static $routes = [];
 

@@ -53,12 +53,12 @@ class Testing {
     /**
      * Verifie si une valeur est null
      * 
-     * @param object la valeur a verifier
+     * @param mixed la valeur a verifier
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNull($object, $message = 'Doit être null.') {
-        if (!is_null($object)) {
+    static function assertNull($mixed, $message = 'Doit être null.') {
+        if (!is_null($mixed)) {
             self::fail($message);
         }
     }
@@ -67,12 +67,12 @@ class Testing {
     /**
      * Verifie si une valeur est pas null
      * 
-     * @param object la valeur a verifier
+     * @param mixed la valeur a verifier
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotNull($object, $message = 'Ne doit pas être null.') {
-        if (is_null($object)) {
+    static function assertNotNull($mixed, $message = 'Ne doit pas être null.') {
+        if (is_null($mixed)) {
             self::fail($message);
         }
     }
@@ -81,13 +81,13 @@ class Testing {
     /**
      * Verifie si une valeur a un type precis
      * 
-     * @param object la valeur a verifier
+     * @param mixed la valeur a verifier
      * @param string le type requis
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertType($object, $type, $message = 'N\'est pas du type requis.') {
-        if (gettype($object) != $type) {
+    static function assertType($mixed, $type, $message = 'N\'est pas du type requis.') {
+        if (gettype($mixed) != $type) {
             self::fail($message);
         }
     }
@@ -96,13 +96,13 @@ class Testing {
     /**
      * Verifie si une valeur n'est pas d'un type precis
      * 
-     * @param object la valeur a verifier
+     * @param mixed la valeur a verifier
      * @param string le type indesirable
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotType($object, $type, $message = 'Est du type indesirable.') {
-        if (gettype($object) == $type) {
+    static function assertNotType($mixed, $type, $message = 'Est du type indesirable.') {
+        if (gettype($mixed) == $type) {
             self::fail($message);
         }
     }
@@ -233,13 +233,13 @@ class Testing {
     /**
      * Verifie si deux valeur ont le meme type
      * 
-     * @param object la premiere valeur a verifier
-     * @param object la deuxieme valeur a verifier
+     * @param mixed la premiere valeur a verifier
+     * @param mixed la deuxieme valeur a verifier
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertSameType($object1, $object2, $message = 'Doit être du meme type.') {
-        if (gettype($object1) != gettype($object2)) {
+    static function assertSameType($mixed1, $mixed2, $message = 'Doit être du meme type.') {
+        if (gettype($mixed1) != gettype($mixed2)) {
             self::fail($message);
         }
     }
@@ -248,13 +248,13 @@ class Testing {
     /**
      * Verifie si deux valeur ont un type different
      * 
-     * @param object la premiere valeur a verifier
-     * @param object la deuxieme valeur a verifier
+     * @param mixed la premiere valeur a verifier
+     * @param mixed la deuxieme valeur a verifier
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotSameType($object1, $object2, $message = 'Ne doit pas être du meme type.') {
-        if (gettype($object1) == gettype($object2)) {
+    static function assertNotSameType($mixed1, $mixed2, $message = 'Ne doit pas être du meme type.') {
+        if (gettype($mixed1) == gettype($mixed2)) {
             self::fail($message);
         }
     }
@@ -263,14 +263,14 @@ class Testing {
     /**
      * Verifie si une valeur est dans une liste
      * 
-     * @param object l'objet a verifier
+     * @param mixed l'objet a verifier
      * @param array la liste a verifier
      * @param bool si on verifie les types
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertInArray($object, $array, $checktype = false, $message = 'Doit être dans la liste.') {
-        if (!in_array($object, $array, $checktype)) {
+    static function assertInArray($mixed, $array, $checktype = false, $message = 'Doit être dans la liste.') {
+        if (!in_array($mixed, $array, $checktype)) {
             self::fail($message);
         }
     }
@@ -279,14 +279,14 @@ class Testing {
     /**
      * Verifie si une valeur n'est pas dans une liste
      * 
-     * @param object l'objet a verifier
+     * @param mixed l'objet a verifier
      * @param array la liste a verifier
      * @param bool si on verifie les types
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotInArray($object, $array, $checktype = false, $message = 'Ne doit pas être dans la liste.') {
-        if (in_array($object, $array, $checktype)) {
+    static function assertNotInArray($mixed, $array, $checktype = false, $message = 'Ne doit pas être dans la liste.') {
+        if (in_array($mixed, $array, $checktype)) {
             self::fail($message);
         }
     }

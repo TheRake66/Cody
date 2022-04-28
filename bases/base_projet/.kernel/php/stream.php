@@ -12,7 +12,8 @@ class Stream {
 	/**
 	 * Demarre un flux de donnees
 	 * 
-	 * @param object la fonction de traitement du flux
+	 * @param function la fonction de traitement du flux
+	 * @return void
 	 * @throws Error si l'extension ob_gzhandler n'est pas active en cas de mignification du flux
 	 */
 	static function start($callback = null) {
@@ -32,7 +33,8 @@ class Stream {
 	/**
 	 * Detruit le flux de donnees existant puis en demarre un nouveau
 	 * 
-	 * @param object la fonction de traitement du flux
+	 * @param function la fonction de traitement du flux
+	 * @return void
 	 * @throws Error si l'extension ob_gzhandler n'est pas active en cas de mignification du flux
 	 */
 	static function reset($callback = null) {
@@ -43,6 +45,8 @@ class Stream {
 
 	/**
 	 * Verifie si un flux de donnees existe
+	 * 
+	 * @return void
 	 */
 	static function exist() {
 		return ob_get_length() !== false;
@@ -51,6 +55,8 @@ class Stream {
 
 	/**
 	 * Retourne le contenu du flux de donnees
+	 * 
+	 * @return void
 	 */
 	static function get() {
 		return ob_get_contents();
@@ -59,6 +65,8 @@ class Stream {
 
 	/**
 	 * Nettoie le flux de donnees
+	 * 
+	 * @return void
 	 */
 	static function clean() {
 		if (self::exist()) {
@@ -69,6 +77,8 @@ class Stream {
 
 	/**
 	 * Detruit le flux de donnees
+	 * 
+	 * @return void
 	 */
 	static function destroy() {
 		if (self::exist()) {
@@ -79,6 +89,8 @@ class Stream {
 
 	/**
 	 * Envoie les donnees dans le flux
+	 * 
+	 * @return void
 	 */
 	static function send() {
 		if (self::exist()) {
@@ -89,6 +101,8 @@ class Stream {
 
 	/**
 	 * Envoie les donnees dans le flux et ferme le flux
+	 * 
+	 * @return void
 	 */
 	static function close() {
 		if (self::exist()) {

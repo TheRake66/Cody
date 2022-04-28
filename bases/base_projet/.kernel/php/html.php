@@ -13,7 +13,7 @@ class Html {
     /**
      * Ouvre une balise HTML et ecris l'entete
      * 
-     * @return string le code HTML
+     * @return void
      */
     static function begin() {
         Debug::log('Ouverture du HTML...', Debug::LEVEL_PROGRESS);
@@ -51,7 +51,7 @@ class Html {
     /**
      * Ferme la balise HTML
      * 
-     * @return string le code HTML
+     * @return void
      */
     static function end() {
         Debug::log('Fermeture du HTML...', Debug::LEVEL_PROGRESS);
@@ -86,6 +86,7 @@ class Html {
      * @param string la route de redirection
      * @param string les parametres de redirection (uniquement en methode POST)
      * @param string si on ajoute le parametre de retour
+     * @return string le code HTML
      */
     static function setForm($method = 'GET', $isMultipart = false, $route = null, $param = [], $addback = false) {
         $action = $route !== null ? 
@@ -326,6 +327,17 @@ class Html {
      */
     static function runScript($script, $type = 'module') {
         return '<script type="' . $type . '">' . $script . '</script>';
+    }
+
+
+    /**
+     * Ajoute une balise style
+     * 
+     * @param string le code css
+     * @return string le code HTML
+     */
+    static function addStyle($style) {
+        return '<style>' . $style . '</style>';
     }
 
 
