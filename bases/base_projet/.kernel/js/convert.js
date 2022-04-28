@@ -1,3 +1,7 @@
+import Html from './html.js';
+
+
+
 /**
  * Librairie de conversion
  */
@@ -53,6 +57,40 @@ export default class Convert {
             value === false || 
             value === 0 
             ? '-' : value;
+    }
+
+
+    /**
+	 * Convertit un tableau en CSV
+	 * 
+	 * @param {HTMLElement} table le tableau
+	 * @param {string} spearator separateur de colonne
+	 * @param {string} arround caractere autour de chaque cellules
+     * @returns {void}
+     */
+     static tableToCSV(table, spearator = ';', arround = '"') {
+        let csv = '';
+
+        // Creer le header
+        let heads = Html.queryAll('thead th', table);
+        heads.forEach(cell => {
+            csv += arround + cell.innerText + arround + spearator;
+        });
+        csv = csv.slice(0, -1) + '\n';
+
+        // Creer les lignes
+        let rows = Html.queryAll('tbody tr', table);
+        rows.forEach(row => {
+            if (row.style.display != 'none') {
+                let cells = Html.queryAll('td', row);
+                cells.forEach(cell => {
+                    csv += arround + cell.innerText.replace(/\n/g, ' ') + arround + spearator;
+                });
+                csv = csv.slice(0, -1) + '\n';
+            }
+        });
+        
+        return csv;
     }
 
 }

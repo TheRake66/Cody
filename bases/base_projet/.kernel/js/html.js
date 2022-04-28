@@ -55,6 +55,7 @@ export default class Html {
      * Vide le contenu d'un élément HTML
      * 
      * @param {HTMLElement} el l'élément HTML (par défaut body)
+     * @returns {void}
      */
     static clear(el = document.body) { 
         el.innerHTML = '';
@@ -65,6 +66,7 @@ export default class Html {
      * Detruit un élément HTML
      * 
      * @param {HTMLElement} el l'élément HTML (par défaut body)
+     * @returns {void}
      */
     static destroy(el = document.body) {
         el.remove();
@@ -99,6 +101,7 @@ export default class Html {
      * @param {string} html le contenu HTML
      * @param {HTMLElement} el l'élément HTML (par défaut body)
      * @param {string} position l'endroit où insérer le contenu HTML par défaut (beforeend)
+     * @returns {void}
      */
     static insert(html, el = document.body, position = 'beforeend') {
         el.insertAdjacentHTML(position, html);
@@ -110,6 +113,7 @@ export default class Html {
      * 
      * @param {HTMLElement} html le contenu HTML
      * @param {HTMLElement} el l'élément HTML (par défaut body)
+     * @returns {void}
      */
     static replace(html, el) {
         el.innerHTML = html;        
@@ -121,18 +125,28 @@ export default class Html {
      * 
      * @param {HTMLElement} el l'élément HTML à insérer
      * @param {HTMLElement} parent le parent de l'élément HTML (par défaut body)
-     * @returns {HTMLElement} l'élément HTML inséré
+     * @returns {void}
      */
     static append(el, parent = document.body) {
         parent.appendChild(el);
-        return el;
+    }
+
+
+    /**
+     * Supprime un élément HTML dan le DOM
+     * 
+     * @param {HTMLElement} el l'élément HTML à supprimer
+     * @param {HTMLElement} parent le parent de l'élément HTML (par défaut body)
+     */
+    static remove(el, parent = document.body) {
+        parent.removeChild(el);
     }
 
 
     /**
      * Retourne les coordonnées d'une cellule d'un tableau
      * 
-     * @param {Element} el la cellule (ou un de ses enfants)
+     * @param {HTMLElement} el la cellule (ou un de ses enfants)
      * @returns {Object} les coordonnées de la cellule (x, y)
      */
     static cellCoor(el) {
@@ -152,7 +166,7 @@ export default class Html {
     /**
      * Ajoute une classe à un élément HTML
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @param {string} className la classe à ajouter
      * @returns {void}
      */
@@ -164,7 +178,7 @@ export default class Html {
     /**
      * Supprime une classe à un élément HTML
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @param {string} className la classe à supprimer
      * @returns {void}
      */
@@ -176,7 +190,7 @@ export default class Html {
     /**
      * Verifie si une classe est présente sur un élément HTML
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @param {string} className la classe à ajouter
      * @returns {boolean} true si la classe est présente, false sinon
      */
@@ -188,7 +202,7 @@ export default class Html {
     /**
      * Ajoute une classe à un élément HTML si elle n'est pas présente, sinon la supprime
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @param {string} className la classe à ajouter
      * @returns {void}
      */
@@ -200,7 +214,7 @@ export default class Html {
     /**
      * Ajoute un écouteur d'événement à un élément HTML
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @param {string} event le nom de l'événement
      * @param {function} callback la fonction à exécuter
      * @param {boolean} capture si repercute l'événement sur les éléments enfants
@@ -220,7 +234,7 @@ export default class Html {
     /**
      * Desactive un élément HTML
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @returns {void}
      */
     static disabled(el) {
@@ -231,7 +245,7 @@ export default class Html {
     /**
      * Active un élément HTML
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @returns {void}
      * @returns {void}
      */
@@ -243,7 +257,7 @@ export default class Html {
     /**
      * Passe un élément HTML en mode lecture seule
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @returns {void}
      */
     static readonly(el) {
@@ -254,7 +268,7 @@ export default class Html {
     /**
      * Passe un élément HTML en mode écriture
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @returns {void}
      */
     static writable(el) {
@@ -265,7 +279,7 @@ export default class Html {
     /**
      * Cache un élément HTML
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @returns {void}
      */
     static hide(el) {
@@ -276,7 +290,7 @@ export default class Html {
     /**
      * Affiche un élément HTML
      * 
-     * @param {Element} el l'élément HTML
+     * @param {HTMLElement} el l'élément HTML
      * @returns {void}
      */
     static show(el) {
