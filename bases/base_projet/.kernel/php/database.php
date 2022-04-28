@@ -117,7 +117,7 @@ class DataBase {
         Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
         Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
         if (!is_null($class)) {
-            self::switch($class::DATABASE ?? null);
+            self::switch($class::DATABASE);
         }
         $rqt = self::getInstance()->prepare($sql);
         if (!is_null($class)) {
@@ -214,7 +214,7 @@ class DataBase {
      * @return object instance PDO
      */
     static function switch($database = null) {
-        if (is_null($database)) {
+        if (is_null($database) || empty($database)) {
             $database = Configuration::get()->database->default_database;
         }
         if (self::$current != $database) {
@@ -387,7 +387,7 @@ class DataBase {
      * @return array liste d'objets hydrate
      */
     static function fetchObjects($sql, $type, $params = []) {
-        self::switch($type::DATABASE ?? null);
+        self::switch($type::DATABASE);
         return self::returnLog(self::send($sql, $params)->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
     }
 
