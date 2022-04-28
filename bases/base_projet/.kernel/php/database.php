@@ -116,9 +116,6 @@ class DataBase {
         $parsed = self::paramsToSQL($params);
         Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
         Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
-        if (!is_null($class)) {
-            self::switch($class::DATABASE);
-        }
         $rqt = self::getInstance()->prepare($sql);
         if (!is_null($class)) {
             $rqt->setFetchMode(PDO::FETCH_INTO, new $class());
@@ -182,7 +179,19 @@ class DataBase {
     private static function buildClause($obj, $clause = null) {
         $sql = '';
         $arr = [];
-        $clause = $clause ?? $obj::PRIMARY ?? self::getColumnName($obj)[0];
+        if (is_null($clause) || empty($clause)) {
+            if (array_key_exists('PRIMARY', (new \ReflectionClass($obj))->getConstants()) &&
+                !is_null($obj::PRIMARY) && !empty($obj::PRIMARY)) {
+                $clause = $obj::PRIMARY;
+            } else {
+                $_ = self::getColumnName($obj);
+                if (!empty($_)) {
+                    $clause = $_;
+                } else {
+                    Error::trigger('Aucune clé primaire pour la classe "' . get_class($obj) . '" !');
+                }
+            }
+        }
         foreach ((array)$obj as $prop => $val) {
             $prop = str_replace('*', '', $prop);
             if (!is_array($clause) && $prop == $clause ||
@@ -387,7 +396,6 @@ class DataBase {
      * @return array liste d'objets hydrate
      */
     static function fetchObjects($sql, $type, $params = []) {
-        self::switch($type::DATABASE);
         return self::returnLog(self::send($sql, $params)->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
     }
 
