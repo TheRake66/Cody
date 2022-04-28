@@ -116,9 +116,13 @@ class DataBase {
         $parsed = self::paramsToSQL($params);
         Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
         Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
+        if (!is_null($class)) {
+            DataBase::switch($class::DATABASE);
+        }
         $rqt = self::getInstance()->prepare($sql);
         if (!is_null($class)) {
             $rqt->setFetchMode(PDO::FETCH_INTO, new $class());
+            DataBase::switch();
         }
         $rqt->execute($parsed);
         Debug::log('Requête SQL exécutée.', Debug::LEVEL_GOOD, Debug::TYPE_QUERY);
@@ -180,8 +184,7 @@ class DataBase {
         $sql = '';
         $arr = [];
         if (is_null($clause) || empty($clause)) {
-            if (array_key_exists('PRIMARY', (new \ReflectionClass($obj))->getConstants()) &&
-                !is_null($obj::PRIMARY) && !empty($obj::PRIMARY)) {
+            if (!is_null($obj::PRIMARY) && !empty($obj::PRIMARY)) {
                 $clause = $obj::PRIMARY;
             } else {
                 $_ = self::getColumnName($obj);
@@ -396,7 +399,9 @@ class DataBase {
      * @return array liste d'objets hydrate
      */
     static function fetchObjects($sql, $type, $params = []) {
-        return self::returnLog(self::send($sql, $params)->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
+        DataBase::switch($type::DATABASE);
+        $_ = self::returnLog(self::send($sql, $params)->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
+        return $_;
     }
 
 
