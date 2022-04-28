@@ -38,12 +38,12 @@ dev                             Active ou désactive le mode développeur (bêta
 bye                             Quitte Cody en fermant le serveur PHP si il y en a un.
 dl [url] [fichier]              Télécharge un fichier avec l'URL spécifiée.
 exp                             Ouvre le projet dans l'explorateur de fichiers.
-lib [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une librairie (PHP et JavaScript).
+lib [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une librairie (PHP, LESS, et JavaScript).
                                 avec le nom spécifié.
 ls                              Affiche la liste des projets.
 maj                             Vérifie les mises à jour disponibles.
 new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
-obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe dto, classe dao)
+obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe DTO, classe DAO)
                                 avec le nom spécifié.
 pkg [-t|-l|-s] [*nom]           Télécharge, liste ou supprime un package depuis le dépôt de Cody.
 rep                             Ouvre la dépôt GitHub de Cody.
