@@ -109,27 +109,13 @@ class DataBase {
      * 
      * @param string requete sql
      * @param array liste des parametres
-     * @param object classe si on veut des objets
      * @return PDOStatement instance PDO
      */
-    private static function send($sql, $params, $class = null) {
+    private static function send($sql, $params) {
         Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
         $parsed = self::paramsToSQL($params);
         Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
-        if (is_object($class) || Autoloader::classExist($class)) {
-            if (self::hasPreConstant($class, 'DATABASE')) {
-                $rqt = self::toogle(function() use ($sql, $class) {
-                    $_ = self::getInstance()->prepare($sql);
-                    $_->setFetchMode(PDO::FETCH_INTO, new $class());
-                    return $_;
-                }, $class::DATABASE);
-            } else {
-                $rqt = self::getInstance()->prepare($sql);
-                $rqt->setFetchMode(PDO::FETCH_INTO, new $class());
-            }
-        } else {
-            $rqt = self::getInstance()->prepare($sql);
-        }
+        $rqt = self::getInstance()->prepare($sql);
         $rqt->execute($parsed);
         Debug::log('Requête SQL exécutée.', Debug::LEVEL_GOOD, Debug::TYPE_QUERY);
         return $rqt;
@@ -230,7 +216,7 @@ class DataBase {
      * Retourne le nom d'une table via sa classe
      * 
      * @param object l'objet DTO
-     * @return string le nom
+     * @return string le nom de la classe
      */
     private static function getTableName($obj) {
         return strtolower((new \ReflectionClass($obj))->getShortName());
@@ -292,8 +278,8 @@ class DataBase {
     /**
      * Change la base de donnees courante, execute la fonction callback et remet la base de donnees courante a la precedente
      * 
-     * @param string|object le nom de la base de donnees, en string ou en object DTO, si null, la base par defaut est utilisee
      * @param callable la fonction a executer
+     * @param string|object le nom de la base de donnees, en string ou en object DTO, si null, la base par defaut est utilisee
      * @return mixed le resultat de la fonction
      */
     static function toogle($callback, $database = null) {
@@ -428,7 +414,16 @@ class DataBase {
      * @return object objet DTO hydrate
      */
     static function fetchObject($sql, $type, $params = []) {
-        return self::returnLog(self::send($sql, $params, $type)->fetch());
+        $callback = function() use ($sql, $type, $params) {
+            $_ = self::send($sql, $params);
+            $_->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type);
+            return self::returnLog($_->fetch());
+        };
+        if (self::hasPreConstant($type, 'DATABASE')) {
+            return self::toogle($callback, $type::DATABASE);
+        } else {
+            return $callback();
+        }
     }
 
     
@@ -441,14 +436,14 @@ class DataBase {
      * @return array liste d'objets DTO hydrates
      */
     static function fetchObjects($sql, $type, $params = []) {
-        if ((new \ReflectionClass($type))->getConstant('DATABASE')) {
-            return self::toogle(function() use ($sql, $type, $params) {
-                return self::returnLog(self::send($sql, $params)
-                ->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
-            }, $type::DATABASE);
-        } else {
+        $callback = function() use ($sql, $type, $params) {
             return self::returnLog(self::send($sql, $params)
             ->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
+        };
+        if (self::hasPreConstant($type, 'DATABASE')) {
+            return self::toogle($callback, $type::DATABASE);
+        } else {
+            return $callback();
         }
     }
 
@@ -559,7 +554,7 @@ class DataBase {
         $pr = self::buildClause($obj, $clause);
         return DataBase::fetchObject(
 			'SELECT * FROM ' . self::getTableName($obj) . ' ' . $pr[0],
-            $obj,
+            get_class($obj),
             $pr[1]);
     }
 
