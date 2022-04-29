@@ -25,7 +25,7 @@ class DataBase {
      * Creer une instance PDO
      *
      * @param array configuration de la base de donnees
-     * @return object instance PDO
+     * @return PDOStatement instance PDO
      * @throws Error si la connexion echoue
      */
     private static function init($conf) {
@@ -56,7 +56,7 @@ class DataBase {
     /**
      * Retourne l'instance PDO en cours, si aucune est en cours on en creer une
      * 
-     * @return object instance PDO
+     * @return PDOStatement instance PDO
      * @throws Error si la base de donnees n'est pas definie
      */
     private static function getInstance() {
@@ -110,19 +110,19 @@ class DataBase {
      * @param string requete sql
      * @param array liste des parametres
      * @param object classe si on veut des objets
-     * @return object requete executee
+     * @return PDOStatement instance PDO
      */
     private static function send($sql, $params, $class = null) {
-        $parsed = self::paramsToSQL($params);
         Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
+        $parsed = self::paramsToSQL($params);
         Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
-        if (!is_null($class)) {
-            if (self::isValidConstant($class, 'DATABASE')) {
-                $last = self::$current;
-                DataBase::switch($class::DATABASE);
-                $rqt = self::getInstance()->prepare($sql);
-                $rqt->setFetchMode(PDO::FETCH_INTO, new $class());
-                DataBase::switch($last);
+        if (is_object($class) || Autoloader::classExist($class)) {
+            if (self::hasPreConstant($class, 'DATABASE')) {
+                $rqt = self::toogle(function() use ($sql, $class) {
+                    $_ = self::getInstance()->prepare($sql);
+                    $_->setFetchMode(PDO::FETCH_INTO, new $class());
+                    return $_;
+                }, $class::DATABASE);
             } else {
                 $rqt = self::getInstance()->prepare($sql);
                 $rqt->setFetchMode(PDO::FETCH_INTO, new $class());
@@ -190,13 +190,13 @@ class DataBase {
     private static function buildClause($obj, $clause = null) {
         $sql = '';
         $arr = [];
-        if (is_null($clause) || empty($clause)) {
-            if (self::isValidConstant($obj, 'PRIMARY')) {
+        if (empty($clause)) {
+            if (self::hasPreConstant($obj, 'PRIMARY')) {
                 $clause = $obj::PRIMARY;
             } else {
                 $_ = self::getColumnName($obj);
                 if (!empty($_)) {
-                    $clause = $_;
+                    $clause = $_[0];
                 } else {
                     Error::trigger('Aucune clé primaire pour la classe "' . get_class($obj) . '" !');
                 }
@@ -254,15 +254,14 @@ class DataBase {
 
 
     /**
-     * Verifie qu'une constante est definie et non vide
+     * Verifie qu'une constante est definie
      * 
      * @param object la classe ou verifier la constante
      * @param string le nom de la constante
      * @return bool true si definie et non vide
      */
-    private static function isValidConstant($class, $constant) {
-        return (new \ReflectionClass($class))->hasConstant($constant) &&
-            !is_null($class::$constant) && !empty($class::$constant);
+    private static function hasPreConstant($class, $constant) {
+        return (new \ReflectionClass($class))->hasConstant($constant);
     }
 
     
@@ -270,19 +269,39 @@ class DataBase {
      * Change la base de donnees courante
      * 
      * @param string|object le nom de la base de donnees, en string ou en object DTO, si null, la base par defaut est utilisee
-     * @return object instance PDO
+     * @return void
      */
     static function switch($database = null) {
-        if (self::isValidConstant($database, 'DATABASE')) {
-            $database = $database::DATABASE;
+        if (is_object($database) || Autoloader::classExist($database)) {
+            if (self::hasPreConstant($database, 'DATABASE')) {
+                $database = $database::DATABASE;
+            } else {
+                Error::trigger('La classe "' . get_class($database) . '" n\'a pas de constante DATABASE !');
+            }
         }
-        if (is_null($database) || empty($database)) {
+        if (empty($database)) {
             $database = Configuration::get()->database->default_database;
         }
         if (self::$current != $database) {
             self::$current = $database;
             Debug::log('Changement de base de données vers "' . $database .'".', Debug::LEVEL_GOOD);
         }
+    }
+
+
+    /**
+     * Change la base de donnees courante, execute la fonction callback et remet la base de donnees courante a la precedente
+     * 
+     * @param string|object le nom de la base de donnees, en string ou en object DTO, si null, la base par defaut est utilisee
+     * @param callable la fonction a executer
+     * @return mixed le resultat de la fonction
+     */
+    static function toogle($callback, $database = null) {
+        $last = self::$current;
+        DataBase::switch($database);
+        $result = $callback();
+        DataBase::switch($last);
+        return $result;
     }
 
 
@@ -423,12 +442,10 @@ class DataBase {
      */
     static function fetchObjects($sql, $type, $params = []) {
         if ((new \ReflectionClass($type))->getConstant('DATABASE')) {
-            $last = self::$current;
-            DataBase::switch($type::DATABASE);
-            $_ = self::returnLog(self::send($sql, $params)
+            return self::toogle(function() use ($sql, $type, $params) {
+                return self::returnLog(self::send($sql, $params)
                 ->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
-            DataBase::switch($last);
-            return $_;
+            }, $type::DATABASE);
         } else {
             return self::returnLog(self::send($sql, $params)
             ->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));

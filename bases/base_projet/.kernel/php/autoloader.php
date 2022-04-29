@@ -21,13 +21,31 @@ class Autoloader {
     
 
     /**
-     * Cherche et inclut les fichiers contenant les classes
-
-     * @param string namespace
+     * Include la classe demandee
+     * 
+     * @param string l'espace de nom de la classe
      * @return void
      * @throws Error si le fichier n'est pas trouvé
      */
     private static function load($required) {
+        if ($file = self::getFile($required)) {
+            require $file;
+            if (!class_exists($required)) {
+                Error::trigger('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
+            }
+        } else {
+            Error::trigger('Impossible de charger la classe "' . $required . '" !');
+        }
+    }
+
+
+    /**
+     * Determine le chemin du fichier de la classe demandee
+     * 
+     * @param string l'espace de nom de la classe
+     * @return string|null le chemin du fichier ou null si non trouvé
+     */
+    private static function getFile($required) {
         $_ = explode('\\', $required);
         $class = end($_);
         $first = array_shift($_);
@@ -58,15 +76,24 @@ class Autoloader {
 
         $file = strtolower($file);
         if (is_file($file) && is_readable($file)) {
-            require $file;
+            return $file;
         } else {
             $file = str_replace('_', ' ', $file);
             if(is_file($file) && is_readable($file)) {
-                require $file;
-            } else {
-                Error::trigger('Impossible de charger la classe "' . $required . '" !');
+                return $file;
             }
         }
+    }
+
+
+    /**
+     * Verifi si une classe existe meme si elle n'est pas encore chargee
+     * 
+     * @param string l'espace de nom de la classe
+     * @return bool true si la classe existe
+     */
+    static function classExist($class) {
+        return class_exists($class, false) || !empty(self::getFile($class));
     }
     
 }
