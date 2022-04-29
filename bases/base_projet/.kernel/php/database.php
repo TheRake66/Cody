@@ -167,7 +167,13 @@ class DataBase {
 
     
     /**
-     * Construit la condition WHERE pour les cle primaire
+     * Construit l'instruction pour la clause
+     * 
+     * WHERE a = ?
+     * AND b = ?
+     * AND c = ?
+     * 
+     * [ 1, 2, 3]
      * 
      * @param object l'objet DTO a lier
      * @param array les nom des cles primaire
@@ -177,7 +183,7 @@ class DataBase {
         $sql = '';
         $arr = [];
         if (empty($clause)) {
-            if (self::hasPreConstant($obj, 'PRIMARY')) {
+            if (self::hasPreConstant($obj, 'PRIMARY') && !empty($obj::PRIMARY)) {
                 $clause = $obj::PRIMARY;
             } else {
                 $_ = self::getColumnName($obj);
@@ -209,6 +215,62 @@ class DataBase {
             $sql = substr($sql, 0, $len - 1);
         }
         return [ $sql, $arr ];
+    }
+
+
+    /**
+     * Construit l'instruction pour l'insertion
+     * 
+     * (a, b, c) VALUES (?, ?, ?)
+     * 
+     * [ 1, 2, 3 ]
+     * 
+     * @param object l'objet DTO a lier
+     * @return array l'instruction pour l'insert et leurs valeurs
+     */
+    private static function buildInsert($obj) {
+        $col = '';
+        $pmv = '';
+        $pms = [];
+        foreach ((array)$obj as $prop => $val) {
+            $col .= str_replace('*', '', $prop) . ', ';
+            $pmv .= '?, ';
+            $pms[] = $val;
+        }
+        $len = strlen($col);
+        if ($len > 0) {
+            $col = substr($col, 0, $len - 2);
+        }
+        $len2 = strlen($pmv);
+        if ($len2 > 0) {
+            $pmv = substr($pmv, 0, $len2 - 2);
+        }
+        return [ '(' . $col . ') VALUES (' . $pmv . ')', $pms ];
+    }
+
+
+    /**
+     * Construit l'instruction pour la mise a jour
+     * 
+     * SET a = ?, b = ?, c = ?
+     * 
+     * [ 1, 2, 3 ]
+     * 
+     * @param object l'objet DTO a lier
+     * @return array l'instruction pour la mise a jour et leurs valeurs
+     */
+    private static function buildUpdate($obj) {
+        $set = '';
+        $col = [];
+        foreach ((array)$obj as $prop => $val) {
+            $set .= str_replace('*', '', $prop) . ' = ?, ';
+            $col[] = $val;
+        }
+        $len = strlen($set);
+        if ($len > 0) {
+            $set = substr($set, 0, $len - 2);
+        }
+        return [ 'SET ' . $set, $col ];
     }
 
 
@@ -254,17 +316,10 @@ class DataBase {
     /**
      * Change la base de donnees courante
      * 
-     * @param string|object le nom de la base de donnees, en string ou en object DTO, si null, la base par defaut est utilisee
+     * @param string le nom de la base de donnees, si null, la base par defaut est utilisee
      * @return void
      */
     static function switch($database = null) {
-        if (is_object($database) || Autoloader::classExist($database)) {
-            if (self::hasPreConstant($database, 'DATABASE')) {
-                $database = $database::DATABASE;
-            } else {
-                Error::trigger('La classe "' . get_class($database) . '" n\'a pas de constante DATABASE !');
-            }
-        }
         if (empty($database)) {
             $database = Configuration::get()->database->default_database;
         }
@@ -279,7 +334,7 @@ class DataBase {
      * Change la base de donnees courante, execute la fonction callback et remet la base de donnees courante a la precedente
      * 
      * @param callable la fonction a executer
-     * @param string|object le nom de la base de donnees, en string ou en object DTO, si null, la base par defaut est utilisee
+     * @param string le nom de la base de donnees, si null, la base par defaut est utilisee
      * @return mixed le resultat de la fonction
      */
     static function toogle($callback, $database = null) {
@@ -288,6 +343,24 @@ class DataBase {
         $result = $callback();
         DataBase::switch($last);
         return $result;
+    }
+
+
+    /**
+     * Si la classe type contient une constante DATABASE, on change la base de 
+     * donnees courante, execute la fonction callback et remet la base de donnees 
+     * courante a la precedente, sinon on execute la fonction callback sans changer
+     * 
+     * @param callable la fonction a executer
+     * @param object la classe DTO
+     * @return mixed le resultat de la fonction
+     */
+    static function toogleObject($callback, $type) {
+        if (self::hasPreConstant($type, 'DATABASE')) {
+            return self::toogle($callback, $type::DATABASE);
+        } else {
+            return $callback();
+        }
     }
 
 
@@ -413,17 +486,10 @@ class DataBase {
      * @param array la liste des parametres
      * @return object objet DTO hydrate
      */
-    static function fetchObject($sql, $type, $params = []) {
-        $callback = function() use ($sql, $type, $params) {
-            $_ = self::send($sql, $params);
-            $_->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type);
-            return self::returnLog($_->fetch());
-        };
-        if (self::hasPreConstant($type, 'DATABASE')) {
-            return self::toogle($callback, $type::DATABASE);
-        } else {
-            return $callback();
-        }
+    static function fetchObject($sql, $class, $params = []) {
+        $_ = self::send($sql, $params);
+        $_->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
+        return self::returnLog($_->fetch());
     }
 
     
@@ -435,16 +501,9 @@ class DataBase {
      * @param array la liste des parametres
      * @return array liste d'objets DTO hydrates
      */
-    static function fetchObjects($sql, $type, $params = []) {
-        $callback = function() use ($sql, $type, $params) {
-            return self::returnLog(self::send($sql, $params)
-            ->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $type));
-        };
-        if (self::hasPreConstant($type, 'DATABASE')) {
-            return self::toogle($callback, $type::DATABASE);
-        } else {
-            return $callback();
-        }
+    static function fetchObjects($sql, $class, $params = []) {
+        return self::returnLog(self::send($sql, $params)
+        ->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class));
     }
 
 
@@ -455,9 +514,9 @@ class DataBase {
      * @return array les objets DTO
      */
     static function alls($class) {
-        return DataBase::fetchObjects(
-			"SELECT * FROM " . self::getTableName($class),
-            $class);
+        return self::toogleObject(function() use ($class) {
+            return self::fetchObjects('SELECT * FROM ' . self::getTableName($class), $class);
+        }, $class);
     }
 
 
@@ -468,8 +527,9 @@ class DataBase {
      * @return int le nombre de ligne
      */
     static function size($class) { 
-        return DataBase::fetchCell(
-            'SELECT COUNT(1) FROM ' . self::getTableName($class));
+        return self::toogleObject(function() use ($class) {
+            return self::fetchCell('SELECT COUNT(1) FROM ' . self::getTableName($class));
+        }, $class);
     }
 
 
@@ -480,7 +540,9 @@ class DataBase {
      * @return bool si ca reussit
      */
     static function truncat($class) { 
-        return DataBase::execute('TRUNCATE TABLE ' . self::getTableName($class));
+        return self::toogleObject(function() use ($class) {
+            return self::execute('TRUNCATE TABLE ' . self::getTableName($class));
+        }, $class);
     }
 
 
@@ -492,10 +554,12 @@ class DataBase {
      * @return bool si il existe
      */
     static function exists($obj, $clause = null) {
-        $pr = self::buildClause($obj, $clause);
-        return DataBase::fetchCell(
-            'SELECT EXISTS (SELECT 1 FROM ' . self::getTableName($obj) . ' ' . $pr[0] . ')',
-            $pr[1]);    
+        return self::toogleObject(function() use ($obj, $clause) {
+            [ $where, $params ] = self::buildClause($obj, $clause);
+            return self::fetchCell(
+                'SELECT EXISTS (SELECT 1 FROM ' . self::getTableName($obj) . ' ' . $where . ')',
+                $params); 
+        }, get_class($obj));   
     }
 
 
@@ -507,10 +571,12 @@ class DataBase {
      * @return int le nombre de ligne
      */
     static function count($obj, $clause = null) {
-        $pr = self::buildClause($obj, $clause);
-        return DataBase::fetchCell(
-            'SELECT COUNT(1) FROM ' . self::getTableName($obj) . ' ' . $pr[0],
-            $pr[1]);    
+        return self::toogleObject(function() use ($obj, $clause) {
+            [ $where, $params ] = self::buildClause($obj, $clause);
+            return self::fetchCell(
+                'SELECT COUNT(1) FROM ' . self::getTableName($obj) . ' ' . $where . ')',
+                $params); 
+        }, get_class($obj));
     }
 
 
@@ -521,25 +587,12 @@ class DataBase {
      * @return bool si ca reussit
      */
     static function create($obj) {
-        $col = '';
-        $pmv = '';
-        $pms = [];
-        foreach ((array)$obj as $prop => $val) {
-            $col .= str_replace('*', '', $prop) . ', ';
-            $pmv .= '?, ';
-            $pms[] = $val;
-        }
-        $len = strlen($col);
-        if ($len > 0) {
-            $col = substr($col, 0, $len - 2);
-        }
-        $len2 = strlen($pmv);
-        if ($len2 > 0) {
-            $pmv = substr($pmv, 0, $len2 - 2);
-        }
-        return DataBase::execute(
-			'INSERT INTO ' . self::getTableName($obj) . ' (' . $col . ') VALUES (' . $pmv . ')',
-            $pms);
+        return self::toogleObject(function() use ($obj) {
+            [ $values, $params ] = self::buildInsert($obj);
+            return self::execute(
+                'INSERT INTO ' . self::getTableName($obj) . $values, 
+                $params);
+        }, get_class($obj));
     }
 
 
@@ -551,11 +604,13 @@ class DataBase {
      * @return object les objets DTO
      */
     static function read($obj, $clause = null) {
-        $pr = self::buildClause($obj, $clause);
-        return DataBase::fetchObject(
-			'SELECT * FROM ' . self::getTableName($obj) . ' ' . $pr[0],
-            get_class($obj),
-            $pr[1]);
+        return self::toogleObject(function() use ($obj, $clause) {
+            [ $where, $params ] = self::buildClause($obj, $clause);
+            return self::fetchObject(
+                'SELECT * FROM ' . self::getTableName($obj) . ' ' . $where,
+                get_class($obj),
+                $params);
+        }, get_class($obj));
     }
 
 
@@ -567,20 +622,13 @@ class DataBase {
      * @return bool si ca reussit
      */
     static function update($obj, $clause = null) {
-        $set = '';
-        $col = [];
-        foreach ((array)$obj as $prop => $val) {
-            $set .= str_replace('*', '', $prop) . ' = ?, ';
-            $col[] = $val;
-        }
-        $pr = self::buildClause($obj, $clause);
-        $len = strlen($set);
-        if ($len > 0) {
-            $set = substr($set, 0, $len - 2);
-        }
-        return DataBase::execute(
-			'UPDATE ' . self::getTableName($obj) . ' SET ' . $set . ' ' . $pr[0],
-            array_merge($col, $pr[1]));
+        return self::toogleObject(function() use ($obj, $clause) {
+            [ $values, $params1 ] = self::buildUpdate($obj, $clause);
+            [ $where, $params2 ] = self::buildClause($obj, $clause);
+            return self::execute(
+                'UPDATE ' . self::getTableName($obj) . ' ' . $values . ' ' . $where,
+                array_merge($params1, $params2));
+        }, get_class($obj));
     }
 
 
@@ -592,10 +640,12 @@ class DataBase {
      * @return bool si ca reussit
      */
     static function delete($obj, $clause = null) { 
-        $pr = self::buildClause($obj, $clause);
-        return DataBase::execute(
-			'DELETE FROM ' . self::getTableName($obj) . ' ' . $pr[0],
-            $pr[1]);
+        return self::toogleObject(function() use ($obj, $clause) {
+            [ $where, $params ] = self::buildClause($obj, $clause);
+            return self::execute(
+                'DELETE FROM ' . self::getTableName($obj) . ' ' . $where,
+                $params);
+        }, get_class($obj));
     }
 
 
@@ -607,11 +657,13 @@ class DataBase {
      * @return object les objets DTO
      */
     static function readMany($obj, $clause = null) {
-        $pr = self::buildClause($obj, $clause);
-        return DataBase::fetchObjects(
-			'SELECT * FROM ' . self::getTableName($obj) . ' ' . $pr[0],
-            get_class($obj),
-            $pr[1]);
+        return self::toogleObject(function() use ($obj, $clause) {
+            [ $where, $params ] = self::buildClause($obj, $clause);
+            return DataBase::fetchObjects(
+                'SELECT * FROM ' . self::getTableName($obj) . ' ' . $where,
+                get_class($obj),
+                $params);
+        }, get_class($obj));
     }
 
 }
