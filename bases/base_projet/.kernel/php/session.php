@@ -104,9 +104,9 @@ class Session {
      */
 	static function setToken($token = null, $nbdays = 31) {
 		if (is_null($token)) {
-			$token = Security::makeToken(50);
+			$token = Security::makeCSRFToken();
 		}
-        Security::setCookie('token', $token, time() + $nbdays*60*60*24);
+        Security::setCookie('session_token', $token, time() + $nbdays*60*60*24);
         Debug::log('Jeton de connexion : ' . $token . ', défini pour ' . $nbdays . ' jour(s)...');
 	}
 
@@ -117,7 +117,7 @@ class Session {
      * @return string le jeton de connexion en memoire
      */
 	static function getToken() {
-		return Security::getCookie('token');
+		return Security::getCookie('session_token');
 	}
 
 
@@ -127,7 +127,7 @@ class Session {
      * @return void
      */
 	static function removeToken() {
-        Security::removeCookie('token');
+        Security::removeCookie('session_token');
         Debug::log('Jeton supprimé.');
 	}
 

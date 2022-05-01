@@ -18,8 +18,10 @@ class Server {
 			return $_SERVER['HTTP_CLIENT_IP'];
 		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 			return $_SERVER['HTTP_X_FORWARDED_FOR'];
-		} else {
+		} elseif (!empty($_SERVER['REMOTE_ADDR'])) {
 			return $_SERVER['REMOTE_ADDR'];
+		} else {
+			return '0.0.0.0';
 		}
 	}
 	

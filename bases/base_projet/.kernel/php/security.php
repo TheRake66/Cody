@@ -104,12 +104,76 @@ class Security {
      * @param string le jeu de caracteres
      * @return string le token
      */
-	static function makeToken($size, $charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
+	static function makeSimpleToken($size = 32, $charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
 		$token = '';
+		$max = strlen($charset) - 1;
 		for ($i = 0; $i < $size; $i++) {
-		   $token .= $charset[rand(0, strlen($charset) - 1)];
+		   $token .= $charset[rand(0, $max)];
 		}
 		return $token;
+	}
+
+
+	/**
+	 * Genere un jeton aleatoire de taille n cryptographiquement securisee
+	 * 
+	 * @param int taille du token en octets
+	 * @return string le token
+	 */
+	static function makeCSRFToken($size = 32) {
+		if (function_exists('random_bytes')) {
+			return bin2hex(random_bytes($size));
+		} elseif (function_exists('openssl_random_pseudo_bytes')) {
+			return bin2hex(openssl_random_pseudo_bytes($size));
+		} else {
+			return Error::trigger('Version de PHP trop ancienne, veuillez activer l\'extension "openssl" ou utilisez la fonction "makeSimpleToken".');
+		}
+	}
+
+
+	/**
+	 * Initialise un champ cache pour la protection CSRF
+	 * 
+	 * @return void
+	 */
+    static function initCSRF() {
+        $token = Security::makeCSRFToken();
+        $_SESSION['csrf_token'] = $token;
+		Debug::log('Génération d\'un jeton CSRF : "' . $token . '".');
+        Html::add(
+			Html::createElement('input', [
+                'type' => 'hidden',
+                'name' => 'csrf_token',
+                'value' => $token  
+        ]));
+    }
+
+
+	/**
+	 * Verifie si le jeton CSRF est valide passe
+	 * 
+	 * @return bool si le jeton est valide
+	 */
+	static function checkCSRF() {
+		if (isset($_SESSION['csrf_token']) && isset($_POST['csrf_token']) &&
+			$_SESSION['csrf_token'] === $_POST['csrf_token']) {
+			Debug::log('Le jeton CSRF est valide.');
+			return true;
+		} else {
+			Debug::log('Le jeton CSRF est invalide.', Debug::LEVEL_ERROR);
+			http_response_code(405);
+			return false;
+		}
+	}
+
+	
+	/**
+	 * Detruit le jeton CSRF
+	 * 
+	 * @return void
+	 */
+	static function destroyCSRF() {
+		unset($_SESSION['csrf_token']);
 	}
 
 
