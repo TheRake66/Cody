@@ -91,8 +91,8 @@ class Error {
     private static function showError($severity, $message, $file_name, $lineno) {
         self::remove();
         self::$showing = true;
-        $message .= PHP_EOL . (new Exception())->getTraceAsString();
-        Debug::log($message, Debug::LEVEL_ERROR);
+        $messagefull = $message . PHP_EOL . (new Exception())->getTraceAsString();
+        Debug::log($messagefull, Debug::LEVEL_ERROR);
         Stream::destroy();
         http_response_code(500);
         if (Configuration::get()->render->show_error_message) {
@@ -108,7 +108,7 @@ class Error {
                 </div>
                 <div class="ERROR_CODY_CONT">
                     <span><b>Code erreur :</b><input type="text" value="' . $severity . '" readonly></span>
-                    <span><b>Message :</b><textarea readonly>' . $message . '</textarea></span>
+                    <span><b>Message :</b><textarea readonly>' . $messagefull  . '</textarea></span>
                     <span><b>Fichier concerné :</b><input type="text" value="' . $file_name . '" readonly></span>
                     <span><b>Ligne concernée :</b><input type="text" value="' . $lineno . '" readonly></span>
                     <div>

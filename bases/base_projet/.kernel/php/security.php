@@ -34,13 +34,13 @@ class Security {
 	 */
 	static function setSessionCookie() {
         $conf = Configuration::get()->security;
-		return session_set_cookie_params([
+		return session_set_cookie_params(
 			$conf->cookie_lifetime, 
 			$conf->cookie_path,
 			$conf->cookie_domain,
 			$conf->cookie_only_https,
 			$conf->cookie_prevent_xss
-		]);
+		);
 	}
 
 

@@ -38,12 +38,12 @@ class Session {
             }
             $error = false;
             if ($conf->regenerate_delay === 0) {
-                $error = self::regenerate();
+                $error = !self::regenerate();
             } elseif ($conf->regenerate_delay > 0) {
                 if (!isset($_SESSION['session_last_regenerate'])) {
                     $_SESSION['session_last_regenerate'] = time();
                 } elseif (time() - $_SESSION['session_last_regenerate'] > $conf->regenerate_delay) {
-                    $error = self::regenerate();
+                    $error = !self::regenerate();
                 }
             }
             if ($error) {

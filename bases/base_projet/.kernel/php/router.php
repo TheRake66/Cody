@@ -159,7 +159,7 @@ class Router {
         Debug::log('Routage (url : "' . Url::current() . '")...', Debug::LEVEL_PROGRESS);
 
 		$c = self::getController();
-        Debug::log('Contrôleur identifié : "' . get_class($c) . '".');
+        Debug::log('Contrôleur identifié : "' . $c . '".');
 
 		new $c();
 		Debug::log('Routage fait.', Debug::LEVEL_GOOD);
