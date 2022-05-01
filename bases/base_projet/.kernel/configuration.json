@@ -1,10 +1,11 @@
 {
     "security": {
         "redirect_to_https": false,
-        "token_path": "/",
-        "token_domain": "www.{PROJECT_NAME}.com",
-        "token_only_https": false,
-        "token_prevent_xss": true
+        "cookie_path": "/",
+        "cookie_domain": "www.{PROJECT_NAME}.com",
+        "cookie_only_https": false,
+        "cookie_prevent_xss": true,
+        "cookie_lifetime": 0
     },
     "render": {
         "use_minifying": false,
@@ -43,7 +44,9 @@
     "session": {
         "open_session": true,
         "multiple_session": true,
-        "session_name": "{PROJECT_NAME}"
+        "session_name": "{PROJECT_NAME}",
+        "regenerate_delay": 300,
+        "regenerate_delete_old": false
     },
     "database": {
         "default_database": "{PROJECT_NAME}",

@@ -18,13 +18,12 @@ class Configuration {
 	 * Charge la configuration
 	 * 
 	 * @return void
-	 * @throws Error si le fichier de configuration n'est pas trouvé
 	 */
 	static function load() {
 		try {
 			self::$current = json_decode(file_get_contents('.kernel/configuration.json'));
 		} catch (\Exception $e) {
-            Error::trigger('Impossible de charger la configuration.', $e);
+			die('Impossible de charger la configuration !');
 		}
 	}
 	

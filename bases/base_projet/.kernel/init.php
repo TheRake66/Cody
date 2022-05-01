@@ -19,9 +19,6 @@ k\Stream::reset();
 // Ajoute un separateur dans la log
 k\Debug::separator();
 
-// Lance le superviseur
-k\Supervisor::supervise();
-
 // Active le protocole SSL (HTTPS)
 k\Security::enableSsl();
 
@@ -33,5 +30,8 @@ k\Session::start();
 
 // Charge les routes
 k\Router::load();
+
+// Lance le superviseur
+k\Supervisor::supervise();
 
 ?>

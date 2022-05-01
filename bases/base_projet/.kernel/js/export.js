@@ -7,7 +7,6 @@ import Html from './html.js';
  */
 export default class Export {
 
-
     /**
 	 * Telecharge un contenu
 	 * 

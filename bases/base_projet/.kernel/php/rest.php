@@ -42,7 +42,7 @@ class Rest {
 	 * @return void
 	 */
 	private static function run($array, $method, $name, $fn) {
-        if (isset($array['restFunction']) && $array['restFunction'] == $name) {
+        if (isset($array['restFunction']) && $array['restFunction'] === $name) {
 			Debug::log('Exécution de la requête REST (méthode : "' . $method . '", composant : "' . debug_backtrace()[2]['class'] . '", fonction : "' .  $name . '", url : "' . Url::current() . '")...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
 			Debug::log('Paramètres de la requête REST : "' . print_r($array, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
 			$res = $fn();

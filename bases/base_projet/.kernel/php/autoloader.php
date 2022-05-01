@@ -14,9 +14,11 @@ class Autoloader {
      * @return void
      */
     static function register() {
-        spl_autoload_register(function ($class) {
+        if (!spl_autoload_register(function ($class) {
             self::load($class);
-        });
+        })) {
+            die(('Impossible d\'enregistrer la fonction d\'autoload !'));
+        }
     }
     
 

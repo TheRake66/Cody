@@ -17,7 +17,6 @@ class Debug {
     const LEVEL_ERROR = 3;
     const LEVEL_PROGRESS = 4;
 
-
     /**
      * @var int Les types de log
      */

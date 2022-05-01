@@ -18,11 +18,29 @@ class Security {
 		if (Configuration::get()->security->redirect_to_https) {
 			if($_SERVER['SERVER_PORT'] !== 443 &&
 				(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')) {
+				Debug::log('Activation du SSL...', Debug::LEVEL_PROGRESS);
 				Url::location('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 			} else {
-				Debug::log('SSL actif.');
+				Debug::log('SSL actif.', Debug::LEVEL_GOOD);
 			}
 		}
+	}
+
+
+	/**
+	 * Defini les parametres du cookie de session
+	 * 
+	 * @return bool si la definition a reussie
+	 */
+	static function setSessionCookie() {
+        $conf = Configuration::get()->security;
+		return session_set_cookie_params([
+			$conf->cookie_lifetime, 
+			$conf->cookie_path,
+			$conf->cookie_domain,
+			$conf->cookie_only_https,
+			$conf->cookie_prevent_xss
+		]);
 	}
 
 
@@ -31,19 +49,19 @@ class Security {
      * 
      * @param string le nom du cookie
      * @param string la valeur du cookie
-     * @param string le timestamp correspondant a l'expiration du cookie
+     * @param int|null le timestamp correspondant a l'expiration du cookie, null pour l'expiration de la config
 	 * @return bool si l'ecriture du cookie a reussie
 	 */
-	static function setCookie($name, $value = '', $time = 0) {
+	static function setCookie($name, $value = '', $time = null) {
         $conf = Configuration::get()->security;
 		return setcookie(
             self::getRealCookieName($name), 
             $value, 
-            $time, 
-            $conf->token_path,
-            $conf->token_domain,
-            $conf->token_only_https,
-            $conf->token_prevent_xss
+            $time ?? $conf->cookie_lifetime, 
+            $conf->cookie_path,
+            $conf->cookie_domain,
+            $conf->cookie_only_https,
+            $conf->cookie_prevent_xss
         );
 	}
 
@@ -57,8 +75,12 @@ class Security {
 	static function removeCookie($name) {
 		$name = self::getRealCookieName($name);
 		if (isset($_COOKIE[$name])) {
-			unset($_COOKIE[$name]); 
-			return setcookie($name, null, -1, '/'); 
+			if (self::setCookie($name, '', time() - 3600)) {
+				unset($_COOKIE[$name]); 
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 
@@ -126,7 +148,8 @@ class Security {
 		} elseif (function_exists('openssl_random_pseudo_bytes')) {
 			return bin2hex(openssl_random_pseudo_bytes($size));
 		} else {
-			return Error::trigger('Version de PHP trop ancienne, veuillez activer l\'extension "openssl" ou utilisez la fonction "makeSimpleToken".');
+			Debug::log('Attention, impossible de générer le jeton de manière sécurisée. Veuillez activer l\'extention "openssl" ou utiliser PHP 7.0+.', Debug::LEVEL_WARN);
+			return self::makeSimpleToken($size);
 		}
 	}
 
@@ -157,10 +180,10 @@ class Security {
 	static function checkCSRF() {
 		if (isset($_SESSION['csrf_token']) && isset($_POST['csrf_token']) &&
 			$_SESSION['csrf_token'] === $_POST['csrf_token']) {
-			Debug::log('Le jeton CSRF est valide.');
+			Debug::log('Le jeton CSRF est valide.', Debug::LEVEL_GOOD);
 			return true;
 		} else {
-			Debug::log('Le jeton CSRF est invalide.', Debug::LEVEL_ERROR);
+			Debug::log('Le jeton CSRF est invalide.', Debug::LEVEL_WARN);
 			http_response_code(405);
 			return false;
 		}
