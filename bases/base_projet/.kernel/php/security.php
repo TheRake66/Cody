@@ -32,7 +32,7 @@ class Security {
      * @param string le nom du cookie
      * @param string la valeur du cookie
      * @param string le timestamp correspondant a l'expiration du cookie
-	 * @return boolean si l'ecriture du cookie a reussie
+	 * @return bool si l'ecriture du cookie a reussie
 	 */
 	static function setCookie($name, $value = '', $time = 0) {
         $conf = Configuration::get()->security;
@@ -52,9 +52,9 @@ class Security {
      * Supprime un cookie
      * 
      * @param string le nom du cookie
-	 * @return boolean|null si le la suppression a reussie, null si le cookie n'existe pas
+	 * @return bool|null si le la suppression a reussie, null si le cookie n'existe pas
 	 */
-	static function deleteCookie($name) {
+	static function removeCookie($name) {
 		$name = self::getRealCookieName($name);
 		if (isset($_COOKIE[$name])) {
 			unset($_COOKIE[$name]); 
@@ -71,6 +71,18 @@ class Security {
 	 */
 	static function getCookie($name) {
 		return $_COOKIE[self::getRealCookieName($name)] ?? null;
+	}
+
+
+	/**
+     * Verifie si un cookie existe
+     * 
+     * @param string le nom du cookie
+	 * @return bool si le cookie existe
+	 */
+	static function hasCookie($name) {
+		$name = self::getRealCookieName($name);
+		return isset($_COOKIE[$name]);
 	}
 
 

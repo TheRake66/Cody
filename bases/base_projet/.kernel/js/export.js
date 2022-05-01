@@ -78,12 +78,23 @@ export default class Export {
 
 
     /**
+     * Verifie si un cookie existe
+     * 
+     * @param {string} name le nom du cookie
+     * @returns {boolean} true si le cookie existe
+     */
+    static hasCookie(name) {
+        return document.cookie.includes(name);
+    }
+
+
+    /**
      * Supprime un cookie
      * 
      * @param {string} name le nom du cookie
      * @returns {void}
      */
-    static deleteCookie(name) {
+    static removeCookie(name) {
         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     }
 
