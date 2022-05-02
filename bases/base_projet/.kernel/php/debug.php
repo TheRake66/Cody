@@ -65,11 +65,11 @@ class Debug {
             ($type !== self::TYPE_MAIL_CONTENT || $confq->print_mail_content)
             ) {
 
-            $error = false;
             $folder = 'logs';
             if ($conf->ip_identify) {
                 $folder .= '/' . str_replace(':', '-', Server::getClientIp());
             }
+
             $levelstr = '';
             switch ($level) {
                 case self::LEVEL_INFO:
@@ -79,7 +79,7 @@ class Debug {
                     $levelstr = 'GOOD    ';
                     break;
                 case self::LEVEL_WARN:
-                    $levelstr = 'WARN    ';
+                    $levelstr = 'WARNING ';
                     break;
                 case self::LEVEL_ERROR:
                     $levelstr = 'ERROR   ';
@@ -89,6 +89,7 @@ class Debug {
                     break;
             }
 
+            $error = false;
             if (is_dir($folder) || mkdir($folder, 0777, true)) {
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
                 $file = $folder. '/' . ($now ? $now->format('D M d') : '### ### ##') . '.log';

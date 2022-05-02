@@ -18,14 +18,17 @@ class Session {
 	static function start() {
         $conf = Configuration::get()->session;
 		if ($conf->open_session) {
+
             if (session_status() === PHP_SESSION_NONE) {
                 Debug::log('Démarrage de la session...', Debug::LEVEL_PROGRESS);
+
                 if ($conf->multiple_session) {
                     $name = str_replace(' ', '_', $conf->session_name);
                     if (!session_name($name)) {
                         Error::trigger('Impossible de définir le nom de la session.');
                     }
                 }
+
                 if (Security::setSessionCookie()) {
                     if (session_start()) {
                         Debug::log('Session démarrée.', Debug::LEVEL_GOOD);
@@ -35,7 +38,9 @@ class Session {
                 } else {
                     Error::trigger('Impossible de définir les paramètres du cookie de session.');
                 }
+                
             }
+
             $error = false;
             if ($conf->regenerate_delay === 0) {
                 $error = !self::regenerate();
