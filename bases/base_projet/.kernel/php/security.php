@@ -200,6 +200,17 @@ class Security {
 	}
 
 
+    /**
+     * Echappe les balises HTML d'une chaine de caracteres
+     * 
+     * @param string la chaine
+     * @return string la chaine echappee
+     */
+    static function escapeXSS($string) {
+        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+    }
+
+
 	/**
 	 * Authentifie un utilisateur via un serveur LDAP
 	 * 
