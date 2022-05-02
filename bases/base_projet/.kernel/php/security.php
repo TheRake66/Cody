@@ -148,7 +148,7 @@ class Security {
 		} elseif (function_exists('openssl_random_pseudo_bytes')) {
 			return bin2hex(openssl_random_pseudo_bytes($size));
 		} else {
-			Debug::log('Attention, impossible de générer le jeton de manière sécurisée. Veuillez activer l\'extention "openssl" ou utiliser PHP 7.0+.', Debug::LEVEL_WARN);
+			Debug::log('Attention, impossible de générer le jeton de manière sécurisée. Veuillez activer l\'extention "openssl" ou utiliser PHP 7.0+.', Debug::LEVEL_WARNING);
 			return self::makeSimpleToken($size);
 		}
 	}
@@ -183,7 +183,7 @@ class Security {
 			Debug::log('Le jeton CSRF est valide.', Debug::LEVEL_GOOD);
 			return true;
 		} else {
-			Debug::log('Le jeton CSRF est invalide.', Debug::LEVEL_WARN);
+			Debug::log('Le jeton CSRF est invalide.', Debug::LEVEL_WARNING);
 			http_response_code(405);
 			return false;
 		}

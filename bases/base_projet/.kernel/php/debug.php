@@ -13,7 +13,7 @@ class Debug {
 	 */
     const LEVEL_INFO = 0;
     const LEVEL_GOOD = 1;
-    const LEVEL_WARN = 2;
+    const LEVEL_WARNING = 2;
     const LEVEL_ERROR = 3;
     const LEVEL_PROGRESS = 4;
 
@@ -78,7 +78,7 @@ class Debug {
                 case self::LEVEL_GOOD:
                     $levelstr = 'GOOD    ';
                     break;
-                case self::LEVEL_WARN:
+                case self::LEVEL_WARNING:
                     $levelstr = 'WARNING ';
                     break;
                 case self::LEVEL_ERROR:
