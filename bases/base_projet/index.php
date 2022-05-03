@@ -2,13 +2,13 @@
 <?php 
 require_once '.kernel/init.php';
 use Kernel\Router;
-use Kernel\Html;
+use Kernel\Html\Doctype;
 ?>
 
 
 
 <!-- Ouvre la balise HTML et l'entete -->
-<?= Html::begin() ?>
+<?= Doctype::begin() ?>
 
 	<!-- Routage vers le bon controleur -->
 	<body>
@@ -16,7 +16,7 @@ use Kernel\Html;
 	</body>
 	
 <!-- Ferme la balise HTML et fais le rendu -->
-<?= Html::end() ?>
+<?= Doctype::end() ?>
 
 
 

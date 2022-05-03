@@ -1,5 +1,8 @@
 <?php
 namespace Kernel;
+use Kernel\Html\Import;
+use Kernel\Html\Builder;
+use Kernel\Html\Output;
 
 
 
@@ -30,43 +33,63 @@ class Url {
 
 
 	/**
+	 * Contruit une url
+	 * 
+	 * @param string la route
+	 * @param array les param
+	 * @param string le back
+	 * @return string le nouvel url
+	 */
+	static function build($route, $param = [], $addBack = false) {
+		$url = self::root() . '?routePage=' . $route;
+		foreach ($param as $name => $value) {
+			$url .= '&' . $name . '=' . urlencode($value ?? '');
+		}
+		if ($addBack) {
+			$url .= '&redirectUrl=' . urlencode(self::current());
+		}
+		return $url;
+	}
+
+
+	/**
 	 * Accede a une url dans l'application
 	 * 
-	 * @param string route la route vers le composant
-	 * @param array param les parametres
-	 * @param boolean addback si on ajoute le parametre de retour
-	 * @param string method la methode (GET, POST)
+	 * @param string la route vers le composant
+	 * @param array les parametres
+	 * @param boolean si on ajoute le parametre de retour
+	 * @param string la methode (GET, POST)
      * @return void
 	 */
-	static function go($route, $param = [], $addback = false, $method = Url::METHOD_GET) {
+	static function go($route, $param = [], $addBack = false, $method = Url::METHOD_GET) {
 		if ($method == Url::METHOD_GET) {
-			self::location(self::build($route, $param, $addback));
+			self::location(self::build($route, $param, $addBack));
 		} else {
-			$html = Html::createElement('form', [
+			$html = Builder::createElement('form', [
 				'action' => self::build($route),
 				'method' => 'post',
 				'id' => 'KERNEL_REDIRECT_FORM'
 			]);
 			foreach ($param as $key => $value) {
-				$html .= Html::createElement('input', [
+				$html .= Builder::createElement('input', [
 					'type' => 'hidden',
 					'name' => $key,
 					'value' => $value
 				]);
 			}
-			if ($addback) {
-				$html .= Html::createElement('input', [
+			if ($addBack) {
+				$html .= Builder::createElement('input', [
 					'type' => 'hidden',
 					'name' => 'redirectUrl',
 					'value' => self::current()
 				]);
 			}
-			$html .= Html::runScript('
+			$html .= Import::runScript('
 				let f = document.getElementById("KERNEL_REDIRECT_FORM");
 				f.submit();
 				f.remove();
 			');
-			Html::add($html);
+			Output::add($html);
 		}
 	}
 	
@@ -86,7 +109,7 @@ class Url {
 	 * 
 	 * @return string le retour
 	 */
-	static function back() {
+	static function getBack() {
 		return $_GET['redirectUrl'] ?? '';
 	}
 
@@ -128,26 +151,6 @@ class Url {
 	 */
 	static function root() {
 		return self::host() . $_SERVER['PHP_SELF'];
-	}
-
-
-	/**
-	 * Contruit une url
-	 * 
-	 * @param string la route
-	 * @param array les param
-	 * @param string le back
-	 * @return string le nouvel url
-	 */
-	static function build($route, $param = [], $addback = false) {
-		$url = self::root() . '?routePage=' . $route;
-		foreach ($param as $name => $value) {
-			$url .= '&' . $name . '=' . urlencode($value ?? '');
-		}
-		if ($addback) {
-			$url .= '&redirectUrl=' . urlencode(self::current());
-		}
-		return $url;
 	}
 	
 

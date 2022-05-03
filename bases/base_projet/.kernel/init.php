@@ -20,13 +20,13 @@ k\Stream::reset();
 k\Debug::separator();
 
 // Active le protocole SSL (HTTPS)
-k\Security::enableSsl();
+k\Security\Protocol::enableSsl();
 
 // Defini le fuseau horraire par defaut
 k\Date::timezone();
 
 // Lance une session
-k\Session::start();
+k\Session\Socket::start();
 
 // Charge les routes
 k\Router::load();
