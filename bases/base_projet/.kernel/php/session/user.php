@@ -10,7 +10,6 @@ use Kernel\Debug;
  * Librairie gerant la session de l'utilisateur
  */
 class User {
-
     
     /**
      * Creer une session de connexion pour un utilisateur
