@@ -1,5 +1,7 @@
 <?php
-use Kernel\Html;
+use Kernel\Html\Attribute;
+use Kernel\Html\Builder;
+use Kernel\Html\Output;
 use Kernel\Convert;
 use Kernel\Url;
 ?>

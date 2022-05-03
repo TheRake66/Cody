@@ -1,6 +1,7 @@
 <?php
 namespace Kernel;
-use Kernel\Html;
+use Kernel\Html\Import;
+use Kernel\Html\Output;
 
 
 
@@ -64,9 +65,9 @@ class Render {
         if (is_file($vue) && is_readable($vue)) {
             require $vue;
             // Inclut le style
-            Html::add(Html::importStyle($style));
+            Output::add(Import::importStyle($style));
             // Inclut et initialise le script
-            Html::add(Html::importScript($script, 'module', $varname, $class));
+            Output::add(Import::importScript($script, 'module', $varname, $class));
         } else {
             Error::trigger('Impossible de faire le rendu du composant "' . $full . '" !');
         }
