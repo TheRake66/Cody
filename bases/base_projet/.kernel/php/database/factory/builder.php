@@ -1,5 +1,5 @@
 <?php
-namespace Kernel\Database\Crud;
+namespace Kernel\Database\Factory;
 use Kernel\Error;
 
 

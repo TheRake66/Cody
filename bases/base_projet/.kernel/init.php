@@ -20,7 +20,7 @@ k\Stream::reset();
 k\Debug::separator();
 
 // Active le protocole SSL (HTTPS)
-k\Security\Protocol::enableSsl();
+k\Security\SSL::enable();
 
 // Defini le fuseau horraire par defaut
 k\Date::timezone();

@@ -1,4 +1,6 @@
 <?php
+use Kernel\Security\Vulnerability\XSS;
+use Kernel\Security\Vulnerability\CSRF;
 use Kernel\Html\Attribute;
 use Kernel\Html\Builder;
 use Kernel\Html\Output;

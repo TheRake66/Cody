@@ -1,5 +1,5 @@
 <?php
-namespace Kernel\Database\Crud;
+namespace Kernel\Database\Factory;
 use Kernel\Database\Toogle;
 use Kernel\Database\Query;
 
@@ -8,7 +8,7 @@ use Kernel\Database\Query;
 /**
  * Librairie creant des requetes SQL (CRUD : Create, Read, Update, Delete)
  */
-class Factory {
+class Crud {
     
     /**
      * Retourne tous les objets d'une table

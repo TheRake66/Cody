@@ -125,5 +125,22 @@ class Convert {
 	static function emptyToHyphen($value) {
 		return empty($value) ? '-' : $value;
 	}
+	
+
+    /**
+     * Genere un une chaine de caractere aleatoire
+     * 
+     * @param int taille de la chaine
+     * @param string le jeu de caracteres
+     * @return string la chaine aleatoire
+     */
+	static function randomString($size = 32, $charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
+		$str = '';
+		$max = strlen($charset) - 1;
+		for ($i = 0; $i < $size; $i++) {
+		   $str .= $charset[rand(0, $max)];
+		}
+		return $str;
+	}
 
 }

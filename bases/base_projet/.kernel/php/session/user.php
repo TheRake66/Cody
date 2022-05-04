@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\Session;
+use Kernel\Security\Vulnerability\CSRF;
 use Kernel\Security\Cookie;
-use Kernel\Security\Vulnerability;
 use Kernel\Debug;
 
 
@@ -97,7 +97,7 @@ class User {
      */
 	static function setToken($token = null, $nbdays = 31) {
 		if (is_null($token)) {
-			$token = Vulnerability::makeCSRFToken();
+			$token = CSRF::generate();
 		}
         if (Cookie::setCookie('session_token', $token, time() + $nbdays*60*60*24)) {
             Debug::log('Jeton de connexion : ' . $token . ', défini pour ' . $nbdays . ' jour(s)...');

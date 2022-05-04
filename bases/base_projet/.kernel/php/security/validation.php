@@ -8,23 +8,6 @@ use Kernel\Error;
  * Librairie gerant la validation des donnees
  */
 class Validation {	
-	
-    /**
-     * Genere un jeton aleatoire de taille n
-     * 
-     * @param int taille du token
-     * @param string le jeu de caracteres
-     * @return string le token
-     */
-	static function makeSimpleToken($size = 32, $charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
-		$token = '';
-		$max = strlen($charset) - 1;
-		for ($i = 0; $i < $size; $i++) {
-		   $token .= $charset[rand(0, $max)];
-		}
-		return $token;
-	}
-
 
 	/**
 	 * Verifie si un mot de passe est robuste

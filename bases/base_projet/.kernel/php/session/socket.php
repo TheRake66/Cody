@@ -1,6 +1,5 @@
 <?php
 namespace Kernel\Session;
-use Kernel\Security;
 use Kernel\Debug;
 use Kernel\Configuration;
 use Kernel\Error;
