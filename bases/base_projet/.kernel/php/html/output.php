@@ -23,28 +23,28 @@ class Output {
 
 
     /**
-     * Defini la value si un get existe
+     * Defini un attribut HTML si un valeur est fournie dans le GET
      * 
-     * @param string nom du parametre
+     * @param string nom de la valeur
      * @param string valeur par defaut
-     * @param string propriete html
+     * @param string propriete HTML
      * @return string le code HTML
      */
-    static function getValue($name, $default = '', $key = 'value') {
-        return Attribute::setAttrib($_GET[$name] ?? $default, $key);
+    static function issetGET($name, $default = '', $key = 'value') {
+        return Attribute::setAttrib($key, $_GET[$name] ?? $default);
     }
     
 
     /**
-     * Defini la value si un post existe
+     * Defini un attribut HTML si un valeur est fournie dans le POST
      * 
-     * @param string nom du parametre
+     * @param string nom de la valeur
      * @param string valeur par defaut
-     * @param string propriete html
+     * @param string propriete HTML
      * @return string le code HTML
      */
-    static function postValue($name, $default = '', $key = 'value') {
-        return Attribute::setAttrib($_POST[$name] ?? $default, $key);
+    static function issetPOST($name, $default = '', $key = 'value') {
+        return Attribute::setAttrib($key, $_POST[$name] ?? $default);
     }
     
 }

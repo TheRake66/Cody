@@ -12,11 +12,11 @@ class Attribute {
     /**
      * Ajoute un attribut HTML
      * 
-     * @param string valeur de l'attribut
      * @param string nom de l'attribut
+     * @param string valeur de l'attribut
      * @return string le code HTML
      */
-    static function setAttrib($value, $name = 'value') {
+    static function setAttrib($name, $value) {
         return $name . '="' . str_replace('"', '\\"', $value) . '"';
     }
     
@@ -47,14 +47,19 @@ class Attribute {
      * @return string le code HTML
      */
     static function setForm($method = 'GET', $isMultipart = false, $route = null, $param = [], $addback = false) {
-        $action = $route !== null ? 
-            Url::build($route, $param, $addback) :
-            Url::current();
-        $enctype = $isMultipart ? 'multipart/form-data' : '';
-        return 
-            self::setAttrib($action, 'action') . 
-            self::setAttrib($enctype, 'enctype') . 
-            self::setAttrib($method, 'method');
+        $_ = self::setAttrib('method', $method);
+        if ($isMultipart) {
+            $_ .= self::setAttrib('enctype', 'multipart/form-data');
+        }
+        if (!is_null($route)) {
+            $_ .= self::setAttrib('action', Url::build($route, $param, $addback));
+        }
+        return $_;
+    }
+
+
+    static function setValue($value) {
+        return self::setAttrib('value', $value);
     }
 
 
@@ -65,7 +70,7 @@ class Attribute {
      * @return string le code HTML
      */
     static function setHref($link) {
-        return self::setAttrib($link, 'href');
+        return self::setAttrib('href', $link);
     }
 
 
@@ -76,7 +81,7 @@ class Attribute {
      * @return string le code HTML
      */
     static function setId($id) {
-        return self::setAttrib($id, 'id');
+        return self::setAttrib('id', $id);
     }
 
 
@@ -87,7 +92,7 @@ class Attribute {
      * @return string le code HTML
      */
     static function setClass($class) {
-        return self::setAttrib($class, 'class');
+        return self::setAttrib('class', $class);
     }
 
 
@@ -105,7 +110,7 @@ class Attribute {
             }
             $style = $_;
         }
-        return self::setAttrib($style, 'style');
+        return self::setAttrib('style', $style);
     }
 
 
@@ -117,9 +122,9 @@ class Attribute {
      * @return string le code HTML
      */
     static function setSrc($src, $alt = null) {
-        $html = self::setAttrib($src, 'src');
+        $html = self::setAttrib('src', $src);
         if (!is_null($alt)) {
-            $html .= ' ' . self::setAttrib($alt, 'alt');
+            $html .= ' ' . self::setAttrib('alt', $alt);
         }
         return $html;
     }
