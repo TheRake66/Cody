@@ -16,7 +16,7 @@ class Crud {
      * @param class classe DTO faisant reference a la table
      * @return array les objets DTO
      */
-    static function alls($class) {
+    static function all($class) {
         return Toogle::object(function() use ($class) {
             return Query::fetchObjects('SELECT * FROM ' . Builder::getTableName($class), $class);
         }, $class);
