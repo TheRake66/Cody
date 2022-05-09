@@ -65,20 +65,20 @@ class Url {
 		if ($method == Url::METHOD_GET) {
 			self::location(self::build($route, $param, $addBack));
 		} else {
-			$html = Builder::createElement('form', [
+			$html = Builder::create('form', [
 				'action' => self::build($route),
 				'method' => 'post',
 				'id' => 'KERNEL_REDIRECT_FORM'
 			]);
 			foreach ($param as $key => $value) {
-				$html .= Builder::createElement('input', [
+				$html .= Builder::create('input', [
 					'type' => 'hidden',
 					'name' => $key,
 					'value' => $value
 				]);
 			}
 			if ($addBack) {
-				$html .= Builder::createElement('input', [
+				$html .= Builder::create('input', [
 					'type' => 'hidden',
 					'name' => 'redirectUrl',
 					'value' => self::current()

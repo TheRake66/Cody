@@ -17,7 +17,7 @@ class Crud {
      * @return array les objets DTO
      */
     static function alls($class) {
-        return Toogle::toogleObject(function() use ($class) {
+        return Toogle::object(function() use ($class) {
             return Query::fetchObjects('SELECT * FROM ' . Builder::getTableName($class), $class);
         }, $class);
     }
@@ -30,7 +30,7 @@ class Crud {
      * @return int le nombre de ligne
      */
     static function size($class) { 
-        return Toogle::toogleObject(function() use ($class) {
+        return Toogle::object(function() use ($class) {
             return Query::fetchCell('SELECT COUNT(1) FROM ' . Builder::getTableName($class));
         }, $class);
     }
@@ -43,7 +43,7 @@ class Crud {
      * @return bool si ca reussit
      */
     static function truncat($class) { 
-        return Toogle::toogleObject(function() use ($class) {
+        return Toogle::object(function() use ($class) {
             return Query::execute('TRUNCATE TABLE ' . Builder::getTableName($class));
         }, $class);
     }
@@ -57,7 +57,7 @@ class Crud {
      * @return bool si il existe
      */
     static function exists($obj, $clause = null) {
-        return Toogle::toogleObject(function() use ($obj, $clause) {
+        return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::fetchCell(
                 'SELECT EXISTS (SELECT 1 FROM ' . Builder::getTableName($obj) . ' ' . $where . ')',
@@ -74,7 +74,7 @@ class Crud {
      * @return int le nombre de ligne
      */
     static function count($obj, $clause = null) {
-        return Toogle::toogleObject(function() use ($obj, $clause) {
+        return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::fetchCell(
                 'SELECT COUNT(1) FROM ' . Builder::getTableName($obj) . ' ' . $where . ')',
@@ -90,7 +90,7 @@ class Crud {
      * @return bool si ca reussit
      */
     static function create($obj) {
-        return Toogle::toogleObject(function() use ($obj) {
+        return Toogle::object(function() use ($obj) {
             [ $values, $params ] = Builder::buildInsert($obj);
             return Query::execute(
                 'INSERT INTO ' . Builder::getTableName($obj) . $values, 
@@ -107,7 +107,7 @@ class Crud {
      * @return object les objets DTO
      */
     static function read($obj, $clause = null) {
-        return Toogle::toogleObject(function() use ($obj, $clause) {
+        return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::fetchObject(
                 'SELECT * FROM ' . Builder::getTableName($obj) . ' ' . $where,
@@ -125,7 +125,7 @@ class Crud {
      * @return bool si ca reussit
      */
     static function update($obj, $clause = null) {
-        return Toogle::toogleObject(function() use ($obj, $clause) {
+        return Toogle::object(function() use ($obj, $clause) {
             [ $values, $params1 ] = Builder::buildUpdate($obj, $clause);
             [ $where, $params2 ] = Builder::buildClause($obj, $clause);
             return Query::execute(
@@ -143,7 +143,7 @@ class Crud {
      * @return bool si ca reussit
      */
     static function delete($obj, $clause = null) { 
-        return Toogle::toogleObject(function() use ($obj, $clause) {
+        return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::execute(
                 'DELETE FROM ' . Builder::getTableName($obj) . ' ' . $where,
@@ -160,7 +160,7 @@ class Crud {
      * @return object les objets DTO
      */
     static function readMany($obj, $clause = null) {
-        return Toogle::toogleObject(function() use ($obj, $clause) {
+        return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::fetchObjects(
                 'SELECT * FROM ' . Builder::getTableName($obj) . ' ' . $where,

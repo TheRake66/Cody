@@ -33,7 +33,7 @@ class Socket {
                     }
                 }
 
-                if (Cookie::setSessionCookie()) {
+                if (Cookie::setSession()) {
                     if (session_start()) {
                         Debug::log('Session démarrée.', Debug::LEVEL_GOOD);
                     } else {

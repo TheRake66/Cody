@@ -95,7 +95,13 @@ class Supervisor {
                     $session = 'Aucune'; 
                     break;
                 case 2:
-                    $session = 'En cours'; 
+                    $session = 'En cours';
+                    if (session_name()) {
+                        $session .= PHP_EOL . 'Nom : ' . session_name();
+                    }
+                    if (session_id()) {
+                        $session .= PHP_EOL . 'ID : ' . session_id();
+                    }
                     break;
             }
 

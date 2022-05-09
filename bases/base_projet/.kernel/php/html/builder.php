@@ -19,7 +19,7 @@ class Builder {
      * @param bool si la balise est une balise autofermante
      * @return string le code HTML
      */
-    static function createElement($tag, $attr = [], $content = null, $selfClose = true) {
+    static function create($tag, $attr = [], $content = null, $selfClose = true) {
         $_ = '<' . $tag;
         if ($attr) {
             foreach ($attr as $key => $value) {
@@ -42,17 +42,19 @@ class Builder {
     /**
      * Construit une balise "a" HTML
      * 
+     * @param string le texte de la balise
      * @param string la route
      * @param array les parametres
      * @param bool si on ajoute le parametre de retour
      * @param bool si on ouvre la page dans une nouvelle fenetre
      * @return string le code HTML
      */
-    static function buildHref($route, $param = [], $addBack = false, $newTab = false) {
-        return self::createElement('a', [
-                'href' => Url::build($route, $param, $addBack),
-                'target' => $newTab ? '_blank' : null
-            ]);
+    static function href($text, $route, $param = [], $addBack = false, $newTab = false) {
+        $_['href'] = Url::build($route, $param, $addBack);
+        if ($newTab) {
+            $_['target'] = '_blank';
+        }
+        return self::create('a', $_, $text);
     }
 
 
@@ -65,10 +67,33 @@ class Builder {
      * @return string le code HTML
      */
     static function binImgToSrcB64($bin, $alt = null, $format = 'png') {
-        return self::createElement('img', [
+        return self::create('img', [
             'src' => Image::binToB64($bin, $format),
             'alt' => $alt
         ]);
+    }
+
+    
+    /**
+     * Construit une balise "form" HTML
+     * 
+     * @param string le contenu de la balise
+     * @param string la methode HTTP
+     * @param boolean si des fichiers sont envoyés
+     * @param string la route de redirection
+     * @param string les parametres de redirection (uniquement en methode POST)
+     * @param string si on ajoute le parametre de retour
+     * @return string le code HTML
+     */
+    static function form($content = null, $method = 'GET', $isMultipart = false, $route = null, $param = [], $addback = false) {
+        $_['method'] = $method;
+        if ($isMultipart) {
+            $_['enctype'] = 'multipart/form-data';
+        }
+        if (!is_null($route)) {
+            $_['action'] = Url::build($route, $param, $addback);
+        }
+        return self::create('form', $_, $content, false);
     }
     
 }

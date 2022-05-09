@@ -14,7 +14,7 @@ class Cookie {
 	 * 
 	 * @return bool si la definition a reussie
 	 */
-	static function setSessionCookie() {
+	static function setSession() {
         $conf = Configuration::get()->security;
 		return session_set_cookie_params(
 			$conf->cookie_lifetime, 
@@ -34,10 +34,10 @@ class Cookie {
      * @param int|null le timestamp correspondant a l'expiration du cookie, null pour l'expiration de la config
 	 * @return bool si l'ecriture du cookie a reussie
 	 */
-	static function setCookie($name, $value = '', $time = null) {
+	static function set($name, $value = '', $time = null) {
         $conf = Configuration::get()->security;
 		return setcookie(
-            self::getRealCookieName($name), 
+            self::getRealName($name), 
             $value, 
             $time ?? $conf->cookie_lifetime, 
             $conf->cookie_path,
@@ -54,10 +54,10 @@ class Cookie {
      * @param string le nom du cookie
 	 * @return bool|null si le la suppression a reussie, null si le cookie n'existe pas
 	 */
-	static function removeCookie($name) {
-		$name = self::getRealCookieName($name);
+	static function remove($name) {
+		$name = self::getRealName($name);
 		if (isset($_COOKIE[$name])) {
-			if (self::setCookie($name, '', time() - 3600)) {
+			if (self::set($name, '', time() - 3600)) {
 				unset($_COOKIE[$name]); 
 				return true;
 			} else {
@@ -73,8 +73,8 @@ class Cookie {
      * @param string le nom du cookie
      * @return mixed la valeur du cookie
 	 */
-	static function getCookie($name) {
-		return $_COOKIE[self::getRealCookieName($name)] ?? null;
+	static function get($name) {
+		return $_COOKIE[self::getRealName($name)] ?? null;
 	}
 
 
@@ -84,8 +84,8 @@ class Cookie {
      * @param string le nom du cookie
 	 * @return bool si le cookie existe
 	 */
-	static function hasCookie($name) {
-		$name = self::getRealCookieName($name);
+	static function has($name) {
+		$name = self::getRealName($name);
 		return isset($_COOKIE[$name]);
 	}
 
@@ -96,7 +96,7 @@ class Cookie {
      * @param string le nom du cookie
      * @return string le nom complet du cookie
 	 */
-	static function getRealCookieName($name) {
+	static function getRealName($name) {
 		return session_name() . '_' . str_replace(' ', '', $name);
 	}
 

@@ -15,7 +15,7 @@ class Javascript {
      * @param string le message
      * @return string le code HTML
      */
-    static function sendAlert($message) {
+    static function alert($message) {
         return Import::runScript('alert("' . str_replace('"', '\\"', $message) . '")');
     }
 
@@ -28,7 +28,7 @@ class Javascript {
      * @param string le code javascript à executer si non
      * @return string le code HTML
      */
-    static function sendConfirm($message, $yes = null, $no = null) {
+    static function confirm($message, $yes = null, $no = null) {
         return Import::runScript('
             if (confirm("' . str_replace('"', '\\"', $message) . '")) {
                 ' . ($yes ? $yes : '') . '
@@ -45,7 +45,7 @@ class Javascript {
      * @param string le style
      * @return string le code HTML
      */
-    static function sendLog($message, $style = null) {
+    static function log($message, $style = null) {
         return Import::runScript('console.log("' . str_replace('"', '\\"', $message) . '", "' . $style . '")');
     }
 
@@ -57,7 +57,7 @@ class Javascript {
      * @param string le style
      * @return string le code HTML
      */
-    static function sendError($message, $style = null) {
+    static function error($message, $style = null) {
         return Import::runScript('console.error("' . str_replace('"', '\\"', $message) . '", "' . $style . '")');
     }
 
@@ -69,7 +69,7 @@ class Javascript {
      * @param string le style
      * @return string le code HTML
      */
-    static function sendInfo($message, $style = null) {
+    static function info($message, $style = null) {
         return Import::runScript('console.info("' . str_replace('"', '\\"', $message) . '", "' . $style . '")');
     }
     

@@ -34,7 +34,7 @@ class Toogle {
      * @param string le nom de la base de donnees, si null, la base par defaut est utilisee
      * @return mixed le resultat de la fonction
      */
-    static function toogle($callback, $database = null) {
+    static function simple($callback, $database = null) {
         $last = Statement::getCurrent();
         self::switch($database);
         $result = $callback();
@@ -52,9 +52,9 @@ class Toogle {
      * @param object la classe DTO
      * @return mixed le resultat de la fonction
      */
-    static function toogleObject($callback, $type) {
+    static function object($callback, $type) {
         if ((new \ReflectionClass($type))->hasConstant('DATABASE')) {
-            return self::toogle($callback, $type::DATABASE);
+            return self::simple($callback, $type::DATABASE);
         } else {
             return $callback();
         }

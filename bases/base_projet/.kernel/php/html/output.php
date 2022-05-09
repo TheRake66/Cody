@@ -31,7 +31,7 @@ class Output {
      * @return string le code HTML
      */
     static function issetGET($name, $default = '', $key = 'value') {
-        return Attribute::setAttrib($key, $_GET[$name] ?? $default);
+        return Attribute::set($key, $_GET[$name] ?? $default);
     }
     
 
@@ -44,7 +44,7 @@ class Output {
      * @return string le code HTML
      */
     static function issetPOST($name, $default = '', $key = 'value') {
-        return Attribute::setAttrib($key, $_POST[$name] ?? $default);
+        return Attribute::set($key, $_POST[$name] ?? $default);
     }
     
 }
