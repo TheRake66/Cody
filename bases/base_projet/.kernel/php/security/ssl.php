@@ -34,7 +34,7 @@ class SSL {
 	 * @return bool si le protocole SSL est actif
 	 */
 	static function isEnabled() {
-		return $_SERVER['SERVER_PORT'] !== 443 && (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off');
+		return !($_SERVER['SERVER_PORT'] !== 443 && (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off'));
 	}
 
 }
