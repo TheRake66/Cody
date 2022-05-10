@@ -26,22 +26,23 @@ class Builder {
         $sql = '';
         $arr = [];
         if (empty($clause)) {
-            if ((new \ReflectionClass($obj))->hasConstant('PRIMARY') && !empty($obj::PRIMARY)) {
-                $clause = $obj::PRIMARY;
-            } else {
-                $_ = self::getColumnName($obj);
-                if (!empty($_)) {
-                    $clause = $_[0];
-                } else {
-                    Error::trigger('Aucune clé primaire pour la classe "' . get_class($obj) . '" !');
+            $props = (new \ReflectionClass($obj))->getProperties();
+            $clause = [];
+            foreach ($props as $prop) {
+                $name = $prop->getName();
+                if (substr($name, 0, 1) === '_') {
+                    $clause[] = $name;
                 }
+            }
+            if (empty($clause)) {
+                Error::trigger('Aucune clé primaire pour la classe "' . get_class($obj) . '" !');
             }
         }
         foreach ((array)$obj as $prop => $val) {
             $prop = str_replace('*', '', $prop);
             if (!is_array($clause) && $prop == $clause ||
                 is_array($clause) && in_array($prop, $clause)) {
-                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . $prop;
+                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . substr($prop, 1) . ' = ?';
                 if (!is_null($val)) {
                     $sql .= ' = ? ';
                     $arr[] = $val;

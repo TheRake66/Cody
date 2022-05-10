@@ -55,10 +55,9 @@ class Cookie {
 	 * @return bool|null si le la suppression a reussie, null si le cookie n'existe pas
 	 */
 	static function remove($name) {
-		$name = self::getRealName($name);
-		if (isset($_COOKIE[$name])) {
-			if (self::set($name, '', time() - 3600)) {
-				unset($_COOKIE[$name]); 
+		if (self::has($name)) {
+			if (self::set($name, null, -1)) {
+				unset($_COOKIE[self::getRealName($name)]); 
 				return true;
 			} else {
 				return false;
@@ -85,8 +84,7 @@ class Cookie {
 	 * @return bool si le cookie existe
 	 */
 	static function has($name) {
-		$name = self::getRealName($name);
-		return isset($_COOKIE[$name]);
+		return isset($_COOKIE[self::getRealName($name)]);
 	}
 
 

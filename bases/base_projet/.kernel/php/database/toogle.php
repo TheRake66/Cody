@@ -53,8 +53,12 @@ class Toogle {
      * @return mixed le resultat de la fonction
      */
     static function object($callback, $type) {
-        if ((new \ReflectionClass($type))->hasConstant('DATABASE')) {
-            return self::simple($callback, $type::DATABASE);
+        $file = (new \ReflectionClass($type))->getFileName();
+        $path = dirname($file);
+        $root = explode(DIRECTORY_SEPARATOR, $path);
+        $database = array_pop($root);
+        if ($database !== 'dto') {
+            return self::simple($callback, $database);
         } else {
             return $callback();
         }

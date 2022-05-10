@@ -22,6 +22,7 @@ class User {
     static function login($user, $token = null, $nbdays = 31) {
         if (Token::set($token, $nbdays)) {
             self::set($user);
+            Debug::log('Utilisateur connecté : "' . print_r($user, true) . '".', Debug::LEVEL_GOOD);
             return true;
         } else {
             Debug::log('Impossible de créer une session de connexion pour l\'utilisateur !', Debug::LEVEL_ERROR);
@@ -38,6 +39,7 @@ class User {
     static function logout() {
         if (Token::remove()) {
             self::remove();
+            Debug::log('Utilisateur déconnecté.', Debug::LEVEL_GOOD);
             return true;
         } else {
             Debug::log('Impossible de détruire la session de connexion !', Debug::LEVEL_ERROR);
@@ -74,7 +76,6 @@ class User {
      */
 	static function remove() {
         unset($_SESSION['session_user']);
-        Debug::log('Session supprimée.');
 	}
 
     
