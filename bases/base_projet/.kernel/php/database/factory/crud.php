@@ -36,8 +36,7 @@ class Crud {
         return Toogle::object(function() use ($class) {
             return Query::fetchCell(
                 'SELECT COUNT(1) ' .
-                Builder::buildFrom($class),
-                );
+                Builder::buildFrom($class));
         }, $class);
     }
 
@@ -50,7 +49,8 @@ class Crud {
      */
     static function truncat($class) { 
         return Toogle::object(function() use ($class) {
-            return Query::execute('TRUNCATE TABLE ' . Reflection::getTableName($class));
+            return Query::execute(
+                'TRUNCATE TABLE ' . Reflection::getTableName($class));
         }, $class);
     }
 
