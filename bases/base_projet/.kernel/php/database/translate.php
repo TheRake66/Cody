@@ -15,7 +15,7 @@ class Translate {
      * @param mixed le parametre
      * @return mixed le parametre en SQL
      */
-    static function paramToSQL($param) {
+    static function format($param) {
         if ($param instanceof DateTime) {
             return $param->format('Y-m-d H:i:s');
         } elseif (is_bool($param)) {
@@ -32,10 +32,10 @@ class Translate {
      * @param array les parametres
      * @return array les parametres en SQL
      */
-    static function paramsToSQL($params) {
+    static function formatMany($params) {
         $parsed = [];
         foreach ($params as $name => $value) {
-            $parsed[$name] = self::paramToSQL($value);
+            $parsed[$name] = self::format($value);
         }
         return $parsed;
     }

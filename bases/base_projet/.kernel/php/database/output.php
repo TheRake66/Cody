@@ -20,7 +20,7 @@ class Output {
      */
     static function send($sql, $params) {
         Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
-        $parsed = Translate::paramsToSQL($params);
+        $parsed = Translate::formatMany($params);
         Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
         $rqt = Statement::getInstance()->prepare($sql);
         $rqt->execute($parsed);

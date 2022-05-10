@@ -20,7 +20,6 @@ class Reflection {
         $path = dirname($file);
         $root = explode(DIRECTORY_SEPARATOR, $path);
         $database = array_pop($root);
-        return $database !== 'dto' ? $database : null;
         if ($database !== 'dto') {
             return $database;
         }
@@ -64,8 +63,9 @@ class Reflection {
         $props = (new \ReflectionClass($dto))->getProperties();
         $_ = [];
         foreach ($props as $prop) {
-            if (substr($prop->getName(), 0, 1) === '_') {
-                $_[] = $prop->getName();
+            $name = $prop->getName();
+            if (substr($name, 0, 1) === '_') {
+                $_[] = $name;
             }
         }
         return $_;
