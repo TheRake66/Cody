@@ -8,20 +8,17 @@ use Kernel\Html\Output;
 /**
  * Librairie gerant le rendu composants
  */
-class Render {
+abstract class Render {
 
     /**
      * Inclut les fichiers pour afficher le composant
      * 
-     * @param object le controleur en lien avec le composant
      * @param array les variables a passer a la vue au format cle => valeur
      * @return void
      * @throws Error si les fichiers (vue, style, script) n'existent pas ou ne sont pas lisible
      */
-    static function view($controler = null, $variables = null) {
-        $full = is_null($controler) ? 
-            debug_backtrace()[1]['class'] : 
-            get_class($controler);
+    protected function view($variables = null) {
+        $full = get_class($this);
         $explode = explode('\\', $full);
         $class = end($explode);
         $namespace = array_slice($explode, 1, count($explode) - 1);

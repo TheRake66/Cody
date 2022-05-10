@@ -12,7 +12,7 @@ class Builder {
     /**
      * Construit l'instruction de selecteur de colonnes
      * 
-     * @param object l'objet DTO
+     * @param object|string l'objet ou la classe DTO 
      * @return string l'instruction SELECT
      */
     static function buildSelect($obj) {
@@ -29,7 +29,7 @@ class Builder {
     /**
      * Construit l'instruction de selecteur de table
      * 
-     * @param object l'objet DTO
+     * @param object|string l'objet ou la classe DTO
      * @return string l'instruction FROM
      */
     static function buildFrom($obj) {
@@ -61,13 +61,8 @@ class Builder {
             if (!is_array($clause) && $prop == $clause ||
                 is_array($clause) && in_array($prop, $clause)) {
                 
-                if (empty($sql)) {
-                    $sql .= 'WHERE ';
-                } else {
-                    $sql .= 'AND ';
-                }
-                
-                $sql .= Reflection::primaryToColumn($prop) . ' = ?';
+                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . 
+                Reflection::primaryToColumn($prop);
             
                 if (!is_null($val)) {
                     $sql .= ' = ? ';

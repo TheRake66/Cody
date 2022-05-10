@@ -100,7 +100,7 @@ class Debug {
                 if ($max > 0) {
                     $len = strlen($message);
                     if ($len > $max) {
-                        $message = substr($message, 0, $max) . '...[plus de ' . ($len - $max) . ' caractère(s) restant(s)]';
+                        $message = substr($message, 0, $max) . ' ...[plus de ' . Convert::toFrench($len - $max, 0) . ' caractère(s) restant(s)]';
                     }
                 }
                 $message = '[' . ($now ? $now->format('Y-m-d H:i:s,v') : '????-??-?? ??:??:??,???') . '] [' . $levelstr . '] ' . $message . PHP_EOL;

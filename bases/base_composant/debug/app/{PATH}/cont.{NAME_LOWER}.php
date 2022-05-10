@@ -12,14 +12,14 @@ use Kernel\Render;
 /**
  * Controleur du composant {NAME_UPPER}
  */
-class {NAME_UPPER} {
+class {NAME_UPPER} extends Render {
 
     /**
      * Constructeur
      */
     function __construct() {
         // Rendu de la vue
-        Render::view();
+        $this->view();
     }
 
 }

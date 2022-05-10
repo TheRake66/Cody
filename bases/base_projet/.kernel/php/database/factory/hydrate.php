@@ -1,5 +1,5 @@
 <?php
-namespace Kernel\Database;
+namespace Kernel\Database\Factory;
 use Kernel\Debug;
 
 

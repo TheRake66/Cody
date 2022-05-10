@@ -45,21 +45,20 @@ class Toogle {
 
 
     /**
-     * Si la classe type contient une constante DATABASE, on change la base de 
-     * donnees courante, execute la fonction callback et remet la base de donnees 
-     * courante a la precedente, sinon on execute la fonction callback sans changer
+     * Si le fichier classe type a un dossier parent autre que dto, on change la base de 
+     * donnees courante par la base portant le nom de ce dossier, on execute la fonction 
+     * callback et remet la base de donnees courante a la precedente, sinon on execute
+     * la fonction callback sans changer
      * 
      * @param callable la fonction a executer
-     * @param object la classe DTO
+     * @param object l'objet ou la classe DTO
      * @return mixed le resultat de la fonction
      */
     static function object($callback, $type) {
         $database = Reflection::getDatabaseName($type);
-        if (!is_null($database)) {
-            return self::simple($callback, $database);
-        } else {
-            return $callback();
-        }
+        return !is_null($database) ? 
+            self::simple($callback, $database) :
+            $callback();
     }
 
 }

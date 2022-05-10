@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\Database;
 use Kernel\DataBase\Output;
-use Kernel\Debug;
+use Kernel\Database\Factory\Hydrate;
 use PDO;
 
 
@@ -71,7 +71,10 @@ class Query {
      * @return object objet DTO hydrate
      */
     static function fetchObject($sql, $class, $params = []) {
-        return Output::returnLog(Hydrate::hydrate(Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC), $class));
+        $_ = Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
+        return !empty($_) ? 
+            Output::returnLog(Hydrate::hydrate($_, $class)) :
+            Output::returnLog(null);
     }
 
     
@@ -84,7 +87,10 @@ class Query {
      * @return array liste d'objets DTO hydrates
      */
     static function fetchObjects($sql, $class, $params = []) {
-        return Output::returnLog(Hydrate::hydrateMany(Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC), $class));
+        $_ = Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
+        return !empty($_) ? 
+            Output::returnLog(Hydrate::hydrate($_, $class)) :
+            Output::returnLog([]);
     }
 
 }

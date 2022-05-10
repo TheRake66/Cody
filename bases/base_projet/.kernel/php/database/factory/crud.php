@@ -30,7 +30,7 @@ class Crud {
      * Retourne le nombre d'objets d'une table
      * 
      * @param class classe DTO
-     * @return int le nombre de ligne
+     * @return int le nombre d'objets
      */
     static function size($class) { 
         return Toogle::object(function() use ($class) {
@@ -65,13 +65,13 @@ class Crud {
     static function exists($obj, $clause = null) {
         return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
-            return Query::fetchCell(
+            return boolval(Query::fetchCell(
                 'SELECT EXISTS (
                     SELECT 1 ' .
                     Builder::buildFrom($obj) . ' ' .
                     $where . '
                 )',
-                $params); 
+                $params)); 
         }, $obj);   
     }
 
@@ -125,7 +125,7 @@ class Crud {
                 Builder::buildSelect($obj) . ' ' .
                 Builder::buildFrom($obj) . ' ' .
                 $where,
-                get_class($obj),
+                $obj,
                 $params);
         }, $obj);
     }
@@ -180,7 +180,7 @@ class Crud {
                 Builder::buildSelect($obj) . ' ' .
                 Builder::buildFrom($obj) . ' ' .
                 $where,
-                get_class($obj),
+                $obj,
                 $params);
         }, $obj);
     }
