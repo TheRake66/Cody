@@ -13,125 +13,139 @@ class Crud {
     /**
      * Retourne tous les objets d'une table
      * 
-     * @param class classe DTO faisant reference a la table
+     * @param class classe DTO
      * @return array les objets DTO
      */
     static function all($class) {
         return Toogle::object(function() use ($class) {
-            return Query::fetchObjects('SELECT * FROM ' . Builder::getTableName($class), $class);
+            return Query::fetchObjects(
+                Builder::buildSelect($class) . ' ' . 
+                Builder::buildFrom($class),
+                $class);
         }, $class);
     }
 
 
     /**
-     * Compte les lignes d'une table
+     * Retourne le nombre d'objets d'une table
      * 
-     * @param class classe DTO faisant reference a la table
+     * @param class classe DTO
      * @return int le nombre de ligne
      */
     static function size($class) { 
         return Toogle::object(function() use ($class) {
-            return Query::fetchCell('SELECT COUNT(1) FROM ' . Builder::getTableName($class));
+            return Query::fetchCell(
+                'SELECT COUNT(1) ' .
+                Builder::buildFrom($class),
+                );
         }, $class);
     }
 
 
     /**
-     * Vide une table
+     * Detruit tous les objets d'une table
      * 
-     * @param class classe DTO faisant reference a la table
-     * @return bool si ca reussit
+     * @param class classe DTO
+     * @return bool si la destruction a reussi
      */
     static function truncat($class) { 
         return Toogle::object(function() use ($class) {
-            return Query::execute('TRUNCATE TABLE ' . Builder::getTableName($class));
+            return Query::execute('TRUNCATE TABLE ' . Reflection::getTableName($class));
         }, $class);
     }
 
 
     /**
-     * Verifie si un resultat existe
+     * Verifie si un ou des objets existent dans la table
      * 
-     * @param object objet contenant les valeurs a lire
-     * @param array les proprietes utilisees pour la clause WHERE
-     * @return bool si il existe
+     * @param object l'objet DTO a lier
+     * @param array les proprietes utilisees dans la clause
+     * @return bool si il ou ils existent
      */
     static function exists($obj, $clause = null) {
         return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::fetchCell(
-                'SELECT EXISTS (SELECT 1 FROM ' . Builder::getTableName($obj) . ' ' . $where . ')',
+                'SELECT EXISTS (
+                    SELECT 1 ' .
+                    Builder::buildFrom($obj) . ' ' .
+                    $where . '
+                )',
                 $params); 
-        }, get_class($obj));   
+        }, $obj);   
     }
 
 
     /**
-     * Compte les lignes d'une table pour un objet
+     * Compte le nombre d'objets dans la table par rapport a une clause
      * 
-     * @param object objet contenant les valeurs a lire
-     * @param array les proprietes utilisees pour la clause WHERE
-     * @return int le nombre de ligne
+     * @param object l'objet DTO a lier
+     * @param array les proprietes utilisees dans la clause
+     * @return int le nombre d'objets
      */
     static function count($obj, $clause = null) {
         return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::fetchCell(
-                'SELECT COUNT(1) FROM ' . Builder::getTableName($obj) . ' ' . $where . ')',
+                'SELECT COUNT(1) ' .
+                Builder::buildFrom($obj) . ' ' .
+                $where,
                 $params); 
-        }, get_class($obj));
+        }, $obj);
     }
 
 
     /**
      * Creer un objet dans une table
      * 
-     * @param object objet a creer
-     * @return bool si ca reussit
+     * @param object l'objet a creer
+     * @return bool si la creation a reussi
      */
     static function create($obj) {
         return Toogle::object(function() use ($obj) {
-            [ $values, $params ] = Builder::buildInsert($obj);
+            [ $insert, $params ] = Builder::buildInsert($obj);
             return Query::execute(
-                'INSERT INTO ' . Builder::getTableName($obj) . $values, 
+                $insert,
                 $params);
-        }, get_class($obj));
+        }, $obj);
     }
 
 
     /**
-     * Lis un objet dans une table
+     * Recupere un objet dans une table
      * 
-     * @param object objet contenant les valeurs a lire
-     * @param array les proprietes utilisees pour la clause WHERE
-     * @return object les objets DTO
+     * @param object l'objet DTO a lier
+     * @param array les proprietes utilisees pour la clause
+     * @return object l'objet DTO
      */
     static function read($obj, $clause = null) {
         return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::fetchObject(
-                'SELECT * FROM ' . Builder::getTableName($obj) . ' ' . $where,
+                Builder::buildSelect($obj) . ' ' .
+                Builder::buildFrom($obj) . ' ' .
+                $where,
                 get_class($obj),
                 $params);
-        }, get_class($obj));
+        }, $obj);
     }
 
 
     /**
      * Met a jour un objet dans une table
      * 
-     * @param object objet a mettre a jour
-     * @param array les proprietes utilisees pour la clause WHERE
-     * @return bool si ca reussit
+     * @param object l'objet DTO a mettre a jour
+     * @param array les proprietes utilisees pour la clause
+     * @return bool si la mise a jour a reussi
      */
     static function update($obj, $clause = null) {
         return Toogle::object(function() use ($obj, $clause) {
-            [ $values, $params1 ] = Builder::buildUpdate($obj, $clause);
+            [ $update, $params1 ] = Builder::buildUpdate($obj, $clause);
             [ $where, $params2 ] = Builder::buildClause($obj, $clause);
             return Query::execute(
-                'UPDATE ' . Builder::getTableName($obj) . ' ' . $values . ' ' . $where,
+                $update . ' ' . $where,
                 array_merge($params1, $params2));
-        }, get_class($obj));
+        }, $obj);
     }
 
 
@@ -146,9 +160,9 @@ class Crud {
         return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::execute(
-                'DELETE FROM ' . Builder::getTableName($obj) . ' ' . $where,
+                'DELETE FROM ' . Reflection::getTableName($obj) . ' ' . $where,
                 $params);
-        }, get_class($obj));
+        }, $obj);
     }
 
 
@@ -163,10 +177,12 @@ class Crud {
         return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::fetchObjects(
-                'SELECT * FROM ' . Builder::getTableName($obj) . ' ' . $where,
+                Builder::buildSelect($obj) . ' ' .
+                Builder::buildFrom($obj) . ' ' .
+                $where,
                 get_class($obj),
                 $params);
-        }, get_class($obj));
+        }, $obj);
     }
 
 }

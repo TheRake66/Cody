@@ -8,7 +8,36 @@ use Kernel\Error;
  * Librairie creant les parties de requetes SQL (CRUD : Create, Read, Update, Delete)
  */
 class Builder {
-    
+
+    /**
+     * Construit l'instruction de selecteur de colonnes
+     * 
+     * @param object l'objet DTO
+     * @return string l'instruction SELECT
+     */
+    static function buildSelect($obj) {
+        $col = '';
+        foreach (Reflection::getColumns($obj) as $column) {
+            $col .= Reflection::primaryToColumn($column) . ', ';
+        }
+        $col = substr($col, 0, -2);
+        $sql = 'SELECT ' . $col;
+        return $sql;
+    }
+
+
+    /**
+     * Construit l'instruction de selecteur de table
+     * 
+     * @param object l'objet DTO
+     * @return string l'instruction FROM
+     */
+    static function buildFrom($obj) {
+        $sql = 'FROM ' . Reflection::getTableName($obj);
+        return $sql;
+    }
+
+
     /**
      * Construit l'instruction pour la clause
      * 
@@ -16,7 +45,7 @@ class Builder {
      * AND b = ?
      * AND c = ?
      * 
-     * [ 1, 2, 3]
+     * [ 1, 2, 3 ]
      * 
      * @param object l'objet DTO a lier
      * @param array les proprietes utilisees pour la clause WHERE
@@ -24,47 +53,43 @@ class Builder {
      */
     static function buildClause($obj, $clause = null) {
         $sql = '';
-        $arr = [];
+        $pms = [];
         if (empty($clause)) {
-            $props = (new \ReflectionClass($obj))->getProperties();
-            $clause = [];
-            foreach ($props as $prop) {
-                $name = $prop->getName();
-                if (substr($name, 0, 1) === '_') {
-                    $clause[] = $name;
-                }
-            }
-            if (empty($clause)) {
-                Error::trigger('Aucune clé primaire pour la classe "' . get_class($obj) . '" !');
-            }
+            $clause = Reflection::getPrimaryKeys($obj);
         }
         foreach ((array)$obj as $prop => $val) {
             if (!is_array($clause) && $prop == $clause ||
                 is_array($clause) && in_array($prop, $clause)) {
-                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . self::primaryToColumn($prop);
+                
+                if (empty($sql)) {
+                    $sql .= 'WHERE ';
+                } else {
+                    $sql .= 'AND ';
+                }
+                
+                $sql .= Reflection::primaryToColumn($prop) . ' = ?';
+            
                 if (!is_null($val)) {
                     $sql .= ' = ? ';
-                    $arr[] = $val;
+                    $pms[] = $val;
                 } else {
                     $sql .= ' IS NULL ';
                 }
-                if (!is_array($clause) || count($clause) == count($arr)) {
+                if (!is_array($clause) || count($clause) == count($pms)) {
                     break;
                 }
             }
         }
-        $len = strlen($sql);
-        if ($len > 0) {
-            $sql = substr($sql, 0, $len - 1);
-        }
-        return [ $sql, $arr ];
+        $sql = substr($sql, 0, -1);
+        return [ $sql, $pms ];
     }
 
 
     /**
      * Construit l'instruction pour l'insertion
      * 
-     * (a, b, c) VALUES (?, ?, ?)
+     * INSERT INTO table (a, b, c)
+     * VALUES (?, ?, ?)
      * 
      * [ 1, 2, 3 ]
      * 
@@ -76,25 +101,22 @@ class Builder {
         $pmv = '';
         $pms = [];
         foreach ((array)$obj as $prop => $val) {
-            $col .= self::primaryToColumn($prop) . ', ';
+            $col .= Reflection::primaryToColumn($prop) . ', ';
             $pmv .= '?, ';
             $pms[] = $val;
         }
-        $len = strlen($col);
-        if ($len > 0) {
-            $col = substr($col, 0, $len - 2);
-        }
-        $len2 = strlen($pmv);
-        if ($len2 > 0) {
-            $pmv = substr($pmv, 0, $len2 - 2);
-        }
-        return [ '(' . $col . ') VALUES (' . $pmv . ')', $pms ];
+        $col = substr($col, 0, -2);
+        $pmv = substr($pmv, 0, -2);
+        $sql = 'INSERT INTO ' . Reflection::getTableName($obj) . ' (' . $col . ') 
+                VALUES (' . $pmv . ')';
+        return [ $sql, $pms ];
     }
 
 
     /**
      * Construit l'instruction pour la mise a jour
      * 
+     * UPDATE table
      * SET a = ?, b = ?, c = ?
      * 
      * [ 1, 2, 3 ]
@@ -104,58 +126,15 @@ class Builder {
      */
     static function buildUpdate($obj) {
         $set = '';
-        $col = [];
+        $pms = [];
         foreach ((array)$obj as $prop => $val) {
-            $set .= self::primaryToColumn($prop) . ' = ?, ';
-            $col[] = $val;
+            $set .= Reflection::primaryToColumn($prop) . ' = ?, ';
+            $pms[] = $val;
         }
-        $len = strlen($set);
-        if ($len > 0) {
-            $set = substr($set, 0, $len - 2);
-        }
-        return [ 'SET ' . $set, $col ];
-    }
-
-
-    /**
-     * Retourne le nom d'une table via sa classe
-     * 
-     * @param object l'objet DTO
-     * @return string le nom de la classe
-     */
-    static function getTableName($obj) {
-        return strtolower((new \ReflectionClass($obj))->getShortName());
-    }
-
-
-    /**
-     * Retourne les noms des colonnes d'une table
-     * 
-     * @param object l'objet DTO
-     * @return array les noms
-     */
-    static function getColumnName($obj) {
-        $props = (new \ReflectionClass($obj))->getProperties();
-        $_ = [];
-        foreach ($props as $prop) {
-            $_[] = self::primaryToColumn($prop->getName());
-        }
-        return $_;
-    }
-
-
-    /**
-     * Convertit une propriete primaire en nom de colonne
-     * 
-     * @param string le nom de la propriete
-     * @return string le nom de la colonne
-     */
-    static function primaryToColumn($primary) {
-        if (substr($primary, 0, 1) === '_') {
-            return substr($primary, 1);
-        } else {
-            return $primary;
-        }
+        $set = substr($set, 0, -2);
+        $sql = 'UPDATE ' . Reflection::getTableName($obj) . ' 
+                SET ' . $set;
+        return [ $sql, $pms ];
     }
 
 }

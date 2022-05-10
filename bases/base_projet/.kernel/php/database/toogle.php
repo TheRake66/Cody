@@ -1,6 +1,7 @@
 <?php
 namespace Kernel\Database;
 use Kernel\Configuration;
+use Kernel\Database\Factory\Reflection;
 use Kernel\Debug;
 
 
@@ -53,11 +54,8 @@ class Toogle {
      * @return mixed le resultat de la fonction
      */
     static function object($callback, $type) {
-        $file = (new \ReflectionClass($type))->getFileName();
-        $path = dirname($file);
-        $root = explode(DIRECTORY_SEPARATOR, $path);
-        $database = array_pop($root);
-        if ($database !== 'dto') {
+        $database = Reflection::getDatabaseName($type);
+        if (!is_null($database)) {
             return self::simple($callback, $database);
         } else {
             return $callback();

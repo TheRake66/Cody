@@ -11,7 +11,7 @@ class Convert {
 	/**
 	 * @var array Unites de memoire utiliser pour la conversion
 	 */
-	private const UNITE_MEMOIRE = [ "o", "Ko", "Mo", "Go", "To" ];
+	private const MEMORY_UNITS = [ "o", "Ko", "Mo", "Go", "To" ];
 
 
     /**
@@ -33,7 +33,11 @@ class Convert {
 	 * @return string la chaine coupe ou non
 	 */
 	static function cutTooLong($text, $size = 50) {
-		return mb_strimwidth($text, 0, $size, '...');
+		if (strlen($text) > $size) {
+			return substr($text, 0, $size) . '...';
+		} else {
+			return $text;
+		}
 	} 
 
 
@@ -47,18 +51,6 @@ class Convert {
 	static function toFrench($decimal, $precision = 3) {
 		return number_format($decimal, $precision, ',', ' ');
 	}
-	
-
-	/**
-	 * Verifi si un tableau est associatif (cle => valeur)
-	 * 
-	 * @param array le tableau a verifier
-	 * @return bool si il est associatif
-	 */
-	static function isAssoc($array) {
-		if (array() === $array) return false;
-		return array_keys($array) !== range(0, count($array) - 1);
-	}
 
 
 	/**
@@ -69,11 +61,11 @@ class Convert {
 	 */
 	static function toMemory($num) {
 		$count = 0;
-		while ($count < count(self::UNITE_MEMOIRE) - 1 && round($num, 0) >= 1000) {
+		while ($count < count(self::MEMORY_UNITS) - 1 && round($num, 0) >= 1000) {
 			$num /= 1024;
 			$count++;
 		}
-		return number_format($num, 2, ',', ' ') . ' ' . self::UNITE_MEMOIRE[$count];
+		return number_format($num, 2, ',', ' ') . ' ' . self::MEMORY_UNITS[$count];
 	}
 
 
@@ -86,7 +78,7 @@ class Convert {
 	 */
 	static function toBytes($num, $unite) {
 		$count = 0;
-		while ($count < count(self::UNITE_MEMOIRE) - 1 && self::UNITE_MEMOIRE[$count] != $unite) {
+		while ($count < count(self::MEMORY_UNITS) - 1 && self::MEMORY_UNITS[$count] != $unite) {
 			$num *= 1024;
 			$count++;
 		}
@@ -113,6 +105,18 @@ class Convert {
 	 */
 	static function isOdd($num) {
 		return $num % 2 != 0;
+	}
+	
+
+	/**
+	 * Verifi si un tableau est associatif (cle => valeur)
+	 * 
+	 * @param array le tableau a verifier
+	 * @return bool si il est associatif
+	 */
+	static function isAssoc($array) {
+		if (array() === $array) return false;
+		return array_keys($array) !== range(0, count($array) - 1);
 	}
 
 
