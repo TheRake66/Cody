@@ -53,7 +53,7 @@ class Crud {
      * Verifie si un resultat existe
      * 
      * @param object objet contenant les valeurs a lire
-     * @param array les proprietes dans la clause
+     * @param array les proprietes utilisees pour la clause WHERE
      * @return bool si il existe
      */
     static function exists($obj, $clause = null) {
@@ -70,7 +70,7 @@ class Crud {
      * Compte les lignes d'une table pour un objet
      * 
      * @param object objet contenant les valeurs a lire
-     * @param array les proprietes dans la clause
+     * @param array les proprietes utilisees pour la clause WHERE
      * @return int le nombre de ligne
      */
     static function count($obj, $clause = null) {
@@ -103,7 +103,7 @@ class Crud {
      * Lis un objet dans une table
      * 
      * @param object objet contenant les valeurs a lire
-     * @param array les proprietes dans la clause
+     * @param array les proprietes utilisees pour la clause WHERE
      * @return object les objets DTO
      */
     static function read($obj, $clause = null) {
@@ -121,7 +121,7 @@ class Crud {
      * Met a jour un objet dans une table
      * 
      * @param object objet a mettre a jour
-     * @param array les proprietes dans la clause
+     * @param array les proprietes utilisees pour la clause WHERE
      * @return bool si ca reussit
      */
     static function update($obj, $clause = null) {
@@ -139,7 +139,7 @@ class Crud {
      * Supprime un objet dans une table
      * 
      * @param object objet a supprimer
-     * @param array les proprietes dans la clause
+     * @param array les proprietes utilisees pour la clause WHERE
      * @return bool si ca reussit
      */
     static function delete($obj, $clause = null) { 
@@ -156,7 +156,7 @@ class Crud {
      * Lis plusieurs objets dans une table
      * 
      * @param object objet contenant les valeurs a lire
-     * @param array les proprietes dans la clause
+     * @param array les proprietes utilisees pour la clause WHERE
      * @return object les objets DTO
      */
     static function readMany($obj, $clause = null) {

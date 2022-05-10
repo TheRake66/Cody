@@ -19,8 +19,8 @@ class Builder {
      * [ 1, 2, 3]
      * 
      * @param object l'objet DTO a lier
-     * @param array les nom des cles primaire
-     * @return array la condition WHERE pour les cle primaire et leurs valeurs
+     * @param array les proprietes utilisees pour la clause WHERE
+     * @return array l'instruction WHERE et les parametres
      */
     static function buildClause($obj, $clause = null) {
         $sql = '';
@@ -39,10 +39,9 @@ class Builder {
             }
         }
         foreach ((array)$obj as $prop => $val) {
-            $prop = str_replace('*', '', $prop);
             if (!is_array($clause) && $prop == $clause ||
                 is_array($clause) && in_array($prop, $clause)) {
-                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . substr($prop, 1) . ' = ?';
+                $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . self::primaryToColumn($prop);
                 if (!is_null($val)) {
                     $sql .= ' = ? ';
                     $arr[] = $val;
@@ -70,14 +69,14 @@ class Builder {
      * [ 1, 2, 3 ]
      * 
      * @param object l'objet DTO a lier
-     * @return array l'instruction pour l'insert et leurs valeurs
+     * @return array l'instruction INSERT et les parametres
      */
     static function buildInsert($obj) {
         $col = '';
         $pmv = '';
         $pms = [];
         foreach ((array)$obj as $prop => $val) {
-            $col .= str_replace('*', '', $prop) . ', ';
+            $col .= self::primaryToColumn($prop) . ', ';
             $pmv .= '?, ';
             $pms[] = $val;
         }
@@ -101,13 +100,13 @@ class Builder {
      * [ 1, 2, 3 ]
      * 
      * @param object l'objet DTO a lier
-     * @return array l'instruction pour la mise a jour et leurs valeurs
+     * @return array l'instruction UPDATE et les parametres
      */
     static function buildUpdate($obj) {
         $set = '';
         $col = [];
         foreach ((array)$obj as $prop => $val) {
-            $set .= str_replace('*', '', $prop) . ' = ?, ';
+            $set .= self::primaryToColumn($prop) . ' = ?, ';
             $col[] = $val;
         }
         $len = strlen($set);
@@ -139,9 +138,24 @@ class Builder {
         $props = (new \ReflectionClass($obj))->getProperties();
         $_ = [];
         foreach ($props as $prop) {
-            $_[] = str_replace('*', '', strtolower($prop->name));
+            $_[] = self::primaryToColumn($prop->getName());
         }
         return $_;
+    }
+
+
+    /**
+     * Convertit une propriete primaire en nom de colonne
+     * 
+     * @param string le nom de la propriete
+     * @return string le nom de la colonne
+     */
+    static function primaryToColumn($primary) {
+        if (substr($primary, 0, 1) === '_') {
+            return substr($primary, 1);
+        } else {
+            return $primary;
+        }
     }
 
 }
