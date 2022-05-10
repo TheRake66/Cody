@@ -15,8 +15,8 @@ class Reflection {
      * @param object l'objet DTO
      * @return string le nom de la base de donnee
      */
-    static function getDatabaseName($obj) {
-        $file = (new \ReflectionClass($obj))->getFileName();
+    static function getDatabaseName($dto) {
+        $file = (new \ReflectionClass($dto))->getFileName();
         $path = dirname($file);
         $root = explode(DIRECTORY_SEPARATOR, $path);
         $database = array_pop($root);
@@ -33,8 +33,8 @@ class Reflection {
      * @param object l'objet DTO
      * @return string le nom de la classe
      */
-    static function getTableName($obj) {
-        return strtolower((new \ReflectionClass($obj))->getShortName());
+    static function getTableName($dto) {
+        return strtolower((new \ReflectionClass($dto))->getShortName());
     }
 
 
@@ -44,8 +44,8 @@ class Reflection {
      * @param object|string l'objet ou la classe DTO
      * @return array les noms
      */
-    static function getColumns($obj) {
-        $props = (new \ReflectionClass($obj))->getProperties();
+    static function getColumns($dto) {
+        $props = (new \ReflectionClass($dto))->getProperties();
         $_ = [];
         foreach ($props as $prop) {
             $_[] = self::primaryToColumn($prop->getName());
@@ -60,8 +60,8 @@ class Reflection {
      * @param object|string l'objet ou la classe DTO
      * @return array les noms
      */
-    static function getPrimaryKeys($obj) {
-        $props = (new \ReflectionClass($obj))->getProperties();
+    static function getPrimaryKeys($dto) {
+        $props = (new \ReflectionClass($dto))->getProperties();
         $_ = [];
         foreach ($props as $prop) {
             if (substr($prop->getName(), 0, 1) === '_') {
