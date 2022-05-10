@@ -19,23 +19,17 @@ class Render {
      * @throws Error si les fichiers (vue, style, script) n'existent pas ou ne sont pas lisible
      */
     static function view($controler = null, $variables = null) {
-        // Recupere le namespace\class du controlleur
         $full = is_null($controler) ? 
             debug_backtrace()[1]['class'] : 
             get_class($controler);
-
-        // Coupe le namespace et de la class
         $explode = explode('\\', $full);
         $class = end($explode);
         $namespace = array_slice($explode, 1, count($explode) - 1);
-        
-        // Construit les noms de fichier et le dossier
         $folder = 'debug/app/' . strtolower(implode('/', $namespace)) . '/';
         $varname = strtolower(implode('_', $namespace));
         $name = strtolower($class);
         
-        // Envoi les variables a la vue
-        if (!is_null($variables)) {
+        if (!empty($variables)) {
             if (is_array($variables)) {
                 if (Convert::isAssoc($variables)) {
                     extract($variables);
@@ -51,22 +45,17 @@ class Render {
             }
         }
         
-        // Inclut la vue
         $vue = $folder . 'vue.' . $name . '.php';
         $style = $folder . 'style.' . $name . '.less';
         $script = $folder . 'script.' . $name . '.js';
-
         if (!is_file($vue) || !is_readable($vue)) {
             $vue = str_replace('_', ' ', $vue);
             $style = str_replace('_', ' ', $style);
             $script = str_replace('_', ' ', $script);
         }
-        
         if (is_file($vue) && is_readable($vue)) {
             require $vue;
-            // Inclut le style
             Output::add(Import::importStyle($style));
-            // Inclut et initialise le script
             Output::add(Import::importScript($script, 'module', $varname, $class));
         } else {
             Error::trigger('Impossible de faire le rendu du composant "' . $full . '" !');
