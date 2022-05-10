@@ -1,5 +1,5 @@
 {
-	"version": "7.18.54.0",
+	"version": "7.20.55.0",
 	"modifications": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -11,7 +11,8 @@
 		"Ajout d'une commande stop.",
 		"Modification de la compilation pour la nouvelle structure JS.",
 		"Balise HTML par composant.",
-		"Différenciation entre les modifications et les bugs dans la version."
+		"Différenciation entre les modifications et les bugs dans la version.",
+		"Ajout de l'argument -f pour la commande run et stop."
 	], 
 	"bugs": [
 		"Correction du plantage lors d'un lancement sur un terminal trop petit.",

@@ -47,8 +47,10 @@ obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe DTO,
                                 avec le nom spécifié.
 pkg [-t|-l|-s] [*nom]           Télécharge, liste ou supprime un package depuis le dépôt de Cody.
 rep                             Ouvre la dépôt GitHub de Cody.
-run                             Lance un serveur PHP et ouvre le projet dans le navigateur.
-stop                            Arrête le serveur PHP.
+run [-f]                        Lance un serveur PHP et ouvre le projet dans le navigateur. Si l'option '-f'
+                                est ajouté, tous les processus PHP seront arrêté, sinon seul le processus
+                                démarrer par Cody sera arrêté.
+stop [-f]                       Arrête le serveur PHP. L'option '-f' arrête tous les processus PHP.
 tes [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une classe de test unitaire.
 tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
 unit                            Lance les tests unitaires.
@@ -416,16 +418,49 @@ vs                              Ouvre le projet dans Visual Studio Code.
         // Ouvre le projet dans le navigateur et lance un serveur PHP
         public static void runProjet(string[] cmd)
         {
-            if (cmd.Length == 0)
+            if (cmd.Length <= 1)
             {
+                // Verifie les arguments
+                bool force = false;
+                if (cmd.Length == 1)
+                {
+                    string arg = cmd[0];
+                    if (arg == "-f")
+                        force = true;
+                    else
+                    {
+                        Console.WriteLine("Argument '" + arg + "' est invalide !");
+                        return;
+                    }
+                }
+
                 // Si le projet existe
                 if (Librairie.isProject())
                 {
                     try
                     {
-                        // Ferme les serveur php
-                        if (Commande.serverRun != null && !Commande.serverRun.HasExited)
-                            Commande.serverRun.Kill();
+                        // Arrete toutes les instances
+                        if (force)
+                        {
+                            Process[] php = Process.GetProcessesByName("php");
+                            if (php.Length > 0)
+                            {
+                                foreach (Process p in php)
+                                    p.Kill();
+                                Console.WriteLine("Toutes les instances de PHP ont été arrêté.");
+                            }
+                            else
+                                Console.WriteLine("Aucune instance de PHP !");
+                        }
+                        else
+                        {
+                            // Ferme le serveur php
+                            if (Commande.serverRun != null && !Commande.serverRun.HasExited)
+                            {
+                                Commande.serverRun.Kill();
+                                Console.WriteLine("Le serveur a été arrêté.");
+                            }
+                        }
 
                         // Lance PHP
                         Commande.serverRun = Librairie.startProcess("php", "-S localhost:6600", ProcessWindowStyle.Minimized);
@@ -441,42 +476,72 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     }
                 }
             }
-            else
-                Console.WriteLine("Problème, aucun argument n'est attendu !");
+            else if (cmd.Length > 1)
+                Console.WriteLine("Problème, trop d'arguments !");
         }
 
         // Ferme le serveur PHP
         public static void stopProjet(string[] cmd)
         {
-            if (cmd.Length == 0)
+            if (cmd.Length <= 1)
             {
+                // Verifie les arguments
+                bool force = false;
+                if (cmd.Length == 1)
+                {
+                    string arg = cmd[0];
+                    if (arg == "-f")
+                        force = true;
+                    else
+                    {
+                        Console.WriteLine("Argument '" + arg + "' est invalide !");
+                        return;
+                    }
+                }
+
                 // Si le projet existe
                 if (Librairie.isProject())
                 {
-                    // Ferme les serveur php
-                    if (Commande.serverRun != null)
+                    // Arrete toutes les instances
+                    if (force)
                     {
-                        if (!Commande.serverRun.HasExited)
+                        Process[] php = Process.GetProcessesByName("php");
+                        if (php.Length > 0)
                         {
-                            try
-                            {
-                                Commande.serverRun.Kill();
-                                Console.WriteLine("Le serveur a été arrêté.");
-                            }
-                            catch (Exception e)
-                            {
-                                Message.writeExcept("Impossible d'arrêter le serveur !", e);
-                            }
+                            foreach (Process p in php)
+                                p.Kill();
+                            Console.WriteLine("Toutes les instances de PHP ont été arrêté.");
                         }
-                        else
-                            Console.WriteLine("Le serveur s'est déjà arrêté !");
+                        else 
+                            Console.WriteLine("Aucune instance de PHP !");
                     }
                     else
-                        Console.WriteLine("Aucun serveur n'a été lancé !");
+                    {
+                        // Ferme le serveur php
+                        if (Commande.serverRun != null)
+                        {
+                            if (!Commande.serverRun.HasExited)
+                            {
+                                try
+                                {
+                                    Commande.serverRun.Kill();
+                                    Console.WriteLine("Le serveur a été arrêté.");
+                                }
+                                catch (Exception e)
+                                {
+                                    Message.writeExcept("Impossible d'arrêter le serveur !", e);
+                                }
+                            }
+                            else
+                                Console.WriteLine("Le serveur s'est déjà arrêté !");
+                        }
+                        else
+                            Console.WriteLine("Aucun serveur n'a été lancé !");
+                    }
                 }
             }
-            else
-                Console.WriteLine("Problème, aucun argument n'est attendu !");
+            else if (cmd.Length > 1)
+                Console.WriteLine("Problème, trop d'arguments !");
         }
 
 
@@ -1154,12 +1219,12 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 return false;
             }
         }
-        private static bool creerDossierProjet(string nom)
+        private static bool creerDossierProjet(string name)
         {
             try
             {
                 // Creer le dossier du projet
-                Directory.CreateDirectory(nom);
+                Directory.CreateDirectory(name);
                 return true;
             }
             catch (Exception e)
@@ -1168,7 +1233,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 return false;
             }
         }
-        private static void parcoursArchiveProjet(string zip, string nom)
+        private static void parcoursArchiveProjet(string zip, string name)
         {
             try
             {
@@ -1178,21 +1243,24 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     // Parcour chaque entree
                     foreach (ZipArchiveEntry ent in arc.Entries)
                     {
-                        string path = Path.Combine(nom, ent.FullName); // projet\entry
+                        string path = Librairie.remplaceDirSep(Path.Combine(name, ent.FullName
+                                .Replace("{PROJECT_NAME}", name)
+                                .Replace("{USER_NAME}", Environment.UserName)
+                            )); // projet\entry
 
                         // Si c'est un dossier
                         if (ent.Name == "")
-                            extraireDossierProjet(path, ent.FullName);
+                            extraireDossierProjet(path);
                         // Si c'est un fichier
                         else
-                            extraireFichierProjet(ent, path, ent.FullName, nom);
+                            extraireFichierProjet(ent, path, name);
                     }
                 }
 
                 supprimerArchiveProjet(zip);
-                cacherKernelProjet(nom);
-                creerJsonProject(nom);
-                changerDossierProjet(nom);
+                cacherKernelProjet(name);
+                creerJsonProject(name);
+                changerDossierProjet(name);
 
                 Console.WriteLine("Le projet a été crée.");
             }
@@ -1201,7 +1269,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Message.writeExcept("Impossible d'extraire l'archive !", e);
             }
         }
-        private static void extraireDossierProjet(string path, string file)
+        private static void extraireDossierProjet(string path)
         {
             try
             {
@@ -1209,7 +1277,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Directory.CreateDirectory(path);
 
                 Console.Write("Dossier : '");
-                Message.writeIn(ConsoleColor.Magenta, file);
+                Message.writeIn(ConsoleColor.Magenta, path);
                 Console.WriteLine("' ajouté.");
             }
             catch (Exception e)
@@ -1217,7 +1285,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 Message.writeExcept("Impossible d'ajouter le dossier !", e);
             }
         }
-        private static void extraireFichierProjet(ZipArchiveEntry ent, string path, string file, string name)
+        private static void extraireFichierProjet(ZipArchiveEntry ent, string path, string name)
         {
             try
             {
@@ -1225,7 +1293,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 ent.ExtractToFile(path);
 
                 Console.Write("Fichier : '");
-                Message.writeIn(ConsoleColor.DarkGreen, file);
+                Message.writeIn(ConsoleColor.DarkGreen, path);
                 Console.Write("' extrait (");
                 Message.writeIn(ConsoleColor.DarkYellow, Librairie.getFileSize(path));
                 Console.WriteLine(").");
@@ -1239,7 +1307,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     ".less"
                 };
 
-                if (toedit.Contains(Path.GetExtension(file)))
+                if (toedit.Contains(Path.GetExtension(path)))
                 {
                     try
                     {
@@ -1366,7 +1434,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 // Si le projet existe
                 if (Librairie.isProject() && Librairie.checkProjetVersion())
                 {
-                    switch (args[0].ToLower())
+                    switch (args[0])
                     {
                         case "-l":
                             if (args.Length == 1) 
