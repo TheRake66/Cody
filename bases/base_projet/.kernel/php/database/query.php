@@ -89,7 +89,7 @@ class Query {
     static function fetchObjects($sql, $class, $params = []) {
         $_ = Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
         return !empty($_) ? 
-            Output::returnLog(Hydrate::hydrate($_, $class)) :
+            Output::returnLog(Hydrate::hydrateMany($_, $class)) :
             Output::returnLog([]);
     }
 
