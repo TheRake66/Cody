@@ -35,6 +35,7 @@
         "author": "{USER_NAME}",
         "viewport": "width=device-width, initial-scale=1.0",
         "theme_color": "#3B78FF",
+        "robots": "index,follow",
         "title": "{PROJECT_NAME}"
     },
     "region": {

@@ -18,24 +18,41 @@ class Doctype {
     static function begin() {
         Debug::log('Ouverture du HTML...', Debug::LEVEL_PROGRESS);
 
-        $head = Configuration::get()->website_head;
-        $render = Configuration::get()->render;
-        $region = Configuration::get()->region;
+        $conf_head = Configuration::get()->website_head;
+        $conf_render = Configuration::get()->render;
+        $conf_region = Configuration::get()->region;
 
-        Output::add('<!DOCTYPE html>
-            <html lang="' . $region->main_lang . '" ' . ($render->wait_dom_loaded ? 'style="opacity: 0;"' : '') . '>
-                <head>
-                    <meta charset="' . $head->charset . '">
-                    <meta name="description" content="' . $head->description . '">
-                    <meta name="keywords" content="' . $head->keywords . '">
-                    <meta name="author" content="' . $head->author . '">
-                    <meta name="viewport" content="' . $head->viewport . '">
-                    <meta name="theme-color" content="' . $head->theme_color . '">
-                    <meta name="msapplication-navbutton-color" content="' . $head->theme_color . '">
-                    <meta name="apple-mobile-web-app-status-bar-style" content="' . $head->theme_color . '">
-                    <title>' . $head->title . '</title>
-                    <link rel="icon" href="favicon.ico"/>
-                </head>');
+        $meta_charset = Builder::create('meta', [ 'charset' => $conf_head->charset ]);
+        $meta_description = Builder::create('meta', [ 'name' => 'description', 'content' => $conf_head->description ]);
+        $meta_keywords = Builder::create('meta', [ 'name' => 'keywords', 'content' => $conf_head->keywords ]);
+        $meta_viewport = Builder::create('meta', [ 'name' => 'viewport', 'content' => $conf_head->viewport ]);
+        $meta_robots = Builder::create('meta', [ 'name' => 'robots', 'content' => $conf_head->robots ]);
+        $meta_author = Builder::create('meta', [ 'name' => 'author', 'content' => $conf_head->author ]);
+        $meta_theme_color = Builder::create('meta', [ 'name' => 'theme-color', 'content' => $conf_head->theme_color ]);
+        $meta_theme_color_apple = Builder::create('meta', [ 'name' => 'apple-mobile-web-app-status-bar-style', 'content' => $conf_head->theme_color ]);
+        $meta_theme_color_ms = Builder::create('meta', [ 'name' => 'msapplication-navbutton-color', 'content' => $conf_head->theme_color ]);
+        $title = Builder::create('title', null, $conf_head->title);
+        $link_favicon = Builder::create('link', [ 'rel' => 'icon', 'href' => 'favicon.ico' ]);
+        $head = Builder::create('head', null, [
+            $meta_charset,
+            $meta_description,
+            $meta_keywords,
+            $meta_viewport,
+            $meta_robots,
+            $meta_author,
+            $meta_theme_color,
+            $meta_theme_color_apple,
+            $meta_theme_color_ms,
+            $title,
+            $link_favicon
+        ]);
+        $html = Builder::create('html', [
+            'lang' => $conf_region->main_lang,
+            'style' => 'opacity: ' . ($conf_render->wait_dom_loaded ? 0 : 1)
+        ], $head);
+        $doctype = Builder::create('!DOCTYPE html', null, $html);
+
+        Output::add($doctype);
         Debug::log('Définition de l\'entête.');
     
         Output::add(Import::importStyle('debug/app/global.less'));

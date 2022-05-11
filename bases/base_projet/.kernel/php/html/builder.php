@@ -15,11 +15,11 @@ class Builder {
      * 
      * @param string la balise HTML
      * @param array les attributs [attribut => valeur]
-     * @param string le contenu de la balise
+     * @param string|array le contenu de la balise
      * @param bool si la balise est une balise autofermante
      * @return string le code HTML
      */
-    static function create($tag, $attr = [], $content = null, $selfClose = true) {
+    static function create($tag, $attr = null, $content = null, $selfClose = true) {
         $_ = '<' . $tag;
         if ($attr) {
             foreach ($attr as $key => $value) {
@@ -27,7 +27,7 @@ class Builder {
             }
         }
         if ($content) {
-            $_ .= '>' . $content . '</' . $tag . '>';
+            $_ .= '>' . (is_array($content) ? implode('', $content) : $content) . '</' . $tag . '>';
         } else {
             if ($selfClose) {
                 $_ .= ' />';
@@ -49,7 +49,7 @@ class Builder {
      * @param bool si on ouvre la page dans une nouvelle fenetre
      * @return string le code HTML
      */
-    static function href($text, $route, $param = [], $addBack = false, $newTab = false) {
+    static function href($text, $route, $param = null, $addBack = false, $newTab = false) {
         $_['href'] = Url::build($route, $param, $addBack);
         if ($newTab) {
             $_['target'] = '_blank';
@@ -85,7 +85,7 @@ class Builder {
      * @param string si on ajoute le parametre de retour
      * @return string le code HTML
      */
-    static function form($content = null, $method = 'GET', $isMultipart = false, $route = null, $param = [], $addback = false) {
+    static function form($content = null, $method = 'GET', $isMultipart = false, $route = null, $param = null, $addback = false) {
         $_['method'] = $method;
         if ($isMultipart) {
             $_['enctype'] = 'multipart/form-data';

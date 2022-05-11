@@ -65,7 +65,7 @@ class Debug {
             ($type !== self::TYPE_MAIL_CONTENT || $confq->print_mail_content)
             ) {
 
-            $folder = 'logs';
+            $folder = Path::absolute('logs');
             if ($conf->ip_identify) {
                 $folder .= '/' . str_replace(':', '-', Server::getClientIp());
             }

@@ -36,17 +36,17 @@ class Url {
 	 * Contruit une url
 	 * 
 	 * @param string la route
-	 * @param array les param
-	 * @param string le back
-	 * @return string le nouvel url
+	 * @param array les parametres
+	 * @param string si on ajoute le parametre de retour
+	 * @return string l'url
 	 */
-	static function build($route, $param = [], $addBack = false) {
-		$url = self::root() . '?routePage=' . $route;
-		foreach ($param as $name => $value) {
-			$url .= '&' . $name . '=' . urlencode($value ?? '');
-		}
+	static function build($route, $params = [], $addBack = false) {
+		$url = self::root() . $route;
 		if ($addBack) {
-			$url .= '&redirectUrl=' . urlencode(self::current());
+			$params['redirectUrl'] = self::current();
+		}
+		if ($params || $addBack) {
+			$url .= '?' . http_build_query($params);
 		}
 		return $url;
 	}
@@ -61,16 +61,16 @@ class Url {
 	 * @param string la methode (GET, POST)
      * @return void
 	 */
-	static function go($route, $param = [], $addBack = false, $method = Url::METHOD_GET) {
+	static function go($route, $params = [], $addBack = false, $method = Url::METHOD_GET) {
 		if ($method == Url::METHOD_GET) {
-			self::location(self::build($route, $param, $addBack));
+			self::location(self::build($route, $params, $addBack));
 		} else {
 			$html = Builder::create('form', [
 				'action' => self::build($route),
 				'method' => 'post',
 				'id' => 'KERNEL_REDIRECT_FORM'
 			]);
-			foreach ($param as $key => $value) {
+			foreach ($params as $key => $value) {
 				$html .= Builder::create('input', [
 					'type' => 'hidden',
 					'name' => $key,
@@ -109,8 +109,8 @@ class Url {
 	 * 
 	 * @return string le retour
 	 */
-	static function getBack() {
-		return $_GET['redirectUrl'] ?? '';
+	static function back() {
+		return $_GET['redirectUrl'] ?? null;
 	}
 
 	
@@ -133,6 +133,16 @@ class Url {
 		return self::protocol() . '://' . $_SERVER['HTTP_HOST'];
 	}
 
+
+	/**
+	 * Retourne l'url sans les parametres
+	 * 
+	 * @return string l'url sans les parametres
+	 */
+	static function root() {
+		return self::host() . dirname($_SERVER['SCRIPT_NAME']);
+	}
+
 	
 	/**
 	 * Retourne l'url actuelle
@@ -141,16 +151,6 @@ class Url {
 	 */
 	static function current() {
 		return self::host() . $_SERVER['REQUEST_URI'];
-	}
-
-
-	/**
-	 * Retourne l'url sans les parametres
-	 * 
-	 * @return string l'url sans les parametres
-	 */
-	static function root() {
-		return self::host() . $_SERVER['PHP_SELF'];
 	}
 	
 
@@ -161,7 +161,7 @@ class Url {
 	 * @param string sa nouvelle valeur
 	 * @return string le nouvel url
 	 */
-	static function changeGet($name, $value) {
+	static function changeParam($name, $value) {
 		$query = $_GET;
 		$query[$name] = $value;
 		return self::root() . '?' . http_build_query($query);
@@ -175,18 +175,18 @@ class Url {
 	 * @param string sa valeur
 	 * @return string le nouvel url
 	 */
-	static function addGet($name, $value = true) {
-		return self::changeGet($name, $value);
+	static function addParam($name, $value) {
+		return self::changeParam($name, $value);
 	}
 	
 
 	/**
-	 * Retourne un parametre passe en GET
+	 * Retourne un parametre de l'url
 	 * 
 	 * @param string nom du parametre
 	 * @return string valeur du parametre
 	 */
-	static function paramGet($name) {
+	static function getParam($name) {
 		return $_GET[$name] ?? null;
 	}
 
@@ -197,7 +197,7 @@ class Url {
 	 * @param string le nom du parametre
 	 * @return string le nouvel url
 	 */
-	static function removeGet($name) {
+	static function removeParam($name) {
 		$query = $_GET;
 		unset($query[$name]);
 		return self::root() . '?' . http_build_query($query);

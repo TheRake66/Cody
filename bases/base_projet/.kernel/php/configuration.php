@@ -21,9 +21,11 @@ class Configuration {
 	 */
 	static function load() {
 		try {
-			self::$current = json_decode(file_get_contents('.kernel/configuration.json'));
+			$file = Path::absolute('.kernel/configuration.json');
+			$json = file_get_contents($file);
+			self::$current = json_decode($json);
 		} catch (\Exception $e) {
-			die('Impossible de charger la configuration !');
+			die('Impossible de charger la configuration ! Raison : ' . $e->getMessage());
 		}
 	}
 	

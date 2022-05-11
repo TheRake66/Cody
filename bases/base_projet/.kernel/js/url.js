@@ -18,6 +18,37 @@ export default class Url {
 
 
 	/**
+	 * Accede a une url
+	 * 
+	 * @param {string} url l'url
+	 * @returns {void}
+	 */
+	static location(url) {
+		window.location.href = url;
+	}
+
+	
+	/**
+	 * Contruit une url
+	 * 
+	 * @param {string} route la route
+	 * @param {array} params les parametres
+	 * @param {string} addback si on ajoute le parametre de retour
+	 * @return {string} l'url
+	 */
+	static build(route, params = {}, addback = false) {
+		let url = Url.root() + route;
+		if (addback) {
+			params.redirectUrl = Url.current();
+		}
+		if (Object.keys(params).length !== 0 || addback) {
+			url += '?' + (new URLSearchParams(params)).toString();
+		}
+		return url;
+	}
+
+
+	/**
 	 * Accede a une url dans l'application
 	 * 
 	 * @param {string} route la route vers le composant
@@ -26,9 +57,9 @@ export default class Url {
 	 * @param {string} method la methode (GET, POST)
      * @returns {void}
 	 */
-	static go(route, param = [], addback = false, method = Url.METHOD_GET) {
+	static go(route, params = [], addback = false, method = Url.METHOD_GET) {
 		if (method === Http.METHOD_GET) {
-			window.location.href = Url.build(route, param, addback);
+			window.location.href = Url.build(route, params, addback);
 		} else if (method === Http.METHOD_POST) {
 			let f = Html.create('form', {
 				method: 'post',
@@ -72,7 +103,37 @@ export default class Url {
 	 * @return {string} le retour
 	 */
 	static back() {
-		return Url.paramGet('redirectUrl') ?? '';
+		return Url.paramGet('redirectUrl') ?? undefined;
+	}
+
+
+	/**
+	 * Retourne le protocol actuel (http ou https)
+	 * 
+	 * @returns {string} le protocole
+	 */
+	static protocol() {
+		return window.location.protocol.replace(':', '');
+	}
+
+
+	/**
+	 * Retourne l'adresse du serveur (https://localhost:6600)
+	 * 
+	 * @returns {string} l'adresse
+	 */
+	static host() {
+		return Url.protocol() + '://' + window.location.host;
+	}
+
+
+	/**
+	 * Retourne l'url sans les parametres
+	 * 
+	 * @returns {string} l'url sans les parametres
+	 */
+	static root() {
+		return Url.host() + window.location.pathname.split('/').slice(0, -1).join('/');
 	}
 
 	
@@ -86,50 +147,6 @@ export default class Url {
 	}
 
 
-	/**
-	 * Retourne l'url sans les parametres
-	 * 
-	 * @returns {string} l'url sans les parametres
-	 */
-	static root() {
-		return Url.current().split('?')[0];
-	}
-
-
-	/**
-	 * Formatte un tableau ou un objet en paramettre
-	 * 
-	 * @param {array} param l'objet ou le tableau a convertir
-	 * @returns {string} les parametres formates
-	 */
-	static objectToParam(param) {
-		let str = ''
-		for (let name in param) {
-            let value = param[name];
-			str += (str !== '' ? '&' : '') + name + '=' + encodeURIComponent(value ?? '');
-        }
-		return str;
-	}
-
-	
-	/**
-	 * Contruit une url
-	 * 
-	 * @param {string} route la route
-	 * @param {array} param les param
-	 * @param {string} addback le back
-	 * @return {string} le nouvel url
-	 */
-	static build(route, param = {}, addback = false) {
-		let _ = {};
-        _['routePage'] = route;
-		if (addback) {
-			_['redirectUrl'] = encodeURIComponent(Url.current());
-		}
-        return `${Url.root()}?${Url.objectToParam(Object.assign({}, _, param))}`;
-	}
-
-
     /**
 	 * Remplace un parametre de l'url
 	 * 
@@ -137,23 +154,39 @@ export default class Url {
 	 * @param {string} value sa nouvelle valeur
 	 * @return {string} le nouvel url
      */
-    static changeGet(name, value) {
-        let regex = new RegExp("([?;&])" + name + "[^&;]*[;&]?");
-        let query = window.location.search.replace(regex, "$1").replace(/&$/, '');
-        return (query.length > 2 ? query + "&" : "?") + (value ? name + "=" + value : '');
+    static changeParam(name, value) {
+		let queryString = window.location.search;
+		let urlParams = new URLSearchParams(queryString);
+		urlParams.set(name, value);
+		return queryString;
     }
 
 
+	/**
+	 * Ajoute un parametre de l'url
+	 * 
+	 * @param {string} name le nom du parametre
+	 * @param {string} value sa nouvelle valeur
+	 * @return {string} le nouvel url
+	 */
+	static addParam(name, value) {
+		let queryString = window.location.search;
+		let urlParams = new URLSearchParams(queryString);
+		urlParams.append(name, value);
+		return queryString;
+	}
+
+
     /**
-     * Retourne un parametre passe en GET
+	 * Retourne un parametre de l'url
      * 
      * @param {string} name nom du parametre
      * @returns {string} valeur du parametre
      */
-    static paramGet(name) {
-        let queryString = window.location.search;
-        let urlParams = new URLSearchParams(queryString);
-        return urlParams.get(name);
+    static getParam(name) {
+		let queryString = window.location.search;
+		let urlParams = new URLSearchParams(queryString);
+		return urlParams.get(name);
     }
 
 
@@ -163,11 +196,11 @@ export default class Url {
      * @param {string} name nom du parametre
      * @returns {string} le nouvel url
      */
-    static paramRem(name) {
-        let queryString = window.location.search;
-        let urlParams = new URLSearchParams(queryString);
-        urlParams.delete(name);
-        return queryString;
+    static removeParam(name) {
+		let queryString = window.location.search;
+		let urlParams = new URLSearchParams(queryString);
+		urlParams.delete(name);
+		return queryString;
     }
 
 }

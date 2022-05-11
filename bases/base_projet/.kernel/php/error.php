@@ -102,7 +102,7 @@ class Error {
             <div class="ERROR_CODY_BLOCK">
                 <div class="ERROR_CODY_HEAD">
                     <div>      
-                        <img src=".kernel/logo_full.png" alt="Cody">
+                        <img src="' . Path::relative('.kernel/logo_full.png') . '" alt="Cody">
                         <span>Une erreur est survenue !</span>
                     </div>
                 </div>
@@ -163,7 +163,7 @@ class Error {
 
                 @font-face {
                     font-family: "cody_consolas";
-                    src: url(".kernel/consolas.ttf") format("truetype");
+                    src: url("' . Path::relative('.kernel/consolas.ttf') . '") format("truetype");
                 }
 
 
@@ -175,7 +175,7 @@ class Error {
                     height: 210px;
                 }
                 .ERROR_CODY_HEAD div {
-                    background-image: url(./.kernel/triangles.svg);
+                    background-image: url(/.kernel/triangles.svg);
                     background-size: contain;
                     display: flex;
                     flex-direction: column;

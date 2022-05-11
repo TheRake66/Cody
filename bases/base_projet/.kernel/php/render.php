@@ -43,15 +43,16 @@ abstract class Render {
         }
         
         $vue = $folder . 'vue.' . $name . '.php';
+        $vueabs = Path::absolute($vue);
         $style = $folder . 'style.' . $name . '.less';
         $script = $folder . 'script.' . $name . '.js';
-        if (!is_file($vue) || !is_readable($vue)) {
-            $vue = str_replace('_', ' ', $vue);
+        if (!is_file($vueabs) || !is_readable($vueabs)) {
+            $vueabs = Path::absolute(str_replace('_', ' ', $vue));
             $style = str_replace('_', ' ', $style);
             $script = str_replace('_', ' ', $script);
         }
-        if (is_file($vue) && is_readable($vue)) {
-            require $vue;
+        if (is_file($vueabs) && is_readable($vueabs)) {
+            Path::require($vue);
             Output::add(Import::importStyle($style));
             Output::add(Import::importScript($script, 'module', $varname, $class));
         } else {

@@ -1,5 +1,5 @@
 <?php
-require_once '.kernel/php/autoloader.php';
+require_once(__DIR__ . '/php/autoloader.php');
 use Kernel as k;
 
 

@@ -104,13 +104,9 @@ export default class Rest {
      * @returns {void}
      */
     static #ask(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true, method = Http.METHOD_GET) {
-        let _ = {};
-        _['routePage'] = route;
-        _['restFunction'] = rest;
-        param = Object.assign({}, _, param);
-
+        param._ = rest;
         Http.send(
-            Url.root(),
+            Url.build(route),
             response => {
                 if (response !== '') {
                     let json = null;
@@ -161,13 +157,9 @@ export default class Rest {
      * @returns {void}
      */
     static #askFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true, method = Http.METHOD_GET) {
-        let _ = {};
-        _['routePage'] = route;
-        _['restFunction'] = rest;
-        param = Object.assign({}, _, param);
-        
+        param._ = rest;
         Http.send(
-            Url.root(),
+            Url.build(route),
             response => {
                 if (response !== '') {
                     let json = null;

@@ -14,7 +14,7 @@ class Autoloader {
      * @return void
      */
     static function register() {
-        if (!spl_autoload_register(function ($class) {
+        if (!spl_autoload_register(function($class) {
             self::load($class);
         })) {
             die(('Impossible d\'enregistrer la fonction d\'autoload !'));
@@ -31,13 +31,24 @@ class Autoloader {
      */
     private static function load($required) {
         if ($file = self::getFile($required)) {
-            require $file;
+            require($file);
             if (!class_exists($required)) {
-                Error::trigger('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
+                die('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
             }
         } else {
-            Error::trigger('Impossible de charger la classe "' . $required . '" !');
+            die('Impossible de charger la classe "' . $required . '" !');
         }
+    }
+
+
+    /**
+     * Verifi si une classe existe meme si elle n'est pas encore chargee
+     * 
+     * @param string l'espace de nom de la classe
+     * @return bool true si la classe existe
+     */
+    static function classExist($class) {
+        return class_exists($class, false) || !empty(self::getFile($class));
     }
 
 
@@ -53,49 +64,43 @@ class Autoloader {
         $first = array_shift($_);
         $namespace = implode('/', array_slice($_, 0, -1));
 
-        $file = '';
+        $class_lower = strtolower($class);
+        $namespace_lower = strtolower($namespace);
+        $required_lower = strtolower($required);
+
+        $relative = '';
         switch ($first) {
             case 'Kernel':
-                $file = '.kernel/php/' . $namespace . '/' . $class . '.php';
+                $relative = '.kernel/php/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
             case 'Librairy':
-                $file = 'debug/lib/php/' . $namespace . '/' . $class . '.php';
+                $relative = 'debug/lib/php/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
             case 'Controler':
-                $file = 'debug/app/' . $namespace . '/' . $class . '/cont.' . $class . '.php';
+                $relative = 'debug/app/' . $namespace_lower . '/' . $class_lower . '/cont.' . $class_lower . '.php';
                 break;
 
             case 'Model':
-                $file = 'debug/data/' . $namespace . '/' . $class . '.php';
+                $relative = 'debug/data/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
             default:
-				$file = strtolower(str_replace('\\', '/', $required)) . '.php';
+				$relative = strtolower(str_replace('\\', '/', $required_lower)) . '.php';
                 break;
         }
-
-        $file = strtolower($file);
+        
+        $root = dirname(dirname(__DIR__)) . '/';
+        $file = $root . $relative;
         if (is_file($file) && is_readable($file)) {
             return $file;
         } else {
-            $file = str_replace('_', ' ', $file);
+            $file = $root . str_replace('_', ' ', $relative);
             if(is_file($file) && is_readable($file)) {
                 return $file;
             }
         }
-    }
-
-
-    /**
-     * Verifi si une classe existe meme si elle n'est pas encore chargee
-     * 
-     * @param string l'espace de nom de la classe
-     * @return bool true si la classe existe
-     */
-    static function classExist($class) {
-        return class_exists($class, false) || !empty(self::getFile($class));
     }
     
 }

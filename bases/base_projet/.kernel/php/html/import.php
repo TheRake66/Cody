@@ -1,8 +1,7 @@
 <?php
 namespace Kernel\Html;
 use Kernel\Configuration;
-
-
+use Kernel\Path;
 
 /**
  * Librairie gerant les imports de fichiers CSS et JS
@@ -25,12 +24,16 @@ class Import {
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.js';
         }
         if (is_null($name) && is_null($class)) {
-            $js = '<script type="' . $type . '" src="' . $file . '"></script>';
+            $js = Builder::create('script', [
+                'type' => $type,
+                'src' => Path::relative($file)
+            ], null, false);
         } else {
-            $js = '<script type="' . $type . '">
-                    import ' . $class . ' from "./' . $file . '";
-                    window.' . $name . ' = new ' . $class .'();
-                </script>';
+            $js = Builder::create('script', [
+                'type' => $type,
+            ], 
+            'import ' . $class . ' from "' . Path::relative($file) . '";
+            window.' . $name . ' = new ' . $class .'();');
         }
         return $js;
     }
@@ -49,7 +52,12 @@ class Import {
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.css';
             $rel = 'stylesheet';
         }
-        return '<link rel="' . $rel . '" type="text/css" href="' . $file . '">';
+        $css = Builder::create('link', [
+            'rel' => $rel,
+            'type' => 'text/css',
+            'href' => Path::relative($file)
+        ]);
+        return $css;
     }
 
 
@@ -61,7 +69,10 @@ class Import {
      * @return string le code HTML
      */
     static function runScript($script, $type = 'module') {
-        return '<script type="' . $type . '">' . $script . '</script>';
+        $js = Builder::create('script', [
+            'type' => $type,
+        ], $script);
+        return $js;
     }
 
 
@@ -72,7 +83,10 @@ class Import {
      * @return string le code HTML
      */
     static function addStyle($style) {
-        return '<style>' . $style . '</style>';
+        $css = Builder::create('style', [
+            'type' => 'text/css',
+        ], $style);
+        return $css;
     }
     
 }
