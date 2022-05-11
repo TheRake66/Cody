@@ -160,7 +160,7 @@ class Crud {
         return Toogle::object(function() use ($obj, $clause) {
             [ $where, $params ] = Builder::buildClause($obj, $clause);
             return Query::execute(
-                'DELETE FROM ' . Reflection::getTableName($obj) . ' ' . $where,
+                'DELETE ' . Builder::buildFrom($obj) . ' ' . $where,
                 $params);
         }, $obj);
     }
