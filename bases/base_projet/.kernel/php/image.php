@@ -62,7 +62,7 @@ class Image {
      * @param string le chemin vers le fichier
      * @return string le SVG
      */
-    static function svg($file) {
+    static function loadSvg($file) {
         if (is_file($file) && is_readable($file)) {
             return file_get_contents($file);
         } else {

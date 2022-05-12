@@ -66,7 +66,7 @@ class Builder {
      * @param string le format de l'image
      * @return string le code HTML
      */
-    static function binImgToSrcB64($bin, $alt = null, $format = 'png') {
+    static function imgBin($bin, $alt = null, $format = 'png') {
         return self::create('img', [
             'src' => Image::binToB64($bin, $format),
             'alt' => $alt

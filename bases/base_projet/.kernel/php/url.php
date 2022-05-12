@@ -41,9 +41,9 @@ class Url {
 	 * @return string l'url
 	 */
 	static function build($route, $params = [], $addBack = false) {
-		$url = self::root() . $route;
+		$url = self::getRoot() . $route;
 		if ($addBack) {
-			$params['redirectUrl'] = self::current();
+			$params['redirectUrl'] = self::getCurrent();
 		}
 		if ($params || $addBack) {
 			$url .= '?' . http_build_query($params);
@@ -81,7 +81,7 @@ class Url {
 				$html .= Builder::create('input', [
 					'type' => 'hidden',
 					'name' => 'redirectUrl',
-					'value' => self::current()
+					'value' => self::getCurrent()
 				]);
 			}
 			$html .= Import::runScript('
@@ -100,7 +100,7 @@ class Url {
      * @return void
 	 */
 	static function reload() {
-		self::location(self::current());
+		self::location(self::getCurrent());
 	}
 
 
@@ -109,7 +109,7 @@ class Url {
 	 * 
 	 * @return string le retour
 	 */
-	static function back() {
+	static function getBack() {
 		return $_GET['redirectUrl'] ?? null;
 	}
 
@@ -119,7 +119,7 @@ class Url {
 	 * 
 	 * @return string le protocol
 	 */
-	static function protocol() {
+	static function getProtocol() {
 		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
 	}
 
@@ -129,8 +129,8 @@ class Url {
 	 * 
 	 * @return string l'adresse
 	 */
-	static function host() {
-		return self::protocol() . '://' . $_SERVER['HTTP_HOST'];
+	static function getHost() {
+		return self::getProtocol() . '://' . $_SERVER['HTTP_HOST'];
 	}
 
 
@@ -139,8 +139,13 @@ class Url {
 	 * 
 	 * @return string l'url sans les parametres
 	 */
-	static function root() {
-		return self::host() . substr(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), 0, -1);
+	static function getRoot() {
+		$_ = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+		if ($_ === '/') {
+			return self::getHost();
+		} else {
+			return self::getHost() . $_;
+		}
 	}
 
 
@@ -149,8 +154,8 @@ class Url {
 	 * 
 	 * @return string le chemin
 	 */
-	static function path() {
-		return self::root() . '/' . ($_SERVER['PATH_INFO'] ?? '');
+	static function getPath() {
+		return self::getRoot() . Router::getAsked();
 	}
 
 	
@@ -159,8 +164,8 @@ class Url {
 	 * 
 	 * @return string l'url
 	 */
-	static function current() {
-		return self::host() . $_SERVER['REQUEST_URI'];
+	static function getCurrent() {
+		return self::getHost() . $_SERVER['REQUEST_URI'];
 	}
 	
 
@@ -174,7 +179,7 @@ class Url {
 	static function changeParam($name, $value) {
 		$query = $_GET;
 		$query[$name] = $value;
-		return self::root() . '?' . http_build_query($query);
+		return self::getRoot() . '?' . http_build_query($query);
 	}
 	
 
@@ -210,7 +215,7 @@ class Url {
 	static function removeParam($name) {
 		$query = $_GET;
 		unset($query[$name]);
-		return self::root() . '?' . http_build_query($query);
+		return self::getRoot() . '?' . http_build_query($query);
 	}
 
 }

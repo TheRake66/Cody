@@ -14,7 +14,7 @@ class Doctype {
      * 
      * @return void
      */
-    static function begin() {
+    static function open() {
         Debug::log('Ouverture du HTML...', Debug::LEVEL_PROGRESS);
 
         $conf_head = Configuration::get()->website_head;
@@ -69,7 +69,7 @@ class Doctype {
      * 
      * @return void
      */
-    static function end() {
+    static function close() {
         Debug::log('Fermeture du HTML...', Debug::LEVEL_PROGRESS);
 
         Output::add(Import::importScript('debug/app/global_after.js'));

@@ -54,7 +54,7 @@ class Validation {
 	 * @return bool si les identifiants sont bon
 	 * @throws Error si l'extension LDAP n'est pas installee
 	 */
-	static function authLDAP($login, $password, $dn, $host, $port = 389) {
+	static function LDAP($login, $password, $dn, $host, $port = 389) {
 		if (extension_loaded('ldap') && extension_loaded('openssl')) {
 			$response = false;
 			if ($con = ldap_connect($host, $port)) {

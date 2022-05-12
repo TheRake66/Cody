@@ -4,9 +4,9 @@ namespace Kernel;
 
 
 /**
- * Librairie gerant les informations du serveur
+ * Librairie gerant les fonctions reseaux
  */
-class Server {
+class Network {
 
 	/**
 	 * Retourne l'ip du client

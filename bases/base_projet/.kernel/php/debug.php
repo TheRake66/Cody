@@ -67,7 +67,7 @@ class Debug {
 
             $folder = Path::absolute('logs');
             if ($conf->ip_identify) {
-                $folder .= '/' . str_replace(':', '-', Server::getClientIp());
+                $folder .= '/' . str_replace(':', '-', Network::getClientIp());
             }
 
             $levelstr = '';

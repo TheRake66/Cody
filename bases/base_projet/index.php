@@ -8,7 +8,7 @@ use Kernel\Html\Doctype;
 
 
 <!-- Ouvre la balise HTML et l'entete -->
-<?= Doctype::begin() ?>
+<?= Doctype::open() ?>
 
 	<!-- Routage vers le bon controleur -->
 	<body>
@@ -16,7 +16,7 @@ use Kernel\Html\Doctype;
 	</body>
 	
 <!-- Ferme la balise HTML et fais le rendu -->
-<?= Doctype::end() ?>
+<?= Doctype::close() ?>
 
 
 

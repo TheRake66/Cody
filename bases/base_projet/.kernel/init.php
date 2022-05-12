@@ -32,6 +32,6 @@ k\Session\Socket::start();
 k\Router::load();
 
 // Lance le superviseur
-k\Supervisor::supervise();
+k\Supervisor::watch();
 
 ?>

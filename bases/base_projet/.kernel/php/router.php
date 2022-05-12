@@ -80,10 +80,10 @@ class Router {
 	 * @return string la route
 	 * @throws Error si aucune route n'a ete definie
 	 */
-	static function get() {
+	static function getCurrent() {
 		if (is_null(self::$current)) {
 			$route = null;
-			$asked = $_SERVER['PATH_INFO'] ?? null;
+			$asked = self::getAsked();
 			if (!is_null($asked)) {
 				$route = self::whoMatch($asked);
 				if (is_null($route)) {
@@ -113,7 +113,7 @@ class Router {
 
 
 	/**
-	 * Retourne la route correspondante a une url
+	 * Retourne la route correspondante a une route demandee
 	 * 
 	 * @param string l'url
 	 * @return string la route ou null si aucune correspondance
@@ -140,11 +140,25 @@ class Router {
 						$i++;
 					}
 					if ($match) {
-						$_GET = array_merge($_GET, $params);
+						$GLOBALS['_ROUTE'] = $params;
 						return $route;
 					}
 				}
 			}
+		}
+	}
+
+
+	/**
+	 * Retourne la route demandee
+	 * 
+	 * @return string le route demandee
+	 */
+	static function getAsked() {
+		if (isset($_SERVER['PATH_INFO'])) {
+			return$_SERVER['PATH_INFO'];
+		} elseif (isset($_SERVER['REDIRECT_URL'])) {
+			return substr($_SERVER['REDIRECT_URL'], strlen($_SERVER['REDIRECT_BASE']));
 		}
 	}
 	
@@ -155,7 +169,7 @@ class Router {
 	 * @return object le controleur
 	 */
 	static function getController() {
-		return self::$routes[self::get()];
+		return self::$routes[self::getCurrent()];
 	}
 
 
@@ -177,7 +191,7 @@ class Router {
 	 * @return void
      */
 	static function routing() {
-        Debug::log('Routage (url : "' . Url::current() . '")...', Debug::LEVEL_PROGRESS);
+        Debug::log('Routage (url : "' . Url::getCurrent() . '")...', Debug::LEVEL_PROGRESS);
 
 		$c = self::getController();
         Debug::log('Contrôleur identifié : "' . $c . '".');

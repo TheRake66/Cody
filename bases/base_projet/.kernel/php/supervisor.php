@@ -46,7 +46,7 @@ class Supervisor {
      * 
      * @return void
      */
-    static function supervise() {
+    static function watch() {
         if (Configuration::get()->render->show_supervisor) {
             if (isset($_POST['supervisor_refresh'])) {
                 self::log('Page actualisée.', Debug::LEVEL_GOOD);
@@ -136,14 +136,14 @@ class Supervisor {
                 <div>
                     <h1 class="SUPERVISOR_HTTP_' . $type . '">HTTP ' . $http . '</h1>
                     <h1 class="' . $latency . '">' . $ms . ' ms</h1>
-                    <form action="' . Url::current() . '" method="post">
+                    <form action="' . Url::getCurrent() . '" method="post">
                         <input type="submit" name="supervisor_refresh" value="Actualiser">
                         <input type="submit" name="supervisor_clear" value="Vider le cache">
                     </form>
                     <h2>Informations</h2>
                     <div>
                         <span><b>Session</b><pre>' . $session . '</pre></span>
-                        <span><b>Route</b><pre>' . Router::get() . '</pre></span>
+                        <span><b>Route</b><pre>' . Router::getCurrent() . '</pre></span>
                         <span><b>Composant</b><pre>' . Router::getController() . '</pre></span>
                         <span><b>Version de PHP</b><pre>' . phpversion() . '</pre></span>
                     </div>

@@ -47,7 +47,7 @@ class Translate {
      * @param mixed la valeur a verifier
      * @return mixed null ou la valeur
      */
-    static function nullIfEmpty($value) {
+    static function null($value) {
         return empty($value) ? null : $value;
     }
 

@@ -37,7 +37,7 @@ export default class Url {
 	 * @return {string} l'url
 	 */
 	static build(route, params = {}, addback = false) {
-		let url = Url.root() + route;
+		let url = Url.getRoot() + route;
 		if (addback) {
 			params.redirectUrl = Url.current();
 		}
@@ -77,7 +77,7 @@ export default class Url {
 				f.append(Html.create('input', {
 					type: 'hidden',
 					name: 'redirectUrl',
-					value: Url.current()
+					value: Url.getCurrent()
 				}));
 			}
 			Html.append(f);
@@ -102,7 +102,7 @@ export default class Url {
 	 * 
 	 * @return {string} le retour
 	 */
-	static back() {
+	static getBack() {
 		return Url.paramGet('redirectUrl') ?? undefined;
 	}
 
@@ -112,7 +112,7 @@ export default class Url {
 	 * 
 	 * @returns {string} le protocole
 	 */
-	static protocol() {
+	static getProtocol() {
 		return window.location.protocol.replace(':', '');
 	}
 
@@ -122,7 +122,7 @@ export default class Url {
 	 * 
 	 * @returns {string} l'adresse
 	 */
-	static host() {
+	static getHost() {
 		return window.location.origin;
 	}
 
@@ -132,8 +132,8 @@ export default class Url {
 	 * 
 	 * @returns {string} l'url sans les parametres
 	 */
-	static root() {
-		return Url.host();
+	static getRoot() {
+		return Url.getHost();
 	}
 
 	
@@ -142,7 +142,7 @@ export default class Url {
 	 * 
 	 * @returns {string} le chemin
 	 */
-	static path() {
+	static getPath() {
 		return window.location.pathname;
 	}
 
@@ -152,7 +152,7 @@ export default class Url {
 	 * 
 	 * @return {string} l'url
 	 */
-	static current() {
+	static getCurrent() {
 		return window.location.href;
 	}
 
