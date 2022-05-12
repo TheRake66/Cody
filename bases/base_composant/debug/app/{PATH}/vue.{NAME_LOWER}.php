@@ -10,7 +10,11 @@ use Kernel\Url;
 
 
 
-<!-- Vue du composant {NAME_UPPER}  -->
+<!-- 
+Vue du composant {NAME_UPPER} 
+Author: {USER_NAME}
+Version: 1.0
+ -->
 <{FULL_DASH}>
 	<p>Le composant {NAME_UPPER} fonctionne !</p>
 </{FULL_DASH}>

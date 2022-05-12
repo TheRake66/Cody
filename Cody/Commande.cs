@@ -1544,8 +1544,8 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 string back_path = ""; // ../../
                 string objlow = ""; // obj
                 string objup = ""; // Obj
-                string nomlow = nom.ToLower(); // namepace\namespace\obj
-                string full_dash = nomlow.Replace('\\', '-'); // namepace-namespace-obj
+                string nomlow = ""; // namepace\namespace\obj
+                string full_dash = ""; // namepace-namespace-obj
                 List<string> paths = new List<string>();
                 string[] toedit = new string[] { ".php", ".js", ".less", ".json" };
 
@@ -1563,6 +1563,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         namespce_point += l;
                     }
                 }
+                nomlow = nom.ToLower();
+                full_dash = nomlow
+                    .Replace('\\', '-')
+                    .Replace('/', '-');
                 objlow = spt[spt.Length - 1].ToLower();
                 objup = objlow.Substring(0, 1).ToUpper();
                 if (objlow.Length > 1) objup += objlow.Substring(1);

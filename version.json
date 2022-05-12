@@ -1,5 +1,5 @@
 {
-	"version": "7.20.57.0",
+	"version": "7.20.58.0",
 	"modifications": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -26,7 +26,8 @@
 		"Cache le dossier kernel lors de la création d'un projet.",
 		"Exclusion du dossier de logs pour la compilation.",
 		"Vérification de l'existance du dossier release.",
-		"Suppression de index.php dans l'url lors de l'exécution."
+		"Suppression de index.php dans l'url lors de l'exécution.",
+		"Correction des balises HTML et Less pour les sous composants sous Linux et Mac."
 	],
 	"retrocompatible": false
 }

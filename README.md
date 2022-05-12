@@ -11,7 +11,6 @@ Framework PHP/JavaScript/HTML/Less en français.
 <a href="https://github.com/TheRake66/Cody/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/TheRake66/Cody"></a>
 <img alt="Taille du code" src="https://img.shields.io/github/languages/code-size/TheRake66/Cody">
 <a href="https://github.com/TheRake66/Cody/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheRake66/Cody"></a>
-<a href="https://packagist.org/packages/TheRake66/Cody"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/TheRake66/Cody?color=green"></a>
 </p>
 </p>
 <br>
