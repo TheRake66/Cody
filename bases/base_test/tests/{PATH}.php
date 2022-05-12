@@ -15,12 +15,12 @@ use Kernel\Testing;
 class {NAME_UPPER} {
 
     /**
-     * Lancement des tests
+     * Point d'entrée pour le lancement des tests
      * 
      * @access public
      * @return void
      */
-    static function run() {
+    function __construct() {
         
     }
 

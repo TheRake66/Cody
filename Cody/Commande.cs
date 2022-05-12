@@ -756,6 +756,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
                                 List<Item> objs = JsonConvert.DeserializeObject<List<Item>>(json);
                                 int count = 0;
+                                int passed = 0;
                                 foreach (Item obj in objs)
                                 {
                                     if (obj.paths.Count > 0)
@@ -763,8 +764,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
                                         string file = obj.paths[0];
                                         if (File.Exists(file))
                                         {
+                                            count++;
                                             if (runTestFile(obj))
-                                                count++;
+                                                passed++;
                                         }
                                         else
                                         {
@@ -782,18 +784,18 @@ vs                              Ouvre le projet dans Visual Studio Code.
                                 Console.WriteLine("═════════════════════════════════════════════════════════════════════");
                                 if (count > 0)
                                 {
-                                    if (count == objs.Count)
+                                    if (count == passed)
                                     {
-                                        Message.writeIn(ConsoleColor.DarkGreen, count);
+                                        Message.writeIn(ConsoleColor.DarkGreen, passed);
                                         Console.Write(" test(s) sur ");
-                                        Message.writeIn(ConsoleColor.DarkGreen, objs.Count);
-                                        Console.WriteLine(". Tous les tests sont passés.");
+                                        Message.writeIn(ConsoleColor.DarkGreen, count);
+                                        Console.WriteLine(". Le ou les tests sont passés.");
                                     }
                                     else
                                     {
-                                        Message.writeIn(ConsoleColor.DarkRed, count);
+                                        Message.writeIn(ConsoleColor.DarkRed, passed);
                                         Console.Write(" test(s) sur ");
-                                        Message.writeIn(ConsoleColor.DarkRed, objs.Count);
+                                        Message.writeIn(ConsoleColor.DarkRed, count);
                                         Console.WriteLine(". Un ou plusieurs des tests n'est pas passé.");
                                     }
                                 }
@@ -839,10 +841,10 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 string[] rep = Librairie.outputProcess("php", "-r \"" +
                     "set_error_handler(function() { }); " +
                     "register_shutdown_function(function() { }); " +
-                    "include '.kernel/php/autoloader.php'; " +
+                    "require_once(__DIR__ . '/.kernel/php/autoloader.php'); " +
                     "Kernel\\Autoloader::register(); " +
-                    "include '" + obj.paths[0] + "'; " +
-                    nspc + "::run();" +
+                    "require_once('" + obj.paths[0] + "'); " +
+                    "new " + nspc + "();" +
                     "\"");
 
 
