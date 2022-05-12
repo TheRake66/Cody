@@ -46,7 +46,7 @@ class Path {
      */
     static function include($path, $once = true) {
         if ($once) {
-            include self::absolute($path);
+            include_once self::absolute($path);
         } else {
             include self::absolute($path);
         }
