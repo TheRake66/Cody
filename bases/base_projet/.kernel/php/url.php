@@ -140,7 +140,17 @@ class Url {
 	 * @return string l'url sans les parametres
 	 */
 	static function root() {
-		return self::host() . dirname($_SERVER['SCRIPT_NAME']);
+		return self::host() . substr(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), 0, -1);
+	}
+
+
+	/**
+	 * Retourne le chemin de l'url
+	 * 
+	 * @return string le chemin
+	 */
+	static function path() {
+		return self::root() . '/' . ($_SERVER['PATH_INFO'] ?? '');
 	}
 
 	

@@ -175,7 +175,7 @@ class Error {
                     height: 210px;
                 }
                 .ERROR_CODY_HEAD div {
-                    background-image: url(/.kernel/triangles.svg);
+                    background-image: url(' . Path::relative('.kernel/triangle.svg') . ');
                     background-size: contain;
                     display: flex;
                     flex-direction: column;

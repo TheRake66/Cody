@@ -467,7 +467,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         Console.WriteLine("Serveur PHP lancé.");
 
                         // Ouvre dans le navigateur
-                        Librairie.startProcess($"http://localhost:6600/index.php");
+                        Librairie.startProcess($"http://localhost:6600");
                         Console.WriteLine("Navigateur lancé.");
                     }
                     catch (Exception e)

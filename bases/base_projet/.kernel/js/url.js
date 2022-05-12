@@ -123,7 +123,7 @@ export default class Url {
 	 * @returns {string} l'adresse
 	 */
 	static host() {
-		return Url.protocol() + '://' + window.location.host;
+		return window.location.origin;
 	}
 
 
@@ -133,7 +133,17 @@ export default class Url {
 	 * @returns {string} l'url sans les parametres
 	 */
 	static root() {
-		return Url.host() + window.location.pathname.split('/').slice(0, -1).join('/');
+		return Url.host();
+	}
+
+	
+	/**
+	 * Retourne le chemin de l'url
+	 * 
+	 * @returns {string} le chemin
+	 */
+	static path() {
+		return window.location.pathname;
 	}
 
 	
