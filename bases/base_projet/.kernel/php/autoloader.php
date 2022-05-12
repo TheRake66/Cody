@@ -31,7 +31,7 @@ class Autoloader {
      */
     private static function load($required) {
         if ($file = self::getFile($required)) {
-            require($file);
+            require_once($file);
             if (!class_exists($required)) {
                 die('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
             }

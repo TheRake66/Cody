@@ -14,7 +14,7 @@ class Transaction {
      * 
      * @param bool faux si une erreur est survenue
      */
-    static function start() {
+    static function begin() {
         $conf = Statement::getConfiguration();
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
             Statement::getInstance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -56,7 +56,7 @@ class Transaction {
      * 
      * @param bool vrai si une transaction est en cours sinon faux
      */
-    static function hasStarted() {
+    static function hasBegun() {
         return Statement::getInstance()->inTransaction();
     }
 
