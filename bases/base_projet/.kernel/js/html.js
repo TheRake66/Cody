@@ -4,6 +4,8 @@
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @category Librairie
+ * @license MIT License
+ * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
 export default class Html {
     

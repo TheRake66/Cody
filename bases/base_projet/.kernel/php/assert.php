@@ -10,8 +10,9 @@ namespace Kernel;
  * @version 1.0
  * @package Kernel
  * @category Librarie
+ * @copyright (c) 2022, Thibault Bustos
  */
-class Testing {
+class Assert {
 
     /**
      * Termine le test avec un code de sortie et un message d'erreur
@@ -34,7 +35,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertFalse($bool, $message = 'Doit être faux.') {
+    static function false($bool, $message = 'Doit être faux.') {
         if (!is_bool($bool) || $bool) {
             self::fail($message);
         }
@@ -48,7 +49,8 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertTrue($bool, $message = 'Doit être vrai.') {
+    static function true($bool, $message = 'Doit être vrai.') {
+        file_put_contents('a.txt', print_r($bool, true));
         if (!is_bool($bool) || !$bool) {
             self::fail($message);
         }
@@ -62,7 +64,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNull($mixed, $message = 'Doit être null.') {
+    static function null($mixed, $message = 'Doit être null.') {
         if (!is_null($mixed)) {
             self::fail($message);
         }
@@ -76,7 +78,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotNull($mixed, $message = 'Ne doit pas être null.') {
+    static function notNull($mixed, $message = 'Ne doit pas être null.') {
         if (is_null($mixed)) {
             self::fail($message);
         }
@@ -91,7 +93,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertType($mixed, $type, $message = 'N\'est pas du type requis.') {
+    static function type($mixed, $type, $message = 'N\'est pas du type requis.') {
         if (gettype($mixed) != $type) {
             self::fail($message);
         }
@@ -106,7 +108,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotType($mixed, $type, $message = 'Est du type indesirable.') {
+    static function notType($mixed, $type, $message = 'Est du type indesirable.') {
         if (gettype($mixed) == $type) {
             self::fail($message);
         }
@@ -121,7 +123,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertClass($object, $class, $message = 'N\'est pas de la bonne classe.') {
+    static function class($object, $class, $message = 'N\'est pas de la bonne classe.') {
         if (get_class($object) != $class) {
             self::fail($message);
         }
@@ -136,7 +138,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotClass($object, $class, $message = 'Est de la classe indesirable.') {
+    static function notClass($object, $class, $message = 'Est de la classe indesirable.') {
         if (get_class($object) == $class) {
             self::fail($message);
         }
@@ -152,7 +154,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertEquals($object1, $object2, $message = 'Doit être égales.') {
+    static function equals($object1, $object2, $message = 'Doit être égales.') {
         if ($object1 != $object2) {
             self::fail($message);
         }
@@ -168,7 +170,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotEquals($object1, $object2, $message = 'Ne doit pas être égales.') {
+    static function notEquals($object1, $object2, $message = 'Ne doit pas être égales.') {
         if ($object1 == $object2) {
             self::fail($message);
         }
@@ -183,7 +185,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertSame($object1, $object2, $message = 'Doit être identique.') {
+    static function same($object1, $object2, $message = 'Doit être identique.') {
         if ($object1 !== $object2) {
             self::fail($message);
         }
@@ -198,7 +200,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotSame($object1, $object2, $message = 'Ne doit pas être identique.') {
+    static function notSame($object1, $object2, $message = 'Ne doit pas être identique.') {
         if ($object1 === $object2) {
             self::fail($message);
         }
@@ -213,7 +215,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertSameClass($object1, $object2, $message = 'Doit être de la meme clase.') {
+    static function sameClass($object1, $object2, $message = 'Doit être de la meme clase.') {
         if (get_class($object1) != get_class($object2)) {
             self::fail($message);
         }
@@ -228,7 +230,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotSameClass($object1, $object2, $message = 'Ne doit pas être de la meme clase.') {
+    static function notSameClass($object1, $object2, $message = 'Ne doit pas être de la meme clase.') {
         if (get_class($object1) == get_class($object2)) {
             self::fail($message);
         }
@@ -243,7 +245,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertSameType($mixed1, $mixed2, $message = 'Doit être du meme type.') {
+    static function sameType($mixed1, $mixed2, $message = 'Doit être du meme type.') {
         if (gettype($mixed1) != gettype($mixed2)) {
             self::fail($message);
         }
@@ -258,7 +260,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotSameType($mixed1, $mixed2, $message = 'Ne doit pas être du meme type.') {
+    static function notSameType($mixed1, $mixed2, $message = 'Ne doit pas être du meme type.') {
         if (gettype($mixed1) == gettype($mixed2)) {
             self::fail($message);
         }
@@ -274,7 +276,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertInArray($mixed, $array, $checktype = false, $message = 'Doit être dans la liste.') {
+    static function inArray($mixed, $array, $checktype = false, $message = 'Doit être dans la liste.') {
         if (!in_array($mixed, $array, $checktype)) {
             self::fail($message);
         }
@@ -290,7 +292,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertNotInArray($mixed, $array, $checktype = false, $message = 'Ne doit pas être dans la liste.') {
+    static function notInArray($mixed, $array, $checktype = false, $message = 'Ne doit pas être dans la liste.') {
         if (in_array($mixed, $array, $checktype)) {
             self::fail($message);
         }
@@ -305,7 +307,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertArraySameValues($array1, $array2, $message = 'Doivent avoir les même valeurs.') {
+    static function arraySameValues($array1, $array2, $message = 'Doivent avoir les même valeurs.') {
         sort($array1);
         sort($array2);
         if ($array1 != $array2) {
@@ -322,7 +324,7 @@ class Testing {
      * @param string le message en cas d'echec
      * @return void
      */
-    static function assertArrayNotSameValues($array1, $array2, $message = 'Ne doivent pas avoir les même valeurs.') {
+    static function arrayNotSameValues($array1, $array2, $message = 'Ne doivent pas avoir les même valeurs.') {
         sort($array1);
         sort($array2);
         if ($array1 == $array2) {

@@ -13,6 +13,8 @@ use Kernel\Configuration;
  * @version 1.0
  * @package Kernel\Security
  * @category Librarie
+ * @license MIT License
+ * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
 class SSL {
 

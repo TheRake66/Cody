@@ -12,6 +12,8 @@ use Kernel\Image;
  * @version 1.0
  * @package Kernel\Html
  * @category Librarie
+ * @license MIT License
+ * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
 class Builder {
 
