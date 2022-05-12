@@ -6,6 +6,11 @@ use Kernel\Configuration;
 
 /**
  * Librairie gerant les cookies
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Security
+ * @category Librarie
  */
 class Cookie {
 

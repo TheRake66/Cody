@@ -7,6 +7,11 @@ use Kernel\Database\Query;
 
 /**
  * Librairie creant des requetes SQL (CRUD : Create, Read, Update, Delete)
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Database\Factory
+ * @category Librarie
  */
 class Crud {
     

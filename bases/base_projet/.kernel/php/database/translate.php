@@ -6,6 +6,11 @@ use DateTime;
 
 /**
  * Librairie gerant les traductions des donnees PHP vers SQL
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Database
+ * @category Librarie
  */
 class Translate {
 

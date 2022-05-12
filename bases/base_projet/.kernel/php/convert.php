@@ -4,7 +4,12 @@ namespace Kernel;
 
 
 /**
- * Librairie de conversion
+ * Librairie de conversion de donnees
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Convert {
 

@@ -11,14 +11,22 @@ use Kernel\Render;
 
 /**
  * Controleur du composant {NAME_UPPER}
+ * 
+ * @author {USER_NAME}
+ * @version 1.0
+ * @package Controler{NAMESPACE_SLASH}
+ * @category Controleur
  */
 class {NAME_UPPER} extends Render {
 
     /**
-     * Constructeur
+     * Point d'entrée du controleur
+     * 
+     * @access public
+     * @return void
      */
     function __construct() {
-        // Rendu de la vue
+        // Rendu du composant
         $this->view();
     }
 

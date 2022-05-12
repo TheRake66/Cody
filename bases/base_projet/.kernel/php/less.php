@@ -7,6 +7,11 @@ use Kernel\Html\Output;
 
 /**
  * Librairie gerant le chargement de less
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Less {
 

@@ -5,6 +5,11 @@ namespace Kernel;
 
 /**
  * Librairie gerant la configuration du noyau
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Configuration {
 

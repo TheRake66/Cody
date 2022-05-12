@@ -5,6 +5,11 @@ namespace Kernel;
 
 /**
  * Librairie gerant les tests unitaire
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Testing {
 

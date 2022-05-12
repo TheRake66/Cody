@@ -5,6 +5,11 @@ namespace Kernel;
 
 /**
  * Librairie gerant les dates
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Date {
 

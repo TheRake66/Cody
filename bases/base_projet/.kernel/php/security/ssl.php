@@ -8,6 +8,11 @@ use Kernel\Configuration;
 
 /**
  * Librairie gerant le protocole SSL (Secure Socket Layer)
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Security
+ * @category Librarie
  */
 class SSL {
 

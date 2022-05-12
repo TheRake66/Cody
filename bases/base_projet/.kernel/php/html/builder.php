@@ -7,6 +7,11 @@ use Kernel\Image;
 
 /**
  * Librairie gerant les creation de balises HTML
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Html
+ * @category Librarie
  */
 class Builder {
 

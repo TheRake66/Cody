@@ -6,6 +6,11 @@ use Kernel\Error;
 
 /**
  * Librairie creant la reflection des objets DTO
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Database\Factory
+ * @category Librarie
  */
 class Reflection {
 

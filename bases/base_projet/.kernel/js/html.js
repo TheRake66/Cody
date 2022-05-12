@@ -1,5 +1,9 @@
 /**
  * Librairie de gestion du DOM
+ * 
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @category Librairie
  */
 export default class Html {
     

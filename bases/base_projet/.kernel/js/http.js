@@ -4,6 +4,10 @@ import Url from './url.js';
 
 /**
  * Librairie de communication via le protocole HTTP(S)
+ * 
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @category Librairie
  */
 export default class Http {
 

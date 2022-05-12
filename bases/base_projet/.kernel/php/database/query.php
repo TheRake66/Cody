@@ -8,6 +8,11 @@ use PDO;
 
 /**
  * Librairie de gerant l'execution des requetes SQL
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Database
+ * @category Librarie
  */
 class Query {
 

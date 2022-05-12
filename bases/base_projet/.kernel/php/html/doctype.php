@@ -6,6 +6,11 @@ use Kernel\Path;
 
 /**
  * Librairie gerant le debut et la fin de la page
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Html
+ * @category Librarie
  */
 class Doctype {
 

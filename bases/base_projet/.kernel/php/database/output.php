@@ -8,6 +8,11 @@ use Kernel\Database\Translate;
 
 /**
  * Librairie de sortie de donnees
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Database
+ * @category Librarie
  */
 class Output {
 

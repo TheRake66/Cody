@@ -5,6 +5,11 @@ namespace Kernel;
 
 /**
  * Librairie gerant les chemins des fichiers
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Path {
 

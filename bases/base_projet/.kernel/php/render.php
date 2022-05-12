@@ -7,6 +7,11 @@ use Kernel\Html\Output;
 
 /**
  * Librairie gerant le rendu composants
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 abstract class Render {
 

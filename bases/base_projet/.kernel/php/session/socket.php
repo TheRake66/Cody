@@ -10,6 +10,11 @@ use Kernel\Security\Cookie;
 
 /**
  * Librairie gerant la session cote serveur
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Session
+ * @category Librarie
  */
 class Socket {
 

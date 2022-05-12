@@ -6,6 +6,11 @@ use Exception;
 
 /**
  * Librairie gerant les messages d'erreur
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Error {
 

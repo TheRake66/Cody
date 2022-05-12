@@ -8,6 +8,11 @@ use Kernel\Html\Output;
 
 /**
  * Librairie gerant les URL
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Url {
 

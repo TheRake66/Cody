@@ -6,6 +6,11 @@ use Kernel\Debug;
 
 /**
  * Librairie permettant d'hydrater les donnees dans des objets
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Database\Factory
+ * @category Librarie
  */
 class Hydrate {
 

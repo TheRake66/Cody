@@ -4,6 +4,10 @@ import Html from './html.js';
 
 /**
  * Librairie de gestion des cookies
+ * 
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @category Librairie
  */
 export default class Cooike {
 

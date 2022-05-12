@@ -5,6 +5,10 @@ import Html from './html.js';
 
 /**
  * Librairie de traitement des URL
+ * 
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @category Librairie
  */
 export default class Url {
 

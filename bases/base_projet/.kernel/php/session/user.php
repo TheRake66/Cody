@@ -8,6 +8,11 @@ use Kernel\Debug;
 
 /**
  * Librairie gerant la session de l'utilisateur
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Session
+ * @category Librarie
  */
 class User {
     

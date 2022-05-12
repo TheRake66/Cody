@@ -8,6 +8,11 @@ use Kernel\Debug;
 
 /**
  * Librairie gerant le jeton de session
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Session
+ * @category Librarie
  */
 class Token {
     

@@ -5,6 +5,11 @@ namespace Kernel;
 
 /**
  * Librairie gerant les fonctions reseaux
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Network {
 

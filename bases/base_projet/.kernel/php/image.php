@@ -5,6 +5,11 @@ namespace Kernel;
 
 /**
  * Librairie traitant les images
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Image {
 

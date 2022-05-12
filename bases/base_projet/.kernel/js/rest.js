@@ -5,6 +5,10 @@ import Url from './url.js';
 
 /**
  * Librairie de communication avec l'API REST en PHP
+ * 
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @category Librairie
  */
 export default class Rest {
     

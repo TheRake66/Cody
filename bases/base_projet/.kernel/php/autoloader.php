@@ -5,6 +5,11 @@ namespace Kernel;
 
 /**
  * Librairie chargeant les classes demandees
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel
+ * @category Librarie
  */
 class Autoloader {
 

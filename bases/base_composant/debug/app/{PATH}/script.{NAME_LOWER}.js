@@ -6,11 +6,18 @@ import Url from '{BACK_PATH}../../../.kernel/js/url.js';
 
 /**
  * Script du composant {NAME_UPPER}
+ * 
+ * @author {USER_NAME}
+ * @version 1.0
+ * @category Script
  */
 export default class {NAME_UPPER} {
 
     /**
-     * Constructeur
+     * Point d'entrée du script
+     * 
+     * @access public
+     * @return {void}
      */
     constructor() {
         

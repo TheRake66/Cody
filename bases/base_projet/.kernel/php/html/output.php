@@ -5,6 +5,11 @@ namespace Kernel\Html;
 
 /**
  * Librairie gerant sortie de donnees HTML
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Html
+ * @category Librarie
  */
 class Output {
 

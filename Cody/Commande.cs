@@ -1663,6 +1663,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                                 .Replace("{NAME_UPPER}", objup.Replace(" ", "_"))
                                 .Replace("{FULL_DASH}", full_dash)
                                 .Replace("{BACK_PATH}", back_path)
+                                .Replace("{USER_NAME}", Environment.UserName)
                                 .Replace("{PATH}", nomlow.Replace('\\', '/'));
                             File.WriteAllText(file, content);
                             return true;

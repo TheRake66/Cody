@@ -5,6 +5,11 @@ use Kernel\Path;
 
 /**
  * Librairie gerant les imports de fichiers CSS et JS
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Html
+ * @category Librarie
  */
 class Import {
 

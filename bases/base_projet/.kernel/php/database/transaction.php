@@ -6,6 +6,11 @@ use PDO;
 
 /**
  * Librairie les transactions SQL
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Database
+ * @category Librarie
  */
 class Transaction {
 

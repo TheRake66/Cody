@@ -8,6 +8,11 @@ use Kernel\Debug;
 
 /**
  * Librairie de gestions du multi-base de donnees
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Database
+ * @category Librarie
  */
 class Toogle {
     

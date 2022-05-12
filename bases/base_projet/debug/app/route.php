@@ -4,9 +4,9 @@ use Controler as c;
 
 
 /*
-r::notfound('');
-r::default('');
-r::add('', c\::class);
+r::notfound('/');
+r::default('/');
+r::add('/', c\::class);
 */
 
 

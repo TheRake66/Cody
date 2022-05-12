@@ -6,6 +6,11 @@ use Kernel\Url;
 
 /**
  * Librairie gerant les attributs HTML
+ *
+ * @author Thibault Bustos (TheRake66)
+ * @version 1.0
+ * @package Kernel\Html
+ * @category Librarie
  */
 class Attribute {
     
