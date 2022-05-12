@@ -2,8 +2,7 @@
 namespace Kernel\Html;
 use Kernel\Configuration;
 use Kernel\Debug;
-
-
+use Kernel\Path;
 
 /**
  * Librairie gerant le debut et la fin de la page
@@ -32,7 +31,7 @@ class Doctype {
         $meta_theme_color_apple = Builder::create('meta', [ 'name' => 'apple-mobile-web-app-status-bar-style', 'content' => $conf_head->theme_color ]);
         $meta_theme_color_ms = Builder::create('meta', [ 'name' => 'msapplication-navbutton-color', 'content' => $conf_head->theme_color ]);
         $title = Builder::create('title', null, $conf_head->title);
-        $link_favicon = Builder::create('link', [ 'rel' => 'icon', 'href' => 'favicon.ico' ]);
+        $link_favicon = Builder::create('link', [ 'rel' => 'icon', 'href' => Path::relative('favicon.ico') ]);
         $head = Builder::create('head', null, [
             $meta_charset,
             $meta_description,

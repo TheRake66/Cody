@@ -52,7 +52,9 @@ abstract class Render {
             $script = str_replace('_', ' ', $script);
         }
         if (is_file($vueabs) && is_readable($vueabs)) {
-            Path::require($vue);
+            // On fait directement un requiere et pas un Path::require
+            // Pour que le extract fonctionne
+            require($vueabs);
             Output::add(Import::importStyle($style));
             Output::add(Import::importScript($script, 'module', $varname, $class));
         } else {
