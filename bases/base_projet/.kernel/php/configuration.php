@@ -47,7 +47,12 @@ class Configuration {
 		if (!is_null(self::$current)) {
 			return self::$current;
 		} else {
-			Error::trigger('La configuration n\'est pas chargée !');
+            $msg = 'La configuration n\'est pas chargée !';
+            if (Autoloader::classExists('Kernel\\Error')) {
+                Error::trigger($msg);
+            } else {
+                die($msg);
+            }
 		}
 	}
 	

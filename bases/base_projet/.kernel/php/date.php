@@ -21,7 +21,7 @@ class Date {
      * @param string Fuseau horraire
      * @return void
      */
-    static function timezone($zone = null) {
+    static function setTimezone($zone = null) {
         if (is_null($zone)) {
             $zone = Configuration::get()->region->timezone;
         }

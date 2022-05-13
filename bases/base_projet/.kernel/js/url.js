@@ -35,6 +35,16 @@ export default class Url {
 
 	
 	/**
+	 * Recharge la page
+	 * 
+     * @returns {void}
+	 */
+	static reload() {
+		window.location.reload();
+	}
+
+	
+	/**
 	 * Contruit une url
 	 * 
 	 * @param {string} route la route
@@ -45,7 +55,7 @@ export default class Url {
 	static build(route, params = {}, addback = false) {
 		let url = Url.getRoot() + route;
 		if (addback) {
-			params.redirectUrl = Url.current();
+			params.redirect_url = Url.current();
 		}
 		if (Object.keys(params).length !== 0 || addback) {
 			url += '?' + (new URLSearchParams(params)).toString();
@@ -82,7 +92,7 @@ export default class Url {
 			if (addback) {
 				f.append(Html.create('input', {
 					type: 'hidden',
-					name: 'redirectUrl',
+					name: 'redirect_url',
 					value: Url.getCurrent()
 				}));
 			}
@@ -92,16 +102,6 @@ export default class Url {
 		}
 	}
 
-	
-	/**
-	 * Recharge la page
-	 * 
-     * @returns {void}
-	 */
-	static reload() {
-		window.location.reload();
-	}
-
 
 	/**
 	 * Retourne le parametre de retour
@@ -109,7 +109,7 @@ export default class Url {
 	 * @return {string} le retour
 	 */
 	static getBack() {
-		return Url.paramGet('redirectUrl') ?? undefined;
+		return Url.paramGet('redirect_url') ?? undefined;
 	}
 
 

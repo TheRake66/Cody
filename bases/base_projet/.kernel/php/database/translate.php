@@ -47,17 +47,6 @@ class Translate {
         return $parsed;
     }
 
-
-    /**
-     * Retourne null si la valeur est vide, sinon retourne la valeur
-     * 
-     * @param mixed la valeur a verifier
-     * @return mixed null ou la valeur
-     */
-    static function null($value) {
-        return empty($value) ? null : $value;
-    }
-
 }
 
 ?>

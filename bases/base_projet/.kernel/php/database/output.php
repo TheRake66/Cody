@@ -42,7 +42,7 @@ class Output {
      * @param mixed le resultat de la requete
      * @return mixed le resultat de la requete
      */
-    static function returnLog($data) {
+    static function return($data) {
         Debug::log('Résultat de la requête SQL : "' . print_r($data, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_RESULTS);
         return $data;
     }

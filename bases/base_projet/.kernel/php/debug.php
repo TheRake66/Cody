@@ -135,7 +135,7 @@ class Debug {
      * 
      * @return void
      */
-    static function separator() {
+    static function addSeparator() {
         self::file('--------------------------------------------------------');
     }
 

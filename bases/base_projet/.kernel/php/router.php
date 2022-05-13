@@ -79,6 +79,17 @@ class Router {
 	static function add($nom, $route) {
 		self::$routes[$nom] = $route;
 	}
+
+
+	/**
+	 * Verifie si une route existe
+	 * 
+	 * @param string la route
+	 * @return bool true si existe, false sinon
+	 */
+	static function isExist($route) {
+		return isset(self::$routes[$route]);
+	}
 	
 
 	/**

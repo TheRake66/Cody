@@ -17,13 +17,13 @@ k\Error::handler();
 k\Stream::reset();
 
 // Ajoute un separateur dans la log
-k\Debug::separator();
+k\Debug::addSeparator();
 
 // Active le protocole SSL (HTTPS)
 k\Security\SSL::enable();
 
 // Defini le fuseau horraire par defaut
-k\Date::timezone();
+k\Date::setTimezone();
 
 // Lance une session
 k\Session\Socket::start();

@@ -110,6 +110,9 @@ export default class Rest {
      * @returns {void}
      */
     static #ask(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true, method = Http.METHOD_GET) {
+        if (param === null) {
+            param = {};
+        }
         param._ = rest;
         Http.send(
             Url.build(route),
@@ -163,6 +166,9 @@ export default class Rest {
      * @returns {void}
      */
     static #askFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true, method = Http.METHOD_GET) {
+        if (param === null) {
+            param = {};
+        }
         param._ = rest;
         Http.send(
             Url.build(route),

@@ -43,7 +43,12 @@ class Autoloader {
                 die('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
             }
         } else {
-            die('Impossible de charger la classe "' . $required . '" !');
+            $msg = 'Impossible de charger la classe "' . $required . '" !';
+            if (self::classExists('Kernel\\Error')) {
+                Error::trigger($msg);
+            } else {
+                die($msg);
+            }
         }
     }
 
@@ -54,7 +59,7 @@ class Autoloader {
      * @param string l'espace de nom de la classe
      * @return bool true si la classe existe
      */
-    static function classExist($class) {
+    static function classExists($class) {
         return class_exists($class, false) || !empty(self::getFile($class));
     }
 

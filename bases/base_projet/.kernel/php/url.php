@@ -37,6 +37,16 @@ class Url {
 		Stream::close();
 		exit;
 	}
+	
+
+	/**
+	 * Recharge la page
+	 * 
+     * @return void
+	 */
+	static function reload() {
+		self::location(self::getCurrent());
+	}
 
 
 	/**
@@ -50,7 +60,7 @@ class Url {
 	static function build($route, $params = [], $addBack = false) {
 		$url = self::getRoot() . $route;
 		if ($addBack) {
-			$params['redirectUrl'] = self::getCurrent();
+			$params['redirect_url'] = self::getCurrent();
 		}
 		if ($params || $addBack) {
 			$url .= '?' . http_build_query($params);
@@ -87,7 +97,7 @@ class Url {
 			if ($addBack) {
 				$html .= Builder::create('input', [
 					'type' => 'hidden',
-					'name' => 'redirectUrl',
+					'name' => 'redirect_url',
 					'value' => self::getCurrent()
 				]);
 			}
@@ -99,16 +109,6 @@ class Url {
 			Output::add($html);
 		}
 	}
-	
-
-	/**
-	 * Recharge la page
-	 * 
-     * @return void
-	 */
-	static function reload() {
-		self::location(self::getCurrent());
-	}
 
 
 	/**
@@ -117,7 +117,7 @@ class Url {
 	 * @return string le retour
 	 */
 	static function getBack() {
-		return $_GET['redirectUrl'] ?? null;
+		return $_GET['redirect_url'] ?? null;
 	}
 
 	

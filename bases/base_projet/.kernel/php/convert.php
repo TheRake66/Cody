@@ -154,4 +154,15 @@ class Convert {
 		return $str;
 	}
 
+
+    /**
+     * Retourne null si la valeur est vide, sinon retourne la valeur
+     * 
+     * @param mixed la valeur a verifier
+     * @return mixed null ou la valeur
+     */
+    static function nullIfEmpty($value) {
+        return empty($value) ? null : $value;
+    }
+
 }
