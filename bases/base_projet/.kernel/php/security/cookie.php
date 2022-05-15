@@ -1,5 +1,6 @@
 <?php
 namespace Kernel\Security;
+
 use Kernel\Configuration;
 
 
@@ -10,7 +11,7 @@ use Kernel\Configuration;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Security
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */

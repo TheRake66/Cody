@@ -1,8 +1,9 @@
 <?php
 namespace Kernel\Database;
+
 use Kernel\Configuration;
 use Kernel\Database\Factory\Reflection;
-use Kernel\Debug;
+use Kernel\Debug\Log;
 
 
 
@@ -12,7 +13,7 @@ use Kernel\Debug;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Database
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
@@ -30,7 +31,7 @@ class Toogle {
         }
         if (Statement::getCurrent() != $database) {
             Statement::setCurrent($database);
-            Debug::log('Changement de base de données vers "' . $database .'".', Debug::LEVEL_GOOD);
+            Log::add('Changement de base de données vers "' . $database .'".', Log::LEVEL_GOOD);
         }
     }
 
@@ -42,7 +43,7 @@ class Toogle {
      * @param string le nom de la base de donnees, si null, la base par defaut est utilisee
      * @return mixed le resultat de la fonction
      */
-    static function simple($callback, $database = null) {
+    static function name($callback, $database = null) {
         $last = Statement::getCurrent();
         self::switch($database);
         $result = $callback();
@@ -64,7 +65,7 @@ class Toogle {
     static function object($callback, $type) {
         $database = Reflection::getDatabaseName($type);
         return !is_null($database) ? 
-            self::simple($callback, $database) :
+            self::name($callback, $database) :
             $callback();
     }
 

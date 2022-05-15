@@ -1,6 +1,8 @@
 <?php
 namespace Model\DTO{NAMESPACE_SLASH};
 
+use Kernel\DataBase\Factory\Crud;
+
 
 
 /**
@@ -11,7 +13,7 @@ namespace Model\DTO{NAMESPACE_SLASH};
  * @package Model\DTO{NAMESPACE_SLASH}
  * @category DTO (Data Transfer Object)
  */
-class {NAME_UPPER} {
+class {NAME_UPPER} extends Crud {
 
     /**
      * @var mixed Les proprietes

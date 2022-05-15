@@ -1,6 +1,7 @@
 <?php
 namespace Kernel\Security;
-use Kernel\Error;
+
+use Kernel\Debug\Error;
 
 
 
@@ -10,7 +11,7 @@ use Kernel\Error;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Security
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */

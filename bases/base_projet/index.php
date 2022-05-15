@@ -1,8 +1,8 @@
 <!-- Initialisation du noyau -->
 <?php 
 require_once(__DIR__ . '/.kernel/init.php');
-use Kernel\Router;
-use Kernel\Html\Doctype;
+use Kernel\URL\Router;
+use Kernel\HTML\Doctype;
 ?>
 
 

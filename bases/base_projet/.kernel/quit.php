@@ -4,12 +4,12 @@ use Kernel as k;
 
 
 // Affiche le superviseur
-k\Supervisor::show();
+k\Debug\Supervisor::show();
 
 // Charge Less
-k\Less::compile();
+k\Html\Less::importLib();
 
 // Ferme le flux de donnees
-k\Stream::close();
+k\IO\Stream::close();
 
 ?>

@@ -5,33 +5,36 @@ use Kernel as k;
 
 
 // Enregistre l'autoloader de classe
-k\Autoloader::register();
+k\IO\Autoloader::register();
 
 // Charge la configuration
-k\Configuration::load();
+k\Security\Configuration::load();
 
 // Prepare l'event des erreurs
-k\Error::handler();
+k\Debug\Error::handler();
 
 // Demarre le flux de donnees
-k\Stream::reset();
+k\IO\Stream::reset();
 
 // Ajoute un separateur dans la log
-k\Debug::addSeparator();
+k\Debug\Log::separator();
 
 // Active le protocole SSL (HTTPS)
 k\Security\SSL::enable();
 
 // Defini le fuseau horraire par defaut
-k\Date::setTimezone();
+k\IO\Date::setTimezone();
 
 // Lance une session
 k\Session\Socket::start();
 
 // Charge les routes
-k\Router::load();
+k\URL\Router::load();
+
+// Verifie si on demande une API
+k\URL\Router::resting();
 
 // Lance le superviseur
-k\Supervisor::watch();
+k\Debug\Supervisor::watch();
 
 ?>

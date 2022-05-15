@@ -1,15 +1,18 @@
 <?php
-namespace Kernel\Html;
+namespace Kernel\HTML;
+
 use Kernel\Configuration;
-use Kernel\Path;
+use Kernel\IO\Path;
+
+
 
 /**
  * Librairie gerant les imports de fichiers CSS et JS
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\Html
- * @category Librarie
+ * @package Kernel\HTML
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
@@ -31,12 +34,12 @@ class Import {
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.js';
         }
         if (is_null($name) && is_null($class)) {
-            $js = Builder::create('script', [
+            $js = Builder::createElement('script', [
                 'type' => $type,
                 'src' => Path::relative($file)
             ], null, false);
         } else {
-            $js = Builder::create('script', [
+            $js = Builder::createElement('script', [
                 'type' => $type,
             ], 
             'import ' . $class . ' from "' . Path::relative($file) . '";
@@ -59,7 +62,7 @@ class Import {
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.css';
             $rel = 'stylesheet';
         }
-        $css = Builder::create('link', [
+        $css = Builder::createElement('link', [
             'rel' => $rel,
             'type' => 'text/css',
             'href' => Path::relative($file)
@@ -76,7 +79,7 @@ class Import {
      * @return string le code HTML
      */
     static function runScript($script, $type = 'module') {
-        $js = Builder::create('script', [
+        $js = Builder::createElement('script', [
             'type' => $type,
         ], $script);
         return $js;
@@ -90,7 +93,7 @@ class Import {
      * @return string le code HTML
      */
     static function addStyle($style) {
-        $css = Builder::create('style', [
+        $css = Builder::createElement('style', [
             'type' => 'text/css',
         ], $style);
         return $css;

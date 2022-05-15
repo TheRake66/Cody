@@ -1,6 +1,7 @@
 <?php
-namespace Kernel\Html;
-use Kernel\Url;
+namespace Kernel\HTML;
+
+use Kernel\URL\Location;
 
 
 
@@ -9,8 +10,8 @@ use Kernel\Url;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\Html
- * @category Librarie
+ * @package Kernel\HTML
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
@@ -53,13 +54,13 @@ class Attribute {
      * @param string si on ajoute le parametre de retour
      * @return string le code HTML
      */
-    static function form($method = 'GET', $isMultipart = false, $route = null, $param = [], $addback = false) {
+    static function setForm($method = 'GET', $isMultipart = false, $route = null, $param = [], $addback = false) {
         $_ = self::set('method', $method);
         if ($isMultipart) {
             $_ .= self::set('enctype', 'multipart/form-data');
         }
         if (!is_null($route)) {
-            $_ .= self::set('action', Url::build($route, $param, $addback));
+            $_ .= self::set('action', Location::build($route, $param, $addback));
         }
         return $_;
     }
@@ -71,7 +72,7 @@ class Attribute {
      * @param string la valeur
      * @return string le code HTML
      */
-    static function value($value) {
+    static function setValue($value) {
         return self::set('value', $value);
     }
 
@@ -83,7 +84,7 @@ class Attribute {
      * @param string le target
      * @return string le code HTML
      */
-    static function href($link, $target = null) {
+    static function setHref($link, $target = null) {
         return self::set('href', $link) . 
             (is_null($target) ? '' : self::set('target', $target));
     }
@@ -95,7 +96,7 @@ class Attribute {
      * @param string le lien
      * @return string le code HTML
      */
-    static function id($id) {
+    static function setId($id) {
         return self::set('id', $id);
     }
 
@@ -106,7 +107,7 @@ class Attribute {
      * @param string la classe
      * @return string le code HTML
      */
-    static function class($class) {
+    static function setClass($class) {
         return self::set('class', $class);
     }
 
@@ -117,7 +118,7 @@ class Attribute {
      * @param string|array le/les style(s)
      * @return string le code HTML
      */
-    static function style($style) {
+    static function setStyle($style) {
         if (is_array($style)) {
             $_ = '';
             foreach ($style as $s => $v) {
@@ -136,7 +137,7 @@ class Attribute {
      * @param string le texte alternatif
      * @return string le code HTML
      */
-    static function src($src, $alt = null) {
+    static function setSrc($src, $alt = null) {
         $html = self::set('src', $src);
         if (!is_null($alt)) {
             $html .= ' ' . self::set('alt', $alt);

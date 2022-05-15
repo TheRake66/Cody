@@ -4,8 +4,9 @@ use Kernel\Security\Vulnerability\CSRF;
 use Kernel\Html\Attribute;
 use Kernel\Html\Builder;
 use Kernel\Html\Output;
-use Kernel\Convert;
-use Kernel\Url;
+use Kernel\Convert\Encoded;
+use Kernel\Convert\Number;
+use Kernel\URL\Location;
 ?>
 
 

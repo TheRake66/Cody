@@ -4,8 +4,7 @@ use Kernel\DataBase\Factory\Crud;
 use Kernel\Security\Vulnerability\XSS;
 use Kernel\Security\Vulnerability\CSRF;
 use Kernel\Security\Validation;
-use Kernel\Rest;
-use Kernel\Render;
+use Kernel\IO\Render;
 
 
 
@@ -27,7 +26,7 @@ class {NAME_UPPER} extends Render {
      */
     function __construct() {
         // Rendu du composant
-        $this->view();
+        $this->renderComponent();
     }
 
 }

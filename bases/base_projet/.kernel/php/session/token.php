@@ -1,8 +1,9 @@
 <?php
 namespace Kernel\Session;
+
 use Kernel\Security\Vulnerability\CSRF;
 use Kernel\Security\Cookie;
-use Kernel\Debug;
+use Kernel\Debug\Log;
 
 
 
@@ -12,7 +13,7 @@ use Kernel\Debug;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Session
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
@@ -27,13 +28,13 @@ class Token {
      */
 	static function set($token = null, $nbdays = 31) {
 		if (is_null($token)) {
-			$token = self::make();
+			$token = self::generate();
 		}
         if (Cookie::set('session_token', $token, time() + $nbdays*60*60*24)) {
-            Debug::log('Jeton de connexion : ' . $token . ', défini pour ' . $nbdays . ' jour(s)...');
+            Log::add('Jeton de connexion : ' . $token . ', défini pour ' . $nbdays . ' jour(s)...');
             return true;
         } else {
-            Debug::log('Impossible de définir le jeton de connexion.', Debug::LEVEL_ERROR);
+            Log::add('Impossible de définir le jeton de connexion.', Log::LEVEL_ERROR);
             return false;
         }
 	}
@@ -44,7 +45,7 @@ class Token {
      * 
      * @return string le jeton
      */
-    static function make() {
+    static function generate() {
         return CSRF::generate(100);
     }
 
@@ -66,10 +67,10 @@ class Token {
      */
 	static function remove() {
         if (Cookie::remove('session_token')) {
-            Debug::log('Jeton supprimé.');
+            Log::add('Jeton supprimé.');
             return true;
         } else {
-            Debug::log('Impossible de supprimer le jeton.', Debug::LEVEL_ERROR);
+            Log::add('Impossible de supprimer le jeton.', Log::LEVEL_ERROR);
             return false;
         }
 	}

@@ -1,8 +1,9 @@
 <?php
 namespace Kernel\Session;
-use Kernel\Debug;
+
 use Kernel\Configuration;
-use Kernel\Error;
+use Kernel\Debug\Log;
+use Kernel\Debug\Error;
 use Kernel\Security\Cookie;
 
 
@@ -14,7 +15,7 @@ use Kernel\Security\Cookie;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Session
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
@@ -31,7 +32,7 @@ class Socket {
 		if ($conf->open_session) {
 
             if (session_status() === PHP_SESSION_NONE) {
-                Debug::log('Démarrage de la session...', Debug::LEVEL_PROGRESS);
+                Log::add('Démarrage de la session...', Log::LEVEL_PROGRESS);
 
                 if ($conf->multiple_session) {
                     $name = str_replace(' ', '_', $conf->session_name);
@@ -42,7 +43,7 @@ class Socket {
 
                 if (Cookie::setSession()) {
                     if (session_start()) {
-                        Debug::log('Session démarrée.', Debug::LEVEL_GOOD);
+                        Log::add('Session démarrée.', Log::LEVEL_GOOD);
                     } else {
                         Error::trigger('Impossible de démarrer la session.');
                     }

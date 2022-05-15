@@ -1,5 +1,5 @@
 <?php
-namespace Kernel\Html;
+namespace Kernel\HTML;
 
 
 
@@ -8,8 +8,8 @@ namespace Kernel\Html;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\Html
- * @category Librarie
+ * @package Kernel\HTML
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */

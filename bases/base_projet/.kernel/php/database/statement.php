@@ -1,8 +1,9 @@
 <?php
 namespace Kernel\Database;
-use Kernel\Debug;
+
 use Kernel\Configuration;
-use Kernel\Error;
+use Kernel\Debug\Error;
+use Kernel\Debug\Log;
 use PDO;
 
 
@@ -13,7 +14,7 @@ use PDO;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Database
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
@@ -38,7 +39,7 @@ class Statement {
      * @throws Error si la connexion echoue
      */
     private static function init($conf) {
-        Debug::log('Connexion à la base de données "' . $conf->name . '"...', Debug::LEVEL_PROGRESS);
+        Log::add('Connexion à la base de données "' . $conf->name . '"...', Log::LEVEL_PROGRESS);
         $pdo = null;
         $dsn = $conf->type . 
             ':host=' . $conf->host . 
@@ -57,7 +58,7 @@ class Statement {
         } catch (\Exception $e) {
             Error::trigger('Impossible de se connecter à la base de données "' . $conf->name . '".', $e);
         }
-        Debug::log('Connexion réussite.', Debug::LEVEL_GOOD);
+        Log::add('Connexion réussite.', Log::LEVEL_GOOD);
         return $pdo;
     }
 

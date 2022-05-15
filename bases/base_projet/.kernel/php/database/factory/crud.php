@@ -1,5 +1,6 @@
 <?php
 namespace Kernel\Database\Factory;
+
 use Kernel\Database\Toogle;
 use Kernel\Database\Query;
 
@@ -11,185 +12,175 @@ use Kernel\Database\Query;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Database\Factory
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Crud {
+abstract class Crud {
     
     /**
      * Retourne tous les objets d'une table
      * 
-     * @param class classe DTO
      * @return array les objets DTO
      */
-    static function all($class) {
-        return Toogle::object(function() use ($class) {
+    static function all() {
+        return Toogle::object(function() {
             return Query::fetchObjects(
-                Builder::buildSelect($class) . ' ' . 
-                Builder::buildFrom($class),
-                $class);
-        }, $class);
+                Builder::buildSelect(self::class) . ' ' . 
+                Builder::buildFrom(self::class),
+                self::class);
+        }, self::class);
     }
 
 
     /**
      * Retourne le nombre d'objets d'une table
      * 
-     * @param class classe DTO
      * @return int le nombre d'objets
      */
-    static function size($class) { 
-        return Toogle::object(function() use ($class) {
+    static function size() { 
+        return Toogle::object(function() {
             return Query::fetchCell(
                 'SELECT COUNT(1) ' .
-                Builder::buildFrom($class));
-        }, $class);
+                Builder::buildFrom(self::class));
+        }, self::class);
     }
 
 
     /**
      * Detruit tous les objets d'une table
      * 
-     * @param class classe DTO
      * @return bool si la destruction a reussi
      */
-    static function truncat($class) { 
-        return Toogle::object(function() use ($class) {
+    static function truncat() { 
+        return Toogle::object(function() {
             return Query::execute(
-                'TRUNCATE TABLE ' . Reflection::getTableName($class));
-        }, $class);
+                'TRUNCATE TABLE ' . Reflection::getTableName(self::class));
+        }, self::class);
     }
 
 
     /**
      * Verifie si un ou des objets existent dans la table
      * 
-     * @param object l'objet DTO a lier
      * @param array les proprietes utilisees dans la clause
      * @return bool si il ou ils existent
      */
-    static function exists($obj, $clause = null) {
-        return Toogle::object(function() use ($obj, $clause) {
-            [ $where, $params ] = Builder::buildClause($obj, $clause);
+    function exists($clause = null) {
+        return Toogle::object(function() use ($clause) {
+            [ $where, $params ] = Builder::buildClause($this, $clause);
             return boolval(Query::fetchCell(
                 'SELECT EXISTS (
                     SELECT 1 ' .
-                    Builder::buildFrom($obj) . ' ' .
+                    Builder::buildFrom($this) . ' ' .
                     $where . '
                 )',
                 $params)); 
-        }, $obj);   
+        }, $this);   
     }
 
 
     /**
      * Compte le nombre d'objets dans la table par rapport a une clause
      * 
-     * @param object l'objet DTO a lier
      * @param array les proprietes utilisees dans la clause
      * @return int le nombre d'objets
      */
-    static function count($obj, $clause = null) {
-        return Toogle::object(function() use ($obj, $clause) {
-            [ $where, $params ] = Builder::buildClause($obj, $clause);
+    function count($clause = null) {
+        return Toogle::object(function() use ($clause) {
+            [ $where, $params ] = Builder::buildClause($this, $clause);
             return Query::fetchCell(
                 'SELECT COUNT(1) ' .
-                Builder::buildFrom($obj) . ' ' .
+                Builder::buildFrom($this) . ' ' .
                 $where,
                 $params); 
-        }, $obj);
+        }, $this);
     }
 
 
     /**
      * Creer un objet dans une table
      * 
-     * @param object l'objet a creer
      * @return bool si la creation a reussi
      */
-    static function create($obj) {
-        return Toogle::object(function() use ($obj) {
-            [ $insert, $params ] = Builder::buildInsert($obj);
+    function create() {
+        return Toogle::object(function() {
+            [ $insert, $params ] = Builder::buildInsert($this);
             return Query::execute(
                 $insert,
                 $params);
-        }, $obj);
+        }, $this);
     }
 
 
     /**
      * Recupere un objet dans une table
      * 
-     * @param object l'objet DTO a lier
      * @param array les proprietes utilisees pour la clause
      * @return object l'objet DTO
      */
-    static function read($obj, $clause = null) {
-        return Toogle::object(function() use ($obj, $clause) {
-            [ $where, $params ] = Builder::buildClause($obj, $clause);
+    function read($clause = null) {
+        return Toogle::object(function() use ($clause) {
+            [ $where, $params ] = Builder::buildClause($this, $clause);
             return Query::fetchObject(
-                Builder::buildSelect($obj) . ' ' .
-                Builder::buildFrom($obj) . ' ' .
+                Builder::buildSelect($this) . ' ' .
+                Builder::buildFrom($this) . ' ' .
                 $where,
-                $obj,
+                $this,
                 $params);
-        }, $obj);
+        }, $this);
     }
 
 
     /**
      * Met a jour un objet dans une table
      * 
-     * @param object l'objet DTO a mettre a jour
      * @param array les proprietes utilisees pour la clause
      * @return bool si la mise a jour a reussi
      */
-    static function update($obj, $clause = null) {
-        return Toogle::object(function() use ($obj, $clause) {
-            [ $update, $params1 ] = Builder::buildUpdate($obj, $clause);
-            [ $where, $params2 ] = Builder::buildClause($obj, $clause);
+    function update($clause = null) {
+        return Toogle::object(function() use ($clause) {
+            [ $update, $params1 ] = Builder::buildUpdate($this);
+            [ $where, $params2 ] = Builder::buildClause($this, $clause);
             return Query::execute(
                 $update . ' ' . $where,
                 array_merge($params1, $params2));
-        }, $obj);
+        }, $this);
     }
 
 
     /**
      * Supprime un objet dans une table
      * 
-     * @param object objet a supprimer
      * @param array les proprietes utilisees pour la clause WHERE
      * @return bool si ca reussit
      */
-    static function delete($obj, $clause = null) { 
-        return Toogle::object(function() use ($obj, $clause) {
-            [ $where, $params ] = Builder::buildClause($obj, $clause);
+    function delete($clause = null) { 
+        return Toogle::object(function() use ($clause) {
+            [ $where, $params ] = Builder::buildClause($this, $clause);
             return Query::execute(
-                'DELETE ' . Builder::buildFrom($obj) . ' ' . $where,
+                'DELETE ' . Builder::buildFrom($this) . ' ' . $where,
                 $params);
-        }, $obj);
+        }, $this);
     }
 
 
     /**
      * Lis plusieurs objets dans une table
      * 
-     * @param object objet contenant les valeurs a lire
      * @param array les proprietes utilisees pour la clause WHERE
      * @return object les objets DTO
      */
-    static function readMany($obj, $clause = null) {
-        return Toogle::object(function() use ($obj, $clause) {
-            [ $where, $params ] = Builder::buildClause($obj, $clause);
+    function readMany($clause = null) {
+        return Toogle::object(function() use ($clause) {
+            [ $where, $params ] = Builder::buildClause($this, $clause);
             return Query::fetchObjects(
-                Builder::buildSelect($obj) . ' ' .
-                Builder::buildFrom($obj) . ' ' .
+                Builder::buildSelect($this) . ' ' .
+                Builder::buildFrom($this) . ' ' .
                 $where,
-                $obj,
+                $this,
                 $params);
-        }, $obj);
+        }, $this);
     }
 
 }

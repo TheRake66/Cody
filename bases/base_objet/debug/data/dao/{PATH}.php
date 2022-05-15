@@ -1,5 +1,6 @@
 <?php
 namespace Model\DAO{NAMESPACE_SLASH};
+
 use Kernel\DataBase\Toogle;
 use Kernel\DataBase\Transaction;
 use Kernel\DataBase\Query;

@@ -1,7 +1,8 @@
 <?php
-namespace Kernel\Html;
-use Kernel\Url;
-use Kernel\Image;
+namespace Kernel\HTML;
+
+use Kernel\IO\Image as IOImage;
+use Kernel\URL\Location;
 
 
 
@@ -10,8 +11,8 @@ use Kernel\Image;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\Html
- * @category Librarie
+ * @package Kernel\HTML
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
@@ -26,7 +27,7 @@ class Builder {
      * @param bool si la balise est une balise autofermante
      * @return string le code HTML
      */
-    static function create($tag, $attr = null, $content = null, $selfClose = true) {
+    static function createElement($tag, $attr = null, $content = null, $selfClose = true) {
         $_ = '<' . $tag;
         if ($attr) {
             foreach ($attr as $key => $value) {
@@ -56,28 +57,42 @@ class Builder {
      * @param bool si on ouvre la page dans une nouvelle fenetre
      * @return string le code HTML
      */
-    static function href($text, $route, $param = null, $addBack = false, $newTab = false) {
-        $_['href'] = Url::build($route, $param, $addBack);
+    static function buildHref($text, $route, $param = null, $addBack = false, $newTab = false) {
+        $_['href'] = Location::build($route, $param, $addBack);
         if ($newTab) {
             $_['target'] = '_blank';
         }
-        return self::create('a', $_, $text);
+        return self::createElement('a', $_, $text);
     }
 
 
     /**
-     * Construit une balise "img" HTML
+     * Construit une balise "img" HTML a partir de donnees binaires
      *
      * @param object le binaire de l'image
      * @param string le texte alt
      * @param string le format de l'image
      * @return string le code HTML
      */
-    static function imgBin($bin, $alt = null, $format = 'png') {
-        return self::create('img', [
-            'src' => Image::binToB64($bin, $format),
-            'alt' => $alt
-        ]);
+    static function buildImgBin($bin, $alt = null, $format = 'png') {
+        return self::buildImg(IOImage::binToB64($bin, $format), $alt);
+    }
+
+
+    /**
+     * Construit une balise "img" HTML
+     *
+     * @param object la source de l'image
+     * @param string le texte alt
+     * @param string le format de l'image
+     * @return string le code HTML
+     */
+    static function buildImg($src, $alt = null) {
+        $_ = [ 'src' => $src ];
+        if ($alt) {
+            $_['alt'] = $alt;
+        }
+        return self::createElement('img', $_);
     }
 
     
@@ -92,15 +107,15 @@ class Builder {
      * @param string si on ajoute le parametre de retour
      * @return string le code HTML
      */
-    static function form($content = null, $method = 'GET', $isMultipart = false, $route = null, $param = null, $addback = false) {
+    static function buildForm($content = null, $method = 'GET', $isMultipart = false, $route = null, $param = null, $addback = false) {
         $_['method'] = $method;
         if ($isMultipart) {
             $_['enctype'] = 'multipart/form-data';
         }
         if (!is_null($route)) {
-            $_['action'] = Url::build($route, $param, $addback);
+            $_['action'] = Location::build($route, $param, $addback);
         }
-        return self::create('form', $_, $content, false);
+        return self::createElement('form', $_, $content, false);
     }
     
 }

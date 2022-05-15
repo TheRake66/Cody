@@ -1,6 +1,6 @@
 <?php
 namespace Test{NAMESPACE_SLASH};
-use Kernel\Unit;
+use Kernel\Debug\Unit;
 
 
 

@@ -1,5 +1,6 @@
 <?php
 namespace Kernel\Database;
+
 use PDO;
 
 
@@ -10,7 +11,7 @@ use PDO;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Database
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */

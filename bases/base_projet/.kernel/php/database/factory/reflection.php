@@ -1,5 +1,6 @@
 <?php
 namespace Kernel\Database\Factory;
+
 use Kernel\Error;
 
 
@@ -10,7 +11,7 @@ use Kernel\Error;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Database\Factory
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */

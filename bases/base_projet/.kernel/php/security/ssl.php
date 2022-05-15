@@ -1,10 +1,10 @@
 <?php
 namespace Kernel\Security;
+
 use Kernel\Url;
-use Kernel\Debug;
 use Kernel\Configuration;
-
-
+use Kernel\Debug\Log;
+use Kernel\URL\Location;
 
 /**
  * Librairie gerant le protocole SSL (Secure Socket Layer)
@@ -12,7 +12,7 @@ use Kernel\Configuration;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Security
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
@@ -26,10 +26,10 @@ class SSL {
 	static function enable() {
 		if (Configuration::get()->security->redirect_to_https) {
 			if(self::isEnabled()) {
-				Debug::log('SSL actif.', Debug::LEVEL_GOOD);
+				Log::add('SSL actif.', Log::LEVEL_GOOD);
 			} else {
-				Debug::log('Activation du SSL...', Debug::LEVEL_PROGRESS);
-				Url::location('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+				Log::add('Activation du SSL...', Log::LEVEL_PROGRESS);
+				Location::travel('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 			}
 		}
 	}

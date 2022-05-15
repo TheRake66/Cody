@@ -1,8 +1,9 @@
 <?php
 namespace Kernel\DataBase;
-use Kernel\Debug;
+
 use Kernel\Database\Statement;
 use Kernel\Database\Translate;
+use Kernel\Debug\Log;
 
 
 
@@ -12,7 +13,7 @@ use Kernel\Database\Translate;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Database
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
@@ -26,12 +27,12 @@ class Output {
      * @return PDOStatement instance PDO
      */
     static function send($sql, $params) {
-        Debug::log('Exécution de la requête SQL : "' . $sql . '"...', Debug::LEVEL_PROGRESS, Debug::TYPE_QUERY);
+        Log::add('Exécution de la requête SQL : "' . $sql . '"...', Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
         $parsed = Translate::formatMany($params);
-        Debug::log('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_PARAMETERS);
+        Log::add('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
         $rqt = Statement::getInstance()->prepare($sql);
         $rqt->execute($parsed);
-        Debug::log('Requête SQL exécutée.', Debug::LEVEL_GOOD, Debug::TYPE_QUERY);
+        Log::add('Requête SQL exécutée.', Log::LEVEL_GOOD, Log::TYPE_QUERY);
         return $rqt;
     }
 
@@ -43,7 +44,7 @@ class Output {
      * @return mixed le resultat de la requete
      */
     static function return($data) {
-        Debug::log('Résultat de la requête SQL : "' . print_r($data, true) . '".', Debug::LEVEL_INFO, Debug::TYPE_QUERY_RESULTS);
+        Log::add('Résultat de la requête SQL : "' . print_r($data, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
         return $data;
     }
 

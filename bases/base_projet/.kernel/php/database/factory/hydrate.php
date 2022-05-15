@@ -1,6 +1,7 @@
 <?php
 namespace Kernel\Database\Factory;
-use Kernel\Debug;
+
+use Kernel\Debug\Log;
 
 
 
@@ -10,7 +11,7 @@ use Kernel\Debug;
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
  * @package Kernel\Database\Factory
- * @category Librarie
+ * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
@@ -28,7 +29,7 @@ class Hydrate {
         foreach ($data as $key => $value) {
             if (!self::setProperty($obj, $key, $value) &&
                 !self::setProperty($obj, '_' . $key, $value)) {
-                Debug::log('Attention, le champ "' . $key . '" n\'a pas de propriete dans la classe "' . $class . '"');
+                Log::add('Attention, le champ "' . $key . '" n\'a pas de propriété dans la classe "' . $class . '"');
             }
         }
         return $obj;
