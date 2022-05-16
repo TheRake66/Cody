@@ -39,3 +39,10 @@ cd base_test
 move base_test.zip ..\base_test.zip
 
 cd ..
+
+del base_api.zip
+cd base_api
+"C:\Program Files\7-Zip\7z.exe" a -r base_api.zip
+move base_api.zip ..\base_api.zip
+
+cd ..
