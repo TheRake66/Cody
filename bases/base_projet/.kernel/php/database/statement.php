@@ -71,12 +71,21 @@ class Statement {
      */
     static function getConfiguration() {
         $conf = Configuration::get()->database;
-        foreach ($conf->databases_list as $database) {
-            if ($database->name == self::$current) {
-                return $database;
+        if (!is_null(self::$current)) {
+            foreach ($conf->databases_list as $database) {
+                if ($database->name == self::$current) {
+                    return $database;
+                }
             }
+            Error::trigger('Aucune configuration pour la base de données "' . self::$current . '" !');
+        } else {
+            foreach ($conf->databases_list as $database) {
+                if ($database->name == $conf->default_database) {
+                    return $database;
+                }
+            }
+            Error::trigger('Aucune configuration pour la base de données par défaut !');
         }
-        Error::trigger('Aucune configuration pour la base de données "' . self::$current . '" !');
     }
 
 

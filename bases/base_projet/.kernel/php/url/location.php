@@ -1,6 +1,7 @@
 <?php
 namespace Kernel\URL;
 
+use Kernel\Debug\Log;
 use Kernel\HTML\Import;
 use Kernel\HTML\Builder;
 use Kernel\HTML\Output;
@@ -33,6 +34,7 @@ class Location {
      * @return void
 	 */
 	static function travel($url) {
+		Log::add('Redirection vers l\'url : "'. $url .'".');
 		Stream::clean();
 		header('Location: ' . $url);
 		Stream::close();

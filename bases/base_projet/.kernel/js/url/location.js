@@ -54,13 +54,13 @@ export default class Location {
 	 * @param {string} method la methode (GET, POST)
      * @returns {void}
 	 */
-	static go(route, params = [], addback = false, method = Url.METHOD_GET) {
+	static go(route, params = [], addback = false, method = Location.METHOD_GET) {
 		if (method === Http.METHOD_GET) {
 			window.location.href = Location.build(route, params, addback);
 		} else if (method === Http.METHOD_POST) {
 			let f = DOM.create('form', {
 				method: 'post',
-				action: Url.build(route)
+				action: Location.build(route)
 			});
 			Object.entries(obj).forEach(entry => {
 				const [key, value] = entry;
