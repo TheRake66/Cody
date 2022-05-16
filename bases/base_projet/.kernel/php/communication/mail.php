@@ -3,7 +3,7 @@ namespace Kernel\Communication;
 
 use Kernel\Debug\Error;
 use Kernel\Debug\Log;
-use Kernel\IO\Convert\dataset;
+use Kernel\IO\Convert\Dataset;
 
 
 
@@ -22,6 +22,7 @@ class Mail {
 	/**
 	 * Envoi un mail
 	 * 
+	 * @example
 	 * Les mails peuvent etre envoyer de trois manieres :
 	 * - string : 'test@test.com'
 	 * - array : [ 'test@test.com', 'test@test.com', 'test@test.com' ]
