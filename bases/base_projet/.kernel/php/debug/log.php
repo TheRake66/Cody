@@ -3,7 +3,7 @@ namespace Kernel\Debug;
 
 use Kernel\Security\Configuration;
 use Kernel\IO\Convert\Number;
-use Kernel\IO\Network;
+use Kernel\Communication\Network;
 use Kernel\IO\Path;
 
 /**
@@ -77,7 +77,7 @@ class Log {
 
             $folder = Path::absolute('logs');
             if ($conf->ip_identify) {
-                $folder .= '/' . str_replace(':', '-', Network::getClientIp());
+                $folder .= '/' . str_replace(':', '-', Network::getClientIP());
             }
 
             $levelstr = '';

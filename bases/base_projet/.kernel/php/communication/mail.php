@@ -1,5 +1,5 @@
 <?php
-namespace Kernel\IO;
+namespace Kernel\Communication;
 
 use Kernel\Debug\Error;
 use Kernel\Debug\Log;
@@ -12,7 +12,7 @@ use Kernel\IO\Convert\dataset;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\IO
+ * @package Kernel\Communication
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

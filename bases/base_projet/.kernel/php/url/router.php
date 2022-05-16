@@ -3,7 +3,9 @@ namespace Kernel\URL;
 
 use Kernel\Debug\Error;
 use Kernel\Debug\Log;
+use Kernel\IO\Autoloader;
 use Kernel\IO\Path;
+use Kernel\IO\Stream;
 use Kernel\URL\Parser;
 
 
@@ -20,14 +22,8 @@ use Kernel\URL\Parser;
  */
 class Router {
 
-	/**
-     * @var string les types de routes
-	 */
-    const TYPE_ROUTE = 0;
-    const TYPE_API = 1;
-
     /**
-	 * @var array Liste des routes [ route => [ class, type ] ]
+	 * @var array Liste des routes [ route => class ]
      */
 	private static $routes = [];
 
@@ -85,11 +81,10 @@ class Router {
 	 * 
 	 * @param string la route
 	 * @param object classe du controleur
-	 * @param int type de route
 	 * @return void
      */
-	static function add($route, $class, $type = self::TYPE_ROUTE) {
-		self::$routes[$route] = [$class, $type];
+	static function add($route, $class) {
+		self::$routes[$route] = $class;
 	}
 
 
@@ -100,8 +95,8 @@ class Router {
 	 * @param int type de route
 	 * @return bool true si existe, false sinon
 	 */
-	static function exists($route, $type = self::TYPE_ROUTE) {
-		return isset(self::$routes[$route]) && self::$routes[$route][1] === $type;
+	static function exists($route) {
+		return isset(self::$routes[$route]);
 	}
 	
 
@@ -205,16 +200,6 @@ class Router {
 
 
 	/**
-	 * Retourne le type de la route actuelle
-	 * 
-	 * @return int le type
-	 */
-	static function getType() {
-		return self::$routes[self::getCurrent()][1];
-	}
-
-
-	/**
 	 * Retourne la premiere route
 	 * 
 	 * @return string la premiere route
@@ -227,35 +212,87 @@ class Router {
 
 
     /**
-     * Appel le controleur de la route demandée
+     * Appel le controleur du composant de la route demandée
 	 * 
 	 * @return void
      */
 	static function routing() {
-		if (self::getType() === self::TYPE_ROUTE) {
-			Log::add('Routage (url : "' . Parser::getCurrent() . '")...', Log::LEVEL_PROGRESS);
+		$class = self::getClass();
+		
+		if (Autoloader::getType($class) === 'Controller') {
 
-			$controler = self::getClass();
-			Log::add('Contrôleur identifié : "' . $controler . '".');
-	
-			new $controler();
+			Log::add('Routage (url : "' . Parser::getCurrent() . '")...', Log::LEVEL_PROGRESS);
+			Log::add('Contrôleur identifié : "' . $class . '".');
+
+			new $class();
+
 			Log::add('Routage fait.', Log::LEVEL_GOOD);
+
 		} else {
 			Error::trigger('La route "' . self::getCurrent() . '" n\'est pas une route de composant !');
 		}
 	}
 
 
+	/**
+	 * Appel la fonction API de la route demandée
+	 * 
+	 * @return void
+	 */
 	static function resting() {
-		if (self::getType() === self::TYPE_API) {
+		$class = self::getClass();
+
+		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
+
+		if (Autoloader::getType($class) === 'API') {
 			
-			$function = $_GET['_'] ?? $_POST['_'] ?? $_ROUTE['_'] ?? 
-				Error::trigger('Aucune fonction n\'a été demandée !');
+			Log::add('Appel API identifié : "' . $class . '".');
+			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
-			Log::add('Resting (fonction : "' . $function . '")...', Log::LEVEL_PROGRESS);
+			$array = [];
+			$function = null;
+			$method = null;
+			if (isset($_GET['rest_function'])) {
+				$array = $_GET;
+				$function = $_GET['rest_function'];
+				$method = 'GET';
+			} elseif (isset($_POST['rest_function'])) {
+				$array = $_POST;
+				$function = $_POST['rest_function'];
+				$method = 'POST';
+			} elseif (isset($_ROUTE['rest_function'])) {
+				$array = $_ROUTE;
+				$function = $_ROUTE['rest_function'];
+				$method = 'ROUTE';
+			} else {
+				Error::trigger('Aucune fonction API n\'a été spécifiée !');
+			}
+			unset($array['rest_function']);			
 
-			$class = self::getClass();
+			Log::add('Exécution de la requête REST (méthode : "' . $method . '", fonction : "' .  $function . '", url : "' . Parser::getCurrent() . '")...', Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
+			Log::add('Paramètres de la requête REST : "' . print_r($array, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
 
+			$reflect = new \ReflectionClass($class);
+			$methods = $class->getMethods();
+			if (in_array($function, $methods)) {
+				$res = $reflect
+					->getMethod($function)
+					->invoke($class);
+
+				Log::add('Requête REST exécutée.', Log::LEVEL_GOOD, Log::TYPE_QUERY);
+				Log::add('Résultat de la requête REST : "' . print_r(json_encode($res, JSON_PRETTY_PRINT), true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
+				
+				Stream::reset();
+				echo json_encode($res);
+				Stream::close();
+
+				exit();
+			} else {
+				Error::trigger('La fonction d\'API "' . $function . '" n\'existe pas !');
+			}
+
+		} else {
+			Log::add('Aucun appel API.', Log::LEVEL_GOOD);
 		}
 	}
 	

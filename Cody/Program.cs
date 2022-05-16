@@ -88,7 +88,7 @@ namespace Cody
                 Message.writeIn(ConsoleColor.DarkRed, @"
                                                     ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
                 Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                             ~ Version {version} du 13 mai 2022 ~
+                                             ~ Version {version} du 16 mai 2022 ~
                                      ~ Copyright © " + DateTime.Now.Year + " - Thibault BUSTOS (TheRake66) ~");
 
                 Console.WriteLine(@"
@@ -141,6 +141,10 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
                 {
                     case "aide":
                         Commande.aideCom(argm);
+                        break;
+
+                    case "api":
+                        Commande.gestApi(argm);
                         break;
 
                     case "build":

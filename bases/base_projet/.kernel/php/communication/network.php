@@ -1,5 +1,5 @@
 <?php
-namespace Kernel\IO;
+namespace Kernel\Communication;
 
 
 
@@ -8,7 +8,7 @@ namespace Kernel\IO;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\IO
+ * @package Kernel\Communication
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
@@ -20,7 +20,7 @@ class Network {
 	 *
      * @return string adresse ip
 	 */
-	static function getClientIp() {
+	static function getClientIP() {
 		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 			return $_SERVER['HTTP_CLIENT_IP'];
 		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {

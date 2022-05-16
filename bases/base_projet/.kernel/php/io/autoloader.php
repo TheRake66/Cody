@@ -46,7 +46,7 @@ class Autoloader {
             }
         } else {
             $msg = 'Impossible de charger la classe "' . $required . '" !';
-            if (self::classExists('Kernel\\Debug\\Error')) {
+            if (self::exists('Kernel\\Debug\\Error')) {
                 Error::trigger($msg);
             } else {
                 die($msg);
@@ -61,8 +61,21 @@ class Autoloader {
      * @param string l'espace de nom de la classe
      * @return bool true si la classe existe
      */
-    static function classExists($class) {
+    static function exists($class) {
         return class_exists($class, false) || !empty(self::getFile($class));
+    }
+
+
+    /**
+     * Retourne le type de la classe
+     * 
+     * @example getClassType('Kernel\IO\Autoloader') => Kernel
+     * @example getClassType('Foo\Bar') => Foo
+     * @param string l'espace de nom de la classe
+     * @return string le type de la classe
+     */
+    static function getType($class) {
+        return array_shift(explode('\\', $class));
     }
 
 

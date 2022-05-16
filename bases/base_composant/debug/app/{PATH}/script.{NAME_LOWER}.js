@@ -1,7 +1,7 @@
 import Attribute from '{BACK_PATH}../../../.kernel/js/html/attribute.js';
 import DOM from '{BACK_PATH}../../../.kernel/js/html/dom.js';
 import Find from '{BACK_PATH}../../../.kernel/js/html/find.js';
-import Rest from '{BACK_PATH}../../../.kernel/js/io/rest.js';
+import Rest from '{BACK_PATH}../../../.kernel/js/communication/rest.js';
 import Location from '{BACK_PATH}../../../.kernel/js/url/location.js';
 
 

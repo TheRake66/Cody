@@ -9,7 +9,7 @@ r::notfound('/');
 r::default('/');
 r::add('/', c\::class);
 
-r::link('/', a\::class);
+r::add('/', a\::class);
 */
 
 

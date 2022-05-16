@@ -113,7 +113,7 @@ export default class Rest {
         if (param === null) {
             param = {};
         }
-        param._ = rest;
+        param.rest_function = rest;
         Http.send(
             Location.build(route),
             response => {
@@ -169,7 +169,7 @@ export default class Rest {
         if (param === null) {
             param = {};
         }
-        param._ = rest;
+        param.rest_function = rest;
         Http.send(
             Location.build(route),
             response => {

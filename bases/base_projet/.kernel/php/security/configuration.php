@@ -52,7 +52,7 @@ class Configuration {
 			return self::$current;
 		} else {
             $msg = 'La configuration n\'est pas chargée !';
-            if (Autoloader::classExists('Kernel\\Debug\\Error')) {
+            if (Autoloader::exists('Kernel\\Debug\\Error')) {
                 Error::trigger($msg);
             } else {
                 die($msg);
