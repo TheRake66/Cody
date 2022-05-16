@@ -26,10 +26,10 @@ abstract class Crud {
     static function all() {
         return Toogle::object(function() {
             return Query::fetchObjects(
-                Builder::buildSelect(self::class) . ' ' . 
-                Builder::buildFrom(self::class),
-                self::class);
-        }, self::class);
+                Builder::buildSelect(static::class) . ' ' . 
+                Builder::buildFrom(static::class),
+                static::class);
+        }, static::class);
     }
 
 
@@ -42,8 +42,8 @@ abstract class Crud {
         return Toogle::object(function() {
             return Query::fetchCell(
                 'SELECT COUNT(1) ' .
-                Builder::buildFrom(self::class));
-        }, self::class);
+                Builder::buildFrom(static::class));
+        }, static::class);
     }
 
 
@@ -55,8 +55,8 @@ abstract class Crud {
     static function truncat() { 
         return Toogle::object(function() {
             return Query::execute(
-                'TRUNCATE TABLE ' . Reflection::getTableName(self::class));
-        }, self::class);
+                'TRUNCATE TABLE ' . Reflection::getTableName(static::class));
+        }, static::class);
     }
 
 

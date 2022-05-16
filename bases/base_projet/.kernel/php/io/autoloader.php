@@ -75,7 +75,8 @@ class Autoloader {
      * @return string le type de la classe
      */
     static function getType($class) {
-        return array_shift(explode('\\', $class));
+        $_ = explode('\\', $class);
+        return array_shift($_);
     }
 
 
@@ -105,7 +106,7 @@ class Autoloader {
                 $relative = 'debug/lib/php/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
-            case 'Controler':
+            case 'Controller':
                 $relative = 'debug/app/' . $namespace_lower . '/' . $class_lower . '/cont.' . $class_lower . '.php';
                 break;
 
@@ -122,8 +123,9 @@ class Autoloader {
                 break;
         }
         
-        $root = dirname(dirname(__DIR__)) . '/';
+        $root = dirname(dirname(dirname(__DIR__))) . '/';
         $file = $root . $relative;
+
         if (is_file($file) && is_readable($file)) {
             return $file;
         } else {

@@ -1,5 +1,6 @@
-import Http from '../io/http.js';
-import Html from './html.js';
+import Http from '../communication/http.js';
+import DOM from '../html/dom.js';
+import Parser from './parser.js';
 
 
 
@@ -55,28 +56,28 @@ export default class Location {
 	 */
 	static go(route, params = [], addback = false, method = Url.METHOD_GET) {
 		if (method === Http.METHOD_GET) {
-			window.location.href = Url.build(route, params, addback);
+			window.location.href = Location.build(route, params, addback);
 		} else if (method === Http.METHOD_POST) {
-			let f = Html.create('form', {
+			let f = DOM.create('form', {
 				method: 'post',
 				action: Url.build(route)
 			});
 			Object.entries(obj).forEach(entry => {
 				const [key, value] = entry;
-				f.append(Html.create('input', {
+				f.append(DOM.create('input', {
 					type: 'hidden',
 					name: key,
 					value: value
 				}));
 			});
 			if (addback) {
-				f.append(Html.create('input', {
+				f.append(DOM.create('input', {
 					type: 'hidden',
 					name: 'redirect_url',
-					value: Url.getCurrent()
+					value: Parser.getCurrent()
 				}));
 			}
-			Html.append(f);
+			DOM.append(f);
 			f.submit();
 			f.remove();
 		}
@@ -92,9 +93,9 @@ export default class Location {
 	 * @return {string} l'url
 	 */
 	static build(route, params = {}, addback = false) {
-		let url = Url.getRoot() + route;
+		let url = Parser.getRoot() + route;
 		if (addback) {
-			params.redirect_url = Url.current();
+			params.redirect_url = Parser.current();
 		}
 		if (Object.keys(params).length !== 0 || addback) {
 			url += '?' + (new URLSearchParams(params)).toString();

@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\Database;
 
-use Kernel\Configuration;
+use Kernel\Security\Configuration;
 use Kernel\Debug\Error;
 use Kernel\Debug\Log;
 use PDO;

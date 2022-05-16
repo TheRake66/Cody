@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\HTML;
 
-use Kernel\Configuration;
+use Kernel\Security\Configuration;
 use Kernel\IO\Path;
 
 

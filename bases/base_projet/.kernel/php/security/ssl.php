@@ -1,9 +1,8 @@
 <?php
 namespace Kernel\Security;
 
-use Kernel\Url;
-use Kernel\Configuration;
 use Kernel\Debug\Log;
+use Kernel\Security\Configuration;
 use Kernel\URL\Location;
 
 /**

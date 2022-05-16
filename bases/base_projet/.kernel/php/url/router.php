@@ -147,7 +147,7 @@ class Router {
 	static function whoMatch($asked) {
 		if (!is_null($asked)) {
 			$split_asked = explode('/', $asked);
-			foreach (self::$routes as $route => $controler) {
+			foreach (self::$routes as $route => $Controller) {
 				$split_route = explode('/', $route);
 				if (count($split_route) == count($split_asked)) {
 					$i = 0;
@@ -269,15 +269,24 @@ class Router {
 			}
 			unset($array['rest_function']);			
 
-			Log::add('Exécution de la requête REST (méthode : "' . $method . '", fonction : "' .  $function . '", url : "' . Parser::getCurrent() . '")...', Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
+			Log::add('Exécution de la requête REST (méthode : "' . $method . '", fonction : "' .  $function . '", url : "' . Query::remove('rest_function') . '")...', Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
 			Log::add('Paramètres de la requête REST : "' . print_r($array, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
 
 			$reflect = new \ReflectionClass($class);
-			$methods = $class->getMethods();
-			if (in_array($function, $methods)) {
+			$methods = $reflect->getMethods();
+			
+			$found = false;
+			foreach ($methods as $method) {
+				if ($method->name == $function) {
+					$found = true;
+					break;
+				}
+			}
+
+			if ($found) {
 				$res = $reflect
 					->getMethod($function)
-					->invoke($class);
+					->invoke(null);
 
 				Log::add('Requête REST exécutée.', Log::LEVEL_GOOD, Log::TYPE_QUERY);
 				Log::add('Résultat de la requête REST : "' . print_r(json_encode($res, JSON_PRETTY_PRINT), true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);

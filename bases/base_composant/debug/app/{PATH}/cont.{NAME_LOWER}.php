@@ -1,5 +1,5 @@
 <?php
-namespace Controler{NAMESPACE_SLASH};
+namespace Controller{NAMESPACE_SLASH};
 use Kernel\DataBase\Factory\Crud;
 use Kernel\Security\Vulnerability\XSS;
 use Kernel\Security\Vulnerability\CSRF;
@@ -13,7 +13,7 @@ use Kernel\IO\Render;
  * 
  * @author {USER_NAME}
  * @version 1.0
- * @package Controler{NAMESPACE_SLASH}
+ * @package Controller{NAMESPACE_SLASH}
  * @category Controleur
  */
 class {NAME_UPPER} extends Render {

@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\Security;
 
-use Kernel\Configuration;
+use Kernel\Security\Configuration;
 
 
 

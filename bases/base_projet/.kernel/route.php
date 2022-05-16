@@ -1,6 +1,6 @@
 <?php
-use Kernel\IO\Router as r;
-use Controler as c;
+use Kernel\URL\Router as r;
+use Controller as c;
 use API as a;
 
 

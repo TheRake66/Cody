@@ -1,3 +1,6 @@
+import Query from './query.js';
+
+
 
 /**
  * Librairie gerant les parties de l'url
@@ -16,7 +19,7 @@ export default class Parser {
 	 * @return {string} le retour
 	 */
 	static getBack() {
-		return Url.paramGet('redirect_url') ?? undefined;
+		return Query.paramGet('redirect_url') ?? undefined;
 	}
 
 
@@ -46,7 +49,7 @@ export default class Parser {
 	 * @returns {string} l'url sans les parametres
 	 */
 	static getRoot() {
-		return Url.getHost();
+		return Parser.getHost();
 	}
 
 	

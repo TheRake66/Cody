@@ -1,5 +1,5 @@
 import Http from './http.js';
-import Url from '../url/location.js';
+import Location from '../url/location.js';
 
 
 
