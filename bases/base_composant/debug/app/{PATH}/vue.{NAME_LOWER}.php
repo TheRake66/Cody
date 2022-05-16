@@ -15,6 +15,7 @@ use Kernel\URL\Location;
 Vue du composant {NAME_UPPER} 
 Author: {USER_NAME}
 Version: 1.0
+Categorie: Vue
  -->
 <{FULL_DASH}>
 	<p>Le composant {NAME_UPPER} fonctionne !</p>
