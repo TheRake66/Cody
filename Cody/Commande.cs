@@ -28,7 +28,7 @@ namespace Cody
                 // Affiche l'aide
                 Console.WriteLine(
 @"aide                            Affiche la liste des commandes disponible.
-api [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un module d\'API avec le nom spécifié.
+api [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un module d'API avec le nom spécifié.
 build                           Construit le projet, minifie et compile les fichiers. Nécessite npm.
 cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
                                 du dossier courant.
