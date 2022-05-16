@@ -14,7 +14,7 @@
 		"Différenciation entre les modifications et les bugs dans la version.",
 		"Ajout de l'argument -f pour la commande run et stop.",
 		"Ajout du nom d'utilisateur pour les docstrings.",
-		"Les tests se lance via le constructeur.",
+		"Les tests se lancent via le constructeur.",
 		"Ajout des modules d'API."
 	], 
 	"bugs": [
