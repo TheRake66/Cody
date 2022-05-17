@@ -29,7 +29,7 @@ export default class Rest {
      * @returns {void}
      */
     static get(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        return Rest.#ask(route, rest, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_GET);
+        return Rest.#ask(route, rest, sucess, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_GET);
     }
     
 
@@ -48,7 +48,7 @@ export default class Rest {
      * @returns {void}
      */
     static post(route, rest, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        return Rest.#ask(route, rest, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_POST);
+        return Rest.#ask(route, rest, sucess, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_POST);
     }
 
     
@@ -69,7 +69,7 @@ export default class Rest {
      * @returns {void}
      */
     static getFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_GET);
+        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_GET);
     }
 
     
@@ -90,7 +90,7 @@ export default class Rest {
      * @returns {void}
      */
     static postFor(route, rest, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_POST);
+        return Rest.#askFor(route, rest, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_POST);
     }
 
 
