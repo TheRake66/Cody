@@ -127,7 +127,7 @@ export default class Rest {
                     }
                     if (continu) {
                         if (json.content !== null) {
-                            if (sucess) sucess(json);
+                            if (sucess) sucess(json.content, json);
                         } else if (json.code === 0) {
                             if (empty) empty(json);
                         } else {
@@ -186,7 +186,7 @@ export default class Rest {
                     if (continu) {
                         if (json.content !== null && json.content.length > 0) {
                             if (pre) pre(json);
-                            json.content.forEach(element => sucess(json, element));
+                            json.content.forEach(element => sucess(element, json));
                             if (post) post(json);
                         } else if (json.code === 0) {
                             if (empty) empty(json);
