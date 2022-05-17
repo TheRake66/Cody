@@ -1,4 +1,4 @@
-import Http from '../communication/http.js';
+import HTTP from '../communication/http.js';
 import DOM from '../html/dom.js';
 import Parser from './parser.js';
 
@@ -14,15 +14,6 @@ import Parser from './parser.js';
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
 export default class Location {
-
-    /**
-     * Les methodes d'envoie
-     * 
-     * @type {string}
-     */
-    static METHOD_GET = 'GET';
-    static METHOD_POST = 'POST';
-
 
 	/**
 	 * Accede a une url
@@ -54,10 +45,10 @@ export default class Location {
 	 * @param {string} method la methode (GET, POST)
      * @returns {void}
 	 */
-	static go(route, params = [], addback = false, method = Location.METHOD_GET) {
-		if (method === Http.METHOD_GET) {
+	static go(route, params = [], addback = false, method = HTTP.METHOD_GET) {
+		if (method === HTTP.METHOD_GET) {
 			window.location.href = Location.build(route, params, addback);
-		} else if (method === Http.METHOD_POST) {
+		} else if (method === HTTP.METHOD_POST) {
 			let f = DOM.create('form', {
 				method: 'post',
 				action: Location.build(route)
