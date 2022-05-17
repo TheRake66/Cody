@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\HTML;
 
-use Kernel\IO\Image as IOImage;
+use Kernel\IO\Convert\Image;
 use Kernel\URL\Location;
 
 
@@ -75,7 +75,7 @@ class Builder {
      * @return string le code HTML
      */
     static function buildImgBin($bin, $alt = null, $format = 'png') {
-        return self::buildImg(IOImage::binToB64($bin, $format), $alt);
+        return self::buildImg(Image::binToB64($bin, $format), $alt);
     }
 
 

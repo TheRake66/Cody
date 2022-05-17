@@ -23,7 +23,7 @@ k\Debug\Log::separator();
 k\Security\SSL::enable();
 
 // Defini le fuseau horraire par defaut
-k\IO\Date::setTimezone();
+k\IO\Convert\Date::setTimezone();
 
 // Lance une session
 k\Session\Socket::start();

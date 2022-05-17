@@ -1,17 +1,16 @@
 <?php
-namespace Kernel\IO;
+namespace Kernel\IO\Convert;
 
 use Kernel\Debug\Error;
 use Kernel\Debug\Log;
-
-
+use Kernel\IO\Stream;
 
 /**
  * Librairie traitant les images
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\IO
+ * @package Kernel\IO\Convert
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
