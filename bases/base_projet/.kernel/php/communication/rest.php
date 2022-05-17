@@ -21,6 +21,12 @@ use Kernel\URL\Router;
  */
 abstract class Rest {
 
+    /**
+     * @var int Temps UNIX en MS a l'execution de la requete
+	 */
+    private static $started;
+
+
 	/**
 	 * Appel la fonction API de la route demandée
 	 * 
@@ -57,8 +63,10 @@ abstract class Rest {
 				Error::trigger('Aucune fonction API n\'a été spécifiée !');
 			}		
 
-			Log::add('Exécution de la requête REST (méthode : "' . $method . '", fonction : "' .  $function . '", url : "' . Query::remove('rest_function') . '")...', Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
-			Log::add('Paramètres de la requête REST : "' . print_r($array, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
+			Log::add('Exécution de la requête REST (méthode : "' . $method . '", fonction : "' .  $function . '", url : "' . Query::remove('rest_function') . '")...',
+				Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
+			Log::add('Paramètres de la requête REST : "' . print_r($array, true) . '".',
+				Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
 
 			$reflect = new \ReflectionClass($class);
 			$methods = $reflect->getMethods();
@@ -72,21 +80,10 @@ abstract class Rest {
 			}
 
 			if ($found) {
-				$started = microtime(true);
-				$res = $reflect
+				self::$started = microtime(true);
+				$reflect
 					->getMethod($function)
 					->invoke(new $class());
-				$ended = microtime(true);
-				$res['time'] = round(($ended - $started) * 1000);
-
-				Log::add('Requête REST exécutée.', Log::LEVEL_GOOD, Log::TYPE_QUERY);
-				Log::add('Résultat de la requête REST : "' . print_r(json_encode($res, JSON_PRETTY_PRINT), true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
-				
-				Stream::reset();
-				echo json_encode((object)$res);
-				Stream::close();
-
-				exit();
 			} else {
 				Error::trigger('La fonction d\'API "' . $function . '" n\'existe pas !');
 			}
@@ -98,23 +95,36 @@ abstract class Rest {
 
 
 	/**
-	 * Formatte la reponse a envoyer au client
+	 * Formatte et envoi la reponse a envoyer au client
 	 * 
 	 * @param any le contenu de la reponse
 	 * @param int le code de retour
 	 * @param string le message de retour
 	 * @param int le code de l'entete HTTP
-	 * @return array la reponse
+	 * @return void
 	 */
-	protected function returnJson($content, $code = 0, $message = '', $status = 200) {
-		http_response_code($status);
-		return [
+	protected function sendResponse($content, $code = 0, $message = '', $status = 200) {
+		$ended = microtime(true);
+		$time = round(($ended - self::$started) * 1000);
+		$response = (object)[
 			'status' => $status,
 			'message' => $message,
 			'code' => $code,
-			'time' => 0,
+			'time' => $time,
 			'content' => $content
 		];
+		http_response_code($status);
+
+		Log::add('Requête REST exécutée.',
+			Log::LEVEL_GOOD, Log::TYPE_QUERY);
+		Log::add('Résultat de la requête REST : "' . print_r(json_encode($response, JSON_PRETTY_PRINT), true) . '".',
+			Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
+		
+		Stream::reset();
+		echo json_encode($response);
+		Stream::close();
+
+		exit();
 	}
 	
 }
