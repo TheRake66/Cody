@@ -18,7 +18,7 @@ use Kernel\IO\Stream;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Error {
+abstract class Error {
 
     /**
      * @var bool Empeche l'appel des evennements dans l'affichage de 

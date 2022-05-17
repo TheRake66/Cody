@@ -20,7 +20,7 @@ use Kernel\URL\Parser;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Router {
+abstract class Router {
 
     /**
 	 * @var array Liste des routes [ route => class ]
@@ -157,8 +157,9 @@ class Router {
 						$word_asked = $split_asked[$i];
 						$word_route = $split_route[$i];
 						if (!empty($word_asked) && !empty($word_route)) {
-							if (substr($word_route, 0, 1) == ':') {
-								$params[substr($word_route, 1)] = $word_asked;
+							if (substr($word_route, 0, 1) === '{' &&
+								substr($word_route, -1) === '}') {
+								$params[substr($word_route, 1, -1)] = $word_asked;
 							} elseif ($word_route != $word_asked) {
 								$match = false;
 							}
@@ -230,78 +231,6 @@ class Router {
 
 		} else {
 			Error::trigger('La route "' . self::getCurrent() . '" n\'est pas une route de composant !');
-		}
-	}
-
-
-	/**
-	 * Appel la fonction API de la route demandée
-	 * 
-	 * @return void
-	 */
-	static function resting() {
-		$class = self::getClass();
-
-		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
-
-		if (Autoloader::getType($class) === 'API') {
-			
-			Log::add('Appel API identifié : "' . $class . '".');
-			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
-
-			$array = [];
-			$function = null;
-			$method = null;
-			if (isset($_GET['rest_function'])) {
-				$array = $_GET;
-				$function = $_GET['rest_function'];
-				$method = 'GET';
-			} elseif (isset($_POST['rest_function'])) {
-				$array = $_POST;
-				$function = $_POST['rest_function'];
-				$method = 'POST';
-			} elseif (isset($_ROUTE['rest_function'])) {
-				$array = $_ROUTE;
-				$function = $_ROUTE['rest_function'];
-				$method = 'ROUTE';
-			} else {
-				Error::trigger('Aucune fonction API n\'a été spécifiée !');
-			}
-			unset($array['rest_function']);			
-
-			Log::add('Exécution de la requête REST (méthode : "' . $method . '", fonction : "' .  $function . '", url : "' . Query::remove('rest_function') . '")...', Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
-			Log::add('Paramètres de la requête REST : "' . print_r($array, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
-
-			$reflect = new \ReflectionClass($class);
-			$methods = $reflect->getMethods();
-			
-			$found = false;
-			foreach ($methods as $method) {
-				if ($method->name == $function) {
-					$found = true;
-					break;
-				}
-			}
-
-			if ($found) {
-				$res = $reflect
-					->getMethod($function)
-					->invoke(null);
-
-				Log::add('Requête REST exécutée.', Log::LEVEL_GOOD, Log::TYPE_QUERY);
-				Log::add('Résultat de la requête REST : "' . print_r(json_encode($res, JSON_PRETTY_PRINT), true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
-				
-				Stream::reset();
-				echo json_encode($res);
-				Stream::close();
-
-				exit();
-			} else {
-				Error::trigger('La fonction d\'API "' . $function . '" n\'existe pas !');
-			}
-
-		} else {
-			Log::add('Aucun appel API.', Log::LEVEL_GOOD);
 		}
 	}
 	

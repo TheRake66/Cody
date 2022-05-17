@@ -17,7 +17,7 @@ use Kernel\HTML\Output;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Less {
+abstract class Less {
 
 	/**
 	 * Charge et lance less

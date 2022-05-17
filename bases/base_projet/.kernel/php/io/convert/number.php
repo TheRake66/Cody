@@ -13,7 +13,7 @@ namespace Kernel\IO\Convert;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Number {
+abstract class Number {
 
     /**
      * Convertit un prix en format europeen

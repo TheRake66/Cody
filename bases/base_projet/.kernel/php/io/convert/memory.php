@@ -13,7 +13,7 @@ namespace Kernel\IO\Convert;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Memory {
+abstract class Memory {
 
 	/**
 	 * @var array Unites de memoire utiliser pour la conversion

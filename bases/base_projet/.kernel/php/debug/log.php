@@ -16,7 +16,7 @@ use Kernel\IO\Path;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Log {
+abstract class Log {
 
 	/**
      * @var int Les niveaux de criticite

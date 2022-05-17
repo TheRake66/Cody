@@ -15,7 +15,7 @@ use Kernel\URL\Location;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Attribute {
+abstract class Attribute {
     
     /**
      * Ajoute un attribut HTML

@@ -15,7 +15,7 @@ use Kernel\Debug\Log;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Hydrate {
+abstract class Hydrate {
 
     /**
      * Hydrate un objet, avec les donnees d'un tableau
@@ -60,7 +60,7 @@ class Hydrate {
      * @param mixed la valeur
      * @return void
      */
-    static function setProperty($obj, $key, $value) {
+    private static function setProperty($obj, $key, $value) {
         if (property_exists($obj, $key)) {
             $prop = new \ReflectionProperty($obj, $key);
             $prop->setAccessible(true);

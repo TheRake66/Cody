@@ -13,7 +13,7 @@ namespace Kernel\URL;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Query {
+abstract class Query {
 
 	/**
 	 * Remplace un parametre de l'url
@@ -61,7 +61,9 @@ class Query {
 	static function remove($name) {
 		$query = $_GET;
 		unset($query[$name]);
-		return Parser::getRoot() . '?' . http_build_query($query);
+		return empty($query) ? 
+			Parser::getRoot() :
+			Parser::getRoot() . '?' . http_build_query($query);
 	}
 
 }

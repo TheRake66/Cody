@@ -15,7 +15,7 @@ use Kernel\Debug\Error;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Autoloader {
+abstract class Autoloader {
 
     /**
      * Initialise l'autoloader

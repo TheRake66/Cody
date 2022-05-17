@@ -16,7 +16,7 @@ use Kernel\IO\Path;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Import {
+abstract class Import {
 
 
     /**

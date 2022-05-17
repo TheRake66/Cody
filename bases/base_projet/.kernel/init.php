@@ -32,7 +32,7 @@ k\Session\Socket::start();
 k\URL\Router::load();
 
 // Verifie si on demande une API
-k\URL\Router::resting();
+k\Communication\Rest::resting();
 
 // Lance le superviseur
 k\Debug\Supervisor::watch();

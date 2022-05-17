@@ -17,7 +17,7 @@ use Kernel\Debug\Log;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Toogle {
+abstract class Toogle {
     
     /**
      * Change la base de donnees courante

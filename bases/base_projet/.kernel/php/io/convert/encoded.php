@@ -13,7 +13,7 @@ namespace Kernel\IO\Convert;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Encoded {
+abstract class Encoded {
 
 	/**
 	 * Coupe une chaine de caractere si elle est trop longue

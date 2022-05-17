@@ -20,7 +20,7 @@ abstract class Unit {
      * @param string le message
      * @return void
      */
-    function fail($message = null) {
+    protected function fail($message = null) {
         if (!is_null($message)) {
             echo $message;
         }
@@ -35,7 +35,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertFalse($bool, $message = 'Doit être faux.') {
+    protected function assertFalse($bool, $message = 'Doit être faux.') {
         if (!is_bool($bool) || $bool) {
             $this->fail($message);
         }
@@ -49,7 +49,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertTrue($bool, $message = 'Doit être vrai.') {
+    protected function assertTrue($bool, $message = 'Doit être vrai.') {
         file_put_contents('a.txt', print_r($bool, true));
         if (!is_bool($bool) || !$bool) {
             $this->fail($message);
@@ -64,7 +64,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertNull($mixed, $message = 'Doit être null.') {
+    protected function assertNull($mixed, $message = 'Doit être null.') {
         if (!is_null($mixed)) {
             $this->fail($message);
         }
@@ -78,7 +78,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertNotNull($mixed, $message = 'Ne doit pas être null.') {
+    protected function assertNotNull($mixed, $message = 'Ne doit pas être null.') {
         if (is_null($mixed)) {
             $this->fail($message);
         }
@@ -93,7 +93,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertType($mixed, $type, $message = 'N\'est pas du type requis.') {
+    protected function assertType($mixed, $type, $message = 'N\'est pas du type requis.') {
         if (gettype($mixed) != $type) {
             $this->fail($message);
         }
@@ -108,7 +108,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertNotType($mixed, $type, $message = 'Est du type indesirable.') {
+    protected function assertNotType($mixed, $type, $message = 'Est du type indesirable.') {
         if (gettype($mixed) == $type) {
             $this->fail($message);
         }
@@ -123,7 +123,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertClass($object, $class, $message = 'N\'est pas de la bonne classe.') {
+    protected function assertClass($object, $class, $message = 'N\'est pas de la bonne classe.') {
         if (get_class($object) != $class) {
             $this->fail($message);
         }
@@ -138,7 +138,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertNotClass($object, $class, $message = 'Est de la classe indesirable.') {
+    protected function assertNotClass($object, $class, $message = 'Est de la classe indesirable.') {
         if (get_class($object) == $class) {
             $this->fail($message);
         }
@@ -154,7 +154,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertEquals($object1, $object2, $message = 'Doit être égales.') {
+    protected function assertEquals($object1, $object2, $message = 'Doit être égales.') {
         if ($object1 != $object2) {
             $this->fail($message);
         }
@@ -170,7 +170,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertNotEquals($object1, $object2, $message = 'Ne doit pas être égales.') {
+    protected function assertNotEquals($object1, $object2, $message = 'Ne doit pas être égales.') {
         if ($object1 == $object2) {
             $this->fail($message);
         }
@@ -185,7 +185,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertSame($object1, $object2, $message = 'Doit être identique.') {
+    protected function assertSame($object1, $object2, $message = 'Doit être identique.') {
         if ($object1 !== $object2) {
             $this->fail($message);
         }
@@ -200,7 +200,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertNotSame($object1, $object2, $message = 'Ne doit pas être identique.') {
+    protected function assertNotSame($object1, $object2, $message = 'Ne doit pas être identique.') {
         if ($object1 === $object2) {
             $this->fail($message);
         }
@@ -215,7 +215,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertSameClass($object1, $object2, $message = 'Doit être de la meme clase.') {
+    protected function assertSameClass($object1, $object2, $message = 'Doit être de la meme clase.') {
         if (get_class($object1) != get_class($object2)) {
             $this->fail($message);
         }
@@ -230,7 +230,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertNotSameClass($object1, $object2, $message = 'Ne doit pas être de la meme clase.') {
+    protected function assertNotSameClass($object1, $object2, $message = 'Ne doit pas être de la meme clase.') {
         if (get_class($object1) == get_class($object2)) {
             $this->fail($message);
         }
@@ -245,7 +245,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertSameType($mixed1, $mixed2, $message = 'Doit être du meme type.') {
+    protected function assertSameType($mixed1, $mixed2, $message = 'Doit être du meme type.') {
         if (gettype($mixed1) != gettype($mixed2)) {
             $this->fail($message);
         }
@@ -260,7 +260,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertNotSameType($mixed1, $mixed2, $message = 'Ne doit pas être du meme type.') {
+    protected function assertNotSameType($mixed1, $mixed2, $message = 'Ne doit pas être du meme type.') {
         if (gettype($mixed1) == gettype($mixed2)) {
             $this->fail($message);
         }
@@ -276,7 +276,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertInArray($mixed, $array, $checktype = false, $message = 'Doit être dans la liste.') {
+    protected function assertInArray($mixed, $array, $checktype = false, $message = 'Doit être dans la liste.') {
         if (!in_array($mixed, $array, $checktype)) {
             $this->fail($message);
         }
@@ -292,7 +292,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertNotInArray($mixed, $array, $checktype = false, $message = 'Ne doit pas être dans la liste.') {
+    protected function assertNotInArray($mixed, $array, $checktype = false, $message = 'Ne doit pas être dans la liste.') {
         if (in_array($mixed, $array, $checktype)) {
             $this->fail($message);
         }
@@ -307,7 +307,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertArraySameValues($array1, $array2, $message = 'Doivent avoir les même valeurs.') {
+    protected function assertArraySameValues($array1, $array2, $message = 'Doivent avoir les même valeurs.') {
         sort($array1);
         sort($array2);
         if ($array1 != $array2) {
@@ -324,7 +324,7 @@ abstract class Unit {
      * @param string le message en cas d'echec
      * @return void
      */
-    function assertArrayNotSameValues($array1, $array2, $message = 'Ne doivent pas avoir les même valeurs.') {
+    protected function assertArrayNotSameValues($array1, $array2, $message = 'Ne doivent pas avoir les même valeurs.') {
         sort($array1);
         sort($array2);
         if ($array1 == $array2) {

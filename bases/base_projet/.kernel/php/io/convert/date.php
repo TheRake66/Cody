@@ -15,7 +15,7 @@ use Kernel\Security\Configuration;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Date {
+abstract class Date {
 
     /**
      * Defini le fuseau horraire
@@ -29,6 +29,21 @@ class Date {
         }
         date_default_timezone_set($zone);
         Log::add('Fuseau horaire défini sur "' . $zone . '".');
+    }
+
+
+    /**
+     * Calcul le temps d'execution d'une fonction
+     * 
+     * @param string la fonction a calculer
+     * @return float le temps d'execution en milliseconde
+     */
+    static function timeElapsed($callback) {
+        $started = microtime(true);
+        $callback();
+        $ended = microtime(true);
+        $time = round(($ended - $started) * 1000);
+        return $time;
     }
     
 }

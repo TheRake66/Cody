@@ -15,7 +15,7 @@ use Kernel\Debug\Error;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Validation {	
+abstract class Validation {	
 
 	/**
 	 * Verifie si un mot de passe est robuste

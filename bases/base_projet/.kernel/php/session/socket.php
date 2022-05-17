@@ -19,7 +19,7 @@ use Kernel\Security\Cookie;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Socket {
+abstract class Socket {
 
 	/**
 	 * Initialise la session

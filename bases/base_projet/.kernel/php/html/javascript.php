@@ -15,7 +15,7 @@ use Kernel\HTML\Import;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Javascript {
+abstract class Javascript {
 
     /**
      * Envoi une alerte javascript

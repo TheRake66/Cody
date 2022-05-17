@@ -15,7 +15,7 @@ use PDO;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Transaction {
+abstract class Transaction {
 
     /**
      * Demarre une transaction SQL

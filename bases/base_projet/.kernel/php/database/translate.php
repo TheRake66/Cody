@@ -15,7 +15,7 @@ use DateTime;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Translate {
+abstract class Translate {
 
     /**
      * Convertit un parametre en parametre SQL

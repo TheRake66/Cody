@@ -17,7 +17,7 @@ use Kernel\IO\Convert\Dataset;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Mail {
+abstract class Mail {
 
 	/**
 	 * Envoi un mail

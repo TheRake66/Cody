@@ -17,7 +17,7 @@ use Kernel\Debug\Log;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Output {
+abstract class Output {
 
     /**
      * Prepare, execute et retourne une requete
@@ -43,7 +43,7 @@ class Output {
      * @param mixed le resultat de la requete
      * @return mixed le resultat de la requete
      */
-    static function return($data) {
+    static function returnLog($data) {
         Log::add('Résultat de la requête SQL : "' . print_r($data, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
         return $data;
     }

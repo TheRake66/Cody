@@ -13,7 +13,7 @@ namespace Kernel\Database\Factory;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Builder {
+abstract class Builder {
 
     /**
      * Construit l'instruction de selecteur de colonnes

@@ -1,5 +1,7 @@
 <?php
 namespace API{NAMESPACE_SLASH};
+
+use Kernel\Communication\Rest;
 use Kernel\DataBase\Factory\Crud;
 use Kernel\Security\Vulnerability\XSS;
 use Kernel\Security\Vulnerability\CSRF;
@@ -15,7 +17,7 @@ use Kernel\Security\Validation;
  * @package API{NAMESPACE_SLASH}
  * @category API
  */
-class {NAME_UPPER} {
+class {NAME_UPPER} extends Rest {
 
 }
 

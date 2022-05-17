@@ -18,7 +18,7 @@ use PDO;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Statement {
+abstract class Statement {
     
     /**
      * @var array Instance PDO [string => \PDO]

@@ -18,7 +18,7 @@ use Kernel\IO\Stream;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Location {
+abstract class Location {
 
 	/**
      * @var string les methodes d'envoie

@@ -15,7 +15,7 @@ use Kernel\Security\Configuration;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Stream {
+abstract class Stream {
 	
 
 	/**

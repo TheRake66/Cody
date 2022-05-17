@@ -17,7 +17,7 @@ use PDO;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Query {
+abstract class Query {
 
     /**
      * Execture une requete de mise a jour
@@ -27,7 +27,7 @@ class Query {
      * @return bool si la requete a reussite
      */
     static function execute($sql, $params = []) {
-        return Output::return(Output::send($sql, $params)->errorCode() === '00000');
+        return Output::returnLog(Output::send($sql, $params)->errorCode() === '00000');
     }
 
     
@@ -39,7 +39,7 @@ class Query {
      * @return array la ligne retournee
      */
     static function fetchRow($sql, $params = []) {
-        return Output::return(Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC));
+        return Output::returnLog(Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC));
     }
 
     
@@ -51,7 +51,7 @@ class Query {
      * @return array les lignes retournees
      */
     static function fetchAll($sql, $params = []) {
-        return Output::return(Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC));
+        return Output::returnLog(Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC));
     }
 
     
@@ -65,7 +65,7 @@ class Query {
     static function fetchCell($sql, $params = []) {
         $res = Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
         if (!is_null($res) && !empty($res)) {
-            return Output::return(array_values($res)[0]);
+            return Output::returnLog(array_values($res)[0]);
         }
     }
 
@@ -81,8 +81,8 @@ class Query {
     static function fetchObject($sql, $class, $params = []) {
         $_ = Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
         return !empty($_) ? 
-            Output::return(Hydrate::hydrate($_, $class)) :
-            Output::return(null);
+            Output::returnLog(Hydrate::hydrate($_, $class)) :
+            Output::returnLog(null);
     }
 
     
@@ -97,8 +97,8 @@ class Query {
     static function fetchObjects($sql, $class, $params = []) {
         $_ = Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
         return !empty($_) ? 
-            Output::return(Hydrate::hydrateMany($_, $class)) :
-            Output::return([]);
+            Output::returnLog(Hydrate::hydrateMany($_, $class)) :
+            Output::returnLog([]);
     }
 
 }

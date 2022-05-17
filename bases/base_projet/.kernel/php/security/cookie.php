@@ -15,7 +15,7 @@ use Kernel\Security\Configuration;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Cookie {
+abstract class Cookie {
 
 	/**
 	 * Defini les parametres du cookie de session

@@ -15,7 +15,7 @@ use Kernel\URL\Location;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class SSL {
+abstract class SSL {
 
 	/**
 	 * Verifie si le protocole SSL est actif, sinon redirige vers le protocole HTTPS

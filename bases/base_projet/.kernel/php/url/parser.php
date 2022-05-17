@@ -13,7 +13,7 @@ namespace Kernel\URL;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Parser {
+abstract class Parser {
 
 	/**
 	 * Retourne le parametre de retour

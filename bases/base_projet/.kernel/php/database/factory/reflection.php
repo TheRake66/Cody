@@ -15,7 +15,7 @@ use Kernel\Error;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Reflection {
+abstract class Reflection {
 
     /**
      * Retourne le nom de la base de donnee d'un objet ou d'une classe DTO

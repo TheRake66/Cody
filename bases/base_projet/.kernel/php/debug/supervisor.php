@@ -16,7 +16,7 @@ use Kernel\URL\Parser;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Supervisor {
+abstract class Supervisor {
 
     /**
      * @var int Temps UNIX en MS au demarrage du superviseur

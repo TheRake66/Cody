@@ -17,7 +17,7 @@ use Kernel\IO\Path;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Doctype {
+abstract class Doctype {
 
     /**
      * Ouvre une balise HTML et ecris l'entete

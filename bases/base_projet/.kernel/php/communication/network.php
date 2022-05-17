@@ -13,7 +13,7 @@ namespace Kernel\Communication;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Network {
+abstract class Network {
 
 	/**
 	 * Retourne l'ip du client

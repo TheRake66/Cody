@@ -15,7 +15,7 @@ use Kernel\IO\Stream;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-class Image {
+abstract class Image {
 
     /**
      * Compresse une image avec la taille souhaiter
