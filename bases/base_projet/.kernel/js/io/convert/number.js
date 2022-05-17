@@ -1,6 +1,3 @@
-import Html from './html.js';
-
-
 
 /**
  * Librairie de conversion
