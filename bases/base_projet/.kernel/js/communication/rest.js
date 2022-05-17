@@ -1,4 +1,4 @@
-import Http from './http.js';
+import HTTP from './http.js';
 import Location from '../url/location.js';
 
 
@@ -114,7 +114,7 @@ export default class Rest {
             param = {};
         }
         param.rest_function = rest;
-        Http.send(
+        HTTP.send(
             Location.build(route),
             response => {
                 if (response !== '') {
@@ -126,16 +126,18 @@ export default class Rest {
                         continu = false;
                     }
                     if (continu) {
-                        if (json !== null) {
+                        if (json.content !== null) {
                             if (sucess) sucess(json);
+                        } else if (json.code === 0) {
+                            if (empty) empty(json);
                         } else {
-                            if (empty) empty();
+                            if (failed) failed(json);
                         }
                     } else {
                         if (failed) failed();
                     }
                 } else {
-                    if (empty) empty();
+                    if (failed) failed();
                 }
             },
             failed,
@@ -170,7 +172,7 @@ export default class Rest {
             param = {};
         }
         param.rest_function = rest;
-        Http.send(
+        HTTP.send(
             Location.build(route),
             response => {
                 if (response !== '') {
@@ -182,12 +184,14 @@ export default class Rest {
                         continu = false;
                     }
                     if (continu) {
-                        if (json !== null && json.length > 0) {
-                            if (pre) pre();
-                            json.forEach(element => sucess(element));
-                            if (post) post();
+                        if (json.content !== null && json.content.length > 0) {
+                            if (pre) pre(json);
+                            json.forEach(element => sucess(json, element));
+                            if (post) post(json);
+                        } else if (json.code === 0) {
+                            if (empty) empty(json);
                         } else {
-                            if (empty) empty();
+                            if (failed) failed(json);
                         }
                     } else {
                         if (failed) failed();

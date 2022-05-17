@@ -8,7 +8,7 @@
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-export default class Http {
+export default class HTTP {
 
     /**
      * Les methodes d'envoie
@@ -17,6 +17,8 @@ export default class Http {
      */
     static METHOD_GET = 'GET';
     static METHOD_POST = 'POST';
+    static METHOD_PUT = 'PUT';
+    static METHOD_DELETE = 'DELETE';
     
 
     /**
@@ -32,9 +34,9 @@ export default class Http {
      * @param {boolean} asynchronous si la requete s'execute en asynchrone
      * @returns {void}
      */
-    static send(url, success = null, failed = null, expired = null, method = 'GET', params = {}, timeout = 0, asynchronous = true) {
+    static send(url, success = null, failed = null, expired = null, method = HTTP.METHOD_GET, params = {}, timeout = 0, asynchronous = true) {
         let xml = new XMLHttpRequest();
-        if (method === Http.METHOD_GET && Object.keys(params).length !== 0) {
+        if (method === HTTP.METHOD_GET && Object.keys(params).length !== 0) {
             url += '?' + (new URLSearchParams(params)).toString();
         }
         xml.open(method, url, asynchronous);
@@ -46,7 +48,7 @@ export default class Http {
                 success(xml.response);
             }
         }
-        if (method === Http.METHOD_POST) {
+        if (method === HTTP.METHOD_POST) {
             let frm = new FormData();
             for (let name in params) {
                 let value = params[name];
