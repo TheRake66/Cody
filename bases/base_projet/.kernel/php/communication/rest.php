@@ -103,7 +103,7 @@ abstract class Rest {
 	 * @param int le code de l'entete HTTP
 	 * @return void
 	 */
-	protected function sendResponse($content, $code = 0, $message = '', $status = 200) {
+	protected function sendResponse($content = null, $code = 0, $message = '', $status = 200) {
 		$ended = microtime(true);
 		$time = round(($ended - self::$started) * 1000);
 		$response = (object)[
