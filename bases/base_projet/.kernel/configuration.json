@@ -13,7 +13,8 @@
         "show_error_message": true,
         "show_supervisor": true,
         "wait_dom_loaded": true,
-        "delay_after_load": 200
+        "delay_after_load": 200,
+        "api_beautify_json": false
     },
     "log": {
         "use_log_file": true,

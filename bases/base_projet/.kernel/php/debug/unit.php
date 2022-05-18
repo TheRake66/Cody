@@ -50,7 +50,6 @@ abstract class Unit {
      * @return void
      */
     protected function assertTrue($bool, $message = 'Doit être vrai.') {
-        file_put_contents('a.txt', print_r($bool, true));
         if (!is_bool($bool) || !$bool) {
             $this->fail($message);
         }

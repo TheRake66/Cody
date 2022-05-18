@@ -4,6 +4,7 @@ namespace Kernel\Communication;
 use Kernel\Debug\Log;
 use Kernel\IO\Autoloader;
 use Kernel\IO\Stream;
+use Kernel\Security\Configuration;
 use Kernel\URL\Parser;
 use Kernel\URL\Router;
 
@@ -39,6 +40,7 @@ abstract class Rest {
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
 			$object = new $class();
+			$object->started = microtime(true);
 			$method = $_SERVER['REQUEST_METHOD'];
 			$methods = Router::getMethods();
 			if (is_array($methods) && in_array($method, $methods) ||
@@ -70,7 +72,6 @@ abstract class Rest {
 
 				$function = strtolower($method);
 				if (method_exists($object, $function)) {
-					$object->started = microtime(true);
 					$object->$function($route, $query, $body);
 					$object->sendResponse();
 				} else {
@@ -111,8 +112,9 @@ abstract class Rest {
 		Log::add('Résultat de la requête REST : "' . print_r(json_encode($response, JSON_PRETTY_PRINT), true) . '".',
 			Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
 		
+		$beauty = Configuration::get()->render->api_beautify_json;
 		Stream::reset();
-		echo json_encode($response);
+		echo json_encode($response, !$beauty ? 0 : JSON_PRETTY_PRINT);
 		Stream::close();
 
 		exit();
@@ -146,7 +148,7 @@ abstract class Rest {
 		if (isset($array[$name])) {
 			return $array[$name];
 		} else {
-			$this->sendResponse(null, 1, 'Le paramètre "' . $name . '" n\'existe pas.', 400);
+			$this->sendResponse(null, 1, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
 		}
 	}
 	

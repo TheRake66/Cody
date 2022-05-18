@@ -5,7 +5,6 @@ use Kernel\Debug\Error;
 use Kernel\Debug\Log;
 use Kernel\IO\Autoloader;
 use Kernel\IO\Path;
-use Kernel\IO\Stream;
 use Kernel\URL\Parser;
 
 
@@ -15,7 +14,7 @@ use Kernel\URL\Parser;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\IO
+ * @package Kernel\URL
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
@@ -33,7 +32,7 @@ abstract class Router {
 	const METHOD_PATCH = 'PATCH';
 
     /**
-	 * @var array Liste des routes [ route => [ class, method ] ]
+	 * @var array Liste des routes [ route => [ class, methods ] ]
      */
 	private static $routes = [];
 
@@ -137,16 +136,16 @@ abstract class Router {
 			if (!is_null($asked)) {
 				$route = self::whoMatch($asked);
 				if (is_null($route)) {
-					if (self::whoMatch(self::$notfound)) {
+					if (self::exists(self::$notfound)) {
 						http_response_code(404);
 						$route = self::$notfound;
-					} elseif (self::whoMatch(self::$default)) {
+					} elseif (self::exists(self::$default)) {
 						$route = self::$default;
 					} else {
 						$route = self::getFirst();
 					}
 				}
-			} elseif (self::whoMatch(self::$default)) {
+			} elseif (self::exists(self::$default)) {
 				$route = self::$default;
 			} else {
 				$route = self::getFirst();
