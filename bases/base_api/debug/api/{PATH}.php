@@ -25,7 +25,7 @@ class {NAME_UPPER} extends Rest {
      * @param array $params Paramètres de la requête
      * @return mixed Résultat de l'appel
      */
-    function get($param) {
+    function get($params) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -36,7 +36,7 @@ class {NAME_UPPER} extends Rest {
      * @param array $params Paramètres de la requête
      * @return mixed Résultat de l'appel
      */
-    function post($param) {
+    function post($params) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -47,7 +47,7 @@ class {NAME_UPPER} extends Rest {
      * @param array $params Paramètres de la requête
      * @return mixed Résultat de l'appel
      */
-    function put($param) {
+    function put($params) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -58,7 +58,7 @@ class {NAME_UPPER} extends Rest {
      * @param array $params Paramètres de la requête
      * @return mixed Résultat de l'appel
      */
-    function delete($param) {
+    function delete($params) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -69,7 +69,7 @@ class {NAME_UPPER} extends Rest {
      * @param array $params Paramètres de la requête
      * @return mixed Résultat de l'appel
      */
-    function patch($param) {
+    function patch($params) {
         Error::trigger('Fonction non implémentée');
     }
 
