@@ -22,17 +22,8 @@ use Kernel\URL\Parser;
  */
 abstract class Router {
 
-	/**
-     * @var string les methodes d'envoie
-	 */
-    const METHOD_GET = 'GET';
-    const METHOD_POST = 'POST';
-    const METHOD_PUT = 'PUT';
-    const METHOD_DELETE = 'DELETE';
-	const METHOD_PATCH = 'PATCH';
-
     /**
-	 * @var array Liste des routes [ route => [ class, method ] ]
+	 * @var array Liste des routes [ route => class ]
      */
 	private static $routes = [];
 
@@ -90,11 +81,10 @@ abstract class Router {
 	 * 
 	 * @param string la route
 	 * @param object classe du controleur
-	 * @param string la methode HTTP
 	 * @return void
      */
-	static function add($route, $class, $method = null) {
-		self::$routes[$route] = [ $class, $method ];
+	static function add($route, $class) {
+		self::$routes[$route] = $class;
 	}
 
 
@@ -206,17 +196,7 @@ abstract class Router {
 	 * @return object la classe
 	 */
 	static function getClass() {
-		return self::$routes[self::getCurrent()][0];
-	}
-
-
-	/**
-	 * Retourne la methode liee a la route actuelle
-	 * 
-	 * @return string la methode
-	 */
-	static function getMethod() {
-		return self::$routes[self::getCurrent()][1];
+		return self::$routes[self::getCurrent()];
 	}
 
 

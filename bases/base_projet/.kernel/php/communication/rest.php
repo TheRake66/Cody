@@ -21,6 +21,15 @@ use Kernel\URL\Router;
  */
 abstract class Rest {
 
+	/**
+     * @var string les methodes d'envoie
+	 */
+    const METHOD_GET = 'GET';
+    const METHOD_POST = 'POST';
+    const METHOD_PUT = 'PUT';
+    const METHOD_DELETE = 'DELETE';
+	const METHOD_PATCH = 'PATCH';
+
     /**
      * @var int Temps UNIX en MS a l'execution de la requete
 	 */
@@ -42,20 +51,20 @@ abstract class Rest {
 			Log::add('Appel API identifié : "' . $class . '".');
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
-			$method = Router::getMethod();
-			$param = [];
+			$method = $_SERVER['REQUEST_METHOD'];
+			$params = [];
 			$function = strtolower($method);
 			switch ($method) {
-				case Router::METHOD_GET:
-					$param = $_GET;
+				case self::METHOD_GET:
+					$params = $_GET;
 					break;
-				case Router::METHOD_POST:
-					$param = $_POST;
+				case self::METHOD_POST:
+					$params = $_POST;
 					break;
-				case Router::METHOD_PUT:
-				case Router::METHOD_DELETE:
-				case Router::METHOD_PATCH:
-					parse_str(file_get_contents("php://input"), $param);
+				case self::METHOD_PUT:
+				case self::METHOD_DELETE:
+				case self::METHOD_PATCH:
+					parse_str(file_get_contents("php://input"), $params);
 					break;
 				default:
 					Error::trigger('La méthode "' . $method . '" n\'est pas supportée.');
@@ -64,12 +73,12 @@ abstract class Rest {
 
 			Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Query::remove('rest_function') . '")...',
 				Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
-			Log::add('Paramètres de la requête REST : "' . print_r($param, true) . '".',
+			Log::add('Paramètres de la requête REST : "' . print_r($params, true) . '".',
 				Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
 
 			$object = new $class();
 			if (method_exists($object, $function)) {
-				$object->$function($param);
+				$object->$function($params);
 			} else {
 				Error::trigger('La méthode d\'API "' . $function . '" n\'existe pas dans la classe "' . $class . '" !');
 			}
