@@ -21,19 +21,10 @@ use Kernel\URL\Router;
  */
 abstract class Rest {
 
-	/**
-     * @var string les methodes d'envoie
-	 */
-    const METHOD_GET = 'GET';
-    const METHOD_POST = 'POST';
-    const METHOD_PUT = 'PUT';
-    const METHOD_DELETE = 'DELETE';
-	const METHOD_PATCH = 'PATCH';
-
     /**
      * @var int Temps UNIX en MS a l'execution de la requete
 	 */
-    private static $started;
+    private $started;
 
 
 	/**
@@ -43,50 +34,52 @@ abstract class Rest {
 	 */
 	static function resting() {
 		$class = Router::getClass();
-
 		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
-
 		if (Autoloader::getType($class) === 'API') {
-			
 			Log::add('Appel API identifié : "' . $class . '".');
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
-			$method = $_SERVER['REQUEST_METHOD'];
-			$route = Router::getCurrent();
-			$query = Router::getParams();
-			$body = [];
-			$function = strtolower($method);
-			switch ($method) {
-				case self::METHOD_GET:
-					$body = $_GET;
-					break;
-				case self::METHOD_POST:
-					$body = $_POST;
-					break;
-				case self::METHOD_PUT:
-				case self::METHOD_DELETE:
-				case self::METHOD_PATCH:
-					parse_str(file_get_contents("php://input"), $body);
-					break;
-				default:
-					Error::trigger('La méthode "' . $method . '" n\'est pas supportée.');
-					break;
-			}	
-
-			Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::getCurrent() . '")...',
-				Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
-			Log::add('Paramètres de la requête REST : "' . print_r($body, true) . '".',
-				Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
-
 			$object = new $class();
-			if (method_exists($object, $function)) {
-				self::$started = microtime(true);
-				$object->$function($route, $query, $body);
-				Error::trigger('La méthode d\'API "' . $function . '" n\'a rien retourné !');
-			} else {
-				Error::trigger('La méthode d\'API "' . $function . '" n\'existe pas dans la classe "' . $class . '" !');
-			}
+			$method = $_SERVER['REQUEST_METHOD'];
+			$methods = Router::getMethods();
+			if (is_array($methods) && in_array($method, $methods) ||
+				!is_array($methods) && ($methods === $method || $methods === Router::METHOD_ALL)) {
+				$route = Router::getCurrent();
+				$query = Router::getParams();
+				$body = [];
+				switch ($method) {
+					case Router::METHOD_GET:
+						$body = $_GET;
+						break;
+					case Router::METHOD_POST:
+						$body = $_POST;
+						break;
+					case Router::METHOD_PUT:
+					case Router::METHOD_DELETE:
+					case Router::METHOD_PATCH:
+						parse_str(file_get_contents("php://input"), $body);
+						break;
+					default:
+						$object->sendResponse(null, 0, 'La méthode "' . $method . '" n\'est pas supportée par le serveur !', 405);
+						break;
+				}	
 
+				Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::getCurrent() . '")...',
+					Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
+				Log::add('Paramètres de la requête REST : "' . print_r($body, true) . '".',
+					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
+
+				$function = strtolower($method);
+				if (method_exists($object, $function)) {
+					$object->started = microtime(true);
+					$object->$function($route, $query, $body);
+					$object->sendResponse();
+				} else {
+					$object->sendResponse(null, 0, 'La méthode d\'API "' . $function . '" n\'existe pas dans la ressource !', 500);
+				}
+			} else {
+				$object->sendResponse(null, 0, 'La méthode "' . $method . '" n\'est pas supportée par cette ressource !', 405);
+			}
 		} else {
 			Log::add('Aucun appel API.', Log::LEVEL_GOOD);
 		}
@@ -104,7 +97,7 @@ abstract class Rest {
 	 */
 	protected function sendResponse($content = null, $code = 0, $message = '', $status = 200) {
 		$ended = microtime(true);
-		$time = round(($ended - self::$started) * 1000);
+		$time = round(($ended - $this->started) * 1000);
 		$response = (object)[
 			'status' => $status,
 			'message' => $message,

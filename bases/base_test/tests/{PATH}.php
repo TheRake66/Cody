@@ -21,7 +21,7 @@ class {NAME_UPPER} extends Unit {
      * @return void
      */
     function run() {
-        Error::trigger('Fonction non implémentée');
+        $this->fail('Test non implémenté !');
     }
 
 }

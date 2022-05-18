@@ -71,24 +71,6 @@ export default class Rest {
     
 
     /**
-     * Execute une requete REST de type POST puis l'envoi a la fonction de succes
-     * 
-     * @param {string} route la route
-     * @param {function} sucess fonction anonyme appeler lors de la reponse
-     * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} failed fonction anonyme appeler si echec
-     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
-     * @param {Array} param les parametres supplementaires dans le corps de la requete
-     * @param {Number} timeout le temps d'attente avant echec
-     * @param {boolean} asynchronous si la requete s'execute en asynchrone
-     * @returns {void}
-     */
-    static post(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_POST);
-    }
-    
-
-    /**
      * Execute une requete REST de type PUT puis l'envoi a la fonction de succes
      * 
      * @param {string} route la route

@@ -22,8 +22,18 @@ use Kernel\URL\Parser;
  */
 abstract class Router {
 
+	/**
+     * @var string les methodes d'envoie
+	 */
+    const METHOD_ALL = 'ALL';
+    const METHOD_GET = 'GET';
+    const METHOD_POST = 'POST';
+    const METHOD_PUT = 'PUT';
+    const METHOD_DELETE = 'DELETE';
+	const METHOD_PATCH = 'PATCH';
+
     /**
-	 * @var array Liste des routes [ route => class ]
+	 * @var array Liste des routes [ route => [ class, method ] ]
      */
 	private static $routes = [];
 
@@ -81,10 +91,11 @@ abstract class Router {
 	 * 
 	 * @param string la route
 	 * @param object classe du controleur
+	 * @param array la ou les methodes a executer
 	 * @return void
      */
-	static function add($route, $class) {
-		self::$routes[$route] = $class;
+	static function add($route, $class, $methods = null) {
+		self::$routes[$route] = [ $class, $methods ];
 	}
 
 
@@ -94,9 +105,9 @@ abstract class Router {
 	 * @param array liste des routes
 	 * @return void
 	 */
-	static function addMany($array) {
-		foreach ($array as $route => $class) {
-			self::add($route, $class);
+	static function addMany($routes) {
+		foreach ($routes as $route => $array) {
+			self::add($route, $array[0], $array[1]);
 		}
 	}
 
@@ -160,7 +171,7 @@ abstract class Router {
 	static function whoMatch($asked) {
 		if (!is_null($asked)) {
 			$split_asked = explode('/', $asked);
-			foreach (self::$routes as $route => $Controller) {
+			foreach (self::$routes as $route => $array) {
 				$split_route = explode('/', $route);
 				if (count($split_route) == count($split_asked)) {
 					$i = 0;
@@ -196,7 +207,7 @@ abstract class Router {
 	 */
 	static function getAsked() {
 		if (isset($_SERVER['PATH_INFO'])) {
-			return$_SERVER['PATH_INFO'];
+			return $_SERVER['PATH_INFO'];
 		} elseif (isset($_SERVER['REDIRECT_URL'])) {
 			return substr($_SERVER['REDIRECT_URL'], strlen($_SERVER['REDIRECT_BASE']));
 		}
@@ -209,7 +220,17 @@ abstract class Router {
 	 * @return object la classe
 	 */
 	static function getClass() {
-		return self::$routes[self::getCurrent()];
+		return self::$routes[self::getCurrent()][0];
+	}
+
+
+	/**
+	 * Retourne la ou les methodes liees a la route actuelle
+	 * 
+	 * @return array la ou les methodes
+	 */
+	static function getMethods() {
+		return self::$routes[self::getCurrent()][1];
 	}
 
 	

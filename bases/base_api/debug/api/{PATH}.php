@@ -29,7 +29,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel
      */
     function get($route, $query, $body) {
-        Error::trigger('Fonction non implémentée');
+        $this->sendResponse(null, 0, 'Fonction non implémentée !', 500);
     }
 
 
@@ -42,7 +42,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel
      */
     function post($route, $query, $body) {
-        Error::trigger('Fonction non implémentée');
+        $this->sendResponse(null, 0, 'Fonction non implémentée !', 500);
     }
 
 
@@ -55,7 +55,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel
      */
     function put($route, $query, $body) {
-        Error::trigger('Fonction non implémentée');
+        $this->sendResponse(null, 0, 'Fonction non implémentée !', 500);
     }
 
 
@@ -68,7 +68,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel
      */
     function delete($route, $query, $body) {
-        Error::trigger('Fonction non implémentée');
+        $this->sendResponse(null, 0, 'Fonction non implémentée !', 500);
     }
 
 
@@ -81,7 +81,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel
      */
     function patch($route, $query, $body) {
-        Error::trigger('Fonction non implémentée');
+        $this->sendResponse(null, 0, 'Fonction non implémentée !', 500);
     }
 
 }
