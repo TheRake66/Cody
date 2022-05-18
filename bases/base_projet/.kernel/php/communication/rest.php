@@ -5,7 +5,7 @@ use Kernel\Debug\Error;
 use Kernel\Debug\Log;
 use Kernel\IO\Autoloader;
 use Kernel\IO\Stream;
-use Kernel\URL\Query;
+use Kernel\URL\Parser;
 use Kernel\URL\Router;
 
 
@@ -52,33 +52,34 @@ abstract class Rest {
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
 			$method = $_SERVER['REQUEST_METHOD'];
-			$params = [];
+			$route = $GLOBALS['_ROUTE'];
+			$query = [];
 			$function = strtolower($method);
 			switch ($method) {
 				case self::METHOD_GET:
-					$params = $_GET;
+					$query = $_GET;
 					break;
 				case self::METHOD_POST:
-					$params = $_POST;
+					$query = $_POST;
 					break;
 				case self::METHOD_PUT:
 				case self::METHOD_DELETE:
 				case self::METHOD_PATCH:
-					parse_str(file_get_contents("php://input"), $params);
+					parse_str(file_get_contents("php://input"), $query);
 					break;
 				default:
 					Error::trigger('La méthode "' . $method . '" n\'est pas supportée.');
 					break;
 			}	
 
-			Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Query::remove('rest_function') . '")...',
+			Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::getCurrent() . '")...',
 				Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
-			Log::add('Paramètres de la requête REST : "' . print_r($params, true) . '".',
+			Log::add('Paramètres de la requête REST : "' . print_r($query, true) . '".',
 				Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
 
 			$object = new $class();
 			if (method_exists($object, $function)) {
-				$object->$function($params);
+				$object->$function($route, $query);
 			} else {
 				Error::trigger('La méthode d\'API "' . $function . '" n\'existe pas dans la classe "' . $class . '" !');
 			}

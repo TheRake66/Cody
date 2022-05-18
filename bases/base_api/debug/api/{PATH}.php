@@ -1,6 +1,7 @@
 <?php
 namespace API{NAMESPACE_SLASH};
 
+use Kernel\Debug\Error;
 use Kernel\Communication\Rest;
 use Kernel\DataBase\Factory\Crud;
 use Kernel\Security\Vulnerability\XSS;
@@ -22,10 +23,11 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode GET
      * 
-     * @param array $params Paramètres de la requête
+     * @param array $route Paramètres de la route
+     * @param array $query Paramètres de la requête
      * @return mixed Résultat de l'appel
      */
-    function get($params) {
+    function get($route, $query) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -33,10 +35,11 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode POST
      * 
-     * @param array $params Paramètres de la requête
+     * @param array $route Paramètres de la route
+     * @param array $query Paramètres de la requête
      * @return mixed Résultat de l'appel
      */
-    function post($params) {
+    function post($route, $query) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -44,10 +47,11 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode PUT
      * 
-     * @param array $params Paramètres de la requête
+     * @param array $route Paramètres de la route
+     * @param array $query Paramètres de la requête
      * @return mixed Résultat de l'appel
      */
-    function put($params) {
+    function put($route, $query) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -55,10 +59,11 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode DELETE
      * 
-     * @param array $params Paramètres de la requête
+     * @param array $route Paramètres de la route
+     * @param array $query Paramètres de la requête
      * @return mixed Résultat de l'appel
      */
-    function delete($params) {
+    function delete($route, $query) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -66,10 +71,11 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode PATCH
      * 
-     * @param array $params Paramètres de la requête
+     * @param array $route Paramètres de la route
+     * @param array $query Paramètres de la requête
      * @return mixed Résultat de l'appel
      */
-    function patch($params) {
+    function patch($route, $query) {
         Error::trigger('Fonction non implémentée');
     }
 
