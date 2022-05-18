@@ -79,6 +79,7 @@ abstract class Rest {
 
 			$object = new $class();
 			if (method_exists($object, $function)) {
+				self::$started = microtime(true);
 				$object->$function($route, $query);
 			} else {
 				Error::trigger('La méthode d\'API "' . $function . '" n\'existe pas dans la classe "' . $class . '" !');
