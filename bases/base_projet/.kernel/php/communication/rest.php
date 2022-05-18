@@ -82,6 +82,7 @@ abstract class Rest {
 			if (method_exists($object, $function)) {
 				self::$started = microtime(true);
 				$object->$function($route, $query, $body);
+				Error::trigger('La méthode d\'API "' . $function . '" n\'a rien retourné !');
 			} else {
 				Error::trigger('La méthode d\'API "' . $function . '" n\'existe pas dans la classe "' . $class . '" !');
 			}
@@ -123,6 +124,48 @@ abstract class Rest {
 		Stream::close();
 
 		exit();
+	}
+
+
+	/**
+	 * Verifi si une route correspond a la route demandée, si oui, 
+	 * on execute la fonction correspondante
+	 * 
+	 * @param string la route demandée
+	 * @param object la fonction a executer
+	 * @return void
+	 */
+	protected function ifMatch($route, $callback) {
+		if (Router::getCurrent() === $route) {
+			$callback();
+		}
+	}
+
+
+	/**
+	 * Renvoi l'erreur si aucune route ne correspond
+	 * 
+	 * @return void
+	 */
+	protected function noneMatch() {
+		$this->sendResponse(null, 1, 'Aucune route ne correspond à cette URL pour cette méthode.', 404);
+	}
+
+
+	/**
+	 * Retourne un parametre du tableau, si il n'est pas trouvé,
+	 * on renvoi une erreur
+	 * 
+	 * @param array le tableau de parametres
+	 * @param string le nom du parametre
+	 * @return any la valeur du parametre
+	 */
+	protected function data($array, $name) {
+		if (isset($array[$name])) {
+			return $array[$name];
+		} else {
+			$this->sendResponse(null, 1, 'Le paramètre "' . $name . '" n\'existe pas.', 400);
+		}
 	}
 	
 }
