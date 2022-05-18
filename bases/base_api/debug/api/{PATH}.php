@@ -23,11 +23,12 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode GET
      * 
-     * @param array $route Paramètres de la route
-     * @param array $query Paramètres de la requête
+     * @param string $route La route de l'appel
+     * @param array $query Paramètres de la route
+     * @param array $body Corps de la requête
      * @return mixed Résultat de l'appel
      */
-    function get($route, $query) {
+    function get($route, $query, $body) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -35,11 +36,12 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode POST
      * 
-     * @param array $route Paramètres de la route
-     * @param array $query Paramètres de la requête
+     * @param string $route La route de l'appel
+     * @param array $query Paramètres de la route
+     * @param array $body Corps de la requête
      * @return mixed Résultat de l'appel
      */
-    function post($route, $query) {
+    function post($route, $query, $body) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -47,11 +49,12 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode PUT
      * 
-     * @param array $route Paramètres de la route
-     * @param array $query Paramètres de la requête
+     * @param string $route La route de l'appel
+     * @param array $query Paramètres de la route
+     * @param array $body Corps de la requête
      * @return mixed Résultat de l'appel
      */
-    function put($route, $query) {
+    function put($route, $query, $body) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -59,11 +62,12 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode DELETE
      * 
-     * @param array $route Paramètres de la route
-     * @param array $query Paramètres de la requête
+     * @param string $route La route de l'appel
+     * @param array $query Paramètres de la route
+     * @param array $body Corps de la requête
      * @return mixed Résultat de l'appel
      */
-    function delete($route, $query) {
+    function delete($route, $query, $body) {
         Error::trigger('Fonction non implémentée');
     }
 
@@ -71,11 +75,12 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode PATCH
      * 
-     * @param array $route Paramètres de la route
-     * @param array $query Paramètres de la requête
+     * @param string $route La route de l'appel
+     * @param array $query Paramètres de la route
+     * @param array $body Corps de la requête
      * @return mixed Résultat de l'appel
      */
-    function patch($route, $query) {
+    function patch($route, $query, $body) {
         Error::trigger('Fonction non implémentée');
     }
 
