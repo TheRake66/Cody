@@ -89,6 +89,19 @@ abstract class Router {
 
 
 	/**
+	 * Ajoute plusieurs routes
+	 * 
+	 * @param array liste des routes
+	 * @return void
+	 */
+	static function addMany($array) {
+		foreach ($array as $route => $class) {
+			self::add($route, $class);
+		}
+	}
+
+
+	/**
 	 * Verifie si une route existe
 	 * 
 	 * @param string la route
