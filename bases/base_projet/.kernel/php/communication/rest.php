@@ -1,7 +1,6 @@
 <?php
 namespace Kernel\Communication;
 
-use Kernel\Debug\Error;
 use Kernel\Debug\Log;
 use Kernel\IO\Autoloader;
 use Kernel\IO\Stream;
@@ -125,23 +124,13 @@ abstract class Rest {
 	 * on execute la fonction correspondante
 	 * 
 	 * @param string la route demandée
-	 * @param object la fonction a executer
+	 * @param function la fonction a executer
 	 * @return void
 	 */
 	protected function ifMatch($route, $callback) {
 		if (Router::getCurrent() === $route) {
 			$callback();
 		}
-	}
-
-
-	/**
-	 * Renvoi l'erreur si aucune route ne correspond
-	 * 
-	 * @return void
-	 */
-	protected function noneMatch() {
-		$this->sendResponse(null, 1, 'Aucune route ne correspond à cette URL pour cette méthode.', 404);
 	}
 
 

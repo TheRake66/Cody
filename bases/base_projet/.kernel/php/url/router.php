@@ -125,7 +125,7 @@ abstract class Router {
 	
 
 	/**
-	 * Retourne la route actuelle
+	 * Retourne la route actuelle tel qu'elle est definie dans le fichier de route
 	 * 
 	 * @return string la route
 	 * @throws Error si aucune route n'a ete definie
@@ -163,45 +163,7 @@ abstract class Router {
 
 
 	/**
-	 * Retourne la route correspondante a une route demandee
-	 * 
-	 * @param string l'url
-	 * @return string la route ou null si aucune correspondance
-	 */
-	static function whoMatch($asked) {
-		if (!is_null($asked)) {
-			$split_asked = explode('/', $asked);
-			foreach (self::$routes as $route => $array) {
-				$split_route = explode('/', $route);
-				if (count($split_route) == count($split_asked)) {
-					$i = 0;
-					$match = true;
-					$params = [];
-					while ($i < count($split_asked) && $i < count($split_route) && $match) {
-						$word_asked = $split_asked[$i];
-						$word_route = $split_route[$i];
-						if (!empty($word_asked) && !empty($word_route)) {
-							if (substr($word_route, 0, 1) === '{' &&
-								substr($word_route, -1) === '}') {
-								$params[substr($word_route, 1, -1)] = $word_asked;
-							} elseif ($word_route != $word_asked) {
-								$match = false;
-							}
-						}
-						$i++;
-					}
-					if ($match) {
-						$GLOBALS['_ROUTE'] = $params;
-						return $route;
-					}
-				}
-			}
-		}
-	}
-
-
-	/**
-	 * Retourne la route demandee
+	 * Retourne la route actuelle tel qu'elle est definie dans l'URL
 	 * 
 	 * @return string le route demandee
 	 */
@@ -249,9 +211,49 @@ abstract class Router {
 	 * 
 	 * @return string la premiere route
 	 */
-	static function getFirst() {
+	private static function getFirst() {
 		if (count(self::$routes) > 0) {
 			return array_keys(self::$routes)[0];
+		}
+	}
+
+
+	/**
+	 * Retourne la route correspondante a une route passée en parametre,
+	 * puis en extrait les parametres de la route pour definir la
+	 * variable $GLOBALS['_ROUTE']
+	 * 
+	 * @param string l'url
+	 * @return string la route ou null si aucune correspondance
+	 */
+	private static function whoMatch($asked) {
+		if (!is_null($asked)) {
+			$split_asked = explode('/', $asked);
+			foreach (self::$routes as $route => $array) {
+				$split_route = explode('/', $route);
+				if (count($split_route) == count($split_asked)) {
+					$i = 0;
+					$match = true;
+					$params = [];
+					while ($i < count($split_asked) && $i < count($split_route) && $match) {
+						$word_asked = $split_asked[$i];
+						$word_route = $split_route[$i];
+						if (!empty($word_asked) && !empty($word_route)) {
+							if (substr($word_route, 0, 1) === '{' &&
+								substr($word_route, -1) === '}') {
+								$params[substr($word_route, 1, -1)] = $word_asked;
+							} elseif ($word_route != $word_asked) {
+								$match = false;
+							}
+						}
+						$i++;
+					}
+					if ($match) {
+						$GLOBALS['_ROUTE'] = $params;
+						return $route;
+					}
+				}
+			}
 		}
 	}
 
