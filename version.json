@@ -1,5 +1,5 @@
 {
-	"version": "7.21.60.0",
+	"version": "7.21.61.0",
 	"modifications": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -15,7 +15,8 @@
 		"Ajout de l'argument -f pour la commande run et stop.",
 		"Ajout du nom d'utilisateur pour les docstrings.",
 		"Les tests se lancent via le constructeur.",
-		"Ajout des modules d'API."
+		"Ajout des modules d'API.",
+		"Les tests se lancent via la méthode run."
 	], 
 	"bugs": [
 		"Correction du plantage lors d'un lancement sur un terminal trop petit.",

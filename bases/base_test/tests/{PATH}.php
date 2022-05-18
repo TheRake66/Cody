@@ -20,8 +20,8 @@ class {NAME_UPPER} extends Unit {
      * @access public
      * @return void
      */
-    function __construct() {
-        
+    function run() {
+        Error::trigger('Fonction non implémentée');
     }
 
 }

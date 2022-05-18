@@ -19,6 +19,60 @@ use Kernel\Security\Validation;
  */
 class {NAME_UPPER} extends Rest {
 
+    /**
+     * Appel via la méthode GET
+     * 
+     * @param array $params Paramètres de la requête
+     * @return mixed Résultat de l'appel
+     */
+    function get($param) {
+        Error::trigger('Fonction non implémentée');
+    }
+
+
+    /**
+     * Appel via la méthode POST
+     * 
+     * @param array $params Paramètres de la requête
+     * @return mixed Résultat de l'appel
+     */
+    function post($param) {
+        Error::trigger('Fonction non implémentée');
+    }
+
+
+    /**
+     * Appel via la méthode PUT
+     * 
+     * @param array $params Paramètres de la requête
+     * @return mixed Résultat de l'appel
+     */
+    function put($param) {
+        Error::trigger('Fonction non implémentée');
+    }
+
+
+    /**
+     * Appel via la méthode DELETE
+     * 
+     * @param array $params Paramètres de la requête
+     * @return mixed Résultat de l'appel
+     */
+    function delete($param) {
+        Error::trigger('Fonction non implémentée');
+    }
+
+
+    /**
+     * Appel via la méthode PATCH
+     * 
+     * @param array $params Paramètres de la requête
+     * @return mixed Résultat de l'appel
+     */
+    function patch($param) {
+        Error::trigger('Fonction non implémentée');
+    }
+
 }
 
 ?>

@@ -845,7 +845,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     "require_once(__DIR__ . '/.kernel/php/io/autoloader.php'); " +
                     "Kernel\\IO\\Autoloader::register(); " +
                     "require_once('" + obj.paths[0] + "'); " +
-                    "new " + nspc + "();" +
+                    "(new " + nspc + "())->run();" +
                     "\"");
 
 

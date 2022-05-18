@@ -19,6 +19,7 @@ export default class HTTP {
     static METHOD_POST = 'POST';
     static METHOD_PUT = 'PUT';
     static METHOD_DELETE = 'DELETE';
+    static METHOD_PATCH = 'PATCH';
     
 
     /**
@@ -48,7 +49,7 @@ export default class HTTP {
                 success(xml.response);
             }
         }
-        if (method === HTTP.METHOD_POST) {
+        if (method !== HTTP.METHOD_GET) {
             let frm = new FormData();
             for (let name in params) {
                 let value = params[name];
