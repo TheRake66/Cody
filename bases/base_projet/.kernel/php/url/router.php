@@ -128,7 +128,7 @@ abstract class Router {
 				$route = self::getFirst();
 			}
 			if (is_null($route)) {
-				Error::trigger('Aucune route n\'a ete definie !');
+				Error::trigger('Aucune route n\'a été définie !');
 			}
 			self::$current = $route;
 			return $route;
@@ -197,6 +197,16 @@ abstract class Router {
 	 */
 	static function getClass() {
 		return self::$routes[self::getCurrent()];
+	}
+
+	
+	/**
+	 * Retourne les parametres de la route actuelle
+	 * 
+	 * @return array les parametres
+	 */
+	static function getParams() {
+		return $GLOBALS['_ROUTE'] ?? [];
 	}
 
 

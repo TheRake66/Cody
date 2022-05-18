@@ -52,7 +52,7 @@ abstract class Rest {
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
 			$method = $_SERVER['REQUEST_METHOD'];
-			$route = $GLOBALS['_ROUTE'];
+			$route = Router::getParams();
 			$query = [];
 			$function = strtolower($method);
 			switch ($method) {
