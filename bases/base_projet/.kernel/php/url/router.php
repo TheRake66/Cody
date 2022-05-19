@@ -93,7 +93,7 @@ abstract class Router {
 	 * @param array la ou les methodes a executer
 	 * @return void
      */
-	static function add($route, $class, $methods = null) {
+	static function add($route, $class, $methods = self::METHOD_GET) {
 		self::$routes[$route] = [ $class, $methods ];
 	}
 
@@ -106,7 +106,11 @@ abstract class Router {
 	 */
 	static function addMany($routes) {
 		foreach ($routes as $route => $array) {
-			self::add($route, $array[0], $array[1]);
+			if (is_array($array)) {
+				self::add($route, $array[0], $array[1]);
+			} else {
+				self::add($route, $array);
+			}
 		}
 	}
 

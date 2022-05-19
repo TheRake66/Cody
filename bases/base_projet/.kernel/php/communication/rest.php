@@ -58,10 +58,10 @@ abstract class Rest {
 					case Router::METHOD_PUT:
 					case Router::METHOD_DELETE:
 					case Router::METHOD_PATCH:
-						parse_str(file_get_contents("php://input"), $body);
+						$body = self::extractBody();
 						break;
 					default:
-						$object->sendResponse(null, 0, 'La méthode "' . $method . '" n\'est pas supportée par le serveur !', 405);
+						$object->sendResponse(null, 1, 'La méthode "' . $method . '" n\'est pas supportée par le serveur !', 405);
 						break;
 				}	
 
@@ -75,14 +75,48 @@ abstract class Rest {
 					$object->$function($route, $query, $body);
 					$object->sendResponse();
 				} else {
-					$object->sendResponse(null, 0, 'La méthode d\'API "' . $function . '" n\'existe pas dans la ressource !', 500);
+					$object->sendResponse(null,1, 'La méthode d\'API "' . $function . '" n\'existe pas dans la ressource !', 500);
 				}
 			} else {
-				$object->sendResponse(null, 0, 'La méthode "' . $method . '" n\'est pas supportée par cette ressource !', 405);
+				$object->sendResponse(null, 1, 'La méthode "' . $method . '" n\'est pas supportée par cette ressource !', 405);
 			}
 		} else {
 			Log::add('Aucun appel API.', Log::LEVEL_GOOD);
 		}
+	}
+
+
+	/**
+	 * Extrait le contenu du corps de la requete
+	 * 
+	 * @return array le contenu du corps de la requete
+	 */
+	private static function extractBody() {
+		$input = file_get_contents('php://input');
+		$lines = explode(PHP_EOL, $input);
+		$boundary = $lines[0];
+		$data = [];
+		$name = '';
+		for ($i = 0; $i < count($lines) - 2; $i++) {
+			$line = $lines[$i];
+			if ($line === $boundary) {
+				$i++;
+				$line = $lines[$i];
+				$posname = strpos($line, 'name="');
+				$posfile = strpos($line, '"; filename="');
+				$offset = $posname + 6;
+				$lenght = $posfile ? $posfile - $posname - 6 : -1;
+				$name = substr($line, $offset, $lenght);
+				$data[$name] = null;
+				while (!empty($line)) {
+					$i++;
+					$line = $lines[$i];
+				}
+			} else {
+				$data[$name] .= $line;
+			}
+		}
+		return $data;
 	}
 
 

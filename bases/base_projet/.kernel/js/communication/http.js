@@ -36,17 +36,19 @@ export default class HTTP {
      * @returns {void}
      */
     static send(url, success = null, failed = null, expired = null, method = HTTP.METHOD_GET, params = {}, timeout = 0, asynchronous = true) {
-        let xml = new XMLHttpRequest();
-        if (method === HTTP.METHOD_GET && Object.keys(params).length !== 0) {
+        let xhr = new XMLHttpRequest();
+        if (method === HTTP.METHOD_GET && 
+            params !== null &&
+            Object.keys(params).length !== 0) {
             url += '?' + (new URLSearchParams(params)).toString();
         }
-        xml.open(method, url, asynchronous);
-        if (timeout) xml.timeout = timeout;
-        if (expired) xml.ontimeout = expired;
-        if (failed) xml.onerror = failed;
+        xhr.open(method, url, asynchronous);
+        if (timeout) xhr.timeout = timeout;
+        if (expired) xhr.ontimeout = expired;
+        if (failed) xhr.onerror = failed;
         if (success) {
-            xml.onload = () => {
-                success(xml.response);
+            xhr.onload = () => {
+                success(xhr.response);
             }
         }
         if (method !== HTTP.METHOD_GET) {
@@ -55,9 +57,9 @@ export default class HTTP {
                 let value = params[name];
                 frm.append(name, value);
             }
-            xml.send(frm);
+            xhr.send(frm);
         } else {
-            xml.send();
+            xhr.send();
         }
     }
 
