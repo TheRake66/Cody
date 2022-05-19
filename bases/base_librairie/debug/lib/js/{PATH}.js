@@ -5,7 +5,7 @@
  * @version 1.0
  * @category Librairie
  */
-export default class {NAME_UPPER} {
+export default class {FULL_UNDERSCORE} {
 
     /**
      * Point d'entrée de la librairie

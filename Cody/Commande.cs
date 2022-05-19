@@ -566,6 +566,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         "trait.json",
                         "library.json",
                         "test.json"
+                        "api.json"
                     };
                     string[] excludedFolder = new string[]
                     {
@@ -1556,6 +1557,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 string objup = ""; // Obj
                 string nomlow = ""; // namepace\namespace\obj
                 string full_dash = ""; // namepace-namespace-obj
+                string full_underscore = ""; // Namepace_Namespace_Obj
                 List<string> paths = new List<string>();
                 string[] toedit = new string[] { ".php", ".js", ".less", ".json" };
 
@@ -1576,6 +1578,9 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 nomlow = nom.ToLower();
                 full_dash = nomlow
                     .Replace('\\', '-')
+                    .Replace('/', '-');
+                full_dash = nomlow
+                    .Replace('\\', '_')
                     .Replace('/', '-');
                 objlow = spt[spt.Length - 1].ToLower();
                 objup = objlow.Substring(0, 1).ToUpper();
