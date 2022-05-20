@@ -13,7 +13,7 @@ import Location from '{BACK_PATH}../../../.kernel/js/url/location.js';
  * @version 1.0
  * @category Script
  */
-export default class {FULL_UNDERSCORE} {
+export default class {NAME_UPPER} {
 
     /**
      * Point d'entrée du script
