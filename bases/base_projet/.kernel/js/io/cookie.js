@@ -41,7 +41,6 @@ export default class Cookie {
             .split(';')
             .filter(cookie => cookie.trim().startsWith(`${name}=`));
         if (c.length > 0) {
-            console.log(c[0].split('='));
             return c[0].trim().split('=')[1];
         }
     }
