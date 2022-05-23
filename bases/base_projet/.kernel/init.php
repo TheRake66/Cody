@@ -16,9 +16,6 @@ k\Debug\Error::handler();
 // Demarre le flux de donnees
 k\IO\Stream::reset();
 
-// Ajoute un separateur dans la log
-k\Debug\Log::separator();
-
 // Active le protocole SSL (HTTPS)
 k\Security\SSL::enable();
 
