@@ -19,6 +19,7 @@
     "log": {
         "use_log_file": true,
         "ip_identify": false,
+        "throw_if_unwritable": true,
         "max_lenght": 1000,
         "query": {
             "print_query": true,
