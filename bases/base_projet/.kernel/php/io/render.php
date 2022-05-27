@@ -3,6 +3,8 @@ namespace Kernel\IO;
 
 use Kernel\Debug\Error;
 use Kernel\HTML\Import;
+use Kernel\HTML\Javascript;
+use Kernel\HTML\Less;
 use Kernel\HTML\Output;
 use Kernel\IO\Convert\Dataset;
 use Kernel\IO\Path;
@@ -63,8 +65,8 @@ abstract class Render {
             // On fait directement un requiere et pas un Path::require
             // Pour que le extract fonctionne
             require($vueabs);
-            Output::add(Import::importStyle($style));
-            Output::add(Import::importScript($script, 'module', $varname, $class));
+            Output::add(Less::import($style));
+            Output::add(Javascript::import($script, 'module', $varname, $class));
         } else {
             Error::trigger('Impossible de faire le rendu du composant "' . $full . '" !');
         }

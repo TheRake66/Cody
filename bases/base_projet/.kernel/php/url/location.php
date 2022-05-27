@@ -4,6 +4,7 @@ namespace Kernel\URL;
 use Kernel\Debug\Log;
 use Kernel\HTML\Import;
 use Kernel\HTML\Builder;
+use Kernel\HTML\Javascript;
 use Kernel\HTML\Output;
 use Kernel\IO\Stream;
 
@@ -86,7 +87,7 @@ abstract class Location {
 					'value' => Parser::getCurrent()
 				]);
 			}
-			$html .= Import::runScript('
+			$html .= Javascript::run('
 				let f = document.getElementById("KERNEL_REDIRECT_FORM");
 				f.submit();
 				f.remove();

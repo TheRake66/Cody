@@ -64,10 +64,10 @@ abstract class Doctype {
         Output::add($doctype);
         Log::add('Définition de l\'entête.');
     
-        Output::add(Import::importStyle('debug/app/global.less'));
+        Output::add(Less::import('debug/app/global.less'));
         Log::add('Style global importé.');
 
-        Output::add(Import::importScript('debug/app/global_brefore.js'));
+        Output::add(Javascript::import('debug/app/global_brefore.js'));
         Log::add('Script d\'initialisation importé.');
         
         Log::add('HTML ouvert.', Log::LEVEL_GOOD);
@@ -82,12 +82,12 @@ abstract class Doctype {
     static function close() {
         Log::add('Fermeture du HTML...', Log::LEVEL_PROGRESS);
 
-        Output::add(Import::importScript('debug/app/global_after.js'));
+        Output::add(Javascript::import('debug/app/global_after.js'));
         Log::add('Script d\'extinction importé.');
 
         $render = Configuration::get()->render;
         if ($render->wait_dom_loaded) {
-            Output::add(Import::runScript('
+            Output::add(Javascript::run('
                 async function loaded() {
                     await new Promise(r => setTimeout(r, ' . $render->delay_after_load . '));
                     document.getElementsByTagName(\'html\')[0].style.opacity = 1;

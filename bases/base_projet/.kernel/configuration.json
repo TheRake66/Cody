@@ -1,6 +1,7 @@
 {
     "security": {
         "redirect_to_https": false,
+        "self_xss_prevent": true,
         "cookie_path": "/",
         "cookie_domain": "www.{PROJECT_NAME}.com",
         "cookie_only_https": false,

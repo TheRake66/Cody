@@ -6,6 +6,8 @@ use Kernel\IO\Convert\Number;
 use Kernel\Communication\Network;
 use Kernel\IO\Path;
 
+
+
 /**
  * Librairie gerant les logs
  *
@@ -37,6 +39,12 @@ abstract class Log {
     const TYPE_MAIL = 4;
     const TYPE_MAIL_HEADER = 5;
     const TYPE_MAIL_CONTENT = 6;
+
+
+    /**
+     * @var int L'identifiant unique de la session de log
+     */
+    private static $uuid;
 
 
     /**
@@ -101,8 +109,16 @@ abstract class Log {
 
             $error = false;
             if (is_dir($folder) || mkdir($folder, 0777, true)) {
+
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
-                $file = $folder. '/' . ($now ? $now->format('D M d') : '### ### ##') . '.log';
+                if ($now) {
+                    $now_full = $now->format('Y-m-d H:i:s,v');
+                    $now_lite = $now->format('D M d');
+                } else {
+                    $now_full = '????-??-?? ??:??:??,???';
+                    $now_lite ='### ### ##';
+                }
+                $file = $folder. '/' . $now_lite . '.log';
                 if (is_object($message) || is_array($message)) {
                     $message = print_r($message, true);
                 }
@@ -112,8 +128,12 @@ abstract class Log {
                     if ($len > $max) {
                         $message = substr($message, 0, $max) . ' ...[plus de ' . Number::toOccident($len - $max, 0) . ' caractère(s) restant(s)]';
                     }
+                }            
+                if (is_null(self::$uuid)) {
+                    self::$uuid = uniqid();
                 }
-                $message = '[' . ($now ? $now->format('Y-m-d H:i:s,v') : '????-??-?? ??:??:??,???') . '] [' . $levelstr . '] ' . $message . PHP_EOL;
+                $id = self::$uuid;
+                $message = '[' . $now_full . '] [' . $id . '] [' . $levelstr . '] ' . $message . PHP_EOL;
                 
                 Error::remove();
                 $_ = file_put_contents($file, $message, FILE_APPEND | LOCK_EX);
@@ -126,20 +146,10 @@ abstract class Log {
                 $error = true;
             }
 
-            if ($error) {
+            if ($error && $conf->throw_if_unwritable) {
                 Error::trigger("Impossible d'accéder au journal d'événement !");
             }
         }
-    }
-
-
-    /**
-     * Ajoute un separateur dans le fichier log
-     * 
-     * @return void
-     */
-    static function separator() {
-        self::file('--------------------------------------------------------');
     }
 
 }

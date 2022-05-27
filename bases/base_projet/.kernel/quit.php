@@ -7,7 +7,10 @@ use Kernel as k;
 k\Debug\Supervisor::show();
 
 // Charge Less
-k\Html\Less::importLib();
+k\Html\Less::init();
+
+// Affiche le message de prevention
+k\Security\Vulnerability\Self_XSS::prevent();
 
 // Ferme le flux de donnees
 k\IO\Stream::close();

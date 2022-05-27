@@ -102,7 +102,7 @@ abstract class Autoloader {
                 $relative = '.kernel/php/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
-            case 'Librairy':
+            case 'Library':
                 $relative = 'debug/lib/php/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 

@@ -2,8 +2,8 @@
 namespace Kernel\HTML;
 
 use Kernel\HTML\Import;
-
-
+use Kernel\IO\Path;
+use Kernel\Security\Configuration;
 
 /**
  * Librairie gerant la communication avec Javascript
@@ -18,13 +18,58 @@ use Kernel\HTML\Import;
 abstract class Javascript {
 
     /**
+     * Importe un fichier javascript
+     * 
+     * @param string le fichier a importer
+     * @param string le type de script
+     * @param string le nom de la variable a instancier
+     * @param string le nom de la classe a instancier
+     * @return string le code HTML
+     */
+    static function import($file, $type = 'module', $name = null, $class = null) {
+        if (Configuration::get()->render->use_minifying) {
+            $inf = pathinfo($file);
+            $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.js';
+        }
+        if (is_null($name) && is_null($class)) {
+            $js = Builder::createElement('script', [
+                'type' => $type,
+                'src' => Path::relative($file)
+            ], null, false);
+        } else {
+            $js = Builder::createElement('script', [
+                'type' => $type,
+            ], 
+            'import ' . $class . ' from "' . Path::relative($file) . '";
+            window.' . $name . ' = new ' . $class .'();');
+        }
+        return $js;
+    }
+
+
+    /**
+     * Execute du code javascript
+     * 
+     * @param string le code javascript
+     * @param string le type de script
+     * @return string le code HTML
+     */
+    static function run($script, $type = 'module') {
+        $js = Builder::createElement('script', [
+            'type' => $type,
+        ], $script);
+        return $js;
+    }
+
+
+    /**
      * Envoi une alerte javascript
      * 
      * @param string le message
      * @return string le code HTML
      */
-    static function sendAlert($message) {
-        return Import::runScript('alert("' . str_replace('"', '\\"', $message) . '")');
+    static function runAlert($message) {
+        return self::run('alert("' . str_replace('"', '\\"', $message) . '")');
     }
 
     
@@ -36,8 +81,8 @@ abstract class Javascript {
      * @param string le code javascript à executer si non
      * @return string le code HTML
      */
-    static function sendConfirm($message, $yes = null, $no = null) {
-        return Import::runScript('
+    static function runConfirm($message, $yes = null, $no = null) {
+        return self::run('
             if (confirm("' . str_replace('"', '\\"', $message) . '")) {
                 ' . ($yes ? $yes : '') . '
             } else {
@@ -51,10 +96,23 @@ abstract class Javascript {
      * 
      * @param string le message
      * @param string le style
+     * @param string le type de log
      * @return string le code HTML
      */
-    static function sendLog($message, $style = null) {
-        return Import::runScript('console.log("' . str_replace('"', '\\"', $message) . '", "' . $style . '")');
+    static function runLog($message, $style = null, $type = 'log') {
+        $message = str_replace('"', '\\"', $message);
+        if (is_null($style)) {
+            return self::run('console.log("' . $message . '")');
+        } else {
+            if (is_array($style)) {
+                $_ = '';
+                foreach ($style as $s => $v) {
+                    $_ .= $s . ':' . $v . ';';
+                }
+                $style = $_;
+            }
+            return self::run('console.' . $type . '("%c' . $message . '", "' . $style . '")');
+        }
     }
 
 
@@ -65,8 +123,8 @@ abstract class Javascript {
      * @param string le style
      * @return string le code HTML
      */
-    static function sendError($message, $style = null) {
-        return Import::runScript('console.error("' . str_replace('"', '\\"', $message) . '", "' . $style . '")');
+    static function runError($message, $style = null) {
+        return self::runLog($message, $style, 'error');
     }
 
 
@@ -77,8 +135,8 @@ abstract class Javascript {
      * @param string le style
      * @return string le code HTML
      */
-    static function sendInfo($message, $style = null) {
-        return Import::runScript('console.info("' . str_replace('"', '\\"', $message) . '", "' . $style . '")');
+    static function runInfo($message, $style = null) {
+        return self::runLog($message, $style, 'info');
     }
     
 }

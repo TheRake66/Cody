@@ -4,8 +4,7 @@ namespace Kernel\HTML;
 use Kernel\Security\Configuration;
 use Kernel\HTML\Import;
 use Kernel\HTML\Output;
-
-
+use Kernel\IO\Path;
 
 /**
  * Librairie gerant le chargement de less
@@ -24,11 +23,47 @@ abstract class Less {
 	 * 
 	 * @return void
 	 */
-	static function importLib() {
+	static function init() {
 		if (!Configuration::get()->render->use_minifying) {
-			Output::add(Import::importScript('.kernel/less@4.1.1.js'));
+			Output::add(Javascript::import('.kernel/less@4.1.1.js'));
 		}
 	}
+
+    
+    /**
+     * Importe un fichier less
+     * 
+     * @param string le fichier a importer
+     * @param string le type de ressource
+     * @return string le code HTML
+     */
+    static function import($file, $rel = 'stylesheet/less') {
+        if (Configuration::get()->render->use_minifying) {
+            $inf = pathinfo($file);
+            $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.css';
+            $rel = 'stylesheet';
+        }
+        $css = Builder::createElement('link', [
+            'rel' => $rel,
+            'type' => 'text/css',
+            'href' => Path::relative($file)
+        ]);
+        return $css;
+    }
+
+
+    /**
+     * Ajoute une balise style
+     * 
+     * @param string le code css
+     * @return string le code HTML
+     */
+    static function add($style) {
+        $css = Builder::createElement('style', [
+            'type' => 'text/css',
+        ], $style);
+        return $css;
+    }
 
 }
 
