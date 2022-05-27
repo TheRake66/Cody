@@ -1,5 +1,5 @@
 <?php
-namespace Librairy{NAMESPACE_SLASH};
+namespace Library{NAMESPACE_SLASH};
 
 
 
@@ -8,7 +8,7 @@ namespace Librairy{NAMESPACE_SLASH};
  * 
  * @author {USER_NAME}
  * @version 1.0
- * @package Librairy{NAMESPACE_SLASH}
+ * @package Library{NAMESPACE_SLASH}
  * @category Librairie
  */
 class {NAME_UPPER} {
