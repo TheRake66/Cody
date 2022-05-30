@@ -29,14 +29,16 @@ abstract class Hydrate {
         $fn = function($d, $c) {
             $o = new $c();
             foreach ($d as $k => $v) {
-                $k = Reflection::parse($k);
-                if (property_exists($c, $k)) {
-                    $prop = new \ReflectionProperty($o, $k);
-                    $prop->setAccessible(true);
-                    $prop->setValue($o, $v);
-                } else {
-                    Log::add('Attention, le champ "' . $k . '" n\'a pas de propriété dans la classe "' . get_class($c) . '"');
+                if (!property_exists($c, $k)) {
+                    $k = '_' . $k;
+                    if (!property_exists($c, $k)) {
+                        Log::add('Attention, la propriété "' . $k . '" n\'existe pas dans la classe "' . $c . '".', Log::LEVEL_WARNING);
+                        continue;
+                    }
                 }
+                $prop = new \ReflectionProperty($o, $k);
+                $prop->setAccessible(true);
+                $prop->setValue($o, $v);
             }
             return $o;
         };

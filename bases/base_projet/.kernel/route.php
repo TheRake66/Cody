@@ -11,7 +11,7 @@ r::add([ '/' => c\::class ]);
 */
 
 /*
-r::addMany([
+r::add([
     '/api' => [ 
         a\::class, [
             r::METHOD_GET,
