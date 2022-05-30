@@ -85,7 +85,7 @@ abstract class Log {
 
             $folder = Path::absolute('logs');
             if ($conf->ip_identify) {
-                $folder .= '/' . str_replace(':', '-', Network::clientIP());
+                $folder .= '/' . str_replace(':', '-', Network::ip());
             }
 
             $levelstr = '';

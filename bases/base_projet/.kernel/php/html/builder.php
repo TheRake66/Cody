@@ -75,7 +75,7 @@ abstract class Builder {
      * @return string le code HTML
      */
     static function imgB64($bin, $alt = null, $format = 'png') {
-        return self::img(Image::B64($bin, $format), $alt);
+        return self::img(Image::b64($bin, $format), $alt);
     }
 
 

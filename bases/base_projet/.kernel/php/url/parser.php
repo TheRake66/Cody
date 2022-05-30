@@ -66,7 +66,7 @@ abstract class Parser {
 	 * @return string le chemin
 	 */
 	static function path() {
-		return self::root() . Router::getAsked();
+		return self::root() . Router::asked();
 	}
 
 	

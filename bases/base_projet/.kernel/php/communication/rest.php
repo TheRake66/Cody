@@ -33,20 +33,20 @@ abstract class Rest {
 	 * @return void
 	 */
 	static function check() {
-		$class = Router::getClass();
+		$class = Router::class();
 		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
-		if (Autoloader::type($class) === 'API') {
+		if (Autoloader::typeof($class) === 'API') {
 			Log::add('Appel API identifié : "' . $class . '".');
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
 			$object = new $class();
 			$object->started = microtime(true);
 			$method = $_SERVER['REQUEST_METHOD'];
-			$methods = Router::getMethods();
+			$methods = Router::methods();
 			if (is_array($methods) && in_array($method, $methods) ||
 				!is_array($methods) && ($methods === $method || $methods === Router::METHOD_ALL)) {
 				$route = Router::current();
-				$query = Router::getParams();
+				$query = Router::params();
 				$body = [];
 				switch ($method) {
 					case Router::METHOD_GET:

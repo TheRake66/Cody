@@ -97,7 +97,7 @@ abstract class Query {
     static function objects($sql, $class, $params = []) {
         $_ = Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
         return !empty($_) ? 
-            Output::log(Hydrate::hydrateMany($_, $class)) :
+            Output::log(Hydrate::hydrate($_, $class, true)) :
             Output::log([]);
     }
 

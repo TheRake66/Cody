@@ -28,7 +28,7 @@ abstract class Output {
      */
     static function send($sql, $params) {
         Log::add('Exécution de la requête SQL : "' . $sql . '"...', Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
-        $parsed = Translate::formatMany($params);
+        $parsed = Translate::format($params);
         Log::add('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
         $rqt = Statement::instance()->prepare($sql);
         $rqt->execute($parsed);

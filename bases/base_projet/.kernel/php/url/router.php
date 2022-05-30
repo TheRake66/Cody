@@ -85,31 +85,18 @@ abstract class Router {
 	}
 
 
-    /**
-     * Ajoute une route
-	 * 
-	 * @param string la route
-	 * @param object classe du controleur
-	 * @param array la ou les methodes a executer
-	 * @return void
-     */
-	static function add($route, $class, $methods = self::METHOD_GET) {
-		self::$routes[$route] = [ $class, $methods ];
-	}
-
-
 	/**
-	 * Ajoute plusieurs routes
+	 * Ajoute des routes
 	 * 
 	 * @param array liste des routes
 	 * @return void
 	 */
-	static function addMany($routes) {
+	static function add($routes) {
 		foreach ($routes as $route => $array) {
 			if (is_array($array)) {
-				self::add($route, $array[0], $array[1]);
+				self::$routes[$route] = [ $array[0], $array[1] ];
 			} else {
-				self::add($route, $array);
+				self::$routes[$route] = [ $array, self::METHOD_GET];
 			}
 		}
 	}
@@ -136,9 +123,9 @@ abstract class Router {
 	static function current() {
 		if (is_null(self::$current)) {
 			$route = null;
-			$asked = self::getAsked();
+			$asked = self::asked();
 			if ($asked !== '/') {
-				$route = self::whoMatch($asked);
+				$route = self::match($asked);
 				if (is_null($route)) {
 					if (self::exists(self::$notfound)) {
 						http_response_code(404);
@@ -146,13 +133,13 @@ abstract class Router {
 					} elseif (self::exists(self::$default)) {
 						$route = self::$default;
 					} else {
-						$route = self::getFirst();
+						$route = self::first();
 					}
 				}
 			} elseif (self::exists(self::$default)) {
 				$route = self::$default;
 			} else {
-				$route = self::getFirst();
+				$route = self::first();
 			}
 			if (is_null($route)) {
 				Error::trigger('Aucune route n\'a été définie !');
@@ -170,7 +157,7 @@ abstract class Router {
 	 * 
 	 * @return string le route demandee
 	 */
-	static function getAsked() {
+	static function asked() {
 		if (isset($_SERVER['PATH_INFO'])) {
 			return $_SERVER['PATH_INFO'];
 		} elseif (isset($_SERVER['REDIRECT_URL'])) {
@@ -184,7 +171,7 @@ abstract class Router {
 	 * 
 	 * @return object la classe
 	 */
-	static function getClass() {
+	static function class() {
 		return self::$routes[self::current()][0];
 	}
 
@@ -194,7 +181,7 @@ abstract class Router {
 	 * 
 	 * @return array la ou les methodes
 	 */
-	static function getMethods() {
+	static function methods() {
 		return self::$routes[self::current()][1];
 	}
 
@@ -204,7 +191,7 @@ abstract class Router {
 	 * 
 	 * @return array les parametres
 	 */
-	static function getParams() {
+	static function params() {
 		return $GLOBALS['_ROUTE'] ?? [];
 	}
 
@@ -214,7 +201,7 @@ abstract class Router {
 	 * 
 	 * @return string la premiere route
 	 */
-	private static function getFirst() {
+	private static function first() {
 		if (count(self::$routes) > 0) {
 			return array_keys(self::$routes)[0];
 		}
@@ -229,32 +216,32 @@ abstract class Router {
 	 * @param string l'url
 	 * @return string la route ou null si aucune correspondance
 	 */
-	private static function whoMatch($asked) {
-		if (!is_null($asked)) {
-			$split_asked = explode('/', $asked);
-			foreach (self::$routes as $route => $array) {
-				$split_route = explode('/', $route);
-				if (count($split_route) == count($split_asked)) {
-					$i = 0;
-					$match = true;
-					$params = [];
-					while ($i < count($split_asked) && $i < count($split_route) && $match) {
-						$word_asked = $split_asked[$i];
-						$word_route = $split_route[$i];
-						if (!empty($word_asked) && !empty($word_route)) {
-							if (substr($word_route, 0, 1) === '{' &&
-								substr($word_route, -1) === '}') {
-								$params[substr($word_route, 1, -1)] = $word_asked;
-							} elseif ($word_route != $word_asked) {
-								$match = false;
-							}
+	private static function match($asked) {
+		$split_asked = explode('/', $asked);
+		$count_asked = count($split_asked);
+		foreach (self::$routes as $route => $array) {
+			$split_route = explode('/', $route);
+			$count_route = count($split_route);
+			if ($count_route == $count_asked) {
+				$i = 0;
+				$match = true;
+				$params = [];
+				while ($i < $count_asked && $i < $count_route && $match) {
+					$word_asked = $split_asked[$i];
+					$word_route = $split_route[$i];
+					if (!empty($word_asked) && !empty($word_route)) {
+						if (substr($word_route, 0, 1) === '{' &&
+							substr($word_route, -1) === '}') {
+							$params[substr($word_route, 1, -1)] = $word_asked;
+						} elseif ($word_route != $word_asked) {
+							$match = false;
 						}
-						$i++;
 					}
-					if ($match) {
-						$GLOBALS['_ROUTE'] = $params;
-						return $route;
-					}
+					$i++;
+				}
+				if ($match) {
+					$GLOBALS['_ROUTE'] = $params;
+					return $route;
 				}
 			}
 		}
@@ -267,19 +254,14 @@ abstract class Router {
 	 * @return void
      */
 	static function app() {
-		$class = self::getClass();
-		
-		if (Autoloader::type($class) === 'Controller') {
-
+		$class = self::class();
+		if (Autoloader::typeof($class) === 'Controller') {
 			Log::add('Routage (url : "' . Parser::current() . '")...', Log::LEVEL_PROGRESS);
 			Log::add('Contrôleur identifié : "' . $class . '".');
-
 			new $class();
-
 			Log::add('Routage fait.', Log::LEVEL_GOOD);
-
 		} else {
-			Error::trigger('La route "' . self::current() . '" n\'est pas une route de composant !');
+			Error::trigger('La route "' . self::$current . '" n\'est pas une route de composant !');
 		}
 	}
 	

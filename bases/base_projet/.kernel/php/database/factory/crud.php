@@ -63,12 +63,12 @@ abstract class Crud {
     /**
      * Verifie si un ou des objets existent dans la table
      * 
-     * @param array les proprietes utilisees dans la clause
+     * @param array les proprietes utilisees dans la where
      * @return bool si il ou ils existent
      */
-    function exists($clause = null) {
-        return Toogle::object(function() use ($clause) {
-            [ $where, $params ] = Builder::clause($this, $clause);
+    function exists($where = null) {
+        return Toogle::object(function() use ($where) {
+            [ $where, $params ] = Builder::where($this, $where);
             return boolval(Query::cell(
                 'SELECT EXISTS (
                     SELECT 1 ' .
@@ -81,14 +81,14 @@ abstract class Crud {
 
 
     /**
-     * Compte le nombre d'objets dans la table par rapport a une clause
+     * Compte le nombre d'objets dans la table par rapport a une where
      * 
-     * @param array les proprietes utilisees dans la clause
+     * @param array les proprietes utilisees dans la where
      * @return int le nombre d'objets
      */
-    function count($clause = null) {
-        return Toogle::object(function() use ($clause) {
-            [ $where, $params ] = Builder::clause($this, $clause);
+    function count($where = null) {
+        return Toogle::object(function() use ($where) {
+            [ $where, $params ] = Builder::where($this, $where);
             return Query::cell(
                 'SELECT COUNT(1) ' .
                 Builder::from($this) . ' ' .
@@ -116,12 +116,12 @@ abstract class Crud {
     /**
      * Recupere un objet dans une table
      * 
-     * @param array les proprietes utilisees pour la clause
+     * @param array les proprietes utilisees pour la where
      * @return object l'objet DTO
      */
-    function read($clause = null) {
-        return Toogle::object(function() use ($clause) {
-            [ $where, $params ] = Builder::clause($this, $clause);
+    function read($where = null) {
+        return Toogle::object(function() use ($where) {
+            [ $where, $params ] = Builder::where($this, $where);
             return Query::object(
                 Builder::select($this) . ' ' .
                 Builder::from($this) . ' ' .
@@ -135,13 +135,13 @@ abstract class Crud {
     /**
      * Met a jour un objet dans une table
      * 
-     * @param array les proprietes utilisees pour la clause
+     * @param array les proprietes utilisees pour la where
      * @return bool si la mise a jour a reussi
      */
-    function update($clause = null) {
-        return Toogle::object(function() use ($clause) {
+    function update($where = null) {
+        return Toogle::object(function() use ($where) {
             [ $update, $params1 ] = Builder::update($this);
-            [ $where, $params2 ] = Builder::clause($this, $clause);
+            [ $where, $params2 ] = Builder::where($this, $where);
             return Query::execute(
                 $update . ' ' . $where,
                 array_merge($params1, $params2));
@@ -152,12 +152,12 @@ abstract class Crud {
     /**
      * Supprime un objet dans une table
      * 
-     * @param array les proprietes utilisees pour la clause WHERE
+     * @param array les proprietes utilisees pour la where WHERE
      * @return bool si ca reussit
      */
-    function delete($clause = null) { 
-        return Toogle::object(function() use ($clause) {
-            [ $where, $params ] = Builder::clause($this, $clause);
+    function delete($where = null) { 
+        return Toogle::object(function() use ($where) {
+            [ $where, $params ] = Builder::where($this, $where);
             return Query::execute(
                 'DELETE ' . Builder::from($this) . ' ' . $where,
                 $params);
@@ -168,12 +168,12 @@ abstract class Crud {
     /**
      * Lis plusieurs objets dans une table
      * 
-     * @param array les proprietes utilisees pour la clause WHERE
+     * @param array les proprietes utilisees pour la where WHERE
      * @return object les objets DTO
      */
-    function readMany($clause = null) {
-        return Toogle::object(function() use ($clause) {
-            [ $where, $params ] = Builder::clause($this, $clause);
+    function many($where = null) {
+        return Toogle::object(function() use ($where) {
+            [ $where, $params ] = Builder::where($this, $where);
             return Query::objects(
                 Builder::select($this) . ' ' .
                 Builder::from($this) . ' ' .

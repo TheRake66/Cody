@@ -74,7 +74,7 @@ abstract class Autoloader {
      * @param string l'espace de nom de la classe
      * @return string le type de la classe
      */
-    static function type($class) {
+    static function typeof($class) {
         $_ = explode('\\', $class);
         return array_shift($_);
     }

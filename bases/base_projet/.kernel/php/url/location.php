@@ -34,7 +34,7 @@ abstract class Location {
 	 * @param string l'url
      * @return void
 	 */
-	static function travel($url) {
+	static function change($url) {
 		Log::add('Redirection vers l\'url : "'. $url .'".');
 		Stream::clean();
 		header('Location: ' . $url);
@@ -49,7 +49,7 @@ abstract class Location {
      * @return void
 	 */
 	static function reload() {
-		self::travel(Parser::current());
+		self::change(Parser::current());
 	}
 
 
@@ -64,7 +64,7 @@ abstract class Location {
 	 */
 	static function go($route, $params = [], $addBack = false, $method = self::METHOD_GET) {
 		if ($method == self::METHOD_GET) {
-			self::travel(self::build($route, $params, $addBack));
+			self::change(self::build($route, $params, $addBack));
 		} else {
 			$html = Builder::create('form', [
 				'action' => self::build($route),

@@ -18,41 +18,33 @@ use Kernel\Debug\Log;
 abstract class Hydrate {
 
     /**
-     * Hydrate un objet, avec les donnees d'un tableau
+     * Hydrate un ou plusieurs objets, avec les donnees d'un tableau
      * 
      * @param array les donnees
      * @param object la classe
+     * @param bool si les donnees sont une liste d'objet ou un objet unique
      * @return object l'objet
      */
-    static function hydrate($data, $class) {
-        $obj = new $class();
-        foreach ($data as $key => $value) {
-            $key = Reflection::parse($key);
-            if (property_exists($class, $key)) {
-                $prop = new \ReflectionProperty($obj, $key);
-                $prop->setAccessible(true);
-                $prop->setValue($obj, $value);
-            } else {
-                Log::add('Attention, le champ "' . $key . '" n\'a pas de propriété dans la classe "' . get_class($class) . '"');
+    static function hydrate($data, $class, $many = false) {
+        $fn = function($d, $c) {
+            $o = new $c();
+            foreach ($d as $k => $v) {
+                $k = Reflection::parse($k);
+                if (property_exists($c, $k)) {
+                    $prop = new \ReflectionProperty($o, $k);
+                    $prop->setAccessible(true);
+                    $prop->setValue($o, $v);
+                } else {
+                    Log::add('Attention, le champ "' . $k . '" n\'a pas de propriété dans la classe "' . get_class($c) . '"');
+                }
             }
+            return $o;
+        };
+        if ($many) {
+            return array_map($fn, $data, array_fill(0, count($data), $class));
+        } else {
+            return $fn($data, $class);
         }
-        return $obj;
-    }
-
-
-    /**
-     * Hydrate une liste d'objets, avec les donnees d'un tableau
-     * 
-     * @param array les donnees
-     * @param object la classe
-     * @return array la liste d'objets
-     */
-    static function hydrateMany($data, $class) {
-        $list = [];
-        foreach ($data as $key => $value) {
-            $list[] = self::hydrate($value, $class);
-        }
-        return $list;
     }
 
 }

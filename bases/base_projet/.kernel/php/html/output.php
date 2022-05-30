@@ -37,7 +37,7 @@ abstract class Output {
      * @param string propriete HTML
      * @return string le code HTML
      */
-    static function issetGET($name, $default = '', $key = 'value') {
+    static function get($name, $default = '', $key = 'value') {
         return Attribute::set($key, $_GET[$name] ?? $default);
     }
     
@@ -50,7 +50,7 @@ abstract class Output {
      * @param string propriete HTML
      * @return string le code HTML
      */
-    static function issetPOST($name, $default = '', $key = 'value') {
+    static function post($name, $default = '', $key = 'value') {
         return Attribute::set($key, $_POST[$name] ?? $default);
     }
     

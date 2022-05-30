@@ -7,7 +7,7 @@ use API as a;
 /*
 r::notfound('/');
 r::default('/');
-r::add('/', c\::class);
+r::add([ '/' => c\::class ]);
 */
 
 /*

@@ -21,7 +21,7 @@ export default class Location {
 	 * @param {string} url l'url
 	 * @returns {void}
 	 */
-	static travel(url) {
+	static change(url) {
 		window.location.href = url;
 	}
 

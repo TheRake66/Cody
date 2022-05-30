@@ -18,29 +18,21 @@ use Kernel\URL\Location;
 abstract class Attribute {
     
     /**
-     * Ajoute un attribut HTML
+     * Ajoute un ou plusieurs attributs HTML
      * 
      * @param string|array nom de l'attribut
      * @param string valeur de l'attribut
      * @return string le code HTML
      */
     static function set($name, $value = null) {
-        return $name . '="' . str_replace('"', '\\"', $value) . '"';
-    }
-    
-
-    /**
-     * Ajoute des attributs HTML
-     * 
-     * @param array les attributs [attribut => valeur]
-     * @return string le code HTML
-     */
-    static function setMany($array) {
-        $_ = '';
-        foreach ($array as $name => $value) {
-            $_ .= self::set($value, $name);
+        $fn = function($n, $v) {
+            return $n . '="' . str_replace('"', '\\"', $v) . '"';
+        };
+        if (is_array($name)) {
+            return array_map($fn, array_keys($name), $name);
+        } else {
+            return $fn($name, $value);
         }
-        return $_;
     }
     
     

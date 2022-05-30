@@ -151,7 +151,7 @@ abstract class Supervisor {
                     <div>
                         <span><b>Session</b><pre>' . $session . '</pre></span>
                         <span><b>Route</b><pre>' . Router::current() . '</pre></span>
-                        <span><b>Composant</b><pre>' . Router::getClass() . '</pre></span>
+                        <span><b>Composant</b><pre>' . Router::class() . '</pre></span>
                         <span><b>Version de PHP</b><pre>' . phpversion() . '</pre></span>
                     </div>
                     ' . $array . '

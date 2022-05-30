@@ -22,7 +22,7 @@ abstract class Cookie {
 	 * 
 	 * @return bool si la definition a reussie
 	 */
-	static function setSession() {
+	static function session() {
         $conf = Configuration::get()->security;
 		return session_set_cookie_params(
 			$conf->cookie_lifetime, 
@@ -45,7 +45,7 @@ abstract class Cookie {
 	static function set($name, $value = '', $time = null) {
         $conf = Configuration::get()->security;
 		return setcookie(
-            self::getRealName($name), 
+            self::name($name), 
             $value, 
             $time ?? $conf->cookie_lifetime, 
             $conf->cookie_path,
@@ -65,7 +65,7 @@ abstract class Cookie {
 	static function remove($name) {
 		if (self::has($name)) {
 			if (self::set($name, null, -1)) {
-				unset($_COOKIE[self::getRealName($name)]); 
+				unset($_COOKIE[self::name($name)]); 
 				return true;
 			} else {
 				return false;
@@ -81,7 +81,7 @@ abstract class Cookie {
      * @return mixed la valeur du cookie
 	 */
 	static function get($name) {
-		return $_COOKIE[self::getRealName($name)] ?? null;
+		return $_COOKIE[self::name($name)] ?? null;
 	}
 
 
@@ -92,7 +92,7 @@ abstract class Cookie {
 	 * @return bool si le cookie existe
 	 */
 	static function has($name) {
-		return isset($_COOKIE[self::getRealName($name)]);
+		return isset($_COOKIE[self::name($name)]);
 	}
 
 
@@ -102,7 +102,7 @@ abstract class Cookie {
      * @param string le nom du cookie
      * @return string le nom complet du cookie
 	 */
-	static function getRealName($name) {
+	static function name($name) {
 		return session_name() . '_' . str_replace(' ', '', $name);
 	}
 

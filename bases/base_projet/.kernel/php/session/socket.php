@@ -41,7 +41,7 @@ abstract class Socket {
                     }
                 }
 
-                if (Cookie::setSession()) {
+                if (Cookie::session()) {
                     if (session_start()) {
                         Log::add('Session démarrée.', Log::LEVEL_GOOD);
                     } else {

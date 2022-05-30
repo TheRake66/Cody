@@ -57,7 +57,7 @@ abstract class Builder {
      * @param array les proprietes utilisees pour la clause WHERE
      * @return array l'instruction WHERE et les parametres
      */
-    static function clause($obj, $clause = null) {
+    static function where($obj, $clause = null) {
         $sql = '';
         $pms = [];
         if (empty($clause)) {

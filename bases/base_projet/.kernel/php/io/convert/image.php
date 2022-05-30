@@ -87,7 +87,7 @@ abstract class Image {
      * @param string le format de l'image
      * @return string l'image en base64
      */
-    static function B64($bin, $format = 'png') {
+    static function b64($bin, $format = 'png') {
         return 'data:image/'  . $format . ';base64,' . base64_encode($bin);
     }
     
