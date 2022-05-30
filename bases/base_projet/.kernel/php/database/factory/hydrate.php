@@ -33,7 +33,7 @@ abstract class Hydrate {
                 $prop->setAccessible(true);
                 $prop->setValue($obj, $value);
             } else {
-                Log::add('Attention, le champ "' . $key . '" n\'a pas de propriété dans la classe "' . $class . '"');
+                Log::add('Attention, le champ "' . $key . '" n\'a pas de propriété dans la classe "' . get_class($class) . '"');
             }
         }
         return $obj;

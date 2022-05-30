@@ -85,7 +85,7 @@ abstract class Log {
 
             $folder = Path::absolute('logs');
             if ($conf->ip_identify) {
-                $folder .= '/' . str_replace(':', '-', Network::getClientIP());
+                $folder .= '/' . str_replace(':', '-', Network::clientIP());
             }
 
             $levelstr = '';
@@ -126,7 +126,7 @@ abstract class Log {
                 if ($max > 0) {
                     $len = strlen($message);
                     if ($len > $max) {
-                        $message = substr($message, 0, $max) . ' ...[plus de ' . Number::toOccident($len - $max, 0) . ' caractère(s) restant(s)]';
+                        $message = substr($message, 0, $max) . ' ...[plus de ' . Number::occident($len - $max, 0) . ' caractère(s) restant(s)]';
                     }
                 }            
                 if (is_null(self::$uuid)) {
