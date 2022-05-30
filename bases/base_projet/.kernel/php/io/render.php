@@ -27,7 +27,7 @@ abstract class Render {
      * @return void
      * @throws Error si les fichiers (vue, style, script) n'existent pas ou ne sont pas lisible
      */
-    protected function renderComponent($variables = null) {
+    protected function view($variables = null) {
         $full = get_class($this);
         $explode = explode('\\', $full);
         $class = end($explode);

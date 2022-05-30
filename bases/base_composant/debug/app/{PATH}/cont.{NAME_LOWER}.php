@@ -26,7 +26,7 @@ class {NAME_UPPER} extends Render {
      */
     function __construct() {
         // Rendu du composant
-        $this->renderComponent();
+        $this->view();
     }
 
 }
