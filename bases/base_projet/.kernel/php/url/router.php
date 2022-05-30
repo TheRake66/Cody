@@ -137,7 +137,7 @@ abstract class Router {
 		if (is_null(self::$current)) {
 			$route = null;
 			$asked = self::getAsked();
-			if (!is_null($asked)) {
+			if ($asked !== '/') {
 				$route = self::whoMatch($asked);
 				if (is_null($route)) {
 					if (self::exists(self::$notfound)) {
