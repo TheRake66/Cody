@@ -121,9 +121,7 @@ abstract class Router {
 	 * @throws Error si aucune route n'a ete definie
 	 */
 	static function current() {
-		if (!is_null(self::$current)) {
-			return self::$current;
-		} else {
+		if (is_null(self::$current)) {
 			$route = null;
 			$asked = self::asked();
 			if (!is_null($asked) && $asked !== '/') {
@@ -148,6 +146,8 @@ abstract class Router {
 			}
 			self::$current = $route;
 			return $route;
+		} else {
+			return self::$current;
 		}
 	}
 

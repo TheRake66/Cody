@@ -4,7 +4,7 @@
     "created": "2021-10-23T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Une barre de chargement liquide ronde",
-    "version": "6.1.4.0",
+    "version": "7.1.4.0",
     "elements": [
       {
         "name": "progress_circle",
@@ -32,7 +32,7 @@
     "created": "2021-11-28T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Page 403 avec les fonctions adéquates",
-    "version": "6.1.2.0",
+    "version": "7.1.2.0",
     "elements": [
       {
         "name": "denied",
@@ -46,7 +46,7 @@
     "created": "2021-11-28T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Page 404 avec les fonctions adéquates",
-    "version": "6.0.1.0",
+    "version": "7.0.1.0",
     "elements": [
       {
         "name": "notfound",
@@ -74,7 +74,7 @@
     "created": "2021-01-13T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Section de code avec ligne et coloration",
-    "version": "6.0.2.0",
+    "version": "7.0.2.0",
     "elements": [
       {
         "name": "code_pan",
@@ -88,7 +88,7 @@
     "created": "2021-03-01T19:30:52.6687298+02:00",
     "madeby": "thiba",
     "description": "Création de boite de dialogue",
-    "version": "4.0.2.0",
+    "version": "5.0.2.0",
     "elements": [
       {
         "name": "msgbox",

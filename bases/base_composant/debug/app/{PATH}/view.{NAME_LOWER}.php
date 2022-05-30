@@ -1,9 +1,9 @@
 <?php
 use Kernel\Security\Vulnerability\XSS;
 use Kernel\Security\Vulnerability\CSRF;
-use Kernel\Html\Attribute;
-use Kernel\Html\Builder;
-use Kernel\Html\Output;
+use Kernel\HTML\Attribute;
+use Kernel\HTML\Builder;
+use Kernel\HTML\Output;
 use Kernel\Convert\Encoded;
 use Kernel\Convert\Number;
 use Kernel\URL\Location;

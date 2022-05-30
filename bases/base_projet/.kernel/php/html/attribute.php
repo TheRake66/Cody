@@ -29,7 +29,11 @@ abstract class Attribute {
             return $n . '="' . str_replace('"', '\\"', $v) . '"';
         };
         if (is_array($name)) {
-            return array_map($fn, array_keys($name), $name);
+            $_ = '';
+            foreach ($name as $n => $v) {
+                $_ .= $fn($n, $v) . ' ';
+            }
+            return trim($_);
         } else {
             return $fn($name, $value);
         }
