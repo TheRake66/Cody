@@ -32,7 +32,7 @@ abstract class Rest {
 	 * 
 	 * @return void
 	 */
-	static function resting() {
+	static function check() {
 		$class = Router::getClass();
 		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
 		if (Autoloader::getType($class) === 'API') {
@@ -58,10 +58,10 @@ abstract class Rest {
 					case Router::METHOD_PUT:
 					case Router::METHOD_DELETE:
 					case Router::METHOD_PATCH:
-						$body = self::extractBody();
+						$body = self::extract();
 						break;
 					default:
-						$object->sendResponse(null, 1, 'La méthode "' . $method . '" n\'est pas supportée par le serveur !', 405);
+						$object->send(null, 1, 'La méthode "' . $method . '" n\'est pas supportée par le serveur !', 405);
 						break;
 				}	
 
@@ -73,12 +73,12 @@ abstract class Rest {
 				$function = strtolower($method);
 				if (method_exists($object, $function)) {
 					$object->$function($route, $query, $body);
-					$object->sendResponse();
+					$object->send();
 				} else {
-					$object->sendResponse(null,1, 'La méthode d\'API "' . $function . '" n\'existe pas dans la ressource !', 500);
+					$object->send(null,1, 'La méthode d\'API "' . $function . '" n\'existe pas dans la ressource !', 500);
 				}
 			} else {
-				$object->sendResponse(null, 1, 'La méthode "' . $method . '" n\'est pas supportée par cette ressource !', 405);
+				$object->send(null, 1, 'La méthode "' . $method . '" n\'est pas supportée par cette ressource !', 405);
 			}
 		} else {
 			Log::add('Aucun appel API.', Log::LEVEL_GOOD);
@@ -91,7 +91,7 @@ abstract class Rest {
 	 * 
 	 * @return array le contenu du corps de la requete
 	 */
-	private static function extractBody() {
+	private static function extract() {
 		$input = file_get_contents('php://input');
 		$lines = explode(PHP_EOL, $input);
 		$boundary = $lines[0];
@@ -129,7 +129,7 @@ abstract class Rest {
 	 * @param int le code de l'entete HTTP
 	 * @return void
 	 */
-	protected function sendResponse($content = null, $code = 0, $message = '', $status = 200) {
+	protected function send($content = null, $code = 0, $message = '', $status = 200) {
 		$ended = microtime(true);
 		$time = round(($ended - $this->started) * 1000);
 		$response = (object)[
@@ -163,7 +163,7 @@ abstract class Rest {
 	 * @param function la fonction a executer
 	 * @return void
 	 */
-	protected function ifMatch($route, $callback) {
+	protected function match($route, $callback) {
 		if (Router::getCurrent() === $route) {
 			$callback();
 		}
@@ -182,7 +182,7 @@ abstract class Rest {
 		if (isset($array[$name])) {
 			return $array[$name];
 		} else {
-			$this->sendResponse(null, 1, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
+			$this->send(null, 1, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
 		}
 	}
 	
