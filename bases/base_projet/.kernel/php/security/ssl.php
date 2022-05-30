@@ -24,7 +24,7 @@ abstract class SSL {
 	 */
 	static function enable() {
 		if (Configuration::get()->security->redirect_to_https) {
-			if(self::isEnabled()) {
+			if(self::active()) {
 				Log::add('SSL actif.', Log::LEVEL_GOOD);
 			} else {
 				Log::add('Activation du SSL...', Log::LEVEL_PROGRESS);
@@ -39,7 +39,7 @@ abstract class SSL {
 	 * 
 	 * @return bool si le protocole SSL est actif
 	 */
-	static function isEnabled() {
+	static function active() {
 		return !($_SERVER['SERVER_PORT'] !== 443 && (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off'));
 	}
 

@@ -25,9 +25,9 @@ abstract class Crud {
      */
     static function all() {
         return Toogle::object(function() {
-            return Query::fetchObjects(
-                Builder::buildSelect(static::class) . ' ' . 
-                Builder::buildFrom(static::class),
+            return Query::objects(
+                Builder::select(static::class) . ' ' . 
+                Builder::from(static::class),
                 static::class);
         }, static::class);
     }
@@ -40,9 +40,9 @@ abstract class Crud {
      */
     static function size() { 
         return Toogle::object(function() {
-            return Query::fetchCell(
+            return Query::cell(
                 'SELECT COUNT(1) ' .
-                Builder::buildFrom(static::class));
+                Builder::from(static::class));
         }, static::class);
     }
 
@@ -55,7 +55,7 @@ abstract class Crud {
     static function truncat() { 
         return Toogle::object(function() {
             return Query::execute(
-                'TRUNCATE TABLE ' . Reflection::getTableName(static::class));
+                'TRUNCATE TABLE ' . Reflection::table(static::class));
         }, static::class);
     }
 
@@ -68,11 +68,11 @@ abstract class Crud {
      */
     function exists($clause = null) {
         return Toogle::object(function() use ($clause) {
-            [ $where, $params ] = Builder::buildClause($this, $clause);
-            return boolval(Query::fetchCell(
+            [ $where, $params ] = Builder::clause($this, $clause);
+            return boolval(Query::cell(
                 'SELECT EXISTS (
                     SELECT 1 ' .
-                    Builder::buildFrom($this) . ' ' .
+                    Builder::from($this) . ' ' .
                     $where . '
                 )',
                 $params)); 
@@ -88,10 +88,10 @@ abstract class Crud {
      */
     function count($clause = null) {
         return Toogle::object(function() use ($clause) {
-            [ $where, $params ] = Builder::buildClause($this, $clause);
-            return Query::fetchCell(
+            [ $where, $params ] = Builder::clause($this, $clause);
+            return Query::cell(
                 'SELECT COUNT(1) ' .
-                Builder::buildFrom($this) . ' ' .
+                Builder::from($this) . ' ' .
                 $where,
                 $params); 
         }, $this);
@@ -105,7 +105,7 @@ abstract class Crud {
      */
     function create() {
         return Toogle::object(function() {
-            [ $insert, $params ] = Builder::buildInsert($this);
+            [ $insert, $params ] = Builder::insert($this);
             return Query::execute(
                 $insert,
                 $params);
@@ -121,10 +121,10 @@ abstract class Crud {
      */
     function read($clause = null) {
         return Toogle::object(function() use ($clause) {
-            [ $where, $params ] = Builder::buildClause($this, $clause);
-            return Query::fetchObject(
-                Builder::buildSelect($this) . ' ' .
-                Builder::buildFrom($this) . ' ' .
+            [ $where, $params ] = Builder::clause($this, $clause);
+            return Query::object(
+                Builder::select($this) . ' ' .
+                Builder::from($this) . ' ' .
                 $where,
                 $this,
                 $params);
@@ -140,8 +140,8 @@ abstract class Crud {
      */
     function update($clause = null) {
         return Toogle::object(function() use ($clause) {
-            [ $update, $params1 ] = Builder::buildUpdate($this);
-            [ $where, $params2 ] = Builder::buildClause($this, $clause);
+            [ $update, $params1 ] = Builder::update($this);
+            [ $where, $params2 ] = Builder::clause($this, $clause);
             return Query::execute(
                 $update . ' ' . $where,
                 array_merge($params1, $params2));
@@ -157,9 +157,9 @@ abstract class Crud {
      */
     function delete($clause = null) { 
         return Toogle::object(function() use ($clause) {
-            [ $where, $params ] = Builder::buildClause($this, $clause);
+            [ $where, $params ] = Builder::clause($this, $clause);
             return Query::execute(
-                'DELETE ' . Builder::buildFrom($this) . ' ' . $where,
+                'DELETE ' . Builder::from($this) . ' ' . $where,
                 $params);
         }, $this);
     }
@@ -173,10 +173,10 @@ abstract class Crud {
      */
     function readMany($clause = null) {
         return Toogle::object(function() use ($clause) {
-            [ $where, $params ] = Builder::buildClause($this, $clause);
-            return Query::fetchObjects(
-                Builder::buildSelect($this) . ' ' .
-                Builder::buildFrom($this) . ' ' .
+            [ $where, $params ] = Builder::clause($this, $clause);
+            return Query::objects(
+                Builder::select($this) . ' ' .
+                Builder::from($this) . ' ' .
                 $where,
                 $this,
                 $params);

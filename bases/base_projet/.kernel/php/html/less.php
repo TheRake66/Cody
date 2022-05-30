@@ -43,7 +43,7 @@ abstract class Less {
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.css';
             $rel = 'stylesheet';
         }
-        $css = Builder::createElement('link', [
+        $css = Builder::create('link', [
             'rel' => $rel,
             'type' => 'text/css',
             'href' => Path::relative($file)
@@ -59,7 +59,7 @@ abstract class Less {
      * @return string le code HTML
      */
     static function add($style) {
-        $css = Builder::createElement('style', [
+        $css = Builder::create('style', [
             'type' => 'text/css',
         ], $style);
         return $css;

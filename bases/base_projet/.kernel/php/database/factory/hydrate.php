@@ -27,8 +27,12 @@ abstract class Hydrate {
     static function hydrate($data, $class) {
         $obj = new $class();
         foreach ($data as $key => $value) {
-            if (!self::setProperty($obj, $key, $value) &&
-                !self::setProperty($obj, '_' . $key, $value)) {
+            $key = Reflection::parse($key);
+            if (property_exists($class, $key)) {
+                $prop = new \ReflectionProperty($obj, $key);
+                $prop->setAccessible(true);
+                $prop->setValue($obj, $value);
+            } else {
                 Log::add('Attention, le champ "' . $key . '" n\'a pas de propriété dans la classe "' . $class . '"');
             }
         }
@@ -49,26 +53,6 @@ abstract class Hydrate {
             $list[] = self::hydrate($value, $class);
         }
         return $list;
-    }
-
-
-    /**
-     * Change la valeur d'une propriete d'un objet quelque soit l'accessibilite
-     * 
-     * @param object l'objet
-     * @param string la propriete
-     * @param mixed la valeur
-     * @return void
-     */
-    private static function setProperty($obj, $key, $value) {
-        if (property_exists($obj, $key)) {
-            $prop = new \ReflectionProperty($obj, $key);
-            $prop->setAccessible(true);
-            $prop->setValue($obj, $value);
-            return true;
-        } else {
-            return false;
-        }
     }
 
 }

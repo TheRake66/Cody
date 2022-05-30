@@ -39,7 +39,7 @@ abstract class Autoloader {
      * @throws Error si le fichier n'est pas trouvé
      */
     private static function load($required) {
-        if ($file = self::getFile($required)) {
+        if ($file = self::file($required)) {
             require_once($file);
             if (!class_exists($required)) {
                 die('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
@@ -62,19 +62,19 @@ abstract class Autoloader {
      * @return bool true si la classe existe
      */
     static function exists($class) {
-        return class_exists($class, false) || !empty(self::getFile($class));
+        return class_exists($class, false) || !empty(self::file($class));
     }
 
 
     /**
      * Retourne le type de la classe
      * 
-     * @example getClassType('Kernel\IO\Autoloader') => Kernel
-     * @example getClassType('Foo\Bar') => Foo
+     * @example type('Kernel\IO\Autoloader') => Kernel
+     * @example type('Foo\Bar') => Foo
      * @param string l'espace de nom de la classe
      * @return string le type de la classe
      */
-    static function getType($class) {
+    static function type($class) {
         $_ = explode('\\', $class);
         return array_shift($_);
     }
@@ -86,7 +86,7 @@ abstract class Autoloader {
      * @param string l'espace de nom de la classe
      * @return string|null le chemin du fichier ou null si non trouvé
      */
-    private static function getFile($required) {
+    private static function file($required) {
         $_ = explode('\\', $required);
         $class = end($_);
         $first = array_shift($_);
@@ -107,7 +107,7 @@ abstract class Autoloader {
                 break;
 
             case 'Controller':
-                $relative = 'debug/app/' . $namespace_lower . '/' . $class_lower . '/cont.' . $class_lower . '.php';
+                $relative = 'debug/app/' . $namespace_lower . '/' . $class_lower . '/controller.' . $class_lower . '.php';
                 break;
 
             case 'Model':

@@ -13,11 +13,11 @@ export default class Number {
     /**
      * Convertit un prix au format europeen
      * 
-     * @example convertToEuro('123456789') => '123 456 789 €'
+     * @example euro('123456789') => '123 456 789 €'
      * @param {Number} num le prix
      * @returns {string} le prix en format francais
      */
-    static toEuro(num) {
+    static euro(num) {
         return new Intl.NumberFormat("fr-FR", 
         {
             style: "currency", 
@@ -29,12 +29,12 @@ export default class Number {
     /**
      * Verifie si un nombre est pair
      * 
-     * @example isEven(2) => true
-     * @example isEven(3) => false
+     * @example even(2) => true
+     * @example even(3) => false
      * @param {Number} num le nombre
      * @returns {boolean} true si le nombre est pair
      */
-    static isEven(num) {
+    static even(num) {
         return num % 2 === 0;
     }
 
@@ -42,12 +42,12 @@ export default class Number {
     /**
      * Verifie si un nombre est impair
      * 
-     * @example isOdd(2) => false
-     * @example isOdd(3) => true
+     * @example odd(2) => false
+     * @example odd(3) => true
      * @param {Number} num le nombre
      * @returns {boolean} true si le nombre est impair
      */
-    static isOdd(num) {
+    static odd(num) {
         return num % 2 !== 0;
     }
 

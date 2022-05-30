@@ -29,8 +29,8 @@ abstract class Toogle {
         if (empty($database)) {
             $database = Configuration::get()->database->default_database;
         }
-        if (Statement::getCurrent() != $database) {
-            Statement::setCurrent($database);
+        if (Statement::current() != $database) {
+            Statement::current($database);
             Log::add('Changement de base de données vers "' . $database .'".', Log::LEVEL_GOOD);
         }
     }
@@ -44,7 +44,7 @@ abstract class Toogle {
      * @return mixed le resultat de la fonction
      */
     static function name($callback, $database = null) {
-        $last = Statement::getCurrent();
+        $last = Statement::current();
         self::switch($database);
         $result = $callback();
         self::switch($last);
@@ -63,7 +63,7 @@ abstract class Toogle {
      * @return mixed le resultat de la fonction
      */
     static function object($callback, $type) {
-        $database = Reflection::getDatabaseName($type);
+        $database = Reflection::database($type);
         return !is_null($database) ? 
             self::name($callback, $database) :
             $callback();

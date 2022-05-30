@@ -24,11 +24,11 @@ abstract class Memory {
 	/**
 	 * Convertir un nombre d'octets en unite de memoire
 	 * 
-	 * @example toMemory(1024) => 1Ko
+	 * @example convert(1024) => 1Ko
 	 * @param int le nombre
 	 * @return string la chaine formatee
 	 */
-	static function toMemory($bytes) {
+	static function convert($bytes) {
 		$count = 0;
 		while ($count < count(self::MEMORY_UNITS) - 1 && round($bytes, 0) >= 1000) {
 			$bytes /= 1024;
@@ -41,12 +41,12 @@ abstract class Memory {
 	/**
 	 * Convertit une unite de memoire en nombre d'octets
 	 * 
-	 * @example fromMemory(1, 'Go') => 1073741824
+	 * @example bytes(1, 'Go') => 1073741824
 	 * @param int le nombre d'octets
 	 * @param string l'unite de memoire
 	 * @return string la chaine formatee
 	 */
-	static function toBytes($number, $unit) {
+	static function bytes($number, $unit) {
 		$count = 0;
 		while ($count < count(self::MEMORY_UNITS) - 1 && self::MEMORY_UNITS[$count] != $unit) {
 			$number *= 1024;

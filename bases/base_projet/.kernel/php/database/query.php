@@ -27,7 +27,7 @@ abstract class Query {
      * @return bool si la requete a reussite
      */
     static function execute($sql, $params = []) {
-        return Output::returnLog(Output::send($sql, $params)->errorCode() === '00000');
+        return Output::log(Output::send($sql, $params)->errorCode() === '00000');
     }
 
     
@@ -38,8 +38,8 @@ abstract class Query {
      * @param array liste des parametres
      * @return array la ligne retournee
      */
-    static function fetchRow($sql, $params = []) {
-        return Output::returnLog(Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC));
+    static function row($sql, $params = []) {
+        return Output::log(Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC));
     }
 
     
@@ -50,8 +50,8 @@ abstract class Query {
      * @param array liste des parametres
      * @return array les lignes retournees
      */
-    static function fetchAll($sql, $params = []) {
-        return Output::returnLog(Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC));
+    static function all($sql, $params = []) {
+        return Output::log(Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC));
     }
 
     
@@ -62,10 +62,10 @@ abstract class Query {
      * @param array liste des parametres
      * @return mixed valeur de la cellule
      */
-    static function fetchCell($sql, $params = []) {
+    static function cell($sql, $params = []) {
         $res = Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
         if (!is_null($res) && !empty($res)) {
-            return Output::returnLog(array_values($res)[0]);
+            return Output::log(array_values($res)[0]);
         }
     }
 
@@ -78,11 +78,11 @@ abstract class Query {
      * @param array la liste des parametres
      * @return object objet DTO hydrate
      */
-    static function fetchObject($sql, $class, $params = []) {
+    static function object($sql, $class, $params = []) {
         $_ = Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
         return !empty($_) ? 
-            Output::returnLog(Hydrate::hydrate($_, $class)) :
-            Output::returnLog(null);
+            Output::log(Hydrate::hydrate($_, $class)) :
+            Output::log(null);
     }
 
     
@@ -94,11 +94,11 @@ abstract class Query {
      * @param array la liste des parametres
      * @return array liste d'objets DTO hydrates
      */
-    static function fetchObjects($sql, $class, $params = []) {
+    static function objects($sql, $class, $params = []) {
         $_ = Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
         return !empty($_) ? 
-            Output::returnLog(Hydrate::hydrateMany($_, $class)) :
-            Output::returnLog([]);
+            Output::log(Hydrate::hydrateMany($_, $class)) :
+            Output::log([]);
     }
 
 }

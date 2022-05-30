@@ -49,7 +49,7 @@ abstract class Location {
      * @return void
 	 */
 	static function reload() {
-		self::travel(Parser::getCurrent());
+		self::travel(Parser::current());
 	}
 
 
@@ -66,14 +66,14 @@ abstract class Location {
 		if ($method == self::METHOD_GET) {
 			self::travel(self::build($route, $params, $addBack));
 		} else {
-			$html = Builder::createElement('form', [
+			$html = Builder::create('form', [
 				'action' => self::build($route),
 				'method' => 'post',
 				'id' => 'KERNEL_REDIRECT_FORM'
 			]);
 			if ($params) {				
 				foreach ($params as $key => $value) {
-					$html .= Builder::createElement('input', [
+					$html .= Builder::create('input', [
 						'type' => 'hidden',
 						'name' => $key,
 						'value' => $value
@@ -81,10 +81,10 @@ abstract class Location {
 				}
 			}
 			if ($addBack) {
-				$html .= Builder::createElement('input', [
+				$html .= Builder::create('input', [
 					'type' => 'hidden',
 					'name' => 'redirect_url',
-					'value' => Parser::getCurrent()
+					'value' => Parser::current()
 				]);
 			}
 			$html .= Javascript::run('
@@ -100,16 +100,16 @@ abstract class Location {
 	/**
 	 * Contruit une url
 	 * 
-	 * @example self::build('/home', ['id' => 1, 'name' => 'toto'], true) => /home?id=1&name=toto&redirect_url=http%3A%2F%2Flocalhost%2Fhome
+	 * @example build('/home', ['id' => 1, 'name' => 'toto'], true) => /home?id=1&name=toto&redirect_url=http%3A%2F%2Flocalhost%2Fhome
 	 * @param string la route
 	 * @param array les parametres
 	 * @param string si on ajoute le parametre de retour
 	 * @return string l'url
 	 */
 	static function build($route, $params = [], $addBack = false) {
-		$url = Parser::getRoot() . $route;
+		$url = Parser::root() . $route;
 		if ($addBack) {
-			$params['redirect_url'] = Parser::getCurrent();
+			$params['redirect_url'] = Parser::current();
 		}
 		if ($params || $addBack) {
 			$url .= '?' . http_build_query($params);

@@ -39,7 +39,7 @@ export default class Export {
      * @param {string} content le contenu de la page
      * @returns {void}
      */
-    static fullScreen(content) {
+    static fullscreen(content) {
         let tab = window.open('about:blank', '_blank');
         tab.document.write('<pre>' + content + '</pre>');
         tab.document.close();
@@ -54,7 +54,7 @@ export default class Export {
 	 * @param {string} arround caractere autour de chaque cellules
      * @returns {void}
      */
-     static tableToCSV(table, spearator = ';', arround = '"') {
+     static csv(table, spearator = ';', arround = '"') {
         let csv = '';
 
         // Creer le header

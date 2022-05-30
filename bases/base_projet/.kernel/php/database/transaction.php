@@ -23,11 +23,11 @@ abstract class Transaction {
      * @param bool faux si une erreur est survenue
      */
     static function begin() {
-        $conf = Statement::getConfiguration();
+        $conf = Statement::configuration();
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
-            Statement::getInstance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            Statement::instance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
-        return Statement::getInstance()->beginTransaction();
+        return Statement::instance()->beginTransaction();
     }
 
 
@@ -37,11 +37,11 @@ abstract class Transaction {
      * @param bool faux si une erreur est survenue
      */
     static function rollback() {
-        $conf = Statement::getConfiguration();
+        $conf = Statement::configuration();
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
-            Statement::getInstance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+            Statement::instance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
         }
-        return Statement::getInstance()->rollBack();
+        return Statement::instance()->rollBack();
     }
 
 
@@ -51,11 +51,11 @@ abstract class Transaction {
      * @param bool faux si une erreur est survenue
      */
     static function commit() {
-        $conf = Statement::getConfiguration();
+        $conf = Statement::configuration();
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
-            Statement::getInstance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+            Statement::instance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
         }
-        return Statement::getInstance()->commit();
+        return Statement::instance()->commit();
     }
 
 
@@ -64,8 +64,8 @@ abstract class Transaction {
      * 
      * @param bool vrai si une transaction est en cours sinon faux
      */
-    static function hasBegun() {
-        return Statement::getInstance()->inTransaction();
+    static function has() {
+        return Statement::instance()->inTransaction();
     }
 
 }

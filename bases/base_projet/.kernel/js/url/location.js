@@ -65,7 +65,7 @@ export default class Location {
 				f.append(DOM.create('input', {
 					type: 'hidden',
 					name: 'redirect_url',
-					value: Parser.getCurrent()
+					value: Parser.current()
 				}));
 			}
 			DOM.append(f);
@@ -84,7 +84,7 @@ export default class Location {
 	 * @return {string} l'url
 	 */
 	static build(route, params = {}, addback = false) {
-		let url = Parser.getRoot() + route;
+		let url = Parser.root() + route;
 		if (addback) {
 			params.redirect_url = Parser.current();
 		}

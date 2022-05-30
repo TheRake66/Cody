@@ -13,12 +13,12 @@ export default class Encoded {
     /**
      * Retourne un tiret si la valeur est vide
      * 
-     * @example emptyToDash('test') => 'test'
-     * @example emptyToDash('') => '-'
+     * @example hyphen('test') => 'test'
+     * @example hyphen('') => '-'
      * @param {Object} value la valeur
      * @returns {string|Object} le tiret si la valeur est vide, la valeur sinon
      */
-    static emptyToHyphen(value) {
+    static hyphen(value) {
         return value === '' || 
             value === null || 
             value === undefined || 

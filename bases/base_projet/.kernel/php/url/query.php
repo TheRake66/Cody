@@ -25,7 +25,7 @@ abstract class Query {
 	static function change($name, $value) {
 		$query = $_GET;
 		$query[$name] = $value;
-		return Parser::getRoot() . '?' . http_build_query($query);
+		return Parser::root() . '?' . http_build_query($query);
 	}
 	
 
@@ -62,8 +62,8 @@ abstract class Query {
 		$query = $_GET;
 		unset($query[$name]);
 		return empty($query) ? 
-			Parser::getRoot() :
-			Parser::getRoot() . '?' . http_build_query($query);
+			Parser::root() :
+			Parser::root() . '?' . http_build_query($query);
 	}
 
 }

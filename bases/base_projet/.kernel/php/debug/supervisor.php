@@ -143,14 +143,14 @@ abstract class Supervisor {
                 <div>
                     <h1 class="SUPERVISOR_HTTP_' . $type . '">HTTP ' . $http . '</h1>
                     <h1 class="' . $latency . '">' . $ms . ' ms</h1>
-                    <form action="' . Parser::getCurrent() . '" method="post">
+                    <form action="' . Parser::current() . '" method="post">
                         <input type="submit" name="supervisor_refresh" value="Actualiser">
                         <input type="submit" name="supervisor_clear" value="Vider le cache">
                     </form>
                     <h2>Informations</h2>
                     <div>
                         <span><b>Session</b><pre>' . $session . '</pre></span>
-                        <span><b>Route</b><pre>' . Router::getCurrent() . '</pre></span>
+                        <span><b>Route</b><pre>' . Router::current() . '</pre></span>
                         <span><b>Composant</b><pre>' . Router::getClass() . '</pre></span>
                         <span><b>Version de PHP</b><pre>' . phpversion() . '</pre></span>
                     </div>

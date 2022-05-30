@@ -35,7 +35,7 @@ abstract class Rest {
 	static function check() {
 		$class = Router::getClass();
 		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
-		if (Autoloader::getType($class) === 'API') {
+		if (Autoloader::type($class) === 'API') {
 			Log::add('Appel API identifié : "' . $class . '".');
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
@@ -45,7 +45,7 @@ abstract class Rest {
 			$methods = Router::getMethods();
 			if (is_array($methods) && in_array($method, $methods) ||
 				!is_array($methods) && ($methods === $method || $methods === Router::METHOD_ALL)) {
-				$route = Router::getCurrent();
+				$route = Router::current();
 				$query = Router::getParams();
 				$body = [];
 				switch ($method) {
@@ -65,7 +65,7 @@ abstract class Rest {
 						break;
 				}	
 
-				Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::getCurrent() . '")...',
+				Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::current() . '")...',
 					Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
 				Log::add('Paramètres de la requête REST : "' . print_r($body, true) . '".',
 					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
@@ -164,7 +164,7 @@ abstract class Rest {
 	 * @return void
 	 */
 	protected function match($route, $callback) {
-		if (Router::getCurrent() === $route) {
+		if (Router::current() === $route) {
 			$callback();
 		}
 	}

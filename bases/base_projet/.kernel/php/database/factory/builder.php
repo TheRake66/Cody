@@ -21,10 +21,10 @@ abstract class Builder {
      * @param object|string l'objet ou la classe DTO 
      * @return string l'instruction SELECT
      */
-    static function buildSelect($obj) {
+    static function select($obj) {
         $col = '';
-        foreach (Reflection::getColumns($obj) as $column) {
-            $col .= Reflection::primaryToColumn($column) . ', ';
+        foreach (Reflection::columns($obj) as $column) {
+            $col .= Reflection::parse($column) . ', ';
         }
         $col = substr($col, 0, -2);
         $sql = 'SELECT ' . $col;
@@ -38,8 +38,8 @@ abstract class Builder {
      * @param object|string l'objet ou la classe DTO
      * @return string l'instruction FROM
      */
-    static function buildFrom($obj) {
-        $sql = 'FROM ' . Reflection::getTableName($obj);
+    static function from($obj) {
+        $sql = 'FROM ' . Reflection::table($obj);
         return $sql;
     }
 
@@ -57,18 +57,18 @@ abstract class Builder {
      * @param array les proprietes utilisees pour la clause WHERE
      * @return array l'instruction WHERE et les parametres
      */
-    static function buildClause($obj, $clause = null) {
+    static function clause($obj, $clause = null) {
         $sql = '';
         $pms = [];
         if (empty($clause)) {
-            $clause = Reflection::getPrimaryKeys($obj);
+            $clause = Reflection::keys($obj);
         }
         foreach ((array)$obj as $prop => $val) {
             if (!is_array($clause) && $prop == $clause ||
                 is_array($clause) && in_array($prop, $clause)) {
                 
                 $sql .= (empty($sql) ? 'WHERE' : 'AND') . ' ' . 
-                Reflection::primaryToColumn($prop);
+                Reflection::parse($prop);
             
                 if (!is_null($val)) {
                     $sql .= ' = ? ';
@@ -97,18 +97,18 @@ abstract class Builder {
      * @param object l'objet DTO a lier
      * @return array l'instruction INSERT et les parametres
      */
-    static function buildInsert($obj) {
+    static function insert($obj) {
         $col = '';
         $pmv = '';
         $pms = [];
         foreach ((array)$obj as $prop => $val) {
-            $col .= Reflection::primaryToColumn($prop) . ', ';
+            $col .= Reflection::parse($prop) . ', ';
             $pmv .= '?, ';
             $pms[] = $val;
         }
         $col = substr($col, 0, -2);
         $pmv = substr($pmv, 0, -2);
-        $sql = 'INSERT INTO ' . Reflection::getTableName($obj) . ' (' . $col . ') 
+        $sql = 'INSERT INTO ' . Reflection::table($obj) . ' (' . $col . ') 
                 VALUES (' . $pmv . ')';
         return [ $sql, $pms ];
     }
@@ -125,15 +125,15 @@ abstract class Builder {
      * @param object l'objet DTO a lier
      * @return array l'instruction UPDATE et les parametres
      */
-    static function buildUpdate($obj) {
+    static function update($obj) {
         $set = '';
         $pms = [];
         foreach ((array)$obj as $prop => $val) {
-            $set .= Reflection::primaryToColumn($prop) . ' = ?, ';
+            $set .= Reflection::parse($prop) . ' = ?, ';
             $pms[] = $val;
         }
         $set = substr($set, 0, -2);
-        $sql = 'UPDATE ' . Reflection::getTableName($obj) . ' 
+        $sql = 'UPDATE ' . Reflection::table($obj) . ' 
                 SET ' . $set;
         return [ $sql, $pms ];
     }

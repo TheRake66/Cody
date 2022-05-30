@@ -69,7 +69,7 @@ abstract class Statement {
      * @return object configuration de la base de donnees
      * @throws Error si la base de donnees par défaut n'est pas définie
      */
-    static function getConfiguration() {
+    static function configuration() {
         $conf = Configuration::get()->database;
         if (!is_null(self::$current)) {
             foreach ($conf->databases_list as $database) {
@@ -95,7 +95,7 @@ abstract class Statement {
      * @return PDOStatement instance PDO
      * @throws Error si la base de donnees n'est pas definie
      */
-    static function getInstance() {
+    static function instance() {
         $conf = Configuration::get()->database;
         if (is_null(self::$current)) {
             self::$current = $conf->default_database;
@@ -107,7 +107,7 @@ abstract class Statement {
             return self::$instances[self::$current];
         } else {
             if ($conf->progressive_connection) {
-                self::$instances[self::$current] = self::init(self::getConfiguration());
+                self::$instances[self::$current] = self::init(self::configuration());
                 return self::$instances[self::$current];
             } else {
                 foreach ($conf->databases_list as $database) {
@@ -124,23 +124,17 @@ abstract class Statement {
 
 
     /**
-     * Retourne le nom de la base de donnees en cours
+     * Change ou retourne le nom de la base de donnees en cours
      * 
+     * @return string|null nom de la base de donnees
      * @return string nom de la base de donnees
      */
-    static function getCurrent() {
-        return self::$current;
-    }
-
-
-    /**
-     * Change le nom de la base de donnees en cours
-     * 
-     * @param string nom de la base de donnees
-     * @return void
-     */
-    static function setCurrent($name) {
-        self::$current = $name;
+    static function current($name = null) {
+        if (is_null($name)) {
+            return self::$current;
+        } else {
+            self::$current = $name;
+        }
     }
 
 }

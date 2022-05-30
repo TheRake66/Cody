@@ -32,12 +32,12 @@ abstract class Javascript {
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.js';
         }
         if (is_null($name) && is_null($class)) {
-            $js = Builder::createElement('script', [
+            $js = Builder::create('script', [
                 'type' => $type,
                 'src' => Path::relative($file)
             ], null, false);
         } else {
-            $js = Builder::createElement('script', [
+            $js = Builder::create('script', [
                 'type' => $type,
             ], 
             'import ' . $class . ' from "' . Path::relative($file) . '";
@@ -55,7 +55,7 @@ abstract class Javascript {
      * @return string le code HTML
      */
     static function run($script, $type = 'module') {
-        $js = Builder::createElement('script', [
+        $js = Builder::create('script', [
             'type' => $type,
         ], $script);
         return $js;
@@ -68,7 +68,7 @@ abstract class Javascript {
      * @param string le message
      * @return string le code HTML
      */
-    static function runAlert($message) {
+    static function alert($message) {
         return self::run('alert("' . str_replace('"', '\\"', $message) . '")');
     }
 
@@ -81,7 +81,7 @@ abstract class Javascript {
      * @param string le code javascript à executer si non
      * @return string le code HTML
      */
-    static function runConfirm($message, $yes = null, $no = null) {
+    static function confirm($message, $yes = null, $no = null) {
         return self::run('
             if (confirm("' . str_replace('"', '\\"', $message) . '")) {
                 ' . ($yes ? $yes : '') . '
@@ -99,7 +99,7 @@ abstract class Javascript {
      * @param string le type de log
      * @return string le code HTML
      */
-    static function runLog($message, $style = null, $type = 'log') {
+    static function log($message, $style = null, $type = 'log') {
         $message = str_replace('"', '\\"', $message);
         if (is_null($style)) {
             return self::run('console.log("' . $message . '")');
@@ -123,8 +123,8 @@ abstract class Javascript {
      * @param string le style
      * @return string le code HTML
      */
-    static function runError($message, $style = null) {
-        return self::runLog($message, $style, 'error');
+    static function error($message, $style = null) {
+        return self::log($message, $style, 'error');
     }
 
 
@@ -135,8 +135,8 @@ abstract class Javascript {
      * @param string le style
      * @return string le code HTML
      */
-    static function runInfo($message, $style = null) {
-        return self::runLog($message, $style, 'info');
+    static function info($message, $style = null) {
+        return self::log($message, $style, 'info');
     }
     
 }

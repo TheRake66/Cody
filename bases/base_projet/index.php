@@ -10,9 +10,9 @@ use Kernel\HTML\Doctype;
 <!-- Ouvre la balise HTML et l'entete -->
 <?= Doctype::open() ?>
 
-	<!-- Routage vers le bon controleur -->
+	<!-- Routage vers le point d'entree -->
 	<body>
-		<?php Router::routing(); ?>
+		<?php Router::app(); ?>
 	</body>
 	
 <!-- Ferme la balise HTML et fais le rendu -->

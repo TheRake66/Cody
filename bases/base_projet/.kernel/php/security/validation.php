@@ -29,7 +29,7 @@ abstract class Validation {
 	 * @param bool si le mot de passe doit contenir un caractere special
 	 * @return bool si le mot de passe est robuste
 	 */
-	static function passwordIsStrong($password, $min = 8, $max = 20, $upper = true, $lower = true, $number = true, $special = true) {
+	static function strong($password, $min = 8, $max = 20, $upper = true, $lower = true, $number = true, $special = true) {
 		$len = strlen($password);
 		if ((!is_null($min) && $len < $min) || (!is_null($max) && $len > $max)) return false;
 		elseif ($upper && !preg_match('/[A-Z]/', $password)) return false;
@@ -46,7 +46,7 @@ abstract class Validation {
 	 * @param string l'adresse email
 	 * @return bool si l'adresse email est valide
 	 */
-	static function emailIsValid($email) {
+	static function email($email) {
 		return filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
 	

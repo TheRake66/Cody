@@ -20,7 +20,7 @@ abstract class Network {
 	 *
      * @return string adresse ip
 	 */
-	static function getClientIP() {
+	static function clientIP() {
 		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 			return $_SERVER['HTTP_CLIENT_IP'];
 		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {

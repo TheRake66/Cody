@@ -27,7 +27,7 @@ abstract class Builder {
      * @param bool si la balise est une balise autofermante
      * @return string le code HTML
      */
-    static function createElement($tag, $attr = null, $content = null, $selfClose = true) {
+    static function create($tag, $attr = null, $content = null, $selfClose = true) {
         $_ = '<' . $tag;
         if ($attr) {
             foreach ($attr as $key => $value) {
@@ -57,12 +57,12 @@ abstract class Builder {
      * @param bool si on ouvre la page dans une nouvelle fenetre
      * @return string le code HTML
      */
-    static function buildHref($text, $route, $param = null, $addBack = false, $newTab = false) {
+    static function href($text, $route, $param = null, $addBack = false, $newTab = false) {
         $_['href'] = Location::build($route, $param, $addBack);
         if ($newTab) {
             $_['target'] = '_blank';
         }
-        return self::createElement('a', $_, $text);
+        return self::create('a', $_, $text);
     }
 
 
@@ -74,8 +74,8 @@ abstract class Builder {
      * @param string le format de l'image
      * @return string le code HTML
      */
-    static function buildImgBin($bin, $alt = null, $format = 'png') {
-        return self::buildImg(Image::binToB64($bin, $format), $alt);
+    static function imgB64($bin, $alt = null, $format = 'png') {
+        return self::img(Image::B64($bin, $format), $alt);
     }
 
 
@@ -87,12 +87,12 @@ abstract class Builder {
      * @param string le format de l'image
      * @return string le code HTML
      */
-    static function buildImg($src, $alt = null) {
+    static function img($src, $alt = null) {
         $_ = [ 'src' => $src ];
         if ($alt) {
             $_['alt'] = $alt;
         }
-        return self::createElement('img', $_);
+        return self::create('img', $_);
     }
 
     
@@ -107,7 +107,7 @@ abstract class Builder {
      * @param string si on ajoute le parametre de retour
      * @return string le code HTML
      */
-    static function buildForm($content = null, $method = 'GET', $isMultipart = false, $route = null, $param = null, $addback = false) {
+    static function form($content = null, $method = 'GET', $isMultipart = false, $route = null, $param = null, $addback = false) {
         $_['method'] = $method;
         if ($isMultipart) {
             $_['enctype'] = 'multipart/form-data';
@@ -115,7 +115,7 @@ abstract class Builder {
         if (!is_null($route)) {
             $_['action'] = Location::build($route, $param, $addback);
         }
-        return self::createElement('form', $_, $content, false);
+        return self::create('form', $_, $content, false);
     }
     
 }

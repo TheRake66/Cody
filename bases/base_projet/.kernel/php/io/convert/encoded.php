@@ -18,13 +18,13 @@ abstract class Encoded {
 	/**
 	 * Coupe une chaine de caractere si elle est trop longue
 	 * 
-	 * @example cutTooLong('Lorem ipsum dolor sit amet', 10) => Lorem ipsum ...
-	 * @example cutTooLong('Lorem', 10) => Lorem
+	 * @example cut('Lorem ipsum dolor sit amet', 10) => Lorem ipsum ...
+	 * @example cut('Lorem', 10) => Lorem
 	 * @param string la chaine a verifier
 	 * @param int la taille max a couper
 	 * @return string la chaine coupe ou non
 	 */
-	static function cutTooLong($text, $size = 50) {
+	static function cut($text, $size = 50) {
 		if (strlen($text) > $size) {
 			return substr($text, 0, $size) . '...';
 		} else {
@@ -36,12 +36,12 @@ abstract class Encoded {
 	/**
 	 * Retourne un tiret si la valeur est vide
 	 * 
-	 * @example emptyToHyphen('Lorem ipsum dolor sit amet') => Lorem ipsum
-	 * @example emptyToHyphen('') => -
+	 * @example hyphen('Lorem ipsum dolor sit amet') => Lorem ipsum
+	 * @example hyphen('') => -
 	 * @param mixed la valeur
 	 * @return string|mixed la valeur ou un tiret
 	 */
-	static function emptyToHyphen($value) {
+	static function hyphen($value) {
 		return empty($value) ? '-' : $value;
 	}
 	
@@ -49,13 +49,13 @@ abstract class Encoded {
     /**
      * Genere un une chaine de caractere aleatoire
      * 
-	 * @example randomString(10) => 'a1b2c3d4e5f6g7h8i9j0'
-	 * @example randomString(10, 'ABCD') => 'ADCBADBCDA'
+	 * @example random(10) => 'a1b2c3d4e5f6g7h8i9j0'
+	 * @example random(10, 'ABCD') => 'ADCBADBCDA'
      * @param int taille de la chaine
      * @param string le jeu de caracteres
      * @return string la chaine aleatoire
      */
-	static function randomString($size = 32, $charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
+	static function random($size = 32, $charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
 		$str = '';
 		$max = strlen($charset) - 1;
 		for ($i = 0; $i < $size; $i++) {
@@ -68,12 +68,12 @@ abstract class Encoded {
     /**
      * Retourne null si la valeur est vide, sinon retourne la valeur
      * 
-	 * @example nullIfEmpty('Lorem ipsum dolor sit amet') => 'Lorem ipsum dolor sit amet'
-	 * @example nullIfEmpty('') => null
+	 * @example null('Lorem ipsum dolor sit amet') => 'Lorem ipsum dolor sit amet'
+	 * @example null('') => null
      * @param mixed la valeur a verifier
      * @return mixed null ou la valeur
      */
-    static function nullIfEmpty($value) {
+    static function null($value) {
         return empty($value) ? null : $value;
     }
 

@@ -35,10 +35,10 @@ abstract class Error {
     static function handler() {
         if (!self::$showing && Configuration::get()->render->catch_error) {
             set_error_handler(function($severity, $message, $file_name, $lineno) {
-                self::showError($severity, $message, $file_name, $lineno);
+                self::show($severity, $message, $file_name, $lineno);
             });
             register_shutdown_function(function() {
-                self::showFatal();
+                self::fatal();
             });
         }
     }
@@ -78,14 +78,14 @@ abstract class Error {
      * 
      * @return void
      */
-    private static function showFatal() {
+    private static function fatal() {
         $error = error_get_last();
         if ($error !== null) {
             $severity = $error["type"];
             $file_name = $error["file"];
             $lineno = $error["line"];
             $message = $error["message"];
-            self::showError($severity, $message, $file_name, $lineno);
+            self::show($severity, $message, $file_name, $lineno);
         }
     }
 
@@ -99,7 +99,7 @@ abstract class Error {
      * @param int le numero de la ligne
      * @return void
      */
-    private static function showError($severity, $message, $file_name, $lineno) {
+    private static function show($severity, $message, $file_name, $lineno) {
         self::remove();
         self::$showing = true;
         $messagefull = $message . PHP_EOL . (new Exception())->getTraceAsString();

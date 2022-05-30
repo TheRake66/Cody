@@ -18,12 +18,12 @@ abstract class Dataset {
 	/**
 	 * Verifi si un tableau est associatif
 	 * 
-	 * @example isAssoc(['a' => 1, 'b' => 2]) => true
-	 * @example isAssoc([1, 2]) => false
+	 * @example assoc(['a' => 1, 'b' => 2]) => true
+	 * @example assoc([1, 2]) => false
 	 * @param array le tableau a verifier
 	 * @return bool si il est associatif
 	 */
-	static function isAssoc($array) {
+	static function assoc($array) {
 		if (array() === $array) return false;
 		return array_keys($array) !== range(0, count($array) - 1);
 	}

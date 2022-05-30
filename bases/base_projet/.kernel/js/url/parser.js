@@ -18,7 +18,7 @@ export default class Parser {
 	 * 
 	 * @return {string} le retour
 	 */
-	static getBack() {
+	static back() {
 		return Query.paramGet('redirect_url') ?? undefined;
 	}
 
@@ -28,7 +28,7 @@ export default class Parser {
 	 * 
 	 * @returns {string} le protocole
 	 */
-	static getProtocol() {
+	static protocol() {
 		return window.location.protocol.replace(':', '');
 	}
 
@@ -38,7 +38,7 @@ export default class Parser {
 	 * 
 	 * @returns {string} l'adresse
 	 */
-	static getHost() {
+	static host() {
 		return window.location.origin;
 	}
 
@@ -48,8 +48,8 @@ export default class Parser {
 	 * 
 	 * @returns {string} l'url sans les parametres
 	 */
-	static getRoot() {
-		return Parser.getHost();
+	static root() {
+		return Parser.host();
 	}
 
 	
@@ -58,7 +58,7 @@ export default class Parser {
 	 * 
 	 * @returns {string} le chemin
 	 */
-	static getPath() {
+	static path() {
 		return window.location.pathname;
 	}
 
@@ -68,7 +68,7 @@ export default class Parser {
 	 * 
 	 * @return {string} l'url
 	 */
-	static getCurrent() {
+	static current() {
 		return window.location.href;
 	}
 

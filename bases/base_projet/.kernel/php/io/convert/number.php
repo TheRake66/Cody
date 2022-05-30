@@ -18,11 +18,11 @@ abstract class Number {
     /**
      * Convertit un prix en format europeen
      * 
-	 * @example toEuro(12.5) => 12,50 €
+	 * @example euro(12.5) => 12,50 €
      * @param double prix brute
 	 * @return string prix convertit
      */
-	static function toEuro($num) {
+	static function euro($num) {
 		return number_format($num, 2, ',', ' ') . ' €';
 	}
 
@@ -30,12 +30,12 @@ abstract class Number {
 	/**
 	 * Convertir un nombre en format occidentale
 	 * 
-	 * @example toOccidental(1200000.123) => 1 200 000,123
+	 * @example occident(1200000.123) => 1 200 000,123
 	 * @param double le nombre
 	 * @param int nombre de chiffre apres la virgule
 	 * @return string la chaine formatee
 	 */
-	static function toOccident($decimal, $precision = 3) {
+	static function occident($decimal, $precision = 3) {
 		return number_format($decimal, $precision, ',', ' ');
 	}
 
@@ -43,12 +43,12 @@ abstract class Number {
 	/**
 	 * Verifie si un nombre est pair
 	 * 
-	 * @example isEven(12) => true
-	 * @example isEven(13) => false
+	 * @example even(12) => true
+	 * @example even(13) => false
 	 * @param int le nombre
 	 * @return bool si il est pair
 	 */
-	static function isEven($num) {
+	static function even($num) {
 		return $num % 2 == 0;
 	}
 
@@ -56,12 +56,12 @@ abstract class Number {
 	/**
 	 * Verifie si un nombre est impair
 	 * 
-	 * @example isOdd(12) => false
-	 * @example isOdd(13) => true
+	 * @example odd(12) => false
+	 * @example odd(13) => true
 	 * @param int le nombre
 	 * @return bool si il est impair
 	 */
-	static function isOdd($num) {
+	static function odd($num) {
 		return $num % 2 != 0;
 	}
 

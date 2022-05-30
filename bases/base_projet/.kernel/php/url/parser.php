@@ -20,7 +20,7 @@ abstract class Parser {
 	 * 
 	 * @return string le retour
 	 */
-	static function getBack() {
+	static function back() {
 		return $_GET['redirect_url'] ?? null;
 	}
 
@@ -30,7 +30,7 @@ abstract class Parser {
 	 * 
 	 * @return string le protocol
 	 */
-	static function getProtocol() {
+	static function protocol() {
 		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
 	}
 
@@ -40,8 +40,8 @@ abstract class Parser {
 	 * 
 	 * @return string l'adresse
 	 */
-	static function getHost() {
-		return self::getProtocol() . '://' . $_SERVER['HTTP_HOST'];
+	static function host() {
+		return self::protocol() . '://' . $_SERVER['HTTP_HOST'];
 	}
 
 
@@ -50,12 +50,12 @@ abstract class Parser {
 	 * 
 	 * @return string l'url sans les parametres
 	 */
-	static function getRoot() {
+	static function root() {
 		$_ = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
 		if ($_ === '/') {
-			return self::getHost();
+			return self::host();
 		} else {
-			return self::getHost() . $_;
+			return self::host() . $_;
 		}
 	}
 
@@ -65,8 +65,8 @@ abstract class Parser {
 	 * 
 	 * @return string le chemin
 	 */
-	static function getPath() {
-		return self::getRoot() . Router::getAsked();
+	static function path() {
+		return self::root() . Router::getAsked();
 	}
 
 	
@@ -75,8 +75,8 @@ abstract class Parser {
 	 * 
 	 * @return string l'url
 	 */
-	static function getCurrent() {
-		return self::getHost() . $_SERVER['REQUEST_URI'];
+	static function current() {
+		return self::host() . $_SERVER['REQUEST_URI'];
 	}
 	
 }

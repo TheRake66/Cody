@@ -38,7 +38,7 @@ abstract class Render {
         
         if (!empty($variables)) {
             if (is_array($variables)) {
-                if (Dataset::isAssoc($variables)) {
+                if (Dataset::assoc($variables)) {
                     extract($variables);
                 } else {
                     $_ = [];
@@ -52,7 +52,7 @@ abstract class Render {
             }
         }
         
-        $vue = $folder . 'vue.' . $name . '.php';
+        $vue = $folder . 'view.' . $name . '.php';
         $vueabs = Path::absolute($vue);
         $style = $folder . 'style.' . $name . '.less';
         $script = $folder . 'script.' . $name . '.js';

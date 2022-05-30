@@ -25,7 +25,7 @@ abstract class Image {
      * @param int la hauteur finale
      * @return string l'image compressee
      */
-    static function resizeFromBin($data, $width = 128, $height = 128, $stretch = false) {
+    static function resize($data, $width = 128, $height = 128, $stretch = false) {
         if (extension_loaded('gd') || extension_loaded('gd2')) {
             $source = imagecreatefromstring($data);
             $info = getimagesizefromstring($data);
@@ -71,7 +71,7 @@ abstract class Image {
      * @param string le chemin vers le fichier
      * @return string le SVG
      */
-    static function loadSvg($file) {
+    static function svg($file) {
         if (is_file($file) && is_readable($file)) {
             return file_get_contents($file);
         } else {
@@ -87,7 +87,7 @@ abstract class Image {
      * @param string le format de l'image
      * @return string l'image en base64
      */
-    static function binToB64($bin, $format = 'png') {
+    static function B64($bin, $format = 'png') {
         return 'data:image/'  . $format . ';base64,' . base64_encode($bin);
     }
     

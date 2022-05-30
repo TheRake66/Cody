@@ -20,7 +20,7 @@ k\IO\Stream::reset();
 k\Security\SSL::enable();
 
 // Defini le fuseau horraire par defaut
-k\IO\Convert\Date::setTimezone();
+k\IO\Convert\Date::timezone();
 
 // Lance une session
 k\Session\Socket::start();

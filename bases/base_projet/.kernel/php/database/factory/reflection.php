@@ -23,7 +23,7 @@ abstract class Reflection {
      * @param object l'objet DTO
      * @return string le nom de la base de donnee
      */
-    static function getDatabaseName($dto) {
+    static function database($dto) {
         $file = (new \ReflectionClass($dto))->getFileName();
         $path = dirname($file);
         $root = explode(DIRECTORY_SEPARATOR, $path);
@@ -40,7 +40,7 @@ abstract class Reflection {
      * @param object l'objet DTO
      * @return string le nom de la classe
      */
-    static function getTableName($dto) {
+    static function table($dto) {
         return strtolower((new \ReflectionClass($dto))->getShortName());
     }
 
@@ -51,11 +51,11 @@ abstract class Reflection {
      * @param object|string l'objet ou la classe DTO
      * @return array les noms
      */
-    static function getColumns($dto) {
+    static function columns($dto) {
         $props = (new \ReflectionClass($dto))->getProperties();
         $_ = [];
         foreach ($props as $prop) {
-            $_[] = self::primaryToColumn($prop->getName());
+            $_[] = self::parse($prop->getName());
         }
         return $_;
     }
@@ -67,7 +67,7 @@ abstract class Reflection {
      * @param object|string l'objet ou la classe DTO
      * @return array les noms
      */
-    static function getPrimaryKeys($dto) {
+    static function keys($dto) {
         $props = (new \ReflectionClass($dto))->getProperties();
         $_ = [];
         foreach ($props as $prop) {
@@ -86,7 +86,7 @@ abstract class Reflection {
      * @param string le nom de la propriete
      * @return string le nom de la colonne
      */
-    static function primaryToColumn($primary) {
+    static function parse($primary) {
         if (substr($primary, 0, 1) === '_') {
             return substr($primary, 1);
         } else {

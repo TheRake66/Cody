@@ -133,7 +133,7 @@ abstract class Router {
 	 * @return string la route
 	 * @throws Error si aucune route n'a ete definie
 	 */
-	static function getCurrent() {
+	static function current() {
 		if (is_null(self::$current)) {
 			$route = null;
 			$asked = self::getAsked();
@@ -185,7 +185,7 @@ abstract class Router {
 	 * @return object la classe
 	 */
 	static function getClass() {
-		return self::$routes[self::getCurrent()][0];
+		return self::$routes[self::current()][0];
 	}
 
 
@@ -195,7 +195,7 @@ abstract class Router {
 	 * @return array la ou les methodes
 	 */
 	static function getMethods() {
-		return self::$routes[self::getCurrent()][1];
+		return self::$routes[self::current()][1];
 	}
 
 	
@@ -266,12 +266,12 @@ abstract class Router {
 	 * 
 	 * @return void
      */
-	static function routing() {
+	static function app() {
 		$class = self::getClass();
 		
-		if (Autoloader::getType($class) === 'Controller') {
+		if (Autoloader::type($class) === 'Controller') {
 
-			Log::add('Routage (url : "' . Parser::getCurrent() . '")...', Log::LEVEL_PROGRESS);
+			Log::add('Routage (url : "' . Parser::current() . '")...', Log::LEVEL_PROGRESS);
 			Log::add('Contrôleur identifié : "' . $class . '".');
 
 			new $class();
@@ -279,7 +279,7 @@ abstract class Router {
 			Log::add('Routage fait.', Log::LEVEL_GOOD);
 
 		} else {
-			Error::trigger('La route "' . self::getCurrent() . '" n\'est pas une route de composant !');
+			Error::trigger('La route "' . self::current() . '" n\'est pas une route de composant !');
 		}
 	}
 	

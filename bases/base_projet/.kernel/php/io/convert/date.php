@@ -18,12 +18,12 @@ use Kernel\Security\Configuration;
 abstract class Date {
 
     /**
-     * Defini le fuseau horraire
+     * Defini ou le fuseau horraire
      * 
      * @param string Fuseau horraire
      * @return void
      */
-    static function setTimezone($zone = null) {
+    static function timezone($zone = null) {
         if (is_null($zone)) {
             $zone = Configuration::get()->region->timezone;
         }
@@ -38,7 +38,7 @@ abstract class Date {
      * @param string la fonction a calculer
      * @return float le temps d'execution en milliseconde
      */
-    static function timeElapsed($callback) {
+    static function elapsed($callback) {
         $started = microtime(true);
         $callback();
         $ended = microtime(true);

@@ -89,7 +89,7 @@ abstract class Path {
      * @param string le chemin a concatener
      * @return string le chemin complet
      */
-    static function assetsImg($path = '') {
+    static function img($path = '') {
         return self::assets('img/' . $path);
     }
 
@@ -100,7 +100,7 @@ abstract class Path {
      * @param string le chemin a concatener
      * @return string le chemin complet
      */
-    static function assetsFont($path = '') {
+    static function font($path = '') {
         return self::assets('font/' . $path);
     }
 
@@ -111,7 +111,7 @@ abstract class Path {
      * @param string le chemin a concatener
      * @return string le chemin complet
      */
-    static function assetsSound($path = '') {
+    static function sound($path = '') {
         return self::assets('sound/' . $path);
     }
 
@@ -122,7 +122,7 @@ abstract class Path {
      * @param string le chemin a concatener
      * @return string le chemin complet
      */
-    static function assetsVideo($path = '') {
+    static function video($path = '') {
         return self::assets('video/' . $path);
     }
 

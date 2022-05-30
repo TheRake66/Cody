@@ -65,12 +65,12 @@ abstract class Mail {
 		} else {
 			$headers[] = 'Content-type: text/plain; charset=utf-8';
 		}
-		self::implodeMails($headers, 'To', $to);
-		self::implodeMails($headers, 'From', $from);
-		self::implodeMails($headers, 'Reply-To', $reply);
-		self::implodeMails($headers, 'Cc', $cc);
-		self::implodeMails($headers, 'Bcc', $bcc);
-		self::implodeHeaders($headers, $additional_headers);
+		self::mails($headers, 'To', $to);
+		self::mails($headers, 'From', $from);
+		self::mails($headers, 'Reply-To', $reply);
+		self::mails($headers, 'Cc', $cc);
+		self::mails($headers, 'Bcc', $bcc);
+		self::headers($headers, $additional_headers);
         $message = str_replace('  ', ' ', $message);
         $message = wordwrap($message, 70, "\r\n", true);
         $headers = implode("\r\n", $headers);
@@ -106,10 +106,10 @@ abstract class Mail {
 	 * @param string|array le/les entetes additionnels
 	 * @return void
 	 */
-	private static function implodeHeaders(&$headers, $additional_headers) {
+	private static function headers(&$headers, $additional_headers) {
 		if (!is_null($additional_headers)) {
 			if (is_array($additional_headers)) {
-				if (Dataset::isAssoc($additional_headers)) {
+				if (Dataset::assoc($additional_headers)) {
 					$_ = [];
 					foreach ($additional_headers as $key => $value) {
 						$_[] = $key . ': ' . $value;
@@ -147,11 +147,11 @@ abstract class Mail {
 	 * @param string|array le/les mails
 	 * @return void
 	 */
-	private static function implodeMails(&$headers, $name, $mails) {
+	private static function mails(&$headers, $name, $mails) {
 		if (!is_null($mails)) {
 			$results = $name . ': ';
 			if (is_array($mails)) {
-				if (Dataset::isAssoc($mails)) {
+				if (Dataset::assoc($mails)) {
 					$_ = [];
 					foreach ($mails as $name => $mail) {
 						$_[] = $name . ' <' . $mail . '>';
