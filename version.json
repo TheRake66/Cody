@@ -1,5 +1,5 @@
 {
-	"version": "7.21.62.0",
+	"version": "7.21.63.0",
 	"modifications": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -17,7 +17,8 @@
 		"Les tests se lancent via le constructeur.",
 		"Ajout des modules d'API.",
 		"Les tests se lancent via la méthode run.",
-		"Exclusion du fichier api.json lors du build."
+		"Exclusion du fichier api.json lors du build.",
+		"Ajout de la gestion des fichier .phtml."
 	], 
 	"bugs": [
 		"Correction du plantage lors d'un lancement sur un terminal trop petit.",

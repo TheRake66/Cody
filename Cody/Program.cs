@@ -88,13 +88,13 @@ namespace Cody
                 Message.writeIn(ConsoleColor.DarkRed, @"
                                                     ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
                 Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                            ~ Version {version} du 20 mai 2022 ~
+                                            ~ Version {version} du 1 juin 2022 ~
                                      ~ Copyright © " + DateTime.Now.Year + " - Thibault BUSTOS (TheRake66) ~");
 
                 Console.WriteLine(@"
 
 
-Utilisez la commande 'aide' pour voir la liste des commandes.
+Utilisez la commande 'help' pour voir la liste des commandes.
 ");
             }
         }
@@ -139,7 +139,7 @@ Utilisez la commande 'aide' pour voir la liste des commandes.
 
                 switch (cmd)
                 {
-                    case "aide":
+                    case "help":
                         Commande.aideCom(argm);
                         break;
 

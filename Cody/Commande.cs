@@ -27,7 +27,7 @@ namespace Cody
             {
                 // Affiche l'aide
                 Console.WriteLine(
-@"aide                            Affiche la liste des commandes disponible.
+@"help                            Affiche la liste des commandes disponible.
 api [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un module d'API avec le nom spécifié.
 build                           Construit le projet, minifie et compile les fichiers. Nécessite npm.
 cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
@@ -1306,6 +1306,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 string[] toedit = new string[]
                 {
                     ".php",
+                    ".phtml",
                     ".js",
                     ".json",
                     ".less"
@@ -1558,7 +1559,14 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 string nomlow = ""; // namepace\namespace\obj
                 string full_dash = ""; // namepace-namespace-obj
                 List<string> paths = new List<string>();
-                string[] toedit = new string[] { ".php", ".js", ".less", ".json" };
+                string[] toedit = new string[]
+                {
+                    ".php",
+                    ".phtml",
+                    ".js",
+                    ".json",
+                    ".less"
+                };
 
                 for (int i = 0; i < spt.Length - 1; i++)
                 {
