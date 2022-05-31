@@ -107,7 +107,7 @@ abstract class Autoloader {
                 break;
 
             case 'Controller':
-                $relative = 'debug/app/' . $namespace_lower . '/' . $class_lower . '/controller.' . $class_lower . '.php';
+                $relative = 'debug/app/' . $namespace_lower . '/' . $class_lower . '/' . $class_lower . '.php';
                 break;
 
             case 'Model':

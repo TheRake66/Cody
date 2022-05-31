@@ -52,10 +52,10 @@ abstract class Render {
             }
         }
         
-        $vue = $folder . 'view.' . $name . '.php';
+        $vue = $folder . $name . '.phtml';
         $vueabs = Path::absolute($vue);
-        $style = $folder . 'style.' . $name . '.less';
-        $script = $folder . 'script.' . $name . '.js';
+        $style = $folder . $name . '.less';
+        $script = $folder . $name . '.js';
         if (!is_file($vueabs) || !is_readable($vueabs)) {
             $vueabs = Path::absolute(str_replace('_', ' ', $vue));
             $style = str_replace('_', ' ', $style);

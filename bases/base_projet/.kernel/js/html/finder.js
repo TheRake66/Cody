@@ -7,7 +7,7 @@
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-export default class Find {
+export default class Finder {
     
     /**
      * Retourne un élément HTML via son ID
