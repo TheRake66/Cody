@@ -1,4 +1,5 @@
 import HTTP from '../communication/http.js';
+import Builder from '../html/builder.js';
 import DOM from '../html/dom.js';
 import Parser from './parser.js';
 
@@ -49,26 +50,26 @@ export default class Location {
 		if (method === HTTP.METHOD_GET) {
 			window.location.href = Location.build(route, params, addback);
 		} else if (method === HTTP.METHOD_POST) {
-			let f = DOM.create('form', {
+			let f = Builder.create('form', {
 				method: 'post',
 				action: Location.build(route)
 			});
 			Object.entries(obj).forEach(entry => {
 				const [key, value] = entry;
-				f.append(DOM.create('input', {
+				f.append(Builder.create('input', {
 					type: 'hidden',
 					name: key,
 					value: value
 				}));
 			});
 			if (addback) {
-				f.append(DOM.create('input', {
+				f.append(Builder.create('input', {
 					type: 'hidden',
 					name: 'redirect_url',
 					value: Parser.current()
 				}));
 			}
-			DOM.append(f);
+			Builder.append(f);
 			f.submit();
 			f.remove();
 		}

@@ -1,4 +1,5 @@
 import DOM from '../html/dom.js';
+import Builder from '../html/builder.js';
 import Find from '../html/find.js';
 
 
@@ -22,7 +23,7 @@ export default class Export {
      * @returns {void}
      */
     static download(content, file = 'download.txt') {
-        let a = DOM.create('a', {
+        let a = Builder.create('a', {
             href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(content),
             download: file,
             style: 'display:none'
