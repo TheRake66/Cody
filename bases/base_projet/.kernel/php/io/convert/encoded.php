@@ -24,9 +24,9 @@ abstract class Encoded {
 	 * @param int la taille max a couper
 	 * @return string la chaine coupe ou non
 	 */
-	static function cut($text, $size = 50) {
-		if (strlen($text) > $size) {
-			return substr($text, 0, $size) . '...';
+	static function cut($text, $max = 50) {
+		if (strlen($text) > $max) {
+			return substr($text, 0, $max) . '...';
 		} else {
 			return $text;
 		}
