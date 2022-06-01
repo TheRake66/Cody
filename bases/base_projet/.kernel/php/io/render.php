@@ -23,6 +23,14 @@ abstract class Render {
     /**
      * Inclut les fichiers pour afficher le composant
      * 
+     * @example
+     *  $this->view('machin') ---> $_0 = 'machin'
+     *  $this->view([ 'machin', 'truc' ]) ---> $_0 = 'machin', $_1 = 'truc'
+     *  $this->view([ 
+     *      'test1' => 'machin', 
+     *      'test2' => 'truc'
+     * ]) ---> $test1 = 'machin', $test2 = 'truc'
+     * 
      * @param array les variables a passer a la vue au format cle => valeur
      * @return void
      * @throws Error si les fichiers (vue, style, script) n'existent pas ou ne sont pas lisible
@@ -61,9 +69,10 @@ abstract class Render {
             $script = str_replace('_', ' ', $script);
         }
         if (File::loadable($vue)) {
-            // On fait directement un requiere et pas un Path::require
+            // On fait directement un require et pas un File::require
             // Pour que le extract fonctionne
-            File::require($vue);
+            $absolute = Path::absolute($vue);
+            require_once($absolute);
             Output::add(Less::import($style));
             Output::add(Javascript::import($script, 'module', $varname, $class));
         } else {

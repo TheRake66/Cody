@@ -32,11 +32,15 @@ abstract class Configuration {
 	 * @return void
 	 */
 	static function load() {
-		try {
-			$json = File::load('.kernel/configuration.json');
-			self::$current = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
-		} catch (\Exception $e) {
-			die('Impossible de charger la configuration ! Raison : ' . $e->getMessage());
+		$json = File::load('.kernel/configuration.json');
+		self::$current = json_decode($json);
+		if (self::$current === null) {
+            $msg = 'Impossible de charger la configuration !';
+            if (Autoloader::exists('Kernel\\Debug\\Error')) {
+                Error::trigger($msg);
+            } else {
+                die($msg);
+            }
 		}
 	}
 	

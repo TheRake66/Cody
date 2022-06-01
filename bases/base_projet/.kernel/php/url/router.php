@@ -4,7 +4,7 @@ namespace Kernel\URL;
 use Kernel\Debug\Error;
 use Kernel\Debug\Log;
 use Kernel\IO\Autoloader;
-use Kernel\IO\Path;
+use Kernel\IO\File;
 use Kernel\URL\Parser;
 
 
@@ -59,7 +59,7 @@ abstract class Router {
 	 * @throws Error si le fichier de route n'est pas trouvé
 	 */
 	static function load() {
-		Path::require('.kernel/route.php', true);
+		File::require('.kernel/route.php', true);
 	}
 
 

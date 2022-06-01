@@ -5,6 +5,8 @@ use Kernel\Debug\Log;
 use Kernel\Security\Configuration;
 use Kernel\URL\Location;
 
+
+
 /**
  * Librairie gerant le protocole SSL (Secure Socket Layer)
  *
@@ -28,7 +30,7 @@ abstract class SSL {
 				Log::add('SSL actif.', Log::LEVEL_GOOD);
 			} else {
 				Log::add('Activation du SSL...', Log::LEVEL_PROGRESS);
-				Location::travel('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+				Location::change('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 			}
 		}
 	}
@@ -40,7 +42,8 @@ abstract class SSL {
 	 * @return bool si le protocole SSL est actif
 	 */
 	static function active() {
-		return !($_SERVER['SERVER_PORT'] !== 443 && (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off'));
+		return !($_SERVER['SERVER_PORT'] !== 443 &&
+		(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off'));
 	}
 
 }
