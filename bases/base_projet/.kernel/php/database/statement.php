@@ -38,7 +38,7 @@ abstract class Statement {
      * @return PDOStatement instance PDO
      * @throws Error si la connexion echoue
      */
-    private static function init($conf) {
+    private static function connect($conf) {
         Log::add('Connexion à la base de données "' . $conf->name . '"...', Log::LEVEL_PROGRESS);
         $pdo = null;
         $dsn = $conf->type . 
@@ -107,11 +107,11 @@ abstract class Statement {
             return self::$instances[self::$current];
         } else {
             if ($conf->progressive_connection) {
-                self::$instances[self::$current] = self::init(self::configuration());
+                self::$instances[self::$current] = self::connect(self::configuration());
                 return self::$instances[self::$current];
             } else {
                 foreach ($conf->databases_list as $database) {
-                    self::$instances[$database->name] = self::init($database);
+                    self::$instances[$database->name] = self::connect($database);
                 } 
                 if (array_key_exists(self::$current, self::$instances)) {
                     return self::$instances[self::$current];
@@ -134,6 +134,7 @@ abstract class Statement {
             return self::$current;
         } else {
             self::$current = $name;
+            Log::add('Changement de base de données vers "' . $name .'".', Log::LEVEL_GOOD);
         }
     }
 

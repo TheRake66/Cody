@@ -53,18 +53,17 @@ abstract class Render {
         }
         
         $vue = $folder . $name . '.phtml';
-        $vueabs = Path::absolute($vue);
         $style = $folder . $name . '.less';
         $script = $folder . $name . '.js';
-        if (!is_file($vueabs) || !is_readable($vueabs)) {
-            $vueabs = Path::absolute(str_replace('_', ' ', $vue));
+        if (File::loadable($vue)) {
+            $vue = str_replace('_', ' ', $vue);
             $style = str_replace('_', ' ', $style);
             $script = str_replace('_', ' ', $script);
         }
-        if (is_file($vueabs) && is_readable($vueabs)) {
+        if (File::loadable($vue)) {
             // On fait directement un requiere et pas un Path::require
             // Pour que le extract fonctionne
-            require($vueabs);
+            File::require($vue);
             Output::add(Less::import($style));
             Output::add(Javascript::import($script, 'module', $varname, $class));
         } else {

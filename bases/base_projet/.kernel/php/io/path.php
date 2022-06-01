@@ -25,46 +25,13 @@ abstract class Path {
     static function absolute($path = '') {
         return $_SERVER['DOCUMENT_ROOT'] . self::relative($path);
     }
-
-
-    /**
-     * Inclut un fichier via un chemin relatif
-     * 
-     * @param string le chemin du fichier
-     * @param bool true si le fichier doit etre inclus qu'une seule fois
-     * @return void
-     * @throws Error Si le fichier n'est pas accessible
-     */
-    static function require($path, $once = true) {
-        if ($once) {
-            require_once self::absolute($path);
-        } else {
-            require self::absolute($path);
-        }
-    }
-
-
-    /**
-     * Inclut un fichier via un chemin relatif
-     * 
-     * @param string le chemin du fichier
-     * @param bool true si le fichier doit etre inclus qu'une seule fois
-     * @return void
-     */
-    static function include($path, $once = true) {
-        if ($once) {
-            include_once self::absolute($path);
-        } else {
-            include self::absolute($path);
-        }
-    }
     
     
     /**
      * Retourne le chemin relatif ou s'execute le script par rapport au
      * chemin absulu ou s'execute le serveur
      * 
-     * @param string le chemin a concatener
+     * @param string le chemin du fichier
      * @return string le chemin complet
      */
     static function relative($path = '') {

@@ -31,7 +31,6 @@ abstract class Toogle {
         }
         if (Statement::current() != $database) {
             Statement::current($database);
-            Log::add('Changement de base de données vers "' . $database .'".', Log::LEVEL_GOOD);
         }
     }
 

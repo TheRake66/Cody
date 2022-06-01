@@ -3,6 +3,7 @@ namespace Kernel\IO\Convert;
 
 use Kernel\Debug\Error;
 use Kernel\Debug\Log;
+use Kernel\IO\File;
 use Kernel\IO\Stream;
 
 /**
@@ -72,11 +73,7 @@ abstract class Image {
      * @return string le SVG
      */
     static function svg($file) {
-        if (is_file($file) && is_readable($file)) {
-            return file_get_contents($file);
-        } else {
-            Log::add('Impossible de charger l\'image vectorielle "' . $file . '" !', Log::LEVEL_ERROR);
-        }
+        File::load($file);
     }
 
 

@@ -3,6 +3,7 @@ namespace Kernel\Security;
 
 use Kernel\Debug\Error;
 use Kernel\IO\Autoloader;
+use Kernel\IO\File;
 use Kernel\IO\Path;
 
 
@@ -32,9 +33,8 @@ abstract class Configuration {
 	 */
 	static function load() {
 		try {
-			$file = Path::absolute('.kernel/configuration.json');
-			$json = file_get_contents($file);
-			self::$current = json_decode($json);
+			$json = File::load('.kernel/configuration.json');
+			self::$current = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
 		} catch (\Exception $e) {
 			die('Impossible de charger la configuration ! Raison : ' . $e->getMessage());
 		}

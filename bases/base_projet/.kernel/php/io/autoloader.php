@@ -29,30 +29,6 @@ abstract class Autoloader {
             die(('Impossible d\'enregistrer la fonction d\'autoload !'));
         }
     }
-    
-
-    /**
-     * Include la classe demandee
-     * 
-     * @param string l'espace de nom de la classe
-     * @return void
-     * @throws Error si le fichier n'est pas trouvé
-     */
-    private static function load($required) {
-        if ($file = self::file($required)) {
-            require_once($file);
-            if (!class_exists($required)) {
-                die('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
-            }
-        } else {
-            $msg = 'Impossible de charger la classe "' . $required . '" !';
-            if (self::exists('Kernel\\Debug\\Error')) {
-                Error::trigger($msg);
-            } else {
-                die($msg);
-            }
-        }
-    }
 
 
     /**
@@ -77,6 +53,30 @@ abstract class Autoloader {
     static function typeof($class) {
         $_ = explode('\\', $class);
         return array_shift($_);
+    }
+    
+
+    /**
+     * Include la classe demandee
+     * 
+     * @param string l'espace de nom de la classe
+     * @return void
+     * @throws Error si le fichier n'est pas trouvé
+     */
+    private static function load($required) {
+        if ($file = self::file($required)) {
+            require_once($file);
+            if (!class_exists($required)) {
+                die('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
+            }
+        } else {
+            $msg = 'Impossible de charger la classe "' . $required . '" !';
+            if (self::exists('Kernel\\Debug\\Error')) {
+                Error::trigger($msg);
+            } else {
+                die($msg);
+            }
+        }
     }
 
 
