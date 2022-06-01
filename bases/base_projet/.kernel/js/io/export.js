@@ -1,6 +1,6 @@
 import DOM from '../html/dom.js';
 import Builder from '../html/builder.js';
-import Find from '../html/find.js';
+import Finder from '../html/finder.js';
 
 
 
@@ -59,17 +59,17 @@ export default class Export {
         let csv = '';
 
         // Creer le header
-        let heads = Find.queryAll('thead th', table);
+        let heads = Finder.queryAll('thead th', table);
         heads.forEach(cell => {
             csv += arround + cell.innerText + arround + spearator;
         });
         csv = csv.slice(0, -1) + '\n';
 
         // Creer les lignes
-        let rows = Find.queryAll('tbody tr', table);
+        let rows = Finder.queryAll('tbody tr', table);
         rows.forEach(row => {
             if (row.style.display != 'none') {
-                let cells = Find.queryAll('td', row);
+                let cells = Finder.queryAll('td', row);
                 cells.forEach(cell => {
                     csv += arround + cell.innerText.replace(/\n/g, ' ') + arround + spearator;
                 });
