@@ -23,17 +23,16 @@ abstract class User {
      * Creer une session de connexion pour un utilisateur
      * 
      * @param object instance DTO de l'utilisateur a memoriser
-     * @param string son jeton
-     * @param int le nombre de jours de validite du jeton
+     * @param string|null son jeton, si null un nouveau sera generer
      * @return bool si la creation a reussie
      */
-    static function login($user, $token = null, $nbdays = 31) {
-        if (Token::set($token, $nbdays)) {
+    static function login($user, $token = null) {
+        if (Token::set($token)) {
             self::set($user);
-            Log::add('Utilisateur connecté : "' . print_r($user, true) . '".', Log::LEVEL_GOOD);
+            Log::add('Utilisateur connecté (jeton : "' . Token::get() . '") : "' . print_r($user, true) . '".', Log::LEVEL_GOOD);
             return true;
         } else {
-            Log::add('Impossible de créer une session de connexion pour l\'utilisateur !', Log::LEVEL_ERROR);
+            Log::add('Impossible de connecter l\'utilisateur !', Log::LEVEL_ERROR);
             return false;
         }
     }
@@ -50,7 +49,7 @@ abstract class User {
             Log::add('Utilisateur déconnecté.', Log::LEVEL_GOOD);
             return true;
         } else {
-            Log::add('Impossible de détruire la session de connexion !', Log::LEVEL_ERROR);
+            Log::add('Impossible de déconnecter l\'utilisateur !', Log::LEVEL_ERROR);
             return false;
         }
     }
@@ -93,7 +92,7 @@ abstract class User {
      * @return bool si elle existe
      */
 	static function has() {
-		return isset($_SESSION['session_user']) && !is_null($_SESSION['session_user']);
+		return isset($_SESSION['session_user']);
 	}
 
 }

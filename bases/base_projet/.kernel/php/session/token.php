@@ -4,8 +4,7 @@ namespace Kernel\Session;
 use Kernel\Security\Vulnerability\CSRF;
 use Kernel\Security\Cookie;
 use Kernel\Debug\Log;
-
-
+use Kernel\Security\Configuration;
 
 /**
  * Librairie gerant le jeton de session
@@ -22,26 +21,34 @@ abstract class Token {
     /**
      * Defini un jeton de connexion
      * 
-     * @param string le jeton
-     * @param int le nombre de jours de validite du jeton
+     * @param string|null le jeton, si null un nouveau sera generer
      * @return bool si le jeton a ete defini
      */
-	static function set($token = null, $nbdays = 31) {
+	static function set($token = null) {
 		if (is_null($token)) {
 			$token = self::generate();
 		}
-        if (Cookie::set('session_token', $token, time() + $nbdays*60*60*24)) {
-            Log::add('Jeton de connexion : ' . $token . ', défini pour ' . $nbdays . ' jour(s)...');
-            return true;
-        } else {
-            Log::add('Impossible de définir le jeton de connexion.', Log::LEVEL_ERROR);
-            return false;
-        }
+        $nbdays = Configuration::get()->session->token_lifetime_days;
+        return Cookie::set('session_token', $token, time() + $nbdays*60*60*24);
 	}
 
 
     /**
-     * Creer un jeton de connexion
+     * Etends l'expiration du jeton
+     * 
+     * @return bool si le jeton a ete defini et qu'il existe
+     */
+    static function extends() {
+        if (self::has()) {
+            return self::set(self::get());
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * Genere un jeton de connexion
      * 
      * @return string le jeton
      */
@@ -66,13 +73,7 @@ abstract class Token {
      * @return bool si le jeton a ete detruit
      */
 	static function remove() {
-        if (Cookie::remove('session_token')) {
-            Log::add('Jeton supprimé.');
-            return true;
-        } else {
-            Log::add('Impossible de supprimer le jeton.', Log::LEVEL_ERROR);
-            return false;
-        }
+        return Cookie::remove('session_token');
 	}
 
 

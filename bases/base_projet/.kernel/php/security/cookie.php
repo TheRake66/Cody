@@ -60,7 +60,7 @@ abstract class Cookie {
      * Supprime un cookie
      * 
      * @param string le nom du cookie
-	 * @return bool|null si le la suppression a reussie, null si le cookie n'existe pas
+	 * @return bool si le la suppression a reussie ou qu'il n'existe pas
 	 */
 	static function remove($name) {
 		if (self::has($name)) {
@@ -70,6 +70,8 @@ abstract class Cookie {
 			} else {
 				return false;
 			}
+		} else {
+			return true;
 		}
 	}
 
