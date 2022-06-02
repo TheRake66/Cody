@@ -49,7 +49,7 @@
         "open_session": true,
         "multiple_session": true,
         "session_name": "{PROJECT_NAME}",
-        "regenerate_delay": 300,
+        "regenerate_delay": -1,
         "regenerate_delete_old": false
     },
     "database": {

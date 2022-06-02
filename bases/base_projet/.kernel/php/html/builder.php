@@ -30,15 +30,13 @@ abstract class Builder {
     static function create($tag, $attr = null, $content = null, $selfClose = true) {
         $_ = '<' . $tag;
         if ($attr) {
-            foreach ($attr as $key => $value) {
-                $_ .= ' ' . $key . '="' . $value . '"';
-            }
+            $_ .= ' ' . Attribute::set($attr);
         }
         if ($content) {
             $_ .= '>' . (is_array($content) ? implode('', $content) : $content) . '</' . $tag . '>';
         } else {
             if ($selfClose) {
-                $_ .= ' />';
+                $_ .= '/>';
             } else {
                 $_ .= '></' . $tag . '>';
             }
