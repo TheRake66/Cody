@@ -169,187 +169,190 @@ abstract class Supervisor {
                 SUPERVISOR_CODY_CONSOLE_SCROLLTOEND();
             </script>
             <style>
-                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar {
-                    height: 6px;
-                    width: 6px;
-                    background: #141414;
-                }
-                
-                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb {
-                    background: #444;
-                    border-radius: 1ex;
-                }
-                
-                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb:hover {
-                    background: #555;
-                }
-                
-                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb:active {
-                    background: #666;
-                }
-                
-                #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-corner {
-                    background: #141414;
-                }
-
-                #SUPERVISOR_CODY_PANEL {
-                    display: flex;
-                    flex-direction: column;
-                    position: fixed;
-                    z-index: 99999999999999999999;
-                    left: 0;
-                    top: 0;
-                    min-width: 600px;
-                    max-width: 600px;
-                    height: 100vh;
-                    background-color: #262626;
-                    color: white;
-                    transition: transform 0.3s ease-in-out;
-                    transform: translate(-100%, 0);
-                    border-right: solid 2px #777777;
-                }
-                #SUPERVISOR_CODY_PANEL:hover {
-                    transform: translate(0, 0);
-                }
-                #SUPERVISOR_CODY_PANEL * {
-                    font-family: "cody_consolas" !important;
-                    scroll-behavior: auto;
-					box-sizing: unset;
-                    margin: 0;
-                    padding: 0;
-                }
+            #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar {
+                height: 6px !important;
+                width: 6px !important;
+                background: #141414 !important;
+            }
             
+            #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb {
+                background: #444 !important;
+                border-radius: 1ex !important;
+            }
+            
+            #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb:hover {
+                background: #555 !important;
+            }
+            
+            #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-thumb:active {
+                background: #666 !important;
+            }
+            
+            #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar-corner {
+                background: #141414 !important;
+            }
+
+            #SUPERVISOR_CODY_PANEL {
+                display: flex !important;
+                flex-direction: column !important;
+                position: fixed !important;
+                z-index: 99999999999999999999 !important;
+                left: 0 !important;
+                top: 0 !important;
+                min-width: 600px !important;
+                max-width: 600px !important;
+                height: 100vh !important;
+                background-color: #262626 !important;
+                color: white !important;
+                transition: transform 0.3s ease-in-out !important;
+                transform: translate(-100%, 0) !important;
+                border-right: solid 2px #777777 !important;
+            }
+            #SUPERVISOR_CODY_PANEL:hover {
+                transform: translate(0, 0) !important;
+            }
+            #SUPERVISOR_CODY_PANEL * {
+                font-family: "cody_consolas" !important;
+                scroll-behavior: auto !important;
+                box-sizing: unset !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border-radius: 0px !important;
+            }
+        
 
 
-                @font-face {
-                    font-family: "cody_consolas";
-                    src: url("' . Path::relative('.kernel/consolas.ttf') . '") format("truetype");
-                }
+            @font-face {
+                font-family: "cody_consolas";
+                src: url("' . Path::relative('.kernel/consolas.ttf') . '") format("truetype");
+            }
 
-                
-                #SUPERVISOR_CODY_PANEL > img {
-                    position: absolute;
-                    height: 30px;
-                    width: 30px;
-                    top: 50%; 
-                    right: 0;
-                    transform: translate(100%, -50%);
-                    background-color: #262626;
-                    padding: 30px 15px 30px 12px;
-                    border-radius: 0 30px 30px 0;
-                    font-size: 30px;
-                    border: solid 2px #777777;
-                    border-left: none;
+            
+            #SUPERVISOR_CODY_PANEL > img {
+                position: absolute !important;
+                height: 30px !important;
+                width: 30px !important;
+                top: 50% !important; 
+                right: 0 !important;
+                transform: translate(100%, -50%) !important;
+                background-color: #262626 !important;
+                padding: 30px 15px 30px 12px !important;
+                border-radius: 0 30px 30px 0 !important;
+                font-size: 30px !important;
+                border: solid 2px #777777 !important;
+                border-left: none !important;
 
-                }
-                
-                
-                #SUPERVISOR_CODY_PANEL > div {
-                    overflow-y: scroll;
-                    width: 100%;
-                    height: 100%;
-                    padding-bottom: 20px;
-                }
-                #SUPERVISOR_CODY_PANEL > div h1 {
-                    padding: 15px 30px;
-                    font-weight: 500;
-                    font-size: 18px;
-                    text-align: center;
-                    margin-bottom: 2px;
-                }
-                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_1 {
-                    background-color: #3C7CFC;
-                }
-                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_2,
-                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_LATENCY_GOOD {
-                    background-color: #4F805D;
-                }
-                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_3,
-                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_LATENCY_WARN {
-                    background-color: #A46A1F;
-                }
-                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_4,
-                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_LATENCY_BAD {
-                    background-color: #B0413E;
-                }
-                #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_5 {
-                    background-color: #77064E;
-                }
-                #SUPERVISOR_CODY_PANEL > div form {
-                    margin-top: 20px;
-                    display: flex;
-                }
-                #SUPERVISOR_CODY_PANEL > div form input {
-                    padding: 10px;
-                    width: 50%;
-                    outline: none;
-                    border: none;
-                    background-color: #777777;
-                    color: white;
-                    margin: 1px;
-                    cursor: pointer;
-                }
-                #SUPERVISOR_CODY_PANEL > div form input:hover {
-                    filter: brightness(110%);
-                }
-                #SUPERVISOR_CODY_PANEL > div h2 {
-                    font-weight: 500;
-                    font-size: 16px;
-                    padding: 8px;
-                    margin-top: 20px;
-                    color: lightgray;
-                    background-color: #141414;
-                }
-                #SUPERVISOR_CODY_PANEL > div div {
-                    display: flex;
-                    flex-direction: column;
-                }
-                #SUPERVISOR_CODY_PANEL > div div span {
-                    display: flex;
-                    align-items: baseline;
-                    overflow: auto;
-                    padding: 8px;
-                }
-                #SUPERVISOR_CODY_PANEL > div div span pre {
-                }
-                #SUPERVISOR_CODY_PANEL > div div span b {
-                    min-width: 200px;
-                    max-width: 200px;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-right: 20px;
-                    font-weight: 500;
-                    color: lightgray;
+            }
+            
+            
+            #SUPERVISOR_CODY_PANEL > div {
+                overflow-y: scroll !important;
+                width: 100% !important;
+                height: 100% !important;
+                padding-bottom: 20px !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div h1 {
+                padding: 15px 30px !important;
+                font-weight: 500 !important;
+                font-size: 18px !important;
+                text-align: center !important;
+                margin-bottom: 2px !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_1 {
+                background-color: #3C7CFC !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_2,
+            #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_LATENCY_GOOD {
+                background-color: #4F805D !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_3,
+            #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_LATENCY_WARN {
+                background-color: #A46A1F !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_4,
+            #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_LATENCY_BAD {
+                background-color: #B0413E !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div .SUPERVISOR_HTTP_5 {
+                background-color: #77064E !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div form {
+                margin-top: 20px !important;
+                display: flex !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div form input {
+                padding: 10px !important;
+                width: 50% !important;
+                height: fit-content !important;
+                border-radius: 0px !important;
+                outline: none !important;
+                border: none !important;
+                background-color: #777777 !important;
+                color: white !important;
+                margin: 1px !important;
+                cursor: pointer !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div form input:hover {
+                filter: brightness(110%) !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div h2 {
+                font-weight: 500 !important;
+                font-size: 16px !important;
+                padding: 8px !important;
+                margin-top: 20px !important;
+                color: lightgray !important;
+                background-color: #141414 !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div div {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div div span {
+                display: flex !important;
+                align-items: baseline !important;
+                overflow: auto !important;
+                padding: 8px !important;
+            }
+            #SUPERVISOR_CODY_PANEL > div div span pre {
+            }
+            #SUPERVISOR_CODY_PANEL > div div span b {
+                min-width: 200px !important;
+                max-width: 200px !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                margin-right: 20px !important;
+                font-weight: 500 !important;
+                color: lightgray !important;
 
-                }
+            }
 
 
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE {
-                    background-color: #0C0C0C;
-                    width: calc(100% - 10px);
-                    height: 250px;
-                    overflow: scroll;
-                    padding: 5px;
-                    border-top: solid 2px #777777;
-                }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE pre {
-                }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_0 {
-                    color: #CCCCCC;
-                }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_1 {
-                    color: #65a577;
-                }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_2 {
-                    color: #d18726;
-                }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_3 {
-                    color: #cc4f4a;
-                }
-                #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_4 {
-                    color: #b8127b;
-                }
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE {
+                background-color: #0C0C0C !important;
+                width: calc(100% - 10px) !important;
+                height: 250px !important;
+                overflow: scroll !important;
+                padding: 5px !important;
+                border-top: solid 2px #777777 !important;
+            }
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE pre {
+            }
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_0 {
+                color: #CCCCCC !important;
+            }
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_1 {
+                color: #65a577 !important;
+            }
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_2 {
+                color: #d18726 !important;
+            }
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_3 {
+                color: #cc4f4a !important;
+            }
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_4 {
+                color: #b8127b !important;
+            }
             </style>
             ';
         }
