@@ -7,7 +7,7 @@
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-export default class DOM {
+export default class Dom {
     
     /**
      * Vide le contenu d'un élément HTML

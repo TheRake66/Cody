@@ -1,4 +1,4 @@
-import DOM from '../html/dom.js';
+import Dom from '../html/dom.js';
 import Builder from '../html/builder.js';
 import Finder from '../html/finder.js';
 

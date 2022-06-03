@@ -1,6 +1,6 @@
-import HTTP from '../communication/http.js';
+import Http from '../communication/Http.js';
 import Builder from '../html/builder.js';
-import DOM from '../html/dom.js';
+import Dom from '../html/dom.js';
 import Parser from './parser.js';
 
 
@@ -46,10 +46,10 @@ export default class Location {
 	 * @param {string} method la methode (GET, POST)
      * @returns {void}
 	 */
-	static go(route, params = [], addback = false, method = HTTP.METHOD_GET) {
-		if (method === HTTP.METHOD_GET) {
+	static go(route, params = [], addback = false, method = Http.METHOD_GET) {
+		if (method === Http.METHOD_GET) {
 			window.location.href = Location.build(route, params, addback);
-		} else if (method === HTTP.METHOD_POST) {
+		} else if (method === Http.METHOD_POST) {
 			let f = Builder.create('form', {
 				method: 'post',
 				action: Location.build(route)

@@ -8,7 +8,7 @@
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-export default class HTTP {
+export default class Http {
 
     /**
      * Les methodes d'envoie
@@ -35,9 +35,9 @@ export default class HTTP {
      * @param {boolean} asynchronous si la requete s'execute en asynchrone
      * @returns {void}
      */
-    static send(url, success = null, failed = null, expired = null, method = HTTP.METHOD_GET, params = {}, timeout = 0, asynchronous = true) {
+    static send(url, success = null, failed = null, expired = null, method = Http.METHOD_GET, params = {}, timeout = 0, asynchronous = true) {
         let xhr = new XMLHttpRequest();
-        if (method === HTTP.METHOD_GET && 
+        if (method === Http.METHOD_GET && 
             params !== null &&
             Object.keys(params).length !== 0) {
             url += '?' + (new URLSearchParams(params)).toString();
@@ -51,7 +51,7 @@ export default class HTTP {
                 success(xhr.response);
             }
         }
-        if (method !== HTTP.METHOD_GET) {
+        if (method !== Http.METHOD_GET) {
             let frm = new FormData();
             for (let name in params) {
                 let value = params[name];

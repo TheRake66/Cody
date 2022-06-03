@@ -1,4 +1,4 @@
-import HTTP from './http.js';
+import Http from './Http.js';
 import Location from '../url/location.js';
 
 
@@ -30,7 +30,7 @@ export default class Rest {
      * @returns {void}
      */
     static getFor(route, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#askFor(route, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_GET);
+        Rest.#askFor(route, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_GET);
     }
 
     
@@ -48,7 +48,7 @@ export default class Rest {
      * @returns {void}
      */
     static get(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_GET);
+        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_GET);
     }
     
 
@@ -66,7 +66,7 @@ export default class Rest {
      * @returns {void}
      */
     static post(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_POST);
+        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_POST);
     }
     
 
@@ -84,7 +84,7 @@ export default class Rest {
      * @returns {void}
      */
     static put(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_PUT);
+        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_PUT);
     }
     
 
@@ -102,7 +102,7 @@ export default class Rest {
      * @returns {void}
      */
     static delete(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_DELETE);
+        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_DELETE);
     }
     
 
@@ -120,7 +120,7 @@ export default class Rest {
      * @returns {void}
      */
     static patch(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, HTTP.METHOD_PATCH);
+        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_PATCH);
     }
 
 
@@ -139,7 +139,7 @@ export default class Rest {
      * @returns {void}
      */
     static #ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, method) {
-        HTTP.send(
+        Http.send(
             Location.build(route),
             response => {
                 if (response !== '') {
@@ -192,7 +192,7 @@ export default class Rest {
      * @returns {void}
      */
     static #askFor(route, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, method) {
-        HTTP.send(
+        Http.send(
             Location.build(route),
             response => {
                 if (response !== '') {
