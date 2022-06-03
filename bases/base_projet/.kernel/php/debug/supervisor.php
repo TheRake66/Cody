@@ -139,7 +139,7 @@ abstract class Supervisor {
             
             echo '
             <SUPERVISOR_CODY_PANEL id="SUPERVISOR_CODY_PANEL">
-                <img src="' . Path::relative('.kernel/logo.svg') . '" alt="Logo">
+                <img src="' . Path::relative('.kernel/cody/logo.svg') . '" alt="Logo">
                 <div>
                     <h1 class="SUPERVISOR_HTTP_' . $type . '">HTTP ' . $http . '</h1>
                     <h1 class="' . $latency . '">' . $ms . ' ms</h1>
@@ -224,7 +224,7 @@ abstract class Supervisor {
 
             @font-face {
                 font-family: "cody_consolas";
-                src: url("' . Path::relative('.kernel/consolas.ttf') . '") format("truetype");
+                src: url("' . Path::relative('.kernel/cody/consolas.ttf') . '") format("truetype");
             }
 
             

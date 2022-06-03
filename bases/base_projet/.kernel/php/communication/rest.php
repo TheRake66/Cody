@@ -124,7 +124,7 @@ abstract class Rest {
 	/**
 	 * Formatte et envoi la reponse a envoyer au client
 	 * 
-	 * @param any le contenu de la reponse
+	 * @param mixed le contenu de la reponse
 	 * @param int le code de retour
 	 * @param string le message de retour
 	 * @param int le code de l'entete HTTP

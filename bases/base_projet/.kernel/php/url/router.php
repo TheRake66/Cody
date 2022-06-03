@@ -51,6 +51,11 @@ abstract class Router {
      */
 	private static $current;
 
+    /**
+	 * @var string Route demandee
+     */
+	private static $asked;
+
 
 	/**
 	 * Charge les routes
@@ -96,7 +101,7 @@ abstract class Router {
 			if (is_array($array)) {
 				self::$routes[$route] = [ $array[0], $array[1] ];
 			} else {
-				self::$routes[$route] = [ $array, self::METHOD_GET];
+				self::$routes[$route] = [ $array, self::METHOD_GET ];
 			}
 		}
 	}
@@ -145,10 +150,8 @@ abstract class Router {
 				Error::trigger('Aucune route n\'a été définie !');
 			}
 			self::$current = $route;
-			return $route;
-		} else {
-			return self::$current;
 		}
+		return self::$current;
 	}
 
 
@@ -158,11 +161,16 @@ abstract class Router {
 	 * @return string le route demandee
 	 */
 	static function asked() {
-		if (isset($_SERVER['PATH_INFO'])) {
-			return $_SERVER['PATH_INFO'];
-		} elseif (isset($_SERVER['REDIRECT_URL'])) {
-			return substr($_SERVER['REDIRECT_URL'], strlen($_SERVER['REDIRECT_BASE']));
+		if (is_null(self::$asked)) {
+			if (isset($_SERVER['PATH_INFO'])) {
+				self::$asked = $_SERVER['PATH_INFO'];
+			} elseif (isset($_SERVER['REDIRECT_URL'])) {
+				self::$asked = substr($_SERVER['REDIRECT_URL'], strlen($_SERVER['REDIRECT_BASE']));
+			} else {
+				self::$asked = '/';
+			}
 		}
+		return self::$asked;
 	}
 	
 
@@ -255,8 +263,8 @@ abstract class Router {
      */
 	static function app() {
 		$class = self::class();
+		Log::add('Routage (url : "' . Parser::current() . '")...', Log::LEVEL_PROGRESS);
 		if (Autoloader::typeof($class) === 'Controller') {
-			Log::add('Routage (url : "' . Parser::current() . '")...', Log::LEVEL_PROGRESS);
 			Log::add('Contrôleur identifié : "' . $class . '".');
 			new $class();
 			Log::add('Routage fait.', Log::LEVEL_GOOD);

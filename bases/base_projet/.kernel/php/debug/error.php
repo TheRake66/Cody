@@ -113,7 +113,7 @@ abstract class Error {
             <div class="ERROR_CODY_BLOCK">
                 <div class="ERROR_CODY_HEAD">
                     <div>      
-                        <img src="' . Path::relative('.kernel/logo_full.png') . '" alt="Cody">
+                        <img src="' . Path::relative('.kernel/cody/logo_full.png') . '" alt="Cody">
                         <span>Une erreur est survenue !</span>
                     </div>
                 </div>
@@ -174,7 +174,7 @@ abstract class Error {
 
                 @font-face {
                     font-family: "cody_consolas";
-                    src: url("' . Path::relative('.kernel/consolas.ttf') . '") format("truetype");
+                    src: url("' . Path::relative('.kernel/cody/consolas.ttf') . '") format("truetype");
                 }
 
 
@@ -186,7 +186,7 @@ abstract class Error {
                     height: 210px;
                 }
                 .ERROR_CODY_HEAD div {
-                    background-image: url(' . Path::relative('.kernel/triangles.svg') . ');
+                    background-image: url(' . Path::relative('.kernel/cody/triangles.svg') . ');
                     background-size: contain;
                     display: flex;
                     flex-direction: column;

@@ -25,7 +25,7 @@ abstract class Less {
 	 */
 	static function init() {
 		if (!Configuration::get()->render->use_minifying) {
-			Output::add(Javascript::import('.kernel/less@4.1.1.js'));
+			Output::add(Javascript::import('.kernel/cody/less@4.1.1.js'));
 		}
 	}
 

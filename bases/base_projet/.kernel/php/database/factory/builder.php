@@ -18,6 +18,8 @@ abstract class Builder {
     /**
      * Construit l'instruction de selecteur de colonnes
      * 
+     * SELECT a, b, c
+     * 
      * @param object|string l'objet ou la classe DTO 
      * @return string l'instruction SELECT
      */
@@ -34,6 +36,8 @@ abstract class Builder {
 
     /**
      * Construit l'instruction de selecteur de table
+     * 
+     * FROM table
      * 
      * @param object|string l'objet ou la classe DTO
      * @return string l'instruction FROM

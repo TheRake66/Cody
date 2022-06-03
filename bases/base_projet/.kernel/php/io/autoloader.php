@@ -26,7 +26,7 @@ abstract class Autoloader {
         if (!spl_autoload_register(function($class) {
             self::load($class);
         })) {
-            die(('Impossible d\'enregistrer la fonction d\'autoload !'));
+            die('Impossible d\'enregistrer la fonction d\'autoload !');
         }
     }
 

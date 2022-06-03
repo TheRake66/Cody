@@ -73,7 +73,7 @@ abstract class Image {
      * @return string le SVG
      */
     static function svg($file) {
-        File::load($file);
+        return File::load($file);
     }
 
 
