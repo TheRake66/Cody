@@ -107,7 +107,7 @@ abstract class Supervisor {
                         $session .= PHP_EOL . 'Nom : ' . session_name();
                     }
                     if (session_id()) {
-                        $session .= PHP_EOL . 'ID : ' . session_id();
+                        $session .= PHP_EOL . 'Id : ' . session_id();
                     }
                     break;
             }
