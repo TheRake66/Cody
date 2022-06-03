@@ -1,5 +1,5 @@
 import Attribute from '{BACK_PATH}../../../.kernel/js/html/attribute.js';
-import DOM from '{BACK_PATH}../../../.kernel/js/html/dom.js';
+import Dom from '{BACK_PATH}../../../.kernel/js/html/dom.js';
 import Finder from '{BACK_PATH}../../../.kernel/js/html/finder.js';
 import Rest from '{BACK_PATH}../../../.kernel/js/communication/rest.js';
 import Location from '{BACK_PATH}../../../.kernel/js/url/location.js';

@@ -10,9 +10,9 @@ k\Debug\Supervisor::show();
 k\Html\Less::init();
 
 // Affiche le message de prevention
-k\Security\Vulnerability\Self_XSS::prevent();
+k\Security\Vulnerability\SelfXss::prevent();
 
 // Ferme le flux de donnees
-k\IO\Stream::close();
+k\Io\Stream::close();
 
 ?>

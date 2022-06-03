@@ -2,12 +2,12 @@
 namespace Kernel\Communication;
 
 use Kernel\Debug\Log;
-use Kernel\IO\Autoloader;
-use Kernel\IO\Convert\Encoded;
-use Kernel\IO\Stream;
+use Kernel\Io\Autoloader;
+use Kernel\Io\Convert\Encoded;
+use Kernel\Io\Stream;
 use Kernel\Security\Configuration;
-use Kernel\URL\Parser;
-use Kernel\URL\Router;
+use Kernel\Url\Parser;
+use Kernel\Url\Router;
 
 
 /**

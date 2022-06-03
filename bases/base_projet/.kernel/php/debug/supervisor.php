@@ -2,9 +2,9 @@
 namespace Kernel\Debug;
 
 use Kernel\Security\Configuration;
-use Kernel\IO\Path;
-use Kernel\URL\Router;
-use Kernel\URL\Parser;
+use Kernel\Io\Path;
+use Kernel\Url\Router;
+use Kernel\Url\Parser;
 
 /**
  * Librairie du superviseur

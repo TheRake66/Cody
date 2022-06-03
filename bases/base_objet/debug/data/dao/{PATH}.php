@@ -1,10 +1,10 @@
 <?php
-namespace Model\DAO{NAMESPACE_SLASH};
+namespace Model\Dao{NAMESPACE_SLASH};
 
 use Kernel\DataBase\Toogle;
 use Kernel\DataBase\Transaction;
 use Kernel\DataBase\Query;
-use Model\DTO{NAMESPACE_SLASH}\{NAME_UPPER} as DTO;
+use Model\Dto{NAMESPACE_SLASH}\{NAME_UPPER} as Dto;
 
 
 

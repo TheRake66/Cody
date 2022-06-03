@@ -1,8 +1,8 @@
 <?php
-namespace Kernel\HTML;
+namespace Kernel\Html;
 
-use Kernel\IO\Convert\Image;
-use Kernel\URL\Location;
+use Kernel\Io\Convert\Image;
+use Kernel\Url\Location;
 
 
 
@@ -11,7 +11,7 @@ use Kernel\URL\Location;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\HTML
+ * @package Kernel\Html
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

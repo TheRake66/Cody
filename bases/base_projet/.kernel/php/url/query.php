@@ -1,5 +1,5 @@
 <?php
-namespace Kernel\URL;
+namespace Kernel\Url;
 
 
 
@@ -8,7 +8,7 @@ namespace Kernel\URL;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\URL
+ * @package Kernel\Url
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

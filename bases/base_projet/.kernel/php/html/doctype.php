@@ -1,9 +1,9 @@
 <?php
-namespace Kernel\HTML;
+namespace Kernel\Html;
 
 use Kernel\Security\Configuration;
 use Kernel\Debug\Log;
-use Kernel\IO\Path;
+use Kernel\Io\Path;
 
 
 
@@ -12,7 +12,7 @@ use Kernel\IO\Path;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\HTML
+ * @package Kernel\Html
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

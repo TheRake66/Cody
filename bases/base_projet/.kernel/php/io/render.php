@@ -2,12 +2,12 @@
 namespace Kernel\IO;
 
 use Kernel\Debug\Error;
-use Kernel\HTML\Import;
-use Kernel\HTML\Javascript;
-use Kernel\HTML\Less;
-use Kernel\HTML\Output;
-use Kernel\IO\Convert\Dataset;
-use Kernel\IO\Path;
+use Kernel\Html\Import;
+use Kernel\Html\Javascript;
+use Kernel\Html\Less;
+use Kernel\Html\Output;
+use Kernel\Io\Convert\Dataset;
+use Kernel\Io\Path;
 
 
 /**

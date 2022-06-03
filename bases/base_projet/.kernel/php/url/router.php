@@ -1,11 +1,11 @@
 <?php
-namespace Kernel\URL;
+namespace Kernel\Url;
 
 use Kernel\Debug\Error;
 use Kernel\Debug\Log;
-use Kernel\IO\Autoloader;
-use Kernel\IO\File;
-use Kernel\URL\Parser;
+use Kernel\Io\Autoloader;
+use Kernel\Io\File;
+use Kernel\Url\Parser;
 
 
 
@@ -14,7 +14,7 @@ use Kernel\URL\Parser;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\URL
+ * @package Kernel\Url
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

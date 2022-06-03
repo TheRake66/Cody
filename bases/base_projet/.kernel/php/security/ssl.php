@@ -3,7 +3,7 @@ namespace Kernel\Security;
 
 use Kernel\Debug\Log;
 use Kernel\Security\Configuration;
-use Kernel\URL\Location;
+use Kernel\Url\Location;
 
 
 
@@ -17,7 +17,7 @@ use Kernel\URL\Location;
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-abstract class SSL {
+abstract class Ssl {
 
 	/**
 	 * Verifie si le protocole SSL est actif, sinon redirige vers le protocole HTTPS

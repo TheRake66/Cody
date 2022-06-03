@@ -1,5 +1,5 @@
 <?php
-namespace Kernel\IO\Convert;
+namespace Kernel\Io\Convert;
 
 use Kernel\Debug\Log;
 use Kernel\Security\Configuration;
@@ -10,7 +10,7 @@ use Kernel\Security\Configuration;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\IO\Convert
+ * @package Kernel\Io\Convert
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

@@ -1,17 +1,17 @@
 <?php
-namespace Kernel\HTML;
+namespace Kernel\Html;
 
 use Kernel\Security\Configuration;
-use Kernel\HTML\Import;
-use Kernel\HTML\Output;
-use Kernel\IO\Path;
+use Kernel\Html\Import;
+use Kernel\Html\Output;
+use Kernel\Io\Path;
 
 /**
  * Librairie gerant le chargement de less
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\HTML
+ * @package Kernel\Html
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

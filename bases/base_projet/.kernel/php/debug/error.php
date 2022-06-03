@@ -3,8 +3,8 @@ namespace Kernel\Debug;
 
 use Exception;
 use Kernel\Security\Configuration;
-use Kernel\IO\Path;
-use Kernel\IO\Stream;
+use Kernel\Io\Path;
+use Kernel\Io\Stream;
 
 
 

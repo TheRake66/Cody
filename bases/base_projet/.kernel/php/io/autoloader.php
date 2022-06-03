@@ -45,7 +45,7 @@ abstract class Autoloader {
     /**
      * Retourne le type de la classe
      * 
-     * @example type('Kernel\IO\Autoloader') => Kernel
+     * @example type('Kernel\Io\Autoloader') => Kernel
      * @example type('Foo\Bar') => Foo
      * @param string l'espace de nom de la classe
      * @return string le type de la classe

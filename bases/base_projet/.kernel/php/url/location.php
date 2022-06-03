@@ -1,12 +1,12 @@
 <?php
-namespace Kernel\URL;
+namespace Kernel\Url;
 
 use Kernel\Debug\Log;
-use Kernel\HTML\Import;
-use Kernel\HTML\Builder;
-use Kernel\HTML\Javascript;
-use Kernel\HTML\Output;
-use Kernel\IO\Stream;
+use Kernel\Html\Import;
+use Kernel\Html\Builder;
+use Kernel\Html\Javascript;
+use Kernel\Html\Output;
+use Kernel\Io\Stream;
 
 
 /**
@@ -14,7 +14,7 @@ use Kernel\IO\Stream;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\URL
+ * @package Kernel\Url
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

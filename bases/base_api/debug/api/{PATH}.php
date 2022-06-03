@@ -1,11 +1,10 @@
 <?php
-namespace API{NAMESPACE_SLASH};
+namespace Api{NAMESPACE_SLASH};
 
 use Kernel\Debug\Error;
 use Kernel\Communication\Rest;
-use Kernel\DataBase\Factory\Crud;
-use Kernel\Security\Vulnerability\XSS;
-use Kernel\Security\Vulnerability\CSRF;
+use Kernel\Security\Vulnerability\Xss;
+use Kernel\Security\Vulnerability\Csrf;
 use Kernel\Security\Validation;
 
 

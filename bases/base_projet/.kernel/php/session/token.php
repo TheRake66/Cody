@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\Session;
 
-use Kernel\Security\Vulnerability\CSRF;
+use Kernel\Security\Vulnerability\Csrf;
 use Kernel\Security\Cookie;
 use Kernel\Debug\Log;
 use Kernel\Security\Configuration;
@@ -53,7 +53,7 @@ abstract class Token {
      * @return string le jeton
      */
     static function generate() {
-        return CSRF::generate(100);
+        return Csrf::generate(100);
     }
 
 

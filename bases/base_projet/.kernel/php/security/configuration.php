@@ -2,9 +2,9 @@
 namespace Kernel\Security;
 
 use Kernel\Debug\Error;
-use Kernel\IO\Autoloader;
-use Kernel\IO\File;
-use Kernel\IO\Path;
+use Kernel\Io\Autoloader;
+use Kernel\Io\File;
+use Kernel\Io\Path;
 
 
 

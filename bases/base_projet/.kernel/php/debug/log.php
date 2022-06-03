@@ -2,9 +2,9 @@
 namespace Kernel\Debug;
 
 use Kernel\Security\Configuration;
-use Kernel\IO\Convert\Number;
+use Kernel\Io\Convert\Number;
 use Kernel\Communication\Network;
-use Kernel\IO\Path;
+use Kernel\Io\Path;
 
 
 

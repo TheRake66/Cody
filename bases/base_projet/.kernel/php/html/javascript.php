@@ -1,8 +1,8 @@
 <?php
-namespace Kernel\HTML;
+namespace Kernel\Html;
 
-use Kernel\HTML\Import;
-use Kernel\IO\Path;
+use Kernel\Html\Import;
+use Kernel\Io\Path;
 use Kernel\Security\Configuration;
 
 /**
@@ -10,7 +10,7 @@ use Kernel\Security\Configuration;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\HTML
+ * @package Kernel\Html
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

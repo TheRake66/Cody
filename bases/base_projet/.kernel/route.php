@@ -1,5 +1,5 @@
 <?php
-use Kernel\URL\Router as r;
+use Kernel\Url\Router as r;
 use Controller as c;
 use API as a;
 
