@@ -28,9 +28,9 @@ export default class Export {
             download: file,
             style: 'display:none'
         });
-        DOM.append(a);
+        Dom.append(a);
         a.click();
-        DOM.remove(a);
+        Dom.remove(a);
     }
     
 
