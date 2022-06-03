@@ -3,6 +3,7 @@ namespace Kernel\Communication;
 
 use Kernel\Debug\Log;
 use Kernel\IO\Autoloader;
+use Kernel\IO\Convert\Encoded;
 use Kernel\IO\Stream;
 use Kernel\Security\Configuration;
 use Kernel\URL\Parser;
@@ -176,11 +177,14 @@ abstract class Rest {
 	 * 
 	 * @param array le tableau de parametres
 	 * @param string le nom du parametre
+	 * @param bool si vide doit retourner null
 	 * @return any la valeur du parametre
 	 */
-	protected function data($array, $name) {
+	protected function data($array, $name, $convert = false) {
 		if (isset($array[$name])) {
-			return $array[$name];
+			return $convert ? 
+				Encoded::null($array[$name]) : 
+				$array[$name];
 		} else {
 			$this->send(null, 1, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
 		}
