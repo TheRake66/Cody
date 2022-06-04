@@ -43,11 +43,11 @@ abstract class Mail {
 	 * 
 	 * A noter qu'accepter pour livraison ne veut pas dire qu'il arrivera a destination
 	 * 
-	 * @param string|array le/les destinataires
-	 * @param string l'objet du mail
-	 * @param string le message du mail
-	 * @param string|array le/les envoyeurs
-	 * @param string|array repondre a
+	 * @param string|array $to Le/les destinataire(s)
+	 * @param string $subject L'objet du mail
+	 * @param string $message Le message du mail
+	 * @param string|array $from Le/les envoyeurs
+	 * @param string|array $reply Le/les destinataire(s) de la 
 	 * @param string|array le/les destinataires en copie
 	 * @param string|array le/les destinataires en copie cachee
 	 * @param bool si le message contient du HTML

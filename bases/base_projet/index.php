@@ -7,10 +7,10 @@ use Kernel\Html\Doctype;
 
 
 
-<!-- Ouvre la balise HTML et l'entete -->
+<!-- Ouvre la balise HTML et l'en-tête -->
 <?= Doctype::open() ?>
 
-	<!-- Routage vers le point d'entree -->
+	<!-- Routage vers le point d'entrée -->
 	<body>
 		<?php Router::app(); ?>
 	</body>

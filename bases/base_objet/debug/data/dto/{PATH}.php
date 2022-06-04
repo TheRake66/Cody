@@ -10,15 +10,15 @@ use Kernel\DataBase\Factory\Crud;
  * 
  * @author {USER_NAME}
  * @version 1.0
- * @package Model\DTO{NAMESPACE_SLASH}
+ * @package Model\Dto{NAMESPACE_SLASH}
  * @category DTO (Data Transfer Object)
  */
 class {NAME_UPPER} extends Crud {
 
     /**
-     * @var mixed Les proprietes
+     * @var mixed Les propriétés
      */
-	
+    
 
     /**
      * Constructeur de la classe

@@ -10,25 +10,25 @@ k\Io\Autoloader::register();
 // Charge la configuration
 k\Security\Configuration::load();
 
-// Prepare l'ecouteur d'evenement des erreurs
+// Prépare l'écouteur d'événement des erreurs
 k\Debug\Error::handler();
 
-// Demarre le flux de donnees
+// Démarre le flux de données
 k\Io\Stream::reset();
 
 // Active le protocole SSL (HTTPS)
 k\Security\Ssl::enable();
 
-// Defini le fuseau horraire par defaut
+// Défini le fuseau horraire par défaut
 k\Io\Convert\Date::timezone();
 
-// Demarre une session
+// Démarre une session
 k\Session\Socket::start();
 
 // Charge les routes
 k\Url\Router::load();
 
-// Verifie si on demande une API
+// Vérifie si on demande une API
 k\Communication\Rest::check();
 
 // Lance le superviseur
