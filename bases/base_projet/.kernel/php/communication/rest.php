@@ -23,7 +23,7 @@ use Kernel\Url\Router;
 abstract class Rest {
 
     /**
-     * @var int Temps UNIX en MS a l'execution de la requete
+     * @var int temps UNIX en MS a l'execution de la requete
 	 */
     private $started;
 

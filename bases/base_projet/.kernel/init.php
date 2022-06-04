@@ -10,7 +10,7 @@ k\Io\Autoloader::register();
 // Charge la configuration
 k\Security\Configuration::load();
 
-// Prepare l'event des erreurs
+// Prepare l'ecouteur d'evenement des erreurs
 k\Debug\Error::handler();
 
 // Demarre le flux de donnees
@@ -22,7 +22,7 @@ k\Security\Ssl::enable();
 // Defini le fuseau horraire par defaut
 k\Io\Convert\Date::timezone();
 
-// Lance une session
+// Demarre une session
 k\Session\Socket::start();
 
 // Charge les routes

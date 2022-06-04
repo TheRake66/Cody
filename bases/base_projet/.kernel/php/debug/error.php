@@ -21,7 +21,7 @@ use Kernel\Io\Stream;
 abstract class Error {
 
     /**
-     * @var bool Empeche l'appel des evennements dans l'affichage de 
+     * @var bool empeche l'appel des evennements dans l'affichage de 
      * l'erreur. Evite les appels en boucle
      */
     private static $showing = false;

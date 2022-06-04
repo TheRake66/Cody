@@ -114,7 +114,7 @@ abstract class Autoloader {
                 $relative = 'debug/data/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
-            case 'API':
+            case 'Api':
                 $relative = 'debug/api/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 

@@ -21,16 +21,17 @@ use Kernel\Io\Path;
 abstract class Log {
 
 	/**
-     * @var int Les niveaux de criticite
+     * @var int les niveaux de criticite
 	 */
     const LEVEL_INFO = 0;
     const LEVEL_GOOD = 1;
     const LEVEL_WARNING = 2;
     const LEVEL_ERROR = 3;
     const LEVEL_PROGRESS = 4;
+    
 
     /**
-     * @var int Les types de log
+     * @var int les types de log
      */
     const TYPE_NONE = 0;
     const TYPE_QUERY = 1;
@@ -42,7 +43,7 @@ abstract class Log {
 
 
     /**
-     * @var int L'identifiant unique de la session de log
+     * @var int l'identifiant unique de la session de log
      */
     private static $uuid;
 

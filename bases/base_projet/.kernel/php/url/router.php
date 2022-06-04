@@ -31,26 +31,31 @@ abstract class Router {
     const METHOD_DELETE = 'DELETE';
 	const METHOD_PATCH = 'PATCH';
 
+
     /**
 	 * @var array Liste des routes [ route => [ class, methods ] ]
      */
 	private static $routes = [];
+
 
     /**
 	 * @var string Route par defaut
      */
 	private static $default;
 
+
     /**
 	 * @var string Route si non trouve
      */
 	private static $notfound;
+
 
     /**
 	 * @var string Route actuelle
      */
 	private static $current;
 
+	
     /**
 	 * @var string Route demandee
      */

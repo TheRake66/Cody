@@ -1,7 +1,7 @@
 <?php
 use Kernel\Url\Router as r;
 use Controller as c;
-use API as a;
+use Api as a;
 
 
 /*

@@ -11,9 +11,7 @@
 export default class Http {
 
     /**
-     * Les methodes d'envoie
-     * 
-     * @type {string}
+     * @type {string} les methodes d'envoi
      */
     static METHOD_GET = 'GET';
     static METHOD_POST = 'POST';

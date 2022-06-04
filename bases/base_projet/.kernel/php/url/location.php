@@ -22,7 +22,7 @@ use Kernel\Io\Stream;
 abstract class Location {
 
 	/**
-     * @var string les methodes d'envoie
+     * @var string les methodes d'envoi
 	 */
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';

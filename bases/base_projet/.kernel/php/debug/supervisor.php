@@ -19,12 +19,13 @@ use Kernel\Url\Parser;
 abstract class Supervisor {
 
     /**
-     * @var int Temps UNIX en MS au demarrage du superviseur
+     * @var int temps UNIX en MS au demarrage du superviseur
      */
     private static $started;
 
+
     /**
-     * @var array Log de la console
+     * @var array log de la console
      */
     private static $log;
 

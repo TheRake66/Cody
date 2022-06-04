@@ -17,7 +17,6 @@ use Kernel\Security\Configuration;
  */
 abstract class Stream {
 	
-
 	/**
 	 * Demarre un flux de donnees
 	 * 
