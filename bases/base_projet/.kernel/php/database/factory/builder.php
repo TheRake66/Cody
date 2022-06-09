@@ -4,7 +4,7 @@ namespace Kernel\Database\Factory;
 
 
 /**
- * Librairie creant les parties de requetes SQL (CRUD : Create, Read, Update, Delete)
+ * Librairie créant les parties de requêtes SQL (CRUD : Create, Read, Update, Delete).
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -16,12 +16,11 @@ namespace Kernel\Database\Factory;
 abstract class Builder {
 
     /**
-     * Construit l'instruction de selecteur de colonnes
+     * Construit l'instruction de sélecteur de colonnes.
      * 
-     * SELECT a, b, c
-     * 
-     * @param object|string l'objet ou la classe DTO 
-     * @return string l'instruction SELECT
+     * @example SELECT a, b, c
+     * @param object|string L'objet ou la classe DTO.
+     * @return string L'instruction SELECT.
      */
     static function select($obj) {
         $col = '';
@@ -35,12 +34,11 @@ abstract class Builder {
 
 
     /**
-     * Construit l'instruction de selecteur de table
+     * Construit l'instruction de sélecteur de table.
      * 
-     * FROM table
-     * 
-     * @param object|string l'objet ou la classe DTO
-     * @return string l'instruction FROM
+     * @example FROM table
+     * @param object|string L'objet ou la classe DTO.
+     * @return string L'instruction FROM.
      */
     static function from($obj) {
         $sql = 'FROM ' . Reflection::table($obj);
@@ -49,17 +47,17 @@ abstract class Builder {
 
 
     /**
-     * Construit l'instruction pour la clause
+     * Construit l'instruction pour la clause.
      * 
-     * WHERE a = ?
-     * AND b = ?
-     * AND c = ?
-     * 
-     * [ 1, 2, 3 ]
-     * 
-     * @param object l'objet DTO a lier
-     * @param array les proprietes utilisees pour la clause WHERE
-     * @return array l'instruction WHERE et les parametres
+     * @example [
+     *    'WHERE a = ?
+     *    AND b = ?
+     *    AND c = ?',
+     *    [ 1, 2, 3 ]
+     * ]
+     * @param object L'objet DTO à lier.
+     * @param array Les propriétés utilisées pour la clause WHERE.
+     * @return array L'instruction WHERE et les valeurs associées.
      */
     static function where($obj, $clause = null) {
         $sql = '';
@@ -91,15 +89,15 @@ abstract class Builder {
 
 
     /**
-     * Construit l'instruction pour l'insertion
+     * Construit l'instruction pour l'insertion.
      * 
-     * INSERT INTO table (a, b, c)
-     * VALUES (?, ?, ?)
-     * 
-     * [ 1, 2, 3 ]
-     * 
-     * @param object l'objet DTO a lier
-     * @return array l'instruction INSERT et les parametres
+     * @example [
+     *    'INSERT INTO table (a, b, c)
+     *    VALUES (?, ?, ?)',     * 
+     *    [ 1, 2, 3 ]
+     * ]
+     * @param object L'objet DTO à lier.
+     * @return array L'instruction INSERT et les valeurs associées.
      */
     static function insert($obj) {
         $col = '';
@@ -119,15 +117,15 @@ abstract class Builder {
 
 
     /**
-     * Construit l'instruction pour la mise a jour
+     * Construit l'instruction pour la mise à jour.
      * 
-     * UPDATE table
-     * SET a = ?, b = ?, c = ?
-     * 
-     * [ 1, 2, 3 ]
-     * 
-     * @param object l'objet DTO a lier
-     * @return array l'instruction UPDATE et les parametres
+     * @example [
+     *    'UPDATE table
+     *    SET a = ?, b = ?, c = ?',
+     *    [ 1, 2, 3 ]
+     * ]
+     * @param object L'objet DTO à lier.
+     * @return array L'instruction UPDATE et les valeurs associées.
      */
     static function update($obj) {
         $set = '';

@@ -8,7 +8,7 @@ use Kernel\Io\Convert\Dataset;
 
 
 /**
- * Librairie gerant les mails
+ * Librairie gérant les envois de mail.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -20,10 +20,10 @@ use Kernel\Io\Convert\Dataset;
 abstract class Mail {
 
 	/**
-	 * Envoi un mail
+	 * Envoie un mail.
 	 * 
 	 * @example
-	 * Les mails peuvent etre envoyer de trois manieres :
+	 * Les mails peuvent être envoyé de trois manières :
 	 * - string : 'test@test.com'
 	 * - array : [ 'test@test.com', 'test@test.com', 'test@test.com' ]
 	 * - array : [ 
@@ -32,7 +32,7 @@ abstract class Mail {
 	 * 		'nom' => 'test@test.com'
 	 * ]
 	 * 
-	 * Les entete peuvent egalement etre envoyer de trois manieres :
+	 * Les entêtes peuvent également être envoyé de trois manières :
 	 * - string : 'Nom: valeur'
 	 * - array : [ 'Nom: valeur', 'Nom: valeur', 'Nom: valeur' ]
 	 * - array : [ 
@@ -41,19 +41,18 @@ abstract class Mail {
 	 * 		'Nom' => 'valeur'
 	 * ]
 	 * 
-	 * A noter qu'accepter pour livraison ne veut pas dire qu'il arrivera a destination
+	 * À noter qu'accepter pour livraison ne veut pas dire qu'il arrivera a destination.
 	 * 
-	 * @param string|array $to Le/les destinataire(s)
-	 * @param string $subject L'objet du mail
-	 * @param string $message Le message du mail
-	 * @param string|array $from Le/les envoyeurs
-	 * @param string|array $reply Le/les destinataire(s) de la 
-	 * @param string|array le/les destinataires en copie
-	 * @param string|array le/les destinataires en copie cachee
-	 * @param bool si le message contient du HTML
-	 * @param string|array le/les entetes additionnels
-	 * @param array le/les destinataires en copie cachee
-	 * @return bool si l'envoi a ete accepte pour livraison
+	 * @param string|array $to Le/les destinataire(s).
+	 * @param string $subject L'objet du mail.
+	 * @param string $message Le message du mail.
+	 * @param string|array $from Le/les envoyeurs.
+	 * @param string|array $reply Le/les destinataire(s).
+	 * @param string|array $cc Le/les destinataires en copie.
+	 * @param string|array $bcc Le/les destinataires en copie cachée.
+	 * @param bool $is_html Si le message contient du HTML.
+	 * @param string|array $additional_headers Le/les entêtes additionnels.
+	 * @return bool Si l'envoi a été accepté pour livraison.
 	 */
 	static function send($to, $subject, $message, $from = null, 
 	$reply = null, $cc = null, $bcc = null, $is_html = false, 
@@ -91,7 +90,7 @@ abstract class Mail {
 
 
 	/**
-	 * Convertit les trois differentes manieres d'envoyer des entetes au format mail :
+	 * Convertis les trois différentes manières d'envoyer des entêtes au format mail :
 	 * 
 	 * @example
 	 * - $additional_headers = 'Test: test'
@@ -102,8 +101,8 @@ abstract class Mail {
 	 * 		'Test' => 'test'
 	 * ]
 	 * 
-	 * @param array les entetes existantes
-	 * @param string|array le/les entetes additionnels
+	 * @param array $headers Les entêtes.
+	 * @param string|array $additional_headers Les entêtes additionnels.
 	 * @return void
 	 */
 	private static function headers(&$headers, $additional_headers) {
@@ -125,7 +124,7 @@ abstract class Mail {
 
 
 	/**
-	 * Convertit les trois differentes manieres d'envoyer des mails au format mail :
+	 * Convertis les trois différentes manières d'envoyer des mails au format mail :
 	 * 
 	 * @example
 	 * Pour $name = 'To' :
@@ -142,9 +141,9 @@ abstract class Mail {
 	 * - return 'To: test@test.com, test@test.com, test@test.com'
 	 * - return 'To: nom <test@test.com>, nom <test@test.com>, nom <test@test.com>'
 	 * 
-	 * @param array les entetes existantes
-	 * @param string le nom de l'entete
-	 * @param string|array le/les mails
+	 * @param array $headers Les entêtes.
+	 * @param string $name Le nom de l'entête.
+	 * @param string|array $mails Les mails.
 	 * @return void
 	 */
 	private static function mails(&$headers, $name, $mails) {

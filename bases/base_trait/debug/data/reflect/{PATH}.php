@@ -4,7 +4,7 @@ namespace Model\Reflect{NAMESPACE_SLASH};
 
 
 /**
- * Trait {NAME_UPPER}
+ * Trait {NAME_UPPER}.
  * 
  * @author {USER_NAME}
  * @version 1.0

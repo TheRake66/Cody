@@ -6,7 +6,7 @@ use Kernel\DataBase\Factory\Crud;
 
 
 /**
- * Classe DTO {NAME_UPPER}
+ * Classe DTO {NAME_UPPER}.
  * 
  * @author {USER_NAME}
  * @version 1.0
@@ -16,12 +16,12 @@ use Kernel\DataBase\Factory\Crud;
 class {NAME_UPPER} extends Crud {
 
     /**
-     * @var mixed Les propriétés
+     * @var mixed Les propriétés de l'objet.
      */
     
 
     /**
-     * Constructeur de la classe
+     * Constructeur de la classe.
      * 
      * @access public
      * @return void

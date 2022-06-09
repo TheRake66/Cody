@@ -1,5 +1,5 @@
 /**
- * Librairie de gestion du DOM
+ * Librairie de gestion du DOM.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -10,10 +10,10 @@
 export default class Finder {
     
     /**
-     * Retourne un élément HTML via son ID
+     * Retourne un élément HTML via son ID.
      * 
-     * @param {string} id l'id de l'élément
-     * @returns {HTMLElement} l'élément
+     * @param {string} id L'id de l'élément HTML.
+     * @returns {HTMLElement} L'élément HTML.
      */
     static id(id) {
         return document.getElementById(id);
@@ -21,11 +21,11 @@ export default class Finder {
 
 
     /**
-     * Retourne des éléments HTML via leur tag
+     * Retourne des éléments HTML via leur tag.
      * 
-     * @param {string} id l'id de l'élément
-     * @param {HTMLElement} parent le parent de l'élément HTML (par défaut body)
-     * @returns {HTMLCollectionOf<any>} l'élément
+     * @param {string} tag Le tag de l'élément HTML.
+     * @param {HTMLElement} parent Le parent de l'élément HTML.
+     * @returns {HTMLCollectionOf<any>} Les éléments HTML.
      */
     static tag(tag, parent = document.body) {
         return parent.getElementsByTagName(tag);
@@ -33,11 +33,11 @@ export default class Finder {
 
 
     /**
-     * Retourne un élément HTML depuis un selecteur CSS
+     * Retourne des éléments HTML via un selecteur CSS.
      * 
-     * @param {string} selector le sélecteur css
-     * @param {HTMLElement} parent le parent de l'élément HTML (par défaut body)
-     * @returns {HTMLElement} l'élément
+     * @param {string} selector Le selecteur CSS.
+     * @param {HTMLElement} parent Le parent de l'élément HTML.
+     * @returns {HTMLElement} L'élément HTML.
      */
     static query(selector, parent = document.body) {
         return parent.querySelector(selector);
@@ -45,11 +45,11 @@ export default class Finder {
     
 
     /**
-     * Retourne des éléments HTML depuis leur selecteur CSS
+     * Retourne des éléments HTML via un selecteur CSS.
      * 
-     * @param {string} selector le sélecteur css
-     * @param {HTMLElement} parent le parent de l'élément HTML (par défaut body)
-     * @returns {NodeListOf<Element>} les éléments
+     * @param {string} selector Le selecteur CSS.
+     * @param {HTMLElement} parent Le parent de l'élément HTML.
+     * @returns {NodeListOf<Element>} Les éléments HTML.
      */
     static queryAll(selector, parent = document.body) {
         return parent.querySelectorAll(selector);

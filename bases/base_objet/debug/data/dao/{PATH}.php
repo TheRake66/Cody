@@ -9,7 +9,7 @@ use Model\Dto{NAMESPACE_SLASH}\{NAME_UPPER} as Dto;
 
 
 /**
- * Classe DAO {NAME_UPPER}
+ * Classe DAO {NAME_UPPER}.
  * 
  * @author {USER_NAME}
  * @version 1.0

@@ -1,5 +1,5 @@
 /**
- * Librairie gerant les attributs HTML
+ * Librairie gérant les attributs HTML.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -10,9 +10,9 @@
 export default class Attribute {
 
     /**
-     * Desactive un élément HTML
+     * Désactive un élément HTML.
      * 
-     * @param {HTMLElement} el l'élément HTML
+     * @param {HTMLElement} el L'élément HTML.
      * @returns {void}
      */
     static disable(el) {
@@ -21,9 +21,9 @@ export default class Attribute {
 
 
     /**
-     * Active un élément HTML
+     * Active un élément HTML.
      * 
-     * @param {HTMLElement} el l'élément HTML
+     * @param {HTMLElement} el L'élément HTML.
      * @returns {void}
      * @returns {void}
      */
@@ -33,9 +33,9 @@ export default class Attribute {
 
 
     /**
-     * Passe un élément HTML en mode lecture seule
+     * Passe un élément HTML en mode lecture seule.
      * 
-     * @param {HTMLElement} el l'élément HTML
+     * @param {HTMLElement} el L'élément HTML.
      * @returns {void}
      */
     static readonly(el) {
@@ -44,9 +44,9 @@ export default class Attribute {
 
 
     /**
-     * Passe un élément HTML en mode écriture
+     * Passe un élément HTML en mode écriture.
      * 
-     * @param {HTMLElement} el l'élément HTML
+     * @param {HTMLElement} el L'élément HTML.
      * @returns {void}
      */
     static writable(el) {
@@ -55,9 +55,9 @@ export default class Attribute {
 
 
     /**
-     * Cache un élément HTML
+     * Cache un élément HTML.
      * 
-     * @param {HTMLElement} el l'élément HTML
+     * @param {HTMLElement} el L'élément HTML.
      * @returns {void}
      */
     static hide(el) {
@@ -66,9 +66,9 @@ export default class Attribute {
 
 
     /**
-     * Affiche un élément HTML
+     * Affiche un élément HTML.
      * 
-     * @param {HTMLElement} el l'élément HTML
+     * @param {HTMLElement} el L'élément HTML.
      * @returns {void}
      */
     static show(el) {

@@ -1,6 +1,6 @@
 
 /**
- * Librairie de conversion
+ * Librairie de conversion des nombres.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -11,15 +11,14 @@
 export default class Number {
 
     /**
-     * Convertit un prix au format europeen
+     * Convertit un prix au format Européen.
      * 
      * @example euro('123456789') => '123 456 789 €'
-     * @param {Number} num le prix
-     * @returns {string} le prix en format francais
+     * @param {Number} num Le prix.
+     * @returns {string} Le prix au format Européen.
      */
     static euro(num) {
-        return new Intl.NumberFormat("fr-FR", 
-        {
+        return new Intl.NumberFormat("fr-FR", {
             style: "currency", 
             currency: "EUR"
         }).format(num);
@@ -27,12 +26,12 @@ export default class Number {
 
 
     /**
-     * Verifie si un nombre est pair
+     * Vérifie si un nombre est pair.
      * 
      * @example even(2) => true
      * @example even(3) => false
-     * @param {Number} num le nombre
-     * @returns {boolean} true si le nombre est pair
+     * @param {Number} num Le nombre.
+     * @returns {boolean} True si le nombre est pair.
      */
     static even(num) {
         return num % 2 === 0;
@@ -40,12 +39,12 @@ export default class Number {
 
 
     /**
-     * Verifie si un nombre est impair
+     * Vérifie si un nombre est impair.
      * 
-     * @example odd(2) => false
-     * @example odd(3) => true
-     * @param {Number} num le nombre
-     * @returns {boolean} true si le nombre est impair
+     * @example even(2) => false
+     * @example even(3) => true
+     * @param {Number} num Le nombre.
+     * @returns {boolean} True si le nombre est impair.
      */
     static odd(num) {
         return num % 2 !== 0;

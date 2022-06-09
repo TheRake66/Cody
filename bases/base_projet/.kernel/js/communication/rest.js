@@ -4,7 +4,7 @@ import Location from '../url/location.js';
 
 
 /**
- * Librairie de communication avec l'API REST en PHP
+ * Librairie de communication avec une API REST.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -15,18 +15,18 @@ import Location from '../url/location.js';
 export default class Rest {
     
     /**
-     * Execute une requete REST de type GET puis boucle sur les resultats
+     * Exécute une requête HTTP du type GET puis boucle sur les résultats.
      * 
-     * @param {string} route la route
-     * @param {function} sucess fonction anonyme appeler sur chaque reponse
-     * @param {function} pre fonction anonyme appeler avant l'iteration
-     * @param {function} post fonction anonyme appeler apres l'iteration
-     * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} failed fonction anonyme appeler si echec
-     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
-     * @param {Array} param les parametres supplementaires a l'URL
-     * @param {Number} timeout le temps d'attente avant echec
-     * @param {boolean} asynchronous si la requete s'execute en asynchrone
+     * @param {string} route La route.
+     * @param {function} sucess Fonction anonyme appeler sur chaque réponse.
+     * @param {function} pre Fonction anonyme appeler avant l'iteration.
+     * @param {function} post Fonction anonyme appeler après l'iteration.
+     * @param {function} empty Fonction anonyme appeler si aucun resultat retourné.
+     * @param {function} failed Fonction anonyme appeler si la requête échoue.
+     * @param {function} expired Fonction anonyme appeler si la requête expire.
+     * @param {Array} param Les paramètres supplémentaires à l'URL.
+     * @param {Number} timeout Le temps d'attente avant échec.
+     * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
      * @returns {void}
      */
     static getFor(route, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
@@ -35,16 +35,16 @@ export default class Rest {
 
     
     /**
-     * Execute une requete REST de type GET puis l'envoi a la fonction de succes
+     * Exécute une requête HTTP du type GET puis l'envoi à la fonction de succès.
      * 
-     * @param {string} route la route
-     * @param {function} sucess fonction anonyme appeler lors de la reponse
-     * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} failed fonction anonyme appeler si echec
-     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
-     * @param {Array} param les parametres supplementaires a l'URL
-     * @param {Number} timeout le temps d'attente avant echec
-     * @param {boolean} asynchronous si la requete s'execute en asynchrone
+     * @param {string} route La route.
+     * @param {function} sucess Fonction anonyme appeler lors de la réponse.
+     * @param {function} empty Fonction anonyme appeler si aucun resultat retourné.
+     * @param {function} failed Fonction anonyme appeler si la requête échoue.
+     * @param {function} expired Fonction anonyme appeler si la requête expire.
+     * @param {Array} param Les paramètres supplémentaires à l'URL.
+     * @param {Number} timeout Le temps d'attente avant échec.
+     * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
      * @returns {void}
      */
     static get(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
@@ -53,16 +53,16 @@ export default class Rest {
     
 
     /**
-     * Execute une requete REST de type POST puis l'envoi a la fonction de succes
+     * Exécute une requête HTTP du type POST puis l'envoi à la fonction de succès.
      * 
-     * @param {string} route la route
-     * @param {function} sucess fonction anonyme appeler lors de la reponse
-     * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} failed fonction anonyme appeler si echec
-     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
-     * @param {Array} param les parametres supplementaires dans le corps de la requete
-     * @param {Number} timeout le temps d'attente avant echec
-     * @param {boolean} asynchronous si la requete s'execute en asynchrone
+     * @param {string} route La route.
+     * @param {function} sucess Fonction anonyme appeler lors de la réponse.
+     * @param {function} empty Fonction anonyme appeler si aucun resultat retourné.
+     * @param {function} failed Fonction anonyme appeler si la requête échoue.
+     * @param {function} expired Fonction anonyme appeler si la requête expire.
+     * @param {Array} param Les paramètres supplémentaires au corps de la requête.
+     * @param {Number} timeout Le temps d'attente avant échec.
+     * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
      * @returns {void}
      */
     static post(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
@@ -71,16 +71,16 @@ export default class Rest {
     
 
     /**
-     * Execute une requete REST de type PUT puis l'envoi a la fonction de succes
+     * Exécute une requête HTTP du type PUT puis l'envoi à la fonction de succès.
      * 
-     * @param {string} route la route
-     * @param {function} sucess fonction anonyme appeler lors de la reponse
-     * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} failed fonction anonyme appeler si echec
-     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
-     * @param {Array} param les parametres supplementaires dans le corps de la requete
-     * @param {Number} timeout le temps d'attente avant echec
-     * @param {boolean} asynchronous si la requete s'execute en asynchrone
+     * @param {string} route La route.
+     * @param {function} sucess Fonction anonyme appeler lors de la réponse.
+     * @param {function} empty Fonction anonyme appeler si aucun resultat retourné.
+     * @param {function} failed Fonction anonyme appeler si la requête échoue.
+     * @param {function} expired Fonction anonyme appeler si la requête expire.
+     * @param {Array} param Les paramètres supplémentaires au corps de la requête.
+     * @param {Number} timeout Le temps d'attente avant échec.
+     * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
      * @returns {void}
      */
     static put(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
@@ -89,16 +89,16 @@ export default class Rest {
     
 
     /**
-     * Execute une requete REST de type DELETE puis l'envoi a la fonction de succes
+     * Exécute une requête HTTP du type DELETE puis l'envoi à la fonction de succès.
      * 
-     * @param {string} route la route
-     * @param {function} sucess fonction anonyme appeler lors de la reponse
-     * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} failed fonction anonyme appeler si echec
-     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
-     * @param {Array} param les parametres supplementaires dans le corps de la requete
-     * @param {Number} timeout le temps d'attente avant echec
-     * @param {boolean} asynchronous si la requete s'execute en asynchrone
+     * @param {string} route La route.
+     * @param {function} sucess Fonction anonyme appeler lors de la réponse.
+     * @param {function} empty Fonction anonyme appeler si aucun resultat retourné.
+     * @param {function} failed Fonction anonyme appeler si la requête échoue.
+     * @param {function} expired Fonction anonyme appeler si la requête expire.
+     * @param {Array} param Les paramètres supplémentaires au corps de la requête.
+     * @param {Number} timeout Le temps d'attente avant échec.
+     * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
      * @returns {void}
      */
     static delete(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
@@ -107,16 +107,16 @@ export default class Rest {
     
 
     /**
-     * Execute une requete REST de type PATH puis l'envoi a la fonction de succes
+     * Exécute une requête HTTP du type PATCH puis l'envoi à la fonction de succès.
      * 
-     * @param {string} route la route
-     * @param {function} sucess fonction anonyme appeler lors de la reponse
-     * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} failed fonction anonyme appeler si echec
-     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
-     * @param {Array} param les parametres supplementaires dans le corps de la requete
-     * @param {Number} timeout le temps d'attente avant echec
-     * @param {boolean} asynchronous si la requete s'execute en asynchrone
+     * @param {string} route La route.
+     * @param {function} sucess Fonction anonyme appeler lors de la réponse.
+     * @param {function} empty Fonction anonyme appeler si aucun resultat retourné.
+     * @param {function} failed Fonction anonyme appeler si la requête échoue.
+     * @param {function} expired Fonction anonyme appeler si la requête expire.
+     * @param {Array} param Les paramètres supplémentaires au corps de la requête.
+     * @param {Number} timeout Le temps d'attente avant échec.
+     * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
      * @returns {void}
      */
     static patch(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
@@ -125,17 +125,17 @@ export default class Rest {
 
 
     /**
-     * Execute une requete REST puis l'envoi a la fonction de succes
+     * Exécute une requête puis l'envoi à la fonction de succès.
      * 
-     * @param {string} route la route
-     * @param {function} sucess fonction anonyme appeler lors de la reponse
-     * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} failed fonction anonyme appeler si echec
-     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
-     * @param {Array} param les parametres supplementaires a l'URL
-     * @param {string} method la methode d'envoi
-     * @param {Number} timeout le temps d'attente avant echec
-     * @param {boolean} asynchronous si la requete s'execute en asynchrone
+     * @param {string} route La route.
+     * @param {function} sucess Fonction anonyme appeler lors de la réponse.
+     * @param {function} empty Fonction anonyme appeler si aucun resultat retourné.
+     * @param {function} failed Fonction anonyme appeler si la requête échoue.
+     * @param {function} expired Fonction anonyme appeler si la requête expire.
+     * @param {Array} param Les paramètres supplémentaires au corps de la requête ou à l'URL.
+     * @param {string} method La méthode de la requête.
+     * @param {Number} timeout Le temps d'attente avant échec.
+     * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
      * @returns {void}
      */
     static #ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, method) {
@@ -174,21 +174,21 @@ export default class Rest {
         );
     }
 
-
+    
     /**
-     * Execute une requete REST puis boucle sur les resultats
+     * Exécute une requête puis boucle sur les résultats.
      * 
-     * @param {string} route la route
-     * @param {function} sucess fonction anonyme appeler sur chaque reponse
-     * @param {function} pre fonction anonyme appeler avant l'iteration
-     * @param {function} post fonction anonyme appeler apres l'iteration
-     * @param {function} empty fonction anonyme appeler si resultat vide
-     * @param {function} failed fonction anonyme appeler si echec
-     * @param {function} expired fonction anonyme appeler si temps d'attente depasse
-     * @param {Array} param les parametres supplementaires a l'URL
-     * @param {string} method la methode d'envoi
-     * @param {Number} timeout le temps d'attente avant echec
-     * @param {boolean} asynchronous si la requete s'execute en asynchrone
+     * @param {string} route La route.
+     * @param {function} sucess Fonction anonyme appeler sur chaque réponse.
+     * @param {function} pre Fonction anonyme appeler avant l'iteration.
+     * @param {function} post Fonction anonyme appeler après l'iteration.
+     * @param {function} empty Fonction anonyme appeler si aucun resultat retourné.
+     * @param {function} failed Fonction anonyme appeler si la requête échoue.
+     * @param {function} expired Fonction anonyme appeler si la requête expire.
+     * @param {Array} param Les paramètres supplémentaires au corps de la requête ou à l'URL.
+     * @param {string} method La méthode de la requête.
+     * @param {Number} timeout Le temps d'attente avant échec.
+     * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
      * @returns {void}
      */
     static #askFor(route, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, method) {

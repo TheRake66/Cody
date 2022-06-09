@@ -1,6 +1,6 @@
 
 /**
- * Librairie de gestion des cookies
+ * Librairie de gestion des cookies.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -11,12 +11,12 @@
 export default class Cookie {
 
     /**
-     * Definie un cookie
+     * Définit un cookie.
      * 
-     * @param {string} name le nom du cookie
-     * @param {string} value la valeur du cookie
-     * @param {Number} days la durée de vie du cookie en jours
-     * @param {string} path le chemin du cookie
+     * @param {string} name Le nom du cookie.
+     * @param {string} value La valeur du cookie.
+     * @param {Number} days Le nombre de jours avant expiration.
+     * @param {string} path Le chemin du cookie.
      * @returns {void}
      */
     static set(name, value = null, days = null, path = null) {
@@ -31,10 +31,10 @@ export default class Cookie {
 
 
     /**
-     * Recupere un cookie
+     * Récupère un cookie.
      * 
-     * @param {string} name le nom du cookie
-     * @returns {string} la valeur du cookie
+     * @param {string} name Le nom du cookie.
+     * @returns {string} La valeur du cookie.
      */
     static get(name) {
         let c = document.cookie
@@ -47,10 +47,10 @@ export default class Cookie {
 
 
     /**
-     * Verifie si un cookie existe
+     * Vérifie si un cookie existe.
      * 
-     * @param {string} name le nom du cookie
-     * @returns {boolean} true si le cookie existe
+     * @param {string} name Le nom du cookie.
+     * @returns {boolean} True si le cookie existe.
      */
     static has(name) {
         return document.cookie.includes(name);
@@ -58,9 +58,9 @@ export default class Cookie {
 
 
     /**
-     * Supprime un cookie
+     * Supprime un cookie.
      * 
-     * @param {string} name le nom du cookie
+     * @param {string} name Le nom du cookie.
      * @returns {void}
      */
     static remove(name) {

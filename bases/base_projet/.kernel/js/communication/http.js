@@ -1,6 +1,6 @@
 
 /**
- * Librairie de communication via le protocole HTTP(S)
+ * Librairie de communication via le protocole HTTP(S).
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -11,7 +11,7 @@
 export default class Http {
 
     /**
-     * @type {string} les methodes d'envoi
+     * @type {string} Les méthodes d'envoi.
      */
     static METHOD_GET = 'GET';
     static METHOD_POST = 'POST';
@@ -21,16 +21,16 @@ export default class Http {
     
 
     /**
-     * Execute une requete AJAX en async
+     * Exécute une requête AJAX.
      * 
-     * @param {string} url URL a requeter
-     * @param {function} success fonction anonyme appeler lors de la reponse correcte
-     * @param {function} failed fonction anonyme appeler lors de la reponse en erreur
-     * @param {function} expired fonction anonyme appeler lorsque la requete expire
-     * @param {string} method type de requete
-     * @param {string} params corps de la requete 
-     * @param {Number} timeout temps d'attente avant expiration de la requete
-     * @param {boolean} asynchronous si la requete s'execute en asynchrone
+     * @param {string} url URL à requêter.
+     * @param {function} success Fonction anonyme appeler lors d'une réponse correcte.
+     * @param {function} failed Fonction anonyme appeler lors d'une réponse incorrecte.
+     * @param {function} expired Fonction anonyme appeler lorsque la requête expire.
+     * @param {string} method Type de requête.
+     * @param {string} params Corps de la requête. 
+     * @param {Number} timeout Temps d'attente avant expiration de la requête.
+     * @param {boolean} asynchronous Si la requête s'exécute en asynchrone.
      * @returns {void}
      */
     static send(url, success = null, failed = null, expired = null, method = Http.METHOD_GET, params = {}, timeout = 0, asynchronous = true) {

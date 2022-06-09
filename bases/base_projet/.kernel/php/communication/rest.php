@@ -11,7 +11,7 @@ use Kernel\Url\Router;
 
 
 /**
- * Librairie gerant les appel d'API REST
+ * Librairie gérant les appels d'API REST.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -23,13 +23,13 @@ use Kernel\Url\Router;
 abstract class Rest {
 
     /**
-     * @var int temps UNIX en MS a l'execution de la requete
+     * @var int Temps UNIX en MS a l'exécution de la requête.
 	 */
     private $started;
 
 
 	/**
-	 * Appel la fonction API de la route demandée
+	 * Appel la fonction API de la route demandée.
 	 * 
 	 * @return void
 	 */
@@ -88,9 +88,9 @@ abstract class Rest {
 
 
 	/**
-	 * Extrait le contenu du corps de la requete
+	 * Extrait le contenu du corps de la requête.
 	 * 
-	 * @return array le contenu du corps de la requete
+	 * @return array Le contenu du corps de la requête.
 	 */
 	private static function extract() {
 		$input = file_get_contents('php://input');
@@ -122,12 +122,12 @@ abstract class Rest {
 
 
 	/**
-	 * Formatte et envoi la reponse a envoyer au client
+	 * Formate et envoie la réponse au client.
 	 * 
-	 * @param mixed le contenu de la reponse
-	 * @param int le code de retour
-	 * @param string le message de retour
-	 * @param int le code de l'entete HTTP
+	 * @param mixed $content Le contenu à envoyer.
+	 * @param int $code Le code de retour.
+	 * @param string $message Le message de retour.
+	 * @param int $status Le statut HTTP.
 	 * @return void
 	 */
 	protected function send($content = null, $code = 0, $message = '', $status = 200) {
@@ -157,11 +157,11 @@ abstract class Rest {
 
 
 	/**
-	 * Verifi si une route correspond a la route demandée, si oui, 
-	 * on execute la fonction correspondante
+	 * Vérifie si une route correspond à la route demandée, 
+	 * si oui, on exécute la fonction correspondante.
 	 * 
-	 * @param string la route demandée
-	 * @param function la fonction a executer
+	 * @param string $route La route à vérifier.
+	 * @param function $callback La fonction à exécuter.
 	 * @return void
 	 */
 	protected function match($route, $callback) {
@@ -172,13 +172,13 @@ abstract class Rest {
 
 
 	/**
-	 * Retourne un parametre du tableau, si il n'est pas trouvé,
-	 * on renvoi une erreur
+	 * Retourne un paramètre du tableau, s'il n'est pas trouvé, 
+	 * on renvoie une erreur.
 	 * 
-	 * @param array le tableau de parametres
-	 * @param string le nom du parametre
-	 * @param bool si vide doit retourner null
-	 * @return any la valeur du parametre
+	 * @param array $array Le tableau de paramètres.
+	 * @param string $name Le nom du paramètre.
+	 * @param bool $convert Si on doit convertir une valeur vide en NULL.
+	 * @return any La valeur du paramètre.
 	 */
 	protected function data($array, $name, $convert = false) {
 		if (isset($array[$name])) {

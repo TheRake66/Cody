@@ -10,7 +10,7 @@ use Kernel\Security\Validation;
 
 
 /**
- * Module d'API {NAME_UPPER}
+ * Module d'API {NAME_UPPER}.
  * 
  * @author {USER_NAME}
  * @version 1.0
@@ -20,12 +20,12 @@ use Kernel\Security\Validation;
 class {NAME_UPPER} extends Rest {
 
     /**
-     * Appel via la méthode GET
+     * Appel via la méthode GET.
      * 
-     * @param string $route La route de l'appel
-     * @param array $query Les paramètres de la route
-     * @param array $body Le corps de la requête
-     * @return mixed Résultat de l'appel
+     * @param string $route La route de l'appel.
+     * @param array $query Les paramètres de la route.
+     * @param array $body Le corps de la requête.
+     * @return mixed Résultat de l'appel.
      */
     function get($route, $query, $body) {
         $this->send(null, 0, 'Fonction non implémentée !', 500);
@@ -33,12 +33,12 @@ class {NAME_UPPER} extends Rest {
 
 
     /**
-     * Appel via la méthode POST
+     * Appel via la méthode POST.
      * 
-     * @param string $route La route de l'appel
-     * @param array $query Les paramètres de la route
-     * @param array $body Le corps de la requête
-     * @return mixed Résultat de l'appel
+     * @param string $route La route de l'appel.
+     * @param array $query Les paramètres de la route.
+     * @param array $body Le corps de la requête.
+     * @return mixed Résultat de l'appel.
      */
     function post($route, $query, $body) {
         $this->send(null, 0, 'Fonction non implémentée !', 500);
@@ -46,12 +46,12 @@ class {NAME_UPPER} extends Rest {
 
 
     /**
-     * Appel via la méthode PUT
+     * Appel via la méthode PUT.
      * 
-     * @param string $route La route de l'appel
-     * @param array $query Les paramètres de la route
-     * @param array $body Le corps de la requête
-     * @return mixed Résultat de l'appel
+     * @param string $route La route de l'appel.
+     * @param array $query Les paramètres de la route.
+     * @param array $body Le corps de la requête.
+     * @return mixed Résultat de l'appel.
      */
     function put($route, $query, $body) {
         $this->send(null, 0, 'Fonction non implémentée !', 500);
@@ -59,12 +59,12 @@ class {NAME_UPPER} extends Rest {
 
 
     /**
-     * Appel via la méthode DELETE
+     * Appel via la méthode DELETE.
      * 
-     * @param string $route La route de l'appel
-     * @param array $query Les paramètres de la route
-     * @param array $body Le corps de la requête
-     * @return mixed Résultat de l'appel
+     * @param string $route La route de l'appel.
+     * @param array $query Les paramètres de la route.
+     * @param array $body Le corps de la requête.
+     * @return mixed Résultat de l'appel.
      */
     function delete($route, $query, $body) {
         $this->send(null, 0, 'Fonction non implémentée !', 500);
@@ -72,12 +72,12 @@ class {NAME_UPPER} extends Rest {
 
 
     /**
-     * Appel via la méthode PATCH
+     * Appel via la méthode PATCH.
      * 
-     * @param string $route La route de l'appel
-     * @param array $query Les paramètres de la route
-     * @param array $body Le corps de la requête
-     * @return mixed Résultat de l'appel
+     * @param string $route La route de l'appel.
+     * @param array $query Les paramètres de la route.
+     * @param array $body Le corps de la requête.
+     * @return mixed Résultat de l'appel.
      */
     function patch($route, $query, $body) {
         $this->send(null, 0, 'Fonction non implémentée !', 500);

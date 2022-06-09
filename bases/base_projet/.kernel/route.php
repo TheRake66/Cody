@@ -6,6 +6,7 @@ use Api as a;
 
 
 /*
+// Route vers les composants.
 r::notfound('/');
 r::default('/');
 r::add([ '/' => c\::class ]);
@@ -13,6 +14,7 @@ r::add([ '/' => c\::class ]);
 
 
 /*
+// Route vers les API.
 r::add([
     '/api' => [ 
         a\::class, [

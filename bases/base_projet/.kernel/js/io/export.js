@@ -5,7 +5,7 @@ import Finder from '../html/finder.js';
 
 
 /**
- * Librairie d'exportation des donnees
+ * Librairie d'exportation des données.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -16,10 +16,10 @@ import Finder from '../html/finder.js';
 export default class Export {
 
     /**
-	 * Telecharge un contenu
+	 * Télécharge un contenu.
 	 * 
-	 * @param {any} content le contenu a telecharger
-	 * @param {string} file nom du fichier
+	 * @param {any} content le contenu à télécharger.
+	 * @param {string} file le nom du fichier.
      * @returns {void}
      */
     static download(content, file = 'download.txt') {
@@ -35,9 +35,9 @@ export default class Export {
     
 
     /**
-     * Affiche du texte dans un nouvel onglet
+     * Affiche du texte dans un nouvel onglet.
      * 
-     * @param {string} content le contenu de la page
+     * @param {string} content le contenu de la page.
      * @returns {void}
      */
     static fullscreen(content) {
@@ -48,24 +48,22 @@ export default class Export {
 
 
     /**
-	 * Convertit un tableau en CSV
+	 * Convertit un tableau en CSV.
 	 * 
-	 * @param {DOMElement} table le tableau
-	 * @param {string} spearator separateur de colonne
-	 * @param {string} arround caractere autour de chaque cellules
+	 * @param {DOMElement} table L'élément table à convertir.
+	 * @param {string} spearator Le séparateur.
+	 * @param {string} arround Le caractère autour de chaque cellule.
      * @returns {void}
      */
      static csv(table, spearator = ';', arround = '"') {
         let csv = '';
 
-        // Creer le header
         let heads = Finder.queryAll('thead th', table);
         heads.forEach(cell => {
             csv += arround + cell.innerText + arround + spearator;
         });
         csv = csv.slice(0, -1) + '\n';
 
-        // Creer les lignes
         let rows = Finder.queryAll('tbody tr', table);
         rows.forEach(row => {
             if (row.style.display != 'none') {

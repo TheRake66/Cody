@@ -1,5 +1,5 @@
 /**
- * Librairie gerant la creation d'element HTML
+ * Librairie gérant la création d'element HTML.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -10,12 +10,12 @@
 export default class Builder {
 
     /**
-     * Crée un élément HTML
+     * Crée un élément HTML.
      * 
-     * @param {string} tag le tag de l'élément
-     * @param {Object} attr les attributs de l'élément
-     * @param {string} content le contenu HTML de l'élément
-     * @returns {HTMLElement} l'élément créé
+     * @param {string} tag Le tag de l'élément.
+     * @param {Object} attr Les attributs de l'élément.
+     * @param {string} content Le contenu HTML de l'élément.
+     * @returns {HTMLElement} L'élément créé.
      */
     static create(tag, attr = null, content = null) {
         let el = document.createElement(tag);

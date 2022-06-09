@@ -4,7 +4,7 @@ namespace Kernel\Communication;
 
 
 /**
- * Librairie gerant les fonctions reseaux
+ * Librairie gérant les fonctions réseaux.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -16,9 +16,9 @@ namespace Kernel\Communication;
 abstract class Network {
 
 	/**
-	 * Retourne l'ip du client
+	 * Retourne l'adresse IP du client.
 	 *
-     * @return string adresse ip
+     * @return string L'adresse IP du client.
 	 */
 	static function ip() {
 		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {

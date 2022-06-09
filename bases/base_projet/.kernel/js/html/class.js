@@ -1,5 +1,5 @@
 /**
- * Librairie gerant les classes HTML
+ * Librairie gérant les classes HTML.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -10,10 +10,10 @@
 export default class Class {
 
     /**
-     * Ajoute une classe à un élément HTML
+     * Ajoute une classe à un élément HTML.
      * 
-     * @param {HTMLElement} el l'élément HTML
-     * @param {string} className la classe à ajouter
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {string} className La classe à ajouter.
      * @returns {void}
      */
     static add(el, className) {
@@ -22,10 +22,10 @@ export default class Class {
 
 
     /**
-     * Supprime une classe à un élément HTML
+     * Supprime une classe à un élément HTML.
      * 
-     * @param {HTMLElement} el l'élément HTML
-     * @param {string} className la classe à supprimer
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {string} className La classe à supprimer.
      * @returns {void}
      */
     static remove(el, className) {
@@ -34,11 +34,11 @@ export default class Class {
 
 
     /**
-     * Verifie si une classe est présente sur un élément HTML
+     * Vérifie si une classe est présente sur un élément HTML.
      * 
-     * @param {HTMLElement} el l'élément HTML
-     * @param {string} className la classe à ajouter
-     * @returns {boolean} true si la classe est présente, false sinon
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {string} className La classe à ajouter.
+     * @returns {boolean} True si la classe est présente, false sinon.
      */
     static has(el, className) {
         return el.classList.contains(className);
@@ -46,10 +46,10 @@ export default class Class {
 
 
     /**
-     * Ajoute une classe à un élément HTML si elle n'est pas présente, sinon la supprime
+     * Ajoute une classe à un élément HTML si elle n'est pas présente, sinon la supprime.
      * 
-     * @param {HTMLElement} el l'élément HTML
-     * @param {string} className la classe à ajouter
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {string} className La classe à ajouter ou à supprimer.
      * @returns {void}
      */
     static toggle(el, className) {

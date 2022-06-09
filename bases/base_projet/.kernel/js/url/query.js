@@ -1,6 +1,6 @@
 
 /**
- * Librairie gerant les parametres de l'url
+ * Librairie gérant les paramètres de l'URL.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -11,11 +11,11 @@
 export default class Query {
 
     /**
-	 * Remplace un parametre de l'url
+	 * Remplace un paramètre de l'URL.
 	 * 
-	 * @param {string} name le nom du parametre
-	 * @param {string} value sa nouvelle valeur
-	 * @return {string} le nouvel url
+	 * @param {string} name Le nom du paramètre.
+	 * @param {string} value Sa nouvelle valeur.
+	 * @return {string} La nouvelle URL.
      */
     static change(name, value) {
 		let queryString = window.location.search;
@@ -26,11 +26,11 @@ export default class Query {
 
 
 	/**
-	 * Ajoute un parametre de l'url
+	 * Ajoute un paramètre à l'URL.
 	 * 
-	 * @param {string} name le nom du parametre
-	 * @param {string} value sa nouvelle valeur
-	 * @return {string} le nouvel url
+	 * @param {string} name Le nom du paramètre.
+	 * @param {string} value Sa valeur.
+	 * @return {string} La nouvelle URL.
 	 */
 	static add(name, value) {
 		let queryString = window.location.search;
@@ -41,10 +41,10 @@ export default class Query {
 
 
     /**
-	 * Retourne un parametre de l'url
+	 * Retourne la valeur d'un paramètre de l'URL.
      * 
-     * @param {string} name nom du parametre
-     * @returns {string} valeur du parametre
+     * @param {string} name Le nom du paramètre.
+     * @returns {string} La valeur du paramètre.
      */
     static get(name) {
 		let queryString = window.location.search;
@@ -54,10 +54,10 @@ export default class Query {
 
 
     /**
-	 * Supprime un parametre de l'url
+	 * Retourne la valeur d'un paramètre de l'URL.
      * 
-     * @param {string} name nom du parametre
-     * @returns {string} le nouvel url
+     * @param {string} name Le nom du paramètre.
+     * @returns {string} La nouvelle URL.
      */
     static remove(name) {
 		let queryString = window.location.search;

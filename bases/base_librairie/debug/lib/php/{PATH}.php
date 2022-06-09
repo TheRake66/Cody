@@ -4,7 +4,7 @@ namespace Library{NAMESPACE_SLASH};
 
 
 /**
- * Librairie {NAME_UPPER}
+ * Librairie {NAME_UPPER}.
  * 
  * @author {USER_NAME}
  * @version 1.0
@@ -14,7 +14,7 @@ namespace Library{NAMESPACE_SLASH};
 class {NAME_UPPER} {
 
     /**
-     * Point d'entrée de la librairie
+     * Point d'entrée de la librairie.
      * 
      * @access public
      * @return void

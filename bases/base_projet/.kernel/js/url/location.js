@@ -6,7 +6,7 @@ import Parser from './parser.js';
 
 
 /**
- * Librairie de traitement des URL
+ * Librairie de traitement des URL.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -17,9 +17,9 @@ import Parser from './parser.js';
 export default class Location {
 
 	/**
-	 * Accede a une url
+	 * Accède à une URL.
 	 * 
-	 * @param {string} url l'url
+	 * @param {string} url L'URL.
 	 * @returns {void}
 	 */
 	static change(url) {
@@ -28,7 +28,7 @@ export default class Location {
 
 	
 	/**
-	 * Recharge la page
+	 * Recharge la page.
 	 * 
      * @returns {void}
 	 */
@@ -38,12 +38,12 @@ export default class Location {
 
 
 	/**
-	 * Accede a une url dans l'application
+	 * Accède à une URL de l'application.
 	 * 
-	 * @param {string} route la route vers le composant
-	 * @param {array} param les parametres
-	 * @param {boolean} addback si on ajoute le parametre de retour
-	 * @param {string} method la methode (GET, POST)
+	 * @param {string} route La route.
+	 * @param {array} param Les parametres de la requête.
+	 * @param {boolean} addback Si on ajoute l'URL de redirection.
+	 * @param {string} method La méthode de la requête.
      * @returns {void}
 	 */
 	static go(route, params = [], addback = false, method = Http.METHOD_GET) {
@@ -77,12 +77,12 @@ export default class Location {
 
 	
 	/**
-	 * Contruit une url
+	 * Contruit une URL.
 	 * 
-	 * @param {string} route la route
-	 * @param {array} params les parametres
-	 * @param {string} addback si on ajoute le parametre de retour
-	 * @return {string} l'url
+	 * @param {string} route La route.
+	 * @param {array} params Les parametres de la requête.
+	 * @param {string} addback Si on ajoute l'URL de redirection.
+	 * @return {string} L'URL.
 	 */
 	static build(route, params = {}, addback = false) {
 		let url = Parser.root() + route;

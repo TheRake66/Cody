@@ -1,5 +1,5 @@
 /**
- * Librairie gerant les evenements
+ * Librairie gérant les évènements.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -10,14 +10,14 @@
  export default class Event {
 
     /**
-     * Ajoute un evenement a un element HTML
+     * Ajoute un évènement à un élément HTML.
      * 
-     * @param {string} event le nom de l'element
-     * @param {function} callback la fonction à exécuter
-     * @param {HTMLElement} el l'element HTML
-     * @param {boolean} capture si repercute l'element sur les element enfants
-     * @param {boolean} once si l'element doit être écouté une seule fois
-     * @param {boolean} passive si la fonction peut appeler la methode preventDefault()
+     * @param {string} event Le nom de l'élément.
+     * @param {function} callback La fonction anonyme à appeler.
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {boolean} capture Si répercute l'évènement sur les éléments enfants.
+     * @param {boolean} once Si l'évènement doit être déclenché une seule fois.
+     * @param {boolean} passive Si la fonction peut appeler la methode preventDefault().
      * @returns {void}
      */
     static add(event, callback, el = document.body, capture = false, once = false, passive = false) {
@@ -30,10 +30,10 @@
 
 
     /**
-     * Supprime un evenement d'un element HTML
+     * Supprime un évènement d'un élément HTML.
      * 
-     * @param {HTMLElement} el l'element HTML
-     * @param {string} event le nom de l'evenement
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {string} event Le nom de l'évènement.
      * @returns {void}
      */
     static remove(el, event) {

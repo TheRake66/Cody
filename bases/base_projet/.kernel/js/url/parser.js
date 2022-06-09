@@ -3,7 +3,7 @@ import Query from './query.js';
 
 
 /**
- * Librairie gerant les parties de l'url
+ * Librairie gérant les parties de l'URL.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -14,9 +14,9 @@ import Query from './query.js';
 export default class Parser {
 
 	/**
-	 * Retourne le parametre de retour
+	 * Retourne l'URL de redirection.
 	 * 
-	 * @return {string} le retour
+	 * @return {string} 
 	 */
 	static back() {
 		return Query.paramGet('redirect_url') ?? undefined;
@@ -24,9 +24,9 @@ export default class Parser {
 
 
 	/**
-	 * Retourne le protocol actuel (http ou https)
+	 * Retourne le protocol actuel (http ou https).
 	 * 
-	 * @returns {string} le protocole
+	 * @returns {string} Le protocole.
 	 */
 	static protocol() {
 		return window.location.protocol.replace(':', '');
@@ -34,9 +34,9 @@ export default class Parser {
 
 
 	/**
-	 * Retourne l'adresse du serveur (https://localhost:6600)
+	 * Retourne l'adresse du serveur (https://localhost:6600).
 	 * 
-	 * @returns {string} l'adresse
+	 * @returns {string} L'adresse du serveur.
 	 */
 	static host() {
 		return window.location.origin;
@@ -44,9 +44,9 @@ export default class Parser {
 
 
 	/**
-	 * Retourne l'url sans les parametres
+	 * Retourne l'URL sans les parametres
 	 * 
-	 * @returns {string} l'url sans les parametres
+	 * @returns {string} L'URL sans les parametres.
 	 */
 	static root() {
 		return Parser.host();
@@ -54,9 +54,9 @@ export default class Parser {
 
 	
 	/**
-	 * Retourne le chemin de l'url
+	 * Retourne le chemin de l'URL.
 	 * 
-	 * @returns {string} le chemin
+	 * @returns {string} Le chemin de l'URL.
 	 */
 	static path() {
 		return window.location.pathname;
@@ -64,9 +64,9 @@ export default class Parser {
 
 	
 	/**
-	 * Retourne l'url actuelle
+	 * Retourne l'URL actuelle.
 	 * 
-	 * @return {string} l'url
+	 * @return {string} L'URL actuelle.
 	 */
 	static current() {
 		return window.location.href;
