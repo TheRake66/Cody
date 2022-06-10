@@ -6,6 +6,8 @@ use Kernel\Io\Path;
 use Kernel\Url\Router;
 use Kernel\Url\Parser;
 
+
+
 /**
  * Librairie du superviseur
  *
@@ -19,22 +21,22 @@ use Kernel\Url\Parser;
 abstract class Supervisor {
 
     /**
-     * @var int temps UNIX en MS au demarrage du superviseur
+     * @var int Temps UNIX en MS au démarrage du superviseur.
      */
     private static $started;
 
 
     /**
-     * @var array log de la console
+     * @var array Les logs du superviseur.
      */
     private static $log;
 
 
     /**
-     * Ajoute une log dans la console
+     * Ajoute un log dans la console.
      * 
-     * @param string le message a afficher
-     * @param int le niveau de criticite
+     * @param string $message Le message à logger.
+     * @param int $level Le niveau de criticité du message.
      * @return void
      */
     static function log($message, $level = Log::LEVEL_INFO) {
@@ -50,7 +52,7 @@ abstract class Supervisor {
 
 
     /**
-     * Initialise un superviseur
+     * Initialise un superviseur.
      * 
      * @return void
      */
@@ -74,7 +76,7 @@ abstract class Supervisor {
 
 
     /**
-     * Affiche le superviseur
+     * Affiche le superviseur.
      * 
      * @return void
      */

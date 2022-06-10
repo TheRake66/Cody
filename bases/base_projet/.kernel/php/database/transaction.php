@@ -6,7 +6,7 @@ use PDO;
 
 
 /**
- * Librairie les transactions SQL
+ * Librairie les transactions SQL.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,9 +18,9 @@ use PDO;
 abstract class Transaction {
 
     /**
-     * Demarre une transaction SQL
+     * Démarre une transaction SQL.
      * 
-     * @param bool faux si une erreur est survenue
+     * @param bool True si la transaction a été démarrée, false sinon.
      */
     static function begin() {
         $conf = Statement::configuration();
@@ -32,9 +32,9 @@ abstract class Transaction {
 
 
     /**
-     * Annule une transaction SQL
+     * Annule une transaction SQL.
      * 
-     * @param bool faux si une erreur est survenue
+     * @param bool True si la transaction a été annulée, false sinon.
      */
     static function rollback() {
         $conf = Statement::configuration();
@@ -46,9 +46,9 @@ abstract class Transaction {
 
 
     /**
-     * Valide une transaction SQL
+     * Valide une transaction SQL.
      * 
-     * @param bool faux si une erreur est survenue
+     * @param bool True si la transaction a été validée, false sinon.
      */
     static function commit() {
         $conf = Statement::configuration();
@@ -60,9 +60,9 @@ abstract class Transaction {
 
 
     /**
-     * Verifi si une transaction SQL est en cours
+     * Vérifie si une transaction SQL est en cours.
      * 
-     * @param bool vrai si une transaction est en cours sinon faux
+     * @param bool True si une transaction est en cours, false sinon.
      */
     static function has() {
         return Statement::instance()->inTransaction();

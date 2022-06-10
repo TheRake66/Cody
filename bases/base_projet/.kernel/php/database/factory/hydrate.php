@@ -6,7 +6,7 @@ use Kernel\Debug\Log;
 
 
 /**
- * Librairie permettant d'hydrater les donnees dans des objets
+ * Librairie permettant d'hydrater les données dans des objets.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,12 +18,12 @@ use Kernel\Debug\Log;
 abstract class Hydrate {
 
     /**
-     * Hydrate un ou plusieurs objets, avec les donnees d'un tableau
+     * Hydrate un ou plusieurs objets, avec les données d'un tableau.
      * 
-     * @param array les donnees
-     * @param object la classe
-     * @param bool si les donnees sont une liste d'objet ou un objet unique
-     * @return object l'objet
+     * @param array $data Les données à hydrater.
+     * @param object $class La classe à hydrater.
+     * @param bool $many Si les données sont une liste d'objets ou un objet unique.
+     * @return object L'objet ou la liste d'objets hydratés.
      */
     static function hydrate($data, $class, $many = false) {
         $fn = function($d, $c) {

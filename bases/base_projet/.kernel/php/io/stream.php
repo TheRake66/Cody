@@ -6,7 +6,7 @@ use Kernel\Security\Configuration;
 
 
 /**
- * Librairie gerant les flux de donnees
+ * Librairie gérant les flux de données.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,11 +18,11 @@ use Kernel\Security\Configuration;
 abstract class Stream {
 	
 	/**
-	 * Demarre un flux de donnees
+	 * Démarre un flux de données.
 	 * 
-	 * @param function la fonction de traitement du flux
+	 * @param function $callback La fonction de traitement du flux.
 	 * @return void
-	 * @throws Error si l'extension ob_gzhandler n'est pas active en cas de mignification du flux
+	 * @throws Error Si l'extension ob_gzhandler n'est pas chargée.
 	 */
 	static function start($callback = null) {
 		$conf = Configuration::get();
@@ -39,11 +39,11 @@ abstract class Stream {
 	
 
 	/**
-	 * Detruit le flux de donnees existant puis en demarre un nouveau
+	 * Détruit le flux de données existant puis en démarre un nouveau.
 	 * 
-	 * @param function la fonction de traitement du flux
+	 * @param function $callback La fonction de traitement du flux.
 	 * @return void
-	 * @throws Error si l'extension ob_gzhandler n'est pas active en cas de mignification du flux
+	 * @throws Error Si l'extension ob_gzhandler n'est pas chargée.
 	 */
 	static function reset($callback = null) {
 		self::destroy();
@@ -52,9 +52,9 @@ abstract class Stream {
 
 
 	/**
-	 * Verifie si un flux de donnees existe
+	 * Vérifie si un flux de données existe.
 	 * 
-	 * @return void
+	 * @return bool True si un flux existe, false sinon.
 	 */
 	static function exist() {
 		return ob_get_length() !== false;
@@ -62,9 +62,9 @@ abstract class Stream {
 	
 
 	/**
-	 * Retourne le contenu du flux de donnees
+	 * Retourne le contenu du flux de données.
 	 * 
-	 * @return void
+	 * @return string Le contenu du flux.
 	 */
 	static function get() {
 		return ob_get_contents();
@@ -72,7 +72,7 @@ abstract class Stream {
 
 
 	/**
-	 * Nettoie le flux de donnees
+	 * Nettoie le flux de données.
 	 * 
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ abstract class Stream {
 
 
 	/**
-	 * Detruit le flux de donnees
+	 * Détruit le flux de données.
 	 * 
 	 * @return void
 	 */
@@ -96,7 +96,7 @@ abstract class Stream {
 
 
 	/**
-	 * Envoie les donnees dans le flux
+	 * Envoie les données dans le flux.
 	 * 
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ abstract class Stream {
 
 
 	/**
-	 * Envoie les donnees dans le flux et ferme le flux
+	 * Envoie les données dans le flux et ferme le flux.
 	 * 
 	 * @return void
 	 */

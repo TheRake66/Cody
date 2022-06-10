@@ -9,7 +9,7 @@ use Kernel\Io\Stream;
 
 
 /**
- * Librairie gerant les messages d'erreur
+ * Librairie gérant les messages d'erreur.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -21,14 +21,13 @@ use Kernel\Io\Stream;
 abstract class Error {
 
     /**
-     * @var bool empeche l'appel des evennements dans l'affichage de 
-     * l'erreur. Evite les appels en boucle
+     * @var bool Évite l'appel des événements dans l'affichage de l'erreur. Évite les appels en boucle.
      */
     private static $showing = false;
 
 
     /**
-     * Initialise les evennements d'appel
+     * Initialise les événements d'appel.
      * 
      * @return void
      */
@@ -45,7 +44,7 @@ abstract class Error {
 
 
     /**
-     * Supprime les evennements d'appel
+     * Supprime les événements d'appel.
      * 
      * @return void
      */
@@ -58,10 +57,10 @@ abstract class Error {
 
     
     /**
-     * Declenche une erreur
+     * Déclenche une erreur.
      * 
-     * @param string le message a afficher
-     * @param Exception l'exception en lien avec l'erreur
+     * @param string $message Le message d'erreur.
+     * @param Exception $exception L'exception liée à l'erreur.
      * @return void
      */
     static function trigger($message, $exception = null) {
@@ -74,7 +73,7 @@ abstract class Error {
 
 
     /**
-     * Recupere et affiche un message d'erreur fatal
+     * Récupère et affiche un message d'erreur fatal.
      * 
      * @return void
      */
@@ -91,12 +90,12 @@ abstract class Error {
 
 
     /**
-     * Affiche un message d'erreur
+     * Affiche un message d'erreur.
      * 
-     * @param int code erreur
-     * @param string le message
-     * @param string le fichier concerner
-     * @param int le numero de la ligne
+     * @param int $severity Le niveau de gravité de l'erreur.
+     * @param string $message Le message d'erreur.
+     * @param string $file_name Le nom du fichier dans lequel l'erreur a été déclenchée.
+     * @param int $lineno Le numéro de ligne dans lequel l'erreur a été déclenchée.
      * @return void
      */
     private static function show($severity, $message, $file_name, $lineno) {

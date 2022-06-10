@@ -10,7 +10,7 @@ use Kernel\Security\Cookie;
 
 
 /**
- * Librairie gerant la session cote serveur
+ * Librairie gérant la session coté serveur.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -22,10 +22,10 @@ use Kernel\Security\Cookie;
 abstract class Socket {
 
 	/**
-	 * Initialise la session
+	 * Initialise la session.
      * 
      * @return void
-     * @throws Error si la session n'a pas pu etre initialisee ou regeneree (erreur de session ou de configuration)
+     * @throws Error Si la session n'a pas pu être initialisée ou régénérée (erreur de session ou de configuration).
 	 */
 	static function start() {
         $conf = Configuration::get()->session;
@@ -71,9 +71,9 @@ abstract class Socket {
 
 
     /**
-     * Regenere la session
+     * Régénère la session.
      * 
-     * @return bool si la regeneration a reussie
+     * @return bool True si la session a été régénérée, false sinon.
      */
     static function regenerate() {
         $conf = Configuration::get()->session;

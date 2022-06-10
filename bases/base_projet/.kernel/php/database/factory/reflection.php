@@ -6,7 +6,7 @@ use Kernel\Error;
 
 
 /**
- * Librairie creant la reflection des objets DTO
+ * Librairie créant la réflection des objets DTO.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,13 +18,13 @@ use Kernel\Error;
 abstract class Reflection {
 
     /**
-     * Retourne le nom de la base de donnee d'un objet ou d'une classe DTO
+     * Retourne le nom de la base de données d'un objet ou d'une classe DTO.
      * 
-     * @param object l'objet DTO
-     * @return string le nom de la base de donnee
+     * @param object|string $class L'objet ou la classe DTO.
+     * @return string Le nom de la base de données.
      */
-    static function database($dto) {
-        $file = (new \ReflectionClass($dto))->getFileName();
+    static function database($class) {
+        $file = (new \ReflectionClass($class))->getFileName();
         $path = dirname($file);
         $root = explode(DIRECTORY_SEPARATOR, $path);
         $database = array_pop($root);
@@ -35,24 +35,24 @@ abstract class Reflection {
 
 
     /**
-     * Retourne le nom d'une table d'un objet ou d'une classe DTO
+     * Retourne le nom de la table d'un objet ou d'une classe DTO.
      * 
-     * @param object l'objet DTO
-     * @return string le nom de la classe
+     * @param object|string $class L'objet ou la classe DTO.
+     * @return string Le nom de la table.
      */
-    static function table($dto) {
-        return strtolower((new \ReflectionClass($dto))->getShortName());
+    static function table($class) {
+        return strtolower((new \ReflectionClass($class))->getShortName());
     }
 
 
     /**
-     * Retourne les noms des colonnes d'un objet ou d'une classe DTO
+     * Retourne le nom de la colonne d'un objet ou d'une classe DTO.
      * 
-     * @param object|string l'objet ou la classe DTO
-     * @return array les noms
+     * @param object|string $class L'objet ou la classe DTO.
+     * @return array Les noms de colonnes.
      */
-    static function columns($dto) {
-        $props = (new \ReflectionClass($dto))->getProperties();
+    static function columns($class) {
+        $props = (new \ReflectionClass($class))->getProperties();
         $_ = [];
         foreach ($props as $prop) {
             $_[] = self::parse($prop->getName());
@@ -62,13 +62,13 @@ abstract class Reflection {
 
 
     /**
-     * Retourne la liste des cles primaires d'un objet ou d'une classe DTO
+     * Retourne la liste des clés primaires d'un objet ou d'une classe DTO.
      * 
-     * @param object|string l'objet ou la classe DTO
-     * @return array les noms
+     * @param object|string $class L'objet ou la classe DTO.
+     * @return array Les clés primaires.
      */
-    static function keys($dto) {
-        $props = (new \ReflectionClass($dto))->getProperties();
+    static function keys($class) {
+        $props = (new \ReflectionClass($class))->getProperties();
         $_ = [];
         foreach ($props as $prop) {
             $name = $prop->getName();
@@ -81,10 +81,10 @@ abstract class Reflection {
 
 
     /**
-     * Convertit une propriete primaire en nom de colonne
+     * Convertis une propriété primaire en nom de colonne
      * 
-     * @param string le nom de la propriete
-     * @return string le nom de la colonne
+     * @param string $prop La propriété primaire.
+     * @return string Le nom de la colonne.
      */
     static function parse($primary) {
         if (substr($primary, 0, 1) === '_') {

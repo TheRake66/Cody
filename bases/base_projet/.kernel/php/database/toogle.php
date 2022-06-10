@@ -8,7 +8,7 @@ use Kernel\Debug\Log;
 
 
 /**
- * Librairie de gestions du multi-base de donnees
+ * Librairie de gestions de la multibase de données.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -20,9 +20,9 @@ use Kernel\Debug\Log;
 abstract class Toogle {
     
     /**
-     * Change la base de donnees courante
+     * Change la base de données courante.
      * 
-     * @param string le nom de la base de donnees, si null, la base par defaut est utilisee
+     * @param string $name Le nom de la base de données, si null, la base de données par défaut sera utilisée.
      * @return void
      */
     static function switch($database = null) {
@@ -36,11 +36,11 @@ abstract class Toogle {
 
 
     /**
-     * Change la base de donnees courante, execute la fonction callback et remet la base de donnees courante a la precedente
+     * Change la base de données courantes, exécute la fonction callback et remet la base de données courantes à la précédente.
      * 
-     * @param callable la fonction a executer
-     * @param string le nom de la base de donnees, si null, la base par defaut est utilisee
-     * @return mixed le resultat de la fonction
+     * @param callable $callback La fonction à exécuter.
+     * @param string $database Le nom de la base de données, si null, la base de données par défaut sera utilisée.
+     * @return mixed La valeur de retour de la fonction callback.
      */
     static function name($callback, $database = null) {
         $last = Statement::current();
@@ -52,14 +52,11 @@ abstract class Toogle {
 
 
     /**
-     * Si le fichier classe type a un dossier parent autre que dto, on change la base de 
-     * donnees courante par la base portant le nom de ce dossier, on execute la fonction 
-     * callback et remet la base de donnees courante a la precedente, sinon on execute
-     * la fonction callback sans changer
+     * Change la base de données courantes par la base de données d'un objet, exécute la fonction callback et remet la base de données courantes à la précédente.
      * 
-     * @param callable la fonction a executer
-     * @param object l'objet ou la classe DTO
-     * @return mixed le resultat de la fonction
+     * @param callable $callback La fonction à exécuter.
+     * @param string $type La classe ou l'objet DTO.
+     * @return mixed La valeur de retour de la fonction callback.
      */
     static function object($callback, $type) {
         $database = Reflection::database($type);

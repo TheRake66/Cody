@@ -6,7 +6,7 @@ use Kernel\Debug\Error;
 
 
 /**
- * Librairie chargeant les classes demandees
+ * Librairie chargeant les classes demandées.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,7 +18,7 @@ use Kernel\Debug\Error;
 abstract class Autoloader {
 
     /**
-     * Initialise l'autoloader
+     * Initialise l'autoloader.
      * 
      * @return void
      */
@@ -32,10 +32,10 @@ abstract class Autoloader {
 
 
     /**
-     * Verifi si une classe existe meme si elle n'est pas encore chargee
+     * Vérifie si une classe existe même si elle n'est pas encore chargée.
      * 
-     * @param string l'espace de nom de la classe
-     * @return bool true si la classe existe
+     * @param string $class La classe à vérifier.
+     * @return bool True si la classe existe, false sinon.
      */
     static function exists($class) {
         return class_exists($class, false) || !empty(self::file($class));
@@ -43,12 +43,12 @@ abstract class Autoloader {
 
 
     /**
-     * Retourne le type de la classe
+     * Retourne le type de la classe.
      * 
      * @example type('Kernel\Io\Autoloader') => Kernel
      * @example type('Foo\Bar') => Foo
-     * @param string l'espace de nom de la classe
-     * @return string le type de la classe
+     * @param string $class La classe à vérifier.
+     * @return string Le type de la classe.
      */
     static function typeof($class) {
         $_ = explode('\\', $class);
@@ -57,11 +57,11 @@ abstract class Autoloader {
     
 
     /**
-     * Include la classe demandee
+     * Charge la classe demandée.
      * 
-     * @param string l'espace de nom de la classe
+     * @param string $required La classe à charger.
      * @return void
-     * @throws Error si le fichier n'est pas trouvé
+     * @throws Error Si la classe n'existe pas.
      */
     private static function load($required) {
         if ($file = self::file($required)) {
@@ -81,10 +81,10 @@ abstract class Autoloader {
 
 
     /**
-     * Determine le chemin du fichier de la classe demandee
+     * Détermine le chemin du fichier de la classe demandée.
      * 
-     * @param string l'espace de nom de la classe
-     * @return string|null le chemin du fichier ou null si non trouvé
+     * @param string $required La classe à charger.
+     * @return string|null Le chemin du fichier, null si le file n'existe pas.
      */
     private static function file($required) {
         $_ = explode('\\', $required);

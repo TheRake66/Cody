@@ -11,7 +11,7 @@ use Kernel\Io\Path;
 
 
 /**
- * Librairie gerant le rendu composants
+ * Librairie gérant le rendu des composants.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -21,7 +21,7 @@ use Kernel\Io\Path;
 abstract class Render {
 
     /**
-     * Inclut les fichiers pour afficher le composant
+     * Inclut les fichiers pour afficher le composant.
      * 
      * @example
      *  $this->view('machin') ---> $_0 = 'machin'
@@ -31,9 +31,9 @@ abstract class Render {
      *      'test2' => 'truc'
      * ]) ---> $test1 = 'machin', $test2 = 'truc'
      * 
-     * @param array les variables a passer a la vue au format cle => valeur
+     * @param array $variables Les variables à injecter dans la vue.
      * @return void
-     * @throws Error si les fichiers (vue, style, script) n'existent pas ou ne sont pas lisible
+     * @throws Error Si le la vue n'existe pas ou n'est pas lisible.
      */
     protected function view($variables = null) {
         $full = get_class($this);

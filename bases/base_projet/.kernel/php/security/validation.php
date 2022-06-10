@@ -6,7 +6,7 @@ use Kernel\Debug\Error;
 
 
 /**
- * Librairie gerant la validation des donnees
+ * Librairie gérant la validation des données.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,16 +18,16 @@ use Kernel\Debug\Error;
 abstract class Validation {	
 
 	/**
-	 * Verifie si un mot de passe est robuste
+	 * Vérifie si un mot de passe est robuste.
 	 * 
-	 * @param string le mot de passe
-	 * @param int la longueur minimum
-	 * @param int la longueur maximum
-	 * @param bool si le mot de passe doit contenir une majuscule
-	 * @param bool si le mot de passe doit contenir une minuscule
-	 * @param bool si le mot de passe doit contenir un chiffre
-	 * @param bool si le mot de passe doit contenir un caractere special
-	 * @return bool si le mot de passe est robuste
+	 * @param string $password Le mot de passe à vérifier.
+	 * @param int $min Le nombre minimum de caractères.
+	 * @param int $max Le nombre maximum de caractères.
+	 * @param bool $upper Si le mot de passe doit contenir des majuscules.
+	 * @param bool $lower Si le mot de passe doit contenir des minuscules.
+	 * @param bool $number Si le mot de passe doit contenir des chiffres.
+	 * @param bool $special Si le mot de passe doit contenir des caractères spéciaux.
+	 * @return bool True si le mot de passe est robuste, false sinon.
 	 */
 	static function strong($password, $min = 8, $max = 20, $upper = true, $lower = true, $number = true, $special = true) {
 		$len = strlen($password);
@@ -41,10 +41,10 @@ abstract class Validation {
 
 
 	/**
-	 * Verifie si une adresse email est valide
+	 * Vérifie si une adresse email est valide.
 	 * 
-	 * @param string l'adresse email
-	 * @return bool si l'adresse email est valide
+	 * @param string $email L'adresse email à vérifier.
+	 * @return bool True si l'adresse email est valide, false sinon.
 	 */
 	static function email($email) {
 		return filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -52,15 +52,15 @@ abstract class Validation {
 	
 
 	/**
-	 * Authentifie un utilisateur via un serveur LDAP
+	 * Authentifie un utilisateur via un serveur LDAP.
 	 * 
-	 * @param string l'identifiant de l'utilisateur
-	 * @param string le mot de passe de l'utilisateur
-	 * @param string le dn (distinguished name)
-	 * @param string le serveur
-	 * @param int le port
-	 * @return bool si les identifiants sont bon
-	 * @throws Error si l'extension LDAP n'est pas installee
+	 * @param string $login Le login de l'utilisateur.
+	 * @param string $password Le mot de passe de l'utilisateur.
+	 * @param string $dn Le DN (distinguished name).
+	 * @param string $host Le serveur LDAP.
+	 * @param int $port Le port du serveur LDAP.
+	 * @return bool True si l'utilisateur est authentifié, false sinon.
+	 * @throws Error Si l'extension LDAP n'est pas installée.
 	 */
 	static function ldap($login, $password, $dn, $host, $port = 389) {
 		if (extension_loaded('ldap') && extension_loaded('openssl')) {

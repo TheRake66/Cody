@@ -8,7 +8,7 @@ use Kernel\Url\Location;
 
 
 /**
- * Librairie gerant le protocole SSL (Secure Socket Layer)
+ * Librairie gérant le protocole SSL (Secure Socket Layer).
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -20,7 +20,7 @@ use Kernel\Url\Location;
 abstract class Ssl {
 
 	/**
-	 * Verifie si le protocole SSL est actif, sinon redirige vers le protocole HTTPS
+	 * Vérifie si le protocole SSL est actif, sinon redirige vers le protocole HTTPS.
 	 * 
 	 * @return void
 	 */
@@ -37,9 +37,9 @@ abstract class Ssl {
 
 
 	/**
-	 * Verifie si le protocole SSL est actif
+	 * Vérifie si le protocole SSL est actif.
 	 * 
-	 * @return bool si le protocole SSL est actif
+	 * @return bool True si le protocole SSL est actif, false sinon.
 	 */
 	static function active() {
 		return !($_SERVER['SERVER_PORT'] !== 443 &&

@@ -6,7 +6,7 @@ use DateTime;
 
 
 /**
- * Librairie gerant les traductions des donnees PHP vers SQL
+ * Librairie gérant les traductions des données PHP vers SQL.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,10 +18,10 @@ use DateTime;
 abstract class Translate {
 
     /**
-     * Convertit un ou plusieurs parametres en parametre SQL
+     * Convertis un ou plusieurs paramètres en paramètre SQL.
      * 
-     * @param mixed le ou les parametres
-     * @return mixed le ou les parametres en SQL
+     * @param mixed $params Les paramètres à convertir.
+     * @return mixed Les paramètres convertis.
      */
     static function format($param) {
         $fn = function($p) {

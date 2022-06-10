@@ -4,7 +4,7 @@ namespace Kernel\Debug;
 
 
 /**
- * Librairie gerant les tests unitaire
+ * Librairie gérant les tests unitaires.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -15,9 +15,9 @@ namespace Kernel\Debug;
 abstract class Unit {
 
     /**
-     * Termine le test avec un code de sortie et un message d'erreur
+     * Termine le test avec un code de sortie et un message d'erreur.
      * 
-     * @param string le message
+     * @param string $message Le message d'erreur.
      * @return void
      */
     protected function fail($message = null) {
@@ -29,10 +29,10 @@ abstract class Unit {
 
 
     /**
-     * Verifie si une valeur est fausse
+     * Vérifie si une valeur est fausse.
      * 
-     * @param bool la valeur a verifier
-     * @param string le message en cas d'echec
+     * @param bool $bool La valeur à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function false($bool, $message = 'Doit être faux.') {
@@ -43,10 +43,10 @@ abstract class Unit {
 
 
     /**
-     * Verifie si une valeur est vraie
+     * Vérifie si une valeur est vraie.
      * 
-     * @param bool la valeur a verifier
-     * @param string le message en cas d'echec
+     * @param bool $bool La valeur à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function true($bool, $message = 'Doit être vrai.') {
@@ -57,10 +57,10 @@ abstract class Unit {
 
 
     /**
-     * Verifie si une valeur est null
+     * Vérifie si une valeur est NULL.
      * 
-     * @param mixed la valeur a verifier
-     * @param string le message en cas d'echec
+     * @param mixed $mixed La valeur à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function null($mixed, $message = 'Doit être null.') {
@@ -71,10 +71,10 @@ abstract class Unit {
 
 
     /**
-     * Verifie si une valeur est pas null
+     * Vérifie si une valeur est pas NULL.
      * 
-     * @param mixed la valeur a verifier
-     * @param string le message en cas d'echec
+     * @param mixed $mixed La valeur à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function notNull($mixed, $message = 'Ne doit pas être null.') {
@@ -85,11 +85,11 @@ abstract class Unit {
 
 
     /**
-     * Verifie si une valeur a un type precis
+     * Vérifie si une valeur a un type précis.
      * 
-     * @param mixed la valeur a verifier
-     * @param string le type requis
-     * @param string le message en cas d'echec
+     * @param mixed $mixed La valeur à vérifier.
+     * @param string $type Le type à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function type($mixed, $type, $message = 'N\'est pas du type requis.') {
@@ -100,11 +100,11 @@ abstract class Unit {
 
 
     /**
-     * Verifie si une valeur n'est pas d'un type precis
+     * Vérifie si une valeur n'est pas d'un type précis.
      * 
-     * @param mixed la valeur a verifier
-     * @param string le type indesirable
-     * @param string le message en cas d'echec
+     * @param mixed $mixed La valeur à vérifier.
+     * @param string $type Le type à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function notType($mixed, $type, $message = 'Est du type indesirable.') {
@@ -115,11 +115,11 @@ abstract class Unit {
 
 
     /**
-     * Verifie si un objet fait partie du classe precise
+     * Vérifie si un objet fait partie du classe précise.
      * 
-     * @param object l'objet a verifier
-     * @param string la classe requise
-     * @param string le message en cas d'echec
+     * @param object $object L'objet à vérifier.
+     * @param string $class La classe à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function class($object, $class, $message = 'N\'est pas de la bonne classe.') {
@@ -130,14 +130,14 @@ abstract class Unit {
 
 
     /**
-     * Verifie si un objet ne fait pas partie du classe precise
+     * Vérifie si un objet ne fait pas partie du classe précise.
      * 
-     * @param object l'objet a verifier
-     * @param string la classe indesirable
-     * @param string le message en cas d'echec
+     * @param object $object L'objet à vérifier.
+     * @param string $class La classe à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
-    protected function notClass($object, $class, $message = 'Est de la classe indesirable.') {
+    protected function notClass($object, $class, $message = 'Est de la classe indésirable.') {
         if (get_class($object) == $class) {
             $this->fail($message);
         }
@@ -145,12 +145,11 @@ abstract class Unit {
 
 
     /**
-     * Verifie si deux valeurs sont egales. Si ces valeurs sont des objets, la
-     * comparaison se fera sur les proprietes et la classe
+     * Vérifie si deux valeurs sont égales. Si ces valeurs sont des objets, la comparaison se fera sur les propriétés de la classe.
      * 
-     * @param object la premiere valeur a verifier
-     * @param object la deuxieme valeur a verifier
-     * @param string le message en cas d'echec
+     * @param object $object1 La première valeur à comparer.
+     * @param object $object2 La deuxième valeur à comparer.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function assertEquals($object1, $object2, $message = 'Doit être égales.') {
@@ -161,12 +160,11 @@ abstract class Unit {
 
 
     /**
-     * Verifie si deux valeurs sont differentes. Si ces valeurs sont des objets, la
-     * comparaison se fera sur les proprietes et la classe
+     * Vérifie si deux valeurs sont différentes. Si ces valeurs sont des objets, la comparaison se fera sur les propriétés de la classe.
      * 
-     * @param object la premiere valeur a verifier
-     * @param object la deuxieme valeur a verifier
-     * @param string le message en cas d'echec
+     * @param object $object1 La première valeur à comparer.
+     * @param object $object2 La deuxième valeur à comparer.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function notEquals($object1, $object2, $message = 'Ne doit pas être égales.') {
@@ -177,11 +175,11 @@ abstract class Unit {
 
 
     /**
-     * Verifie si deux objets ont les memes references
+     * Vérifie si deux objets ont les mêmes références.
      * 
-     * @param object le premier objet a verifier
-     * @param object le deuxieme objet a verifier
-     * @param string le message en cas d'echec
+     * @param object $object1 La première valeur à vérifier.
+     * @param object $object2 La deuxième valeur à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function same($object1, $object2, $message = 'Doit être identique.') {
@@ -192,11 +190,11 @@ abstract class Unit {
 
 
     /**
-     * Verifie si deux objets ont des references differentes
+     * Vérifie si deux objets ont des références différentes.
      * 
-     * @param object le premier objet a verifier
-     * @param object le deuxieme objet a verifier
-     * @param string le message en cas d'echec
+     * @param object $object1 La première valeur à vérifier.
+     * @param object $object2 La deuxième valeur à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function notSame($object1, $object2, $message = 'Ne doit pas être identique.') {
@@ -207,14 +205,14 @@ abstract class Unit {
 
 
     /**
-     * Verifie si deux objets font partie de la meme classe
+     * Vérifie si deux objets font partie de la même classe.
      * 
-     * @param object le premier objet a verifier
-     * @param object le deuxieme objet a verifier
-     * @param string le message en cas d'echec
+     * @param object $object1 La première valeur à vérifier.
+     * @param object $object2 La deuxième valeur à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
-    protected function sameClass($object1, $object2, $message = 'Doit être de la meme clase.') {
+    protected function sameClass($object1, $object2, $message = 'Doit être de la même clase.') {
         if (get_class($object1) != get_class($object2)) {
             $this->fail($message);
         }
@@ -222,14 +220,14 @@ abstract class Unit {
 
 
     /**
-     * Verifie si deux objets ne font pas partie de la meme classe
+     * Vérifie si deux objets ne font pas partie de la même classe.
      * 
-     * @param object le premier objet a verifier
-     * @param object le deuxieme objet a verifier
-     * @param string le message en cas d'echec
+     * @param object $object1 La première valeur à vérifier.
+     * @param object $object2 La deuxième valeur à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
-    protected function notSameClass($object1, $object2, $message = 'Ne doit pas être de la meme clase.') {
+    protected function notSameClass($object1, $object2, $message = 'Ne doit pas être de la même clase.') {
         if (get_class($object1) == get_class($object2)) {
             $this->fail($message);
         }
@@ -237,14 +235,14 @@ abstract class Unit {
 
 
     /**
-     * Verifie si deux valeur ont le meme type
+     * Vérifie si deux valeur ont le même type.
      * 
-     * @param mixed la premiere valeur a verifier
-     * @param mixed la deuxieme valeur a verifier
-     * @param string le message en cas d'echec
+     * @param mixed $mixed1 La première valeur à vérifier.
+     * @param mixed $mixed2 La deuxième valeur à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
-    protected function sameType($mixed1, $mixed2, $message = 'Doit être du meme type.') {
+    protected function sameType($mixed1, $mixed2, $message = 'Doit être du même type.') {
         if (gettype($mixed1) != gettype($mixed2)) {
             $this->fail($message);
         }
@@ -252,14 +250,14 @@ abstract class Unit {
 
 
     /**
-     * Verifie si deux valeur ont un type different
+     * Vérifie si deux valeur ont un type différent.
      * 
-     * @param mixed la premiere valeur a verifier
-     * @param mixed la deuxieme valeur a verifier
-     * @param string le message en cas d'echec
+     * @param mixed $mixed1 La première valeur à vérifier.
+     * @param mixed $mixed2 La deuxième valeur à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
-    protected function notSameType($mixed1, $mixed2, $message = 'Ne doit pas être du meme type.') {
+    protected function notSameType($mixed1, $mixed2, $message = 'Ne doit pas être du même type.') {
         if (gettype($mixed1) == gettype($mixed2)) {
             $this->fail($message);
         }
@@ -267,12 +265,12 @@ abstract class Unit {
 
 
     /**
-     * Verifie si une valeur est dans une liste
+     * Vérifie si une valeur est dans une liste.
      * 
-     * @param mixed l'objet a verifier
-     * @param array la liste a verifier
-     * @param bool si on verifie les types
-     * @param string le message en cas d'echec
+     * @param mixed $mixed La valeur à chercher.
+     * @param array $array La liste à vérifier.
+     * @param bool $checktype Si vrai, la valeur doit être du même type que la liste.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function inArray($mixed, $array, $checktype = false, $message = 'Doit être dans la liste.') {
@@ -283,12 +281,12 @@ abstract class Unit {
 
 
     /**
-     * Verifie si une valeur n'est pas dans une liste
+     * Vérifie si une valeur n'est pas dans une liste.
      * 
-     * @param mixed l'objet a verifier
-     * @param array la liste a verifier
-     * @param bool si on verifie les types
-     * @param string le message en cas d'echec
+     * @param mixed $mixed La valeur à chercher.
+     * @param array $array La liste à vérifier.
+     * @param bool $checktype Si vrai, la valeur doit être du même type que la liste.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function notInArray($mixed, $array, $checktype = false, $message = 'Ne doit pas être dans la liste.') {
@@ -299,11 +297,11 @@ abstract class Unit {
 
 
     /**
-     * Verifie si deux listes contiennent les memes valeurs
+     * Vérifie si deux listes contiennent les mêmes valeurs.
      * 
-     * @param array la premiere liste a verifier
-     * @param array la deuxieme liste a verifier
-     * @param string le message en cas d'echec
+     * @param array $array1 La première liste à vérifier.
+     * @param array $array2 La deuxième liste à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function arraySameValues($array1, $array2, $message = 'Doivent avoir les même valeurs.') {
@@ -316,11 +314,11 @@ abstract class Unit {
 
 
     /**
-     * Verifie si deux listes contiennent des valeurs differentes
+     * Vérifie si deux listes contiennent des valeurs différentes.
      * 
-     * @param array la premiere liste a verifier
-     * @param array la deuxieme liste a verifier
-     * @param string le message en cas d'echec
+     * @param array $array1 La première liste à vérifier.
+     * @param array $array2 La deuxième liste à vérifier.
+     * @param string $message Le message en cas d'erreur.
      * @return void
      */
     protected function arrayNotSameValues($array1, $array2, $message = 'Ne doivent pas avoir les même valeurs.') {

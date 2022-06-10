@@ -4,7 +4,7 @@ namespace Kernel\Url;
 
 
 /**
- * Librairie gerant les parametres de l'url
+ * Librairie gérant les paramètres de l'URL.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -16,11 +16,11 @@ namespace Kernel\Url;
 abstract class Query {
 
 	/**
-	 * Remplace un parametre de l'url
+	 * Remplace un paramètre dans l'URL.
 	 * 
-	 * @param string le nom du parametre
-	 * @param string sa nouvelle valeur
-	 * @return string le nouvel url
+	 * @param string $name Le nom du paramètre.
+	 * @param string $value La valeur du paramètre.
+	 * @return string L'URL avec le paramètre remplacé.
 	 */
 	static function change($name, $value) {
 		$query = $_GET;
@@ -30,11 +30,11 @@ abstract class Query {
 	
 
 	/**
-	 * Ajoute un parametre de l'url
+	 * Ajoute un paramètre dans l'URL.
 	 * 
-	 * @param string le nom du parametre
-	 * @param string sa valeur
-	 * @return string le nouvel url
+	 * @param string $name Le nom du paramètre.
+	 * @param string $value La valeur du paramètre.
+	 * @return string L'URL avec le paramètre ajouté.
 	 */
 	static function add($name, $value) {
 		return self::change($name, $value);
@@ -42,10 +42,10 @@ abstract class Query {
 	
 
 	/**
-	 * Retourne un parametre de l'url
+	 * Retourne un paramètre de l'URL.
 	 * 
-	 * @param string nom du parametre
-	 * @return string valeur du parametre
+	 * @param string $name Le nom du paramètre.
+	 * @return string La valeur du paramètre.
 	 */
 	static function get($name) {
 		return $_GET[$name] ?? null;
@@ -53,10 +53,10 @@ abstract class Query {
 
 
 	/**
-	 * Supprime un parametre de l'url
+	 * Supprime un paramètre de l'URL.
 	 * 
-	 * @param string le nom du parametre
-	 * @return string le nouvel url
+	 * @param string $name Le nom du paramètre.
+	 * @return string L'URL sans le paramètre.
 	 */
 	static function remove($name) {
 		$query = $_GET;

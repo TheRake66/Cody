@@ -9,7 +9,7 @@ use Kernel\Io\Path;
 
 
 /**
- * Librairie gerant les logs
+ * Librairie gérant le journal de logs.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -21,7 +21,7 @@ use Kernel\Io\Path;
 abstract class Log {
 
 	/**
-     * @var int les niveaux de criticite
+     * @var int Les niveaux de criticité.
 	 */
     const LEVEL_INFO = 0;
     const LEVEL_GOOD = 1;
@@ -31,7 +31,7 @@ abstract class Log {
     
 
     /**
-     * @var int les types de log
+     * @var int Les types de log.
      */
     const TYPE_NONE = 0;
     const TYPE_QUERY = 1;
@@ -43,17 +43,17 @@ abstract class Log {
 
 
     /**
-     * @var int l'identifiant unique de la session de log
+     * @var int L'identifiant unique de la session de log.
      */
     private static $uuid;
 
 
     /**
-     * Ajoute une log dans la console et dans un fichier
+     * Ajoute un log dans la console et dans un fichier.
      * 
-     * @param string le message a afficher
-     * @param int le niveau de criticite
-     * @param int le type de log
+     * @param string $message Le message à logger.
+     * @param int $level Le niveau de criticité du message.
+     * @param int $type Le type de log.
      * @return void
      */
     static function add($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
@@ -63,13 +63,13 @@ abstract class Log {
 
 
     /**
-     * Ajoute une log un fichier
+     * Ajoute une log un fichier.
      * 
-     * @param string le message a afficher
-     * @param int le niveau de criticite
-     * @param int le type de log
+     * @param string $message Le message à logger.
+     * @param int $level Le niveau de criticité du message.
+     * @param int $type Le type de log.
      * @return void
-     * @throws Error Si le fichier n'est pas accessible
+     * @throws Error Si le fichier de log n'est pas accessible.
      */
     static function file($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
         $conf = Configuration::get()->log;

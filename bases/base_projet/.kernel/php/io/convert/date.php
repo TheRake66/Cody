@@ -6,7 +6,7 @@ use Kernel\Security\Configuration;
 
 
 /**
- * Librairie gerant les dates
+ * Librairie gérant les dates.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,9 +18,9 @@ use Kernel\Security\Configuration;
 abstract class Date {
 
     /**
-     * Defini ou le fuseau horraire
+     * Définit ou le fuseau horraire.
      * 
-     * @param string Fuseau horraire
+     * @param string $zone Le fuseau horraire.
      * @return void
      */
     static function timezone($zone = null) {
@@ -33,10 +33,10 @@ abstract class Date {
 
 
     /**
-     * Calcul le temps d'execution d'une fonction
+     * Calcul le temps d'exécution d'une fonction.
      * 
-     * @param string la fonction a calculer
-     * @return float le temps d'execution en milliseconde
+     * @param string $function La fonction à mesurer.
+     * @return float Le temps d'exécution en millisecondes.
      */
     static function elapsed($callback) {
         $started = microtime(true);

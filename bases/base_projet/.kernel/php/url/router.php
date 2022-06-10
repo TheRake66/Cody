@@ -10,7 +10,7 @@ use Kernel\Url\Parser;
 
 
 /**
- * Librairie gerant le routage des pages
+ * Librairie gérant le routage des pages.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -22,7 +22,7 @@ use Kernel\Url\Parser;
 abstract class Router {
 
 	/**
-     * @var string les methodes d'envoie
+     * @var string Les méthodes d'envoie.
 	 */
     const METHOD_ALL = 'ALL';
     const METHOD_GET = 'GET';
@@ -33,40 +33,40 @@ abstract class Router {
 
 
     /**
-	 * @var array Liste des routes [ route => [ class, methods ] ]
+	 * @var array Liste des routes [ route => [ class, methods ] ].
      */
 	private static $routes = [];
 
 
     /**
-	 * @var string Route par defaut
+	 * @var string Route par défaut.
      */
 	private static $default;
 
 
     /**
-	 * @var string Route si non trouve
+	 * @var string Route si non trouvée.
      */
 	private static $notfound;
 
 
     /**
-	 * @var string Route actuelle
+	 * @var string Route actuelle.
      */
 	private static $current;
 
 	
     /**
-	 * @var string Route demandee
+	 * @var string Route demandée.
      */
 	private static $asked;
 
 
 	/**
-	 * Charge les routes
+	 * Charge les routes.
 	 * 
 	 * @return void
-	 * @throws Error si le fichier de route n'est pas trouvé
+	 * @throws Error Si le fichier de routes n'existe pas.
 	 */
 	static function load() {
 		File::require('.kernel/route.php', true);
@@ -74,9 +74,9 @@ abstract class Router {
 
 
     /**
-     * Definie la route par defaut
+     * Définit la route par défaut.
 	 * 
-	 * @param string la route
+	 * @param string $defaut La route par défaut.
 	 * @return void
      */
 	static function default($defaut) {
@@ -85,9 +85,9 @@ abstract class Router {
 
 
     /**
-     * Definie la route en cas de route non trouvee (404)
+     * Définit la route en cas de route non trouvee (404).
 	 * 
-	 * @param string la route
+	 * @param string $notfound La route 404.
 	 * @return void
      */
 	static function notfound($notfound) {
@@ -96,9 +96,13 @@ abstract class Router {
 
 
 	/**
-	 * Ajoute des routes
+	 * Ajoute des routes.
 	 * 
-	 * @param array liste des routes
+	 * @example Kernel\Url\Router::add('/accueil', Controller\Accueil::class);
+	 * @example Kernel\Url\Router::add('/api/produit', Api\Produit::class);
+	 * @example Kernel\Url\Router::add('/api/produit', [ Api\Produit::class, Router::METHOD_GET ]);
+	 * @example Kernel\Url\Router::add('/api/produit', [ Api\Produit::class, [ Router::METHOD_GET, Router::METHOD_POST ] ]);
+	 * @param array $routes Liste des routes.
 	 * @return void
 	 */
 	static function add($routes) {
@@ -113,11 +117,10 @@ abstract class Router {
 
 
 	/**
-	 * Verifie si une route existe
+	 * Vérifie si une route existe.
 	 * 
-	 * @param string la route
-	 * @param int type de route
-	 * @return bool true si existe, false sinon
+	 * @param string $route La route à vérifier.
+	 * @return bool True si la route existe, false sinon.
 	 */
 	static function exists($route) {
 		return isset(self::$routes[$route]);
@@ -125,10 +128,10 @@ abstract class Router {
 	
 
 	/**
-	 * Retourne la route actuelle tel qu'elle est definie dans le fichier de route
+	 * Retourne la route actuelle telle qu'elle est définie dans le fichier de route.
 	 * 
-	 * @return string la route
-	 * @throws Error si aucune route n'a ete definie
+	 * @return string La route actuelle.
+	 * @throws Error Si aucune route n'est définie dans le fichier de route.
 	 */
 	static function current() {
 		if (is_null(self::$current)) {
@@ -161,9 +164,9 @@ abstract class Router {
 
 
 	/**
-	 * Retourne la route actuelle tel qu'elle est definie dans l'URL
+	 * Retourne la route actuelle telle qu'elle est définie dans l'URL.
 	 * 
-	 * @return string le route demandee
+	 * @return string La route actuelle.
 	 */
 	static function asked() {
 		if (is_null(self::$asked)) {
@@ -180,9 +183,9 @@ abstract class Router {
 	
 
 	/**
-	 * Retourne la classe liee a la route actuelle
+	 * Retourne la classe liée à la route actuelle.
 	 * 
-	 * @return object la classe
+	 * @return object La classe liée à la route actuelle.
 	 */
 	static function class() {
 		return self::$routes[self::current()][0];
@@ -190,9 +193,9 @@ abstract class Router {
 
 
 	/**
-	 * Retourne la ou les methodes liees a la route actuelle
+	 * Retourne-la ou les méthodes liées à la route actuelle.
 	 * 
-	 * @return array la ou les methodes
+	 * @return array La ou les méthodes liées à la route actuelle.
 	 */
 	static function methods() {
 		return self::$routes[self::current()][1];
@@ -200,9 +203,9 @@ abstract class Router {
 
 	
 	/**
-	 * Retourne les parametres de la route actuelle
+	 * Retourne les paramètres de la route actuelle.
 	 * 
-	 * @return array les parametres
+	 * @return array Les paramètres de la route actuelle.
 	 */
 	static function params() {
 		return $GLOBALS['_ROUTE'] ?? [];
@@ -210,9 +213,9 @@ abstract class Router {
 
 
 	/**
-	 * Retourne la premiere route
+	 * Retourne la première route.
 	 * 
-	 * @return string la premiere route
+	 * @return string La première route.
 	 */
 	private static function first() {
 		if (count(self::$routes) > 0) {
@@ -222,12 +225,10 @@ abstract class Router {
 
 
 	/**
-	 * Retourne la route correspondante a une route passée en parametre,
-	 * puis en extrait les parametres de la route pour definir la
-	 * variable $GLOBALS['_ROUTE']
+	 * Retourne la route correspondant à une route passée en paramètre, puis en extrait les paramètres de la route pour définir la variable $GLOBALS['_ROUTE'].
 	 * 
-	 * @param string l'url
-	 * @return string la route ou null si aucune correspondance
+	 * @param string $route La route à vérifier.
+	 * @return string|null La route correspondant à la route passée en paramètre, ou null si aucune route ne correspond.
 	 */
 	private static function match($asked) {
 		$split_asked = explode('/', $asked);
@@ -262,7 +263,7 @@ abstract class Router {
 
 
     /**
-     * Appel le controleur du composant de la route demandée
+     * Appel le contrôleur du composant de la route demandée.
 	 * 
 	 * @return void
      */

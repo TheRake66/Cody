@@ -4,7 +4,7 @@ namespace Kernel\Url;
 
 
 /**
- * Librairie gerant les parties de l'url
+ * Librairie gérant les parties de l'URL.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -16,9 +16,9 @@ namespace Kernel\Url;
 abstract class Parser {
 
 	/**
-	 * Retourne le parametre de retour
+	 * Retourne l'URL de redirection.
 	 * 
-	 * @return string le retour
+	 * @return string L'URL de redirection.
 	 */
 	static function back() {
 		return $_GET['redirect_url'] ?? null;
@@ -26,9 +26,9 @@ abstract class Parser {
 
 	
 	/**
-	 * Retourne le protocol actuel (http ou https)
+	 * Retourne le protocol actuel (http ou https).
 	 * 
-	 * @return string le protocol
+	 * @return string Le protocol actuel.
 	 */
 	static function protocol() {
 		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
@@ -36,9 +36,9 @@ abstract class Parser {
 
 	
 	/**
-	 * Retourne l'adresse du serveur (https://localhost:6600)
+	 * Retourne l'adresse du serveur.
 	 * 
-	 * @return string l'adresse
+	 * @return string L'adresse du serveur.
 	 */
 	static function host() {
 		return self::protocol() . '://' . $_SERVER['HTTP_HOST'];
@@ -46,9 +46,9 @@ abstract class Parser {
 
 
 	/**
-	 * Retourne l'url sans les parametres
+	 * Retourne l'URL sans les paramètres.
 	 * 
-	 * @return string l'url sans les parametres
+	 * @return string L'URL sans les paramètres.
 	 */
 	static function root() {
 		$_ = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
@@ -61,9 +61,9 @@ abstract class Parser {
 
 
 	/**
-	 * Retourne le chemin de l'url
+	 * Retourne le chemin de l'URL.
 	 * 
-	 * @return string le chemin
+	 * @return string Le chemin de l'URL.
 	 */
 	static function path() {
 		return self::root() . Router::asked();
@@ -71,9 +71,9 @@ abstract class Parser {
 
 	
 	/**
-	 * Retourne l'url actuelle
+	 * Retourne l'URL actuelle.
 	 * 
-	 * @return string l'url
+	 * @return string l'URL actuelle.
 	 */
 	static function current() {
 		return self::host() . $_SERVER['REQUEST_URI'];

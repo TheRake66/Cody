@@ -6,8 +6,10 @@ use Kernel\Debug\Log;
 use Kernel\Io\File;
 use Kernel\Io\Stream;
 
+
+
 /**
- * Librairie traitant les images
+ * Librairie traitant les images.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -19,12 +21,13 @@ use Kernel\Io\Stream;
 abstract class Image {
 
     /**
-     * Compresse une image avec la taille souhaiter
+     * Compresse une image avec la taille spécifiée.
      * 
-     * @param string les donnees de l'image
-     * @param int la largeur finale
-     * @param int la hauteur finale
-     * @return string l'image compressee
+     * @param string $data La donnée à compresser.
+     * @param int $width La largeur de l'image.
+     * @param int $height La hauteur de l'image.
+     * @param bool $stretched Si l'image doit être étirée.
+     * @return string La donnée compressée.
      */
     static function resize($data, $width = 128, $height = 128, $stretch = false) {
         if (extension_loaded('gd') || extension_loaded('gd2')) {
@@ -67,10 +70,10 @@ abstract class Image {
     
 
     /**
-     * Recupere une image depuis un fichier SVG
+     * Charge une image depuis un fichier SVG.
      * 
-     * @param string le chemin vers le fichier
-     * @return string le SVG
+     * @param string $file Le fichier SVG.
+     * @return string La balise SVG.
      */
     static function svg($file) {
         return File::load($file);
@@ -78,11 +81,11 @@ abstract class Image {
 
 
     /**
-     * Convertit une entree binaire en image base64
+     * Convertit une entrée binaire en image base64.
      *
-     * @param object le binaire de l'image
-     * @param string le format de l'image
-     * @return string l'image en base64
+     * @param string $bin La donnée binaire.
+     * @param string $format Le format de l'image.
+     * @return string La chaîne base64.
      */
     static function b64($bin, $format = 'png') {
         return 'data:image/'  . $format . ';base64,' . base64_encode($bin);

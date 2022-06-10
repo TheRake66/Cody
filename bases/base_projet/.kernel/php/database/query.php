@@ -8,7 +8,7 @@ use PDO;
 
 
 /**
- * Librairie de gerant l'execution des requetes SQL
+ *  Librairie de gérant l'exécution des requêtes SQL.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -20,11 +20,11 @@ use PDO;
 abstract class Query {
 
     /**
-     * Execture une requete de mise a jour
+     * Exécute une requête de mise à jour.
      * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return bool si la requete a reussite
+     * @param string $sql La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return bool True si la requête a été exécutée, false sinon.
      */
     static function execute($sql, $params = []) {
         return Output::log(Output::send($sql, $params)->errorCode() === '00000');
@@ -32,11 +32,11 @@ abstract class Query {
 
     
     /**
-     * Retourne une ligne
+     * Exécute une requête de lecture d'une seule ligne.
      * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return array la ligne retournee
+     * @param string $sql La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return array La ligne de résultat.
      */
     static function row($sql, $params = []) {
         return Output::log(Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC));
@@ -44,11 +44,11 @@ abstract class Query {
 
     
     /**
-     * Retourne plusieurs lignes
+     * Exécute une requête de lecture de plusieurs lignes.
      * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return array les lignes retournees
+     * @param string $sql La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return array Les lignes de résultat.
      */
     static function all($sql, $params = []) {
         return Output::log(Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC));
@@ -56,11 +56,11 @@ abstract class Query {
 
     
     /**
-     * Retourne une valeur
+     * Exécute une requête de lecture d'une seule cellule.
      * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return mixed valeur de la cellule
+     * @param string $sql La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return mixed La cellule de résultat.
      */
     static function cell($sql, $params = []) {
         $res = Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
@@ -69,12 +69,12 @@ abstract class Query {
 
     
     /**
-     * Recupere une ligne et l'hydrate dans un objet DTO
+     * Récupère une ligne et l'hydrate dans un objet DTO.
      * 
-     * @param string requete sql
-     * @param object la classe DTO a hydrater
-     * @param array la liste des parametres
-     * @return object objet DTO hydrate
+     * @param string $sql La requête SQL.
+     * @param object|string $dto L'objet ou classe DTO.
+     * @param array $params Les paramètres de la requête.
+     * @return object L'objet DTO.
      */
     static function object($sql, $class, $params = []) {
         $_ = Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
@@ -85,12 +85,12 @@ abstract class Query {
 
     
     /**
-     * Recupere plusieurs lignes et les hydrate dans une liste d'objet DTO
+     * Récupère plusieurs lignes et l'hydrate dans une liste d'objet DTO.
      * 
-     * @param string requete sql
-     * @param object la classe DTO a hydrater
-     * @param array la liste des parametres
-     * @return array liste d'objets DTO hydrates
+     * @param string $sql La requête SQL.
+     * @param object|string $dto L'objet ou classe DTO.
+     * @param array $params Les paramètres de la requête.
+     * @return array La liste d'objet DTO.
      */
     static function objects($sql, $class, $params = []) {
         $_ = Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC);

@@ -4,7 +4,7 @@ namespace Kernel\IO;
 
 
 /**
- * Librairie gerant les fichiers
+ * Librairie gérant les fichiers.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -16,12 +16,12 @@ namespace Kernel\IO;
 abstract class File {
 
     /**
-     * Inclut un fichier via un chemin relatif
+     * Inclut de un fichier via un chemin relatif. Si le fichier n'existe pas, une exception est déclenchée.
      * 
-     * @param string le chemin du fichier
-     * @param bool true si le fichier doit etre inclus qu'une seule fois
+     * @param string $file Le chemin du fichier à inclure.
+     * @param bool $once Si true, le fichier sera inclus une seule fois.
      * @return void
-     * @throws Error Si le fichier n'est pas accessible
+     * @throws Error Si le fichier n'existe pas.
      */
     static function require($file, $once = true) {
         if ($once) {
@@ -33,10 +33,10 @@ abstract class File {
 
 
     /**
-     * Inclut un fichier via un chemin relatif
+     * Inclut de un fichier via un chemin relatif.
      * 
-     * @param string le chemin du fichier
-     * @param bool true si le fichier doit etre inclus qu'une seule fois
+     * @param string $file Le chemin du fichier à inclure.
+     * @param bool $once Si true, le fichier sera inclus une seule fois.
      * @return void
      */
     static function include($file, $once = true) {
@@ -49,11 +49,11 @@ abstract class File {
     
     
     /**
-     * Verifi si un fichier existe et est lisible
+     * Vérifie si un fichier existe et est lisible.
      * 
-     * @param string le chemin du fichier
-     * @param bool si c'est deja un chemin absolu
-     * @return bool si il existe et qu'il est lisible
+     * @param string $file Le chemin du fichier à vérifier.
+     * @param bool $absolute Si true, le chemin est déjà absolu.
+     * @return bool True si le fichier existe et est lisible, false sinon.
      */
     static function loadable($file, $absolute = false) {
         if (!$absolute) {
@@ -64,11 +64,11 @@ abstract class File {
     
     
     /**
-     * Charge le contenu d'un fichier
+     * Charge le contenu d'un fichier.
      * 
-     * @param string le chemin du fichier
-     * @param bool si c'est deja un chemin absolu
-     * @return mixed le contenu du fichier
+     * @param string $file Le chemin du fichier à vérifier.
+     * @param bool $absolute Si true, le chemin est déjà absolu.
+     * @return mixed Le contenu du fichier.
      */
     static function load($file, $absolute = false) {
         if (!$absolute) {

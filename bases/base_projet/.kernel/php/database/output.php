@@ -8,7 +8,7 @@ use Kernel\Debug\Log;
 
 
 /**
- * Librairie de sortie de donnees
+ * Librairie de sortie de données.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -20,11 +20,11 @@ use Kernel\Debug\Log;
 abstract class Output {
 
     /**
-     * Prepare, execute et retourne une requete
+     * Prépare, exécute et retourne une requête.
      * 
-     * @param string requete sql
-     * @param array liste des parametres
-     * @return PDOStatement instance PDO
+     * @param string $sql La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return PDOStatement La requête préparée.
      */
     static function send($sql, $params) {
         Log::add('Exécution de la requête SQL : "' . $sql . '"...', Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
@@ -38,10 +38,10 @@ abstract class Output {
 
 
     /**
-     * Retourne le resultat puis l'enregistre dans la log
+     * Retourne le résultat puis l'enregistre dans journal de logs.
      * 
-     * @param mixed le resultat de la requete
-     * @return mixed le resultat de la requete
+     * @param mixed $data Le résultat de la requête.
+     * @return mixed Le résultat de la requête.
      */
     static function log($data) {
         Log::add('Résultat de la requête SQL : "' . print_r($data, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);

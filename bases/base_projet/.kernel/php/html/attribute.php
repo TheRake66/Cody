@@ -6,7 +6,7 @@ use Kernel\Url\Location;
 
 
 /**
- * Librairie gerant les attributs HTML
+ * Librairie gérant les attributs HTML.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,11 +18,11 @@ use Kernel\Url\Location;
 abstract class Attribute {
     
     /**
-     * Ajoute un ou plusieurs attributs HTML
+     * Ajoute un ou plusieurs attributs HTML.
      * 
-     * @param string|array nom de l'attribut
-     * @param string valeur de l'attribut
-     * @return string le code HTML
+     * @param string|array $name Nom de l'attribut ou tableau de d'attributs (name => value).
+     * @param string $value Valeur de l'attribut.
+     * @return string Les attributs HTML.
      */
     static function set($name, $value = null) {
         $fn = function($n, $v) {
@@ -41,14 +41,14 @@ abstract class Attribute {
     
     
     /**
-     * Formate les attributs d'un formulaire
+     * Formate les attributs d'un formulaire.
      * 
-     * @param string la methode HTTP
-     * @param boolean si des fichiers sont envoyés
-     * @param string la route de redirection
-     * @param string les parametres de redirection (uniquement en methode POST)
-     * @param string si on ajoute le parametre de retour
-     * @return string le code HTML
+     * @param string $method La méthode du formulaire.
+     * @param bool $multipart Si le formulaire est multipart.
+     * @param string $route La route de redirection.
+     * @param string $params Les paramètres de la route (uniquement en méthode GET).
+     * @param string $addback Si on doit ajouter un paramètre "back" pour retourner à la page précédente.
+     * @return string Les attributs HTML.
      */
     static function form($method = 'GET', $isMultipart = false, $route = null, $param = [], $addback = false) {
         $_ = self::set('method', $method);
@@ -63,10 +63,10 @@ abstract class Attribute {
 
 
     /**
-     * Ajoute une valeur
+     * Ajoute une valeur.
      * 
-     * @param string la valeur
-     * @return string le code HTML
+     * @param string $value La valeur.
+     * @return string L'attribut HTML.
      */
     static function value($value) {
         return self::set('value', $value);
@@ -74,11 +74,11 @@ abstract class Attribute {
 
 
     /**
-     * Ajoute un lien href
+     * Ajoute un lien href.
      * 
-     * @param string le lien
-     * @param string le target
-     * @return string le code HTML
+     * @param string $href L'URL.
+     * @param string $target Le target.
+     * @return string L'attribut HTML.
      */
     static function href($link, $target = null) {
         return self::set('href', $link) . 
@@ -87,10 +87,10 @@ abstract class Attribute {
 
 
     /**
-     * Ajoute un id
+     * Ajoute un id.
      * 
-     * @param string le lien
-     * @return string le code HTML
+     * @param string $id L'id.
+     * @return string L'attribut HTML.
      */
     static function id($id) {
         return self::set('id', $id);
@@ -98,10 +98,10 @@ abstract class Attribute {
 
 
     /**
-     * Ajoute une classe
+     * Ajoute une classe.
      * 
-     * @param string la classe
-     * @return string le code HTML
+     * @param string $class La classe.
+     * @return string L'attribut HTML.
      */
     static function class($class) {
         return self::set('class', $class);
@@ -111,8 +111,8 @@ abstract class Attribute {
     /**
      * Ajoute un ou des styles
      * 
-     * @param string|array le/les style(s)
-     * @return string le code HTML
+     * @param string|array Le/les style(s) (attribut => valeur).
+     * @return string Le ou les attributs HTML.
      */
     static function style($style) {
         if (is_array($style)) {
@@ -127,11 +127,11 @@ abstract class Attribute {
 
 
     /**
-     * Ajoute une src
+     * Ajoute une src.
      * 
-     * @param string la src
-     * @param string le texte alternatif
-     * @return string le code HTML
+     * @param string $src L'URL.
+     * @param string $alt Le texte alternatif.
+     * @return string L'attribut HTML.
      */
     static function src($src, $alt = null) {
         $html = self::set('src', $src);

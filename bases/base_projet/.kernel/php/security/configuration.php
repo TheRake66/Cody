@@ -21,15 +21,16 @@ use Kernel\Io\Path;
 abstract class Configuration {
 
 	/**
-	 * @var array la configuration
+	 * @var array La configuration du noyau.
 	 */
 	private static $current;
 
 
 	/**
-	 * Charge la configuration
+	 * Charge la configuration.
 	 * 
 	 * @return void
+	 * @throws \Kernel\Debug\Error Si la configuration n'est pas trouvée.
 	 */
 	static function load() {
 		$json = File::load('.kernel/configuration.json');
@@ -46,10 +47,10 @@ abstract class Configuration {
 	
 
 	/**
-	 * Retourne la configuration actuelle
+	 * Retourne la configuration actuelle.
 	 * 
-	 * @return object la configuration
-	 * @throws Error si la configuration n'est pas chargee
+	 * @return object La configuration.
+	 * @throws Error Si la configuration n'est pas chargée.
 	 */
 	static function get() {
 		if (!is_null(self::$current)) {

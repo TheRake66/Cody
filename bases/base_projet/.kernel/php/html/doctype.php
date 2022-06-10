@@ -8,7 +8,7 @@ use Kernel\Io\Path;
 
 
 /**
- * Librairie gerant le debut et la fin de la page
+ * Librairie gérant le début et la fin de la page.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -20,7 +20,7 @@ use Kernel\Io\Path;
 abstract class Doctype {
 
     /**
-     * Ouvre une balise HTML et ecris l'entete
+     * Ouvre une balise HTML et écris l'entête.
      * 
      * @return void
      */
@@ -75,7 +75,7 @@ abstract class Doctype {
 
 
     /**
-     * Ferme la balise HTML
+     * Ferme la balise HTML.
      * 
      * @return void
      */

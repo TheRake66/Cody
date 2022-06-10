@@ -6,8 +6,10 @@ use Kernel\Security\Cookie;
 use Kernel\Debug\Log;
 use Kernel\Security\Configuration;
 
+
+
 /**
- * Librairie gerant le jeton de session
+ * Librairie gérant le jeton de session.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -19,10 +21,10 @@ use Kernel\Security\Configuration;
 abstract class Token {
     
     /**
-     * Defini un jeton de connexion
+     * Définit le jeton.
      * 
-     * @param string|null le jeton, si null un nouveau sera generer
-     * @return bool si le jeton a ete defini
+     * @param string|null Le jeton à définir, si NULL, le jeton est généré.
+     * @return bool True si le jeton a été défini, false sinon.
      */
 	static function set($token = null) {
 		if (is_null($token)) {
@@ -34,9 +36,9 @@ abstract class Token {
 
 
     /**
-     * Etends l'expiration du jeton
+     * Étends l'expiration du jeton.
      * 
-     * @return bool si le jeton a ete defini et qu'il existe
+     * @return bool Si le jeton a été défini et qu'il existe.
      */
     static function extends() {
         if (self::has()) {
@@ -48,9 +50,9 @@ abstract class Token {
 
 
     /**
-     * Genere un jeton de connexion
+     * Génère un jeton.
      * 
-     * @return string le jeton
+     * @return string Le jeton généré.
      */
     static function generate() {
         return Csrf::generate(100);
@@ -58,9 +60,9 @@ abstract class Token {
 
 
     /**
-     * Recupere le jeton de connexion
+     * Retourne le jeton.
      * 
-     * @return string|null le jeton de connexion, null si inexistant
+     * @return string|null Le jeton, NULL si il n'existe pas.
      */
 	static function get() {
 		return Cookie::get('session_token');
@@ -68,9 +70,9 @@ abstract class Token {
 
 
     /**
-     * Detruit le jeton de connexion
+     * Détruit le jeton de.
      * 
-     * @return bool si le jeton a ete detruit
+     * @return bool True si le jeton a été détruit, false sinon.
      */
 	static function remove() {
         return Cookie::remove('session_token');
@@ -78,9 +80,9 @@ abstract class Token {
 
 
     /**
-     * Verifie si un jeton de connexion existe
+     * Vérifie si le jeton existe.
      * 
-     * @return bool si le jeton existe
+     * @return bool True si le jeton existe, false sinon.
      */
     static function has() {
         return Cookie::has('session_token');

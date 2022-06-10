@@ -4,7 +4,7 @@ namespace Kernel\IO;
 
 
 /**
- * Librairie gerant les chemins des fichiers
+ * Librairie gérant les chemins des fichiers.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -17,10 +17,10 @@ abstract class Path {
 
 
     /**
-     * Retourne le chemin absolu ou s'execute le script
+     * Retourne un chemin absolu à partir d'un chemin relatif.
      * 
-     * @param string le chemin a concatener
-     * @return string
+     * @param string $path Le chemin relatif.
+     * @return string Le chemin absolu.
      */
     static function absolute($path = '') {
         return $_SERVER['DOCUMENT_ROOT'] . self::relative($path);
@@ -28,11 +28,10 @@ abstract class Path {
     
     
     /**
-     * Retourne le chemin relatif ou s'execute le script par rapport au
-     * chemin absulu ou s'execute le serveur
+     * Retourne un chemin relatif à partir d'un chemin absolu.
      * 
-     * @param string le chemin du fichier
-     * @return string le chemin complet
+     * @param string $path Le chemin relatif.
+     * @return string Le chemin relatif.
      */
     static function relative($path = '') {
         return str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']) . '/' . $path;
@@ -40,21 +39,21 @@ abstract class Path {
 
 
     /**
-     * Chemin relatif du dossier des assets
+     * Retourne un chemin absolu aux assets à partir d'un chemin relatif.
      * 
-     * @param string le chemin a concatener
-     * @return string le chemin complet
+     * @param string $path Le chemin relatif.
+     * @return string Le chemin relatif.
      */
     static function assets($path = '') {
-        return self::relative('assets/' . $path);
+        return self::absolute('assets/' . $path);
     }
 
 
     /**
-     * Chemin relatif du dossier des images
+     * Retourne un chemin absolu aux images d'assets à partir d'un chemin relatif.
      * 
-     * @param string le chemin a concatener
-     * @return string le chemin complet
+     * @param string $path Le chemin relatif.
+     * @return string Le chemin relatif.
      */
     static function img($path = '') {
         return self::assets('img/' . $path);
@@ -62,10 +61,10 @@ abstract class Path {
 
 
     /**
-     * Chemin relatif du dossier des polices de caracteres
+     * Retourne un chemin absolu aux polices d'assets à partir d'un chemin relatif.
      * 
-     * @param string le chemin a concatener
-     * @return string le chemin complet
+     * @param string $path Le chemin relatif.
+     * @return string Le chemin relatif.
      */
     static function font($path = '') {
         return self::assets('font/' . $path);
@@ -73,10 +72,10 @@ abstract class Path {
 
 
     /**
-     * Chemin relatif du dossier des sons
+     * Retourne un chemin absolu aux sons d'assets à partir d'un chemin relatif.
      * 
-     * @param string le chemin a concatener
-     * @return string le chemin complet
+     * @param string $path Le chemin relatif.
+     * @return string Le chemin relatif.
      */
     static function sound($path = '') {
         return self::assets('sound/' . $path);
@@ -84,10 +83,10 @@ abstract class Path {
 
 
     /**
-     * Chemin relatif du dossier des videos
+     * Retourne un chemin absolu aux vidéos d'assets à partir d'un chemin relatif.
      * 
-     * @param string le chemin a concatener
-     * @return string le chemin complet
+     * @param string $path Le chemin relatif.
+     * @return string Le chemin relatif.
      */
     static function video($path = '') {
         return self::assets('video/' . $path);

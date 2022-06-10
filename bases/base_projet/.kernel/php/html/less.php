@@ -6,8 +6,10 @@ use Kernel\Html\Import;
 use Kernel\Html\Output;
 use Kernel\Io\Path;
 
+
+
 /**
- * Librairie gerant le chargement de less
+ * Librairie gérant le chargement de LESS.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -19,7 +21,7 @@ use Kernel\Io\Path;
 abstract class Less {
 
 	/**
-	 * Charge et lance less
+	 * Importe LESS.
 	 * 
 	 * @return void
 	 */
@@ -31,11 +33,11 @@ abstract class Less {
 
     
     /**
-     * Importe un fichier less
+     * Importe un fichier de style.
      * 
-     * @param string le fichier a importer
-     * @param string le type de ressource
-     * @return string le code HTML
+     * @param string $file Le chemin relatif du fichier.
+     * @param string $type Le type de fichier.
+     * @return string La balise HTML.
      */
     static function import($file, $rel = 'stylesheet/less') {
         if (Configuration::get()->render->use_minifying) {

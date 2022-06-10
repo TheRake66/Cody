@@ -9,8 +9,9 @@ use Kernel\Html\Output;
 use Kernel\Io\Stream;
 
 
+
 /**
- * Librairie gerant la localisation de la page
+ * Librairie gérant la localisation de la page.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -22,16 +23,16 @@ use Kernel\Io\Stream;
 abstract class Location {
 
 	/**
-     * @var string les methodes d'envoi
+     * @var string Les méthodes HTTP.
 	 */
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
 
 
 	/**
-	 * Accede a une url
+	 * Accède à une URL.
 	 * 
-	 * @param string l'url
+	 * @param string $url L'URL à accéder.
      * @return void
 	 */
 	static function change($url) {
@@ -44,7 +45,7 @@ abstract class Location {
 	
 
 	/**
-	 * Recharge la page
+	 * Actualise la page.
 	 * 
      * @return void
 	 */
@@ -54,12 +55,12 @@ abstract class Location {
 
 
 	/**
-	 * Accede a une url dans l'application
+	 * Accède à une URL dans l'application.
 	 * 
-	 * @param string la route vers le composant
-	 * @param array les parametres
-	 * @param boolean si on ajoute le parametre de retour
-	 * @param string la methode (GET, POST)
+	 * @param string $route La route à accéder.
+	 * @param array $params Les paramètres à passer à la route.
+	 * @param boolean $addBack Si on ajoute un lien pour revenir à la page précédente.
+	 * @param string $method La méthode HTTP à utiliser.
      * @return void
 	 */
 	static function go($route, $params = [], $addBack = false, $method = self::METHOD_GET) {
@@ -98,13 +99,13 @@ abstract class Location {
 
 
 	/**
-	 * Contruit une url
+	 * Contruit une URL.
 	 * 
 	 * @example build('/home', ['id' => 1, 'name' => 'toto'], true) => /home?id=1&name=toto&redirect_url=http%3A%2F%2Flocalhost%2Fhome
-	 * @param string la route
-	 * @param array les parametres
-	 * @param string si on ajoute le parametre de retour
-	 * @return string l'url
+	 * @param string $route La route à accéder.
+	 * @param array $params Les paramètres à passer à la route.
+	 * @param boolean $addBack Si on ajoute un lien pour revenir à la page précédente.
+	 * @return string L'URL construite.
 	 */
 	static function build($route, $params = [], $addBack = false) {
 		$url = Parser::root() . $route;

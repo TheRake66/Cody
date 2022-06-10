@@ -4,7 +4,7 @@ namespace Kernel\Html;
 
 
 /**
- * Librairie gerant sortie de donnees HTML
+ * Librairie gérant sortie de données HTML.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -16,9 +16,9 @@ namespace Kernel\Html;
 abstract class Output {
 
     /**
-     * Ajoute du code HTML
+     * Ajoute du code HTML.
      * 
-     * @param string|array le code HTML
+     * @param string|array $html Le code HTML.
      * @return void
      */
     static function add($html) {
@@ -30,12 +30,12 @@ abstract class Output {
 
 
     /**
-     * Defini un attribut HTML si un valeur est fournie dans le GET
+     * Défini un attribut HTML si un valeur est fournie dans le GET.
      * 
-     * @param string nom de la valeur
-     * @param string valeur par defaut
-     * @param string propriete HTML
-     * @return string le code HTML
+     * @param string $name Le nom de la clé dans le GET.
+     * @param string $default La valeur par défaut.
+     * @param string $key Le nom de l'attribut.
+     * @return string La balise HTML.
      */
     static function get($name, $default = '', $key = 'value') {
         return Attribute::set($key, $_GET[$name] ?? $default);
@@ -43,12 +43,12 @@ abstract class Output {
     
 
     /**
-     * Defini un attribut HTML si un valeur est fournie dans le POST
+     * Défini un attribut HTML si un valeur est fournie dans le POST.
      * 
-     * @param string nom de la valeur
-     * @param string valeur par defaut
-     * @param string propriete HTML
-     * @return string le code HTML
+     * @param string $name Le nom de la clé dans le POST.
+     * @param string $default La valeur par défaut.
+     * @param string $key Le nom de l'attribut.
+     * @return string La balise HTML.
      */
     static function post($name, $default = '', $key = 'value') {
         return Attribute::set($key, $_POST[$name] ?? $default);

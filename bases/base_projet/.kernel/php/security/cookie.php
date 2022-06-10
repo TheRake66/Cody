@@ -6,7 +6,7 @@ use Kernel\Security\Configuration;
 
 
 /**
- * Librairie gerant les cookies
+ * Librairie gérant les cookies.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,9 +18,9 @@ use Kernel\Security\Configuration;
 abstract class Cookie {
 
 	/**
-	 * Defini les parametres du cookie de session
+	 * Définissent les paramètres du cookie de session.
 	 * 
-	 * @return bool si la definition a reussie
+	 * @return bool True si les paramètres sont corrects, false sinon.
 	 */
 	static function session() {
         $conf = Configuration::get()->security;
@@ -35,12 +35,12 @@ abstract class Cookie {
 
 
 	/**
-     * Defini de maniere securise un cookie
+     * Défini de manière sécurise un cookie.
      * 
-     * @param string le nom du cookie
-     * @param string la valeur du cookie
-     * @param int|null le timestamp correspondant a l'expiration du cookie, null pour l'expiration de la config
-	 * @return bool si l'ecriture du cookie a reussie
+     * @param string $name Le nom du cookie.
+     * @param string $value La valeur du cookie.
+     * @param int|null Le timestamp correspondant à l'expiration du cookie, NULL pour l'expiration de la configuration.
+	 * @return bool True si le cookie a été défini, false sinon.
 	 */
 	static function set($name, $value = '', $time = null) {
         $conf = Configuration::get()->security;
@@ -57,10 +57,10 @@ abstract class Cookie {
 
 
 	/**
-     * Supprime un cookie
+     * Supprime un cookie.
      * 
-     * @param string le nom du cookie
-	 * @return bool si le la suppression a reussie ou qu'il n'existe pas
+     * @param string $name Le nom du cookie.
+	 * @return bool True si le cookie a été supprimé, false sinon.
 	 */
 	static function remove($name) {
 		if (self::has($name)) {
@@ -77,10 +77,10 @@ abstract class Cookie {
 
 
 	/**
-     * Recupere un cookie
+     * Retourne la valeur d'un cookie.
      * 
-     * @param string le nom du cookie
-     * @return mixed la valeur du cookie
+     * @param string $name Le nom du cookie.
+     * @return mixed La valeur du cookie, NULL si le cookie n'existe pas.
 	 */
 	static function get($name) {
 		return $_COOKIE[self::name($name)] ?? null;
@@ -88,10 +88,10 @@ abstract class Cookie {
 
 
 	/**
-     * Verifie si un cookie existe
+     * Vérifie si un cookie existe.
      * 
-     * @param string le nom du cookie
-	 * @return bool si le cookie existe
+     * @param string $name Le nom du cookie.
+	 * @return bool True si le cookie existe, false sinon.
 	 */
 	static function has($name) {
 		return isset($_COOKIE[self::name($name)]);
@@ -99,10 +99,10 @@ abstract class Cookie {
 
 
 	/**
-     * Recupere le nom complet d'un cookie
+     * Retourne le nom complet d'un cookie.
      * 
-     * @param string le nom du cookie
-     * @return string le nom complet du cookie
+     * @param string $name Le nom du cookie.
+     * @return string Le nom complet du cookie.
 	 */
 	static function name($name) {
 		return session_name() . '_' . str_replace(' ', '', $name);

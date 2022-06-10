@@ -6,7 +6,7 @@ use Kernel\Io\Path;
 use Kernel\Security\Configuration;
 
 /**
- * Librairie gerant la communication avec Javascript
+ * Librairie gérant la communication avec Javascript.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,13 +18,13 @@ use Kernel\Security\Configuration;
 abstract class Javascript {
 
     /**
-     * Importe un fichier javascript
+     * Importe un fichier.
      * 
-     * @param string le fichier a importer
-     * @param string le type de script
-     * @param string le nom de la variable a instancier
-     * @param string le nom de la classe a instancier
-     * @return string le code HTML
+     * @param string $file Le chemin relatif du fichier.
+     * @param string $type Le type de fichier.
+     * @param string $name Le nom de la variable à instancier.
+     * @param string $class La nom de la classe à instancier.
+     * @return string La balise HTML.
      */
     static function import($file, $type = 'module', $name = null, $class = null) {
         if (Configuration::get()->render->use_minifying) {
@@ -48,11 +48,11 @@ abstract class Javascript {
 
 
     /**
-     * Execute du code javascript
+     * Exécute du code.
      * 
-     * @param string le code javascript
-     * @param string le type de script
-     * @return string le code HTML
+     * @param string $script Le code.
+     * @param string $type Le type de fichier.
+     * @return string La balise HTML.
      */
     static function run($script, $type = 'module') {
         $js = Builder::create('script', [
@@ -63,10 +63,10 @@ abstract class Javascript {
 
 
     /**
-     * Envoi une alerte javascript
+     * Envoie une alerte.
      * 
-     * @param string le message
-     * @return string le code HTML
+     * @param string $message Le message.
+     * @return string La balise HTML.
      */
     static function alert($message) {
         return self::run('alert("' . str_replace('"', '\\"', $message) . '")');
@@ -74,12 +74,12 @@ abstract class Javascript {
 
     
     /**
-     * Envoi une confirmation javascript
+     * Envoie une confirmation.
      * 
-     * @param string le message
-     * @param string le code javascript à executer si oui
-     * @param string le code javascript à executer si non
-     * @return string le code HTML
+     * @param string $message Le message.
+     * @param string $yes Le code à exécuter si oui.
+     * @param string $no Le code à exécuter si non.
+     * @return string La balise HTML.
      */
     static function confirm($message, $yes = null, $no = null) {
         return self::run('
@@ -92,12 +92,12 @@ abstract class Javascript {
 
 
     /**
-     * Envoi une log javascript
+     * Envoie une log.
      * 
-     * @param string le message
-     * @param string le style
-     * @param string le type de log
-     * @return string le code HTML
+     * @param string $message Le message.
+     * @param string $style Le style de log.
+     * @param string $type Le type de log.
+     * @return string La balise HTML.
      */
     static function log($message, $style = null, $type = 'log') {
         $message = str_replace('"', '\\"', $message);
@@ -117,11 +117,11 @@ abstract class Javascript {
 
 
     /**
-     * Envoi une erreur javascript
+     * Envoie une erreur.
      *
-     * @param string le message
-     * @param string le style
-     * @return string le code HTML
+     * @param string $message Le message.
+     * @param string $style Le style de log.
+     * @return string La balise HTML.
      */
     static function error($message, $style = null) {
         return self::log($message, $style, 'error');
@@ -129,11 +129,11 @@ abstract class Javascript {
 
 
     /**
-     * Envoi une information javascript
-     * 
-     * @param string le message
-     * @param string le style
-     * @return string le code HTML
+     * Envoie une information.
+     *
+     * @param string $message Le message.
+     * @param string $style Le style de log.
+     * @return string La balise HTML.
      */
     static function info($message, $style = null) {
         return self::log($message, $style, 'info');

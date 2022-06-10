@@ -4,7 +4,7 @@ namespace Kernel\Io\Convert;
 
 
 /**
- * Librairie de conversion de chaines de caracteres
+ * Librairie de conversion de chaines de caractères.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -16,13 +16,13 @@ namespace Kernel\Io\Convert;
 abstract class Encoded {
 
 	/**
-	 * Coupe une chaine de caractere si elle est trop longue
+	 * Coupe une chaine de caractères si elle est trop longue.
 	 * 
 	 * @example cut('Lorem ipsum dolor sit amet', 10) => Lorem ipsum ...
 	 * @example cut('Lorem', 10) => Lorem
-	 * @param string la chaine a verifier
-	 * @param int la taille max a couper
-	 * @return string la chaine coupe ou non
+	 * @param string $text Le texte à couper.
+	 * @param int $max La taille maximum.
+	 * @return string Le texte coupé ou non.
 	 */
 	static function cut($text, $max = 50) {
 		if (strlen($text) > $max) {
@@ -34,12 +34,12 @@ abstract class Encoded {
 
 
 	/**
-	 * Retourne un tiret si la valeur est vide
+	 * Retourne un tiret si la valeur est vide.
 	 * 
 	 * @example hyphen('Lorem ipsum dolor sit amet') => Lorem ipsum
 	 * @example hyphen('') => -
-	 * @param mixed la valeur
-	 * @return string|mixed la valeur ou un tiret
+	 * @param mixed $value La valeur à vérifier.
+	 * @return string|mixed Le tiret ou la valeur.
 	 */
 	static function hyphen($value) {
 		return empty($value) ? '-' : $value;
@@ -47,13 +47,13 @@ abstract class Encoded {
 	
 
     /**
-     * Genere un une chaine de caractere aleatoire
+     * Génère une chaine de caractères aléatoires.
      * 
 	 * @example random(10) => 'a1b2c3d4e5f6g7h8i9j0'
 	 * @example random(10, 'ABCD') => 'ADCBADBCDA'
-     * @param int taille de la chaine
-     * @param string le jeu de caracteres
-     * @return string la chaine aleatoire
+     * @param int $size La taille de la chaine.
+     * @param string $charset Les caractères à utiliser.
+     * @return string La chaine de caractères aléatoires.
      */
 	static function random($size = 32, $charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
 		$str = '';

@@ -4,7 +4,7 @@ namespace Kernel\Io\Convert;
 
 
 /**
- * Librairie de conversion de donnees de type numerique
+ * Librairie de conversion de données de type numérique.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -16,11 +16,11 @@ namespace Kernel\Io\Convert;
 abstract class Number {
 
     /**
-     * Convertit un prix en format europeen
+     * Convertit un prix en format Européen.
      * 
 	 * @example euro(12.5) => 12,50 €
-     * @param double prix brute
-	 * @return string prix convertit
+     * @param double $num Le prix à convertir.
+	 * @return string La valeur convertie.
      */
 	static function euro($num) {
 		return number_format($num, 2, ',', ' ') . ' €';
@@ -28,12 +28,12 @@ abstract class Number {
 
 
 	/**
-	 * Convertir un nombre en format occidentale
+	 * Convertit un nombre en format occidentale.
 	 * 
 	 * @example occident(1200000.123) => 1 200 000,123
-	 * @param double le nombre
-	 * @param int nombre de chiffre apres la virgule
-	 * @return string la chaine formatee
+	 * @param double $decimal Le nombre à convertir.
+	 * @param int $precision Le nombre de chiffres après la virgule.
+	 * @return string La valeur convertie.
 	 */
 	static function occident($decimal, $precision = 3) {
 		return number_format($decimal, $precision, ',', ' ');
@@ -41,12 +41,12 @@ abstract class Number {
 
 
 	/**
-	 * Verifie si un nombre est pair
+	 * Vérifie si un nombre est pair.
 	 * 
 	 * @example even(12) => true
 	 * @example even(13) => false
-	 * @param int le nombre
-	 * @return bool si il est pair
+	 * @param int $num Le nombre à vérifier.
+	 * @return bool True si le nombre est pair, false sinon.
 	 */
 	static function even($num) {
 		return $num % 2 == 0;
@@ -54,12 +54,12 @@ abstract class Number {
 
 
 	/**
-	 * Verifie si un nombre est impair
+	 * Vérifie si un nombre est impair.
 	 * 
 	 * @example odd(12) => false
 	 * @example odd(13) => true
-	 * @param int le nombre
-	 * @return bool si il est impair
+	 * @param int $num Le nombre à vérifier.
+	 * @return bool True si le nombre est impair, false sinon.
 	 */
 	static function odd($num) {
 		return $num % 2 != 0;

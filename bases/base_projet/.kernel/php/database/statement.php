@@ -9,7 +9,7 @@ use PDO;
 
 
 /**
- * Librairie de connexion a la base de donnees
+ * Librairie de connexion a la base de données.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -21,22 +21,23 @@ use PDO;
 abstract class Statement {
     
     /**
-     * @var array Instance PDO [string => \PDO]
+     * @var array Instance PDO [string => \PDO].
      */
     private static $instances;
     
+
     /**
-     * @var string La base de donnees utilisee
+     * @var string La base de données actuelle.
      */
     private static $current;
     
 
     /**
-     * Creer une instance PDO
+     * Crée une connexion à la base de données.
      *
-     * @param array configuration de la base de donnees
-     * @return PDOStatement instance PDO
-     * @throws Error si la connexion echoue
+     * @param object $conf La configuration de la base de données.
+     * @return PDOStatement La connexion à la base de données.
+     * @throws Error Si la connexion à la base de données échoue.
      */
     private static function connect($conf) {
         Log::add('Connexion à la base de données "' . $conf->name . '"...', Log::LEVEL_PROGRESS);
@@ -64,10 +65,10 @@ abstract class Statement {
 
 
     /**
-     * Retourne la configuration de la base de donnees actuelle
+     * Retourne la configuration de la base de données actuelles.
      * 
-     * @return object configuration de la base de donnees
-     * @throws Error si la base de donnees par défaut n'est pas définie
+     * @return object La configuration de la base de données actuelles.
+     * @throws Error Si la configuration de la base de données actuelles n'est pas définie dans le fichier de configuration.
      */
     static function configuration() {
         $conf = Configuration::get()->database;
@@ -90,10 +91,10 @@ abstract class Statement {
 
 
     /**
-     * Retourne l'instance PDO en cours, si aucune est en cours on en creer une
+     * Retourne l'instance PDO en cours, si aucune n'est en cours en créer une.
      * 
-     * @return PDOStatement instance PDO
-     * @throws Error si la base de donnees n'est pas definie
+     * @return PDOStatement L'instance PDO en cours.
+     * @throws Error Si la connexion à la base de données échoue.
      */
     static function instance() {
         $conf = Configuration::get()->database;
@@ -124,10 +125,10 @@ abstract class Statement {
 
 
     /**
-     * Change ou retourne le nom de la base de donnees en cours
+     * Définit où retourne le nom de la base de données en cours.
      * 
-     * @return string|null nom de la base de donnees
-     * @return string nom de la base de donnees
+     * @return string|null $name Le nom de la base de données.
+     * @return string|null Le nom de la base de données. 
      */
     static function current($name = null) {
         if (is_null($name)) {

@@ -19,9 +19,9 @@ use Kernel\Database\Query;
 abstract class Crud {
     
     /**
-     * Retourne tous les objets d'une table
+     * Retourne tous les objets d'une table.
      * 
-     * @return array les objets DTO
+     * @return array Les objets de la table.
      */
     static function all() {
         return Toogle::object(function() {
@@ -34,9 +34,9 @@ abstract class Crud {
 
 
     /**
-     * Retourne le nombre d'objets d'une table
+     * Retourne le nombre d'objets d'une table.
      * 
-     * @return int le nombre d'objets
+     * @return int Le nombre d'objets de la table.
      */
     static function size() { 
         return Toogle::object(function() {
@@ -48,9 +48,9 @@ abstract class Crud {
 
 
     /**
-     * Detruit tous les objets d'une table
+     * Détruit tous les objets d'une table.
      * 
-     * @return bool si la destruction a reussi
+     * @return bool True si la destruction a réussi.
      */
     static function truncat() { 
         return Toogle::object(function() {
@@ -61,10 +61,10 @@ abstract class Crud {
 
 
     /**
-     * Verifie si un ou des objets existent dans la table
+     * Vérifie si un ou des objets existent dans la table.
      * 
-     * @param array les proprietes utilisees dans la where
-     * @return bool si il ou ils existent
+     * @param array $where Les propriétés à utiliser pour la clause WHERE.
+     * @return bool True si l'objet ou les objets existent.
      */
     function exists($where = null) {
         return Toogle::object(function() use ($where) {
@@ -81,10 +81,10 @@ abstract class Crud {
 
 
     /**
-     * Compte le nombre d'objets dans la table par rapport a une where
+     * Compte le nombre d'objets dans la table par rapport à une un objet.
      * 
-     * @param array les proprietes utilisees dans la where
-     * @return int le nombre d'objets
+     * @param array $where Les propriétés à utiliser pour la clause WHERE.
+     * @return int Le nombre d'objets.
      */
     function count($where = null) {
         return Toogle::object(function() use ($where) {
@@ -99,9 +99,9 @@ abstract class Crud {
 
 
     /**
-     * Creer un objet dans une table
+     * Crée un nouvel objet dans la table.
      * 
-     * @return bool si la creation a reussi
+     * @return bool True si la création a réussi.
      */
     function create() {
         return Toogle::object(function() {
@@ -114,10 +114,10 @@ abstract class Crud {
 
 
     /**
-     * Recupere un objet dans une table
+     * Récupère un objet dans la table.
      * 
-     * @param array les proprietes utilisees pour la where
-     * @return object l'objet DTO
+     * @param array $where Les propriétés à utiliser pour la clause WHERE.
+     * @return object L'objet trouvé.
      */
     function read($where = null) {
         return Toogle::object(function() use ($where) {
@@ -133,10 +133,10 @@ abstract class Crud {
 
 
     /**
-     * Met a jour un objet dans une table
+     * Met à jour un objet dans la table.
      * 
-     * @param array les proprietes utilisees pour la where
-     * @return bool si la mise a jour a reussi
+     * @param array $where Les propriétés à utiliser pour la clause WHERE.
+     * @return bool True si la mise à jour a réussi.
      */
     function update($where = null) {
         return Toogle::object(function() use ($where) {
@@ -150,10 +150,10 @@ abstract class Crud {
 
 
     /**
-     * Supprime un objet dans une table
+     * Supprime un objet dans une table.
      * 
-     * @param array les proprietes utilisees pour la where WHERE
-     * @return bool si ca reussit
+     * @param array $where Les propriétés à utiliser pour la clause WHERE.
+     * @return bool True si la suppression a réussi.
      */
     function delete($where = null) { 
         return Toogle::object(function() use ($where) {
@@ -166,10 +166,10 @@ abstract class Crud {
 
 
     /**
-     * Lis plusieurs objets dans une table
+     * Récupère plusieurs objets dans la table.
      * 
-     * @param array les proprietes utilisees pour la where WHERE
-     * @return object les objets DTO
+     * @param array $where Les propriétés à utiliser pour la clause WHERE.
+     * @return object Les objets trouvés.
      */
     function many($where = null) {
         return Toogle::object(function() use ($where) {

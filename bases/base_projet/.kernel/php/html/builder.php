@@ -7,7 +7,7 @@ use Kernel\Url\Location;
 
 
 /**
- * Librairie gerant les creation de balises HTML
+ * Librairie gérant les créations de balises HTML.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -19,13 +19,13 @@ use Kernel\Url\Location;
 abstract class Builder {
 
     /**
-     * Cree un attribut HTML
+     * Créer une balise HTML.
      * 
-     * @param string la balise HTML
-     * @param array les attributs [attribut => valeur]
-     * @param string|array le contenu de la balise
-     * @param bool si la balise est une balise autofermante
-     * @return string le code HTML
+     * @param string $name Le nom de la balise.
+     * @param array $attributes Les attributs de la balise (name => value).
+     * @param string|array $content Le contenu de la balise.
+     * @param bool $selfClose Si la balise doit être auto-fermée.
+     * @return string La balise HTML.
      */
     static function create($tag, $attr = null, $content = null, $selfClose = true) {
         $_ = '<' . $tag;
@@ -46,14 +46,14 @@ abstract class Builder {
     
 
     /**
-     * Construit une balise "a" HTML
+     * Construit une balise HTML "a".
      * 
-     * @param string le texte de la balise
-     * @param string la route
-     * @param array les parametres
-     * @param bool si on ajoute le parametre de retour
-     * @param bool si on ouvre la page dans une nouvelle fenetre
-     * @return string le code HTML
+     * @param string $text Le texte de la balise.
+     * @param string $route La route de redirection.
+     * @param array $param Les paramètres de l'URL.
+     * @param bool $addback Si on doit ajouter un paramètre de redirection pour retourner à la page précédente.
+     * @param bool $newTab Si on doit ouvrir la page dans un nouvel onglet.
+     * @return string La balise HTML.
      */
     static function href($text, $route, $param = null, $addBack = false, $newTab = false) {
         $_['href'] = Location::build($route, $param, $addBack);
@@ -65,12 +65,12 @@ abstract class Builder {
 
 
     /**
-     * Construit une balise "img" HTML a partir de donnees binaires
+     * Construit une balise HTML "img" à partir d'octets.
      *
-     * @param object le binaire de l'image
-     * @param string le texte alt
-     * @param string le format de l'image
-     * @return string le code HTML
+     * @param array $bin Les octets de l'image.
+     * @param string $alt Le texte alternatif de l'image.
+     * @param string $format Le format de l'image.
+     * @return string La balise HTML.
      */
     static function imgB64($bin, $alt = null, $format = 'png') {
         return self::img(Image::b64($bin, $format), $alt);
@@ -78,12 +78,11 @@ abstract class Builder {
 
 
     /**
-     * Construit une balise "img" HTML
+     * Construit une balise HTML "img".
      *
-     * @param object la source de l'image
-     * @param string le texte alt
-     * @param string le format de l'image
-     * @return string le code HTML
+     * @param string $src L'URL de l'image.
+     * @param string $alt Le texte alternatif de l'image.
+     * @return string La balise HTML.
      */
     static function img($src, $alt = null) {
         $_ = [ 'src' => $src ];
@@ -95,15 +94,15 @@ abstract class Builder {
 
     
     /**
-     * Construit une balise "form" HTML
+     * Construit une balise HTML "form".
      * 
-     * @param string le contenu de la balise
-     * @param string la methode HTTP
-     * @param boolean si des fichiers sont envoyés
-     * @param string la route de redirection
-     * @param string les parametres de redirection (uniquement en methode POST)
-     * @param string si on ajoute le parametre de retour
-     * @return string le code HTML
+     * @param string $content Le contenu de la balise.
+     * @param string $method Le mode de transmission du formulaire.
+     * @param bool $multipart Si le formulaire doit être multipart.
+     * @param string $route La route de redirection.
+     * @param string $param Les paramètres de l'URL (uniquement pour le méthode GET).
+     * @param bool $addBack Si on doit ajouter un paramètre de redirection pour retourner à la page précédente.
+     * @return string La balise HTML.
      */
     static function form($content = null, $method = 'GET', $isMultipart = false, $route = null, $param = null, $addback = false) {
         $_['method'] = $method;

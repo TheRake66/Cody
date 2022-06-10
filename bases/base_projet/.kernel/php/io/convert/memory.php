@@ -4,7 +4,7 @@ namespace Kernel\Io\Convert;
 
 
 /**
- * Librairie de conversion d'unite de memoire
+ * Librairie de conversion d'unité de memoire.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -16,17 +16,17 @@ namespace Kernel\Io\Convert;
 abstract class Memory {
 
 	/**
-	 * @var array Unites de memoire utiliser pour la conversion
+	 * @var array Unités de mémoire utiliser pour la conversion.
 	 */
 	private const MEMORY_UNITS = [ "o", "Ko", "Mo", "Go", "To" ];
 
 
 	/**
-	 * Convertir un nombre d'octets en unite de memoire
+	 * Convertir un nombre d'octets en unité de mémoire
 	 * 
 	 * @example convert(1024) => 1Ko
-	 * @param int le nombre
-	 * @return string la chaine formatee
+	 * @param int $bytes Le nombre d'octets à convertir.
+	 * @return string La valeur convertie.
 	 */
 	static function convert($bytes) {
 		$count = 0;
@@ -39,12 +39,12 @@ abstract class Memory {
 
 
 	/**
-	 * Convertit une unite de memoire en nombre d'octets
+	 * Convertit une unite de memoire en nombre d'octets.
 	 * 
 	 * @example bytes(1, 'Go') => 1073741824
-	 * @param int le nombre d'octets
-	 * @param string l'unite de memoire
-	 * @return string la chaine formatee
+	 * @param int $number Le nombre à convertir.
+	 * @param string $unit La unité de mémoire à convertir.
+	 * @return string La valeur convertie.
 	 */
 	static function bytes($number, $unit) {
 		$count = 0;
