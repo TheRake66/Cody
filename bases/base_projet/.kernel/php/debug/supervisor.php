@@ -220,6 +220,7 @@ abstract class Supervisor {
                 box-sizing: unset !important;
                 margin: 0 !important;
                 padding: 0 !important;
+                color: white !important;
                 border-radius: 0px !important;
             }
         
