@@ -7,7 +7,7 @@ import Location from '{BACK_PATH}../../../.kernel/js/url/location.js';
 
 
 /**
- * Script du composant {NAME_UPPER}
+ * Script du composant {NAME_UPPER}.
  * 
  * @author {USER_NAME}
  * @version 1.0
@@ -16,7 +16,7 @@ import Location from '{BACK_PATH}../../../.kernel/js/url/location.js';
 export default class {NAME_UPPER} {
 
     /**
-     * Point d'entrée du script
+     * Point d'entrée du script.
      * 
      * @access public
      * @return {void}
