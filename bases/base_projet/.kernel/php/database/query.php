@@ -64,7 +64,7 @@ abstract class Query {
      */
     static function cell($sql, $params = []) {
         $res = Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
-        return Output::log(array_values($res)[0] ?? null);
+        return Output::log($res ? (array_values($res)[0] ?? null) : null);
     }
 
     
