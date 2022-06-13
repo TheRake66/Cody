@@ -23,15 +23,19 @@ abstract class Output {
      * Prépare, exécute et retourne une requête.
      * 
      * @param string $sql La requête SQL.
-     * @param array $params Les paramètres de la requête.
+     * @param mixed $params Les paramètres de la requête.
      * @return PDOStatement La requête préparée.
      */
     static function send($sql, $params) {
         Log::add('Exécution de la requête SQL : "' . $sql . '"...', Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
-        $parsed = Translate::format($params);
-        Log::add('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
         $rqt = Statement::instance()->prepare($sql);
-        $rqt->execute($parsed);
+        if (is_null($params)) {
+            $rqt->execute();
+        } else {
+            $parsed = Translate::format($params);
+            Log::add('Paramètres de la requête SQL : "' . print_r($parsed, true) . '".', Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
+            $rqt->execute(is_array($parsed) ? $parsed : [ $parsed ]);
+        }
         Log::add('Requête SQL exécutée.', Log::LEVEL_GOOD, Log::TYPE_QUERY);
         return $rqt;
     }

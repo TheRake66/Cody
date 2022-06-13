@@ -23,10 +23,10 @@ abstract class Query {
      * Exécute une requête de mise à jour.
      * 
      * @param string $sql La requête SQL.
-     * @param array $params Les paramètres de la requête.
+     * @param mixed $params Les paramètres de la requête.
      * @return bool True si la requête a été exécutée, false sinon.
      */
-    static function execute($sql, $params = []) {
+    static function execute($sql, $params = null) {
         return Output::log(Output::send($sql, $params)->errorCode() === '00000');
     }
 
@@ -35,10 +35,10 @@ abstract class Query {
      * Exécute une requête de lecture d'une seule ligne.
      * 
      * @param string $sql La requête SQL.
-     * @param array $params Les paramètres de la requête.
+     * @param mixed $params Les paramètres de la requête.
      * @return array La ligne de résultat.
      */
-    static function row($sql, $params = []) {
+    static function row($sql, $params = null) {
         return Output::log(Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC));
     }
 
@@ -47,10 +47,10 @@ abstract class Query {
      * Exécute une requête de lecture de plusieurs lignes.
      * 
      * @param string $sql La requête SQL.
-     * @param array $params Les paramètres de la requête.
+     * @param mixed $params Les paramètres de la requête.
      * @return array Les lignes de résultat.
      */
-    static function all($sql, $params = []) {
+    static function all($sql, $params = null) {
         return Output::log(Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC));
     }
 
@@ -59,10 +59,10 @@ abstract class Query {
      * Exécute une requête de lecture d'une seule cellule.
      * 
      * @param string $sql La requête SQL.
-     * @param array $params Les paramètres de la requête.
+     * @param mixed $params Les paramètres de la requête.
      * @return mixed La cellule de résultat.
      */
-    static function cell($sql, $params = []) {
+    static function cell($sql, $params = null) {
         $res = Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
         return Output::log($res ? (array_values($res)[0] ?? null) : null);
     }
@@ -73,10 +73,10 @@ abstract class Query {
      * 
      * @param string $sql La requête SQL.
      * @param object|string $dto L'objet ou classe DTO.
-     * @param array $params Les paramètres de la requête.
+     * @param mixed $params Les paramètres de la requête.
      * @return object L'objet DTO.
      */
-    static function object($sql, $class, $params = []) {
+    static function object($sql, $class, $params = null) {
         $_ = Output::send($sql, $params)->fetch(PDO::FETCH_ASSOC);
         return !empty($_) ? 
             Output::log(Hydrate::hydrate($_, $class)) :
@@ -89,10 +89,10 @@ abstract class Query {
      * 
      * @param string $sql La requête SQL.
      * @param object|string $dto L'objet ou classe DTO.
-     * @param array $params Les paramètres de la requête.
+     * @param mixed $params Les paramètres de la requête.
      * @return array La liste d'objet DTO.
      */
-    static function objects($sql, $class, $params = []) {
+    static function objects($sql, $class, $params = null) {
         $_ = Output::send($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
         return !empty($_) ? 
             Output::log(Hydrate::hydrate($_, $class, true)) :
