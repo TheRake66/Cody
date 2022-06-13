@@ -7,7 +7,7 @@
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-export default class Finder {
+ export default class Finder {
     
     /**
      * Retourne un élément HTML via son ID.
@@ -33,9 +33,9 @@ export default class Finder {
 
 
     /**
-     * Retourne des éléments HTML via un selecteur CSS.
+     * Retourne le premier élément HTML d'un sélecteur CSS.
      * 
-     * @param {string} selector Le selecteur CSS.
+     * @param {string} selector Le sélecteur CSS.
      * @param {HTMLElement} parent Le parent de l'élément HTML.
      * @returns {HTMLElement} L'élément HTML.
      */
@@ -45,14 +45,28 @@ export default class Finder {
     
 
     /**
-     * Retourne des éléments HTML via un selecteur CSS.
+     * Retourne tous les éléments HTML d'un un sélecteur CSS.
      * 
-     * @param {string} selector Le selecteur CSS.
+     * @param {string} selector Le sélecteur CSS.
      * @param {HTMLElement} parent Le parent de l'élément HTML.
      * @returns {NodeListOf<Element>} Les éléments HTML.
      */
     static queryAll(selector, parent = document.body) {
         return parent.querySelectorAll(selector);
+    }
+
+
+    /**
+     * Retourne le dernier élément HTML d'un sélecteur CSS.
+     * 
+     * @param {string} selector Le sélecteur CSS.
+     * @param {HTMLElement} parent Le parent de l'élément HTML.
+     * @returns {HTMLElement} L'élément HTML.
+     * @returns 
+     */
+    static queryLast(selector, parent = document.body) {
+        let elements = Finder.queryAll(selector, parent);
+        return elements[elements.length - 1];
     }
 
 }
