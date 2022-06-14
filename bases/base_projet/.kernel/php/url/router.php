@@ -243,7 +243,7 @@ abstract class Router {
 				while ($i < $count_asked && $i < $count_route && $match) {
 					$word_asked = $split_asked[$i];
 					$word_route = $split_route[$i];
-					if (!empty($word_asked) && !empty($word_route)) {
+					if ($word_asked !== '' && $word_route !== '') {
 						if (substr($word_route, 0, 1) === '{' &&
 							substr($word_route, -1) === '}') {
 							$params[substr($word_route, 1, -1)] = $word_asked;
