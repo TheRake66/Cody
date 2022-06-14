@@ -21,7 +21,7 @@ export default class Builder {
         let el = document.createElement(tag);
         if (attr) {
             for (let key in attr) {
-                el.setAttribute(key, attr[key]);
+                el[key] = attr[key];
             }
         }
         if (content) {
