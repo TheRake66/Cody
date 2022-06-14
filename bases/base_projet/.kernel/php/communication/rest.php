@@ -44,8 +44,8 @@ abstract class Rest {
 			$object->started = microtime(true);
 			$method = $_SERVER['REQUEST_METHOD'];
 			$methods = Router::methods();
-			if (is_array($methods) && in_array($method, $methods) ||
-				!is_array($methods) && ($methods === $method || $methods === Router::METHOD_ALL)) {
+			if ((is_array($methods) && (in_array($method, $methods) || in_array(Router::METHOD_ALL, $methods))) || 
+				(!is_array($methods) && ($methods === $method || $methods === Router::METHOD_ALL))) {
 				$route = Router::current();
 				$query = Router::params();
 				$body = [];
