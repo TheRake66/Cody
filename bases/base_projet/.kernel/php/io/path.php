@@ -45,7 +45,7 @@ abstract class Path {
      * @return string Le chemin relatif.
      */
     static function assets($path = '') {
-        return self::absolute('assets/' . $path);
+        return self::relative('assets/' . $path);
     }
 
 
