@@ -59,9 +59,8 @@ abstract class Doctype {
             'lang' => $conf_region->main_lang,
             'style' => 'opacity: ' . ($conf_render->wait_dom_loaded ? 0 : 1)
         ], $head);
-        $doctype = Builder::create('!DOCTYPE html', null, $html);
-
-        Output::add($doctype);
+        
+        Output::add('<!DOCTYPE html>' . $html);
         Log::add('Définition de l\'entête.');
     
         Output::add(Less::import('.kernel/global.less'));
