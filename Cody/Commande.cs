@@ -1556,7 +1556,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 string back_path = ""; // ../../
                 string objlow = ""; // obj
                 string objup = ""; // Obj
-                string nomlow = ""; // namepace\namespace\obj
+                string nomlow = ""; // namepace/namespace/obj
                 string full_dash = ""; // namepace-namespace-obj
                 List<string> paths = new List<string>();
                 string[] toedit = new string[]
@@ -1567,6 +1567,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     ".json",
                     ".less"
                 };
+                
 
                 for (int i = 0; i < spt.Length - 1; i++)
                 {
@@ -1582,13 +1583,14 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         namespce_point += l;
                     }
                 }
-                nomlow = nom.ToLower();
-                full_dash = nomlow
-                    .Replace('\\', '_')
-                    .Replace('/', '-');
-                objlow = spt[spt.Length - 1].ToLower();
+                nomlow = nom.ToLower().Replace('\\', '/');
+                full_dash = nomlow.Replace('/', '-');
+                namespce_slash = namespce_slash.Replace(" ", "_");
+                namespce_point = namespce_point.Replace(" ", "_");
+                objlow = spt[spt.Length - 1].ToLower().Replace(" ", "_");
                 objup = objlow.Substring(0, 1).ToUpper();
                 if (objlow.Length > 1) objup += objlow.Substring(1);
+                objup = objup.Replace(" ", "_");
 
 
                 // Ouvre l'archive
@@ -1639,7 +1641,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                 // modele\dto\*.php --> modele\dto\namepace\namespace\obh.php
                 string file = ent.FullName
                     .Replace("{NAME_LOWER}", objlow)
-                    .Replace("{PATH}", nomlow.Replace('\\', '/'));
+                    .Replace("{PATH}", nomlow);
                 string path = Path.GetDirectoryName(file);
                 string ext = Path.GetExtension(file);
 
@@ -1680,14 +1682,14 @@ vs                              Ouvre le projet dans Visual Studio Code.
                         {
                             // Modifie le fichier
                             string content = File.ReadAllText(file)
-                                .Replace("{NAMESPACE_SLASH}", namespce_slash.Replace(" ", "_"))
-                                .Replace("{NAMESPACE_POINT}", namespce_point.Replace(" ", "_"))
-                                .Replace("{NAME_LOWER}", objlow.Replace(" ", "_"))
-                                .Replace("{NAME_UPPER}", objup.Replace(" ", "_"))
+                                .Replace("{NAMESPACE_SLASH}", namespce_slash)
+                                .Replace("{NAMESPACE_POINT}", namespce_point)
+                                .Replace("{NAME_LOWER}", objlow)
+                                .Replace("{NAME_UPPER}", objup)
                                 .Replace("{FULL_DASH}", full_dash)
                                 .Replace("{BACK_PATH}", back_path)
                                 .Replace("{USER_NAME}", Environment.UserName)
-                                .Replace("{PATH}", nomlow.Replace('\\', '/'));
+                                .Replace("{PATH}", nomlow);
                             File.WriteAllText(file, content);
                             return true;
                         }

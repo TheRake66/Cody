@@ -1,5 +1,5 @@
 {
-	"version": "7.21.63.0",
+	"version": "7.21.64.0",
 	"modifications": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -34,7 +34,8 @@
 		"Suppression de index.php dans l'url lors de l'exécution.",
 		"Correction des balises HTML et Less pour les sous composants sous Linux et Mac.",
 		"Correction lors d'un échec des tests unitaires avec un seul test.",
-		"Correction de la commande unit pour les tests unitaires."
+		"Correction de la commande unit pour les tests unitaires.",
+		"Correction des séparateurs des sous composants HTML."
 	],
 	"retrocompatible": false
 }

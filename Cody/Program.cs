@@ -88,7 +88,7 @@ namespace Cody
                 Message.writeIn(ConsoleColor.DarkRed, @"
                                                     ░░░▒▒▓▓ Cody ▓▓▒▒░░░");
                 Message.writeLineIn(ConsoleColor.DarkYellow, $@"
-                                            ~ Version {version} du 1 juin 2022 ~
+                                            ~ Version {version} du 24 juin 2022 ~
                                      ~ Copyright © " + DateTime.Now.Year + " - Thibault BUSTOS (TheRake66) ~");
 
                 Console.WriteLine(@"
