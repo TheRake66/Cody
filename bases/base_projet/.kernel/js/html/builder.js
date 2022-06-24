@@ -14,7 +14,7 @@ export default class Builder {
      * 
      * @param {string} tag Le tag de l'élément.
      * @param {Object} attr Les attributs de l'élément.
-     * @param {string} content Le contenu HTML de l'élément.
+     * @param {HTMLElement|Array} content Le contenu de l'élément.
      * @returns {HTMLElement} L'élément créé.
      */
     static create(tag, attr = null, content = null) {
@@ -25,7 +25,13 @@ export default class Builder {
             }
         }
         if (content) {
-            el.innerHTML = content;
+            if (Array.isArray(content)) {
+                content.forEach(element => {
+                    el.append(element);
+                });
+            } else {
+                el.append(content);
+            }
         }
         return el;
     }
