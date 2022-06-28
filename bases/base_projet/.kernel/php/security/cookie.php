@@ -64,7 +64,7 @@ abstract class Cookie {
 	 */
 	static function remove($name) {
 		if (self::has($name)) {
-			if (self::set($name, null, -1)) {
+			if (self::set($name, '', -1)) {
 				unset($_COOKIE[self::name($name)]); 
 				return true;
 			} else {
