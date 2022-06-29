@@ -75,4 +75,15 @@ export default class Attribute {
         el.style.display = 'unset';
     }
 
+    
+    /**
+     * Vérifie si un élément HTML est visible.
+     * 
+     * @param {HTMLElement} el L'élément HTML.
+     * @returns {boolean} True si visible, false sinon.
+     */
+     static visible(el) {
+        return el.style.display !== 'none';
+    }
+
 }
