@@ -124,7 +124,7 @@ abstract class Log {
                     $message = print_r($message, true);
                 }
                 $max = $conf->max_lenght;
-                if ($max > 0) {
+                if ($max > 0 && !empty($message)) {
                     $len = strlen($message);
                     if ($len > $max) {
                         $message = substr($message, 0, $max) . ' ...[plus de ' . Number::occident($len - $max, 0) . ' caractère(s) restant(s)]';
