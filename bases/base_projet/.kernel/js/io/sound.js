@@ -1,6 +1,7 @@
 import Dom from '../html/dom.js';
 import Builder from '../html/builder.js';
 import Finder from '../html/finder.js';
+import Thread from '../io/thread.js';
 
 
 
@@ -24,7 +25,7 @@ export default class Sound {
      * @param {int} timeout Le temps avant chaque tentative de lecture du son.
      * @return {void}
      */
-     static async play(track, volume = 1, loop = false, onSuccess = null, onError = null, timeout = 500) {
+    static async play(track, volume = 1, loop = false, onSuccess = null, onError = null, timeout = 500) {
         if (typeof track === 'string') {
             track = new Audio(track);
         }
@@ -36,22 +37,20 @@ export default class Sound {
             }, false);
         }
         let played = false;
-        while (!played) {
-            let response = track.play();
-            response
+        do {
+            track
+                .play()
                 .then(_ => {
                     played = true;
-                    if (onSuccess) {
-                        onSuccess();
-                    }
+                    if (onSuccess) onSuccess();
                 })
                 .catch(e => {
-                    if (onError) {
-                        onError(e);
-                    }
+                    if (onError) onError(e);
                 });
-            await new Promise(r => setTimeout(r, timeout));
-        }
+            if (!played) {
+                await Thread.sleep(timeout);
+            }
+        } while (!played)
     }
 
 }
