@@ -41,7 +41,10 @@
         "robots": "index, follow",
         "title": "{PROJECT_NAME}",
         "favicon": "favicon.ico",
-        "cache_control": "no-store"
+        "cache_control": "no-cache",
+        "pragma": "no-cache",
+        "cache": "no-cache",
+        "expires": -1
     },
     "region": {
         "timezone": "Europe/Paris",

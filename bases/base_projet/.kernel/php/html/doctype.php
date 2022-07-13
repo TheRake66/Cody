@@ -37,12 +37,18 @@ abstract class Doctype {
         $meta_viewport = Builder::create('meta', [ 'name' => 'viewport', 'content' => $conf_head->viewport ]);
         $meta_robots = Builder::create('meta', [ 'name' => 'robots', 'content' => $conf_head->robots ]);
         $meta_author = Builder::create('meta', [ 'name' => 'author', 'content' => $conf_head->author ]);
-        $equiv_cache_control = Builder::create('meta', [ 'http-equiv' => 'Cache-control', 'content' => $conf_head->cache_control ]);
         $meta_theme_color = Builder::create('meta', [ 'name' => 'theme-color', 'content' => $conf_head->theme_color ]);
         $meta_theme_color_apple = Builder::create('meta', [ 'name' => 'apple-mobile-web-app-status-bar-style', 'content' => $conf_head->theme_color ]);
         $meta_theme_color_ms = Builder::create('meta', [ 'name' => 'msapplication-navbutton-color', 'content' => $conf_head->theme_color ]);
+
+        $equiv_cache_control = Builder::create('meta', [ 'http-equiv' => 'Cache-control', 'content' => $conf_head->cache_control ]);
+        $equiv_pragma = Builder::create('meta', [ 'http-equiv' => 'Pragma', 'content' => $conf_head->pragma ]);
+        $equiv_cache = Builder::create('meta', [ 'http-equiv' => 'Cache', 'content' => $conf_head->cache ]);
+        $equiv_expires = Builder::create('meta', [ 'http-equiv' => 'Expires', 'content' => $conf_head->expires ]);
+        
         $title = Builder::create('title', null, $conf_head->title);
         $link_favicon = Builder::create('link', [ 'rel' => 'icon', 'href' => Path::relative($conf_head->favicon) ]);
+        
         $head = Builder::create('head', null, [
             $meta_charset,
             $meta_description,
@@ -50,10 +56,15 @@ abstract class Doctype {
             $meta_viewport,
             $meta_robots,
             $meta_author,
-            $equiv_cache_control,
             $meta_theme_color,
             $meta_theme_color_apple,
             $meta_theme_color_ms,
+
+            $equiv_cache_control,
+            $equiv_expires,
+            $equiv_pragma,
+            $equiv_cache,
+
             $title,
             $link_favicon
         ]);
