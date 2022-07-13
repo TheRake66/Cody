@@ -39,7 +39,9 @@
         "viewport": "width=device-width, initial-scale=1.0",
         "theme_color": "#3B78FF",
         "robots": "index, follow",
-        "title": "{PROJECT_NAME}"
+        "title": "{PROJECT_NAME}",
+        "favicon": "favicon.ico",
+        "cache_control": "no-store"
     },
     "region": {
         "timezone": "Europe/Paris",
