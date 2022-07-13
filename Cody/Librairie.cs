@@ -52,9 +52,13 @@ namespace Cody
 
             foreach (string d in Directory.GetDirectories(path))
             {
-                long[] recursive = getCountAndSizeFolder(d);
-                data[0] += recursive[0];
-                data[1] += recursive[1];
+                string name = Path.GetFileName(d);
+                string dot = name.Substring(0, 1);
+                if (dot != "." || name == ".kernel") {
+                    long[] recursive = getCountAndSizeFolder(d);
+                    data[0] += recursive[0];
+                    data[1] += recursive[1];
+                }
             }
 
             return data;

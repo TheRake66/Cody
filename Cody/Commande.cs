@@ -1113,6 +1113,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                             Console.Write("Listage terminé. Il y a ");
                             Message.writeIn(ConsoleColor.DarkYellow, Librairie.toNumberFr(count));
                             Console.WriteLine(" projet(s).");
+                            Console.WriteLine("Les dossiers commençant par \".\" ont été ignorés pour les calculs. (Sauf le dossier .kernel)");
                         }
                         else
                         {
