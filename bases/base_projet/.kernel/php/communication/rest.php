@@ -53,13 +53,13 @@ abstract class Rest {
 				Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::current() . '")...',
 					Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
 
-				Log::add('Paramètres de la requête REST (route) : "' . json_encode($route, JSON_PRETTY_PRINT) . '".',
+				Log::add('Paramètres de la requête REST (route) : "' . print_r($route, true) . '".',
 					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
 
-				Log::add('Paramètres de la requête REST (query) : "' . json_encode($query, JSON_PRETTY_PRINT) . '".',
+				Log::add('Paramètres de la requête REST (query) : "' . print_r($query, true) . '".',
 					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
 
-				Log::add('Paramètres de la requête REST (body) : "' . json_encode($body, JSON_PRETTY_PRINT) . '".',
+				Log::add('Paramètres de la requête REST (body) : "' . print_r($body, true) . '".',
 					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
 
 				$function = strtolower($method);
@@ -101,14 +101,15 @@ abstract class Rest {
 		Log::add('Requête REST exécutée.',
 			Log::LEVEL_GOOD, Log::TYPE_QUERY);
 			
-		Log::add('Résultat de la requête REST : "' . json_encode($response, JSON_PRETTY_PRINT) . '".',
+		Log::add('Résultat de la requête REST : "' . print_r($response, true) . '".',
 			Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
 		
 		$beauty = Configuration::get()->render->api_beautify_json;
+		$pretty = !$beauty ? 0 : JSON_PRETTY_PRINT;
 		Stream::reset();
 		http_response_code($status);
 		header('Content-Type: application/json; charset=utf-8');
-		echo json_encode($response, !$beauty ? 0 : JSON_PRETTY_PRINT);
+		echo json_encode($response, $pretty);
 		Stream::close();
 
 		exit();
