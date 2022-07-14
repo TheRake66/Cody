@@ -48,7 +48,7 @@ abstract class Rest {
 				(!is_array($methods) && ($methods === $method || $methods === Router::METHOD_ALL))) {
 				$route = (object)Router::params();
 				$query = (object)$_GET;
-				$body = json_decode(file_get_contents('php://input'));
+				$body = (object)json_decode(file_get_contents('php://input'));
 
 				Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::current() . '")...',
 					Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
@@ -131,10 +131,10 @@ abstract class Rest {
 
 
 	/**
-	 * Retourne un paramètre du tableau, s'il n'est pas trouvé, 
+	 * Retourne un paramètre d'un objet, s'il n'est pas trouvé, 
 	 * on renvoie une erreur.
 	 * 
-	 * @param object $object Le tableau de paramètres.
+	 * @param object $object L'objet de paramètres.
 	 * @param string $name Le nom du paramètre.
 	 * @param bool $convert Si on doit convertir une valeur vide en NULL.
 	 * @return any La valeur du paramètre.

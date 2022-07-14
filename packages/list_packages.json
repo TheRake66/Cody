@@ -124,5 +124,19 @@
         "index": "debug/lib/library.json"
       }
     ]
+  },
+  {
+    "name": "ConfirmBox",
+    "created": "2022-07-14T16:54:52.6687298+02:00",
+    "madeby": "thiba",
+    "description": "Création de boite de confirmation",
+    "version": "1.0.0.0",
+    "elements": [
+      {
+        "name": "confirmbox",
+        "archive": "confirmbox.zip",
+        "index": "debug/lib/library.json"
+      }
+    ]
   }
 ]

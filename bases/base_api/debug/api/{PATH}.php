@@ -28,7 +28,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel.
      */
     function get($route, $query, $body) {
-        $this->send(null, 0, 'Fonction non implémentée !', 500);
+        $this->send(null, 0, 'Méthode GET non implémentée !', 500);
     }
 
 
@@ -41,7 +41,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel.
      */
     function post($route, $query, $body) {
-        $this->send(null, 0, 'Fonction non implémentée !', 500);
+        $this->send(null, 0, 'Méthode POST non implémentée !', 500);
     }
 
 
@@ -54,7 +54,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel.
      */
     function put($route, $query, $body) {
-        $this->send(null, 0, 'Fonction non implémentée !', 500);
+        $this->send(null, 0, 'Méthode PUT non implémentée !', 500);
     }
 
 
@@ -67,7 +67,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel.
      */
     function delete($route, $query, $body) {
-        $this->send(null, 0, 'Fonction non implémentée !', 500);
+        $this->send(null, 0, 'Méthode DELETE non implémentée !', 500);
     }
 
 
@@ -80,7 +80,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel.
      */
     function patch($route, $query, $body) {
-        $this->send(null, 0, 'Fonction non implémentée !', 500);
+        $this->send(null, 0, 'Méthode PATCH non implémentée !', 500);
     }
 
 }
