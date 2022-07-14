@@ -46,19 +46,15 @@ export default class Http {
                 success(xhr.response);
             }
         }
-        if (method !== Http.METHOD_GET) {
-            if (Array.isArray(body) || (body instanceof Object)) {
-                let frm = new FormData();
-                for (let name in body) {
-                    let value = body[name];
-                    frm.append(name, value);
-                }
-                xhr.send(frm);
-            } else {
-                xhr.send(body);
+        if (Array.isArray(body) || (body instanceof Object)) {
+            let frm = new FormData();
+            for (let name in body) {
+                let value = body[name];
+                frm.append(name, value);
             }
+            xhr.send(frm);
         } else {
-            xhr.send();
+            xhr.send(body);
         }
     }
 
