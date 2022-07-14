@@ -4,6 +4,7 @@ namespace Kernel\Io\Convert;
 use Kernel\Debug\Error;
 use Kernel\Debug\Log;
 use Kernel\Io\File;
+use Kernel\IO\Path;
 use Kernel\Io\Stream;
 
 
@@ -70,13 +71,15 @@ abstract class Image {
     
 
     /**
-     * Charge une image depuis un fichier SVG.
+     * Charge une image SVG depuis les assets.
      * 
+     * @example Kernel\Io\Convert\Image::svg('logo/test'); =>
+     *      Chargera : 'C:/wamp64/www/project/assets/images/svg/logo/test.svg'
      * @param string $file Le fichier SVG.
      * @return string La balise SVG.
      */
     static function svg($file) {
-        return File::load($file);
+        return File::load(Path::img($file . 'svg'));
     }
 
 

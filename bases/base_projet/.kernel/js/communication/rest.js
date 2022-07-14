@@ -30,7 +30,7 @@ export default class Rest {
      * @returns {void}
      */
     static getFor(route, sucess = null, pre = null, post = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#askFor(route, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_GET);
+        Rest.#askFor(Location.build(route, param), sucess, pre, post, empty, failed, expired, null, timeout, asynchrone, Http.METHOD_GET);
     }
 
     
@@ -48,7 +48,7 @@ export default class Rest {
      * @returns {void}
      */
     static get(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_GET);
+        Rest.#ask(Location.build(route, param), sucess, empty, failed, expired, null, timeout, asynchrone, Http.METHOD_GET);
     }
     
 
@@ -66,7 +66,7 @@ export default class Rest {
      * @returns {void}
      */
     static post(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_POST);
+        Rest.#ask(Location.build(route), sucess, empty, failed, expired, JSON.stringify(param), timeout, asynchrone, Http.METHOD_POST);
     }
     
 
@@ -84,7 +84,7 @@ export default class Rest {
      * @returns {void}
      */
     static put(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_PUT);
+        Rest.#ask(Location.build(route), sucess, empty, failed, expired, JSON.stringify(param), timeout, asynchrone, Http.METHOD_PUT);
     }
     
 
@@ -102,7 +102,7 @@ export default class Rest {
      * @returns {void}
      */
     static delete(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_DELETE);
+        Rest.#ask(Location.build(route), sucess, empty, failed, expired, JSON.stringify(param), timeout, asynchrone, Http.METHOD_DELETE);
     }
     
 
@@ -120,27 +120,28 @@ export default class Rest {
      * @returns {void}
      */
     static patch(route, sucess = null, empty = null, failed = null, expired = null, param = {}, timeout = 0, asynchrone = true) {
-        Rest.#ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, Http.METHOD_PATCH);
+        Rest.#ask(Location.build(route), sucess, empty, failed, expired, JSON.stringify(param), timeout, asynchrone, Http.METHOD_PATCH);
     }
 
 
     /**
      * Exécute une requête puis l'envoi à la fonction de succès.
      * 
-     * @param {string} route La route.
+     * @param {string} url L'URL.
      * @param {function} sucess Fonction anonyme appeler lors de la réponse.
      * @param {function} empty Fonction anonyme appeler si aucun resultat retourné.
      * @param {function} failed Fonction anonyme appeler si la requête échoue.
      * @param {function} expired Fonction anonyme appeler si la requête expire.
-     * @param {Array} param Les paramètres supplémentaires au corps de la requête ou à l'URL.
+     * @param {Array} param Les paramètres supplémentaires au corps de la requête.
      * @param {string} method La méthode de la requête.
      * @param {Number} timeout Le temps d'attente avant échec.
      * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
      * @returns {void}
      */
-    static #ask(route, sucess, empty, failed, expired, param, timeout, asynchrone, method) {
+    static #ask(url, sucess, empty, failed, expired, param, timeout, asynchrone, method) {
         Http.send(
-            Location.build(route),
+            url,
+            'application/json; charset=utf-8',
             response => {
                 if (response !== '') {
                     let json = null;
@@ -178,14 +179,14 @@ export default class Rest {
     /**
      * Exécute une requête puis boucle sur les résultats.
      * 
-     * @param {string} route La route.
+     * @param {string} url L'URL.
      * @param {function} sucess Fonction anonyme appeler sur chaque réponse.
      * @param {function} pre Fonction anonyme appeler avant l'iteration.
      * @param {function} post Fonction anonyme appeler après l'iteration.
      * @param {function} empty Fonction anonyme appeler si aucun resultat retourné.
      * @param {function} failed Fonction anonyme appeler si la requête échoue.
      * @param {function} expired Fonction anonyme appeler si la requête expire.
-     * @param {Array} param Les paramètres supplémentaires au corps de la requête ou à l'URL.
+     * @param {Array} param Les paramètres supplémentaires au corps de la requête.
      * @param {string} method La méthode de la requête.
      * @param {Number} timeout Le temps d'attente avant échec.
      * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
@@ -193,7 +194,8 @@ export default class Rest {
      */
     static #askFor(route, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, method) {
         Http.send(
-            Location.build(route),
+            url,
+            'application/json; charset=utf-8',
             response => {
                 if (response !== '') {
                     let json = null;

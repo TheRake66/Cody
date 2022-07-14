@@ -24,23 +24,20 @@ export default class Http {
      * Exécute une requête AJAX.
      * 
      * @param {string} url URL à requêter.
+     * @param {string} type Type de contenu à envoyer.
      * @param {function} success Fonction anonyme appeler lors d'une réponse correcte.
      * @param {function} failed Fonction anonyme appeler lors d'une réponse incorrecte.
      * @param {function} expired Fonction anonyme appeler lorsque la requête expire.
      * @param {string} method Type de requête.
-     * @param {string} params Corps de la requête. 
+     * @param {any} body Corps de la requête. 
      * @param {Number} timeout Temps d'attente avant expiration de la requête.
      * @param {boolean} asynchronous Si la requête s'exécute en asynchrone.
      * @returns {void}
      */
-    static send(url, success = null, failed = null, expired = null, method = Http.METHOD_GET, params = {}, timeout = 0, asynchronous = true) {
+    static send(url, type = 'text/html; charset=utf-8', success = null, failed = null, expired = null, method = Http.METHOD_GET, body = null, timeout = 0, asynchronous = true) {
         let xhr = new XMLHttpRequest();
-        if (method === Http.METHOD_GET && 
-            params !== null &&
-            Object.keys(params).length !== 0) {
-            url += '?' + (new URLSearchParams(params)).toString();
-        }
         xhr.open(method, url, asynchronous);
+        xhr.setRequestHeader('Content-Type', type);
         if (timeout) xhr.timeout = timeout;
         if (expired) xhr.ontimeout = expired;
         if (failed) xhr.onerror = failed;
@@ -50,12 +47,16 @@ export default class Http {
             }
         }
         if (method !== Http.METHOD_GET) {
-            let frm = new FormData();
-            for (let name in params) {
-                let value = params[name];
-                frm.append(name, value);
+            if (Array.isArray(body) || (body instanceof Object)) {
+                let frm = new FormData();
+                for (let name in body) {
+                    let value = body[name];
+                    frm.append(name, value);
+                }
+                xhr.send(frm);
+            } else {
+                xhr.send(body);
             }
-            xhr.send(frm);
         } else {
             xhr.send();
         }

@@ -46,29 +46,20 @@ abstract class Rest {
 			$methods = Router::methods();
 			if ((is_array($methods) && (in_array($method, $methods) || in_array(Router::METHOD_ALL, $methods))) || 
 				(!is_array($methods) && ($methods === $method || $methods === Router::METHOD_ALL))) {
-				$route = Router::current();
-				$query = Router::params();
-				$body = [];
-				switch ($method) {
-					case Router::METHOD_GET:
-						$body = $_GET;
-						break;
-					case Router::METHOD_POST:
-						$body = $_POST;
-						break;
-					case Router::METHOD_PUT:
-					case Router::METHOD_DELETE:
-					case Router::METHOD_PATCH:
-						$body = self::extract();
-						break;
-					default:
-						$object->send(null, 1, 'La méthode "' . $method . '" n\'est pas supportée par le serveur !', 405);
-						break;
-				}	
+				$route = (object)Router::params();
+				$query = (object)$_GET;
+				$body = json_decode(file_get_contents('php://input'));
 
 				Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::current() . '")...',
 					Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
-				Log::add('Paramètres de la requête REST : "' . print_r($body, true) . '".',
+
+				Log::add('Paramètres de la requête REST (route) : "' . json_encode($route, JSON_PRETTY_PRINT) . '".',
+					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
+
+				Log::add('Paramètres de la requête REST (query) : "' . json_encode($query, JSON_PRETTY_PRINT) . '".',
+					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
+
+				Log::add('Paramètres de la requête REST (body) : "' . json_encode($body, JSON_PRETTY_PRINT) . '".',
 					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
 
 				$function = strtolower($method);
@@ -84,40 +75,6 @@ abstract class Rest {
 		} else {
 			Log::add('Aucun appel API.', Log::LEVEL_GOOD);
 		}
-	}
-
-
-	/**
-	 * Extrait le contenu du corps de la requête.
-	 * 
-	 * @return array Le contenu du corps de la requête.
-	 */
-	private static function extract() {
-		$input = file_get_contents('php://input');
-		$lines = explode(PHP_EOL, $input);
-		$boundary = $lines[0];
-		$data = [];
-		$name = '';
-		for ($i = 0; $i < count($lines) - 2; $i++) {
-			$line = $lines[$i];
-			if ($line === $boundary) {
-				$i++;
-				$line = $lines[$i];
-				$posname = strpos($line, 'name="');
-				$posfile = strpos($line, '"; filename="');
-				$offset = $posname + 6;
-				$lenght = $posfile ? $posfile - $posname - 6 : -1;
-				$name = substr($line, $offset, $lenght);
-				$data[$name] = null;
-				while (!empty($line)) {
-					$i++;
-					$line = $lines[$i];
-				}
-			} else {
-				$data[$name] .= $line;
-			}
-		}
-		return $data;
 	}
 
 
@@ -140,15 +97,17 @@ abstract class Rest {
 			'time' => $time,
 			'content' => $content
 		];
-		http_response_code($status);
 
 		Log::add('Requête REST exécutée.',
 			Log::LEVEL_GOOD, Log::TYPE_QUERY);
-		Log::add('Résultat de la requête REST : "' . print_r(json_encode($response, JSON_PRETTY_PRINT), true) . '".',
+			
+		Log::add('Résultat de la requête REST : "' . json_encode($response, JSON_PRETTY_PRINT) . '".',
 			Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
 		
 		$beauty = Configuration::get()->render->api_beautify_json;
 		Stream::reset();
+		http_response_code($status);
+		header('Content-Type: application/json; charset=utf-8');
 		echo json_encode($response, !$beauty ? 0 : JSON_PRETTY_PRINT);
 		Stream::close();
 
@@ -175,16 +134,16 @@ abstract class Rest {
 	 * Retourne un paramètre du tableau, s'il n'est pas trouvé, 
 	 * on renvoie une erreur.
 	 * 
-	 * @param array $array Le tableau de paramètres.
+	 * @param object $object Le tableau de paramètres.
 	 * @param string $name Le nom du paramètre.
 	 * @param bool $convert Si on doit convertir une valeur vide en NULL.
 	 * @return any La valeur du paramètre.
 	 */
-	protected function data($array, $name, $convert = false) {
-		if (isset($array[$name])) {
+	protected function data($object, $name, $convert = false) {
+		if (property_exists($object, $name)) {
 			return $convert ? 
-				Encoded::null($array[$name]) : 
-				$array[$name];
+				Encoded::null($object->$name) : 
+				$object->$name;
 		} else {
 			$this->send(null, 1, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
 		}

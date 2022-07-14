@@ -22,9 +22,9 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode GET.
      * 
-     * @param string $route La route de l'appel.
-     * @param array $query Les paramètres de la route.
-     * @param array $body Le corps de la requête.
+     * @param object $route Les paramètres de la route.
+     * @param object $query Les paramètres de la requête.
+     * @param object $body Le corps de la requête.
      * @return mixed Résultat de l'appel.
      */
     function get($route, $query, $body) {
@@ -35,9 +35,9 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode POST.
      * 
-     * @param string $route La route de l'appel.
-     * @param array $query Les paramètres de la route.
-     * @param array $body Le corps de la requête.
+     * @param object $route Les paramètres de la route.
+     * @param object $query Les paramètres de la requête.
+     * @param object $body Le corps de la requête.
      * @return mixed Résultat de l'appel.
      */
     function post($route, $query, $body) {
@@ -48,9 +48,9 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode PUT.
      * 
-     * @param string $route La route de l'appel.
-     * @param array $query Les paramètres de la route.
-     * @param array $body Le corps de la requête.
+     * @param object $route Les paramètres de la route.
+     * @param object $query Les paramètres de la requête.
+     * @param object $body Le corps de la requête.
      * @return mixed Résultat de l'appel.
      */
     function put($route, $query, $body) {
@@ -61,9 +61,9 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode DELETE.
      * 
-     * @param string $route La route de l'appel.
-     * @param array $query Les paramètres de la route.
-     * @param array $body Le corps de la requête.
+     * @param object $route Les paramètres de la route.
+     * @param object $query Les paramètres de la requête.
+     * @param object $body Le corps de la requête.
      * @return mixed Résultat de l'appel.
      */
     function delete($route, $query, $body) {
@@ -74,9 +74,9 @@ class {NAME_UPPER} extends Rest {
     /**
      * Appel via la méthode PATCH.
      * 
-     * @param string $route La route de l'appel.
-     * @param array $query Les paramètres de la route.
-     * @param array $body Le corps de la requête.
+     * @param object $route Les paramètres de la route.
+     * @param object $query Les paramètres de la requête.
+     * @param object $body Le corps de la requête.
      * @return mixed Résultat de l'appel.
      */
     function patch($route, $query, $body) {
