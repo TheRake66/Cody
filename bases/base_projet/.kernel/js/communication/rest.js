@@ -192,7 +192,7 @@ export default class Rest {
      * @param {boolean} asynchronous Si la requête doit s'exécuter en asynchrone.
      * @returns {void}
      */
-    static #askFor(route, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, method) {
+    static #askFor(url, sucess, pre, post, empty, failed, expired, param, timeout, asynchrone, method) {
         Http.send(
             url,
             'application/json; charset=utf-8',

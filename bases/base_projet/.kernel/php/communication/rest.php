@@ -105,11 +105,11 @@ abstract class Rest {
 			Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
 		
 		$beauty = Configuration::get()->render->api_beautify_json;
-		$pretty = !$beauty ? 0 : JSON_PRETTY_PRINT;
+		$flags = (!$beauty ? 0 : JSON_PRETTY_PRINT) | JSON_PARTIAL_OUTPUT_ON_ERROR;
 		Stream::reset();
 		http_response_code($status);
 		header('Content-Type: application/json; charset=utf-8');
-		echo json_encode($response, $pretty);
+		echo json_encode($response, $flags);
 		Stream::close();
 
 		exit();
