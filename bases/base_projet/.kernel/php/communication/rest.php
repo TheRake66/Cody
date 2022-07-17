@@ -109,7 +109,7 @@ abstract class Rest {
 		Stream::reset();
 		http_response_code($status);
 		header('Content-Type: application/json; charset=utf-8');
-		echo json_encode($response, $flags);
+		echo(json_encode($response, $flags));
 		Stream::close();
 
 		exit();

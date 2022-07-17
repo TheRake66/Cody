@@ -2,6 +2,7 @@
 namespace Kernel\IO;
 
 use Kernel\Debug\Error;
+use Kernel\Html\Builder;
 use Kernel\Html\Import;
 use Kernel\Html\Javascript;
 use Kernel\Html\Less;
@@ -72,9 +73,12 @@ abstract class Render {
             // On fait directement un require et pas un File::require
             // Pour que le extract fonctionne
             $absolute = Path::absolute($vue);
-            require_once($absolute);
+            $uuid = uniqid();
+            Output::add('<component data-uuid="'.$uuid.'">');
+            require($absolute);
             Output::add(Less::import($style));
-            Output::add(Javascript::import($script, 'module', $varname, $class));
+            Output::add(Javascript::import($script, 'module', $varname, $class, $uuid));
+            Output::add('</component>');
         } else {
             Error::trigger('Impossible de faire le rendu du composant "' . $full . '" !');
         }

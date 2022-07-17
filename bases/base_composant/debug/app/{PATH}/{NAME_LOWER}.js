@@ -20,11 +20,11 @@ export default class {NAME_UPPER} extends Render {
      * Point d'entrée du script.
      * 
      * @access public
+     * @param {string} uuid Le UUID du composant.
      * @return {void}
      */
-    constructor() {
-        super();
-        this.mount('{FULL_DASH}');
+    constructor(uuid) {
+        super(uuid);
     }
 
 }
