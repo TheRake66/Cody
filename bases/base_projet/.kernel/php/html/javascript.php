@@ -22,16 +22,17 @@ abstract class Javascript {
      * 
      * @param string $file Le chemin relatif du fichier.
      * @param string $type Le type de fichier.
-     * @param string $name Le nom de la variable à instancier.
-     * @param string $class La nom de la classe à instancier.
+     * @param string $name Le nom de la variable à instancier en cas de composant.
+     * @param string $class La nom de la classe à instancier en cas de composant.
+     * @param string $uuid L'identifiant unique en cas de composant.
      * @return string La balise HTML.
      */
-    static function import($file, $type = 'module', $name = null, $class = null) {
+    static function import($file, $type = 'module', $name = null, $class = null, $uuid = null) {
         if (Configuration::get()->render->use_minifying) {
             $inf = pathinfo($file);
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.js';
         }
-        if (is_null($name) && is_null($class)) {
+        if (is_null($name) && is_null($class) && is_null($uuid)) {
             $js = Builder::create('script', [
                 'type' => $type,
                 'src' => Path::relative($file)
@@ -41,7 +42,7 @@ abstract class Javascript {
                 'type' => $type,
             ], 
             'import ' . $class . ' from "' . Path::relative($file) . '";
-            window.' . $name . ' = new ' . $class .'();');
+            window.' . $name . ' = new ' . $class .'("' . $uuid . '");');
         }
         return $js;
     }

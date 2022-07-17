@@ -123,4 +123,5 @@ export default class Render {
     unregister(event = 'onrefresh') {
         this.$.removeEventListener(event);
     }
+    
 }
