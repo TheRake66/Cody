@@ -25,6 +25,7 @@ export default class Render {
      * @return {void}
      */
     constructor(uuid) {
+        this.uuid = uuid;
         let components = Finder.queryAll(`component[data-uuid="${uuid}"]`);
         if (components.length === 1) {
             this.$ = components[0];

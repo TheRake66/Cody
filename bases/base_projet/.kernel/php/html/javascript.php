@@ -32,17 +32,27 @@ abstract class Javascript {
             $inf = pathinfo($file);
             $file = $inf['dirname'] . '/' . $inf['filename'] . '.min.js';
         }
+        $rel = Path::relative($file);
         if (is_null($name) && is_null($class) && is_null($uuid)) {
             $js = Builder::create('script', [
                 'type' => $type,
-                'src' => Path::relative($file)
+                'src' => $rel
             ], null, false);
         } else {
             $js = Builder::create('script', [
-                'type' => $type,
-            ], 
-            'import ' . $class . ' from "' . Path::relative($file) . '";
-            window.' . $name . ' = new ' . $class .'("' . $uuid . '");');
+                    'type' => $type,
+                ], 
+                "import $class from '$rel';
+
+                let _ = new $class('$uuid');
+                if (window.$name === undefined) {
+                    window.$name = _;
+                } else if (window.$name instanceof Array) {
+                    window.$name.push(_);
+                } else {
+                    window.$name = [window.$name, _];
+                }"
+            );
         }
         return $js;
     }
