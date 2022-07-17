@@ -13,7 +13,7 @@ use Kernel\Io\Render;
  * @author {USER_NAME}
  * @version 1.0
  * @package Controller{NAMESPACE_SLASH}
- * @category Controleur
+ * @category Component controller
  */
 class {NAME_UPPER} extends Render {
 

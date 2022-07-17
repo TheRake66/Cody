@@ -10,7 +10,7 @@ use Kernel\Debug\Unit;
  * @author {USER_NAME}
  * @version 1.0
  * @package Test{NAMESPACE_SLASH}
- * @category Test
+ * @category Unit test
  */
 class {NAME_UPPER} extends Unit {
 

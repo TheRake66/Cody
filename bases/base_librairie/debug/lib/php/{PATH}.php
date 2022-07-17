@@ -9,7 +9,7 @@ namespace Library{NAMESPACE_SLASH};
  * @author {USER_NAME}
  * @version 1.0
  * @package Library{NAMESPACE_SLASH}
- * @category Librairie
+ * @category Librairy
  */
 class {NAME_UPPER} {
 

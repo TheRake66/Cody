@@ -1,3 +1,4 @@
+import Render from '{BACK_PATH}../../../.kernel/js/io/render.js';
 import Attribute from '{BACK_PATH}../../../.kernel/js/html/attribute.js';
 import Dom from '{BACK_PATH}../../../.kernel/js/html/dom.js';
 import Finder from '{BACK_PATH}../../../.kernel/js/html/finder.js';
@@ -11,9 +12,9 @@ import Location from '{BACK_PATH}../../../.kernel/js/url/location.js';
  * 
  * @author {USER_NAME}
  * @version 1.0
- * @category Script
+ * @category Component script
  */
-export default class {NAME_UPPER} {
+export default class {NAME_UPPER} extends Render {
 
     /**
      * Point d'entrée du script.
@@ -22,7 +23,8 @@ export default class {NAME_UPPER} {
      * @return {void}
      */
     constructor() {
-        
+        super();
+        this.mount('{FULL_DASH}');
     }
 
 }

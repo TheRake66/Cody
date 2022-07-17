@@ -15,7 +15,7 @@ use Kernel\Security\Validation;
  * @author {USER_NAME}
  * @version 1.0
  * @package Api{NAMESPACE_SLASH}
- * @category API
+ * @category API module
  */
 class {NAME_UPPER} extends Rest {
 
