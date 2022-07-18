@@ -4,6 +4,7 @@ namespace Kernel\Debug;
 use Kernel\Security\Configuration;
 use Kernel\Io\Convert\Number;
 use Kernel\Communication\Network;
+use Kernel\Communication\Network\Client;
 use Kernel\Io\Path;
 
 
@@ -86,7 +87,7 @@ abstract class Log {
 
             $folder = Path::absolute('logs');
             if ($conf->ip_identify) {
-                $folder .= '/' . str_replace(':', '-', Network::ip());
+                $folder .= '/' . str_replace(':', '-', Client::ip());
             }
 
             $levelstr = '';
