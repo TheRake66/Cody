@@ -8,7 +8,10 @@ use Cody as c;
 // Enregistre l'autoloader de classe.
 k\Io\Autoloader::register();
 
+// Supprime l'écouteur d'événement des erreurs.
+k\Debug\Error::remove();
 
+// Lance la console
 c\Console\Program::main();
 
 ?>

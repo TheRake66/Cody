@@ -63,7 +63,7 @@ abstract class Output {
      * @return void
      */
     static function print($text, $fore = self::COLOR_FORE_DEFAULT, $background = self::COLOR_BACKGROUND_DEFAULT) {
-        echo $fore.$background.$text.self::COLOR_FORE_DEFAULT.self::COLOR_BACKGROUND_DEFAULT;
+        echo($fore.$background.$text.self::COLOR_FORE_DEFAULT.self::COLOR_BACKGROUND_DEFAULT);
     }
 
 
@@ -87,7 +87,7 @@ abstract class Output {
      * @return void
      */
     static function clear() {
-        echo "\e[H\e[J";
+        echo("\e[H\e[J");
     }
 
 
@@ -97,7 +97,7 @@ abstract class Output {
      * @return void
      */
     static function break() {
-        echo PHP_EOL;
+        echo(PHP_EOL);
     }
 
 }
