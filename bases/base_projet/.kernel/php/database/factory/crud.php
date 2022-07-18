@@ -7,7 +7,7 @@ use Kernel\Database\Query;
 
 
 /**
- * Librairie creant des requetes SQL (CRUD : Create, Read, Update, Delete)
+ * Librairie créant des requêtes SQL (CRUD : Create, Read, Update, Delete)
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0

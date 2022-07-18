@@ -1,7 +1,8 @@
 <?php
 namespace Cody\Console;
 
-
+use Cody\Io\Environnement;
+use Cody\Io\Thread;
 
 /**
  * Librairie gérant les commandes du programme.
@@ -38,14 +39,18 @@ abstract class Server {
      * Null si le serveur est déjà lancé.
      */
     static function run() {
-        if (is_null(self::$process)) {
-            $process = Environnement::async('php -S localhost:6600');
+        if (!self::has()) {
+            Output::printLn('Lancement du serveur...');
+            $process = Thread::open('php -S localhost:6600');
             if ($process) {
                 self::$process = $process;
-                return true;
+                Thread::open('start http://localhost:6600/index.php');
+                Output::printLn('Serveur lancé !');
             } else {
-                return false;
+                Output::printLn('Erreur lors du lancement du serveur !');
             }
+        } else {
+            Output::printLn('Le serveur est déjà lancé !');
         }
     }
 
@@ -57,13 +62,16 @@ abstract class Server {
      * Null si le serveur n'est pas déjà lancé.
      */
     static function stop() {
-        if (!is_null(self::$process)) {
-            if (Environnement::kill(self::$process)) {
+        if (self::has()) {
+            Output::printLn('Arrêt du serveur...');
+            if (Thread::kill(self::$process)) {
                 self::$process = null;
-                return true;
+                Output::printLn('Serveur arrêté !');
             } else {
-                return false;
+                Output::printLn('Erreur lors de l\'arrêt du serveur !');
             }
+        } else {
+            Output::printLn('Le serveur n\'est pas lancé !');
         }
     }
 

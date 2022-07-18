@@ -1,19 +1,19 @@
 <?php
-namespace Kernel\Communication;
+namespace Kernel\Communication\Network;
 
 
 
 /**
- * Librairie gérant les fonctions réseaux.
+ * Librairie gérant les informations du client.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\Communication
+ * @package Kernel\Communication\Network
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-abstract class Network {
+abstract class Client {
 
 	/**
 	 * Retourne l'adresse IP du client.
@@ -29,6 +29,20 @@ abstract class Network {
 			return $_SERVER['REMOTE_ADDR'];
 		} else {
 			return '0.0.0.0';
+		}
+	}
+	
+
+	/**
+	 * Retourne le port du client.
+	 * 
+	 * @return string Le port du client.
+	 */
+	static function port() {
+		if (!empty($_SERVER['SERVER_PORT'])) {
+			return $_SERVER['SERVER_PORT'];
+		} else {
+			return '6600';
 		}
 	}
 	

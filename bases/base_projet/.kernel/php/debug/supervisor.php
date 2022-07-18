@@ -1,6 +1,7 @@
 <?php
 namespace Kernel\Debug;
 
+use Cody\Console\Program;
 use Kernel\Security\Configuration;
 use Kernel\Io\Path;
 use Kernel\Url\Router;
@@ -156,6 +157,7 @@ abstract class Supervisor {
                         <span><b>Route</b><pre>' . Router::current() . '</pre></span>
                         <span><b>Composant</b><pre>' . Router::class() . '</pre></span>
                         <span><b>Version de PHP</b><pre>' . phpversion() . '</pre></span>
+                        <span><b>Version de Cody</b><pre>' . Program::CODY_VERSION . '</pre></span>
                     </div>
                     ' . $array . '
                 </div>

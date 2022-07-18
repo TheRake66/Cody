@@ -1,6 +1,8 @@
 <?php
 namespace Kernel\IO;
 
+use Cody\Io\Environnement;
+
 
 
 /**
@@ -23,7 +25,7 @@ abstract class Path {
      * @return string Le chemin absolu.
      */
     static function absolute($path = '') {
-        return $_SERVER['DOCUMENT_ROOT'] . self::relative($path);
+        return Environnement::root() . self::relative($path);
     }
     
     

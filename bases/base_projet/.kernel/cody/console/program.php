@@ -145,6 +145,48 @@ Utilisez la commande "help" pour voir la liste des commandes.
 ');
     }
 
+
+    /**
+     * Affiche la liste des commandes disponibles.
+     * 
+     * @return void
+     */
+    static function help() {
+        Output::printLn(
+"* help                            Affiche la liste des commandes disponible.
+api [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un module d'API avec le nom spécifié.
+build                           Construit le projet, minifie et compile les fichiers. Nécessite npm.
+* cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
+                                du dossier courant.
+* cls                             Nettoie la console.
+com [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un composant (controleur, vue, style,
+                                script) avec le nom spécifié.
+* bye                             Quitte Cody en fermant le serveur PHP si il y en a un.
+* dl [url] [chemin]               Télécharge un fichier avec l'URL spécifiée.
+* exp                             Ouvre le projet dans l'explorateur de fichiers.
+lib [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une librairie (PHP, LESS, et JavaScript).
+                                avec le nom spécifié.
+* ls                              Affiche la liste des projets.
+maj                             Vérifie les mises à jour disponibles.
+new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
+obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe DTO, classe DAO)
+                                avec le nom spécifié.
+pkg [-t|-l|-s] [*nom]           Télécharge, liste ou supprime un package depuis le dépôt de Cody.
+rep                             Ouvre la dépôt GitHub de Cody.
+* run [-f]                        Lance un serveur PHP et ouvre le projet dans le navigateur. Si l'option '-f'
+                                est ajouté, tous les processus PHP seront arrêté, sinon seul le processus
+                                démarrer par Cody sera arrêté.
+* stop [-f]                       Arrête le serveur PHP. L'option '-f' arrête tous les processus PHP.
+tes [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une classe de test unitaire.
+tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
+unit                            Lance les tests unitaires.
+* vs                              Ouvre le projet dans Visual Studio Code.
+init
+schem
+
+* : Argument facultatif.");
+    }
+
 }
 
 ?>

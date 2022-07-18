@@ -15,9 +15,12 @@ namespace Kernel\Io;
  */
 abstract class Disk {
 
-
-
-
+	/**
+	 * Calcul la taille d'un répertoire et ses sous-répertoires.
+	 * 
+	 * @param string $dir Le chemin du répertoire.
+	 * @return int|null La taille du répertoire. Null si le répertoire n'existe pas.
+	 */
 	static function size($dir) {
 		if (is_dir($dir)) {
 			$total = 0;
@@ -34,6 +37,37 @@ abstract class Disk {
 				}
 				if ($size !== false) {
 					$total += $size;
+				}
+			}
+			return $total;
+		} else {
+			return null;
+		}
+	}
+
+
+	/**
+	 * Calcul le nombre d'élément d'un répertoire et ses sous-répertoires.
+	 * 
+	 * @param string $dir Le chemin du répertoire.
+	 * @return int|null La taille du répertoire. Null si le répertoire n'existe pas.
+	 */
+	static function count($dir) {
+		if (is_dir($dir)) {
+			$total = 0;
+			$entries = array_diff(scandir($dir), array('.', '..'));
+			foreach ($entries as $entry) {
+				$full = $dir . DIRECTORY_SEPARATOR . $entry;
+				$count = false;
+				if (is_dir($entry)) {
+					if (substr($entry, 0, 1) !== '.' || $entry === '.kernel') {
+						$count = self::count($full);
+					}
+				} else {
+					$count = 1;
+				}
+				if ($count !== false) {
+					$total += $count;
 				}
 			}
 			return $total;

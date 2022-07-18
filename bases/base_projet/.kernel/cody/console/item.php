@@ -15,7 +15,14 @@ namespace Cody\Console;
  */
 abstract class Item {
 
+    /**
+     * @var string Le nom du fichier d'information d'un projet.
+     */
+    const FILE_PROJECT = 'project.json';
 
+
+    static function exists($type, $name) {
+    }
 
     static function show($type) {
 

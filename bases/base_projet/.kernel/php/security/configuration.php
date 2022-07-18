@@ -20,6 +20,11 @@ use Kernel\Io\Path;
  */
 abstract class Configuration {
 
+    /**
+     * @var string Le fichier de configuration du framework.
+     */
+    const FILE_CONFIGURATION = '.kernel/configuration.json';
+
 	/**
 	 * @var array La configuration du noyau.
 	 */
@@ -33,7 +38,7 @@ abstract class Configuration {
 	 * @throws \Kernel\Debug\Error Si la configuration n'est pas trouvée.
 	 */
 	static function load() {
-		$json = File::load('.kernel/configuration.json');
+		$json = File::load(self::FILE_CONFIGURATION);
 		self::$current = json_decode($json);
 		if (self::$current === null) {
             $msg = 'Impossible de charger la configuration !';

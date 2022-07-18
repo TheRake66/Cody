@@ -1,7 +1,12 @@
 <?php
 namespace Cody\Console;
 
-
+use Cody\Io\Environnement;
+use Kernel\Io\Convert\Memory;
+use Kernel\Io\Convert\Number;
+use Kernel\Io\Disk;
+use Kernel\IO\File;
+use Kernel\Security\Configuration;
 
 /**
  * Librairie gérant les projets du framework.
@@ -16,24 +21,13 @@ namespace Cody\Console;
 abstract class Project {
 
     /**
-     * @var string Le nom du fichier d'information d'un projet.
-     */
-    const FILE_PROJECT = 'project.json';
-
-    /**
-     * @var string Le fichier de configuration du framework.
-     */
-    const FILE_CONFIGURATION = '.kernel/configuration.json';
-
-
-    /**
      * Vérifie si un dossier est un dossier de projet.
      * 
      * @param string $dir Le dossier à vérifier.
      * @return boolean True si le dossier est un dossier de projet, false sinon.
      */
     static function is($dir) {
-        return file_exists($dir . DIRECTORY_SEPARATOR . self::FILE_PROJECT);
+        return File::loadable($dir . DIRECTORY_SEPARATOR . Item::FILE_PROJECT);
     }
 
 
@@ -49,8 +43,8 @@ abstract class Project {
             $dir = Environnement::root();
         }
         $file = $dir . DIRECTORY_SEPARATOR . $file;
-        if (file_exists($file)) {
-            return (object)json_decode(file_get_contents($file), true);
+        if ($json = File::load($file)) {
+            return (object)json_decode($json, true);
         } else {
             return false;
         }
@@ -70,7 +64,7 @@ abstract class Project {
             $dir = Environnement::root();
         }
         $file = $dir . DIRECTORY_SEPARATOR . $file;
-        return file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
+        return File::write($file, json_encode($data, JSON_PRETTY_PRINT));
     }
 
 
@@ -89,9 +83,103 @@ abstract class Project {
         }
         $file = $dir . DIRECTORY_SEPARATOR . $file;
         $key = '{' . strtoupper($key) . '}';
-        $content = file_get_contents($file);
+        $content = File::load($file);
         $content = str_replace($key, $data, $content);
-        return file_put_contents($file, $content);
+        return File::write($file, $content);
+    }
+
+
+    /**
+     * Liste les projets du dossier courant.
+     * 
+     * @return void
+     */
+    static function list() {
+        $path = rtrim(getcwd(), '/') . '/*';
+        $dirs = glob($path, GLOB_ONLYDIR);
+        $bar = str_repeat('═', Output::MAX_WINDOW_WIDTH - 2);
+        $space = function($text, $sub = 26) {
+            return str_repeat(' ', Output::MAX_WINDOW_WIDTH - $sub - strlen($text));
+        };
+        $invalid = function($text, $value, 
+            $valid = Output::COLOR_FORE_DEFAULT, 
+            $invalid = Output::COLOR_FORE_RED, $check = '???') use ($space) {
+            Output::print('║ ' . $text . ' : ');
+            Output::print($value, $value !== $check ? $valid : $invalid);
+            Output::printLn($space($value) . ' ║');
+        };
+        $count = 0;
+        foreach ($dirs as $dir) {
+            if (Project::is($dir)) {
+                $count++;
+                $decode = Project::decode(Item::FILE_PROJECT, $dir);
+                if ($decode) {
+                    $folder = basename($dir);
+                    $name = $decode->name ?? '???';
+                    $version = $decode->version ?? '???';
+                    $created = $decode->created ?? null;
+                    $created = $created ? date('d/m/Y H:i:s', strtotime($created)) : '???';
+                    $author = $decode->author ?? '???';
+                    $nombre = Disk::count($dir);
+                    $nombre = $nombre ? Number::occident($nombre) : '???';
+                    $taille = Disk::size($dir);
+                    $taille = $taille ? Memory::convert($taille) : '???';
+
+                    Output::printLn('╔' . $bar . '╗');
+                    Output::printLn('║ Projet n°' . $count . $space($count, 13) . ' ║');
+                    Output::printLn('╠' . $bar . '╣');
+                    $invalid('Dossier            ', $folder);
+                    $invalid('Nom                ', $name, Output::COLOR_FORE_MAGENTA);
+                    $invalid('Version            ', $version, Output::COLOR_FORE_YELLOW, Output::COLOR_FORE_GREEN, Program::CODY_VERSION);
+                    $invalid('Créé le            ', $created);
+                    $invalid('Fait par           ', $author);
+                    $invalid('Nombre de fichiers ', $nombre);
+                    $invalid('Taille mémoire     ', $taille);
+                    Output::printLn('╚' . $bar . '╝');
+                }
+            }
+        }
+        if ($count > 0) {
+            Output::print('Listage terminé. Il y a ');
+            Output::print($count, Output::COLOR_FORE_GREEN);
+            Output::printLn(' projet(s) dans le dossier courant.');
+            Output::printLn('Les dossiers commençant par "." ont été ignorés pour les calculs. (Sauf le dossier .kernel)');
+        } else {
+            Output::printLn('Heuuu, il n\'y a aucun projet dans le dossier courant...');
+        }
+    }
+
+
+    /**
+     * Initialise un project.
+     * 
+     * @return void
+     */
+    static function init() {
+        Output::printLn("Initialisation du projet...");
+
+        $p_file = Item::FILE_PROJECT;
+        $c_file = Configuration::FILE_CONFIGURATION;
+        $project = basename(Environnement::root());
+        $version = Program::CODY_VERSION;
+        $date = (new \DateTime())->format('Y-m-d H:i:s');
+        $user = getenv('username');
+
+        Project::replace('PROJECT_NAME', $project, $p_file);
+        Project::replace('PROJECT_VERSION', $version, $p_file);
+        Output::print('Fichier : "');
+        Output::print($p_file, Output::COLOR_FORE_GREEN);
+        Output::printLn('" modifié.');
+
+        Project::replace('PROJECT_CREATED', $date, $p_file);
+        Project::replace('PROJECT_AUTHOR', $user, $p_file);
+        Project::replace('PROJECT_NAME', $project, $c_file);
+        Project::replace('PROJECT_AUTHOR', $user, $c_file);
+        Output::print('Fichier : "');
+        Output::print($c_file, Output::COLOR_FORE_GREEN);
+        Output::printLn('" modifié.');
+
+        Output::printLn("Projet initialisé avec succès.");
     }
 
 }

@@ -52,14 +52,15 @@ abstract class File {
      * Vérifie si un fichier existe et est lisible.
      * 
      * @param string $file Le chemin du fichier à vérifier.
-     * @param bool $absolute Si true, le chemin est déjà absolu.
      * @return bool True si le fichier existe et est lisible, false sinon.
      */
-    static function loadable($file, $absolute = false) {
-        if (!$absolute) {
-            $file = Path::absolute($file);
+    static function loadable($file) {
+        $file = realpath($file);
+        if ($file !== false) {
+            return is_readable($file);
+        } else {
+            return false;
         }
-        return is_file($file) || is_readable($file);
     }
     
     
@@ -67,15 +68,45 @@ abstract class File {
      * Charge le contenu d'un fichier.
      * 
      * @param string $file Le chemin du fichier à vérifier.
-     * @param bool $absolute Si true, le chemin est déjà absolu.
-     * @return mixed Le contenu du fichier.
+     * @return mixed|null Le contenu du fichier. Null si le fichier n'existe pas ou n'est pas lisible.
      */
-    static function load($file, $absolute = false) {
-        if (!$absolute) {
-            $file = Path::absolute($file);
+    static function load($file) {
+        if (self::loadable($file)) {
+            return file_get_contents(realpath($file));
+        } else {
+            return null;
         }
-        if (is_file($file) || is_readable($file)) {
-            return file_get_contents($file);
+    }
+
+    
+    /**
+     * Vérifie si un fichier existe et est modifiable.
+     * 
+     * @param string $file Le chemin du fichier à vérifier.
+     * @return bool True si le fichier existe et est modifiable, false sinon.
+     */
+    static function writable($file) {
+        $file = realpath($file);
+        if ($file !== false) {
+            return is_writable($file);
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * Sauvegarde le contenu d'un fichier.
+     * 
+     * @param string $file Le chemin du fichier à vérifier.
+     * @param string $content Le contenu à sauvegarder.
+     * @return bool|null True si le fichier a été créé, false si le fichier existe déjà, null si le fichier n'est pas modifiable.
+     */
+    static function write($file, $content) {
+        if (self::writable($file)) {
+            return file_put_contents(realpath($file), $content);
+        } else {
+            return null;
         }
     }
 
