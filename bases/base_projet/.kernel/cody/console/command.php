@@ -51,6 +51,8 @@ tes [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une classe de test un
 tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
 unit                            Lance les tests unitaires.
 * vs                              Ouvre le projet dans Visual Studio Code.
+init
+schem
 
 * : Argument facultatif.");
     }
@@ -63,18 +65,30 @@ unit                            Lance les tests unitaires.
      * @return void
      */
     static function init($args) {
-        $p_file = Environnement::FILE_PROJECT;
-        $c_file = Environnement::FILE_CONFIGURATION;
+        Output::printLn("Initialisation du projet...");
+
+        $p_file = Project::FILE_PROJECT;
+        $c_file = Project::FILE_CONFIGURATION;
         $project = basename(Environnement::root());
         $version = Program::CODY_VERSION;
         $date = (new \DateTime())->format('Y-m-d H:i:s');
         $user = getenv('username');
-        Environnement::replace('PROJECT_NAME', $project, $p_file);
-        Environnement::replace('PROJECT_VERSION', $version, $p_file);
-        Environnement::replace('PROJECT_CREATED', $date, $p_file);
-        Environnement::replace('PROJECT_AUTHOR', $user, $p_file);
-        Environnement::replace('PROJECT_NAME', $project, $c_file);
-        Environnement::replace('PROJECT_AUTHOR', $user, $c_file);
+
+        Project::replace('PROJECT_NAME', $project, $p_file);
+        Project::replace('PROJECT_VERSION', $version, $p_file);
+        Output::print('Fichier : "');
+        Output::print($p_file, Output::COLOR_FORE_GREEN);
+        Output::print('" modifié.');
+
+        Project::replace('PROJECT_CREATED', $date, $p_file);
+        Project::replace('PROJECT_AUTHOR', $user, $p_file);
+        Project::replace('PROJECT_NAME', $project, $c_file);
+        Project::replace('PROJECT_AUTHOR', $user, $c_file);
+        Output::print('Fichier : "');
+        Output::print($c_file, Output::COLOR_FORE_GREEN);
+        Output::print('" modifié.');
+
+        Output::printLn("Projet initialisé avec succès.");
     }
 
 
@@ -100,9 +114,9 @@ unit                            Lance les tests unitaires.
         };
         $count = 0;
         foreach ($dirs as $dir) {
-            if (Environnement::project($dir)) {
+            if (Project::is($dir)) {
                 $count++;
-                $decode = Environnement::decode(Environnement::FILE_PROJECT, $dir);
+                $decode = Project::decode(Project::FILE_PROJECT, $dir);
                 if ($decode) {
                     $folder = basename($dir);
                     $name = $decode->name ?? '???';
@@ -267,7 +281,6 @@ unit                            Lance les tests unitaires.
     }
 
 
-
     /**
      * Change le dossier courant par celui spécifié. 
      * Ou affiche la liste des fichiers et des dossiers du dossier courant.
@@ -308,7 +321,7 @@ unit                            Lance les tests unitaires.
                 $count += $len + $margin;
                 $output = $base . $space;
                 $color = is_dir($element) ? 
-                    (Environnement::project($element) ?
+                    (Project::is($element) ?
                         Output::COLOR_FORE_MAGENTA : 
                         Output::COLOR_FORE_BLUE) :
                     Output::COLOR_FORE_CYAN;
@@ -323,7 +336,6 @@ unit                            Lance les tests unitaires.
             
         }
     }
-
 
 }
 
