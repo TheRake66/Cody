@@ -98,6 +98,10 @@ abstract class Autoloader {
 
         $relative = '';
         switch ($first) {
+            case 'Cody':
+                $relative = '.kernel/cody/' . $namespace_lower . '/' . $class_lower . '.php';
+                break;
+
             case 'Kernel':
                 $relative = '.kernel/php/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
