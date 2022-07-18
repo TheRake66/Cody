@@ -1,7 +1,8 @@
 <?php
 namespace Cody\Console;
 
-
+use Kernel\Io\Convert\Memory;
+use Kernel\Io\Disk;
 
 /**
  * Librairie gérant les commandes du programme.
@@ -58,6 +59,10 @@ schem
     }
 
 
+    static function api($args) {
+    }
+
+
     /**
      * Initialise un project.
      * 
@@ -78,7 +83,7 @@ schem
         Project::replace('PROJECT_VERSION', $version, $p_file);
         Output::print('Fichier : "');
         Output::print($p_file, Output::COLOR_FORE_GREEN);
-        Output::print('" modifié.');
+        Output::printLn('" modifié.');
 
         Project::replace('PROJECT_CREATED', $date, $p_file);
         Project::replace('PROJECT_AUTHOR', $user, $p_file);
@@ -86,7 +91,7 @@ schem
         Project::replace('PROJECT_AUTHOR', $user, $c_file);
         Output::print('Fichier : "');
         Output::print($c_file, Output::COLOR_FORE_GREEN);
-        Output::print('" modifié.');
+        Output::printLn('" modifié.');
 
         Output::printLn("Projet initialisé avec succès.");
     }
@@ -124,8 +129,9 @@ schem
                     $created = $decode->created ?? null;
                     $created = $created ? date('d/m/Y H:i:s', strtotime($created)) : '???';
                     $author = $decode->author ?? '???';
-                    $nombre = 0;
-                    $taille = 0;
+                    $nombre = 0 ?? '???';
+                    $taille = Disk::size($dir);
+                    $taille = $taille ? Memory::convert($taille) : '???';
 
                     Output::printLn('╔' . $bar . '╗');
                     Output::printLn('║ Projet n°' . $count . $space($count, 13) . ' ║');
