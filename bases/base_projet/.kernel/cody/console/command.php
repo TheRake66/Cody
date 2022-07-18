@@ -56,13 +56,26 @@ unit                            Lance les tests unitaires.
     }
 
 
+    /**
+     * Initialise un project.
+     * 
+     * @param array $args Arguments de la commande.
+     * @return void
+     */
     static function init($args) {
-        Environnement::replace('PROJECT_NAME', basename(Environnement::root()), Environnement::FILE_PROJECT);
-        Environnement::replace('PROJECT_VERSION', Program::CODY_VERSION, Environnement::FILE_PROJECT);
-        Environnement::replace('PROJECT_CREATED', (new \DateTime())->format('Y-m-d H:i:s'), Environnement::FILE_PROJECT);
-        Environnement::replace('PROJECT_AUTHOR',  getenv('username'), Environnement::FILE_PROJECT);
+        $p_file = Environnement::FILE_PROJECT;
+        $c_file = Environnement::FILE_CONFIGURATION;
+        $project = basename(Environnement::root());
+        $version = Program::CODY_VERSION;
+        $date = (new \DateTime())->format('Y-m-d H:i:s');
+        $user = getenv('username');
+        Environnement::replace('PROJECT_NAME', $project, $p_file);
+        Environnement::replace('PROJECT_VERSION', $version, $p_file);
+        Environnement::replace('PROJECT_CREATED', $date, $p_file);
+        Environnement::replace('PROJECT_AUTHOR', $user, $p_file);
+        Environnement::replace('PROJECT_NAME', $project, $c_file);
+        Environnement::replace('PROJECT_AUTHOR', $user, $c_file);
     }
-
 
 
     /**
