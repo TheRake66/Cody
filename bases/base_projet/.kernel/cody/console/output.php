@@ -15,16 +15,6 @@ namespace Cody\Console;
  */
 abstract class Output {
 
-    /**
-     * @var int La largeur maximale de la console.
-     */
-    const MAX_WINDOW_WIDTH = 80;
-
-    /**
-     * @var int La hauteur maximale de la console.
-     */
-    const MAX_WINDOW_HEIGHT = 25;
-
 	/**
      * @var string Les couleurs du terminal.
      */

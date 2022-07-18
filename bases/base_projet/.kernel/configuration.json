@@ -1,4 +1,13 @@
 {
+    "console": {
+        "enable_history": true,
+        "print_logo": true,
+        "max_width": 80,
+        "max_height": 25,
+        "auto_update": true,
+        "php_default_ip": "localhost",
+        "php_default_port": 6600
+    },
     "security": {
         "redirect_to_https": false,
         "self_xss_prevent": false,

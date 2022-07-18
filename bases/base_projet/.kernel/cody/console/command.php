@@ -1,9 +1,10 @@
 <?php
 namespace Cody\Console;
 
-use Cody\Io\Environnement;
-use Kernel\Io\Convert\Memory;
-use Kernel\Io\Disk;
+use Cody\Console\Tool\Explorer;
+use Cody\Console\Tool\Github;
+use Cody\Console\Tool\Php;
+use Cody\Console\Tool\Vscode;
 
 /**
  * Librairie gérant les commandes du programme.
@@ -16,6 +17,21 @@ use Kernel\Io\Disk;
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
 abstract class Command {
+
+    /**
+     * Ouvre le dépôt de Cody dans GitHub.
+     * 
+     * @param array $args Arguments de la commande.
+     * @return void
+     */
+    static function rep($args) {
+        if (empty($args)) {
+            Github::cody();
+        } else {
+            Output::printLn("Erreur : il n'y a pas de paramètre.");
+        }
+    }
+
 
     /**
      * Affiche la liste des commandes disponibles.
@@ -85,7 +101,10 @@ abstract class Command {
      */
     static function bye($args) {
         if (empty($args)) {
-            Server::stop();
+            if (Php::running()) {
+                Php::stop();
+            }
+            Output::clear();
             exit(0);
         } else {
             Output::printLn("Erreur : il n'y a pas de paramètre.");
@@ -116,7 +135,7 @@ abstract class Command {
      */
     static function run($args) {
         if (empty($args)) {
-            Server::run();
+            Php::start();
         } else {
             Output::printLn("Erreur : il n'y a pas de paramètre.");
         }
@@ -131,7 +150,7 @@ abstract class Command {
      */
     static function stop($args) {
         if (empty($args)) {
-            Server::stop();
+            Php::stop();
         } else {
             Output::printLn("Erreur : il n'y a pas de paramètre.");
         }
@@ -146,7 +165,7 @@ abstract class Command {
      */
     static function vs($args) {
         if (empty($args)) {
-            Explorer::vscode();
+            Vscode::open();
         } else {
             Output::printLn("Erreur : il n'y a pas de paramètre.");
         }

@@ -28,7 +28,7 @@ abstract class Disk {
 			foreach ($entries as $entry) {
 				$full = $dir . DIRECTORY_SEPARATOR . $entry;
 				$size = false;
-				if (is_dir($entry)) {
+				if (is_dir($full)) {
 					if (substr($entry, 0, 1) !== '.' || $entry === '.kernel') {
 						$size = self::size($full);
 					}
@@ -59,7 +59,7 @@ abstract class Disk {
 			foreach ($entries as $entry) {
 				$full = $dir . DIRECTORY_SEPARATOR . $entry;
 				$count = false;
-				if (is_dir($entry)) {
+				if (is_dir($full)) {
 					if (substr($entry, 0, 1) !== '.' || $entry === '.kernel') {
 						$count = self::count($full);
 					}

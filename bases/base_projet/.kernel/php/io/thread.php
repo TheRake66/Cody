@@ -1,5 +1,5 @@
 <?php
-namespace Cody\Io;
+namespace Kernel\Io;
 
 
 
@@ -8,7 +8,7 @@ namespace Cody\Io;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Cody\Io
+ * @package Kernel\Io
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

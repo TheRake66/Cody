@@ -1,7 +1,7 @@
 <?php
 namespace Cody\Console;
 
-use Cody\Io\Environnement;
+use Kernel\Io\Environnement;
 use Kernel\Io\Convert\Memory;
 use Kernel\Io\Convert\Number;
 use Kernel\Io\Disk;
@@ -96,10 +96,11 @@ abstract class Project {
      */
     static function list() {
         $path = rtrim(getcwd(), '/') . '/*';
+        $width = Configuration::get()->console->max_width;
         $dirs = glob($path, GLOB_ONLYDIR);
-        $bar = str_repeat('═', Output::MAX_WINDOW_WIDTH - 2);
-        $space = function($text, $sub = 26) {
-            return str_repeat(' ', Output::MAX_WINDOW_WIDTH - $sub - strlen($text));
+        $bar = str_repeat('═', max(1, $width - 2));
+        $space = function($text, $sub = 26) use ($width) {
+            return str_repeat(' ', max(0, $width - $sub - strlen($text)));
         };
         $invalid = function($text, $value, 
             $valid = Output::COLOR_FORE_DEFAULT, 
@@ -121,7 +122,7 @@ abstract class Project {
                     $created = $created ? date('d/m/Y H:i:s', strtotime($created)) : '???';
                     $author = $decode->author ?? '???';
                     $nombre = Disk::count($dir);
-                    $nombre = $nombre ? Number::occident($nombre) : '???';
+                    $nombre = $nombre ? Number::occident($nombre, 0) : '???';
                     $taille = Disk::size($dir);
                     $taille = $taille ? Memory::convert($taille) : '???';
 

@@ -1,20 +1,21 @@
 <?php
-namespace Cody\Console;
+namespace Cody\Console\Tool;
 
-use Cody\Io\Environnement;
-use Cody\Io\Thread;
+use Cody\Console\Output;
+use Kernel\Io\Thread;
+use Kernel\Security\Configuration;
 
 /**
- * Librairie gérant les commandes du programme.
+ * Librairie gérant PHP.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Cody\Console
+ * @package Cody\Console\Tool
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-abstract class Server {
+abstract class Php {
 
     /**
      * @var array Les informations du processus du serveur.
@@ -27,7 +28,7 @@ abstract class Server {
      * 
      * @return bool Si le serveur est lancé.
      */
-    static function has() {
+    static function running() {
         return !is_null(self::$process);
     }
 
@@ -38,13 +39,15 @@ abstract class Server {
      * @return bool|null True si le serveur à été lancé, False sinon. 
      * Null si le serveur est déjà lancé.
      */
-    static function run() {
-        if (!self::has()) {
+    static function start() {
+        if (!self::running()) {
             Output::printLn('Lancement du serveur...');
-            $process = Thread::open('php -S localhost:6600');
+            $conf = Configuration::get()->console;
+            $server = $conf->php_default_ip . ':' . $conf->php_default_port;
+            $process = Thread::open('php -S ' . $server);
             if ($process) {
                 self::$process = $process;
-                Thread::open('start http://localhost:6600/index.php');
+                Thread::open('start http://' . $server . '/index.php');
                 Output::printLn('Serveur lancé !');
             } else {
                 Output::printLn('Erreur lors du lancement du serveur !');
@@ -62,7 +65,7 @@ abstract class Server {
      * Null si le serveur n'est pas déjà lancé.
      */
     static function stop() {
-        if (self::has()) {
+        if (self::running()) {
             Output::printLn('Arrêt du serveur...');
             if (Thread::kill(self::$process)) {
                 self::$process = null;

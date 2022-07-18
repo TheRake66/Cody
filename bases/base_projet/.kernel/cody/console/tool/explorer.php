@@ -1,38 +1,24 @@
 <?php
-namespace Cody\Console;
+namespace Cody\Console\Tool;
 
-use Cody\Io\Environnement;
-use Cody\Io\Thread;
+use Cody\Console\Output;
+use Cody\Console\Project;
+use Kernel\Io\Environnement;
+use Kernel\Io\Thread;
 use Kernel\Communication\Network\Download;
-
-
+use Kernel\Security\Configuration;
 
 /**
  * Librairie gérant l'explorateur de fichiers.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Cody\Console
+ * @package Cody\Console\Tool
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
 abstract class Explorer {
-
-    /**
-     * Ouvre le projet dans Visual Studio Code.
-     * 
-     * @return void
-     */
-    static function vscode() {
-        Output::printLn('Ouverture de Visual Studio Code...'); 
-        if (Thread::open('code .')) {
-            Output::printLn('Ouverture réussie.');
-        } else {
-            Output::printLn('Ouverture échouée.');
-        }
-    }
-
 
     /**
      * Ouvre le dossier courant dans l'explorateur de fichiers.
@@ -108,12 +94,13 @@ abstract class Explorer {
 
             Output::print($output, $color);
 
-            if ($count >= Output::MAX_WINDOW_WIDTH) {
+            if ($count >= Configuration::get()->console->max_width) {
                 Output::break();
                 $count = 0;
             }
         }
     }
+    
 
     /**
      * Télécharge un fichier depuis l'URL spécifiée.
@@ -127,7 +114,7 @@ abstract class Explorer {
         if (Download::get($url, $file)) {
             Output::printLn('Téléchargement réussi !');
         } else {
-            Output::printLn('Téléchargement échoué !');
+            Output::printLn('Téléchargement échoué ! Veuillez vérifier l\'URL.');
         }
     }
     

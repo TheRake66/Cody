@@ -1,7 +1,7 @@
 <?php
 namespace Cody\Console;
 
-
+use Kernel\Security\Configuration;
 
 /**
  * Librairie gérant la boucle principale du programme.
@@ -33,12 +33,21 @@ abstract class Program {
      */
     static function main() {
         cli_set_process_title('(' . self::CODY_VERSION . ') Cody Framework');
-        self::logo();
+        Output::clear();
+        $conf = Configuration::get()->console;
+        if ($conf->print_logo) {
+            self::logo();
+        }
+        if ($conf->auto_update) {
+            //self::logo();
+        }
         while (true) {
             self::prompt();
             $line = readline();
             if ($line !== '') {
-                readline_add_history($line);
+                if ($conf->enable_history) {
+                    readline_add_history($line);
+                }
                 $args = self::parse($line);
                 self::dispatch($args);
             } else {
@@ -76,7 +85,7 @@ abstract class Program {
         $char = str_split($line);
         $quote = false;
         for ($i = 0; $i < count($char); $i++) {
-            if ($char[$i] == '"') {
+            if ($char[$i] == '"' || $char[$i] == "'") {
                 $quote = !$quote;
             }
             if (!$quote && $char[$i] === ' ') {
@@ -113,7 +122,6 @@ abstract class Program {
      * @return void
      */
     static private function logo() {
-        Output::clear();
         Output::print('
                                 ▄▄▄▄▄▄▄                          ▄▄
                               ▄████████▌▐▄                       ██
@@ -172,7 +180,7 @@ new [nom]                       Créer un nouveau projet avec le nom spécifié 
 obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe DTO, classe DAO)
                                 avec le nom spécifié.
 pkg [-t|-l|-s] [*nom]           Télécharge, liste ou supprime un package depuis le dépôt de Cody.
-rep                             Ouvre la dépôt GitHub de Cody.
+* rep                             Ouvre la dépôt GitHub de Cody.
 * run [-f]                        Lance un serveur PHP et ouvre le projet dans le navigateur. Si l'option '-f'
                                 est ajouté, tous les processus PHP seront arrêté, sinon seul le processus
                                 démarrer par Cody sera arrêté.
@@ -181,7 +189,7 @@ tes [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une classe de test un
 tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
 unit                            Lance les tests unitaires.
 * vs                              Ouvre le projet dans Visual Studio Code.
-init
+* init
 schem
 
 * : Argument facultatif.");
