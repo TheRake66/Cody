@@ -21,7 +21,8 @@ use Kernel\Io\Stream;
 abstract class Error {
 
     /**
-     * @var bool Évite l'appel des événements dans l'affichage de l'erreur. Évite les appels en boucle.
+     * @var bool Si le gestionnaire d'erreurs est actuellement affiché.
+     * Évite l'appel des événements dans l'affichage de l'erreur. Évite les appels en boucle.
      */
     private static $showing = false;
 
@@ -32,7 +33,9 @@ abstract class Error {
      * @return void
      */
     static function handler() {
-        if (!self::$showing && Configuration::get()->render->catch_error) {
+        if (self::$showing) return;
+        if (Configuration::get()->render->catch_error) {
+            error_reporting(0);
             set_error_handler(function($severity, $message, $file_name, $lineno) {
                 self::show($severity, $message, $file_name, $lineno);
             });
@@ -48,8 +51,9 @@ abstract class Error {
      * 
      * @return void
      */
-    static function remove() { 
+    static function remove() {
         if (Configuration::get()->render->catch_error) {
+            error_reporting(0);
             set_error_handler(function() { });
             register_shutdown_function(function() { });
         }
