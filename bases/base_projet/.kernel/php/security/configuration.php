@@ -34,19 +34,22 @@ abstract class Configuration {
 	/**
 	 * Charge la configuration.
 	 * 
-	 * @return void
+	 * @return bool True si la configuration a ete chargee, false sinon.
 	 * @throws \Kernel\Debug\Error Si la configuration n'est pas trouvée.
 	 */
 	static function load() {
 		$json = File::load(self::FILE_CONFIGURATION);
 		self::$current = json_decode($json);
-		if (self::$current === null) {
+		if (self::$current !== null) {
+			return true;
+		} else {
             $msg = 'Impossible de charger la configuration !';
             if (Autoloader::exists('Kernel\\Debug\\Error')) {
                 Error::trigger($msg);
             } else {
                 die($msg);
             }
+			return false;
 		}
 	}
 	

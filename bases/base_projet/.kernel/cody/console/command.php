@@ -5,6 +5,7 @@ use Cody\Console\Tool\Explorer;
 use Cody\Console\Tool\Github;
 use Cody\Console\Tool\Php;
 use Cody\Console\Tool\Vscode;
+use Kernel\Security\Configuration;
 
 /**
  * Librairie gérant les commandes du programme.
@@ -25,11 +26,9 @@ abstract class Command {
      * @return void
      */
     static function rep($args) {
-        if (empty($args)) {
+        Argument::empty(function() {
             Github::cody();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        }, $args);
     }
 
 
@@ -40,11 +39,9 @@ abstract class Command {
      * @return void
      */
     static function help($args) {
-        if (empty($args)) {
-            Program::help();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        Argument::empty(function() {
+            Output::help();
+        }, $args);
     }
 
 
@@ -55,11 +52,9 @@ abstract class Command {
      * @return void
      */
     static function init($args) {
-        if (empty($args)) {
+        Argument::empty(function() {
             Project::init();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        }, $args);
     }
 
 
@@ -70,11 +65,9 @@ abstract class Command {
      * @return void
      */
     static function ls($args) {
-        if (empty($args)) {
+        Argument::empty(function() {
             Project::list();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        }, $args);
     }
 
 
@@ -85,11 +78,9 @@ abstract class Command {
      * @return void
      */
     static function dl($args) {
-        if (count($args) === 2) {
+        Argument::count(2, function() use ($args) {
             Explorer::download($args[0], $args[1]);
-        } else {
-            Output::printLn("Erreur : il faut deux arguments : l'URL et le chemin de destination.");
-        }
+        }, $args);
     }
 
 
@@ -100,15 +91,13 @@ abstract class Command {
      * @return void
      */
     static function bye($args) {
-        if (empty($args)) {
+        Argument::empty(function() {
             if (Php::running()) {
                 Php::stop();
             }
             Output::clear();
             exit(0);
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        }, $args);
     }
 
 
@@ -119,11 +108,9 @@ abstract class Command {
      * @return void
      */
     static function cls($args) {
-        if (empty($args)) {
+        Argument::empty(function() {
             Output::clear();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        }, $args);
     }
 
 
@@ -134,11 +121,9 @@ abstract class Command {
      * @return void
      */
     static function run($args) {
-        if (empty($args)) {
+        Argument::empty(function() {
             Php::start();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        }, $args);
     }
 
 
@@ -149,11 +134,9 @@ abstract class Command {
      * @return void
      */
     static function stop($args) {
-        if (empty($args)) {
+        Argument::empty(function() {
             Php::stop();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        }, $args);
     }
 
 
@@ -164,11 +147,9 @@ abstract class Command {
      * @return void
      */
     static function vs($args) {
-        if (empty($args)) {
+        Argument::empty(function() {
             Vscode::open();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        }, $args);
     }
 
 
@@ -179,11 +160,9 @@ abstract class Command {
      * @return void
      */
     static function exp($args) {
-        if (empty($args)) {
+        Argument::empty(function() {
             Explorer::open();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        }, $args);
     }
 
 
@@ -194,11 +173,9 @@ abstract class Command {
      * @return void
      */
     static function root($args) {
-        if (empty($args)) {
+        Argument::empty(function() {
             Explorer::root();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        }, $args);
     }
 
 
@@ -210,13 +187,27 @@ abstract class Command {
      * @return void
      */
     static function cd($args) {
-        if (count($args) === 1) {
-            Explorer::change($args[0]);
-        } elseif (empty($args)) {
-            Explorer::list();
-        } else {
-            Output::printLn("Erreur : il n'y a pas de paramètre.");
-        }
+        Argument::match([
+            0 => function() {
+                Explorer::list();
+            },
+            1 => function() use ($args) {
+                Explorer::change($args[0]);
+            }
+        ], $args);
+    }
+
+
+    /**
+     * Recharge la configuration du framework.
+     * 
+     * @param array $args Arguments de la commande.
+     * @return void
+     */
+    static function conf($args) {
+        Argument::empty(function() {
+            Explorer::reload();
+        }, $args);
     }
 
 }

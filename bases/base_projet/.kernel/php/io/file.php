@@ -16,7 +16,7 @@ namespace Kernel\IO;
 abstract class File {
 
     /**
-     * Inclut de un fichier via un chemin relatif. Si le fichier n'existe pas, une exception est déclenchée.
+     * Inclut un fichier. Si le fichier n'existe pas, une exception est déclenchée.
      * 
      * @param string $file Le chemin du fichier à inclure.
      * @param bool $once Si true, le fichier sera inclus une seule fois.
@@ -24,26 +24,32 @@ abstract class File {
      * @throws Error Si le fichier n'existe pas.
      */
     static function require($file, $once = true) {
+        if (!!strpos($file, ':')) {
+            $file = Path::absolute($file);
+        }
         if ($once) {
-            require_once Path::absolute($file);
+            require_once $file;
         } else {
-            require Path::absolute($file);
+            require $file;
         }
     }
 
 
     /**
-     * Inclut de un fichier via un chemin relatif.
+     * Inclut de un fichier.
      * 
      * @param string $file Le chemin du fichier à inclure.
      * @param bool $once Si true, le fichier sera inclus une seule fois.
      * @return void
      */
     static function include($file, $once = true) {
+        if (!strpos($file, ':')) {
+            $file = Path::absolute($file);
+        }
         if ($once) {
-            include_once Path::absolute($file);
+            include_once $file;
         } else {
-            include Path::absolute($file);
+            include $file;
         }
     }
     
@@ -55,12 +61,10 @@ abstract class File {
      * @return bool True si le fichier existe et est lisible, false sinon.
      */
     static function loadable($file) {
-        $file = realpath($file);
-        if ($file !== false) {
-            return is_readable($file);
-        } else {
-            return false;
+        if (!strpos($file, ':')) {
+            $file = Path::absolute($file);
         }
+        return is_file($file) && is_readable($file);
     }
     
     
@@ -71,8 +75,11 @@ abstract class File {
      * @return mixed|null Le contenu du fichier. Null si le fichier n'existe pas ou n'est pas lisible.
      */
     static function load($file) {
-        if (self::loadable($file)) {
-            return file_get_contents(realpath($file));
+        if (!strpos($file, ':')) {
+            $file = Path::absolute($file);
+        }
+        if (self::loadable($file, true)) {
+            return file_get_contents($file);
         } else {
             return null;
         }
@@ -86,12 +93,10 @@ abstract class File {
      * @return bool True si le fichier existe et est modifiable, false sinon.
      */
     static function writable($file) {
-        $file = realpath($file);
-        if ($file !== false) {
-            return is_writable($file);
-        } else {
-            return false;
+        if (!strpos($file, ':')) {
+            $file = Path::absolute($file);
         }
+        return is_file($file) && is_writable($file);
     }
 
 
@@ -103,8 +108,11 @@ abstract class File {
      * @return bool|null True si le fichier a été créé, false si le fichier existe déjà, null si le fichier n'est pas modifiable.
      */
     static function write($file, $content) {
-        if (self::writable($file)) {
-            return file_put_contents(realpath($file), $content);
+        if (!strpos($file, ':')) {
+            $file = Path::absolute($file);
+        }
+        if (self::writable($file, true)) {
+            return file_put_contents($file, $content);
         } else {
             return null;
         }

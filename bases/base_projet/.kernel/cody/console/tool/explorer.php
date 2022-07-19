@@ -21,6 +21,21 @@ use Kernel\Security\Configuration;
 abstract class Explorer {
 
     /**
+     * Recharge la configuration du framework.
+     * 
+     * @return void
+     */
+    static function reload() {
+        Output::printLn('Rechargement de la configuration...');
+        if (Configuration::load()) {
+            Output::successLn('Configuration rechargée.');
+        } else {
+            Output::errorLn('Impossible de recharger la configuration !');
+        }
+    }
+
+
+    /**
      * Ouvre le dossier courant dans l'explorateur de fichiers.
      * 
      * @return void
@@ -28,6 +43,7 @@ abstract class Explorer {
     static function open() {
         Output::printLn('Ouverture de l\'explorateur de fichiers...');
         Thread::open('start .');
+        Output::successLn('Ouverture réussie.');
     }
 
 
@@ -39,6 +55,7 @@ abstract class Explorer {
     static function root() {
         Output::printLn('Retour au dossier du projet...');
         chdir(Environnement::root());
+        Output::successLn('Retour réussi.');
     }
 
 
@@ -51,8 +68,9 @@ abstract class Explorer {
     static function change($dir) {
         if (is_dir($dir)) {
             chdir($dir);
+            Output::successLn('Dossier changé.');
         } else {
-            Output::printLn('Ce dossier n\'existe pas !');
+            Output::errorLn('Ce dossier n\'existe pas !');
         }
     }
 
@@ -99,6 +117,8 @@ abstract class Explorer {
                 $count = 0;
             }
         }
+        
+        Output::break();
     }
     
 
@@ -112,9 +132,9 @@ abstract class Explorer {
     static function download($url, $file) {
         Output::printLn('Téléchargement du fichier...');
         if (Download::get($url, $file)) {
-            Output::printLn('Téléchargement réussi !');
+            Output::successLn('Téléchargement réussi !');
         } else {
-            Output::printLn('Téléchargement échoué ! Veuillez vérifier l\'URL.');
+            Output::errorLn('Téléchargement échoué ! Veuillez vérifier l\'URL.');
         }
     }
     

@@ -17,6 +17,26 @@ use Kernel\Io\Environnement;
  */
 abstract class Path {
 
+    /**
+     * Change le dossier courant vers un dossier spécifique.
+     * Execute une fonction de callback puis change le dossier courant
+     * vers le dossier initial.
+     * 
+     * @param callable $callback La fonction de callback à exécuter.
+     * @param string|null $dir Le dossier à utiliser. Si null, le dossier du project actuel sera utilisé.
+     * @return mixed La valeur de retour de la fonction de callback.
+     */
+    static function toogle($callback, $dir = null) {
+        if (!$dir) {
+            $dir = Environnement::root();
+        }
+        $cwd = getcwd();
+        chdir($dir);
+        $res = $callback();
+        chdir($cwd);
+        return $res;
+    }
+    
 
     /**
      * Retourne un chemin absolu à partir d'un chemin relatif.
@@ -25,7 +45,7 @@ abstract class Path {
      * @return string Le chemin absolu.
      */
     static function absolute($path = '') {
-        return Environnement::root() . self::relative($path);
+        return Environnement::root() . DIRECTORY_SEPARATOR . $path;
     }
     
     

@@ -26,6 +26,7 @@ abstract class Github {
     static function cody() {
         Output::printLn('Ouverture du dépôt de Cody...');
         Thread::open('start https://github.com/TheRake66/Cody');
+        Output::successLn('Ouverture réussie.');
     }
 
 }

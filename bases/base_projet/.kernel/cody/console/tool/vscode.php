@@ -26,9 +26,9 @@ abstract class Vscode {
     static function open() {
         Output::printLn('Ouverture de Visual Studio Code...'); 
         if (Thread::open('code .')) {
-            Output::printLn('Ouverture réussie.');
+            Output::successLn('Ouverture réussie.');
         } else {
-            Output::printLn('Ouverture échouée.');
+            Output::errorLn('Ouverture échouée.');
         }
     }
     

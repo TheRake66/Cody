@@ -23,10 +23,13 @@ abstract class Project {
     /**
      * Vérifie si un dossier est un dossier de projet.
      * 
-     * @param string $dir Le dossier à vérifier.
+     * @param string|null $dir Le dossier à vérifier. Si null, le dossier courant est utilisé.
      * @return boolean True si le dossier est un dossier de projet, false sinon.
      */
-    static function is($dir) {
+    static function is($dir = null) {
+        if (is_null($dir))  {
+            $dir = getcwd();
+        }
         return File::loadable($dir . DIRECTORY_SEPARATOR . Item::FILE_PROJECT);
     }
 
@@ -121,10 +124,12 @@ abstract class Project {
                     $created = $decode->created ?? null;
                     $created = $created ? date('d/m/Y H:i:s', strtotime($created)) : '???';
                     $author = $decode->author ?? '???';
-                    $nombre = Disk::count($dir);
-                    $nombre = $nombre ? Number::occident($nombre, 0) : '???';
-                    $taille = Disk::size($dir);
-                    $taille = $taille ? Memory::convert($taille) : '???';
+                    $nombre = Disk::count($dir, true, '.kernel');
+                    $nombre = !is_null($nombre) ? 
+                        Number::occident($nombre, 0) : '???';
+                    $taille = Disk::size($dir, true, '.kernel');
+                    $taille = !is_null($taille) ? 
+                        Memory::convert($taille) : '???';
 
                     Output::printLn('╔' . $bar . '╗');
                     Output::printLn('║ Projet n°' . $count . $space($count, 13) . ' ║');
@@ -142,7 +147,7 @@ abstract class Project {
         }
         if ($count > 0) {
             Output::print('Listage terminé. Il y a ');
-            Output::print($count, Output::COLOR_FORE_GREEN);
+            Output::print($count, Output::COLOR_FORE_CYAN);
             Output::printLn(' projet(s) dans le dossier courant.');
             Output::printLn('Les dossiers commençant par "." ont été ignorés pour les calculs. (Sauf le dossier .kernel)');
         } else {
@@ -169,7 +174,7 @@ abstract class Project {
         Project::replace('PROJECT_NAME', $project, $p_file);
         Project::replace('PROJECT_VERSION', $version, $p_file);
         Output::print('Fichier : "');
-        Output::print($p_file, Output::COLOR_FORE_GREEN);
+        Output::print($p_file, Output::COLOR_FORE_CYAN);
         Output::printLn('" modifié.');
 
         Project::replace('PROJECT_CREATED', $date, $p_file);
@@ -177,10 +182,10 @@ abstract class Project {
         Project::replace('PROJECT_NAME', $project, $c_file);
         Project::replace('PROJECT_AUTHOR', $user, $c_file);
         Output::print('Fichier : "');
-        Output::print($c_file, Output::COLOR_FORE_GREEN);
+        Output::print($c_file, Output::COLOR_FORE_CYAN);
         Output::printLn('" modifié.');
 
-        Output::printLn("Projet initialisé avec succès.");
+        Output::successLn("Projet initialisé avec succès.");
     }
 
 }
