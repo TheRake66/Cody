@@ -5,7 +5,6 @@ use Cody\Console\Tool\Explorer;
 use Cody\Console\Tool\Github;
 use Cody\Console\Tool\Php;
 use Cody\Console\Tool\Vscode;
-use Kernel\Security\Configuration;
 
 /**
  * Librairie gérant les commandes du programme.

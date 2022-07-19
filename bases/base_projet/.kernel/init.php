@@ -8,7 +8,7 @@ use Kernel as k;
 k\Io\Autoloader::register();
 
 // Charge la configuration.
-k\Security\Configuration::load();
+k\Environnement\Configuration::load();
 
 // Prépare l'écouteur d'événement des erreurs.
 k\Debug\Error::handler();
@@ -20,7 +20,7 @@ k\Io\Stream::reset();
 k\Security\Ssl::enable();
 
 // Défini le fuseau horraire par défaut.
-k\Io\Convert\Date::timezone();
+k\Environnement\System::timezone();
 
 // Démarre une session.
 k\Session\Socket::start();

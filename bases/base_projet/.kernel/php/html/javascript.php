@@ -3,7 +3,7 @@ namespace Kernel\Html;
 
 use Kernel\Html\Import;
 use Kernel\Io\Path;
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
 
 /**
  * Librairie gérant la communication avec Javascript.

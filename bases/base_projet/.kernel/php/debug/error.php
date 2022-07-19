@@ -2,7 +2,7 @@
 namespace Kernel\Debug;
 
 use Exception;
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
 use Kernel\Io\Path;
 use Kernel\Io\Stream;
 

@@ -1,10 +1,6 @@
 <?php
 namespace Cody\Console;
 
-use Cody\Console\Tool\Explorer;
-use Cody\Console\Tool\Github;
-use Cody\Console\Tool\Php;
-use Cody\Console\Tool\Vscode;
 
 /**
  * Librairie gérant les arguments de commandes.

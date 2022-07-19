@@ -1,5 +1,5 @@
 <?php
-namespace Kernel\Security;
+namespace Kernel\Environnement;
 
 use Kernel\Debug\Error;
 use Kernel\Io\Autoloader;
@@ -13,7 +13,7 @@ use Kernel\Io\Path;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\Framework
+ * @package Kernel\System
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)

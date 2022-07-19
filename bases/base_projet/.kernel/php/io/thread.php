@@ -47,6 +47,21 @@ abstract class Thread {
         }
     }
 
+
+    /**
+     * Calcul le temps d'exécution d'une fonction.
+     * 
+     * @param string $function La fonction à mesurer.
+     * @return float Le temps d'exécution en millisecondes.
+     */
+    static function elapsed($callback) {
+        $started = microtime(true);
+        $callback();
+        $ended = microtime(true);
+        $time = round(($ended - $started) * 1000);
+        return $time;
+    }
+
 }
 
 ?>

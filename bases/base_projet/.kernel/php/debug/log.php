@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\Debug;
 
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
 use Kernel\Io\Convert\Number;
 use Kernel\Communication\Network;
 use Kernel\Communication\Network\Client;

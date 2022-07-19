@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\Html;
 
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
 use Kernel\Debug\Log;
 use Kernel\Io\Path;
 

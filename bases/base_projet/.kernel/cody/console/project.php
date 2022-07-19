@@ -1,12 +1,14 @@
 <?php
 namespace Cody\Console;
 
-use Kernel\Io\Environnement;
 use Kernel\Io\Convert\Memory;
 use Kernel\Io\Convert\Number;
 use Kernel\Io\Disk;
 use Kernel\IO\File;
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
+use Kernel\Environnement\System;
+
+
 
 /**
  * Librairie gérant les projets du framework.
@@ -43,7 +45,7 @@ abstract class Project {
      */
     static function decode($file, $dir = null) {
         if ($dir === null) {
-            $dir = Environnement::root();
+            $dir = System::root();
         }
         $file = $dir . DIRECTORY_SEPARATOR . $file;
         if ($json = File::load($file)) {
@@ -64,7 +66,7 @@ abstract class Project {
      */
     static function encode($data, $file, $dir = null) {
         if ($dir === null) {
-            $dir = Environnement::root();
+            $dir = System::root();
         }
         $file = $dir . DIRECTORY_SEPARATOR . $file;
         return File::write($file, json_encode($data, JSON_PRETTY_PRINT));
@@ -82,7 +84,7 @@ abstract class Project {
      */
     static function replace($key, $data, $file, $dir = null) {
         if ($dir === null) {
-            $dir = Environnement::root();
+            $dir = System::root();
         }
         $file = $dir . DIRECTORY_SEPARATOR . $file;
         $key = '{' . strtoupper($key) . '}';
@@ -166,7 +168,7 @@ abstract class Project {
 
         $p_file = Item::FILE_PROJECT;
         $c_file = Configuration::FILE_CONFIGURATION;
-        $project = basename(Environnement::root());
+        $project = basename(System::root());
         $version = Program::CODY_VERSION;
         $date = (new \DateTime())->format('Y-m-d H:i:s');
         $user = getenv('username');

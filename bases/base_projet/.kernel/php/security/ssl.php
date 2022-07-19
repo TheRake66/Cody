@@ -2,7 +2,7 @@
 namespace Kernel\Security;
 
 use Kernel\Debug\Log;
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
 use Kernel\Url\Location;
 
 

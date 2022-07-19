@@ -1,7 +1,7 @@
 <?php
 namespace Cody\Console;
 
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
 
 /**
  * Librairie gérant la boucle principale du programme.

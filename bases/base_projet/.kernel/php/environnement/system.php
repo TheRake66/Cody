@@ -1,19 +1,20 @@
 <?php
-namespace Kernel\Io;
+namespace Kernel\Environnement;
 
-
+use Kernel\Debug\Log;
+use Kernel\Environnement\Configuration;
 
 /**
  * Librairie gérant l'environnement du programme.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\Io
+ * @package Kernel\System
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-abstract class Environnement {
+abstract class System {
 
     /**
      * @var string Les différents types d'environnement.
@@ -41,6 +42,21 @@ abstract class Environnement {
      */
     static function root() {
         return dirname(dirname(dirname(__DIR__)));
+    }
+
+
+    /**
+     * Définit ou le fuseau horraire.
+     * 
+     * @param string $zone Le fuseau horraire.
+     * @return void
+     */
+    static function timezone($zone = null) {
+        if (is_null($zone)) {
+            $zone = Configuration::get()->region->timezone;
+        }
+        date_default_timezone_set($zone);
+        Log::add('Fuseau horaire défini sur "' . $zone . '".');
     }
 
 }

@@ -5,7 +5,7 @@ use Kernel\Debug\Log;
 use Kernel\Io\Autoloader;
 use Kernel\Io\Convert\Encoded;
 use Kernel\Io\Stream;
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
 use Kernel\Url\Parser;
 use Kernel\Url\Router;
 

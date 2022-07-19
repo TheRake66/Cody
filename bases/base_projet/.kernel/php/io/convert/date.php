@@ -2,7 +2,7 @@
 namespace Kernel\Io\Convert;
 
 use Kernel\Debug\Log;
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
 
 
 /**
@@ -16,36 +16,34 @@ use Kernel\Security\Configuration;
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
 abstract class Date {
-
+    
     /**
-     * Définit ou le fuseau horraire.
+     * Convertit un nombre flottant en heures.
      * 
-     * @param string $zone Le fuseau horraire.
-     * @return void
+     * @example Date::unfloat(7.5); => "7h30"
+     * @param float $float Le nombre flottant à convertir.
+     * @return string L'horraire en heures et minutes.
      */
-    static function timezone($zone = null) {
-        if (is_null($zone)) {
-            $zone = Configuration::get()->region->timezone;
-        }
-        date_default_timezone_set($zone);
-        Log::add('Fuseau horaire défini sur "' . $zone . '".');
-    }
-
-
-    /**
-     * Calcul le temps d'exécution d'une fonction.
-     * 
-     * @param string $function La fonction à mesurer.
-     * @return float Le temps d'exécution en millisecondes.
-     */
-    static function elapsed($callback) {
-        $started = microtime(true);
-        $callback();
-        $ended = microtime(true);
-        $time = round(($ended - $started) * 1000);
-        return $time;
+    static function unfloat($float) {
+        $hours = floor($float);
+        $minutes = floor(($float - $hours) * 60);
+        return $hours . 'h' . $minutes;
     }
     
+    
+    /**
+     * Convertit une horraire en nombre flottant.
+     * 
+     * @example Date::float("7h30"); => 7.5
+     * @param string $string L'horraire à convertir.
+     * @return float Le nombre flottant correspondant à l'horraire.
+     */
+    static function float($string) {
+        $hours = substr($string, 0, strpos($string, 'h'));
+        $minutes = substr($string, strpos($string, 'h') + 1);
+        return $hours + $minutes / 60;
+    }
+
 }
 
 ?>

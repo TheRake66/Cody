@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\Database;
 
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
 use Kernel\Database\Factory\Reflection;
 use Kernel\Debug\Log;
 

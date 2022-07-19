@@ -9,7 +9,7 @@ use Cody as c;
 k\Io\Autoloader::register();
 
 // Charge la configuration.
-k\Security\Configuration::load();
+k\Environnement\Configuration::load();
 
 // Supprime l'écouteur d'événement des erreurs.
 k\Debug\Error::remove();

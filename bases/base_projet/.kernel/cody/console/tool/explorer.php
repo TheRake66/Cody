@@ -3,10 +3,10 @@ namespace Cody\Console\Tool;
 
 use Cody\Console\Output;
 use Cody\Console\Project;
-use Kernel\Io\Environnement;
 use Kernel\Io\Thread;
 use Kernel\Communication\Network\Download;
-use Kernel\Security\Configuration;
+use Kernel\Environnement\Configuration;
+use Kernel\Environnement\System;
 
 /**
  * Librairie gérant l'explorateur de fichiers.
@@ -54,7 +54,7 @@ abstract class Explorer {
      */
     static function root() {
         Output::printLn('Retour au dossier du projet...');
-        chdir(Environnement::root());
+        chdir(System::root());
         Output::successLn('Retour réussi.');
     }
 
