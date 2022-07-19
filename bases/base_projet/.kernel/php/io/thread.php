@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\Io;
 
-
+use Kernel\Environnement\System;
 
 /**
  * Librairie gérant les fils d'exécution.
@@ -39,7 +39,7 @@ abstract class Thread {
      * @return boolean True si le processus a été terminé, false sinon.
      */
     static function kill($process) {
-        if (Environnement::os() === Environnement::OS_WINDOWS) {
+        if (System::os() === System::OS_WINDOWS) {
             $status = proc_get_status($process);
             return exec('taskkill /F /T /PID ' . $status['pid']) !== '';
         } else {

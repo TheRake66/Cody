@@ -20,6 +20,7 @@ abstract class Program {
      */
     const CODY_VERSION = "8.21.65.0";
 
+    
     /**
      * @var string Date de la dernière mise à jour du framework.
      */

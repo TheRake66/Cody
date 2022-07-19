@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\Io;
 
-
+use Kernel\Environnement\System;
 
 /**
  * Librairie de gestion des disques.
@@ -14,6 +14,27 @@ namespace Kernel\Io;
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
 abstract class Disk {
+
+    /**
+     * Change le dossier courant vers un dossier spécifique.
+     * Execute une fonction de callback puis change le dossier courant
+     * vers le dossier initial.
+     * 
+     * @param callable $callback La fonction de callback à exécuter.
+     * @param string|null $dir Le dossier à utiliser. Si null, le dossier du project actuel sera utilisé.
+     * @return mixed La valeur de retour de la fonction de callback.
+     */
+    static function toogle($callback, $dir = null) {
+        if (!$dir) {
+            $dir = System::root();
+        }
+        $cwd = getcwd();
+        chdir($dir);
+        $res = $callback();
+        chdir($cwd);
+        return $res;
+    }
+
 
 	/**
 	 * Calcul la taille d'un répertoire et ses sous-répertoires.

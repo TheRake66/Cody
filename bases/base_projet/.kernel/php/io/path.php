@@ -1,7 +1,7 @@
 <?php
 namespace Kernel\IO;
 
-use Kernel\Io\Environnement;
+use Kernel\Environnement\System;
 
 
 
@@ -18,23 +18,25 @@ use Kernel\Io\Environnement;
 abstract class Path {
 
     /**
-     * Change le dossier courant vers un dossier spécifique.
-     * Execute une fonction de callback puis change le dossier courant
-     * vers le dossier initial.
+     * Remplace les différents séparateurs de chemin par celui défini dans le système.
      * 
-     * @param callable $callback La fonction de callback à exécuter.
-     * @param string|null $dir Le dossier à utiliser. Si null, le dossier du project actuel sera utilisé.
-     * @return mixed La valeur de retour de la fonction de callback.
+     * @param string $path Le chemin à convertir.
+     * @return string Le chemin converti.
      */
-    static function toogle($callback, $dir = null) {
-        if (!$dir) {
-            $dir = Environnement::root();
-        }
-        $cwd = getcwd();
-        chdir($dir);
-        $res = $callback();
-        chdir($cwd);
-        return $res;
+    static function separator($path) {
+        return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+    }
+
+
+    /**
+     * Concatène un chemin avec un autre.
+     * 
+     * @param string $path1 Le premier chemin.
+     * @param string $path2 Le deuxième chemin.
+     * @return string Le chemin concaténé.
+     */
+    static function concat($path1, $path2) {
+        return $path1 . DIRECTORY_SEPARATOR . $path2;
     }
     
 
@@ -45,7 +47,7 @@ abstract class Path {
      * @return string Le chemin absolu.
      */
     static function absolute($path = '') {
-        return Environnement::root() . DIRECTORY_SEPARATOR . $path;
+        return System::root() . DIRECTORY_SEPARATOR . $path;
     }
     
     

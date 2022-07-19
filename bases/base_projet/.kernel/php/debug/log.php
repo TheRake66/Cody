@@ -47,6 +47,42 @@ abstract class Log {
      * @var int L'identifiant unique de la session de log.
      */
     private static $uuid;
+    
+
+    /**
+     * @var bool Si le journal de log est activé ou non.
+     */
+    private static $enabled = false;
+
+
+    /**
+     * Active le journal de log.
+     * 
+     * @return void
+     */
+    static function enable() {
+        self::$enabled = true;
+    }
+
+
+    /**
+     * Désactive le journal de log.
+     * 
+     * @return void
+     */
+    static function disable() {
+        self::$enabled = false;
+    }
+
+
+    /**
+     * Retourne si le journal de log est activé ou non.
+     * 
+     * @return bool Si le journal de log est activé ou non.
+     */
+    static function enabled() {
+        return self::$enabled;
+    }
 
 
     /**
@@ -76,7 +112,8 @@ abstract class Log {
         $conf = Configuration::get()->log;
         $confq = $conf->query;
 
-        if ($conf->use_log_file &&
+        if (self::$enabled &&
+            $conf->use_log_file &&
             ($type !== self::TYPE_QUERY || $confq->print_query) &&
             ($type !== self::TYPE_QUERY_PARAMETERS || $confq->print_parameters) &&
             ($type !== self::TYPE_QUERY_RESULTS || $confq->print_results) &&

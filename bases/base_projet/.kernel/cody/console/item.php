@@ -1,7 +1,8 @@
 <?php
 namespace Cody\Console;
 
-
+use Kernel\Environnement\System;
+use Kernel\IO\File;
 
 /**
  * Librairie gérant les objets du framework.
@@ -18,7 +19,69 @@ abstract class Item {
     /**
      * @var string Le nom du fichier d'information d'un projet.
      */
-    const FILE_PROJECT = 'project.json';
+    const FILE_PROJECT = 'project.json';    
+
+
+    /**
+     * Décode un fichier d'informations.
+     * 
+     * @param string $file Le fichier d'informations.
+     * @param string|null $dir Le dossier du projet. Si null, le dossier du project actuel sera utilisé.
+     * @return object|bool|null Les informations du projet, null si le fichier n'existe pas.
+     */
+    static function decode($file, $dir = null) {
+        if ($dir === null) {
+            $dir = System::root();
+        }
+        $file = $dir . DIRECTORY_SEPARATOR . $file;
+        if ($json = File::load($file)) {
+            return (object)json_decode($json, true);
+        } else {
+            return false;
+        }
+    }
+    
+
+    /**
+     * Encode un fichier d'informations.
+     * 
+     * @param array|object $data Les informations du projet.
+     * @param string $file Le fichier d'informations.
+     * @param string|null $dir Le dossier du projet. Si null, le dossier du project actuel sera utilisé.
+     * @return int|boolean Taille du fichier, false si le fichier n'a pas pu être créé.
+     */
+    static function encode($data, $file, $dir = null) {
+        if ($dir === null) {
+            $dir = System::root();
+        }
+        $file = $dir . DIRECTORY_SEPARATOR . $file;
+        return File::write($file, json_encode($data, JSON_PRETTY_PRINT));
+    }
+
+
+    /**
+     * Remplace une variable dans un fichier.
+     * 
+     * @param string $key La variable à remplacer.
+     * @param string $data La valeur à remplacer.
+     * @param string $file Le fichier à modifier.
+     * @param string|null $dir Le dossier du projet. Si null, le dossier du project actuel sera utilisé.
+     * @return int|boolean Taille du fichier, false si le fichier n'a pas pu être créé.
+     */
+    static function replace($key, $data, $file, $dir = null) {
+        if ($dir === null) {
+            $dir = System::root();
+        }
+        $file = $dir . DIRECTORY_SEPARATOR . $file;
+        $key = '{' . strtoupper($key) . '}';
+        $content = File::load($file);
+        $content = str_replace($key, $data, $content);
+        return File::write($file, $content);
+    }
+
+
+
+    
 
 
     static function exists($type, $name) {
@@ -35,6 +98,7 @@ abstract class Item {
     static function delete($type, $name) {
 
     }
+
 }
 
 ?>

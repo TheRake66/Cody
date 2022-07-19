@@ -35,7 +35,6 @@ abstract class Output {
     const COLOR_FORE_LIGHT_MAGENTA = "\033[95m";
     const COLOR_FORE_LIGHT_CYAN = "\033[96m";
     const COLOR_FORE_WHITE = "\033[97m";
-    
     const COLOR_BACKGROUND_DEFAULT = "\033[49m";
     const COLOR_BACKGROUND_BLACK = "\033[40m";
     const COLOR_BACKGROUND_RED = "\033[41m";
