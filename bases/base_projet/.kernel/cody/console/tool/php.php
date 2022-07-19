@@ -49,9 +49,7 @@ abstract class Php {
 
         if (!self::running()) {
             Output::printLn('Lancement du serveur...');
-            $process = Path::toogle(function() use ($server) {
-                return Thread::open('php -S ' . $server);
-            });
+            $process = Thread::open('php -S "' . $server . '" -t "' . Environnement::root() . '"');
             if ($process) sleep(4);
             if ($process && proc_get_status($process)['running']) {
                 self::$process = $process;
