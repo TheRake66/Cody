@@ -6,7 +6,7 @@ import Thread from '../io/thread.js';
 
 
 /**
- * Librairie gérant le rendu des composants.
+ * Librairie gérant le montage des composants.
  * 
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -14,7 +14,7 @@ import Thread from '../io/thread.js';
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-export default class Render {
+export default class Mount {
 
     /**
 	 * Monte un composant dans le script. Charge la balise principale du composant
