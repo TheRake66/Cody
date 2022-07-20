@@ -24,7 +24,7 @@ abstract class File {
      * @throws Error Si le fichier n'existe pas.
      */
     static function require($file, $once = true) {
-        if (!!strpos($file, ':')) {
+        if (!strpos($file, ':')) {
             $file = Path::absolute($file);
         }
         if ($once) {

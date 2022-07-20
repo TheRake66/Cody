@@ -2,6 +2,7 @@
 namespace Kernel\IO;
 
 use Kernel\Debug\Error;
+use Kernel\Html\Attribute;
 use Kernel\Html\Builder;
 use Kernel\Html\Import;
 use Kernel\Html\Javascript;
@@ -74,7 +75,9 @@ abstract class Render {
             // Pour que le extract fonctionne
             $absolute = Path::absolute($vue);
             $uuid = uniqid();
-            Output::add('<component data-uuid="'.$uuid.'">');
+            $data = Attribute::set('data-uuid', $uuid);
+            $style = Attribute::style('display', 'inherit');
+            Output::add('<component ' . $data . ' ' . $style .'>');
             require($absolute);
             Output::add(Less::import($style));
             Output::add(Javascript::import($script, 'module', $varname, $class, $uuid));

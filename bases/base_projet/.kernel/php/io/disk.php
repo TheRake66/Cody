@@ -44,7 +44,7 @@ abstract class Disk {
 	 * @param array|string $except Le ou les noms des répertoires à ignorer.
 	 * @return int|null La taille du répertoire. Null si le répertoire n'existe pas.
 	 */
-	static function size($dir, $dot = true, $except = []) {
+	static function size($dir, $dot = false, $except = []) {
 		if (is_dir($dir)) {
 			if (!is_array($except)) {
 				$except = [$except];
@@ -81,7 +81,7 @@ abstract class Disk {
 	 * @param array|string $except Le ou les noms des répertoires à ignorer.
 	 * @return int|null La taille du répertoire. Null si le répertoire n'existe pas.
 	 */
-	static function count($dir, $dot = true, $except = []) {
+	static function count($dir, $dot = false, $except = []) {
 		if (is_dir($dir)) {
 			if (!is_array($except)) {
 				$except = [$except];

@@ -111,16 +111,19 @@ abstract class Attribute {
     /**
      * Ajoute un ou des styles
      * 
-     * @param string|array Le/les style(s) (attribut => valeur).
+     * @param string|array $style Le/les style(s) (attribut => valeur).
+     * @param string $value La valeur du style si le style est in string.
      * @return string Le ou les attributs HTML.
      */
-    static function style($style) {
+    static function style($style, $value = null) {
         if (is_array($style)) {
             $_ = '';
             foreach ($style as $s => $v) {
                 $_ .= $s . ':' . $v . ';';
             }
             $style = $_;
+        } elseif (!is_null($value)) {
+            $style = $style . ': ' . $value . ';';   
         }
         return self::set('style', $style);
     }
