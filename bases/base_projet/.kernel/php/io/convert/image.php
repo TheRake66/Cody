@@ -79,7 +79,7 @@ abstract class Image {
      * @return string La balise SVG.
      */
     static function svg($file) {
-        return File::load(Path::img($file . '.svg'));
+        return File::load('/assets/img/' . $file . '.svg');
     }
 
 
