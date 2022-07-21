@@ -38,9 +38,19 @@ abstract class Command {
      * @return void
      */
     static function help($args) {
-        Argument::empty(function() {
-            Output::help();
-        }, $args);
+        Argument::match([
+            0 => function() {
+                Output::help();
+            },
+            1 => function() use ($args) {
+                $command = $args[0];
+                if (method_exists(Helper::class, $command)) {
+                    Helper::$command();
+                } else {
+                    Output::help();
+                }
+            }
+        ], $args);
     }
 
 

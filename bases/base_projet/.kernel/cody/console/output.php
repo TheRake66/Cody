@@ -16,8 +16,23 @@ namespace Cody\Console;
 abstract class Output {
 
 	/**
-     * @var string Les couleurs du terminal.
+     * @var string Les couleurs et les styles du terminal.
      */
+    const STYLE_BOLD = "\033[1m";
+    const STYLE_DIM = "\033[2m";
+    const STYLE_UNDERLINE = "\033[4m";
+    const STYLE_BLINK = "\033[5m";
+    const STYLE_REVERSE = "\033[7m";
+    const STYLE_HIDDEN = "\033[8m";
+
+    const STYLE_RESET_ALL = "\033[0m";
+    const STYLE_RESET_BOLD = "\033[21m";
+    const STYLE_RESET_DIM = "\033[22m";
+    const STYLE_RESET_UNDERLINE = "\033[24m";
+    const STYLE_RESET_BLINK = "\033[25m";
+    const STYLE_RESET_REVERSE = "\033[27m";
+    const STYLE_RESET_HIDDEN = "\033[28m";
+
     const COLOR_FORE_DEFAULT = "\033[39m";
     const COLOR_FORE_BLACK = "\033[30m";
     const COLOR_FORE_RED = "\033[31m";
@@ -34,6 +49,7 @@ abstract class Output {
     const COLOR_FORE_LIGHT_BLUE = "\033[94m";
     const COLOR_FORE_LIGHT_MAGENTA = "\033[95m";
     const COLOR_FORE_LIGHT_CYAN = "\033[96m";
+
     const COLOR_FORE_WHITE = "\033[97m";
     const COLOR_BACKGROUND_DEFAULT = "\033[49m";
     const COLOR_BACKGROUND_BLACK = "\033[40m";
@@ -60,10 +76,15 @@ abstract class Output {
      * @param string $text Le texte à afficher.
      * @param string $fore La couleur du texte.
      * @param string $background La couleur de l'arrière-plan.
+     * @param string $style Les styles du texte.
      * @return void
      */
-    static function print($text, $fore = self::COLOR_FORE_DEFAULT, $background = self::COLOR_BACKGROUND_DEFAULT) {
-        echo($fore.$background.$text.self::COLOR_FORE_DEFAULT.self::COLOR_BACKGROUND_DEFAULT);
+    static function print(
+            $text, 
+            $fore = self::COLOR_FORE_DEFAULT, 
+            $background = self::COLOR_BACKGROUND_DEFAULT, 
+            $style = self::STYLE_RESET_ALL) {
+        echo($style.$fore.$background.$text.self::STYLE_RESET_ALL.self::COLOR_FORE_DEFAULT.self::COLOR_BACKGROUND_DEFAULT);
     }
 
 
@@ -73,10 +94,15 @@ abstract class Output {
      * @param string $text Le texte à afficher.
      * @param string $fore La couleur du texte.
      * @param string $background La couleur de l'arrière-plan.
+     * @param string $style Les styles du texte.
      * @return void
      */
-    static function printLn($text, $fore = self::COLOR_FORE_DEFAULT, $background = self::COLOR_BACKGROUND_DEFAULT) {
-        self::print($text, $fore, $background);
+    static function printLn(
+        $text, 
+        $fore = self::COLOR_FORE_DEFAULT, 
+        $background = self::COLOR_BACKGROUND_DEFAULT, 
+        $style = self::STYLE_RESET_ALL) {
+        self::print($text, $fore, $background, $style);
         self::break();
     }
 
@@ -166,6 +192,34 @@ abstract class Output {
         echo(PHP_EOL);
     }
 
+
+    /**
+     * Affiche un fichier.
+     * 
+     * @param string $file Le fichier.
+     * @param string $text Le texte 
+     * @return void
+     */
+    static function file($file, $text) {
+        Output::print('Fichier: "');
+        Output::print($file, Output::COLOR_FORE_CYAN);
+        Output::printLn('" ' . $text . '.');
+    }
+
+
+    /**
+     * Affiche un dossier.
+     * 
+     * @param string $dir Le dossier.
+     * @param string $text Le texte 
+     * @return void
+     */
+    static function dir($dir, $text) {
+        Output::print('Dossier: "');
+        Output::print($dir, Output::COLOR_FORE_MAGENTA);
+        Output::printLn('" ' . $text . '.');
+    }
+
     
     /**
      * Affiche la ligne de commande.
@@ -231,41 +285,75 @@ Utilisez la commande "help" pour voir la liste des commandes.
      */
     static function help() {
         Output::printLn(
-"* help                            Affiche la liste des commandes disponible.
+"help [*commande]               Affiche la liste des commandes disponible.
 api [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un module d'API avec le nom spécifié.
 build                           Construit le projet, minifie et compile les fichiers. Nécessite npm.
-* cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
+bye                             Quitte Cody en fermant le serveur PHP si il y en a un.
+cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
                                 du dossier courant.
-* cls                             Nettoie la console.
+cls                             Nettoie la console.
 com [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un composant (controleur, vue, style,
                                 script) avec le nom spécifié.
-* bye                             Quitte Cody en fermant le serveur PHP si il y en a un.
-* dl [url] [chemin]               Télécharge un fichier avec l'URL spécifiée.
-* exp                             Ouvre le projet dans l'explorateur de fichiers.
+conf                            Recharge la configuration de Cody.
+dl [url] [chemin]               Télécharge un fichier avec l'URL spécifiée.
+exp                             Ouvre le projet dans l'explorateur de fichiers.
+init                            Initialise le projet avec les variables d'environnement.
 lib [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une librairie (PHP, LESS, et JavaScript).
                                 avec le nom spécifié.
-* ls                              Affiche la liste des projets.
+ls                              Affiche la liste des projets.
 maj                             Vérifie les mises à jour disponibles.
-new [nom]                       Créer un nouveau projet avec le nom spécifié puis défini le dossier courant.
 obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe DTO, classe DAO)
                                 avec le nom spécifié.
 pkg [-t|-l|-s] [*nom]           Télécharge, liste ou supprime un package depuis le dépôt de Cody.
-* rep                             Ouvre la dépôt GitHub de Cody.
-* run [-f]                        Lance un serveur PHP et ouvre le projet dans le navigateur. Si l'option '-f'
+rep                             Ouvre la dépôt GitHub de Cody.
+run [-f]                        Lance un serveur PHP et ouvre le projet dans le navigateur. Si l'option '-f'
                                 est ajouté, tous les processus PHP seront arrêté, sinon seul le processus
                                 démarrer par Cody sera arrêté.
-* stop [-f]                       Arrête le serveur PHP. L'option '-f' arrête tous les processus PHP.
+schem [nom]                     Créer tous les objets d'une base de données.
+stop [-f]                       Arrête le serveur PHP. L'option '-f' arrête tous les processus PHP.
 tes [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une classe de test unitaire.
 tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
 unit                            Lance les tests unitaires.
-* vs                              Ouvre le projet dans Visual Studio Code.
-* init
-schem
-conf
+vs                              Ouvre le projet dans Visual Studio Code.
 
 * : Argument facultatif.");
     }
 
+
+    /**
+     * Affiche les détails d'une commande.
+     * 
+     * @param string $usage L'usage de la commande.
+     * @param array $options Les options de la commande. [ 'argument' => 'description', ... ]
+     * @param array $exemple Les exemples d'utilisation de la commande.
+     * @return void
+     */
+    static function usage($usage, $options = null, $exemple = null) {
+        self::printLn('Description:', Output::COLOR_FORE_YELLOW, Output::COLOR_BACKGROUND_DEFAULT, Output::STYLE_UNDERLINE);
+        self::printLn('    ' . $usage);
+        if ($options) {
+            self::break();
+            self::printLn('Options:', Output::COLOR_FORE_YELLOW, Output::COLOR_BACKGROUND_DEFAULT, Output::STYLE_UNDERLINE);
+            $longest = 0;
+            foreach ($options as $arg => [ $desc, $needed ]) {
+                $arg = $arg . ($needed ? '' : ' (optionnel)');
+                if (strlen($arg) > $longest) {
+                    $longest = strlen($arg);
+                }
+            }
+            foreach ($options as $arg => [ $desc, $needed ]) {
+                $arg = $arg . ($needed ? '' : ' (optionnel)');
+                self::print('    ' . $arg . str_repeat(' ', $longest - strlen($arg)), Output::COLOR_FORE_GREEN);
+                self::printLn('  ' . $desc);
+            }
+        }
+        if ($exemple) {
+            self::break();
+            self::printLn('Exemple:', Output::COLOR_FORE_YELLOW, Output::COLOR_BACKGROUND_DEFAULT, Output::STYLE_UNDERLINE);
+            self::printLn('    ' . $exemple);
+        }
+    }
+    
 }
 
 ?>
