@@ -110,13 +110,36 @@ abstract class Router {
 	 * @return void
 	 */
 	static function add($route, $class, $method = self::METHOD_GET) {
-		if (!is_array($class)) {
-			$class = [ $class ];
+		if (!self::exists($route)) {
+			if (!is_array($class)) {
+				$class = [ $class ];
+			}
+			if (!is_array($method)) {
+				$method = [ $method ];
+			}
+			self::$routes[$route] = [ $class, $method ];
+		} else {
+			Error::trigger('La route "' . $route . '" existe déjà !');
 		}
-		if (!is_array($method)) {
-			$method = [ $method ];
+	}
+
+
+	/**
+	 * Copie le contenu d'une route vers une nouvelle.
+	 * 
+	 * @param string $origin La route à copier.
+	 * @param string $to La route à créer.
+	 * @return void
+	 * @throws Error Si la route à copier n'existe pas ou que la route à créer existe déjà.
+	 */
+	static function copy($origin, $to) {
+		if (!self::exists($origin)) {
+			Error::trigger('La route d\'origine "' . $origin . '" n\'existe pas, impossible de la copier !');
+		} elseif (self::exists($to)) {
+			Error::trigger('La route de destination "' . $to . '" existe déjà, impossible de la copier sans l\'écraser !');
+		} else {
+			self::$routes[$to] = self::$routes[$origin];
 		}
-		self::$routes[$route] = [ $class, $method ];
 	}
 
 
