@@ -247,7 +247,7 @@ abstract class Router {
 						if (substr($word_route, 0, 1) === '{' &&
 							substr($word_route, -1) === '}') {
 							$params[substr($word_route, 1, -1)] = $word_asked;
-						} elseif ($word_route != $word_asked) {
+						} elseif ($word_route !== $word_asked) {
 							$match = false;
 						}
 					}
@@ -270,7 +270,7 @@ abstract class Router {
 	static function app() {
 		$class = self::class();
 		Log::add('Routage (url : "' . Parser::current() . '")...', Log::LEVEL_PROGRESS);
-		if (Autoloader::typeof($class) === 'Controller') {
+		if (Autoloader::typeof($class) === Autoloader::TYPE_CONTROLLER) {
 			Log::add('Contrôleur identifié : "' . $class . '".');
 			new $class();
 			Log::add('Routage fait.', Log::LEVEL_GOOD);

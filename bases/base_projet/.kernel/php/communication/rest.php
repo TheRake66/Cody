@@ -1,6 +1,7 @@
 <?php
 namespace Kernel\Communication;
 
+use Kernel\Debug\Error;
 use Kernel\Debug\Log;
 use Kernel\Io\Autoloader;
 use Kernel\Io\Convert\Encoded;
@@ -36,7 +37,7 @@ abstract class Rest {
 	static function check() {
 		$class = Router::class();
 		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
-		if (Autoloader::typeof($class) === 'Api') {
+		if (Autoloader::typeof($class) === Autoloader::TYPE_API) {
 			Log::add('Appel API identifié : "' . $class . '".');
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
@@ -147,6 +148,25 @@ abstract class Rest {
 				$object->$name;
 		} else {
 			$this->send(null, 1, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
+		}
+	}
+
+
+	/**
+	 * Génère un composant pour l'envoyer.
+	 * 
+	 * @param string $class La class du composant.
+	 * @param array $args Les paramètres du composant.
+	 * @return string Le composant généré.
+	 */
+	protected function generate($class, $args = []) {
+		if (Autoloader::typeof($class) === Autoloader::TYPE_CONTROLLER) {
+			return Stream::toogle(function() use ($class, $args) {
+				(new \ReflectionClass($class))
+					->newInstanceArgs($args);
+			});
+		} else {
+			Error::trigger('La classe "' . $class . '" n\'est pas un composant !');
 		}
 	}
 	

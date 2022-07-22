@@ -117,5 +117,20 @@ abstract class Stream {
 			ob_end_flush();
 		}
 	}
+
+
+	/**
+	 * Retourne le flux généré par une fonction.
+	 * 
+	 * @param function $callback La fonction à exécuter.
+	 * @return string Le flux généré.
+	 */
+	static function toogle($callback) {
+        self::start();
+        $callback();
+        $stream = self::get();
+        self::destroy();
+		return $stream;
+	}
 	
 }
