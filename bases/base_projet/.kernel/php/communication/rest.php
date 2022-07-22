@@ -161,7 +161,7 @@ abstract class Rest {
 	 */
 	protected function generate($class, $args = []) {
 		if (Autoloader::typeof($class) === Autoloader::TYPE_CONTROLLER) {
-			return Stream::toogle(function() use ($class, $args) {
+			return Stream::record(function() use ($class, $args) {
 				if (is_array($args)) {
 					(new \ReflectionClass($class))
 						->newInstanceArgs($args);

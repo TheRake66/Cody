@@ -120,12 +120,12 @@ abstract class Stream {
 
 
 	/**
-	 * Retourne le flux généré par une fonction.
+	 * Enregistre et retourne le flux généré par une fonction.
 	 * 
 	 * @param function $callback La fonction à exécuter.
 	 * @return string Le flux généré.
 	 */
-	static function toogle($callback) {
+	static function record($callback) {
         self::start();
         $callback();
         $stream = self::get();
