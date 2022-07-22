@@ -35,13 +35,13 @@ abstract class Rest {
 	 * @return void
 	 */
 	static function check() {
-		$class = Router::class();
+		$entry = Router::entry();
 		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
-		if (Autoloader::typeof($class) === Autoloader::TYPE_API) {
-			Log::add('Appel API identifié : "' . $class . '".');
+		if (Autoloader::typeof($entry) === Autoloader::TYPE_API) {
+			Log::add('Appel API identifié : "' . $entry . '".');
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
-			$object = new $class();
+			$object = new $entry();
 			$object->started = microtime(true);
 			$method = $_SERVER['REQUEST_METHOD'];
 			$methods = Router::methods();
@@ -156,14 +156,18 @@ abstract class Rest {
 	 * Génère un composant pour l'envoyer.
 	 * 
 	 * @param string $class La class du composant.
-	 * @param array $args Les paramètres du composant.
+	 * @param array|mixed $args La ou les paramètres du composant.
 	 * @return string Le composant généré.
 	 */
 	protected function generate($class, $args = []) {
 		if (Autoloader::typeof($class) === Autoloader::TYPE_CONTROLLER) {
 			return Stream::toogle(function() use ($class, $args) {
-				(new \ReflectionClass($class))
-					->newInstanceArgs($args);
+				if (is_array($args)) {
+					(new \ReflectionClass($class))
+						->newInstanceArgs($args);
+				} else {
+					new $class($args);
+				}
 			});
 		} else {
 			Error::trigger('La classe "' . $class . '" n\'est pas un composant !');

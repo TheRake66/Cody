@@ -140,8 +140,21 @@ abstract class Supervisor {
                 <pre class="SUPERVISOR_LEVEL_' . $l[1] . '">' . htmlspecialchars($l[0], ENT_IGNORE) . '</pre>';
             }
 
+
+            $sequence = Router::sequence();
+            $path = '';
+            $count = count($sequence);
+            if ($count > 1) {
+				for ($i=1; $i < $count; $i++) { 
+                    $path .= 'Nº "' . $i . ' -> "' . $sequence[$i] . '"<br>';
+				}
+                $path = substr($path, 0, -4);
+            } else {
+                $path = 'Aucun';
+            }
             
-            echo '
+            
+            echo('
             <SUPERVISOR_CODY_PANEL id="SUPERVISOR_CODY_PANEL">
                 <img src="' . Path::relative('.kernel/cody/logo.svg') . '" alt="Logo">
                 <div>
@@ -155,7 +168,8 @@ abstract class Supervisor {
                     <div>
                         <span><b>Session</b><pre>' . $session . '</pre></span>
                         <span><b>Route</b><pre>' . Router::current() . '</pre></span>
-                        <span><b>Composant</b><pre>' . Router::class() . '</pre></span>
+                        <span><b>Point d\'entrée</b><pre>' . Router::entry() . '</pre></span>
+                        <span><b>Enchaînement</b><pre>' . $path . '</pre></span>
                         <span><b>Version de PHP</b><pre>' . phpversion() . '</pre></span>
                         <span><b>Version de Cody</b><pre>' . Program::CODY_VERSION . '</pre></span>
                     </div>
@@ -166,12 +180,10 @@ abstract class Supervisor {
                 </span>
             </SUPERVISOR_CODY_PANEL>
             <script>
-                async function SUPERVISOR_CODY_CONSOLE_SCROLLTOEND() {
-                    await new Promise(r => setTimeout(r, 500));
+                setTimeout(() => {
                     var con = document.getElementById("SUPERVISOR_CODY_CONSOLE");
                     con.scrollTop = con.scrollHeight;
-                }
-                SUPERVISOR_CODY_CONSOLE_SCROLLTOEND();
+                }, 500);
             </script>
             <style>
             #SUPERVISOR_CODY_PANEL *::-webkit-scrollbar {
@@ -360,7 +372,7 @@ abstract class Supervisor {
                 color: #b8127b !important;
             }
             </style>
-            ';
+            ');
         }
     }
     

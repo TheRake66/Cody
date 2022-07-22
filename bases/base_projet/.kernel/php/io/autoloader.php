@@ -27,6 +27,7 @@ abstract class Autoloader {
     const TYPE_TEST = 'Test';
     const TYPE_TRAIT = 'Reflect';
     const TYPE_KERNEL = 'Kernel';
+    const TYPE_CODY = 'Cody';
     
 
     /**
@@ -110,27 +111,27 @@ abstract class Autoloader {
 
         $relative = '';
         switch ($first) {
-            case 'Cody':
+            case self::TYPE_CODY:
                 $relative = '.kernel/cody/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
-            case 'Kernel':
+            case self::TYPE_KERNEL:
                 $relative = '.kernel/php/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
-            case 'Library':
+            case self::TYPE_LIBRAIRY:
                 $relative = 'debug/lib/php/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
-            case 'Controller':
+            case self::TYPE_CONTROLLER:
                 $relative = 'debug/app/' . $namespace_lower . '/' . $class_lower . '/' . $class_lower . '.php';
                 break;
 
-            case 'Model':
+            case self::TYPE_MODEL:
                 $relative = 'debug/data/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
-            case 'Api':
+            case self::TYPE_API:
                 $relative = 'debug/api/' . $namespace_lower . '/' . $class_lower . '.php';
                 break;
 
