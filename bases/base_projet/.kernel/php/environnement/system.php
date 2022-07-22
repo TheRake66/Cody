@@ -9,7 +9,7 @@ use Kernel\Environnement\Configuration;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
- * @package Kernel\System
+ * @package Kernel\Environnement
  * @category Framework source
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
