@@ -291,7 +291,7 @@ build                           Construit le projet, minifie et compile les fich
 bye                             Quitte Cody en fermant le serveur PHP si il y en a un.
 cd [*chemin]                    Change le dossier courant ou affiche la liste des fichiers et des dossiers
                                 du dossier courant.
-cls                             Nettoie la console.
+cls                             Efface le contenu de la console.
 com [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un composant (controleur, vue, style,
                                 script) avec le nom spécifié.
 conf                            Recharge la configuration de Cody.
@@ -304,13 +304,12 @@ ls                              Affiche la liste des projets.
 maj                             Vérifie les mises à jour disponibles.
 obj [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un objet (classe DTO, classe DAO)
                                 avec le nom spécifié.
-pkg [-t|-l|-s] [*nom]           Télécharge, liste ou supprime un package depuis le dépôt de Cody.
+pkg [-t|-l|-s] [*modifié]       Télécharge, liste ou supprime un package depuis le dépôt passé en
+                                paramètre.
 rep                             Ouvre la dépôt GitHub de Cody.
-run [-f]                        Lance un serveur PHP et ouvre le projet dans le navigateur. Si l'option '-f'
-                                est ajouté, tous les processus PHP seront arrêté, sinon seul le processus
-                                démarrer par Cody sera arrêté.
+run                             Lance un serveur PHP et ouvre le projet dans le navigateur.
 schem [nom]                     Créer tous les objets d'une base de données.
-stop [-f]                       Arrête le serveur PHP. L'option '-f' arrête tous les processus PHP.
+stop                            Arrête le serveur PHP.
 tes [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime une classe de test unitaire.
 tra [-s|-a|-l] [*nom]           Ajoute, liste, ou supprime un trait.
 unit                            Lance les tests unitaires.

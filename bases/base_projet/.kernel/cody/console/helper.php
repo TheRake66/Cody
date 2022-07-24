@@ -16,7 +16,7 @@ namespace Cody\Console;
 abstract class Helper {
 
     /**
-     * Ouvre le dépôt de Cody dans GitHub.
+     * Aide de la commande "rep".
      * 
      * @return void
      */
@@ -30,7 +30,7 @@ abstract class Helper {
 
 
     /**
-     * Affiche la liste des commandes disponibles.
+     * Aide de la commande "help".
      * 
      * @return void
      */
@@ -48,7 +48,7 @@ abstract class Helper {
 
 
     /**
-     * Initialise un project.
+     * Aide de la commande "init".
      * 
      * @return void
      */
@@ -62,7 +62,7 @@ abstract class Helper {
 
 
     /**
-     * Liste les projets du dossier courant.
+     * Aide de la commande "ls".
      * 
      * @return void
      */
@@ -76,13 +76,13 @@ abstract class Helper {
 
 
     /**
-     * Télécharge un fichier depuis l'URL spécifiée.
+     * Aide de la commande "dl".
      * 
      * @return void
      */
     static function dl() {
         Output::usage(
-            'Télécharge un fichier avec l\'URL spécifiée.', [
+            'Télécharge un fichier avec l\'URL et le chemin spécifié.', [
                 'url' => [ 
                     'L\'URL du fichier à télécharger.' , 
                     true 
@@ -98,86 +98,122 @@ abstract class Helper {
 
 
     /**
-     * Quitte Cody en fermant le serveur PHP si il y en a un.
+     * Aide de la commande "bye".
      * 
      * @return void
      */
     static function bye() {
+        Output::usage('Quitte Cody en fermant le serveur PHP si il y en a un.');
     }
 
 
     /**
-     * Nettoie la console.
+     * Aide de la commande "cls".
      * 
      * @return void
      */
     static function cls() {
+        Output::usage('Efface le contenu de la console.');
     }
 
 
     /**
-     * Lance le serveur PHP et ouvre le projet dans le navigateur.
+     * Aide de la commande "run".
      * 
      * @return void
      */
     static function run() {
+        Output::usage(
+            'Lance un serveur PHP et ouvre le projet dans le navigateur.',
+            null,
+            'La commande "run" utilise les paramètres de la section "console" du fichier ".kernel/configuration.json" pour lancer le serveur PHP.'
+        );
     }
 
 
     /**
-     * Ferme le serveur PHP.
+     * Aide de la commande "stop".
      * 
      * @return void
      */
     static function stop() {
+        Output::usage('Ferme le serveur PHP.');
     }
 
 
     /**
-     * Ouvre le dossier courant dans Visual Studio Code.
+     * Aide de la commande "vs".
      * 
      * @return void
      */
     static function vs() {
+        Output::usage(
+            'Ouvre le dossier du projet dans Visual Studio Code.', 
+            null,
+            'La commande "vs" va ouvrir le dossier du projet dans Visual Studio Code.'
+        );
     }
 
 
     /**
-     * Ouvre le dossier courant dans l'explorateur de fichiers.
+     * Aide de la commande "exp".
      * 
      * @return void
      */
     static function exp() {
+        Output::usage(
+            'Ouvre le dossier du projet dans l\'explorateur de fichiers.', 
+            null,
+            'La commande "exp" va ouvrir le dossier du projet dans l\'explorateur de fichiers.'
+        );
     }
 
 
     /**
-     * Change le dossier courant par celui du projet.
+     * Aide de la commande "root".
      * 
      * @return void
      */
     static function root() {
+        Output::usage(
+            'Change le dossier courant par celui du projet.', 
+            null,
+            'La commande "root" va changer le dossier courant par le dossier du projet.'
+        );
     }
 
 
     /**
-     * Change le dossier courant par celui spécifié. 
-     * Ou affiche la liste des fichiers et des dossiers du dossier courant.
+     * Aide de la commande "cd".
      * 
      * @return void
      */
     static function cd() {
+        Output::usage(
+            'Change le dossier courant par celui spécifié.', [
+                'chemin' => [ 
+                    'Le chemin du dossier à aller.' ,
+                    false 
+                ]
+            ],
+            'La commande "cd .." va changer le dossier courant par le dossier parent.
+La commande "cd" va afficher la liste des fichiers et des dossiers du dossier courant. En bleu, les dossiers. En cyan, les fichiers. En magenta, les dossier qui sont des projets Cody.'
+        );
     }
 
 
     /**
-     * Recharge la configuration du framework.
+     * Aide de la commande "conf".
      * 
      * @return void
      */
     static function conf() {
+        Output::usage(
+            'Recharge la configuration du framework.', 
+            null,
+            'La commande "conf" va recharger la configuration du framework, cela permet de mettre à jour les comme les paramètres du serveur, ou la taille de la console.'
+        );
     }
-
 
 }
 

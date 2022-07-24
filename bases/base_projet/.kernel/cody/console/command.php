@@ -7,7 +7,7 @@ use Cody\Console\Tool\Php;
 use Cody\Console\Tool\Vscode;
 
 /**
- * Librairie gérant les commandes du programme.
+ * Librairie gérant les nombres d'arguments des commandes.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -19,7 +19,7 @@ use Cody\Console\Tool\Vscode;
 abstract class Command {
 
     /**
-     * Ouvre le dépôt de Cody dans GitHub.
+     * Dispatcher de la commande "rep".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -32,7 +32,7 @@ abstract class Command {
 
 
     /**
-     * Affiche la liste des commandes disponibles.
+     * Dispatcher de la commande "help".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -55,7 +55,7 @@ abstract class Command {
 
 
     /**
-     * Initialise un project.
+     * Dispatcher de la commande "init".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -68,7 +68,7 @@ abstract class Command {
 
 
     /**
-     * Liste les projets du dossier courant.
+     * Dispatcher de la commande "ls".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -81,7 +81,7 @@ abstract class Command {
 
 
     /**
-     * Télécharge un fichier depuis l'URL spécifiée.
+     * Dispatcher de la commande "dl".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -94,7 +94,7 @@ abstract class Command {
 
 
     /**
-     * Quitte Cody en fermant le serveur PHP si il y en a un.
+     * Dispatcher de la commande "bye".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -111,7 +111,7 @@ abstract class Command {
 
 
     /**
-     * Nettoie la console.
+     * Dispatcher de la commande "cls".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -124,7 +124,7 @@ abstract class Command {
 
 
     /**
-     * Lance le serveur PHP et ouvre le projet dans le navigateur.
+     * Dispatcher de la commande "run".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -137,7 +137,7 @@ abstract class Command {
 
 
     /**
-     * Ferme le serveur PHP.
+     * Dispatcher de la commande "stop".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -150,7 +150,7 @@ abstract class Command {
 
 
     /**
-     * Ouvre le dossier courant dans Visual Studio Code.
+     * Dispatcher de la commande "vs".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -163,7 +163,7 @@ abstract class Command {
 
 
     /**
-     * Ouvre le dossier courant dans l'explorateur de fichiers.
+     * Dispatcher de la commande "exp".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -176,7 +176,7 @@ abstract class Command {
 
 
     /**
-     * Change le dossier courant par celui du projet.
+     * Dispatcher de la commande "php".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -189,8 +189,7 @@ abstract class Command {
 
 
     /**
-     * Change le dossier courant par celui spécifié. 
-     * Ou affiche la liste des fichiers et des dossiers du dossier courant.
+     * Dispatcher de la commande "cd".
      * 
      * @param array $args Arguments de la commande.
      * @return void
@@ -208,7 +207,7 @@ abstract class Command {
 
 
     /**
-     * Recharge la configuration du framework.
+     * Dispatcher de la commande "conf".
      * 
      * @param array $args Arguments de la commande.
      * @return void

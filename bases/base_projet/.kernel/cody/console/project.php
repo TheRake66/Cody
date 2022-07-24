@@ -101,7 +101,7 @@ abstract class Project {
 
 
     /**
-     * Initialise un project.
+     * Initialise le projet.
      * 
      * @return void
      */
@@ -117,17 +117,13 @@ abstract class Project {
 
         Item::replace('PROJECT_NAME', $project, $p_file);
         Item::replace('PROJECT_VERSION', $version, $p_file);
-        Output::print('Fichier : "');
-        Output::print($p_file, Output::COLOR_FORE_CYAN);
-        Output::printLn('" modifié.');
+        Output::file($p_file, 'modifié');
 
         Item::replace('PROJECT_CREATED', $date, $p_file);
         Item::replace('PROJECT_AUTHOR', $user, $p_file);
         Item::replace('PROJECT_NAME', $project, $c_file);
         Item::replace('PROJECT_AUTHOR', $user, $c_file);
-        Output::print('Fichier : "');
-        Output::print($c_file, Output::COLOR_FORE_CYAN);
-        Output::printLn('" modifié.');
+        Output::file($c_file, 'modifié');
 
         Output::successLn("Projet initialisé avec succès.");
     }

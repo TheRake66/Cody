@@ -4,7 +4,7 @@ namespace Cody\Console;
 use Kernel\Environnement\Configuration;
 
 /**
- * Librairie gérant la boucle principale du programme.
+ * Librairie gérant la boucle principale de la console.
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0
@@ -18,7 +18,7 @@ abstract class Program {
     /**
      * @var string Version du framework.
      */
-    const CODY_VERSION = "8.21.65.0";
+    const CODY_VERSION = "8.0.0.0";
 
     
     /**

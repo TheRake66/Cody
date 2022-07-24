@@ -40,13 +40,13 @@ abstract class Statement {
      * @throws Error Si la connexion à la base de données échoue.
      */
     private static function connect($conf) {
-        Log::add('Connexion à la base de données "' . $conf->name . '"...', Log::LEVEL_PROGRESS);
+        Log::add('Connexion à la base de données "' . $conf->dsn_name . '"...', Log::LEVEL_PROGRESS);
         $pdo = null;
-        $dsn = $conf->type . 
-            ':host=' . $conf->host . 
-            ';port=' . $conf->port . 
-            ';dbname=' . $conf->name . 
-            ';charset=' . $conf->encoding;
+        $dsn = $conf->dsn_type . 
+            ':host=' . $conf->dsn_host . 
+            ';port=' . $conf->dsn_port . 
+            ';dbname=' . $conf->dsn_name . 
+            ';charset=' . $conf->dsn_encoding;
         $options = [
             PDO::ATTR_PERSISTENT => $conf->persistent_mode,
             PDO::ATTR_EMULATE_PREPARES => $conf->emulate_prepare,
@@ -55,9 +55,9 @@ abstract class Statement {
                     PDO::ERRMODE_SILENT
         ];
         try {
-            $pdo = new PDO($dsn, $conf->login, $conf->password, $options);
+            $pdo = new PDO($dsn, $conf->dsn_login, $conf->dsn_password, $options);
         } catch (\Exception $e) {
-            Error::trigger('Impossible de se connecter à la base de données "' . $conf->name . '".', $e);
+            Error::trigger('Impossible de se connecter à la base de données "' . $conf->dsn_name . '".', $e);
         }
         Log::add('Connexion réussite.', Log::LEVEL_GOOD);
         return $pdo;
@@ -74,14 +74,14 @@ abstract class Statement {
         $conf = Configuration::get()->database;
         if (!is_null(self::$current)) {
             foreach ($conf->databases_list as $database) {
-                if ($database->name == self::$current) {
+                if ($database->dsn_name == self::$current) {
                     return $database;
                 }
             }
             Error::trigger('Aucune configuration pour la base de données "' . self::$current . '" !');
         } else {
             foreach ($conf->databases_list as $database) {
-                if ($database->name == $conf->default_database) {
+                if ($database->dsn_name == $conf->default_database) {
                     return $database;
                 }
             }
@@ -112,7 +112,7 @@ abstract class Statement {
                 return self::$instances[self::$current];
             } else {
                 foreach ($conf->databases_list as $database) {
-                    self::$instances[$database->name] = self::connect($database);
+                    self::$instances[$database->dsn_name] = self::connect($database);
                 } 
                 if (array_key_exists(self::$current, self::$instances)) {
                     return self::$instances[self::$current];

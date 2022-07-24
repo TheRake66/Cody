@@ -31,23 +31,23 @@ abstract class Doctype {
         $conf_render = Configuration::get()->render;
         $conf_region = Configuration::get()->region;
 
-        $meta_charset = Builder::create('meta', [ 'charset' => $conf_head->charset ]);
-        $meta_description = Builder::create('meta', [ 'name' => 'description', 'content' => $conf_head->description ]);
-        $meta_keywords = Builder::create('meta', [ 'name' => 'keywords', 'content' => $conf_head->keywords ]);
+        $meta_charset = Builder::create('meta', [ 'charset' => $conf_head->meta_charset ]);
+        $meta_description = Builder::create('meta', [ 'name' => 'description', 'content' => $conf_head->meta_description ]);
+        $meta_keywords = Builder::create('meta', [ 'name' => 'keywords', 'content' => $conf_head->meta_keywords ]);
         $meta_viewport = Builder::create('meta', [ 'name' => 'viewport', 'content' => $conf_head->viewport ]);
-        $meta_robots = Builder::create('meta', [ 'name' => 'robots', 'content' => $conf_head->robots ]);
-        $meta_author = Builder::create('meta', [ 'name' => 'author', 'content' => $conf_head->author ]);
-        $meta_theme_color = Builder::create('meta', [ 'name' => 'theme-color', 'content' => $conf_head->theme_color ]);
-        $meta_theme_color_apple = Builder::create('meta', [ 'name' => 'apple-mobile-web-app-status-bar-style', 'content' => $conf_head->theme_color ]);
-        $meta_theme_color_ms = Builder::create('meta', [ 'name' => 'msapplication-navbutton-color', 'content' => $conf_head->theme_color ]);
+        $meta_robots = Builder::create('meta', [ 'name' => 'robots', 'content' => $conf_head->meta_robots ]);
+        $meta_author = Builder::create('meta', [ 'name' => 'author', 'content' => $conf_head->meta_author ]);
+        $meta_theme_color = Builder::create('meta', [ 'name' => 'theme-color', 'content' => $conf_head->meta_theme_color ]);
+        $meta_theme_color_apple = Builder::create('meta', [ 'name' => 'apple-mobile-web-app-status-bar-style', 'content' => $conf_head->meta_theme_color ]);
+        $meta_theme_color_ms = Builder::create('meta', [ 'name' => 'msapplication-navbutton-color', 'content' => $conf_head->meta_theme_color ]);
 
-        $equiv_cache_control = Builder::create('meta', [ 'http-equiv' => 'Cache-control', 'content' => $conf_head->cache_control ]);
-        $equiv_pragma = Builder::create('meta', [ 'http-equiv' => 'Pragma', 'content' => $conf_head->pragma ]);
-        $equiv_cache = Builder::create('meta', [ 'http-equiv' => 'Cache', 'content' => $conf_head->cache ]);
-        $equiv_expires = Builder::create('meta', [ 'http-equiv' => 'Expires', 'content' => $conf_head->expires ]);
+        $equiv_cache_control = Builder::create('meta', [ 'http-equiv' => 'Cache-control', 'content' => $conf_head->equiv_cache_control ]);
+        $equiv_pragma = Builder::create('meta', [ 'http-equiv' => 'Pragma', 'content' => $conf_head->equiv_pragma ]);
+        $equiv_cache = Builder::create('meta', [ 'http-equiv' => 'Cache', 'content' => $conf_head->equiv_cache ]);
+        $equiv_expires = Builder::create('meta', [ 'http-equiv' => 'Expires', 'content' => $conf_head->equiv_expires ]);
         
-        $title = Builder::create('title', null, $conf_head->title);
-        $link_favicon = Builder::create('link', [ 'rel' => 'icon', 'href' => Path::relative($conf_head->favicon) ]);
+        $title = Builder::create('title', null, $conf_head->tag_title);
+        $link_favicon = Builder::create('link', [ 'rel' => 'icon', 'href' => Path::relative($conf_head->link_favicon) ]);
         
         $head = Builder::create('head', null, [
             $meta_charset,
