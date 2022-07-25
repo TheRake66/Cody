@@ -2,7 +2,7 @@
 namespace Kernel\Debug;
 
 use Cody\Console\Program;
-use Kernel\Environnement\Configuration;
+use Kernel\Security\Configuration;;
 use Kernel\Io\Path;
 use Kernel\Url\Router;
 use Kernel\Url\Parser;
@@ -171,7 +171,6 @@ abstract class Supervisor {
                         <span><b>Point d\'entrée</b><pre>' . Router::entry() . '</pre></span>
                         <span><b>Enchaînement</b><pre>' . $path . '</pre></span>
                         <span><b>Version de PHP</b><pre>' . phpversion() . '</pre></span>
-                        <span><b>Version de Cody</b><pre>' . Program::CODY_VERSION . '</pre></span>
                     </div>
                     ' . $array . '
                 </div>
