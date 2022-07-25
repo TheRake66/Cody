@@ -343,33 +343,50 @@ abstract class Router {
     /**
      * Appel le contrôleur du composant suivant.
 	 * 
+	 * @param bool $return Indique si on doit incrémenter l'index de la séquence
+	 * et instancier le composant suivant. Ou si on doit uniquement la class du composant suivant.
 	 * @return void
      */
-	static function next() {
+	static function next($return = false) {
 		$sequence = self::sequence();
-		if (self::$index < count($sequence) - 1) {
-			self::$index++;
+		$index = self::$index;
+		if ($index < count($sequence) - 1) {
+			$index++;
 		}
-		$class = $sequence[self::$index];
-		Log::add('Enchaînement suivant vers : "' . $class . '"...', Log::LEVEL_PROGRESS);
-		new $class();
-		Log::add('Enchaînement fait.', Log::LEVEL_GOOD);
+		$class = $sequence[$index];
+		if ($return) {
+			return $class;
+		} else {
+			self::$index = $index;
+			Log::add('Enchaînement suivant vers : "' . $class . '"...', Log::LEVEL_PROGRESS);
+			new $class();
+			Log::add('Enchaînement fait.', Log::LEVEL_GOOD);
+		}
 	}
 
 
     /**
      * Appel le contrôleur du composant précédent.
 	 * 
+	 * @param bool $return Indique si on doit incrémenter l'index de la séquence
+	 * et instancier le composant précédent. Ou si on doit uniquement la class du composant précédent.
 	 * @return void
      */
-	static function previous() {
-		if (self::$index > 0) {
-			self::$index--;
+	static function previous($return = false) {
+		$sequence = self::sequence();
+		$index = self::$index;
+		if ($index > 0) {
+			$index--;
 		}
-		$class = self::sequence()[self::$index];
-		Log::add('Enchaînement précédent vers : "' . $class . '"...', Log::LEVEL_PROGRESS);
-		new $class();
-		Log::add('Enchaînement fait.', Log::LEVEL_GOOD);
+		$class = $sequence[$index];
+		if ($return) {
+			return $class;
+		} else {
+			self::$index = $index;
+			Log::add('Enchaînement précédent vers : "' . $class . '"...', Log::LEVEL_PROGRESS);
+			new $class();
+			Log::add('Enchaînement fait.', Log::LEVEL_GOOD);
+		}
 	}
 
 }
