@@ -35,7 +35,7 @@ abstract class Rest {
 	 * @return void
 	 */
 	static function check() {
-		$class = Router::class();
+		$class = Router::entry();
 		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
 		if (Autoloader::typeof($class) === Autoloader::TYPE_API) {
 			Log::add('Appel API identifié : "' . $class . '".');
@@ -68,7 +68,7 @@ abstract class Rest {
 					$object->$function($route, $query, $body);
 					$object->send();
 				} else {
-					$object->send(null,1, 'La méthode d\'API "' . $function . '" n\'existe pas dans la ressource !', 500);
+					$object->send(null, 1, 'La méthode d\'API "' . $function . '" n\'existe pas dans la ressource !', 500);
 				}
 			} else {
 				$object->send(null, 1, 'La méthode "' . $method . '" n\'est pas supportée par cette ressource !', 405);
