@@ -125,20 +125,27 @@ abstract class Router {
 
 
 	/**
-	 * Copie le contenu d'une route vers une nouvelle.
+	 * Copie les détails d'une route vers une ou plusieurs autres routes.
 	 * 
-	 * @param string $origin La route à copier.
-	 * @param string $to La route à créer.
+	 * @param string $source La route à copier.
+	 * @param array|string $destination La ou les routes à créer.
 	 * @return void
-	 * @throws Error Si la route à copier n'existe pas ou que la route à créer existe déjà.
+	 * @throws Error Si la route source n'existe pas. Ou qu'une des routes de destination existe déjà.
 	 */
-	static function copy($origin, $to) {
-		if (!self::exists($origin)) {
-			Error::trigger('La route d\'origine "' . $origin . '" n\'existe pas, impossible de la copier !');
-		} elseif (self::exists($to)) {
-			Error::trigger('La route de destination "' . $to . '" existe déjà, impossible de la copier sans l\'écraser !');
+	static function copy($source, $destination) {
+		if (self::exists($source)) {
+			if (!is_array($destination)) {
+				$destination = [ $destination ];
+			}
+			foreach ($destination as $dest) {
+				if (!self::exists($dest)) {
+					self::$routes[$dest] = self::$routes[$source];
+				} else {
+					Error::trigger('La route "' . $dest . '" existe déjà ! Impossible de la copier sans l\'écraser !');
+				}
+			}
 		} else {
-			self::$routes[$to] = self::$routes[$origin];
+			Error::trigger('La route "' . $source . '" n\'existe pas ! Impossible de la copier !');
 		}
 	}
 
