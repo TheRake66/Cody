@@ -48,7 +48,7 @@ abstract class Argument {
         if (empty($args)) {
             $callback();
         } else {
-            Output::errorLn("Erreur, aucun argument n'est attendu !");
+            Output::errorLn('Erreur, aucun argument n\'est attendu !');
         }
     }
 
@@ -65,7 +65,7 @@ abstract class Argument {
         if (count($args) === $count) {
             $callback();
         } else {
-            Output::errorLn("Erreur, " . $count . " argument(s) sont attendus !");
+            Output::errorLn('Erreur, ' . $count . ' argument(s) sont attendus !');
         }
     }
 
@@ -82,8 +82,19 @@ abstract class Argument {
         if (isset($callbacks[$count])) {
             $callbacks[$count]();
         } else {
-            Output::errorLn("Erreur, nombre d'arguments incorrect !");
+            Output::errorLn('Erreur, nombre d\'arguments incorrect !');
         }
+    }
+
+
+    /**
+     * Affiche une erreur pour un argument incorrect.
+     * 
+     * @param string $arg Nom de l'argument.
+     * @return void
+     */
+    static function error($arg) {
+        Output::errorLn('Erreur, l\'argument "' . $arg . '" est incorrect !');
     }
 
 }

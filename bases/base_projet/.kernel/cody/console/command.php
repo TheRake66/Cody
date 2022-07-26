@@ -218,6 +218,37 @@ abstract class Command {
         }, $args);
     }
 
+
+    /**
+     * Dispatcher de la commande "com".
+     * 
+     * @param array $args Arguments de la commande.
+     * @return void
+     */
+    static function com($args) {
+        Argument::match([
+            1 => function() use ($args) {
+                $cmd = $args[0];
+                if ($cmd === '-l') {
+                    Item::list(Item::FILE_COMPONENT);
+                } else {
+                    Argument::error($cmd);
+                }
+            },
+            2 => function() use ($args) {
+                $cmd = $args[0];
+                $name = $args[1];
+                if ($cmd === '-a') {
+                    Item::create(Item::FILE_COMPONENT, $name);
+                } elseif ($cmd === '-s') {
+                    Item::delete(Item::FILE_COMPONENT, $name);
+                } else {
+                    Argument::error($cmd);
+                }
+            }
+        ], $args);
+    }
+
 }
 
 ?>

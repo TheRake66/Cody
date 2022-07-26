@@ -17,9 +17,45 @@ use Kernel\IO\File;
 abstract class Item {
 
     /**
-     * @var string Le nom du fichier d'information d'un projet.
+     * @var string Le fichier d'information d'un projet.
      */
-    const FILE_PROJECT = 'project.json';    
+    const FILE_PROJECT = 'project.json';
+
+
+    /**
+     * @var string Le fichier d'item des APIs d'un projet.
+     */
+    const FILE_API = 'debug/api/api.json';
+
+
+    /**
+     * @var string Le fichier d'item des composants d'un projet.
+     */
+    const FILE_COMPONENT = 'debug/app/component.json';
+
+
+    /**
+     * @var string Le fichier d'item des objects d'un projet.
+     */
+    const FILE_OBJECT = 'debug/data/object.json';
+
+
+    /**
+     * @var string Le fichier d'item des traits d'un projet.
+     */
+    const FILE_TRAIT = 'debug/data/trait.json';
+
+
+    /**
+     * @var string Le fichier d'item des librairies d'un projet.
+     */
+    const FILE_LIBRARY = 'debug/lib/library.json';
+
+    
+    /**
+     * @var string Le fichier d'item des tests unitaires d'un projet.
+     */
+    const FILE_TEST = 'tests/test.json';
 
 
     /**
@@ -84,10 +120,7 @@ abstract class Item {
     
 
 
-    static function exists($type, $name) {
-    }
-
-    static function show($type) {
+    static function list($type) {
 
     }
 

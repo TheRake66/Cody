@@ -19,7 +19,7 @@ r::add('/api', a\::class, [
     r::METHOD_GET,
     r::METHOD_POST
 ]);
-r::add('/api/{id}'', a\::class, [
+r::add('/api/{id}', a\::class, [
     r::METHOD_GET,
     r::METHOD_PUT,
     r::METHOD_DELETE,
