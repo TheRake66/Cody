@@ -45,7 +45,9 @@ abstract class Javascript {
                 "import $class from '$rel';
 
                 let _ = new $class('$uuid');
-                if (window.$name === undefined) {
+
+                if (window.$name === undefined || 
+                    window.$name instanceof HTMLParagraphElement) {
                     window.$name = _;
                 } else if (window.$name instanceof Array) {
                     window.$name.push(_);
