@@ -31,7 +31,9 @@ export default class Mount {
             this.$ = components[0];
             this.$.style.display = 'inherit';
 
-            let childrens = Finder.queryAll('*', this.$);
+            let childrens = Finder.queryAll(`* :not(
+                component[data-uuid="${uuid}"] component, 
+                component[data-uuid="${uuid}"] component *)`, this.$);
             for (let i = 0; i < childrens.length; i++) {
                 let child = childrens[i];
 
