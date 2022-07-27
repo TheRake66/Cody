@@ -64,13 +64,13 @@ export default class Mount {
     /**
      * Déclenche un événement du composant parent.
      * 
-     * @param {any} data Les données à envoyer à l'événement.
      * @param {string} event Le nom de l'événement.
-     * @param {bool} capture Si l'événement doit être déclenché une que pour 
+     * @param {any} data Les données à envoyer à l'événement.
+     * @param {bool} cascade Si l'événement doit être déclenché une que pour 
      * le premier composant parent ou tous jusqu'au dernier composant de la page.
      * @return {void}
      */
-    emit(data, event = 'onrefresh', capture = true) {
+    emit(event = 'onrefresh', data = null, cascade = false) {
         let parent = this.$;
         do {
             parent = parent.parentElement.closest('component');
@@ -79,20 +79,20 @@ export default class Mount {
                     detail: data
                 }));
             }
-        } while (parent && !capture);
+        } while (parent && cascade);
     }
 
 
     /**
      * Déclenche un événement du composant enfant.
      * 
-     * @param {any} data Les données à envoyer à l'événement.
      * @param {string} event Le nom de l'événement.
-     * @param {bool} capture Si l'événement doit être déclenché une que pour 
+     * @param {any} data Les données à envoyer à l'événement.
+     * @param {bool} cascade Si l'événement doit être déclenché une que pour 
      * le premier composant parent ou tous jusqu'au premier composant de la page.
      * @return {void}
      */
-    pass(data, event = 'onrefresh', capture = true) {
+    pass(event = 'onrefresh', data = null, cascade = false) {
         let child = this.$;
         do {
             child = Finder.query('component', child);
@@ -101,7 +101,7 @@ export default class Mount {
                     detail: data
                 }));
             }
-        } while (child && !capture);
+        } while (child && cascade);
     }
 
 
