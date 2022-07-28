@@ -7,6 +7,7 @@ use Kernel\Io\Autoloader;
 use Kernel\Io\Convert\Encoded;
 use Kernel\Io\Stream;
 use Kernel\Environnement\Configuration;
+use Kernel\Security\Vulnerability\Xss;
 use Kernel\Url\Parser;
 use Kernel\Url\Router;
 
@@ -139,18 +140,19 @@ abstract class Rest {
 	 * @param object $object L'objet de paramètres.
 	 * @param string $name Le nom du paramètre.
 	 * @param bool $convert Si on doit convertir une valeur vide en NULL.
+	 * @param bool $filter Si on doit filtrer la valeur contre la vulnérabilité XSS.
 	 * @return any La valeur du paramètre.
 	 */
-	protected function data($object, $name, $convert = false) {
+	protected function data($object, $name, $convert = false, $filter = true) {
 		if (property_exists($object, $name)) {
-			return $convert ? 
-				Encoded::null($object->$name) : 
-				$object->$name;
+			$value = $object->$name;
+			if ($convert) $value = Encoded::null($value);
+			if ($filter) $value = Xss::filter($value);
+			return $value;
 		} else {
 			$this->send(null, 1, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
 		}
 	}
-
 
 	/**
 	 * Génère un composant pour l'envoyer.
