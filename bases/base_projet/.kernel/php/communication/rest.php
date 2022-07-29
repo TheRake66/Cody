@@ -140,14 +140,16 @@ abstract class Rest {
 	 * @param object $object L'objet de paramètres.
 	 * @param string $name Le nom du paramètre.
 	 * @param bool $convert Si on doit convertir une valeur vide en NULL.
+	 * @param bool $trim Si on doit supprimer les espaces en début et fin de la valeur.
 	 * @param bool $filter Si on doit filtrer la valeur contre la vulnérabilité XSS.
 	 * @return any La valeur du paramètre.
 	 */
-	protected function data($object, $name, $convert = false, $filter = true) {
+	protected function data($object, $name, $convert = false, $trim = true, $filter = true) {
 		if (property_exists($object, $name)) {
 			$value = $object->$name;
-			if ($convert) $value = Encoded::null($value);
 			if ($filter) $value = Xss::filter($value);
+			if ($trim) $value = trim($value);
+			if ($convert) $value = Encoded::null($value);
 			return $value;
 		} else {
 			$this->send(null, 1, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
