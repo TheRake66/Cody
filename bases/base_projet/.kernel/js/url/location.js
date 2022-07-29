@@ -89,7 +89,7 @@ export default class Location {
 		if (addback) {
 			params.redirect_url = Parser.current();
 		}
-		if (Object.keys(params).length !== 0 || addback) {
+		if (params && Object.keys(params).length !== 0 || addback) {
 			url += '?' + (new URLSearchParams(params)).toString();
 		}
 		return url;
