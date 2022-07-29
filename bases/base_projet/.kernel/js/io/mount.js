@@ -66,8 +66,8 @@ export default class Mount {
      * 
      * @param {string} event Le nom de l'événement.
      * @param {any} data Les données à envoyer à l'événement.
-     * @param {bool} cascade Si l'événement doit être déclenché une que pour 
-     * le premier composant parent ou tous jusqu'au dernier composant de la page.
+     * @param {bool} cascade Si l'événement doit être déclenché que pour 
+     * le premier composant parent ou tous jusqu'au premier composant de la page.
      * @return {void}
      */
     emit(event = 'onrefresh', data = null, cascade = false) {
@@ -84,24 +84,23 @@ export default class Mount {
 
 
     /**
-     * Déclenche un événement du composant enfant.
+     * Déclenche un événement des composants enfants.
      * 
      * @param {string} event Le nom de l'événement.
      * @param {any} data Les données à envoyer à l'événement.
-     * @param {bool} cascade Si l'événement doit être déclenché une que pour 
-     * le premier composant parent ou tous jusqu'au premier composant de la page.
+     * @param {bool} cascade Si l'événement doit être déclenché que pour 
+     * les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
      * @return {void}
      */
     pass(event = 'onrefresh', data = null, cascade = false) {
-        let child = this.$;
-        do {
-            child = Finder.query('component', child);
-            if (child) {
-                child.dispatchEvent(new CustomEvent(event, {
-                    detail: data
-                }));
-            }
-        } while (child && cascade);
+        let childrens = Finder.queryAll(cascade ?
+            'component' : 
+            'component:not(:scope > * component component)', this.$);
+        childrens.forEach(child => {
+            child.dispatchEvent(new CustomEvent(event, {
+                detail: data
+            }));
+        });
     }
 
 
