@@ -147,9 +147,11 @@ abstract class Rest {
 	protected function data($object, $name, $convert = false, $trim = true, $filter = true) {
 		if (property_exists($object, $name)) {
 			$value = $object->$name;
-			if ($filter) $value = Xss::filter($value);
-			if ($trim) $value = trim($value);
-			if ($convert) $value = Encoded::null($value);
+			if (is_string($value)) {
+				if ($filter) $value = Xss::filter($value);
+				if ($trim) $value = trim($value);
+				if ($convert) $value = Encoded::null($value);
+			}
 			return $value;
 		} else {
 			$this->send(null, 1, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
