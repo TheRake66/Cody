@@ -46,13 +46,16 @@ abstract class Javascript {
 
                 let _ = new $class('$uuid');
 
-                if (window.$name === undefined || 
-                    window.$name instanceof HTMLParagraphElement) {
-                    window.$name = _;
-                } else if (window.$name instanceof Array) {
-                    window.$name.push(_);
+                if (window.components === undefined) {
+                    window.components = {};
+                }
+                
+                if (window.components.$name === undefined) {
+                    window.components.$name = _;
+                } else if (window.components.$name instanceof Array) {
+                    window.components.$name.push(_);
                 } else {
-                    window.$name = [window.$name, _];
+                    window.components.$name = [window.components.$name, _];
                 }"
             );
         }
