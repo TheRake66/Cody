@@ -42,7 +42,7 @@ abstract class Encoded {
 	 * @return string|mixed Le tiret ou la valeur.
 	 */
 	static function hyphen($value) {
-		return empty($value) ? '-' : $value;
+		return $value === '' ? '-' : $value;
 	}
 	
 
@@ -74,7 +74,7 @@ abstract class Encoded {
      * @return mixed null ou la valeur
      */
     static function null($value) {
-        return empty($value) ? null : $value;
+        return $value === '' ? null : $value;
     }
 
 }
