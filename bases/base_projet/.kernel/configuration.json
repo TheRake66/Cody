@@ -57,6 +57,7 @@
     },
     "region": {
         "timezone": "Europe/Paris",
+        "locale": "fr_FR",
         "main_lang": "fr"
     },
     "session": {

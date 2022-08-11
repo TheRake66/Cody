@@ -19,6 +19,9 @@ k\Io\Stream::reset();
 // Active le protocole SSL (HTTPS).
 k\Security\Ssl::enable();
 
+// Défini la langue du système.
+k\Environnement\System::locale();
+
 // Défini le fuseau horraire par défaut.
 k\Environnement\System::timezone();
 

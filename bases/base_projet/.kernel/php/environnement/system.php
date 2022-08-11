@@ -46,7 +46,7 @@ abstract class System {
 
 
     /**
-     * Définit ou le fuseau horraire.
+     * Définit le fuseau horraire.
      * 
      * @param string $zone Le fuseau horraire.
      * @return void
@@ -57,6 +57,21 @@ abstract class System {
         }
         date_default_timezone_set($zone);
         Log::add('Fuseau horaire défini sur "' . $zone . '".');
+    }
+
+    
+    /**
+     * Définit la langue du système.
+     * 
+     * @param string $locale La langue.
+     * @return void
+     */
+    static function locale($locale = null) {
+        if (is_null($locale)) {
+            $locale = Configuration::get()->region->locale;
+        }
+        setlocale(LC_ALL, $locale);
+        Log::add('Langue locale définie sur "' . $locale . '".');
     }
 
 }
