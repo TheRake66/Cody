@@ -116,12 +116,11 @@ abstract class Item {
     }
 
 
-
-    
-
-
     static function list($type) {
-
+        $elements = self::decode($type);
+        foreach ($elements as $key => $value) {
+            # code...
+        }
     }
 
     static function create($type, $name) {

@@ -69,11 +69,12 @@ abstract class Builder {
      *
      * @param array $bin Les octets de l'image.
      * @param string $alt Le texte alternatif de l'image.
+     * @param bool $lazy Si on doit déclencher le chargement de l'image au survol.
      * @param string $format Le format de l'image.
      * @return string La balise HTML.
      */
-    static function imgB64($bin, $alt = null, $format = 'png') {
-        return self::img(Image::b64($bin, $format), $alt);
+    static function imgB64($bin, $alt = null, $lazy = false, $format = 'png') {
+        return self::img(Image::b64($bin, $format), $alt, $lazy);
     }
 
 
@@ -82,12 +83,16 @@ abstract class Builder {
      *
      * @param string $src L'URL de l'image.
      * @param string $alt Le texte alternatif de l'image.
+     * @param bool $lazy Si on doit déclencher le chargement de l'image au survol.
      * @return string La balise HTML.
      */
-    static function img($src, $alt = null) {
+    static function img($src, $alt = null, $lazy = false) {
         $_ = [ 'src' => $src ];
         if ($alt) {
             $_['alt'] = $alt;
+        }
+        if ($lazy) {
+            $_['loading'] = 'lazy';
         }
         return self::create('img', $_);
     }
