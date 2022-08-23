@@ -71,7 +71,7 @@ export default class Number {
      * Tire un élément aléatoire d'un tableau.
      * 
      * @param {Array} array Le tableau de valeur.
-     * @returns {any} L'item tiré.
+     * @returns {any} L'élément tiré.
      */
     static lottery(array) {
         return array[this.random(array.length)];
