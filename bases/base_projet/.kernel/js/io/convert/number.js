@@ -68,7 +68,7 @@ export default class Number {
 
 
     /**
-     * Tire un élément aléatoire d'un tableau.
+     * Tire un élément aléatoirement d'un tableau.
      * 
      * @param {Array} array Le tableau d'éléments.
      * @returns {any} L'élément tiré.
