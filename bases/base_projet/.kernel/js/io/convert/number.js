@@ -55,15 +55,26 @@ export default class Number {
      * Retourne un nombre aléatoire entre deux valeurs.
      * 
      * @param {Number} max La valeur minimale (incluse).
-     * @param {Number} min La valeur maximale (incluse).
+     * @param {Number} min La valeur maximale (exclue).
      * @returns {Number} Le nombre aléatoire.
      */
     static random(max = 100, min = 0) {
         if (max > min) {
-            return Math.floor(Math.random() * (max - min) + min);
+            return Math.floor(Math.random() * (max - min)) + min;
         } else {
             throw 'La valeur maximale doit être inférieur à la valeur minimale !';
         }
+    }
+
+
+    /**
+     * Tire un élément aléatoire d'un tableau.
+     * 
+     * @param {Array} array Le tableau de valeur.
+     * @returns {any} L'item tiré.
+     */
+    static lottery(array) {
+        return array[this.random(array.length)];
     }
 
 }
