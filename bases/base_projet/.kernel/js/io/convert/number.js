@@ -68,10 +68,10 @@ export default class Number {
 
 
     /**
-     * Tire un élément aléatoire d'un tableau.
+     * Tire un élément aléatoirement d'un tableau.
      * 
-     * @param {Array} array Le tableau de valeur.
-     * @returns {any} L'item tiré.
+     * @param {Array} array Le tableau d'éléments.
+     * @returns {any} L'élément tiré.
      */
     static lottery(array) {
         return array[this.random(array.length)];
