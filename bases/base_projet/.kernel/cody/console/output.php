@@ -313,34 +313,6 @@ Utilisez la commande "help" pour voir la liste des commandes.
 
         /*
 
-'bye                                  Quitte Cody en fermant le serveur PHP si il y en a un.
-'cd [*chemin]                         Change le dossier courant ou affiche la liste des fichiers et des dossiers
-                                     du dossier courant.
-'cls                                  Efface le contenu de la console.
-'com '[-s|-a|-l]' '[*nom]' '[*desc]'        Ajoute, liste, ou supprime un composant (controleur, vue, style,
-                                     script) avec le nom spécifié.
-'conf                                 Recharge la configuration de Cody.
-'dl [url] [chemin]                    Télécharge un fichier avec l'URL spécifiée.
-'exp                                  Ouvre le projet dans l'explorateur de fichiers.
-'init                                 Initialise le projet avec les variables d'environnement.
-'lib '[-s|-a|-l]' '[*nom]' '[*desc]'        Ajoute, liste, ou supprime une librairie (PHP, LESS, et JavaScript).
-                                     avec le nom spécifié.
-'ls                                   Affiche la liste des projets.
-'maj                                  Vérifie les mises à jour disponibles.
-'obj '[-s|-a|-l]' '[*nom]' '[*desc]'        Ajoute, liste, ou supprime un objet (classe DTO, classe DAO)
-                                     avec le nom spécifié.
-'pkg [-t|-l|-s] [*dépôt]              Télécharge, liste ou supprime un package depuis le dépôt passé en
-                                     paramètre.
-'rep                                  Ouvre la dépôt GitHub de Cody.
-'run                                  Lance un serveur PHP et ouvre le projet dans le navigateur.
-'schem [nom]                          Créer tous les objets d'une base de données.
-'stop                                 Arrête le serveur PHP.
-'tes '[-s|-a|-l]' '[*nom]' '[*desc]'        Ajoute, liste, ou supprime une classe de test unitaire.
-'tra '[-s|-a|-l]' '[*nom]' '[*desc]'        Ajoute, liste, ou supprime un trait.
-'unit                                 Lance les tests unitaires.
-'vs                                   Ouvre le projet dans Visual Studio Code.
-
-
 */
 * : Argument facultatif.");
     }

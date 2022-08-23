@@ -52,7 +52,7 @@ abstract class Log {
     /**
      * @var bool Si le journal de log est activé ou non.
      */
-    private static $enabled = false;
+    private static $enabled = true;
 
 
     /**

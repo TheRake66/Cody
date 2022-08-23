@@ -50,4 +50,20 @@ export default class Number {
         return num % 2 !== 0;
     }
 
+
+    /**
+     * Retourne un nombre aléatoire entre deux valeurs.
+     * 
+     * @param {Number} max La valeur minimale (incluse).
+     * @param {Number} min La valeur maximale (incluse).
+     * @returns {Number} Le nombre aléatoire.
+     */
+    static random(max = 100, min = 0) {
+        if (max > min) {
+            return Math.floor(Math.random() * (max - min) + min);
+        } else {
+            throw 'La valeur maximale doit être inférieur à la valeur minimale !';
+        }
+    }
+
 }
