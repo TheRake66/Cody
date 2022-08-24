@@ -109,6 +109,28 @@ abstract class Attribute {
 
 
     /**
+     * Coche une case si la condition est vérifiée.
+     * 
+     * @param bool $condition La condition a vérifier.
+     * @return string L'attribut HTML.
+     */
+    static function checked($condition) {
+        return $condition ? 'checked' : '';
+    }
+
+
+    /**
+     * Selectionne une valeur si la condition est vérifiée.
+     * 
+     * @param bool $condition La condition a vérifier.
+     * @return string L'attribut HTML.
+     */
+    static function selected($condition) {
+        return $condition ? 'selected' : '';
+    }
+
+
+    /**
      * Ajoute un ou des styles
      * 
      * @param string|array $style Le/les style(s) (attribut => valeur).
