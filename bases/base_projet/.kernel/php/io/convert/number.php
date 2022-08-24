@@ -20,7 +20,7 @@ abstract class Number {
      * 
 	 * @example euro(12.5) => 12,50 €
      * @param double $num Le prix à convertir.
-	 * @return string La valeur convertie.
+	 * @return string Le prix au format Européen.
      */
 	static function euro($num) {
 		return number_format($num, 2, ',', ' ') . ' €';
@@ -31,12 +31,12 @@ abstract class Number {
 	 * Convertit un nombre en format occidentale.
 	 * 
 	 * @example occident(1200000.123) => 1 200 000,123
-	 * @param double $decimal Le nombre à convertir.
+	 * @param double $num Le nombre à convertir.
 	 * @param int $precision Le nombre de chiffres après la virgule.
 	 * @return string La valeur convertie.
 	 */
-	static function occident($decimal, $precision = 3) {
-		return number_format($decimal, $precision, ',', ' ');
+	static function occident($num, $precision = 3) {
+		return number_format($num, $precision, ',', ' ');
 	}
 
 

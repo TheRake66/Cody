@@ -8,20 +8,31 @@
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
-export default class Number {
+ export default class Number {
 
     /**
      * Convertit un prix au format Européen.
      * 
      * @example euro('123456789') => '123 456 789 €'
-     * @param {Number} num Le prix.
+     * @param {Number} num Le prix à convertir.
      * @returns {string} Le prix au format Européen.
      */
     static euro(num) {
-        return new Intl.NumberFormat("fr-FR", {
-            style: "currency", 
-            currency: "EUR"
+        return new Intl.NumberFormat('fr-FR', {
+            style: 'currency', 
+            currency: 'EUR'
         }).format(num);
+    }
+
+    /**
+     * Convertit un nombre en format occidentale.
+     * 
+     * @example occident('123456789.124') => '123 456 789,123'
+     * @param {Number} num Le nombre à convertir.
+     * @returns {string} La valeur convertie.
+     */
+    static occident(num) {
+        return new Intl.NumberFormat('fr-FR').format(num);
     }
 
 
@@ -68,10 +79,10 @@ export default class Number {
 
 
     /**
-     * Tire un élément aléatoirement d'un tableau.
+     * Tire un élément aléatoire d'un tableau.
      * 
-     * @param {Array} array Le tableau d'éléments.
-     * @returns {any} L'élément tiré.
+     * @param {Array} array Le tableau de valeur.
+     * @returns {any} L'item tiré.
      */
     static lottery(array) {
         return array[this.random(array.length)];
