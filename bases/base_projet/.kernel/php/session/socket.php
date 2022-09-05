@@ -30,6 +30,10 @@ abstract class Socket {
 	static function start() {
         $conf = Configuration::get()->session;
 		if ($conf->open_session) {
+            
+            if (!is_writable(session_save_path())) {
+                Error::trigger('Le répertoire utilisé pour enregistrer les données de session n\'est pas accessible.');
+            }
 
             if (session_status() === PHP_SESSION_NONE) {
                 Log::add('Démarrage de la session...', Log::LEVEL_PROGRESS);
