@@ -284,37 +284,37 @@ Utilisez la commande "help" pour voir la liste des commandes.
      * @return void
      */
     static function help() {
-        $help = [
-            'help' => [
-                'commande' => true,
-                'Affiche la liste des commandes disponible.'
-            ],
-            'api' => [
-                [ 
-                    '-s|-a|-l' => false,
-                    'nom' => false, 
-                    'desc' => false
-                ],
-                'Ajoute, liste, ou supprime un module d\'API avec le nom spécifié.'
-            ],
-            'build' => [
-                null,
-                'Construit le projet, minifie et compile les fichiers. Nécessite npm.'
-            ],
-            'bye' => [
-                null,
-                'Quitte Cody en fermant le serveur PHP si il y en a un.'
-            ],
-            'cd' => [
-                null,
-                'Quitte Cody en fermant le serveur PHP si il y en a un.'
-            ]
-        ]
+//         $help = [
+//             'help' => [
+//                 'commande' => true,
+//                 'Affiche la liste des commandes disponible.'
+//             ],
+//             'api' => [
+//                 [ 
+//                     '-s|-a|-l' => false,
+//                     'nom' => false, 
+//                     'desc' => false
+//                 ],
+//                 'Ajoute, liste, ou supprime un module d\'API avec le nom spécifié.'
+//             ],
+//             'build' => [
+//                 null,
+//                 'Construit le projet, minifie et compile les fichiers. Nécessite npm.'
+//             ],
+//             'bye' => [
+//                 null,
+//                 'Quitte Cody en fermant le serveur PHP si il y en a un.'
+//             ],
+//             'cd' => [
+//                 null,
+//                 'Quitte Cody en fermant le serveur PHP si il y en a un.'
+//             ]
+//         ]
 
-        /*
+//         /*
 
-*/
-* : Argument facultatif.");
+// */
+// * : Argument facultatif.");
     }
 
 
