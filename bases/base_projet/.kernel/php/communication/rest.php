@@ -36,13 +36,13 @@ abstract class Rest {
 	 * @return void
 	 */
 	static function check() {
-		$entry = Router::entry();
+		$class = Router::entry();
 		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
-		if (Autoloader::typeof($entry) === Autoloader::TYPE_API) {
-			Log::add('Appel API identifié : "' . $entry . '".');
+		if (Autoloader::typeof($class) === Autoloader::TYPE_API) {
+			Log::add('Appel API identifié : "' . $class . '".');
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
-			$object = new $entry();
+			$object = new $class();
 			$object->started = microtime(true);
 			$method = $_SERVER['REQUEST_METHOD'];
 			$methods = Router::methods();
@@ -67,12 +67,12 @@ abstract class Rest {
 				$function = strtolower($method);
 				if (method_exists($object, $function)) {
 					$object->$function($route, $query, $body);
-					$object->send();
+					$object->send(null, 10000, 'Aucune réponse de la fonction "' . $function . '" du module d\'API "' . $class . '" !', 500);
 				} else {
-					$object->send(null,1, 'La méthode d\'API "' . $function . '" n\'existe pas dans la ressource !', 500);
+					$object->send(null, 10001, 'La méthode d\'API "' . $function . '" n\'existe pas dans la ressource !', 500);
 				}
 			} else {
-				$object->send(null, 1, 'La méthode "' . $method . '" n\'est pas supportée par cette ressource !', 405);
+				$object->send(null, 10002, 'La méthode "' . $method . '" n\'est pas supportée par cette ressource !', 405);
 			}
 		} else {
 			Log::add('Aucun appel API.', Log::LEVEL_GOOD);
@@ -154,10 +154,10 @@ abstract class Rest {
 			}
 			return $value;
 		} else {
-			$this->send(null, 1, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
+			$this->send(null, 10003, 'Le paramètre "' . $name . '" n\'est pas défini !', 400);
 		}
 	}
-	
+
 
 	/**
 	 * Génère un composant pour l'envoyer.
