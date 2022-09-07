@@ -162,8 +162,8 @@ export default class Mount {
      * @return {void}
      */
     toogle(callback, event = 'get', data = null, tag = null, cascade = false) {
-        this.register(event => {
-            callback(event);
+        this.register(e => {
+            callback(e.detail);
             this.unregister(event);
         }, event);
         this.pass(event, data, tag, cascade);
