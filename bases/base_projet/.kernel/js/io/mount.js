@@ -151,7 +151,7 @@ export default class Mount {
 
     /**
      * Enregistre un événement, déclenche le même événement pour des composants enfant,
-     * attends la réponse, exécute la fonction, supprime l'événement.
+     * attends la ou les réponses, exécute la fonction, supprime l'événement.
      * 
      * @param {function} callback La fonction à exécuter lors de l'événement.
      * @param {string} event Le nom de l'événement.
@@ -159,12 +159,23 @@ export default class Mount {
      * @param {string} tag Un balise spécifique, seul les composants enfant ayant cette balise seront déclencher.
      * @param {bool} cascade Si l'événement doit être déclenché que pour 
      * les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
+     * @param {number} count Le nombre de données à recevoir, équivalent au nombre de composant enfant
+     * devant répondre.
      * @return {void}
      */
-    toogle(callback, event = 'get', data = null, tag = null, cascade = false) {
+    toogle(callback, event = 'get', data = null, tag = null, cascade = false, count = 1) {
+        let retrieve = [];
         this.register(e => {
-            callback(e.detail);
-            this.unregister(event);
+            if (count === 1) {
+                callback(e.detail);
+                this.unregister(event);
+            } else {
+                retrieve.push(e.detail);
+                if (retrieve.length === count) {
+                    callback(retrieve);
+                    this.unregister(event);
+                }
+            }
         }, event);
         this.pass(event, data, tag, cascade);
     }

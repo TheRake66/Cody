@@ -1,4 +1,4 @@
-import Http from '../communication/Http.js';
+import Http from '../communication/http.js';
 import Builder from '../html/builder.js';
 import Dom from '../html/dom.js';
 import Parser from './parser.js';
