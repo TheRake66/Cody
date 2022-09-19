@@ -116,15 +116,19 @@ export default class Mount {
         let childrens = Finder.queryAll(cascade ?
             'component' : 
             'component:not(:scope > * component component)', this.$);
-        
+
+        let count = 0;
         for (let i = 0; i < childrens.length; i++) {
             const child = childrens[i];
-            if ((tag === null || Finder.queryAll(cascade ? tag : `${tag}:not(:scope > * component ${tag})`, child) > 0) &&
-                (start === null || i >= start)) {
-                child.dispatchEvent(new CustomEvent(event, {
-                    detail: data
-                }));
-                if (offset !== null && i >= start + offset) {
+
+            if (tag === null || Finder.queryAll(`:scope > ${tag}`, child).length > 0) {
+                if (start === null || count >= start) {
+                    child.dispatchEvent(new CustomEvent(event, {
+                        detail: data
+                    }));
+                }
+                count++;
+                if (offset !== null && count >= start + offset) {
                     break; 
                 }
             }
