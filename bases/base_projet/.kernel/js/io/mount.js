@@ -87,7 +87,7 @@ export default class Mount {
      * le premier composant parent ou tous jusqu'au premier composant de la page.
      * @return {void}
      */
-    emit(event = 'refresh', data = null, tag = null, cascade = false) {
+    emit(event = 'refresh', data = null, tag = null, cascade = true) {
         let parent = this.$;
         do {
             parent = parent.parentElement.closest('component');
@@ -110,7 +110,7 @@ export default class Mount {
      * les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
      * @return {void}
      */
-    pass(event = 'refresh', data = null, tag = null, cascade = false) {
+    pass(event = 'refresh', data = null, tag = null, cascade = true) {
         let childrens = Finder.queryAll(cascade ?
             'component' : 
             'component:not(:scope > * component component)', this.$);
@@ -163,7 +163,7 @@ export default class Mount {
      * devant répondre.
      * @return {void}
      */
-    toogle(callback, event = 'get', data = null, tag = null, cascade = false, count = 1) {
+    toogle(callback, event = 'get', data = null, tag = null, cascade = true, count = 1) {
         let retrieve = [];
         this.register(e => {
             if (count === 1) {
