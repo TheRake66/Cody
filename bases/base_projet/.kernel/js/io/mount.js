@@ -108,19 +108,27 @@ export default class Mount {
      * @param {string} tag Un balise spécifique, seul les composants enfant ayant cette balise seront déclencher.
      * @param {bool} cascade Si l'événement doit être déclenché que pour 
      * les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
+     * @param {number} start Le nombre de composants à ignorer avant de commencer à déclencher les événements.
+     * @param {number} offset Le nombre de composants à déclencher après le premier composant trouvé.
      * @return {void}
      */
-    pass(event = 'refresh', data = null, tag = null, cascade = true) {
+    pass(event = 'refresh', data = null, tag = null, cascade = true, start = null, offset = null) {
         let childrens = Finder.queryAll(cascade ?
             'component' : 
             'component:not(:scope > * component component)', this.$);
-        childrens.forEach(child => {
-            if (tag === null || Finder.queryAll(tag, child).length > 0) {
+        
+        for (let i = 0; i < childrens.length; i++) {
+            const child = childrens[i];
+            if ((tag === null || Finder.queryAll(cascade ? tag : `${tag}:not(:scope > * component ${tag})`, child) > 0) &&
+                (start === null || i >= start)) {
                 child.dispatchEvent(new CustomEvent(event, {
                     detail: data
                 }));
+                if (offset !== null && i >= start + offset) {
+                    break; 
+                }
             }
-        });
+        }
     }
 
 
