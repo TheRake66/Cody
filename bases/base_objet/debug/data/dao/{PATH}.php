@@ -16,7 +16,7 @@ use Model\Dto{NAMESPACE_SLASH}\{NAME_UPPER} as Dto;
  * @package Model\Dao{NAMESPACE_SLASH}
  * @category DAO (Data Access Object)
  */
-class {NAME_UPPER} {
+abstract class {NAME_UPPER} {
 
 }
 
