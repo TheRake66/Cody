@@ -87,7 +87,7 @@ export default class Mount {
      * le premier composant parent ou tous jusqu'au premier composant de la page.
      * @return {void}
      */
-    emit(event = 'refresh', data = null, tag = null, cascade = true) {
+    emit(event = 'refresh', data = null, tag = null, cascade = false) {
         let parent = this.$;
         do {
             parent = parent.parentElement.closest('component');
@@ -112,7 +112,7 @@ export default class Mount {
      * @param {number} offset Le nombre de composants à déclencher après le premier composant trouvé.
      * @return {void}
      */
-    pass(event = 'refresh', data = null, tag = null, cascade = true, start = null, offset = null) {
+    pass(event = 'refresh', data = null, tag = null, cascade = false, start = null, offset = null) {
         let childrens = Finder.queryAll(cascade ?
             'component' : 
             'component:not(:scope > * component component)', this.$);
@@ -149,7 +149,7 @@ export default class Mount {
      * @param {bool} childFirst Si l'événement doit être déclenché d'avord sur les composants enfants ou sur les composants parents.
      * @return {void}
      */
-    spread(event = 'refresh', data = null, tag = null, cascade = true, start = null, offset = null, childFirst = true) {
+    spread(event = 'refresh', data = null, tag = null, cascade = false, start = null, offset = null, childFirst = true) {
         if (childFirst) {
             this.pass(event, data, tag, cascade, start, offset);
             this.emit(event, data, tag, cascade);
@@ -199,7 +199,7 @@ export default class Mount {
      * devant répondre.
      * @return {void}
      */
-    toogle(callback, event = 'get', data = null, tag = null, cascade = true, count = 1) {
+    toogle(callback, event = 'get', data = null, tag = null, cascade = false, count = 1) {
         let retrieve = [];
         this.register(e => {
             if (count === 1) {
