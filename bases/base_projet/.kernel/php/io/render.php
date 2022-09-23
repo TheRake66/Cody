@@ -54,8 +54,6 @@ abstract class Render {
             $script = str_replace('_', ' ', $script);
         }
         if (File::loadable($vue)) {
-            // On fait directement un require et pas un File::require
-            // Pour que le extract fonctionne
             $absolute = Path::absolute($vue);
             $uuid = uniqid();
 
@@ -79,6 +77,8 @@ abstract class Render {
                 }
             }
 
+            // On fait directement un require et pas un File::require
+            // Pour que le extract fonctionne
             require($absolute);
             Output::add('</component>');
             
