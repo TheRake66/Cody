@@ -2,7 +2,6 @@
 namespace Kernel\IO;
 
 use Kernel\Debug\Error;
-use Kernel\Html\Attribute;
 use Kernel\Html\Builder;
 use Kernel\Html\Import;
 use Kernel\Html\Javascript;
@@ -46,22 +45,6 @@ abstract class Render {
         $varname = strtolower(implode('_', $namespace));
         $name = strtolower($class);
         
-        if (!empty($variables)) {
-            if (is_array($variables)) {
-                if (Dataset::assoc($variables)) {
-                    extract($variables);
-                } else {
-                    $_ = [];
-                    for ($i = 0; $i < count($variables); $i++) {
-                        $_['_'.$i] = $variables[$i];
-                    }
-                    extract($_);
-                }
-            } else {
-                extract([ '_0' => $variables ]);
-            }
-        }
-        
         $vue = $folder . $name . '.phtml';
         $style = $folder . $name . '.less';
         $script = $folder . $name . '.js';
@@ -75,13 +58,30 @@ abstract class Render {
             // Pour que le extract fonctionne
             $absolute = Path::absolute($vue);
             $uuid = uniqid();
-            $data = Attribute::set('data-uuid', $uuid);
-            $style = Attribute::style('display', 'inherit');
-            Output::add('<component ' . $data . ' ' . $style .'>');
-            require($absolute);
+
+            Output::add('<component data-uuid="'.$uuid.'">');
             Output::add(Less::import($style));
             Output::add(Javascript::import($script, 'module', $varname, $class, $uuid));
+            
+            if (!is_null($variables)) {
+                if (is_array($variables)) {
+                    if (Dataset::assoc($variables)) {
+                        extract($variables);
+                    } else {
+                        $_ = [];
+                        for ($i = 0; $i < count($variables); $i++) {
+                            $_['_'.$i] = $variables[$i];
+                        }
+                        extract($_);
+                    }
+                } else {
+                    extract([ '_0' => $variables ]);
+                }
+            }
+
+            require($absolute);
             Output::add('</component>');
+            
         } else {
             Error::trigger('Impossible de faire le rendu du composant "' . $full . '" !');
         }
