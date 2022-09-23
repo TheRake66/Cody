@@ -78,7 +78,7 @@ export default class Mount {
 
 
     /**
-     * Déclenche un événement du composant parent.
+     * Déclenche un événement des composants parents.
      * 
      * @param {string} event Le nom de l'événement.
      * @param {any} data Les données à envoyer à l'événement.
@@ -134,7 +134,31 @@ export default class Mount {
             }
         }
     }
-    
+
+
+    /**
+     * Déclenche un événement des composants enfants et parents.
+     * 
+     * @param {string} event Le nom de l'événement.
+     * @param {any} data Les données à envoyer à l'événement.
+     * @param {string} tag Un balise spécifique, seul les composants enfant ayant cette balise seront déclencher.
+     * @param {bool} cascade Si l'événement doit être déclenché que pour 
+     * les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
+     * @param {number} start Le nombre de composants à ignorer avant de commencer à déclencher les événements.
+     * @param {number} offset Le nombre de composants à déclencher après le premier composant trouvé.
+     * @param {bool} childFirst Si l'événement doit être déclenché d'avord sur les composants enfants ou sur les composants parents.
+     * @return {void}
+     */
+    spread(event = 'refresh', data = null, tag = null, cascade = true, start = null, offset = null, childFirst = true) {
+        if (childFirst) {
+            this.pass(event, data, tag, cascade, start, offset);
+            this.emit(event, data, tag, cascade);
+        } else {
+            this.emit(event, data, tag, cascade);
+            this.pass(event, data, tag, cascade, start, offset);
+        }
+    }
+
 
     /**
      * Enregistre un événement du composant.
