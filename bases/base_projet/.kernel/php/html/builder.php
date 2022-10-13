@@ -73,7 +73,7 @@ abstract class Builder {
      * @param string $format Le format de l'image.
      * @return string La balise HTML.
      */
-    static function imgB64($bin, $alt = null, $lazy = false, $format = 'png') {
+    static function b64($bin, $alt = null, $lazy = false, $format = 'png') {
         return self::img(Image::b64($bin, $format), $alt, $lazy);
     }
 
@@ -118,6 +118,23 @@ abstract class Builder {
             $_['action'] = Location::build($route, $param, $addback);
         }
         return self::create('form', $_, $content, false);
+    }
+
+    
+    /**
+     * Créer une balise HTML "input" de type caché.
+     * 
+     * @param string $value La valeur de l'input.
+     * @param string $id L'identifiant de l'input.
+     * @param string $name Le nom de l'input.
+     */
+    static function hidden($value, $id, $name = null) {
+        return self::create('input', [
+            'type' => 'hidden',
+            'value' => $value,
+            'id' => $id,
+            'name' => $name ?? ''
+        ], null, true);
     }
     
 }
