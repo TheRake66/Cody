@@ -62,13 +62,13 @@ abstract class Encoded {
 
 
     /**
-     * Retourne null si la valeur est vide, sinon retourne la valeur
+     * Retourne null si la valeur est vide, sinon retourne la valeur.
      * 
 	 * @example null('Lorem ipsum dolor sit amet') => 'Lorem ipsum dolor sit amet'
 	 * @example null('') => null
-     * @param mixed $value la valeur a verifier
-     * @return mixed null ou la valeur
-     */
+     * @param mixed $value La valeur à vérifier.
+     * @return mixed La valeur ou null.
+	 */
     static function null($value) {
         return $value === '' ? null : $value;
     }
