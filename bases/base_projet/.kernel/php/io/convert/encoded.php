@@ -18,18 +18,14 @@ abstract class Encoded {
 	/**
 	 * Coupe une chaine de caractères si elle est trop longue.
 	 * 
-	 * @example cut('Lorem ipsum dolor sit amet', 10) => Lorem ipsum ...
+	 * @example cut('Lorem ipsum dolor sit amet', 10) => Lorem ipsum...
 	 * @example cut('Lorem', 10) => Lorem
 	 * @param string $text Le texte à couper.
 	 * @param int $max La taille maximum.
 	 * @return string Le texte coupé ou non.
 	 */
 	static function cut($text, $max = 50) {
-		if (strlen($text) > $max) {
-			return substr($text, 0, $max) . '...';
-		} else {
-			return $text;
-		}
+		return (strlen($text) > $max) ? substr($text, 0, $max) . '...' : $text;
 	} 
 
 
@@ -70,7 +66,7 @@ abstract class Encoded {
      * 
 	 * @example null('Lorem ipsum dolor sit amet') => 'Lorem ipsum dolor sit amet'
 	 * @example null('') => null
-     * @param mixed la valeur a verifier
+     * @param mixed $value la valeur a verifier
      * @return mixed null ou la valeur
      */
     static function null($value) {
