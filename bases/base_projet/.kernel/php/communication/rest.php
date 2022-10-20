@@ -89,7 +89,7 @@ abstract class Rest {
 	 * @param int $status Le statut HTTP.
 	 * @return void
 	 */
-	protected function send($content = null, $code = 0, $message = '', $status = 200) {
+	protected function send($content = null, $code = 0, $message = '', $status = Http::HTTP_OK) {
 		$ended = microtime(true);
 		$time = round(($ended - $this->started) * 1000);
 		$response = (object)[
