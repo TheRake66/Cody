@@ -3,6 +3,7 @@ namespace Api{NAMESPACE_SLASH};
 
 use Kernel\Debug\Error;
 use Kernel\Communication\Rest;
+use Kernel\Communication\Http;
 use Kernel\Security\Vulnerability\Xss;
 use Kernel\Security\Vulnerability\Csrf;
 use Kernel\Security\Validation;
@@ -28,7 +29,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel.
      */
     function get($route, $query, $body) {
-        $this->send(null, 1, 'Méthode GET non implémentée !', 500);
+        $this->send(null, 1, 'Méthode GET non implémentée !', Http::HTTP_NOT_IMPLEMENTED);
     }
 
 
@@ -41,7 +42,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel.
      */
     function post($route, $query, $body) {
-        $this->send(null, 1, 'Méthode POST non implémentée !', 500);
+        $this->send(null, 1, 'Méthode POST non implémentée !', Http::HTTP_NOT_IMPLEMENTED);
     }
 
 
@@ -54,7 +55,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel.
      */
     function put($route, $query, $body) {
-        $this->send(null, 1, 'Méthode PUT non implémentée !', 500);
+        $this->send(null, 1, 'Méthode PUT non implémentée !', Http::HTTP_NOT_IMPLEMENTED);
     }
 
 
@@ -67,7 +68,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel.
      */
     function delete($route, $query, $body) {
-        $this->send(null, 1, 'Méthode DELETE non implémentée !', 500);
+        $this->send(null, 1, 'Méthode DELETE non implémentée !', Http::HTTP_NOT_IMPLEMENTED);
     }
 
 
@@ -80,7 +81,7 @@ class {NAME_UPPER} extends Rest {
      * @return mixed Résultat de l'appel.
      */
     function patch($route, $query, $body) {
-        $this->send(null, 1, 'Méthode PATCH non implémentée !', 500);
+        $this->send(null, 1, 'Méthode PATCH non implémentée !', Http::HTTP_NOT_IMPLEMENTED);
     }
 
 }
