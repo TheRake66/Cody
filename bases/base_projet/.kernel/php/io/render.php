@@ -2,6 +2,7 @@
 namespace Kernel\IO;
 
 use Kernel\Debug\Error;
+use Kernel\Environnement\Configuration;
 use Kernel\Html\Builder;
 use Kernel\Html\Import;
 use Kernel\Html\Javascript;
@@ -61,6 +62,17 @@ abstract class Render {
             Output::add(Less::import($style));
             Output::add(Javascript::import($script, 'module', $varname, $class, $uuid));
             
+            $conf = Configuration::get()->render;
+            if ($conf->debug_border_component) {
+                Output::add(Javascript::run('
+                    document
+                        .querySelector(\'component[data-uuid="'.$uuid.'"]\')
+                        .style
+                        .border = \'solid 5px #\' + (Math.random() * 0xFFFFFF << 0)
+                            .toString(16)
+                            .padStart(6, "0");'));
+            }
+
             if (!is_null($variables)) {
                 if (is_array($variables)) {
                     if (Dataset::assoc($variables)) {
