@@ -9,7 +9,7 @@ use Kernel\Html\Less;
 use Kernel\Html\Output;
 use Kernel\Io\Convert\Dataset;
 use Kernel\Io\Path;
-
+use Kernel\Security\Configuration;
 
 /**
  * Librairie gérant le rendu des composants.
@@ -61,6 +61,17 @@ abstract class Render {
             Output::add(Less::import($style));
             Output::add(Javascript::import($script, 'module', $varname, $class, $uuid));
             
+            $conf = Configuration::get()->render;
+            if ($conf->debug_border_component) {
+                Output::add(Javascript::run('
+                    document
+                        .querySelector(\'component[data-uuid="'.$uuid.'"]\')
+                        .style
+                        .border = \'solid 5px #\' + (Math.random() * 0xFFFFFF << 0)
+                            .toString(16)
+                            .padStart(6, "0");'));
+            }
+
             if (!is_null($variables)) {
                 if (is_array($variables)) {
                     if (Dataset::assoc($variables)) {
