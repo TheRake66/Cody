@@ -1,4 +1,4 @@
-import Http from './http.js';
+import Http from './Http.js';
 import Location from '../url/location.js';
 
 
@@ -155,7 +155,7 @@ export default class Rest {
                         if (json.content !== null && 
                             json.content !== undefined && 
                             json.content !== '' &&
-                            json.content.length > 0) {
+                            (!Array.isArray(json.content) || json.content.length > 0)) {
                             if (sucess) sucess(json.content, json);
                         } else if (json.code === 0) {
                             if (empty) empty(json);
@@ -212,6 +212,7 @@ export default class Rest {
                         if (json.content !== null && 
                             json.content !== undefined && 
                             json.content !== '' &&
+                            Array.isArray(json.content) && 
                             json.content.length > 0) {
                             if (pre) pre(json);
                             json.content.forEach(element => sucess(element, json));
