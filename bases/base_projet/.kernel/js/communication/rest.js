@@ -152,7 +152,10 @@ export default class Rest {
                         continu = false;
                     }
                     if (continu) {
-                        if (json.content !== null) {
+                        if (json.content !== null && 
+                            json.content !== undefined && 
+                            json.content !== '' &&
+                            json.content.length > 0) {
                             if (sucess) sucess(json.content, json);
                         } else if (json.code === 0) {
                             if (empty) empty(json);
@@ -206,7 +209,10 @@ export default class Rest {
                         continu = false;
                     }
                     if (continu) {
-                        if (json.content !== null && json.content.length > 0) {
+                        if (json.content !== null && 
+                            json.content !== undefined && 
+                            json.content !== '' &&
+                            json.content.length > 0) {
                             if (pre) pre(json);
                             json.content.forEach(element => sucess(element, json));
                             if (post) post(json);
