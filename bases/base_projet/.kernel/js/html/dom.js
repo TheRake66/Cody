@@ -1,3 +1,8 @@
+import Finder from './finder.js';
+import Builder from './builder.js';
+
+
+
 /**
  * Librairie gérant le DOM (Document Object Model).
  * 
@@ -73,9 +78,38 @@ export default class Dom {
      * 
      * @param {HTMLElement} el L'élément HTML à supprimer.
      * @param {HTMLElement} parent Le parent de l'élément HTML.
+     * @returns {void}
      */
     static remove(el, parent = document.body) {
         parent.removeChild(el);
     }
 
+
+    /**
+     * Insert un composant dans le DOM via son code HTML.
+     * 
+     * @param {string} component Le code HTML du composant.
+     * @param {HTMLElement} parent Le parent du composant.
+     * @param {string} position L'endroit où insérer le composant.
+     * @returns {void}
+     */
+    static inject(component, parent = document.body, position = 'beforeend') {
+        Dom.insert(component, parent, position);
+
+        if (less !== undefined) {
+            less.registerStylesheets();
+            less.refresh();
+        }
+
+        element = position == 'beforeend' ? 
+            parent.lastElementChild : 
+            parent.firstElementChild;
+            
+        Finder.queryAll('script', element).forEach(script => {
+            let newScript = Builder.create('script', { 
+                type: 'module' 
+            }, script.innerHTML)
+            script.parentNode.replaceChild(newScript, script);
+        });
+    }
 }
