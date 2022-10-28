@@ -78,6 +78,33 @@ export default class Mount {
 
 
     /**
+     * Enregistre un événement du composant.
+     * 
+     * @param {function} callback La fonction à exécuter lors de l'événement.
+     * @param {string} event Le nom de l'événement.
+     * @return {void}
+     */
+    register(callback, event = 'refresh') {
+        let realevent = this.#realname(event);
+        this.events[realevent] = callback;
+        this.$.addEventListener(realevent, callback);
+    }
+
+
+    /**
+     * Supprime un événement du composant.
+     * 
+     * @param {string} event Le nom de l'événement.
+     * @return {void}
+     */
+    unregister(event = 'refresh') {
+        let realevent = this.#realname(event);
+        this.$.removeEventListener(realevent, this.events[realevent]);
+        delete this.events[realevent];
+    }
+
+
+    /**
      * Déclenche un événement des composants parents.
      * 
      * @param {string} event Le nom de l'événement.
@@ -153,42 +180,13 @@ export default class Mount {
      * @return {void}
      */
     spread(event = 'refresh', data = null, tag = null, cascade = false, start = null, offset = null, childFirst = true) {
-        let realevent = this.#realname(event);
-
         if (childFirst) {
-            this.pass(realevent, data, tag, cascade, start, offset);
-            this.emit(realevent, data, tag, cascade);
+            this.pass(event, data, tag, cascade, start, offset);
+            this.emit(event, data, tag, cascade);
         } else {
-            this.emit(realevent, data, tag, cascade);
-            this.pass(realevent, data, tag, cascade, start, offset);
+            this.emit(event, data, tag, cascade);
+            this.pass(event, data, tag, cascade, start, offset);
         }
-    }
-
-
-    /**
-     * Enregistre un événement du composant.
-     * 
-     * @param {function} callback La fonction à exécuter lors de l'événement.
-     * @param {string} event Le nom de l'événement.
-     * @return {void}
-     */
-    register(callback, event = 'refresh') {
-        let realevent = this.#realname(event);
-        this.events[realevent] = callback;
-        this.$.addEventListener(realevent, callback);
-    }
-
-
-    /**
-     * Supprime un événement du composant.
-     * 
-     * @param {string} event Le nom de l'événement.
-     * @return {void}
-     */
-    unregister(event = 'refresh') {
-        let realevent = this.#realname(event);
-        this.$.removeEventListener(realevent, this.events[realevent]);
-        delete this.events[realevent];
     }
 
 
@@ -207,22 +205,20 @@ export default class Mount {
      * @return {void}
      */
     toogle(callback, event = 'get', data = null, tag = null, cascade = false, count = 1) {
-        let realevent = this.#realname(event);
-
         let retrieve = [];
         this.register(e => {
             if (count === 1) {
                 callback(e.detail);
-                this.unregister(realevent);
+                this.unregister(event);
             } else {
                 retrieve.push(e.detail);
                 if (retrieve.length === count) {
                     callback(retrieve);
-                    this.unregister(realevent);
+                    this.unregister(event);
                 }
             }
-        }, realevent);
-        this.pass(realevent, data, tag, cascade);
+        }, event);
+        this.pass(event, data, tag, cascade);
     }
  
  
