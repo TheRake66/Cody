@@ -89,10 +89,12 @@ export default class Mount {
      */
     emit(event = 'refresh', data = null, tag = null, cascade = false) {
         let parent = this.$;
+        let realevent = this.#realname(event);
+
         do {
             parent = parent.parentElement.closest('component');
             if (parent && (tag === null || Finder.queryAll(`:scope > ${tag}` , parent).length > 0)) {
-                parent.dispatchEvent(new CustomEvent(event, {
+                parent.dispatchEvent(new CustomEvent(realevent, {
                     detail: data
                 }));
             }
@@ -116,6 +118,7 @@ export default class Mount {
         let childrens = Finder.queryAll(cascade ?
             'component' : 
             'component:not(:scope > * component component)', this.$);
+        let realevent = this.#realname(event);
 
         let count = 0;
         for (let i = 0; i < childrens.length; i++) {
@@ -123,7 +126,7 @@ export default class Mount {
 
             if (tag === null || Finder.queryAll(`:scope > ${tag}`, child).length > 0) {
                 if (start === null || count >= start) {
-                    child.dispatchEvent(new CustomEvent(event, {
+                    child.dispatchEvent(new CustomEvent(realevent, {
                         detail: data
                     }));
                 }
@@ -150,12 +153,14 @@ export default class Mount {
      * @return {void}
      */
     spread(event = 'refresh', data = null, tag = null, cascade = false, start = null, offset = null, childFirst = true) {
+        let realevent = this.#realname(event);
+
         if (childFirst) {
-            this.pass(event, data, tag, cascade, start, offset);
-            this.emit(event, data, tag, cascade);
+            this.pass(realevent, data, tag, cascade, start, offset);
+            this.emit(realevent, data, tag, cascade);
         } else {
-            this.emit(event, data, tag, cascade);
-            this.pass(event, data, tag, cascade, start, offset);
+            this.emit(realevent, data, tag, cascade);
+            this.pass(realevent, data, tag, cascade, start, offset);
         }
     }
 
@@ -168,8 +173,9 @@ export default class Mount {
      * @return {void}
      */
     register(callback, event = 'refresh') {
-        this.events[event] = callback;
-        this.$.addEventListener(event, callback);
+        let realevent = this.#realname(event);
+        this.events[realevent] = callback;
+        this.$.addEventListener(realevent, callback);
     }
 
 
@@ -180,8 +186,9 @@ export default class Mount {
      * @return {void}
      */
     unregister(event = 'refresh') {
-        this.$.removeEventListener(event, this.events[event]);
-        delete this.events[event];
+        let realevent = this.#realname(event);
+        this.$.removeEventListener(realevent, this.events[realevent]);
+        delete this.events[realevent];
     }
 
 
@@ -200,20 +207,34 @@ export default class Mount {
      * @return {void}
      */
     toogle(callback, event = 'get', data = null, tag = null, cascade = false, count = 1) {
+        let realevent = this.#realname(event);
+
         let retrieve = [];
         this.register(e => {
             if (count === 1) {
                 callback(e.detail);
-                this.unregister(event);
+                this.unregister(realevent);
             } else {
                 retrieve.push(e.detail);
                 if (retrieve.length === count) {
                     callback(retrieve);
-                    this.unregister(event);
+                    this.unregister(realevent);
                 }
             }
-        }, event);
-        this.pass(event, data, tag, cascade);
+        }, realevent);
+        this.pass(realevent, data, tag, cascade);
+    }
+ 
+ 
+    /**
+     * Préfixe le nom de l'événement avec afin de ne pas interférer 
+     * avec les événements natifs.
+     * 
+     * @param {string} event Le nom de l'événement.
+     * @returns {string} Le nom de l'événement avec le préfixe.
+     */
+    #realname(event) {
+        return `cody:://${event}`;
     }
     
 }
