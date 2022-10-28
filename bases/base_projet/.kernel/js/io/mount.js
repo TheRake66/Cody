@@ -234,7 +234,7 @@ export default class Mount {
      * @returns {string} Le nom de l'événement avec le préfixe.
      */
     #realname(event) {
-        return `cody:://${event}`;
+        return `cody://${event}`;
     }
     
 }
