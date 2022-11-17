@@ -21,11 +21,13 @@ export default class Mount {
      */
     uuid = null;
 
+
     /**
      * @var {HTMLElement} $ L'élément du composant.
      */
     $ = null;
 
+    
     /**
      * @var {Object} events La liste des événements enregistrés.
      */
@@ -85,9 +87,21 @@ export default class Mount {
      * @return {void}
      */
     register(callback, event = 'refresh') {
-        let realevent = this.#realname(event);
-        this.events[realevent] = callback;
-        this.$.addEventListener(realevent, callback);
+        let realevent = this.#realName(event);
+        let realcallback = event => {
+
+            self.#openLog('✅ Exécution', realevent, [
+                [ 'Événement', event ],
+                [ 'Données', event.detail ]
+            ]);
+
+            callback();
+        }
+
+        this.#openLog('🛂 Enregistrement', realevent);
+
+        this.events[realevent] = realcallback;
+        this.$.addEventListener(realevent, realcallback);
     }
 
 
@@ -98,7 +112,10 @@ export default class Mount {
      * @return {void}
      */
     unregister(event = 'refresh') {
-        let realevent = this.#realname(event);
+        let realevent = this.#realName(event);
+
+        this.#openLog('🚮 Suppression', realevent);
+
         this.$.removeEventListener(realevent, this.events[realevent]);
         delete this.events[realevent];
     }
@@ -116,7 +133,13 @@ export default class Mount {
      */
     emit(event = 'refresh', data = null, tag = null, cascade = false) {
         let parent = this.$;
-        let realevent = this.#realname(event);
+        let realevent = this.#realName(event);
+
+        this.#openLog('🔼 Déclenchement montant', realevent, [
+            [ 'Données', data ],
+            [ 'Balise', tag ],
+            [ 'Cascade', cascade ]
+        ]);
 
         do {
             parent = parent.parentElement.closest('component');
@@ -145,7 +168,15 @@ export default class Mount {
         let childrens = Finder.queryAll(cascade ?
             'component' : 
             'component:not(:scope > * component component)', this.$);
-        let realevent = this.#realname(event);
+        let realevent = this.#realName(event);
+
+        this.#openLog('🔽 Déclenchement descendant', realevent, [
+            [ 'Données', data ],
+            [ 'Balise', tag ],
+            [ 'Cascade', cascade ],
+            [ 'Début', start ],
+            [ 'Limite', offset ]
+        ]);
 
         let count = 0;
         for (let i = 0; i < childrens.length; i++) {
@@ -180,6 +211,16 @@ export default class Mount {
      * @return {void}
      */
     spread(event = 'refresh', data = null, tag = null, cascade = false, start = null, offset = null, childFirst = true) {
+        
+        this.#openLog('🔁 Déclenchement descendant et montant', realevent, [
+            [ 'Données', data ],
+            [ 'Balise', tag ],
+            [ 'Cascade', cascade ],
+            [ 'Début', start ],
+            [ 'Limite', offset ],
+            [ 'Enfant d\'abord', childFirst ]
+        ]);
+        
         if (childFirst) {
             this.pass(event, data, tag, cascade, start, offset);
             this.emit(event, data, tag, cascade);
@@ -205,8 +246,37 @@ export default class Mount {
      * @return {void}
      */
     toogle(callback, event = 'get', data = null, tag = null, cascade = false, count = 1) {
+        
+        let realevent = this.#realName(event);
+
+        this.#openLog('🎦 Analyse de données', realevent, [
+            [ 'Données', data ],
+            [ 'Balise', tag ],
+            [ 'Cascade', cascade ],
+            [ 'Nombre', count ]
+        ]);
+
         let retrieve = [];
         this.register(e => {
+
+            let numero = retrieve.length.toString()
+                .replace('0', '0️⃣')
+                .replace('1', '1️⃣')
+                .replace('2', '2️⃣')
+                .replace('3', '3️⃣')
+                .replace('4', '4️⃣')
+                .replace('5', '5️⃣')
+                .replace('6', '6️⃣')
+                .replace('7', '7️⃣')
+                .replace('8', '8️⃣')
+                .replace('9', '9️⃣');
+
+            this.#openLog(`${numero} Réception de données`, realevent, [
+                [ 'Numéro', retrieve.length ],
+                [ 'Événement', event ],
+                [ 'Données', event.detail ]
+            ]);
+
             if (count === 1) {
                 callback(e.detail);
                 this.unregister(event);
@@ -229,8 +299,31 @@ export default class Mount {
      * @param {string} event Le nom de l'événement.
      * @returns {string} Le nom de l'événement avec le préfixe.
      */
-    #realname(event) {
+    #realName(event) {
         return `cody://${event}`;
+    }
+
+
+    /**
+     * Ouvre un groupe de log.
+     * 
+     * @param {string} label Le message à afficher.
+     * @param {string} event Le nom de l'événement.
+     * @param {array} logs Les données à afficher.
+     * @return {void}
+     */
+    #openLog(label, event, logs = []) {
+        console.groupCollapsed(`${label} : ${event} 🠊 ${this.constructor.name}[${this.uuid}]`);
+            console.groupCollapsed('Composant');
+            console.log('UUID :', this.uuid);
+            console.log('Nom :', this.constructor.name);
+            console.log('Élément :', this.$);
+            console.log('Référence :', this);
+            console.groupEnd();
+        logs.forEach(log => {
+            console.log(`${log[0]} :`, log[1]);
+        });
+        console.groupEnd();
     }
     
 }
