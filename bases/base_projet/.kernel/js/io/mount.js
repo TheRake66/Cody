@@ -88,14 +88,16 @@ export default class Mount {
      */
     register(callback, event = 'refresh') {
         let realevent = this.#realName(event);
-        let realcallback = event => {
+        let openLog = this.#openLog;
+        let copyThis = this;
+        let realcallback = (event, ...args) => {
 
-            self.#openLog('✅ Exécution', realevent, [
+            openLog('✅ Exécution', realevent, [
                 [ 'Événement', event ],
                 [ 'Données', event.detail ]
-            ]);
+            ], copyThis);
 
-            callback();
+            callback(event, ...args);
         }
 
         this.#openLog('🛂 Enregistrement', realevent);
@@ -246,8 +248,10 @@ export default class Mount {
      * @return {void}
      */
     toogle(callback, event = 'get', data = null, tag = null, cascade = false, count = 1) {
-        
         let realevent = this.#realName(event);
+        let retrieve = [];
+        let openLog = this.#openLog;
+        let copyThis = this;
 
         this.#openLog('🎦 Analyse de données', realevent, [
             [ 'Données', data ],
@@ -256,7 +260,6 @@ export default class Mount {
             [ 'Nombre', count ]
         ]);
 
-        let retrieve = [];
         this.register(e => {
 
             let numero = retrieve.length.toString()
@@ -271,17 +274,17 @@ export default class Mount {
                 .replace('8', '8️⃣')
                 .replace('9', '9️⃣');
 
-            this.#openLog(`${numero} Réception de données`, realevent, [
+            openLog(`${numero} Réception de données`, realevent, [
                 [ 'Numéro', retrieve.length ],
                 [ 'Événement', event ],
                 [ 'Données', event.detail ]
-            ]);
+            ], copyThis);
 
             if (count === 1) {
-                callback(e.detail);
+                callback(e);
                 this.unregister(event);
             } else {
-                retrieve.push(e.detail);
+                retrieve.push(e);
                 if (retrieve.length === count) {
                     callback(retrieve);
                     this.unregister(event);
@@ -310,15 +313,16 @@ export default class Mount {
      * @param {string} label Le message à afficher.
      * @param {string} event Le nom de l'événement.
      * @param {array} logs Les données à afficher.
+     * @param {object} instance L'instance du composant.
      * @return {void}
      */
-    #openLog(label, event, logs = []) {
-        console.groupCollapsed(`${label} : ${event} 🠊 ${this.constructor.name}[${this.uuid}]`);
+    #openLog(label, event, logs = [], instance = this) {
+        console.groupCollapsed(`${label} : ${event} 🠊 ${instance.constructor.name}[${instance.uuid}]`);
             console.groupCollapsed('Composant');
-            console.log('UUID :', this.uuid);
-            console.log('Nom :', this.constructor.name);
-            console.log('Élément :', this.$);
-            console.log('Référence :', this);
+            console.log('UUID :', instance.uuid);
+            console.log('Nom :', instance.constructor.name);
+            console.log('Élément :', instance.$);
+            console.log('Référence :', instance);
             console.groupEnd();
         logs.forEach(log => {
             console.log(`${log[0]} :`, log[1]);
