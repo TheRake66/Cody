@@ -214,7 +214,7 @@ export default class Mount {
      */
     spread(event = 'refresh', data = null, tag = null, cascade = false, start = null, offset = null, childFirst = true) {
         
-        this.#openLog('🔁 Déclenchement descendant et montant', realevent, [
+        this.#openLog('🔀 Déclenchement descendant et montant', realevent, [
             [ 'Données', data ],
             [ 'Balise', tag ],
             [ 'Cascade', cascade ],
@@ -253,7 +253,7 @@ export default class Mount {
         let openLog = this.#openLog;
         let copyThis = this;
 
-        this.#openLog('🎦 Analyse de données', realevent, [
+        this.#openLog('🎦 Analyse des données', realevent, [
             [ 'Données', data ],
             [ 'Balise', tag ],
             [ 'Cascade', cascade ],
@@ -262,7 +262,7 @@ export default class Mount {
 
         this.register(e => {
 
-            let numero = retrieve.length.toString()
+            let numero = (retrieve.length + 1).toString()
                 .replace('0', '0️⃣')
                 .replace('1', '1️⃣')
                 .replace('2', '2️⃣')
@@ -274,10 +274,10 @@ export default class Mount {
                 .replace('8', '8️⃣')
                 .replace('9', '9️⃣');
 
-            openLog(`${numero} Réception de données`, realevent, [
+            openLog(`${numero} Réception d\'une donnée`, realevent, [
                 [ 'Numéro', retrieve.length ],
-                [ 'Événement', e ],
-                [ 'Données', event.detail ]
+                [ 'Événement', event ],
+                [ 'Données', e.detail ]
             ], copyThis);
 
             if (count === 1) {
@@ -293,6 +293,37 @@ export default class Mount {
         }, event);
         this.pass(event, data, tag, cascade);
     }
+
+
+	/**
+	 * Enregistre un événement, puis lors de son appel, déclenche le même événement 
+	 * pour son composant parent avec les données renvoyées par la fonction de callback.
+	 * 
+	 * @param {function} callback La fonction à exécuter lors de l'événement.
+	 * @param {string} event Le nom de l'événement.
+	 * @param {string} tag Un balise spécifique, seul les composants parent ayant cette balise seront déclencher.
+	 * @param {boolean} cascade Si l'événement doit être déclenché que pour
+	 * le premier composant parent ou tous jusqu'au premier composant de la page.
+	 * @return {void}
+	 */
+	getter(callback, event, tag = null, cascade = false) {
+        let realevent = this.#realName(event);
+
+        this.#openLog('🔂 #️⃣Préparation de l\'accès à la donnée', realevent, [
+			[ 'Balise', tag ],
+			[ 'Cascade', cascade ]
+        ]);
+
+		this.register(e => {
+			let data = callback(e);
+
+			this.#openLog('🔁 Réception de la donnée', realevent, [
+				[ 'Données', data ]
+			]);
+
+			this.emit(event, data, tag, cascade);
+		}, event);
+	}
  
  
     /**

@@ -144,7 +144,7 @@ abstract class Rest {
 	 * @param bool $filter Si on doit filtrer la valeur contre la vulnérabilité XSS.
 	 * @return any La valeur du paramètre.
 	 */
-	protected function data($object, $name, $convert = false, $trim = true, $filter = true) {
+	protected function data($object, $name, $convert = false, $trim = true, $filter = false) {
 		if (property_exists($object, $name)) {
 			$value = $object->$name;
 			if (is_string($value)) {
