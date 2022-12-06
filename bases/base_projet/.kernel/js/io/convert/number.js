@@ -8,7 +8,7 @@
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
- export default class Number {
+export default class Number {
 
     /**
      * Convertit un prix au format Européen.

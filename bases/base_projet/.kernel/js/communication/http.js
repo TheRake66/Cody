@@ -8,7 +8,7 @@
  * @license MIT License
  * @copyright © 2022 - Thibault BUSTOS (TheRake66)
  */
- export default class Http {
+export default class Http {
 
 	/**
 	 * @type {int} Code de retour HTTP.

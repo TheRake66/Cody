@@ -1,8 +1,7 @@
 <?php
 namespace Kernel\Debug;
 
-use Cody\Console\Program;
-use Kernel\Security\Configuration;;
+use Kernel\Security\Configuration;
 use Kernel\Io\Path;
 use Kernel\Url\Router;
 use Kernel\Url\Parser;
