@@ -64,6 +64,38 @@ abstract class Builder {
     }
 
 
+	/**
+	 * Construit une balise HTML "a" pour envoyer un mail.
+	 * 
+	 * @param string $text Le texte de la balise.
+	 * @param string $email L'adresse mail.
+	 * @param string $subject Le sujet du mail.
+	 * @param string $body Le corps du mail.
+	 * @param string $cc Les destinataires en copie.
+	 * @param string $bcc Les destinataires en copie cachée.
+	 * @return string La balise HTML.
+	 */
+	static function mailto($text, $email, $subject = null, $body = null, $cc = null, $bcc = null) {
+		$href = 'mailto:' . $email;
+		$add = function($key, $value) use (&$href) {
+			$href .= (strpos($href, '?') === false ? '?' : '&' ) . $key . '=' . $value;
+		};
+		if ($subject) {
+			$add('subject', $subject);
+		}
+		if ($body) {
+			$add('body', $body);
+		}
+		if ($cc) {
+			$add('cc', $cc);
+		}
+		if ($bcc) {
+			$add('bcc', $bcc);
+		}
+		return self::create('a', [ 'href' => $href ], $text);
+	}
+
+
     /**
      * Construit une balise HTML "img" à partir d'octets.
      *

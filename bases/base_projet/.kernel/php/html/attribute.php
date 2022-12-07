@@ -76,13 +76,15 @@ abstract class Attribute {
     /**
      * Ajoute un lien href.
      * 
-     * @param string $href L'URL.
-     * @param string $target Le target.
+     * @param string $route La route de redirection.
+     * @param array $param Les paramètres de l'URL.
+     * @param bool $addback Si on doit ajouter un paramètre de redirection pour retourner à la page précédente.
+     * @param bool $newTab Si on doit ouvrir la page dans un nouvel onglet.
      * @return string L'attribut HTML.
      */
-    static function href($link, $target = null) {
-        return self::set('href', $link) . 
-            (is_null($target) ? '' : self::set('target', $target));
+    static function href($route, $param = null, $addBack = false, $newTab = false) {
+        return self::set('href', Location::build($route, $param, $addBack)) . 
+            (is_null($newTab) ? '' : self::set('target', $newTab));
     }
 
 
