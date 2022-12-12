@@ -106,7 +106,7 @@ abstract class Rest {
 		Log::add('Résultat de la requête REST : "' . print_r($response, true) . '".',
 			Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
 		
-		$beauty = Configuration::get()->render->api_beautify_json;
+		$beauty = Configuration::get()->render->api->beautify_json;
 		$flags = (!$beauty ? 0 : JSON_PRETTY_PRINT) | JSON_PARTIAL_OUTPUT_ON_ERROR;
 		Stream::reset();
 		http_response_code($status);

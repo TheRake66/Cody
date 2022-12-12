@@ -23,7 +23,7 @@ abstract class Transaction {
      * @param bool True si la transaction a été démarrée, false sinon.
      */
     static function begin() {
-        $conf = Statement::configuration();
+        $conf = Statement::configuration()->options;
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
             Statement::instance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
@@ -37,7 +37,7 @@ abstract class Transaction {
      * @param bool True si la transaction a été annulée, false sinon.
      */
     static function rollback() {
-        $conf = Statement::configuration();
+        $conf = Statement::configuration()->options;
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
             Statement::instance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
         }
@@ -51,7 +51,7 @@ abstract class Transaction {
      * @param bool True si la transaction a été validée, false sinon.
      */
     static function commit() {
-        $conf = Statement::configuration();
+        $conf = Statement::configuration()->options;
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
             Statement::instance()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
         }

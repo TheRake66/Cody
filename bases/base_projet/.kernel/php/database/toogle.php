@@ -27,7 +27,7 @@ abstract class Toogle {
      */
     static function switch($database = null) {
         if (empty($database)) {
-            $database = Configuration::get()->database->default_database;
+            $database = Configuration::get()->database->default;
         }
         if (Statement::current() != $database) {
             Statement::current($database);

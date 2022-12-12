@@ -23,13 +23,13 @@ abstract class Cookie {
 	 * @return bool True si les paramètres sont corrects, false sinon.
 	 */
 	static function session() {
-        $conf = Configuration::get()->security;
+        $conf = Configuration::get()->security->cookies;
 		return session_set_cookie_params(
-			$conf->cookie_lifetime, 
-			$conf->cookie_path,
-			$conf->cookie_domain,
-			$conf->cookie_only_https,
-			$conf->cookie_prevent_xss
+			$conf->lifetime, 
+			$conf->path,
+			$conf->domain,
+			$conf->only_https,
+			$conf->prevent_xss
 		);
 	}
 
@@ -43,15 +43,15 @@ abstract class Cookie {
 	 * @return bool True si le cookie a été défini, false sinon.
 	 */
 	static function set($name, $value = '', $time = null) {
-        $conf = Configuration::get()->security;
+        $conf = Configuration::get()->security->cookies;
 		return setcookie(
             self::name($name), 
             $value, 
-            $time ?? $conf->cookie_lifetime, 
-            $conf->cookie_path,
-            $conf->cookie_domain,
-            $conf->cookie_only_https,
-            $conf->cookie_prevent_xss
+            $time ?? $conf->lifetime, 
+            $conf->path,
+            $conf->domain,
+            $conf->only_https,
+            $conf->prevent_xss
         );
 	}
 

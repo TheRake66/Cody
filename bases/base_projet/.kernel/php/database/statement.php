@@ -48,9 +48,9 @@ abstract class Statement {
             ';dbname=' . $conf->name . 
             ';charset=' . $conf->encoding;
         $options = [
-            PDO::ATTR_PERSISTENT => $conf->persistent_mode,
-            PDO::ATTR_EMULATE_PREPARES => $conf->emulate_prepare,
-            PDO::ATTR_ERRMODE => $conf->throw_sql_error ?
+            PDO::ATTR_PERSISTENT => $conf->options->persistent_mode,
+            PDO::ATTR_EMULATE_PREPARES => $conf->options->emulate_prepare,
+            PDO::ATTR_ERRMODE => $conf->options->throw_sql_error ?
                     PDO::ERRMODE_EXCEPTION :
                     PDO::ERRMODE_SILENT
         ];
@@ -73,15 +73,15 @@ abstract class Statement {
     static function configuration() {
         $conf = Configuration::get()->database;
         if (!is_null(self::$current)) {
-            foreach ($conf->databases_list as $database) {
+            foreach ($conf->list as $database) {
                 if ($database->name == self::$current) {
                     return $database;
                 }
             }
             Error::trigger('Aucune configuration pour la base de données "' . self::$current . '" !');
         } else {
-            foreach ($conf->databases_list as $database) {
-                if ($database->name == $conf->default_database) {
+            foreach ($conf->list as $database) {
+                if ($database->name == $conf->default) {
                     return $database;
                 }
             }
@@ -99,7 +99,7 @@ abstract class Statement {
     static function instance() {
         $conf = Configuration::get()->database;
         if (is_null(self::$current)) {
-            self::$current = $conf->default_database;
+            self::$current = $conf->default;
         }
         if (is_null(self::$instances)) {
             self::$instances = [];
@@ -107,11 +107,11 @@ abstract class Statement {
         if (array_key_exists(self::$current, self::$instances)) {
             return self::$instances[self::$current];
         } else {
-            if ($conf->progressive_connection) {
+            if ($conf->progressive) {
                 self::$instances[self::$current] = self::connect(self::configuration());
                 return self::$instances[self::$current];
             } else {
-                foreach ($conf->databases_list as $database) {
+                foreach ($conf->list as $database) {
                     self::$instances[$database->name] = self::connect($database);
                 } 
                 if (array_key_exists(self::$current, self::$instances)) {

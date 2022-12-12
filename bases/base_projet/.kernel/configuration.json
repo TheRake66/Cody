@@ -1,68 +1,103 @@
 {
     "security": {
-        "redirect_to_https": false,
-        "self_xss_prevent": false,
-        "cookie_path": "/",
-        "cookie_domain": "www.{PROJECT_NAME}.com",
-        "cookie_only_https": false,
-        "cookie_prevent_xss": false,
-        "cookie_lifetime": 0
+        "only_https": false,
+        "prevent_self_xss": false,
+		"cookies": {
+			"path": "/",
+			"domain": "www.{PROJECT_NAME}.com",
+			"only_https": false,
+			"prevent_xss": false,
+			"lifetime": 0
+		}
     },
     "render": {
         "use_minifying": false,
-        "catch_error": true, 
-        "show_error_message": true,
-        "show_supervisor": true,
-        "debug_border_component": true,
         "wait_dom_loaded": true,
         "delay_after_load": 200,
-        "api_beautify_json": true
+		"error": {
+			"catch": true, 
+			"format_message": true
+		},
+		"debug": {
+			"supervisor": true,
+			"border_component": false
+		},
+		"api": {
+			"beautify_json": true
+		}
     },
     "log": {
-        "use_log_file": true,
+        "use_file": true,
         "ip_identify": false,
         "throw_if_unwritable": true,
         "max_lenght": 1000,
-        "query": {
-            "print_query": true,
-            "print_parameters": true,
-            "print_results": true,
-            "print_mail": true,
-            "print_mail_header": true,
-            "print_mail_content": true
-        }
+		"query": {
+			"enabled": true,
+			"parameters": true,
+			"results": true
+		},
+		"mail": {
+			"enabled": true,
+			"header": true,
+			"content": true
+		}
     },
-    "website_head": {
+    "website": {
         "charset": "utf-8",
+        "title": "{PROJECT_NAME}",
         "description": "{PROJECT_NAME}",
         "keywords": "{PROJECT_NAME}",
         "author": "{USER_NAME}",
         "viewport": "width=device-width, initial-scale=1.0",
         "theme_color": "#3B78FF",
         "robots": "index, follow",
-        "title": "{PROJECT_NAME}",
         "favicon": "favicon.ico",
-        "cache_control": "no-cache",
-        "pragma": "no-cache",
-        "cache": "no-cache",
-        "expires": -1
+		"opengraph": {			
+			"title": "{PROJECT_NAME}",
+			"description": "{PROJECT_NAME}",
+			"url": "https://www.{PROJECT_NAME}.com",
+			"type": "website",
+			"locale": "fr_FR",
+			"site_name": "{PROJECT_NAME}",
+			"image": {
+				"secure_url": "",
+				"url": "",
+				"type": "image/png",
+				"width": "512",
+				"height": "512",
+				"alt": ""
+			}
+		},
+		"http": {
+			"cache": "public, max-age=31536000",
+			"cache_control": "public, max-age=31536000",
+			"pragma": "public, max-age=31536000",
+			"expires": 31536000,
+			"refresh": {
+				"enabled": false,
+				"delay": 0,
+				"url": ""
+			}
+		}
     },
     "region": {
         "timezone": "Europe/Paris",
         "main_lang": "fr"
     },
     "session": {
-        "open_session": true,
-        "multiple_session": true,
-        "session_name": "{PROJECT_NAME}",
+        "openning": true,
+        "multiple": true,
+        "name": "{PROJECT_NAME}",
         "token_lifetime_days": 31,
-        "regenerate_delay": -1,
-        "regenerate_delete_old": false
+		"regenerate": {
+			"delay": -1,
+			"delete_old": false
+		}
     },
     "database": {
-        "default_database": "{PROJECT_NAME}",
-        "progressive_connection": true,
-        "databases_list": [
+        "default": "{PROJECT_NAME}",
+        "progressive": true,
+        "list": [
             {
 				"login": "root", 
 				"password": "", 
@@ -71,10 +106,12 @@
 				"name": "{PROJECT_NAME}", 
                 "encoding": "utf8", 
                 "type": "mysql",
-                "throw_sql_error": true,
-                "throw_transaction": true,
-                "emulate_prepare": false,
-                "persistent_mode": false
+				"options": {
+					"throw_sql_error": true,
+					"throw_transaction": true,
+					"emulate_prepare": false,
+					"persistent_mode": false
+				}
             }
         ]
     }

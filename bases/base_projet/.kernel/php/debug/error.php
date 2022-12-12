@@ -41,7 +41,7 @@ abstract class Error {
      * @return void
      */
     static function handler() {
-        if (!self::$showing && Configuration::get()->render->catch_error) {
+        if (!self::$showing && Configuration::get()->render->error->catch) {
             set_error_handler(function($severity, $message, $file_name, $lineno) {
                 self::show($severity, $message, $file_name, $lineno);
             });
@@ -58,7 +58,7 @@ abstract class Error {
      * @return void
      */
     static function remove() { 
-        if (Configuration::get()->render->catch_error) {
+        if (Configuration::get()->render->error->catch) {
             set_error_handler(function() { });
             register_shutdown_function(function() { });
         }
@@ -114,7 +114,7 @@ abstract class Error {
         Log::add($messagefull, Log::LEVEL_ERROR);
         Stream::destroy();
         http_response_code(500);
-        if (Configuration::get()->render->show_error_message) {
+        if (Configuration::get()->render->error->format_message) {
             Stream::start();
             $search = urlencode($message);
             echo '

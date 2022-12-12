@@ -40,7 +40,7 @@ abstract class Supervisor {
      * @return void
      */
     static function log($message, $level = Log::LEVEL_INFO) {
-        if (Configuration::get()->render->show_supervisor) {
+        if (Configuration::get()->render->debug->supervisor) {
             $now = \DateTime::createFromFormat('U.u', microtime(true));
             $now = $now ? $now->format('H:i:s.v') : '??:??:??.???';
             self::$log[] = [ '[' . $now . '] ' . (
@@ -57,7 +57,7 @@ abstract class Supervisor {
      * @return void
      */
     static function watch() {
-        if (Configuration::get()->render->show_supervisor) {
+        if (Configuration::get()->render->debug->supervisor) {
             if (isset($_POST['supervisor_refresh'])) {
                 self::log('Page actualisée.', Log::LEVEL_GOOD);
             }elseif (isset($_POST['supervisor_clear'])) {
@@ -81,7 +81,7 @@ abstract class Supervisor {
      * @return void
      */
     static function show() {
-        if (Configuration::get()->render->show_supervisor) {
+        if (Configuration::get()->render->debug->supervisor) {
             self::log('Supervision terminé.', Log::LEVEL_GOOD);
             
             $ms = round((microtime(true) - self::$started) * 1000);

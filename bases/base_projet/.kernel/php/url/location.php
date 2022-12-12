@@ -117,7 +117,7 @@ abstract class Location {
 		}
 		return $url;
 	}
-
+	
 }
 
 ?>

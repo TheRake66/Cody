@@ -29,7 +29,7 @@ abstract class Socket {
 	 */
 	static function start() {
         $conf = Configuration::get()->session;
-		if ($conf->open_session) {
+		if ($conf->openning) {
             
             if (!is_writable(session_save_path())) {
                 Error::trigger('Le répertoire utilisé pour enregistrer les données de session n\'est pas accessible.');
@@ -38,8 +38,8 @@ abstract class Socket {
             if (session_status() === PHP_SESSION_NONE) {
                 Log::add('Démarrage de la session...', Log::LEVEL_PROGRESS);
 
-                if ($conf->multiple_session) {
-                    $name = str_replace(' ', '_', $conf->session_name);
+                if ($conf->multiple) {
+                    $name = str_replace(' ', '_', $conf->name);
                     if (!session_name($name)) {
                         Error::trigger('Impossible de définir le nom de la session.');
                     }
@@ -58,12 +58,13 @@ abstract class Socket {
             }
 
             $error = false;
-            if ($conf->regenerate_delay === 0) {
+			$conf = $conf->regenerate;
+            if ($conf->delay === 0) {
                 $error = !self::regenerate();
-            } elseif ($conf->regenerate_delay > 0) {
+            } elseif ($conf->delay > 0) {
                 if (!isset($_SESSION['session_last_regenerate'])) {
                     $_SESSION['session_last_regenerate'] = time();
-                } elseif (time() - $_SESSION['session_last_regenerate'] > $conf->regenerate_delay) {
+                } elseif (time() - $_SESSION['session_last_regenerate'] > $conf->delay) {
                     $error = !self::regenerate();
                 }
             }
@@ -80,8 +81,8 @@ abstract class Socket {
      * @return bool True si la session a été régénérée, false sinon.
      */
     static function regenerate() {
-        $conf = Configuration::get()->session;
-        return session_regenerate_id($conf->regenerate_delete_old);
+        $conf = Configuration::get()->session->regenerate;
+        return session_regenerate_id($conf->delete_old);
     }
 
 }

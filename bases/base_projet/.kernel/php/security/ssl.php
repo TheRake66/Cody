@@ -25,7 +25,7 @@ abstract class Ssl {
 	 * @return void
 	 */
 	static function enable() {
-		if (Configuration::get()->security->redirect_to_https) {
+		if (Configuration::get()->security->only_https) {
 			if(self::active()) {
 				Log::add('SSL actif.', Log::LEVEL_GOOD);
 			} else {

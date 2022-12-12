@@ -73,15 +73,14 @@ abstract class Log {
      */
     static function file($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
         $conf = Configuration::get()->log;
-        $confq = $conf->query;
 
-        if ($conf->use_log_file &&
-            ($type !== self::TYPE_QUERY || $confq->print_query) &&
-            ($type !== self::TYPE_QUERY_PARAMETERS || $confq->print_parameters) &&
-            ($type !== self::TYPE_QUERY_RESULTS || $confq->print_results) &&
-            ($type !== self::TYPE_MAIL || $confq->print_mail) &&
-            ($type !== self::TYPE_MAIL_HEADER || $confq->print_mail_header) &&
-            ($type !== self::TYPE_MAIL_CONTENT || $confq->print_mail_content)
+        if ($conf->use_file &&
+            ($type !== self::TYPE_QUERY 			|| $conf->query->enabled) &&
+            ($type !== self::TYPE_QUERY_PARAMETERS 	|| $conf->query->parameters) &&
+            ($type !== self::TYPE_QUERY_RESULTS 	|| $conf->query->results) &&
+            ($type !== self::TYPE_MAIL 				|| $conf->mail->enabled) &&
+            ($type !== self::TYPE_MAIL_HEADER 		|| $conf->mail->header) &&
+            ($type !== self::TYPE_MAIL_CONTENT 		|| $conf->mail->content)
             ) {
 
             $folder = Path::absolute('logs');

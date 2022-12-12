@@ -61,8 +61,7 @@ abstract class Render {
             Output::add(Less::import($style));
             Output::add(Javascript::import($script, 'module', $varname, $class, $uuid));
             
-            $conf = Configuration::get()->render;
-            if ($conf->debug_border_component) {
+            if (Configuration::get()->render->debug->border_component) {
                 Output::add(Javascript::run('
                     document
                         .querySelector(\'component[data-uuid="'.$uuid.'"]\')

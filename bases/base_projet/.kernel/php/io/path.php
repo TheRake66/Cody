@@ -92,6 +92,18 @@ abstract class Path {
         return self::assets('video/' . $path);
     }
 
+
+	/**
+	 * Combine deux chemins avec un séparateur de dossier du système.
+	 * 
+	 * @param string $path1 Le premier chemin.
+	 * @param string $path2 Le second chemin.
+	 * @return string Le chemin combiné.
+	 */
+	static function combine($path1, $path2) {
+		return $path1 . DIRECTORY_SEPARATOR . $path2;
+	}
+
 }
 
 ?>
