@@ -40,19 +40,24 @@ export default class Sound {
 				track.play();
 			}
 		}, false);
+		let out = false;
 		do {
 			track
 				.play()
 				.then(_ => {
+					out = true;
 					if (onSuccess) onSuccess();
 				})
 				.catch(e => {
-					if (onError) onError(e);
+					if (onError) {
+						out = true;
+						onError(e);
+					}
 				});
-			if (!track.played) {
+			if (!out) {
 				await Thread.sleep(timeout);
 			}
-		} while (!track.played)
+		} while (!out)
     }
 
 }
