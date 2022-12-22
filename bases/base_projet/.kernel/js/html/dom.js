@@ -74,6 +74,28 @@ export default class Dom {
 
 
     /**
+     * Insert un élément HTML dans le DOM après un autre élément HTML.
+     * 
+     * @param {HTMLElement} el L'élément HTML à insérer.
+     * @param {HTMLElement} sibling L'élément HTML après lequel insérer l'élément.
+     */
+    static after(el, sibling) {
+        sibling.parentNode.insertBefore(el, sibling.nextSibling);
+    }
+
+
+    /**
+     * Insert un élément HTML dans le DOM avant un autre élément HTML.
+     * 
+     * @param {HTMLElement} el L'élément HTML à insérer.
+     * @param {HTMLElement} sibling L'élément HTML avant lequel insérer l'élément.
+     */
+    static before(el, sibling) {
+        sibling.parentNode.insertBefore(el, sibling);
+    }
+
+
+    /**
      * Supprime un élément HTML dans le DOM.
      * 
      * @param {HTMLElement} el L'élément HTML à supprimer.
