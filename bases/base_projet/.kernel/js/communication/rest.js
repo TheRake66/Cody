@@ -1,4 +1,4 @@
-import Http from './Http.js';
+import Http from './http.js';
 import Location from '../url/location.js';
 
 
