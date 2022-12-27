@@ -38,7 +38,7 @@ abstract class Autoloader {
         if (!spl_autoload_register(function($class) {
             self::load($class);
         })) {
-            die('Impossible d\'enregistrer la fonction d\'autoload !');
+            exit('Impossible d\'enregistrer la fonction d\'autoload !');
         }
     }
 
@@ -79,14 +79,14 @@ abstract class Autoloader {
         if ($file = self::file($required)) {
             require_once($file);
             if (!class_exists($required)) {
-                die('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
+                exit('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
             }
         } else {
             $msg = 'Impossible de charger la classe "' . $required . '" !';
             if (self::exists('Kernel\\Debug\\Error')) {
                 Error::trigger($msg);
             } else {
-                die($msg);
+                exit($msg);
             }
         }
     }

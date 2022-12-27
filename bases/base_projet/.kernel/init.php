@@ -13,6 +13,9 @@ k\Security\Configuration::load();
 // Prépare l'écouteur d'événement des erreurs.
 k\Debug\Error::handler();
 
+// Redirige vers la page de maintenance si nécessaire.
+k\Debug\Maintenance::redirect();
+
 // Démarre le flux de données.
 k\Io\Stream::reset();
 

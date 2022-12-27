@@ -32,6 +32,16 @@ abstract class Network {
 		}
 	}
 	
+
+	/**
+	 * Retourne si l'adresse IP du client est celle de localhost.
+	 * 
+	 * @return bool Vrai si l'adresse IP du client est celle de localhost.
+	 */
+	static function localhost() {
+		return self::ip() === "::1";
+	}
+	
 }
 
 ?>

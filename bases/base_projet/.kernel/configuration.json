@@ -20,7 +20,16 @@
 		},
 		"debug": {
 			"supervisor": true,
-			"border_component": false
+			"border_component": false,
+			"maintenance": {
+				"enabled": false,
+				"authorized_ips": [],
+				"alow_localhost": false,
+				"redirect": {
+					"enabled": false,
+					"url": ""
+				}
+			}
 		},
 		"api": {
 			"beautify_json": true

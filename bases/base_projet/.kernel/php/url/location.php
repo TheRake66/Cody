@@ -40,7 +40,7 @@ abstract class Location {
 		Stream::clean();
 		header('Location: ' . $url);
 		Stream::close();
-		exit;
+		exit();
 	}
 	
 

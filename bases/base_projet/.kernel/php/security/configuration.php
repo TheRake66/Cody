@@ -40,7 +40,7 @@ abstract class Configuration {
             if (Autoloader::exists('Kernel\\Debug\\Error')) {
                 Error::trigger($msg);
             } else {
-                die($msg);
+                exit($msg);
             }
 		}
 	}
@@ -60,7 +60,7 @@ abstract class Configuration {
             if (Autoloader::exists('Kernel\\Debug\\Error')) {
                 Error::trigger($msg);
             } else {
-                die($msg);
+                exit($msg);
             }
 		}
 	}

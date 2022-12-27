@@ -270,7 +270,7 @@ abstract class Error {
             </style>';
             Stream::close();
         }
-        die;
+        exit();
     }
     
 }
