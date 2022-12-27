@@ -24,7 +24,7 @@
 			"maintenance": {
 				"enabled": false,
 				"authorized_ips": [],
-				"alow_localhost": false,
+				"alow_localhost": true,
 				"redirect": {
 					"enabled": false,
 					"url": ""
