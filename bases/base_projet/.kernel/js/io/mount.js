@@ -309,7 +309,7 @@ export default class Mount {
 	getter(callback, event, tag = null, cascade = false) {
         let realevent = this.#realName(event);
 
-        this.#openLog('🔂 #️⃣Préparation de l\'accès à la donnée', realevent, [
+        this.#openLog('🔂 Préparation de l\'accès à la donnée', realevent, [
 			[ 'Balise', tag ],
 			[ 'Cascade', cascade ]
         ]);
