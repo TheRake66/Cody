@@ -35,5 +35,18 @@ export default class Builder {
         }
         return el;
     }
+
+    
+    /**
+     * Crée un élément HTML à partir d'une chaine de caractère HTML.
+     * 
+     * @param {string} html La chaine de caractère HTML.
+     * @returns {HTMLElement} L'élément créé.
+     */
+    static parse(html) {
+        let el = document.createElement('div');
+        el.innerHTML = html;
+        return el.firstElementChild;
+    }
     
 }
