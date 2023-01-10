@@ -83,4 +83,20 @@
         ? null : value;
     }
 
+
+    /**
+     * Met au pluriel une chaine de caractères si la valeur est supérieur à 1.
+     * 
+	 * @example plural(2, 'chien') => chiens
+	 * @example plural(1, 'chien') => chien
+	 * @example plural(2, 'bocal', 'bocaux') => bocaux
+     * @param {any} value La valeur à vérifier.
+     * @param {string} singular Le mot au singulier.
+     * @param {string} plural Le mot au pluriel. Si null, le mot au singulier est suivi d'un "s".
+     * @returns {string} Le mot au singulier ou au pluriel.
+     */
+    static plural(value, singular, plural = null) {
+        return value > 1 ? plural || singular + 's' : singular;
+    }
+
 }

@@ -73,4 +73,20 @@ abstract class Encoded {
         return $value === '' ? null : $value;
     }
 
+
+	/**
+     * Met au pluriel une chaine de caractères si la valeur est supérieur à 1.
+	 * 
+	 * @example plural(2, 'chien') => chiens
+	 * @example plural(1, 'chien') => chien
+	 * @example plural(2, 'bocal', 'bocaux') => bocaux
+	 * @param int $value La valeur à vérifier.
+	 * @param string $singular Le singulier.
+	 * @param string $plural Le mot au pluriel. Si null, le mot au singulier est suivi d'un "s".
+	 * @return string Le mot au singulier ou au pluriel.
+	 */
+	static function plural($value, $singular, $plural = null) {
+		return $value > 1 ? ($plural === null ? $singular . 's' : $plural) : $singular;
+	}
+
 }
