@@ -56,4 +56,17 @@ export default class Class {
         el.classList.toggle(className);
     }
 
+
+    /**
+     * Remplace une classe par une autre sur un élément HTML.
+     * 
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {string} oldClass La classe à remplacer.
+     * @param {string} newClass La nouvelle classe.
+     * @returns {void}
+     */
+    static replace(el, oldClass, newClass) {
+        el.classList.replace(oldClass, newClass);
+    }
+
 }
