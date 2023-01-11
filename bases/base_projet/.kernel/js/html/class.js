@@ -68,10 +68,10 @@ export default class Class {
      */
     static replace(el, oldClass, newClass, simultaneous = true) {
         if (simultaneous) {
+            el.classList.replace(oldClass, newClass);
+        } else {
             el.classList.remove(oldClass);
             el.classList.add(newClass);
-        } else {
-            el.classList.replace(oldClass, newClass);
         }
     }
 
