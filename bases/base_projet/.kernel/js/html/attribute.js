@@ -69,10 +69,11 @@ export default class Attribute {
      * Affiche un élément HTML.
      * 
      * @param {HTMLElement} el L'élément HTML.
+     * @param {string} display Le style d'affichage.
      * @returns {void}
      */
-    static show(el) {
-        el.style.display = 'unset';
+    static show(el, display = 'unset') {
+        el.style.display = display;
     }
 
     
@@ -82,8 +83,57 @@ export default class Attribute {
      * @param {HTMLElement} el L'élément HTML.
      * @returns {boolean} True si visible, false sinon.
      */
-     static visible(el) {
+    static visible(el) {
         return el.style.display !== 'none';
+    }
+
+
+    /**
+     * Définit un attribut HTML.
+     * 
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {string} name Le nom de l'attribut.
+     * @param {string} value La valeur de l'attribut.
+     * @returns {void}
+     */
+    static set(el, name, value = '') {
+        el.setAttribute(name, value);
+    }
+
+
+    /**
+     * Récupère la valeur d'un attribut HTML.
+     * 
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {string} name Le nom de l'attribut.
+     * @returns {string|null} La valeur de l'attribut.
+     */
+    static get(el, name) {
+        return el.getAttribute(name);
+    }
+
+
+    /**
+     * Supprime un attribut HTML.
+     *
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {string} name Le nom de l'attribut.
+     * @returns {void}
+     */
+    static remove(el, name) {
+        el.removeAttribute(name);
+    }
+
+
+    /**
+     * Vérifie si un attribut HTML existe.
+     * 
+     * @param {HTMLElement} el L'élément HTML.
+     * @param {string} name Le nom de l'attribut.
+     * @returns {boolean} True si l'attribut existe, false sinon.
+     */
+    static has(el, name) {
+        return el.hasAttribute(name);
     }
 
 }
