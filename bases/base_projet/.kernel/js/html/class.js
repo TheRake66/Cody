@@ -63,10 +63,16 @@ export default class Class {
      * @param {HTMLElement} el L'élément HTML.
      * @param {string} oldClass La classe à remplacer.
      * @param {string} newClass La nouvelle classe.
+     * @param {boolean} simultaneous True pour remplacer les deux classes en même temps, false sinon.
      * @returns {void}
      */
-    static replace(el, oldClass, newClass) {
-        el.classList.replace(oldClass, newClass);
+    static replace(el, oldClass, newClass, simultaneous = true) {
+        if (simultaneous) {
+            el.classList.remove(oldClass);
+            el.classList.add(newClass);
+        } else {
+            el.classList.replace(oldClass, newClass);
+        }
     }
 
 }
