@@ -14,7 +14,7 @@ use Kernel\Url\Parser;
  * @package Kernel\Html
  * @category Framework source
  * @license MIT License
- * @copyright © 2022 - Thibault BUSTOS (TheRake66)
+ * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
  */
 abstract class Doctype {
 
@@ -113,7 +113,7 @@ abstract class Doctype {
         Output::add(Less::import('.kernel/global.less'));
         Log::add('Style global importé.');
 
-        Output::add(Javascript::import('.kernel/global_brefore.js'));
+        Output::add(Javascript::import('.kernel/brefore.js'));
         Log::add('Script d\'initialisation importé.');
         
         Log::add('HTML ouvert.', Log::LEVEL_GOOD);
@@ -128,7 +128,7 @@ abstract class Doctype {
     static function close() {
         Log::add('Fermeture du HTML...', Log::LEVEL_PROGRESS);
 
-        Output::add(Javascript::import('.kernel/global_after.js'));
+        Output::add(Javascript::import('.kernel/after.js'));
         Log::add('Script d\'extinction importé.');
 
         $render = Configuration::get()->render;

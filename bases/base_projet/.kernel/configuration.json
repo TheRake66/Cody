@@ -1,4 +1,12 @@
 {
+	"version": {
+		"major": 1,
+		"minor": 0,
+		"patch": 0,
+		"build": 0,
+		"release": "alpha",
+		"date": "2019-01-01 00:00:00"
+	},
     "security": {
         "only_https": false,
         "prevent_self_xss": false,

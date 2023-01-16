@@ -19,6 +19,9 @@ k\Debug\Maintenance::redirect();
 // Démarre le flux de données.
 k\Io\Stream::reset();
 
+// Récupère la version de l'application.
+k\Debug\Version::init();
+
 // Active le protocole SSL (HTTPS).
 k\Security\Ssl::enable();
 

@@ -17,7 +17,7 @@ use Kernel\Security\Cookie;
  * @package Kernel\Session
  * @category Framework source
  * @license MIT License
- * @copyright © 2022 - Thibault BUSTOS (TheRake66)
+ * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
  */
 abstract class Socket {
 

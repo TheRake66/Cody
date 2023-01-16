@@ -10,7 +10,7 @@ import Builder from './builder.js';
  * @version 1.0
  * @category Framework source
  * @license MIT License
- * @copyright © 2022 - Thibault BUSTOS (TheRake66)
+ * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
  */
 export default class Dom {
     

@@ -1,0 +1,1 @@
+// Script exécuté avant le chargement de l'application.
