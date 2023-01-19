@@ -306,7 +306,7 @@ export default class Mount {
 	 * le premier composant parent ou tous jusqu'au premier composant de la page.
 	 * @return {void}
 	 */
-	getter(callback, event, tag = null, cascade = false) {
+	getter(callback, event = 'get', tag = null, cascade = false) {
         let realevent = this.#realName(event);
 
         this.#openLog('🔂 Préparation de l\'accès à la donnée', realevent, [
