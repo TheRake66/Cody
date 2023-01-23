@@ -141,14 +141,14 @@ abstract class Rest {
 	 * @param string $name Le nom du paramètre.
 	 * @param bool $convert Si on doit convertir une valeur vide en NULL.
 	 * @param bool $trim Si on doit supprimer les espaces en début et fin de la valeur.
-	 * @param bool $filter Si on doit filtrer la valeur contre la vulnérabilité XSS.
-	 * @return any La valeur du paramètre.
+	 * @param bool $sanitize Si on doit filtrer la valeur contre la vulnérabilité XSS.
+	 * @return mixed La valeur du paramètre.
 	 */
-	protected function data($object, $name, $convert = false, $trim = true, $filter = false) {
+	protected function data($object, $name, $convert = true, $trim = true, $sanitize = true) {
 		if (property_exists($object, $name)) {
 			$value = $object->$name;
 			if (is_string($value)) {
-				if ($filter) $value = Xss::filter($value);
+				if ($sanitize) $value = Xss::sanitize($value);
 				if ($trim) $value = trim($value);
 				if ($convert) $value = Encoded::null($value);
 			}
