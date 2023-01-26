@@ -1,9 +1,3 @@
-import Dom from '../html/dom.js';
-import Builder from '../html/builder.js';
-import Finder from '../html/finder.js';
-
-
-
 /**
  * Librairie gérant empêchant le changement de page.
  * 
@@ -35,5 +29,5 @@ export default class Hook {
     static unhook() {
         window.onbeforeunload = {};
     }
-    
+
 }
