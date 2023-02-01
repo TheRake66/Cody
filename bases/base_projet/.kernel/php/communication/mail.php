@@ -41,7 +41,7 @@ abstract class Mail {
 	 * 		'Nom' => 'valeur'
 	 * ]
 	 * 
-	 * À noter qu'accepter pour livraison ne veut pas dire qu'il arrivera a destination.
+	 * À noter qu'accepter pour livraison ne veut pas dire qu'il arrivera à destination.
 	 * 
 	 * @param string|array $to Le/les destinataire(s).
 	 * @param string $subject L'objet du mail.

@@ -1,4 +1,3 @@
-
 /**
  * Librairie de conversion des nombres.
  * 
@@ -52,8 +51,8 @@ export default class Number {
     /**
      * Vérifie si un nombre est impair.
      * 
-     * @example even(2) => false
-     * @example even(3) => true
+     * @example odd(2) => false
+     * @example odd(3) => true
      * @param {Number} num Le nombre.
      * @returns {boolean} True si le nombre est impair.
      */

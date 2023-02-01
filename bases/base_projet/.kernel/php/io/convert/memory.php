@@ -22,7 +22,7 @@ abstract class Memory {
 
 
 	/**
-	 * Convertir un nombre d'octets en unité de mémoire
+	 * Convertir un nombre d'octets en unité de mémoire.
 	 * 
 	 * @example convert(1024) => 1Ko
 	 * @param int $bytes Le nombre d'octets à convertir.

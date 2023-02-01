@@ -4,7 +4,6 @@ namespace Kernel\Security;
 use Kernel\Debug\Error;
 use Kernel\Io\Autoloader;
 use Kernel\Io\File;
-use Kernel\Io\Path;
 
 
 
@@ -30,18 +29,13 @@ abstract class Configuration {
 	 * Charge la configuration.
 	 * 
 	 * @return void
-	 * @throws \Kernel\Debug\Error Si la configuration n'est pas trouvée.
+	 * @throws Error Si la configuration n'est pas trouvée.
 	 */
 	static function load() {
 		$json = File::load('.kernel/configuration.json');
 		self::$current = json_decode($json);
-		if (self::$current === null) {
-            $msg = 'Impossible de charger la configuration !';
-            if (Autoloader::exists('Kernel\\Debug\\Error')) {
-                Error::trigger($msg);
-            } else {
-                exit($msg);
-            }
+		if (is_null(self::$current)) {
+            self::trigger('Impossible de charger la configuration !');
 		}
 	}
 	
@@ -56,12 +50,22 @@ abstract class Configuration {
 		if (!is_null(self::$current)) {
 			return self::$current;
 		} else {
-            $msg = 'La configuration n\'est pas chargée !';
-            if (Autoloader::exists('Kernel\\Debug\\Error')) {
-                Error::trigger($msg);
-            } else {
-                exit($msg);
-            }
+            self::trigger('La configuration n\'est pas chargée !');
+		}
+	}
+
+
+	/**
+	 * Déclenche une erreur en vérifiant si la classe d'erreur est chargée.
+	 * 
+	 * @return void
+	 * @throws Error Erreur si la classe est chargée.
+	 */
+	private static function trigger($message) {
+		if (Autoloader::exists('Kernel\\Debug\\Error')) {
+			Error::trigger($message);
+		} else {
+			exit($message);
 		}
 	}
 	

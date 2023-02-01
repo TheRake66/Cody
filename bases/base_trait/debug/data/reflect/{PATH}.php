@@ -9,7 +9,7 @@ namespace Model\Reflect{NAMESPACE_SLASH};
  * @author {USER_NAME}
  * @version 1.0
  * @package Model\Reflect{NAMESPACE_SLASH}
- * @category Trait
+ * @category Trait script
  */
 trait {NAME_UPPER} {
     

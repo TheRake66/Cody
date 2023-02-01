@@ -1,9 +1,10 @@
 <?php
 namespace Kernel\Debug;
 
+use Kernel\Communication\Network;
 use Kernel\Security\Configuration;
 use Kernel\Io\Convert\Number;
-use Kernel\Communication\Network;
+use Kernel\Io\Convert\Encoded;
 use Kernel\Io\Path;
 
 
@@ -21,25 +22,25 @@ use Kernel\Io\Path;
 abstract class Log {
 
 	/**
-     * @var int Les niveaux de criticité.
+     * @var string Les niveaux de criticité.
 	 */
-    const LEVEL_INFO = 0;
-    const LEVEL_GOOD = 1;
-    const LEVEL_WARNING = 2;
-    const LEVEL_ERROR = 3;
-    const LEVEL_PROGRESS = 4;
+    const LEVEL_INFO     = 'INFO';
+    const LEVEL_GOOD     = 'GOOD';
+    const LEVEL_WARNING  = 'WARNING';
+    const LEVEL_ERROR    = 'ERROR';
+    const LEVEL_PROGRESS = 'PROGRESS';
     
 
     /**
      * @var int Les types de log.
      */
-    const TYPE_NONE = 0;
-    const TYPE_QUERY = 1;
+    const TYPE_NONE             = 0;
+    const TYPE_QUERY            = 1;
     const TYPE_QUERY_PARAMETERS = 2;
-    const TYPE_QUERY_RESULTS = 3;
-    const TYPE_MAIL = 4;
-    const TYPE_MAIL_HEADER = 5;
-    const TYPE_MAIL_CONTENT = 6;
+    const TYPE_QUERY_RESULTS    = 3;
+    const TYPE_MAIL             = 4;
+    const TYPE_MAIL_HEADER      = 5;
+    const TYPE_MAIL_CONTENT     = 6;
 
 
     /**
@@ -59,6 +60,66 @@ abstract class Log {
     static function add($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
         Supervisor::log($message, $level);
         self::file($message, $level, $type);
+    }
+
+
+    /**
+     * Ajoute un log de type erreur dans la console et dans un fichier.
+     * 
+     * @param string $message Le message à logger.
+     * @param int $type Le type de log.
+     * @return void
+     */
+    static function error($message, $type = self::TYPE_NONE) {
+        self::add($message, self::LEVEL_ERROR, $type);
+    }
+
+
+    /**
+     * Ajoute un log de type avertissement dans la console et dans un fichier.
+     * 
+     * @param string $message Le message à logger.
+     * @param int $type Le type de log.
+     * @return void
+     */
+    static function warning($message, $type = self::TYPE_NONE) {
+        self::add($message, self::LEVEL_WARNING, $type);
+    }
+
+
+    /**
+     * Ajoute un log de type succès dans la console et dans un fichier.
+     * 
+     * @param string $message Le message à logger.
+     * @param int $type Le type de log.
+     * @return void
+     */
+    static function good($message, $type = self::TYPE_NONE) {
+        self::add($message, self::LEVEL_GOOD, $type);
+    }
+
+
+    /**
+     * Ajoute un log de type information dans la console et dans un fichier.
+     * 
+     * @param string $message Le message à logger.
+     * @param int $type Le type de log.
+     * @return void
+     */
+    static function info($message, $type = self::TYPE_NONE) {
+        self::add($message, self::LEVEL_INFO, $type);
+    }
+
+
+    /**
+     * Ajoute un log de type progression dans la console et dans un fichier.
+     * 
+     * @param string $message Le message à logger.
+     * @param int $type Le type de log.
+     * @return void
+     */
+    static function progress($message, $type = self::TYPE_NONE) {
+        self::add($message, self::LEVEL_PROGRESS, $type);
     }
 
 
@@ -85,26 +146,7 @@ abstract class Log {
 
             $folder = Path::absolute('logs');
             if ($conf->ip_identify) {
-                $folder .= '/' . str_replace(':', '-', Network::ip());
-            }
-
-            $levelstr = '';
-            switch ($level) {
-                case self::LEVEL_INFO:
-                    $levelstr = 'INFO    ';
-                    break;
-                case self::LEVEL_GOOD:
-                    $levelstr = 'GOOD    ';
-                    break;
-                case self::LEVEL_WARNING:
-                    $levelstr = 'WARNING ';
-                    break;
-                case self::LEVEL_ERROR:
-                    $levelstr = 'ERROR   ';
-                    break;
-                case self::LEVEL_PROGRESS:
-                    $levelstr = 'PROGRESS';
-                    break;
+                $folder .= '/' . str_replace(':', '-', Network::client());
             }
 
             $error = false;
@@ -112,28 +154,32 @@ abstract class Log {
 
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
                 if ($now) {
-                    $now_full = $now->format('Y-m-d H:i:s,v');
-                    $now_lite = $now->format('D M d');
+                    $nowFull = $now->format('Y-m-d H:i:s,v');
+                    $nowLite = $now->format('D M d');
                 } else {
-                    $now_full = '????-??-?? ??:??:??,???';
-                    $now_lite ='### ### ##';
+                    $nowFull = '????-??-?? ??:??:??,???';
+                    $nowLite ='### ### ##';
                 }
-                $file = $folder. '/' . $now_lite . '.log';
+
+                $file = $folder. '/' . $nowLite . '.log';
                 if (is_object($message) || is_array($message)) {
                     $message = print_r($message, true);
                 }
+
                 $max = $conf->max_lenght;
                 if ($max > 0 && !empty($message)) {
                     $len = strlen($message);
                     if ($len > $max) {
-                        $message = substr($message, 0, $max) . ' ...[plus de ' . Number::occident($len - $max, 0) . ' caractère(s) restant(s)]';
+                        $diff = $len - $max;
+                        $message = substr($message, 0, $max) . ' ...[plus de ' . Number::occident($diff, 0) . ' ' . Encoded::plural($diff, 'caractère') . ' ' .  Encoded::plural($diff, 'restant') . ']';
                     }
-                }            
+                }    
+
                 if (is_null(self::$uuid)) {
                     self::$uuid = uniqid();
                 }
-                $id = self::$uuid;
-                $message = '[' . $now_full . '] [' . $id . '] [' . $levelstr . '] ' . $message . PHP_EOL;
+
+                $message = '[' . $nowFull . '] [' . self::$uuid . '] [' . Encoded::fill(Encoded::cut($level, 8), 8) . '] ' . $message . PHP_EOL;
                 
                 Error::remove();
                 $_ = file_put_contents($file, $message, FILE_APPEND | LOCK_EX);

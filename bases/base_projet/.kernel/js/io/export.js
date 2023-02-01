@@ -18,15 +18,15 @@ export default class Export {
     /**
 	 * Télécharge un contenu.
 	 * 
-	 * @param {any} content le contenu à télécharger.
-	 * @param {string} file le nom du fichier.
+	 * @param {any} content Le contenu à télécharger.
+	 * @param {string} file Le nom du fichier.
      * @returns {void}
      */
-    static download(content, file = 'download.txt') {
+    static download(content, file = 'download.txt', type = 'text/plain', charset = 'utf-8') {
         let a = Builder.create('a', {
-            href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(content),
+            href: `data:${type};charset=${charset},${encodeURIComponent(content)}`,
             download: file,
-            style: 'display:none'
+            style: 'display: none;'
         });
         Dom.append(a);
         a.click();
@@ -37,12 +37,12 @@ export default class Export {
     /**
      * Affiche du texte dans un nouvel onglet.
      * 
-     * @param {string} content le contenu de la page.
+     * @param {string} content Le contenu de la page.
      * @returns {void}
      */
-    static fullscreen(content) {
+    static newtab(content) {
         let tab = window.open('about:blank', '_blank');
-        tab.document.write('<pre>' + content + '</pre>');
+        tab.document.write(/*html*/`<pre>${content}</pre>`);
         tab.document.close();
     }
 
@@ -58,17 +58,14 @@ export default class Export {
      static csv(table, spearator = ';', arround = '"') {
         let csv = '';
 
-        let heads = Finder.queryAll('thead th', table);
-        heads.forEach(cell => {
+        Finder.queryAll('thead th', table).forEach(cell => {
             csv += arround + cell.innerText + arround + spearator;
         });
         csv = csv.slice(0, -1) + '\n';
 
-        let rows = Finder.queryAll('tbody tr', table);
-        rows.forEach(row => {
-            if (row.style.display != 'none') {
-                let cells = Finder.queryAll('td', row);
-                cells.forEach(cell => {
+        Finder.queryAll('tbody tr', table).forEach(row => {
+            if (row.style.display !== 'none') {
+                Finder.queryAll('td', row).forEach(cell => {
                     csv += arround + cell.innerText.replace(/\n/g, ' ') + arround + spearator;
                 });
                 csv = csv.slice(0, -1) + '\n';

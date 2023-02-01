@@ -21,12 +21,12 @@ abstract class Autoloader {
      * @var string Les types de classes supportés.
      */
     const TYPE_CONTROLLER = 'Controller';
-    const TYPE_MODEL = 'Model';
-    const TYPE_API = 'Api';
-    const TYPE_LIBRAIRY = 'Library';
-    const TYPE_TEST = 'Test';
-    const TYPE_TRAIT = 'Reflect';
-    const TYPE_KERNEL = 'Kernel';
+    const TYPE_MODEL      = 'Model';
+    const TYPE_API        = 'Api';
+    const TYPE_LIBRAIRY   = 'Library';
+    const TYPE_TEST       = 'Test';
+    const TYPE_TRAIT      = 'Reflect';
+    const TYPE_KERNEL     = 'Kernel';
     
 
     /**

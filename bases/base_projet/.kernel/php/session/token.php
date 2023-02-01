@@ -3,7 +3,6 @@ namespace Kernel\Session;
 
 use Kernel\Security\Vulnerability\Csrf;
 use Kernel\Security\Cookie;
-use Kernel\Debug\Log;
 use Kernel\Security\Configuration;
 
 

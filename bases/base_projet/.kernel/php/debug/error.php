@@ -23,10 +23,10 @@ abstract class Error {
     /**
      * @var int Les codes d'erreurs internes.
      */
-    const API_NONE_FUNCTION_RETURN = 10000;
-    const API_FUNCTION_NOT_FOUND = 10001;
+    const API_NONE_FUNCTION_RETURN    = 10000;
+    const API_FUNCTION_NOT_FOUND      = 10001;
     const API_HTTP_METHOD_NOT_ALLOWED = 10002;
-    const API_MISSING_PARAMETER = 10003;
+    const API_MISSING_PARAMETER       = 10003;
     
 
     /**

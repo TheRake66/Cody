@@ -1,4 +1,3 @@
-
 /**
  * Librairie de gestion des cookies.
  * 

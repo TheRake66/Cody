@@ -25,8 +25,23 @@ abstract class Encoded {
 	 * @return string Le texte coupé ou non.
 	 */
 	static function cut($text, $max = 50) {
-		return (strlen($text) > $max) ? substr($text, 0, $max) . '...' : $text;
-	} 
+		return (strlen($text) > $max) ? substr($text, 0, $max - 3) . '...' : $text;
+	}
+	
+
+	/**
+	 * Remplit une chaine de caractères avec un caractère jusqu'à une taille donnée.
+	 * 
+	 * @example fill('Lorem', 10) => Lorem______
+	 * @example fill('Lorem', 10, '-') => Lorem-----
+	 * @param string $text Le texte à remplir.
+	 * @param int $size La taille de la chaine.
+	 * @param string $char Le caractère à utiliser.
+	 * @return string Le texte rempli.
+	 */
+	static function fill($text, $size = 50, $char = ' ') {
+		return str_pad($text, $size, $char, STR_PAD_RIGHT);
+	}
 
 
 	/**

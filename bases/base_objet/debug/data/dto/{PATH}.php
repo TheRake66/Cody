@@ -11,7 +11,7 @@ use Kernel\DataBase\Factory\Crud;
  * @author {USER_NAME}
  * @version 1.0
  * @package Model\Dto{NAMESPACE_SLASH}
- * @category DTO (Data Transfer Object)
+ * @category DTO Class (Data Transfer Object)
  */
 class {NAME_UPPER} extends Crud {
 

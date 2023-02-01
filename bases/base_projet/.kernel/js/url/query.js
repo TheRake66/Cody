@@ -1,4 +1,3 @@
-
 /**
  * Librairie gérant les paramètres de l'URL.
  * 

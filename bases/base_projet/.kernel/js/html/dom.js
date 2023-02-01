@@ -17,7 +17,7 @@ export default class Dom {
     /**
      * Vide le contenu d'un élément HTML.
      * 
-     * @param {HTMLElement} el l'élément HTML.
+     * @param {HTMLElement} el L'élément HTML.
      * @returns {void}
      */
     static clear(el = document.body) { 
@@ -28,7 +28,7 @@ export default class Dom {
     /**
      * Détruit un élément HTML.
      * 
-     * @param {HTMLElement} el l'élément HTML.
+     * @param {HTMLElement} el L'élément HTML.
      * @returns {void}
      */
     static destroy(el = document.body) {

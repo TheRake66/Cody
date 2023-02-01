@@ -1,4 +1,3 @@
-
 /**
  * Librairie de conversion des chaines de caractères.
  * 
@@ -16,13 +15,28 @@
 	 * @example cut('Lorem ipsum dolor sit amet', 10) => Lorem ipsum...
 	 * @example cut('Lorem', 10) => Lorem
 	 * @param {string} text Le texte à couper.
-	 * @param {number} max La taille maximum.
+	 * @param {Number} max La taille maximum.
 	 * @returns {string} Le texte coupé ou non.
 	 */
     static cut(value, length = 50) {
         return value.length > length ? 
-            value.substr(0, length) + '...' : 
+            value.substr(0, length - 3) + '...' : 
             value;
+    }
+
+
+    /**
+     * Remplit une chaine de caractères avec un caractère.
+     * 
+     * @example fill('test', 10) => 'test     '
+     * @example fill('test', 10, '0') => 'test00000'
+     * @param {string} value La valeur à remplir.
+     * @param {Number} length La taille de la chaine.
+     * @param {string} char Le caractère à utiliser.
+     * @returns {string} La chaine remplie.
+     */
+    static fill(value, length = 50, char = ' ') {
+        return value.toString().padEnd(length, char);
     }
 
 
@@ -76,11 +90,11 @@
      */
     static null(value) {
         return value === '' || 
-        value === null || 
-        value === undefined || 
-        value === false || 
-        value === 0 
-        ? null : value;
+            value === null || 
+            value === undefined || 
+            value === false || 
+            value === 0 
+            ? null : value;
     }
 
 

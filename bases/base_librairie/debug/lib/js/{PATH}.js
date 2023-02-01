@@ -3,7 +3,7 @@
  * 
  * @author {USER_NAME}
  * @version 1.0
- * @category Librairy
+ * @category Librairy script
  */
 export default class {NAME_UPPER} {
 

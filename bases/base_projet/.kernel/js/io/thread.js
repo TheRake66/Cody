@@ -1,9 +1,3 @@
-import Dom from '../html/dom.js';
-import Builder from '../html/builder.js';
-import Finder from '../html/finder.js';
-
-
-
 /**
  * Librairie de gestion des fils d'exécution.
  * 
@@ -18,7 +12,7 @@ export default class Thread {
     /**
 	 * Met une pause dans l'exécution du script.
 	 * 
-     * @param {int} time Le temps de pause en millisecondes.
+     * @param {Number} time Le temps de pause en millisecondes.
      * @return {Promise} La promesse de la pause.
      */
     static sleep(time = 500) {

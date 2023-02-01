@@ -1,11 +1,13 @@
 <?php
 namespace Kernel\Debug;
 
-use Kernel\Communication\Http;
 use Kernel\Communication\Network;
+use Kernel\Communication\Http;
 use Kernel\IO\Stream;
 use Kernel\Security\Configuration;
 use Kernel\Url\Location;
+
+
 
 /**
  * Librairie gérant la maintenance du site.
@@ -27,7 +29,7 @@ abstract class Maintenance {
     static function redirect() {
         $conf = Configuration::get()->render->debug->maintenance;
         if ($conf->enabled) {
-            $ip = Network::ip();
+            $ip = Network::client();
             if (($conf->alow_localhost && $ip !== "::1" && !in_array($ip, $conf->authorized_ips, true)) || 
                 (!$conf->alow_localhost && !in_array($ip, $conf->authorized_ips, true))) {
                 $conf2 = $conf->redirect;

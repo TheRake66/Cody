@@ -14,9 +14,9 @@ import Query from './query.js';
 export default class Parser {
 
 	/**
-	 * Retourne l'URL de redirection.
+	 * Retourne l'URL précédente.
 	 * 
-	 * @return {string} 
+	 * @return {string} L'URL précédente.
 	 */
 	static back() {
 		return Query.paramGet('redirect_url') ?? undefined;
@@ -26,7 +26,7 @@ export default class Parser {
 	/**
 	 * Retourne le protocol actuel (http ou https).
 	 * 
-	 * @returns {string} Le protocole.
+	 * @returns {string} Le protocole actuel.
 	 */
 	static protocol() {
 		return window.location.protocol.replace(':', '');
@@ -44,9 +44,9 @@ export default class Parser {
 
 
 	/**
-	 * Retourne l'URL sans les parametres
+	 * Retourne l'URL sans les paramètres.
 	 * 
-	 * @returns {string} L'URL sans les parametres.
+	 * @returns {string} L'URL sans les paramètres.
 	 */
 	static root() {
 		return Parser.host();

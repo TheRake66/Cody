@@ -55,10 +55,10 @@ abstract class Less {
 
 
     /**
-     * Ajoute une balise style
+     * Ajoute une balise style.
      * 
-     * @param string le code css
-     * @return string le code HTML
+     * @param string Le code css.
+     * @return string Le code HTML.
      */
     static function add($style) {
         $css = Builder::create('style', [

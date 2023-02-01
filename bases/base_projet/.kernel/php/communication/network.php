@@ -20,7 +20,7 @@ abstract class Network {
 	 *
      * @return string L'adresse IP du client.
 	 */
-	static function ip() {
+	static function client() {
 		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 			return $_SERVER['HTTP_CLIENT_IP'];
 		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -36,10 +36,10 @@ abstract class Network {
 	/**
 	 * Retourne si l'adresse IP du client est celle de localhost.
 	 * 
-	 * @return bool Vrai si l'adresse IP du client est celle de localhost.
+	 * @return bool True si l'adresse IP du client est celle de localhost sinon false.
 	 */
 	static function localhost() {
-		return self::ip() === "::1";
+		return self::client() === "::1";
 	}
 	
 }

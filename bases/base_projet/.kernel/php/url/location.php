@@ -1,8 +1,8 @@
 <?php
 namespace Kernel\Url;
 
+use Kernel\Communication\Http;
 use Kernel\Debug\Log;
-use Kernel\Html\Import;
 use Kernel\Html\Builder;
 use Kernel\Html\Javascript;
 use Kernel\Html\Output;
@@ -21,13 +21,6 @@ use Kernel\Io\Stream;
  * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
  */
 abstract class Location {
-
-	/**
-     * @var string Les méthodes HTTP.
-	 */
-    const METHOD_GET = 'GET';
-    const METHOD_POST = 'POST';
-
 
 	/**
 	 * Accède à une URL.
@@ -59,13 +52,13 @@ abstract class Location {
 	 * 
 	 * @param string $route La route à accéder.
 	 * @param array $params Les paramètres à passer à la route.
-	 * @param boolean $addBack Si on ajoute un lien pour revenir à la page précédente.
+	 * @param boolean $addback Si on ajoute un lien pour revenir à la page précédente.
 	 * @param string $method La méthode HTTP à utiliser.
      * @return void
 	 */
-	static function go($route, $params = [], $addBack = false, $method = self::METHOD_GET) {
-		if ($method == self::METHOD_GET) {
-			self::change(self::build($route, $params, $addBack));
+	static function go($route, $params = [], $addback = false, $method = Http::METHOD_GET) {
+		if ($method == Http::METHOD_GET) {
+			self::change(self::build($route, $params, $addback));
 		} else {
 			$html = Builder::create('form', [
 				'action' => self::build($route),
@@ -81,7 +74,7 @@ abstract class Location {
 					]);
 				}
 			}
-			if ($addBack) {
+			if ($addback) {
 				$html .= Builder::create('input', [
 					'type' => 'hidden',
 					'name' => 'redirect_url',
@@ -104,15 +97,15 @@ abstract class Location {
 	 * @example build('/home', ['id' => 1, 'name' => 'toto'], true) => /home?id=1&name=toto&redirect_url=http%3A%2F%2Flocalhost%2Fhome
 	 * @param string $route La route à accéder.
 	 * @param array $params Les paramètres à passer à la route.
-	 * @param boolean $addBack Si on ajoute un lien pour revenir à la page précédente.
+	 * @param boolean $addback Si on ajoute un lien pour revenir à la page précédente.
 	 * @return string L'URL construite.
 	 */
-	static function build($route, $params = [], $addBack = false) {
+	static function build($route, $params = [], $addback = false) {
 		$url = Parser::root() . $route;
-		if ($addBack) {
+		if ($addback) {
 			$params['redirect_url'] = Parser::current();
 		}
-		if ($params || $addBack) {
+		if ($params || $addback) {
 			$url .= '?' . http_build_query($params);
 		}
 		return $url;

@@ -354,19 +354,19 @@ abstract class Supervisor {
             }
             #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE pre {
             }
-            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_0 {
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_INFO {
                 color: #CCCCCC !important;
             }
-            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_1 {
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_GOOD {
                 color: #65a577 !important;
             }
-            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_2 {
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_WARNING {
                 color: #d18726 !important;
             }
-            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_3 {
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_ERROR {
                 color: #cc4f4a !important;
             }
-            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_4 {
+            #SUPERVISOR_CODY_PANEL > #SUPERVISOR_CODY_CONSOLE .SUPERVISOR_LEVEL_PROGRESS {
                 color: #b8127b !important;
             }
             </style>

@@ -18,7 +18,7 @@ abstract class Dataset {
 	/**
      * @var int Les directions de parcours du tableau.
 	 */
-	const ITERATION_DIRECTION_LEFT = 0;
+	const ITERATION_DIRECTION_LEFT  = 0;
 	const ITERATION_DIRECTION_RIGHT = 1;
 
 
