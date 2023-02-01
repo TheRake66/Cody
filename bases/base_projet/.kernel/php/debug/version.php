@@ -31,7 +31,7 @@ abstract class Version {
     static function init() {
         $conf = Configuration::get()->version;
         self::$beautiful = $conf->release . ' ' . $conf->major . '.' . $conf->minor . '.' . $conf->patch . ' (' . $conf->build . ')';
-        Log::add('Version de l\'application : ' . self::$beautiful, Log::LEVEL_INFO);
+        Log::add('Version de l\'application : ' . self::$beautiful . '.', Log::LEVEL_INFO);
     }
 
 
