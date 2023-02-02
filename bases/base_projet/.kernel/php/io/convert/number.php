@@ -30,12 +30,14 @@ abstract class Number {
 	/**
 	 * Convertit un nombre en format occidentale.
 	 * 
-	 * @example occident(1200000.123) => 1 200 000,123
+	 * @example occident(1200000.123) => 1 200 000
+	 * @example occident(1200000.123, 2) => 1 200 000,12
+	 * @example occident(1200000.123, 3) => 1 200 000,123
 	 * @param double $num Le nombre à convertir.
 	 * @param int $precision Le nombre de chiffres après la virgule.
 	 * @return string La valeur convertie.
 	 */
-	static function occident($num, $precision = 3) {
+	static function occident($num, $precision = 0) {
 		return number_format($num, $precision, ',', ' ');
 	}
 
