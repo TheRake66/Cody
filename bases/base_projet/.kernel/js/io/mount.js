@@ -121,6 +121,24 @@ export default class Mount {
 
 
     /**
+     * Déclenche un événement du même composant.
+     * 
+     * @param {string} event Le nom de l'événement.
+     * @param {any} data Les données à envoyer à l'événement.
+     * @returns {void}
+     */
+    trigger(event = 'refresh', data = null) {
+        let realevent = this.#realName(event);
+
+        this.#openLog('🔃 Auto-déclenchement', realevent, [
+            [ 'Données', data ]
+        ]);
+
+        this.$.dispatchEvent(new CustomEvent(realevent, { detail: data }));
+    }
+
+
+    /**
      * Déclenche un événement des composants parents.
      * 
      * @param {string} event Le nom de l'événement.
