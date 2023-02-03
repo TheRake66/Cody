@@ -72,7 +72,7 @@ export default class Attribute {
      * @param {string} display Le style d'affichage.
      * @returns {void}
      */
-    static show(el, display = 'unset') {
+    static show(el, display = 'revert') {
         el.style.display = display;
     }
 
