@@ -50,14 +50,19 @@ export default class Dom {
 
 
     /**
-     * Vide le contenu d'un élément HTML puis insert du code HTML dedans.
+     * Vide le contenu d'un élément HTML puis insert nouvel élément ou code HTML.
      * 
-     * @param {HTMLElement} html Le contenu HTML.
+     * @param {HTMLElement|string} content L'élément HTML ou le code HTML.
      * @param {HTMLElement} el L'élément HTML.
      * @returns {void}
      */
-    static replace(html, el) {
-        el.innerHTML = html;        
+    static replace(content, el) {
+        if (content instanceof HTMLElement) {
+            el.innerHTML = '';
+            el.appendChild(content);
+        } else {
+            el.innerHTML = content;
+        }
     }
 
 
