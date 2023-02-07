@@ -192,7 +192,7 @@ abstract class Dataset {
 	 * du tableau passé en argument, qui sont concaténés récursivement pour atteindre
 	 * une profondeur donnée.
 	 * 
-	 * @example flatten([1, [2, [3, [4]]]]) => [1, 2, 3, 4]
+	 * @example flat([1, [2, [3, [4]]]]) => [1, 2, 3, 4]
 	 * @param array $array Le tableau à aplatir.
 	 * @return array Le tableau aplatit.
 	 */
@@ -212,7 +212,7 @@ abstract class Dataset {
 	/**
 	 * Permet d'exécuter une fonction donnée sur chaque élément du tableau associatif.
 	 * 
-	 * @example forEach([
+	 * @example foreach([
 	 * 		'A' => 'a',
 	 * 		'B' => 'b',
 	 * 		'C' => 'c',
