@@ -56,7 +56,7 @@ export default class Dom {
      * @param {HTMLElement} el L'élément HTML.
      * @returns {void}
      */
-    static replace(content, el) {
+    static replace(content, el = document.body) {
         if (content instanceof HTMLElement) {
             el.innerHTML = '';
             el.appendChild(content);
