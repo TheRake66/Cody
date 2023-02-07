@@ -39,7 +39,7 @@ abstract class Rest {
 		$class = Router::entry();
 		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
 		if (Autoloader::typeof($class) === Autoloader::TYPE_API) {
-			Log::add('Appel API identifié : "' . $class . '".');
+			Log::add('Appel API identifié : "' . $class . '".', Log::LEVEL_GOOD);
 			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
 
 			$object = new $class();

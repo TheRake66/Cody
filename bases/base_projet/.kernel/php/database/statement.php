@@ -23,13 +23,13 @@ abstract class Statement {
     /**
      * @var array Instance PDO [string => \PDO].
      */
-    private static $instances;
+    private static $instances = [];
     
 
     /**
      * @var string La base de données actuelle.
      */
-    private static $current;
+    private static $current = null;
     
 
     /**
@@ -65,61 +65,64 @@ abstract class Statement {
 
 
     /**
-     * Retourne la configuration de la base de données actuelles.
+     * Récupère le nom de la base de donnée par défaut.
      * 
-     * @return object La configuration de la base de données actuelles.
-     * @throws Error Si la configuration de la base de données actuelles n'est pas définie dans le fichier de configuration.
+     * @return void
      */
-    static function configuration() {
+    static function init() {
         $conf = Configuration::get()->database;
-        if (!is_null(self::$current)) {
-            foreach ($conf->list as $database) {
-                if ($database->name == self::$current) {
-                    return $database;
-                }
-            }
-            Error::trigger('Aucune configuration pour la base de données "' . self::$current . '" !');
-        } else {
-            foreach ($conf->list as $database) {
-                if ($database->name == $conf->default) {
-                    return $database;
-                }
-            }
-            Error::trigger('Aucune configuration pour la base de données par défaut !');
-        }
+        $name = $conf->default;
+        self::$current = $name;
+        Log::add('Définition de base de données par défaut par "' . $name .'".');
     }
 
 
     /**
-     * Retourne l'instance PDO en cours, si aucune n'est en cours en créer une.
+     * Retourne la configuration de la base de données demandée, sinon retourne la configuration de la base de données actuelle, 
+     * sinon retourne la configuration de la base de données par défaut.
      * 
+     * @return object La configuration de la base de données actuelles.
+     * @throws Error Si la configuration de la base de données actuelles n'est pas définie dans le fichier de configuration.
+     */
+    static function configuration($name = null) {
+        if (is_null($name)) {
+            $name = self::$current;
+        }
+        $conf = Configuration::get()->database;
+        foreach ($conf->list as $database) {
+            if ($database->name == $name) {
+                return $database;
+            }
+        }
+        Error::trigger('Aucune configuration pour la base de données "' . self::$current . '" !');
+    }
+
+
+    /**
+     * Retourne l'instance PDO demandée, si null, retourne l'instance PDO en cours. Si aucune n'est en cours en créer une.
+     * 
+     * @param string|null $name Le nom de la base de données.
      * @return PDOStatement L'instance PDO en cours.
      * @throws Error Si la connexion à la base de données échoue.
      */
-    static function instance() {
-        $conf = Configuration::get()->database;
-        if (is_null(self::$current)) {
-            self::$current = $conf->default;
+    static function instance($name = null) {
+        if (is_null($name)) {
+            $name = self::$current;
         }
-        if (is_null(self::$instances)) {
-            self::$instances = [];
-        }
-        if (array_key_exists(self::$current, self::$instances)) {
-            return self::$instances[self::$current];
+        if (isset(self::$instances[$name])) {
+            return self::$instances[$name];
         } else {
-            if ($conf->progressive) {
-                self::$instances[self::$current] = self::connect(self::configuration());
-                return self::$instances[self::$current];
-            } else {
+            $conf = Configuration::get()->database;
+            if (!$conf->progressive) {
                 foreach ($conf->list as $database) {
-                    self::$instances[$database->name] = self::connect($database);
+                    $newName = $database->name;
+                    self::$instances[$newName] = self::connect($database); 
                 } 
-                if (array_key_exists(self::$current, self::$instances)) {
-                    return self::$instances[self::$current];
-                } else {
-                    Error::trigger('Aucune configuration pour la base de données "' . self::$current . '" !');
-                }
+            } else {
+                $newConf = self::configuration($name);
+                self::$instances[$name] = self::connect($newConf);
             }
+            return self::$instances[$name];
         }
     }
 
@@ -135,7 +138,7 @@ abstract class Statement {
             return self::$current;
         } else {
             self::$current = $name;
-            Log::add('Changement de base de données vers "' . $name .'".', Log::LEVEL_GOOD);
+            Log::add('Changement de base de données vers "' . $name .'".');
         }
     }
 

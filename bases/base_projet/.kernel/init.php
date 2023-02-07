@@ -16,14 +16,17 @@ k\Debug\Error::handler();
 // Redirige vers la page de maintenance si nécessaire.
 k\Debug\Maintenance::redirect();
 
+// Active le protocole SSL (HTTPS).
+k\Security\Ssl::enable();
+
+// Récupère la base de donnée par défaut.
+k\Database\Statement::init();
+
 // Démarre le flux de données.
 k\Io\Stream::reset();
 
 // Récupère la version de l'application.
 k\Debug\Version::init();
-
-// Active le protocole SSL (HTTPS).
-k\Security\Ssl::enable();
 
 // Défini le fuseau horraire par défaut.
 k\Io\Convert\Date::timezone();
