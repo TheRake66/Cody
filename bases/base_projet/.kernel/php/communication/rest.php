@@ -144,7 +144,7 @@ abstract class Rest {
 	 * @param bool $sanitize Si on doit filtrer la valeur contre la vulnérabilité XSS.
 	 * @return mixed La valeur du paramètre.
 	 */
-	protected function data($object, $name, $convert = false, $trim = true, $sanitize = false) {
+	protected function data($object, $name, $convert = true, $trim = true, $sanitize = true) {
 		if (property_exists($object, $name)) {
 			$value = $object->$name;
 			if (is_string($value)) {
