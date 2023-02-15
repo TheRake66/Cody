@@ -139,12 +139,13 @@ abstract class Rest {
 	 * 
 	 * @param object $object L'objet de paramètres.
 	 * @param string $name Le nom du paramètre.
+	 * @param bool $needed Si le paramètre est obligatoire.
 	 * @param bool $convert Si on doit convertir une valeur vide en NULL.
 	 * @param bool $trim Si on doit supprimer les espaces en début et fin de la valeur.
 	 * @param bool $sanitize Si on doit filtrer la valeur contre la vulnérabilité XSS.
 	 * @return mixed La valeur du paramètre.
 	 */
-	protected function data($object, $name, $convert = true, $trim = true, $sanitize = true) {
+	protected function data($object, $name, $needed = true, $convert = true, $trim = true, $sanitize = true) {
 		if (property_exists($object, $name)) {
 			$value = $object->$name;
 			if (is_string($value)) {
@@ -153,7 +154,8 @@ abstract class Rest {
 				if ($convert) $value = Encoded::null($value);
 			}
 			return $value;
-		} else {
+		}
+		if ($needed) {
 			$this->send(null, Error::API_MISSING_PARAMETER, 'Le paramètre "' . $name . '" n\'est pas défini !', Http::HTTP_BAD_REQUEST);
 		}
 	}
