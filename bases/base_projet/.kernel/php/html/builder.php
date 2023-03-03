@@ -77,7 +77,7 @@ abstract class Builder {
 	 */
 	static function mailto($text, $email, $subject = null, $body = null, $cc = null, $bcc = null) {
 		$href = 'mailto:' . $email;
-		$add = function($key, $value) use (&$href) {
+		$add = function($key, $value) use(&$href) {
 			$href .= (strpos($href, '?') === false ? '?' : '&' ) . $key . '=' . $value;
 		};
 		if ($subject) {

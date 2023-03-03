@@ -67,7 +67,7 @@ abstract class Crud {
      * @return bool True si l'objet ou les objets existent.
      */
     function exists($where = null) {
-        return Toogle::object(function() use ($where) {
+        return Toogle::object(function() use($where) {
             [ $where, $params ] = Builder::where($this, $where);
             return boolval(Query::cell(
                 'SELECT EXISTS (
@@ -87,7 +87,7 @@ abstract class Crud {
      * @return int Le nombre d'objets.
      */
     function count($where = null) {
-        return Toogle::object(function() use ($where) {
+        return Toogle::object(function() use($where) {
             [ $where, $params ] = Builder::where($this, $where);
             return Query::cell(
                 'SELECT COUNT(1) ' .
@@ -120,7 +120,7 @@ abstract class Crud {
      * @return object L'objet trouvé.
      */
     function read($where = null) {
-        return Toogle::object(function() use ($where) {
+        return Toogle::object(function() use($where) {
             [ $where, $params ] = Builder::where($this, $where);
             return Query::object(
                 Builder::select($this) . ' ' .
@@ -139,7 +139,7 @@ abstract class Crud {
      * @return bool True si la mise à jour a réussi.
      */
     function update($where = null) {
-        return Toogle::object(function() use ($where) {
+        return Toogle::object(function() use($where) {
             [ $update, $params1 ] = Builder::update($this);
             [ $where, $params2 ] = Builder::where($this, $where);
             return Query::execute(
@@ -156,7 +156,7 @@ abstract class Crud {
      * @return bool True si la suppression a réussi.
      */
     function delete($where = null) { 
-        return Toogle::object(function() use ($where) {
+        return Toogle::object(function() use($where) {
             [ $where, $params ] = Builder::where($this, $where);
             return Query::execute(
                 'DELETE ' . Builder::from($this) . ' ' . $where,
@@ -172,7 +172,7 @@ abstract class Crud {
      * @return object Les objets trouvés.
      */
     function many($where = null) {
-        return Toogle::object(function() use ($where) {
+        return Toogle::object(function() use($where) {
             [ $where, $params ] = Builder::where($this, $where);
             return Query::objects(
                 Builder::select($this) . ' ' .
