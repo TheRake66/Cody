@@ -339,7 +339,27 @@ export default class Mount {
 			this.emit(event, data, tag, cascade);
 		}, event);
 	}
- 
+
+
+    /**
+     * Enregistre un événement, puis lors de son appel, déclenche une fonction de callback avec les données reçues.
+     * 
+     * @param {function} callback La fonction à exécuter lors de l'événement.
+     * @param {string} event Le nom de l'événement.
+     * @return {void}
+     */
+    setter(callback, event = 'set') {
+        let realevent = this.#realName(event);
+
+        this.#openLog('🔂 Préparation de la modification de la donnée', realevent);
+
+        this.register(e => {            
+            this.#openLog('🔁 Modification de la donnée', realevent);
+
+            callback(e);
+        }, event);
+    }
+    
  
     /**
      * Préfixe le nom de l'événement avec afin de ne pas interférer 
