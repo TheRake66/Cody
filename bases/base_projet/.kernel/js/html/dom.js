@@ -128,15 +128,16 @@ export default class Dom {
             less.refresh();
         }
 
-        element = position == 'beforeend' ? 
+        let element = position == 'beforeend' ? 
             parent.lastElementChild : 
             parent.firstElementChild;
             
         Finder.queryAll('script', element).forEach(script => {
             let newScript = Builder.create('script', { 
                 type: 'module' 
-            }, script.innerHTML)
-            script.parentNode.replaceChild(newScript, script);
+            }, script.innerHTML);
+            let container = script.parentNode;
+            container.replaceChild(newScript, script);
         });
     }
 }
