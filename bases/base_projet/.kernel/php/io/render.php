@@ -48,7 +48,7 @@ abstract class Render {
         $vue = $folder . $name . '.phtml';
         $style = $folder . $name . '.less';
         $script = $folder . $name . '.js';
-        if (File::loadable($vue)) {
+        if (!File::loadable($vue)) {
             $vue = str_replace('_', ' ', $vue);
             $style = str_replace('_', ' ', $style);
             $script = str_replace('_', ' ', $script);
