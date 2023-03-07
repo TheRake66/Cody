@@ -1,4 +1,6 @@
 import Finder from '../html/finder.js';
+import Attribute from '../html/attribute.js';
+import Dom from '../html/dom.js';
 
 
 
@@ -52,12 +54,12 @@ export default class Mount {
             for (let i = 0; i < childrens.length; i++) {
                 let child = childrens[i];
 
-                let id = child.getAttribute('id');
+                let id = Attribute.get(child, 'id');
                 if (id) {
                     this[id] = child;
                 }
                 
-                let classs = child.getAttribute('class');
+                let classs = Attribute.get(child, 'class');
                 if (classs) {
                     let split = classs.split(' ');
                     for (let j = 0; j < split.length; j++) {
@@ -73,6 +75,31 @@ export default class Mount {
         } else {
             throw new Error(`Impossible de monter le composant "${uuid}". Aucun composant ne correspond à cet UUID.`);
         }
+    }
+
+
+    /**
+     * Détruit le composant.
+     * 
+     * @return {void}
+     */
+    destroy() {
+        let name = this.constructor.name;
+        let components = window.components[name];
+        if (components instanceof Array) {
+            let component = components.find(component => component.uuid === this.uuid);
+            if (component) {
+                let index = components.indexOf(component);
+                window.components[name].splice(index, 1);
+                delete window.components[name][index];
+            } else {
+                throw new Error(`Impossible de détruire le composant "${name}" avec l'UUID "${this.uuid}".`);
+            }
+        } else {
+            window.components[name] = null;
+            delete window.components[name];
+        }
+        Dom.destroy(this.$);
     }
 
 
