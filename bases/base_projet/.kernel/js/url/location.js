@@ -26,6 +26,17 @@ export default class Location {
 		window.location.href = url;
 	}
 
+
+	/**
+	 * Ouvre une URL dans un nouvel onglet.
+	 * 
+	 * @param {string} url L'URL.
+	 * @returns {void}
+	 */
+	static open(url) {
+		window.open(url);
+	}
+
 	
 	/**
 	 * Recharge la page.
@@ -48,30 +59,30 @@ export default class Location {
 	 */
 	static go(route, params = [], addback = false, method = Http.METHOD_GET) {
 		if (method === Http.METHOD_GET) {
-			window.location.href = Location.build(route, params, addback);
+			let url = Location.build(route, params, addback);
+			Location.change(url);
 		} else if (method === Http.METHOD_POST) {
-			let f = Builder.create('form', {
+			let url = Location.build(route);
+			let form = Builder.create('form', {
 				method: 'post',
-				action: Location.build(route)
+				action: url
 			});
-			Object.entries(obj).forEach(entry => {
-				const [key, value] = entry;
-				f.append(Builder.create('input', {
+			if (addback) {
+				let current = Parser.current();
+				params.redirect_url = current;
+			}
+			Object.entries(params).forEach(entry => {
+				const [ key, value ] = entry;
+				let input = Builder.create('input', {
 					type: 'hidden',
 					name: key,
 					value: value
-				}));
+				});
+				Dom.append(input, form);
 			});
-			if (addback) {
-				f.append(Builder.create('input', {
-					type: 'hidden',
-					name: 'redirect_url',
-					value: Parser.current()
-				}));
-			}
-			Builder.append(f);
-			f.submit();
-			f.remove();
+			Dom.append(form);
+			form.submit();
+			Dom.destroy(form);
 		}
 	}
 
