@@ -255,6 +255,7 @@ export default class Mount {
      * @return {void}
      */
     spread(event = 'refresh', data = null, tag = null, cascade = false, start = null, offset = null, childFirst = true) {
+        let realevent = this.#realName(event);
         
         this.#openLog('🔀 Déclenchement descendant et montant', realevent, [
             [ 'Données', data ],
