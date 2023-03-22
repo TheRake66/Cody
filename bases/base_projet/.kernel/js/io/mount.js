@@ -392,13 +392,15 @@ export default class Mount {
      * @param {number} offset Le nombre de composants à déclencher après le premier composant trouvé.
      * @return {void}
      */
-    mirror(event = 'submit', data = null, tag = null, cascade = false, start = null, offset = null) {
+    mirror(event = 'submit', tag = null, cascade = false, start = null, offset = null) {
         let realevent = this.#realName(event);
 
         this.#openLog('🔂 Préparation au renvoi de la donnée', realevent);
 
         this.register(e => {
-            this.#openLog('🔁 Renvoi de la donnée', realevent);    
+            this.#openLog('🔁 Renvoi de la donnée', realevent);
+
+			let data = e.detail;  
 
             this.pass(event, data, tag, cascade, start, offset);
         }, event);
