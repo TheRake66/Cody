@@ -34,8 +34,7 @@ export default class Mount {
 
 
     /**
-	 * Monte un composant dans le script. Charge la balise principale du composant
-     * ainsi que tous les éléments du composant.
+	 * Monte un composant dans le script. Charge la balise principale du composant ainsi que tous les éléments du composant.
 	 * 
      * @access public
      * @param {string} uuid L'identifiant unique du composant.
@@ -171,8 +170,7 @@ export default class Mount {
      * @param {string} event Le nom de l'événement.
      * @param {any} data Les données à envoyer à l'événement.
      * @param {string} tag Un balise spécifique, seul les composants parent ayant cette balise seront déclencher.
-     * @param {bool} cascade Si l'événement doit être déclenché que pour 
-     * le premier composant parent ou tous jusqu'au premier composant de la page.
+     * @param {boolean} cascade Si l'événement doit être déclenché que pour le premier composant parent ou tous jusqu'au premier composant de la page.
      * @return {void}
      */
     emit(event = 'refresh', data = null, tag = null, cascade = false) {
@@ -202,8 +200,7 @@ export default class Mount {
      * @param {string} event Le nom de l'événement.
      * @param {any} data Les données à envoyer à l'événement.
      * @param {string} tag Un balise spécifique, seul les composants enfant ayant cette balise seront déclencher.
-     * @param {bool} cascade Si l'événement doit être déclenché que pour 
-     * les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
+     * @param {boolean} cascade Si l'événement doit être déclenché que pour les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
      * @param {number} start Le nombre de composants à ignorer avant de commencer à déclencher les événements.
      * @param {number} offset Le nombre de composants à déclencher après le premier composant trouvé.
      * @return {void}
@@ -247,11 +244,10 @@ export default class Mount {
      * @param {string} event Le nom de l'événement.
      * @param {any} data Les données à envoyer à l'événement.
      * @param {string} tag Un balise spécifique, seul les composants enfant ayant cette balise seront déclencher.
-     * @param {bool} cascade Si l'événement doit être déclenché que pour 
-     * les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
+     * @param {boolean} cascade Si l'événement doit être déclenché que pour les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
      * @param {number} start Le nombre de composants à ignorer avant de commencer à déclencher les événements.
      * @param {number} offset Le nombre de composants à déclencher après le premier composant trouvé.
-     * @param {bool} childFirst Si l'événement doit être déclenché d'avord sur les composants enfants ou sur les composants parents.
+     * @param {boolean} childFirst Si l'événement doit être déclenché d'avord sur les composants enfants ou sur les composants parents.
      * @return {void}
      */
     spread(event = 'refresh', data = null, tag = null, cascade = false, start = null, offset = null, childFirst = true) {
@@ -277,17 +273,14 @@ export default class Mount {
 
 
     /**
-     * Enregistre un événement, déclenche le même événement pour des composants enfant,
-     * attends la ou les réponses, exécute la fonction, supprime l'événement.
+     * Enregistre un événement, déclenche le même événement pour des composants enfant, attends la ou les réponses, exécute la fonction, supprime l'événement.
      * 
      * @param {function} callback La fonction à exécuter lors de l'événement.
      * @param {string} event Le nom de l'événement.
      * @param {any} data Les données à envoyer à l'événement.
      * @param {string} tag Un balise spécifique, seul les composants enfant ayant cette balise seront déclencher.
-     * @param {bool} cascade Si l'événement doit être déclenché que pour 
-     * les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
-     * @param {number} count Le nombre de données à recevoir, équivalent au nombre de composant enfant
-     * devant répondre.
+     * @param {boolean} cascade Si l'événement doit être déclenché que pour les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
+     * @param {number} count Le nombre de données à recevoir, équivalent au nombre de composant enfant devant répondre.
      * @return {void}
      */
     toogle(callback, event = 'get', data = null, tag = null, cascade = false, count = 1) {
@@ -345,8 +338,7 @@ export default class Mount {
 	 * @param {function} callback La fonction à exécuter lors de l'événement.
 	 * @param {string} event Le nom de l'événement.
 	 * @param {string} tag Un balise spécifique, seul les composants parent ayant cette balise seront déclencher.
-	 * @param {boolean} cascade Si l'événement doit être déclenché que pour
-	 * le premier composant parent ou tous jusqu'au premier composant de la page.
+	 * @param {boolean} cascade Si l'événement doit être déclenché que pour le premier composant parent ou tous jusqu'au premier composant de la page.
 	 * @return {void}
 	 */
 	getter(callback, event = 'get', tag = null, cascade = false) {
@@ -381,17 +373,41 @@ export default class Mount {
 
         this.#openLog('🔂 Préparation de la modification de la donnée', realevent);
 
-        this.register(e => {            
+        this.register(e => {
             this.#openLog('🔁 Modification de la donnée', realevent);
 
             callback(e);
         }, event);
     }
+
+
+    /**
+     * Déclenche un événement des composants enfants lors d'un déclenchement d'un événement par un autre enfant.
+     * 
+     * @param {string} event Le nom de l'événement.
+     * @param {any} data Les données à envoyer à l'événement.
+     * @param {string} tag Un balise spécifique, seul les composants enfant ayant cette balise seront déclencher.
+     * @param {boolean} cascade Si l'événement doit être déclenché que pour les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
+     * @param {number} start Le nombre de composants à ignorer avant de commencer à déclencher les événements.
+     * @param {number} offset Le nombre de composants à déclencher après le premier composant trouvé.
+     * @return {void}
+     */
+    mirror(event = 'submit', data = null, tag = null, cascade = false, start = null, offset = null) {
+        let realevent = this.#realName(event);
+
+        this.#openLog('🔂 Préparation au renvoi de la donnée', realevent);
+
+        this.register(e => {
+            this.#openLog('🔁 Renvoi de la donnée', realevent);    
+
+            this.pass(event, data, tag, cascade, start, offset);
+        }, event);
+
+    }
     
  
     /**
-     * Préfixe le nom de l'événement avec afin de ne pas interférer 
-     * avec les événements natifs.
+     * Préfixe le nom de l'événement avec afin de ne pas interférer avec les événements natifs.
      * 
      * @param {string} event Le nom de l'événement.
      * @returns {string} Le nom de l'événement avec le préfixe.
