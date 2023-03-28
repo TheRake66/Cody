@@ -20,17 +20,30 @@ abstract class Cookie {
 	/**
 	 * Définissent les paramètres du cookie de session.
 	 * 
-	 * @return bool True si les paramètres sont corrects, false sinon.
+	 * @param bool $kill Si true, le cookie sera détruit, sinon il sera créer.
+	 * @return bool True le cookie à été modifié. False sinon.
 	 */
-	static function session() {
+	static function session($kill = false) {
         $conf = Configuration::get()->security->cookies;
-		return session_set_cookie_params(
-			$conf->lifetime, 
-			$conf->path,
-			$conf->domain,
-			$conf->only_https,
-			$conf->prevent_xss
-		);
+		if ($kill) {
+			return setcookie(
+				session_name(),
+				'',
+				time() - 42000,
+				$conf->path,
+				$conf->domain,
+				$conf->only_https,
+				$conf->prevent_xss
+			);
+		} else {
+			return session_set_cookie_params(
+				$conf->lifetime, 
+				$conf->path,
+				$conf->domain,
+				$conf->only_https,
+				$conf->prevent_xss
+			);
+		}
 	}
 
 

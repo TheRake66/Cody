@@ -40,7 +40,7 @@ abstract class Statement {
      * @throws Error Si la connexion à la base de données échoue.
      */
     private static function connect($conf) {
-        Log::add('Connexion à la base de données "' . $conf->name . '"...', Log::LEVEL_PROGRESS);
+        Log::progress('Connexion à la base de données "' . $conf->name . '"...');
         $pdo = null;
         $dsn = $conf->type . 
             ':host=' . $conf->host . 
@@ -59,7 +59,7 @@ abstract class Statement {
         } catch (\Exception $e) {
             Error::trigger('Impossible de se connecter à la base de données "' . $conf->name . '".', $e);
         }
-        Log::add('Connexion réussite.', Log::LEVEL_GOOD);
+        Log::good('Connexion réussite.');
         return $pdo;
     }
 

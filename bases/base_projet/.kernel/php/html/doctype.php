@@ -24,7 +24,7 @@ abstract class Doctype {
      * @return void
      */
     static function open() {
-        Log::add('Ouverture du HTML...', Log::LEVEL_PROGRESS);
+        Log::progress('Ouverture du HTML...');
 
         $conf_website  = Configuration::get()->website;
         $conf_render   = Configuration::get()->render;
@@ -116,7 +116,7 @@ abstract class Doctype {
         Output::add(Javascript::import('.kernel/brefore.js'));
         Log::add('Script d\'initialisation importé.');
         
-        Log::add('HTML ouvert.', Log::LEVEL_GOOD);
+        Log::good('HTML ouvert.');
     }
 
 
@@ -126,7 +126,7 @@ abstract class Doctype {
      * @return void
      */
     static function close() {
-        Log::add('Fermeture du HTML...', Log::LEVEL_PROGRESS);
+        Log::progress('Fermeture du HTML...');
 
         Output::add(Javascript::import('.kernel/after.js'));
         Log::add('Script d\'extinction importé.');
@@ -145,7 +145,7 @@ abstract class Doctype {
         }
 
         Output::add('</html>');
-        Log::add('HTML fermé.', Log::LEVEL_GOOD);
+        Log::good('HTML fermé.');
     }
     
 }

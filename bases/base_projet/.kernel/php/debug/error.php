@@ -73,11 +73,10 @@ abstract class Error {
      * @return void
      */
     static function trigger($message, $exception = null) {
-        if (is_null($exception)) {
-            trigger_error($message);
-        } else {
-            trigger_error($message . PHP_EOL . 'Raison : ' . $exception->getMessage());
-        }
+        trigger_error(is_null($exception) ? 
+            $message :
+            ($message . PHP_EOL . 'Raison : ' . $exception->getMessage())
+        );
     }
 
 
@@ -111,7 +110,7 @@ abstract class Error {
         self::remove();
         self::$showing = true;
         $messagefull = $message . PHP_EOL . (new Exception())->getTraceAsString();
-        Log::add($messagefull, Log::LEVEL_ERROR);
+        Log::error($messagefull);
         Stream::destroy();
         http_response_code(500);
         if (Configuration::get()->render->error->format_message) {

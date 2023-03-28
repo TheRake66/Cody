@@ -8,6 +8,7 @@ use Kernel\Io\Convert\Encoded;
 use Kernel\Io\Stream;
 use Kernel\Security\Configuration;
 use Kernel\Security\Vulnerability\Xss;
+use Kernel\Session\Socket;
 use Kernel\Url\Parser;
 use Kernel\Url\Router;
 
@@ -37,11 +38,12 @@ abstract class Rest {
 	 */
 	static function check() {
 		$class = Router::entry();
-		Log::add('Vérification de l\'appel API...', Log::LEVEL_PROGRESS);
+		Log::progress('Vérification de l\'appel API...');
 		if (Autoloader::typeof($class) === Autoloader::TYPE_API) {
-			Log::add('Appel API identifié : "' . $class . '".', Log::LEVEL_GOOD);
-			Log::add('Traitement de l\'appel API...', Log::LEVEL_PROGRESS);
+			Log::good('Appel API identifié : "' . $class . '".');
+			Log::progress('Traitement de l\'appel API...');
 
+			Socket::unlock();
 			$object = new $class();
 			$object->started = microtime(true);
 			$method = $_SERVER['REQUEST_METHOD'];
@@ -75,7 +77,7 @@ abstract class Rest {
 				$object->send(null, Error::API_HTTP_METHOD_NOT_ALLOWED, 'La méthode "' . $method . '" n\'est pas supportée par cette ressource !', Http::HTTP_METHOD_NOT_ALLOWED);
 			}
 		} else {
-			Log::add('Aucun appel API.', Log::LEVEL_GOOD);
+			Log::good('Aucun appel API.');
 		}
 	}
 
@@ -167,6 +169,7 @@ abstract class Rest {
 	 * @param string $class La class du composant.
 	 * @param array|mixed $args La ou les paramètres du composant.
 	 * @return string Le composant généré.
+     * @throws Error Si la classe demandée n'est pas un composant.
 	 */
 	protected function generate($class, $args = []) {
 		if (Autoloader::typeof($class) === Autoloader::TYPE_CONTROLLER) {

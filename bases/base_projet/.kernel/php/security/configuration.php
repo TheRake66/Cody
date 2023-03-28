@@ -35,7 +35,7 @@ abstract class Configuration {
 		$json = File::load('.kernel/configuration.json');
 		self::$current = json_decode($json);
 		if (is_null(self::$current)) {
-            self::trigger('Impossible de charger la configuration !');
+			exit('Impossible de charger la configuration !');
 		}
 	}
 	
@@ -50,22 +50,7 @@ abstract class Configuration {
 		if (!is_null(self::$current)) {
 			return self::$current;
 		} else {
-            self::trigger('La configuration n\'est pas chargée !');
-		}
-	}
-
-
-	/**
-	 * Déclenche une erreur en vérifiant si la classe d'erreur est chargée.
-	 * 
-	 * @return void
-	 * @throws Error Erreur si la classe est chargée.
-	 */
-	private static function trigger($message) {
-		if (Autoloader::exists('Kernel\\Debug\\Error')) {
-			Error::trigger($message);
-		} else {
-			exit($message);
+			exit('La configuration n\'est pas chargée !');
 		}
 	}
 	

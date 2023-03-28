@@ -108,6 +108,7 @@ abstract class Router {
 	 * @param array|string $class La ou les classes de la route.
 	 * @param array|string $method La ou les méthodes de la route.
 	 * @return void
+     * @throws Error Si la route existe déjà.
 	 */
 	static function add($route, $class, $method = self::METHOD_GET) {
 		if (!self::exists($route)) {
@@ -323,10 +324,11 @@ abstract class Router {
      * Appel le contrôleur du composant de la route demandée.
 	 * 
 	 * @return void
+     * @throws Error Si la route ne redirige pas vers un composant.
      */
 	static function app() {
 		$entry = self::entry();
-		Log::add('Routage (url : "' . Parser::current() . '")...', Log::LEVEL_PROGRESS);
+		Log::progress('Routage (url : "' . Parser::current() . '")...');
 		if (Autoloader::typeof($entry) === Autoloader::TYPE_CONTROLLER) {
 			Log::add('Contrôleur identifié : "' . $entry . '".');
 			$sequence = self::sequence();
@@ -340,7 +342,7 @@ abstract class Router {
 				Log::add('Enchaînement : ' . $path);
 			}
 			new $entry();
-			Log::add('Routage fait.', Log::LEVEL_GOOD);
+			Log::good('Routage fait.');
 		} else {
 			Error::trigger('La route "' . self::$current . '" n\'est pas une route de composant !');
 		}
@@ -365,9 +367,9 @@ abstract class Router {
 			return $class;
 		} else {
 			self::$index = $index;
-			Log::add('Enchaînement suivant vers : "' . $class . '"...', Log::LEVEL_PROGRESS);
+			Log::progress('Enchaînement suivant vers : "' . $class . '"...');
 			new $class();
-			Log::add('Enchaînement fait.', Log::LEVEL_GOOD);
+			Log::good('Enchaînement fait.');
 		}
 	}
 
@@ -390,9 +392,9 @@ abstract class Router {
 			return $class;
 		} else {
 			self::$index = $index;
-			Log::add('Enchaînement précédent vers : "' . $class . '"...', Log::LEVEL_PROGRESS);
+			Log::progress('Enchaînement précédent vers : "' . $class . '"...');
 			new $class();
-			Log::add('Enchaînement fait.', Log::LEVEL_GOOD);
+			Log::good('Enchaînement fait.');
 		}
 	}
 

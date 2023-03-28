@@ -27,9 +27,9 @@ abstract class Ssl {
 	static function enable() {
 		if (Configuration::get()->security->only_https) {
 			if(self::active()) {
-				Log::add('SSL actif.', Log::LEVEL_GOOD);
+				Log::good('SSL actif.');
 			} else {
-				Log::add('Activation du SSL...', Log::LEVEL_PROGRESS);
+				Log::progress('Activation du SSL...');
 				Location::change('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 			}
 		}

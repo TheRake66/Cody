@@ -36,7 +36,7 @@ abstract class Socket {
             }
 
             if (session_status() === PHP_SESSION_NONE) {
-                Log::add('Démarrage de la session...', Log::LEVEL_PROGRESS);
+                Log::progress('Démarrage de la session...');
 
                 if ($conf->multiple) {
                     $name = str_replace(' ', '_', $conf->name);
@@ -47,7 +47,7 @@ abstract class Socket {
 
                 if (Cookie::session()) {
                     if (session_start()) {
-                        Log::add('Session démarrée.', Log::LEVEL_GOOD);
+                        Log::good('Session démarrée.');
                     } else {
                         Error::trigger('Impossible de démarrer la session.');
                     }
@@ -68,11 +68,46 @@ abstract class Socket {
                     $error = !self::regenerate();
                 }
             }
+
             if ($error) {
                 Error::trigger('Impossible de régénérer la session.');
             }
 		}
 	}
+
+
+    /**
+     * Écrit les données de session et ferme la session.
+     * 
+     * @return void
+     * @throws Error Si la session n'a pas pu être libérée.
+     */
+    static function unlock() {
+        if (session_write_close()) {
+            Log::add('Session libérée.');
+        } else {
+            Error::trigger('Impossible de libérer la session.');
+        }
+    }
+
+
+    /**
+     * Supprime toutes les données de session puis la ferme.
+     * 
+     * @return void
+     * @throws Error Si la session n'a pas pu être détruite.
+     */
+    static function clear() {
+        if (Cookie::session(true)) {
+            if (session_destroy()) {
+                Log::add('Session détruite.');
+            } else {
+                Error::trigger('Impossible de détruire la session.');
+            }
+        } else {
+            Error::trigger('Impossible de détruire les paramètres du cookie de session.');
+        }
+    }
 
 
     /**

@@ -27,10 +27,10 @@ abstract class User {
     static function login($user, $token = null) {
         if (Token::set($token)) {
             self::set($user);
-            Log::add('Utilisateur connecté (jeton : "' . Token::get() . '") : "' . print_r($user, true) . '".', Log::LEVEL_GOOD);
+            Log::good('Utilisateur connecté (jeton : "' . Token::get() . '") : "' . print_r($user, true) . '".');
             return true;
         } else {
-            Log::add('Impossible de connecter l\'utilisateur !', Log::LEVEL_ERROR);
+            Log::error('Impossible de connecter l\'utilisateur !');
             return false;
         }
     }
@@ -44,10 +44,10 @@ abstract class User {
     static function logout() {
         if (Token::remove()) {
             self::remove();
-            Log::add('Utilisateur déconnecté.', Log::LEVEL_GOOD);
+            Log::good('Utilisateur déconnecté.');
             return true;
         } else {
-            Log::add('Impossible de déconnecter l\'utilisateur !', Log::LEVEL_ERROR);
+            Log::error('Impossible de déconnecter l\'utilisateur !');
             return false;
         }
     }

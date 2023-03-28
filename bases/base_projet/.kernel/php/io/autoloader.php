@@ -3,8 +3,6 @@ namespace Kernel\IO;
 
 use Kernel\Debug\Error;
 
-
-
 /**
  * Librairie chargeant les classes demandées.
  *
@@ -79,10 +77,12 @@ abstract class Autoloader {
         if ($file = self::file($required)) {
             require_once($file);
             if (!class_exists($required)) {
-                exit('La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !');
+                $msg = 'La classe "' . $required . '" n\'existe pas dans le fichier "' . $file . '" !';
             }
         } else {
             $msg = 'Impossible de charger la classe "' . $required . '" !';
+        }
+        if (isset($msg)) {
             if (self::exists('Kernel\\Debug\\Error')) {
                 Error::trigger($msg);
             } else {

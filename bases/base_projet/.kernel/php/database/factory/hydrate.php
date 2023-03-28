@@ -32,7 +32,7 @@ abstract class Hydrate {
                 if (!property_exists($c, $k)) {
                     $k = '_' . $k;
                     if (!property_exists($c, $k)) {
-                        Log::add('Attention, la propriété "' . $k . '" n\'existe pas dans la classe "' . $c . '".', Log::LEVEL_WARNING);
+                        Log::warning('Attention, la propriété "' . $k . '" n\'existe pas dans la classe "' . $c . '".');
                         continue;
                     }
                 }

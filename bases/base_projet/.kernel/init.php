@@ -31,14 +31,14 @@ k\Debug\Version::init();
 // Défini le fuseau horraire par défaut.
 k\Io\Convert\Date::timezone();
 
-// Démarre une session.
-k\Session\Socket::start();
-
 // Charge les routes.
 k\Url\Router::load();
 
 // Vérifie si on demande une API.
 k\Communication\Rest::check();
+
+// Démarre une session.
+k\Session\Socket::start();
 
 // Lance le superviseur.
 k\Debug\Supervisor::watch();

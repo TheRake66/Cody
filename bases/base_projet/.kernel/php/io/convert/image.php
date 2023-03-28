@@ -27,6 +27,7 @@ abstract class Image {
      * @param int $height La hauteur de l'image.
      * @param bool $stretched Si l'image doit être étirée.
      * @return string La donnée compressée.
+     * @throws Error Si l'extension GD/GD2 n'est pas disponible.
      */
     static function resize($data, $width = 128, $height = 128, $stretch = false) {
         if (extension_loaded('gd') || extension_loaded('gd2')) {
