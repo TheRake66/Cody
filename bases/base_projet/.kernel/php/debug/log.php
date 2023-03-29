@@ -3,8 +3,8 @@ namespace Kernel\Debug;
 
 use Kernel\Communication\Network;
 use Kernel\Security\Configuration;
-use Kernel\Io\Convert\Number;
 use Kernel\Io\Convert\Encoded;
+use Kernel\Io\Convert\Number;
 use Kernel\Io\Path;
 
 
@@ -13,7 +13,7 @@ use Kernel\Io\Path;
  * Librairie gérant le journal de logs.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.1.1.0
  * @package Kernel\Debug
  * @category Framework source
  * @license MIT License
@@ -38,6 +38,9 @@ abstract class Log {
     const TYPE_QUERY            = 1;
     const TYPE_QUERY_PARAMETERS = 2;
     const TYPE_QUERY_RESULTS    = 3;
+    const TYPE_API              = 1;
+    const TYPE_API_PARAMETERS   = 2;
+    const TYPE_API_RESPONSE     = 3;
     const TYPE_MAIL             = 4;
     const TYPE_MAIL_HEADER      = 5;
     const TYPE_MAIL_CONTENT     = 6;
@@ -134,11 +137,15 @@ abstract class Log {
      */
     static function file($message, $level = self::LEVEL_INFO, $type = self::TYPE_NONE) {
         $conf = Configuration::get()->log;
+        $error = false;
 
         if ($conf->use_file &&
             ($type !== self::TYPE_QUERY 			|| $conf->query->enabled) &&
             ($type !== self::TYPE_QUERY_PARAMETERS 	|| $conf->query->parameters) &&
             ($type !== self::TYPE_QUERY_RESULTS 	|| $conf->query->results) &&
+            ($type !== self::TYPE_API 			    || $conf->api->enabled) &&
+            ($type !== self::TYPE_API_PARAMETERS 	|| $conf->api->parameters) &&
+            ($type !== self::TYPE_API_RESPONSE 	    || $conf->api->response) &&
             ($type !== self::TYPE_MAIL 				|| $conf->mail->enabled) &&
             ($type !== self::TYPE_MAIL_HEADER 		|| $conf->mail->header) &&
             ($type !== self::TYPE_MAIL_CONTENT 		|| $conf->mail->content)
@@ -146,10 +153,10 @@ abstract class Log {
 
             $folder = Path::absolute('logs');
             if ($conf->ip_identify) {
-                $folder .= '/' . str_replace(':', '-', Network::client());
+                $ip = Network::client();
+                $folder .= '/' . str_replace(':', '-', $ip);
             }
 
-            $error = false;
             if (is_dir($folder) || mkdir($folder, 0777, true)) {
 
                 $now = \DateTime::createFromFormat('U.u', microtime(true));
@@ -161,7 +168,13 @@ abstract class Log {
                     $nowLite ='### ### ##';
                 }
 
-                $file = $folder. '/' . $nowLite . '.log';
+                $uuid = uniqid();
+                if (is_null(self::$uuid)) {
+                    self::$uuid = $uuid;
+                }
+
+                $level = Encoded::fill(Encoded::cut($level, 8), 8);
+                
                 if (is_object($message) || is_array($message)) {
                     $message = print_r($message, true);
                 }
@@ -171,23 +184,20 @@ abstract class Log {
                     $len = strlen($message);
                     if ($len > $max) {
                         $diff = $len - $max;
-                        $message = substr($message, 0, $max) . ' ...[plus de ' . Number::occident($diff, 0) . ' ' . Encoded::plural($diff, 'caractère') . ' ' .  Encoded::plural($diff, 'restant') . ']';
+                        $sub = substr($message, 0, $max);
+                        $occ = Number::occident($diff);
+                        $plur1 = Encoded::plural($diff, 'caractère');
+                        $plur2 = Encoded::plural($diff, 'restant');
+                        $message = "$sub ...[plus de $occ $plur1 $plur2.]";
                     }
-                }    
-
-                if (is_null(self::$uuid)) {
-                    self::$uuid = uniqid();
                 }
 
-                $message = '[' . $nowFull . '] [' . self::$uuid . '] [' . Encoded::fill(Encoded::cut($level, 8), 8) . '] ' . $message . PHP_EOL;
-                
+                $message = "[$nowFull] [$uuid] [$level] $message" . PHP_EOL;
+
+                $file = $folder. '/' . $nowLite . '.log';
                 Error::remove();
-                $_ = file_put_contents($file, $message, FILE_APPEND | LOCK_EX);
+                $error = !file_put_contents($file, $message, FILE_APPEND | LOCK_EX);
                 Error::handler();
-                
-                if ($_ === false) {
-                    $error = true;
-                }
             } else {
                 $error = true;
             }

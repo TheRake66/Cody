@@ -9,7 +9,7 @@ use PDO;
  * Librairie les transactions SQL.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Database
  * @category Framework source
  * @license MIT License

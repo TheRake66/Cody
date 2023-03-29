@@ -11,7 +11,7 @@ use Kernel\Io\File;
  * Librairie gerant la configuration du noyau
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 2.0.0.0
  * @package Kernel\Framework
  * @category Framework source
  * @license MIT License
@@ -32,7 +32,9 @@ abstract class Configuration {
 	 * @throws Error Si la configuration n'est pas trouvée.
 	 */
 	static function load() {
-		$json = File::load('.kernel/configuration.json');
+		$jsonc = File::load('.kernel/configuration.jsonc');
+		$pattern = '~("[^"\\\\]*(?:\\\\.[^"\\\\]*)*")|//[^\r\n]*|/\*.*?\*/~s';
+		$json = preg_replace($pattern, '$1', $jsonc);
 		self::$current = json_decode($json);
 		if (is_null(self::$current)) {
 			exit('Impossible de charger la configuration !');

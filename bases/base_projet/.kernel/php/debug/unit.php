@@ -7,7 +7,7 @@ namespace Kernel\Debug;
  * Librairie gérant les tests unitaires.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Debug
  * @category Framework source
  * @copyright (c) 2022, Thibault Bustos

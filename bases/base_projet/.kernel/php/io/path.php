@@ -7,7 +7,7 @@ namespace Kernel\IO;
  * Librairie gérant les chemins des fichiers.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\IO
  * @category Framework source
  * @license MIT License

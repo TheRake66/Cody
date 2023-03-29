@@ -15,7 +15,7 @@ use Kernel\Security\Configuration;
  * Librairie gérant le rendu des composants.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\IO
  * @category Framework source
  */

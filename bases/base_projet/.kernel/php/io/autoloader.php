@@ -7,7 +7,7 @@ use Kernel\Debug\Error;
  * Librairie chargeant les classes demandées.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\IO
  * @category Framework source
  * @license MIT License

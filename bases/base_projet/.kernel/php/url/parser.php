@@ -7,7 +7,7 @@ namespace Kernel\Url;
  * Librairie gérant les parties de l'URL.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Url
  * @category Framework source
  * @license MIT License

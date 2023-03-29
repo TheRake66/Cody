@@ -10,7 +10,7 @@ use Kernel\Url\Parser;
  * Librairie gérant le début et la fin de la page.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Html
  * @category Framework source
  * @license MIT License

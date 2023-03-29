@@ -1,0 +1,195 @@
+{
+	/******************************************************************
+	 *              											      *
+	 * Catégorie gérant les informations de version de l'application. *
+	 *              											      *
+	 ******************************************************************/
+	"version": {
+		"major": 1, // Numéro de version majeur, changé lors d'un changement majeur de l'application.
+		"minor": 0, // Numéro de version mineur, changé lors d'un ajout de fonctionnalité.
+		"patch": 0, // Numéro de version de correction, changé lors d'une correction de bug.
+		"build": 0, // Numéro de version de build, changé lors d'une nouvelle compilation.
+		"release": "alpha", // Type de version (alpha, beta, rc, stable).
+		"date": "2019-01-01 00:00:00" // Date de la version (AAAA-MM-JJ HH:MM:SS).
+	},
+	/**************************************************
+	 *              							      *
+	 * Catégorie gérant la sécurité de l'application. *
+	 *              							      *
+	 **************************************************/
+    "security": {
+        "only_https": false, // Utilisation du protocole HTTPS uniquement. Si une page est appelée en HTTP, elle est redirigée vers HTTPS.
+        "prevent_self_xss": false, // Protection contre les attaques Self-XSS en affichant un message de prévention dans la console du navigateur.
+		"cookies": {
+			"path": "/", // Chemin d'accès aux cookies.
+			"domain": "www.{PROJECT_NAME}.com", // Domaine d'accès aux cookies. Si vide, le domaine est celui de la page. Si invalide, les cookies ne seront pas stockés.
+			"only_https": false, // Transmission des cookies uniquement en HTTPS.
+			"prevent_xss": false, // Protection contre les attaques XSS en empêchant l'écriture de scripts dans les cookies.
+			"lifetime": 0 // Durée de vie des cookies en secondes. Si 0, les cookies sont supprimés à la fermeture du navigateur.
+		}
+    },
+	/**************************************************************
+	 *              							                  *
+	 * Catégorie gérant les paramètres de rendu de l'application. *
+	 *              							                  *
+	 **************************************************************/
+    "render": {
+        "use_minifying": false, // Spécifie si lors du rendu des composants, on doit utiliser les fichiers .min.js et .min.css au lieu des fichiers .js et .less.
+        "wait_dom_loaded": true, // Spécifie si on doit attendre que le DOM soit chargé pour lancer le rendu des composants.
+        "delay_after_load": 200, // Délai en millisecondes à attendre après le chargement du DOM avant de lancer le rendu des composants.
+		"error": {
+			"catch": true, // Spécifie si on doit intercepter les erreurs PHP et les afficher dans le navigateur. Si false, les erreurs PHP sont affichées nativement.
+			"format_message": true // Spécifie si on doit formater le message d'erreur PHP lors de l'interception des erreurs PHP. Si false, le client reçoit une erreur navigateur sans message.
+		},
+		"debug": {
+			"supervisor": true, // Spécifie si on doit afficher le panneau du superviseur.
+			"border_component": false, // Spécifie si on doit afficher une bordure collorée autour des composants.
+			"maintenance": {
+				"enabled": false, // Spécifie si on doit afficher la page de maintenance.
+				"authorized_ips": [], // Liste des adresses IP autorisées à accéder à l'application lorsqu'elle est en maintenance.
+				"alow_localhost": true, // Spécifie si on doit autoriser l'accès à l'application depuis localhost lorsqu'elle est en maintenance.
+				"redirect": {
+					"enabled": false, // Spécifie si on doit rediriger les utilisateurs vers une autre page lorsqu'ils tentent d'accéder à l'application en maintenance. Si false, ils voient une erreur navigateur.
+					"url": "" // Lien vers la page de redirection.
+				}
+			}
+		},
+		"api": {
+			"beautify_json": true // Spécifie si on doit formater le JSON renvoyé par l'API.
+		}
+    },
+	/*************************************************
+	 *              							     *
+	 * Catégorie gérant le journal de l'application. *
+	 *              							     *
+	 *************************************************/
+    "log": {
+        "use_file": true, // Spécifie si on doit utiliser des fichiers pour stocker le journal de l'application.
+        "ip_identify": false, // Spécifie si on doit classer les fichiers dans des dossiers par adresse IP.
+        "throw_if_unwritable": true, // Spécifie si on doit lancer une exception si le fichier de journal n'est pas accessible en écriture.
+        "max_lenght": 1000, // Nombre maximum de caractères par ligne de journal.
+		"query": {
+			"enabled": true, // Spécifie si on doit enregistrer les requêtes SQL.
+			"parameters": true, // Spécifie si on doit enregistrer les paramètres des requêtes.
+			"results": true // Spécifie si on doit enregistrer les résultats des requêtes.
+		},
+		"api": {
+			"enabled": true, // Spécifie si on doit enregistrer les requêtes d'API.
+			"parameters": true, // Spécifie si on doit enregistrer les paramètres des requêtes.
+			"response": true // Spécifie si on doit enregistrer les réponses des requêtes.
+		},
+		"mail": {
+			"enabled": true, // Spécifie si on doit enregistrer les envois de mails.
+			"header": true, // Spécifie si on doit enregistrer les en-têtes des mails.
+			"content": true // Spécifie si on doit enregistrer le contenu des mails.
+		}
+    },
+	/****************************************************
+	 *              							        *
+	 * Catégorie gérant l'entête meta de l'application. *
+	 *              							        *
+	 ****************************************************/
+    "website": {
+        "charset": "utf-8", // Encodage de la page.
+        "title": "{PROJECT_NAME}", // Titre de la page.
+        "description": "{PROJECT_NAME}", // Description de la page.
+        "keywords": "{PROJECT_NAME}", // Mots-clés de la page.
+        "author": "{USER_NAME}", // Auteur de la page.
+        "viewport": "width=device-width, initial-scale=1.0", // Paramètres de la vue de la page.
+        "theme_color": "#3B78FF", // Couleur du thème de la page pour les appareils mobiles.
+        "robots": "index, follow", // Indique aux robots d'indexation de moteurs de recherche si la page doit être indexée.
+        "favicon": "favicon.ico", // Icone de la page.
+		"opengraph": {			
+			"title": "{PROJECT_NAME}", // Titre de la page pour les réseaux sociaux.
+			"description": "{PROJECT_NAME}", // Description de la page pour les réseaux sociaux.
+			"url": "https://www.{PROJECT_NAME}.com", // URL de la page pour les réseaux sociaux.
+			"type": "website", // Type de la page pour les réseaux sociaux.
+			"locale": "fr_FR", // Langue de la page pour les réseaux sociaux.
+			"site_name": "{PROJECT_NAME}", // Nom du site pour les réseaux sociaux.
+			"image": {
+				"secure_url": "", // URL sécurisée de l'image pour les réseaux sociaux.
+				"url": "", // URL de l'image pour les réseaux sociaux.
+				"type": "image/png", // Type de l'image pour les réseaux sociaux.
+				"width": "512", // Largeur de l'image pour les réseaux sociaux.
+				"height": "512", // Hauteur de l'image pour les réseaux sociaux.
+				"alt": "" // Texte alternatif de l'image pour les réseaux sociaux.
+			}
+		},
+		"http": {
+			"cache": "public, max-age=31536000", // Paramètres de cache de la page pour les navigateurs.
+			"cache_control": "public, max-age=31536000", // Paramètres de cache de la page pour les serveurs.
+			"pragma": "public, max-age=31536000", // Paramètres de cache de la page pour les navigateurs.
+			"expires": 31536000, // Expiration du cache de la page pour les navigateurs.
+			"refresh": {
+				"enabled": false, // Spécifie si on doit rafraîchir la page.
+				"delay": 0, // Délai de rafraîchissement de la page.
+				"url": "" // URL de redirection en cas rafraîchissement de la page. Si vide, la page est rafraîchie sans redirection.
+			}
+		}
+    },
+	/******************************************************
+	 *              							          *
+	 * Catégorie gérant la localisation de l'application. *
+	 *              							          *
+	 ******************************************************/
+    "region": {
+        "timezone": "Europe/Paris", // Fuseau horaire de l'application.
+        "main_lang": "fr" // Langue principale de l'application.
+    },
+	/*************************************************
+	 *              							     *
+	 * Catégorie gérant la session de l'application. *
+	 *              							     *
+	 *************************************************/
+    "session": {
+        "openning": true, // Spécifie si on doit ouvrir une session.
+        "multiple": true, // Spécifie si on doit autoriser plusieurs sessions, une par site ou si elle est partagée.
+        "name": "{PROJECT_NAME}", // Nom de la session. En cas de partage, il doit être identique. En cas de non-partage, il sera préfixé par le nom du site.
+        "token_lifetime_days": 31, // Durée de vie du jeton de session en jours.
+		"regenerate": {
+			"delay": -1, // Délai de régénération de la session en secondes. Si -1, la session ne sera pas régénérée.
+			"delete_old": false // Spécifie si on doit supprimer l'ancienne session.
+		}
+    },
+	/******************************************
+	 *              				          *
+	 * Catégorie gérant les bases de données. *
+	 *              					      *
+	 ******************************************/
+    "database": {
+        "default": "{PROJECT_NAME}", // Nom de la base de données par défaut.
+        "progressive": true, // Spécifie si on doit utiliser la base de données progressivement. Si true, lors d'un chargement et d'une connexion à une base de données, toutes les bases de données seront chargées et connectées. Si false, seule la base de données demandée sera chargée et connectée.
+        "list": [
+            {
+				"login": "root", // Identifiant de connexion à la base de données.
+				"password": "", // Mot de passe de connexion à la base de données.
+				"host": "localhost", // Hôte de connexion à la base de données.
+				"port": "3306", // Port de connexion à la base de données.
+				"name": "{PROJECT_NAME}", // Nom de la base de données.
+                "encoding": "utf8", // Encodage de la base de données.
+                "type": "mysql", // Type de la base de données.
+				"options": {
+					"throw_sql_error": true, // Spécifie si on doit lancer une exception en cas d'erreur SQL.
+					"throw_transaction": true, // Spécifie si on doit lancer une exception en cas d'erreur de transaction SQL.
+					"emulate_prepare": false, // Spécifie si on doit émuler les requêtes préparées.
+					"persistent_mode": false // Spécifie si on doit utiliser le mode persistant.
+				}
+				/* ,
+				"login": "...",
+				"password": "...",
+				"host": "...",
+				"port": "...",
+				"name": "...",
+				"encoding": "...",
+				"type": "...",
+				"options": {
+					"throw_sql_error": true,
+					"throw_transaction": true,
+					"emulate_prepare": false,
+					"persistent_mode": false
+				}
+				...*/
+            }
+        ]
+    }
+}

@@ -7,7 +7,7 @@ namespace Kernel\Communication;
  * Librairie de communication via le protocole HTTP(S).
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Communication
  * @category Framework source
  * @license MIT License

@@ -13,7 +13,7 @@ use Kernel\Url\Location;
  * Librairie gérant la maintenance du site.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Debug
  * @category Framework source
  * @license MIT License

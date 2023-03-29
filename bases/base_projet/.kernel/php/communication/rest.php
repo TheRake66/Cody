@@ -17,7 +17,7 @@ use Kernel\Url\Router;
  * Librairie gérant les appels d'API REST.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.1.1.0
  * @package Kernel\Communication
  * @category Framework source
  * @license MIT License
@@ -55,16 +55,16 @@ abstract class Rest {
 				$body = (object)json_decode(file_get_contents('php://input'));
 
 				Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::current() . '")...',
-					Log::LEVEL_PROGRESS, Log::TYPE_QUERY);
+					Log::LEVEL_PROGRESS, Log::TYPE_API);
 
 				Log::add('Paramètres de la requête REST (route) : "' . print_r($route, true) . '".',
-					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
+					Log::LEVEL_INFO, Log::TYPE_API_PARAMETERS);
 
 				Log::add('Paramètres de la requête REST (query) : "' . print_r($query, true) . '".',
-					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
+					Log::LEVEL_INFO, Log::TYPE_API_PARAMETERS);
 
 				Log::add('Paramètres de la requête REST (body) : "' . print_r($body, true) . '".',
-					Log::LEVEL_INFO, Log::TYPE_QUERY_PARAMETERS);
+					Log::LEVEL_INFO, Log::TYPE_API_PARAMETERS);
 
 				$function = strtolower($method);
 				if (method_exists($object, $function)) {
@@ -103,10 +103,10 @@ abstract class Rest {
 		];
 
 		Log::add('Requête REST exécutée.',
-			Log::LEVEL_GOOD, Log::TYPE_QUERY);
+			Log::LEVEL_GOOD, Log::TYPE_API);
 			
 		Log::add('Résultat de la requête REST : "' . print_r($response, true) . '".',
-			Log::LEVEL_INFO, Log::TYPE_QUERY_RESULTS);
+			Log::LEVEL_INFO, Log::TYPE_API_RESPONSE);
 		
 		$beauty = Configuration::get()->render->api->beautify_json;
 		$flags = (!$beauty ? 0 : JSON_PRETTY_PRINT) | JSON_PARTIAL_OUTPUT_ON_ERROR;

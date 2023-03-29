@@ -12,7 +12,7 @@ use PDO;
  * Librairie de connexion a la base de données.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Database
  * @category Framework source
  * @license MIT License

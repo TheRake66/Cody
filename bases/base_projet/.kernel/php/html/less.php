@@ -12,7 +12,7 @@ use Kernel\Io\Path;
  * Librairie gérant le chargement de LESS.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Html
  * @category Framework source
  * @license MIT License

@@ -7,7 +7,7 @@ namespace Kernel\Io\Convert;
  * Librairie de conversion de données de type numérique.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Io\Convert
  * @category Framework source
  * @license MIT License

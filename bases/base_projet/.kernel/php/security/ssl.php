@@ -11,7 +11,7 @@ use Kernel\Url\Location;
  * Librairie gérant le protocole SSL (Secure Socket Layer).
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Security
  * @category Framework source
  * @license MIT License

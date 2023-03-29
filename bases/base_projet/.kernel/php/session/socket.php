@@ -13,7 +13,7 @@ use Kernel\Security\Cookie;
  * Librairie gérant la session coté serveur.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.2.0.0
  * @package Kernel\Session
  * @category Framework source
  * @license MIT License

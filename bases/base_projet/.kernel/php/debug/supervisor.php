@@ -12,7 +12,7 @@ use Kernel\Url\Parser;
  * Librairie du superviseur.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Debug
  * @category Framework source
  * @license MIT License

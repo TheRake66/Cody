@@ -9,7 +9,7 @@ use Kernel\Error;
  * Librairie créant la réflection des objets DTO.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Database\Factory
  * @category Framework source
  * @license MIT License

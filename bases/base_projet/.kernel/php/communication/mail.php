@@ -11,7 +11,7 @@ use Kernel\Io\Convert\Dataset;
  * Librairie gérant les envois de mail.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @package Kernel\Communication
  * @category Framework source
  * @license MIT License

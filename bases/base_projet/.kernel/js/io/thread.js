@@ -2,7 +2,7 @@
  * Librairie de gestion des fils d'exécution.
  * 
  * @author Thibault Bustos (TheRake66)
- * @version 1.0
+ * @version 1.0.0.0
  * @category Framework source
  * @license MIT License
  * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
