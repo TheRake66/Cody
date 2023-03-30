@@ -8,7 +8,7 @@ import Dom from '../html/dom.js';
  * Librairie gérant le montage des composants.
  * 
  * @author Thibault Bustos (TheRake66)
- * @version 1.0.0.0
+ * @version 1.1.0.0
  * @category Framework source
  * @license MIT License
  * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
