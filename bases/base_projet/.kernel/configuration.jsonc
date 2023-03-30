@@ -174,22 +174,21 @@
 					"emulate_prepare": false, // Spécifie si on doit émuler les requêtes préparées.
 					"persistent_mode": false // Spécifie si on doit utiliser le mode persistant.
 				}
-				/* ,
-				"login": "...",
-				"password": "...",
-				"host": "...",
-				"port": "...",
-				"name": "...",
-				"encoding": "...",
-				"type": "...",
-				"options": {
-					"throw_sql_error": true,
-					"throw_transaction": true,
-					"emulate_prepare": false,
-					"persistent_mode": false
-				}
-				...*/
-            }
+            } /* ,
+			"login": "...",
+			"password": "...",
+			"host": "...",
+			"port": "...",
+			"name": "...",
+			"encoding": "...",
+			"type": "...",
+			"options": {
+				"throw_sql_error": true,
+				"throw_transaction": true,
+				"emulate_prepare": false,
+				"persistent_mode": false
+			},
+			... */
         ]
     }
 }
