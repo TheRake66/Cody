@@ -247,10 +247,10 @@ export default class Mount {
      * @param {boolean} cascade Si l'événement doit être déclenché que pour les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
      * @param {number} start Le nombre de composants à ignorer avant de commencer à déclencher les événements.
      * @param {number} offset Le nombre de composants à déclencher après le premier composant trouvé.
-     * @param {boolean} childFirst Si l'événement doit être déclenché d'avord sur les composants enfants ou sur les composants parents.
+     * @param {boolean} rising Si l'événement doit être déclenché d'avord sur les composants enfants ou sur les composants parents.
      * @return {void}
      */
-    spread(event = 'refresh', data = null, tag = null, cascade = false, start = null, offset = null, childFirst = true) {
+    spread(event = 'refresh', data = null, tag = null, cascade = false, start = null, offset = null, rising = true) {
         let realevent = this.#realName(event);
         
         this.#openLog('🔀 Déclenchement descendant et montant', realevent, [
@@ -259,10 +259,10 @@ export default class Mount {
             [ 'Cascade', cascade ],
             [ 'Début', start ],
             [ 'Limite', offset ],
-            [ 'Enfant d\'abord', childFirst ]
+            [ 'Enfant d\'abord', rising ]
         ]);
         
-        if (childFirst) {
+        if (rising) {
             this.pass(event, data, tag, cascade, start, offset);
             this.emit(event, data, tag, cascade);
         } else {
@@ -280,10 +280,12 @@ export default class Mount {
      * @param {any} data Les données à envoyer à l'événement.
      * @param {string} tag Un balise spécifique, seul les composants enfant ayant cette balise seront déclencher.
      * @param {boolean} cascade Si l'événement doit être déclenché que pour les premiers composants enfants ou tous jusqu'aux derniers composants de la page.
+     * @param {number} start Le nombre de composants à ignorer avant de commencer à déclencher les événements.
+     * @param {number} offset Le nombre de composants à déclencher après le premier composant trouvé.
      * @param {number} count Le nombre de données à recevoir, équivalent au nombre de composant enfant devant répondre.
      * @return {void}
      */
-    toogle(callback, event = 'get', data = null, tag = null, cascade = false, count = 1) {
+    toogle(callback, event = 'get', data = null, tag = null, cascade = false, start = null, offset = null, count = 1) {
         let realevent = this.#realName(event);
         let retrieve = [];
         let openLog = this.#openLog;
@@ -293,6 +295,8 @@ export default class Mount {
             [ 'Données', data ],
             [ 'Balise', tag ],
             [ 'Cascade', cascade ],
+            [ 'Début', start ],
+            [ 'Limite', offset ],
             [ 'Nombre', count ]
         ]);
 
@@ -327,7 +331,8 @@ export default class Mount {
                 }
             }
         }, event);
-        this.pass(event, data, tag, cascade);
+        
+        this.pass(event, data, tag, cascade, start, offset);
     }
 
 

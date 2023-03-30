@@ -42,16 +42,6 @@ export default class Parser {
 		return window.location.origin;
 	}
 
-
-	/**
-	 * Retourne l'URL sans les paramètres.
-	 * 
-	 * @returns {string} L'URL sans les paramètres.
-	 */
-	static root() {
-		return Parser.host();
-	}
-
 	
 	/**
 	 * Retourne le chemin de l'URL.

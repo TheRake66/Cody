@@ -96,7 +96,7 @@ export default class Location {
 	 * @return {string} L'URL.
 	 */
 	static build(route, params = {}, addback = false) {
-		let url = Parser.root() + route;
+		let url = Parser.host() + route;
 		if (addback) {
 			params.redirect_url = Parser.current();
 		}
