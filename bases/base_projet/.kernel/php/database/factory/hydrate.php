@@ -1,6 +1,8 @@
 <?php
 namespace Kernel\Database\Factory;
 
+use Kernel\Debug\Log;
+
 
 
 /**
