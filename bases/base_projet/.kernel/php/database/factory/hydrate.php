@@ -37,43 +37,45 @@ abstract class Hydrate {
                         continue;
                     }
                 }
-                
+
                 $property = new \ReflectionProperty($object, $key);
                 $property->setAccessible(true);
-                $type = $property->getType()->getName();
 
-                switch ($type) {
-
-                    case 'int':
-                        $value = intval($value);
-                        break;
-
-                    case 'float':
-                        $value = floatval($value);
-                        break;
-
-                    case 'bool':
-                        $value = boolval($value);
-                        break;
-
-                    case 'string':
-                        $value = strval($value);
-                        break;
-
-                    case 'array':
-                        $value = json_decode($value, true);
-                        break;
-
-                    case 'object':
-                        $value = json_decode($value);
-                        break;
-                        
-                    case 'DateTime':
-                        $value = new \DateTime($value);
-                        break;
-
-                    default:
-                        break;
+                if (!is_null($value)) {
+                    $type = $property->getType()->getName();
+                    switch ($type) {
+    
+                        case 'int':
+                            $value = intval($value);
+                            break;
+    
+                        case 'float':
+                            $value = floatval($value);
+                            break;
+    
+                        case 'bool':
+                            $value = boolval($value);
+                            break;
+    
+                        case 'string':
+                            $value = strval($value);
+                            break;
+    
+                        case 'array':
+                            $value = json_decode($value, true);
+                            break;
+    
+                        case 'object':
+                            $value = json_decode($value);
+                            break;
+                            
+                        case 'DateTime':
+                            $value = new \DateTime($value);
+                            break;
+    
+                        default:
+                            break;
+                    }
                 }
 
                 $property->setValue($object, $value);
