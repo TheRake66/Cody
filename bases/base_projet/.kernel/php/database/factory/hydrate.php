@@ -42,39 +42,43 @@ abstract class Hydrate {
                 $property->setAccessible(true);
 
                 if (!is_null($value)) {
-                    $type = $property->getType()->getName();
-                    switch ($type) {
-    
-                        case 'int':
-                            $value = intval($value);
-                            break;
-    
-                        case 'float':
-                            $value = floatval($value);
-                            break;
-    
-                        case 'bool':
-                            $value = boolval($value);
-                            break;
-    
-                        case 'string':
-                            $value = strval($value);
-                            break;
-    
-                        case 'array':
-                            $value = json_decode($value, true);
-                            break;
-    
-                        case 'object':
-                            $value = json_decode($value);
-                            break;
-                            
-                        case 'DateTime':
-                            $value = new \DateTime($value);
-                            break;
-    
-                        default:
-                            break;
+                    $type = $property->getType();
+                    if (!is_null($type)) {
+                        $name = $type->getName();
+                        
+                        switch ($name) {
+        
+                            case 'int':
+                                $value = intval($value);
+                                break;
+        
+                            case 'float':
+                                $value = floatval($value);
+                                break;
+        
+                            case 'bool':
+                                $value = boolval($value);
+                                break;
+        
+                            case 'string':
+                                $value = strval($value);
+                                break;
+        
+                            case 'array':
+                                $value = json_decode($value, true);
+                                break;
+        
+                            case 'object':
+                                $value = json_decode($value);
+                                break;
+                                
+                            case 'DateTime':
+                                $value = new \DateTime($value);
+                                break;
+        
+                            default:
+                                break;
+                        }
                     }
                 }
 
