@@ -21,6 +21,30 @@ export default class Dom {
 	static POSITION_AFTER_BEGIN  = 'afterbegin';
 	static POSITION_BEFORE_END   = 'beforeend';
 	static POSITION_AFTER_END    = 'afterend';
+
+
+    /**
+     * Exécute une fonction si le DOM est chargé, sinon attends qu'il soit chargé pour l'exécuter.
+     * 
+     * @param {function} callback La fonction à exécuter.
+     * @param {boolean} fully Si true, la fonction est exécutée quand le DOM est entièrement chargé (images, frames, etc...). Sinon, elle est exécutée quand le DOM est prêt mais pas entièrement chargé.
+     * @returns {void}
+     */
+    static loaded(callback, fully = false) {
+        if (fully) {
+            if(document.readyState === "complete") {
+                callback();
+            } else {
+                window.addEventListener("load", callback);
+            }
+        } else {
+            if(document.readyState === "interactive") {
+                callback();
+            } else {
+                window.addEventListener("DOMContentLoaded", callback);
+            }
+        }
+    }
     
 
     /**
