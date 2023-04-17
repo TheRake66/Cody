@@ -17,7 +17,7 @@ use Kernel\Url\Router;
  * Librairie gérant les appels d'API REST.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.0.0.0
+ * @version 1.1.1.0
  * @since Cody 7(21.65.0)
  * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
  * @license MIT License
@@ -47,7 +47,10 @@ abstract class Rest {
 			Log::good("Appel API identifié : \"$class\".");
 			Log::progress('Traitement de l\'appel API...');
 
-			Socket::unlock();
+			if (Socket::exist()) {
+				Socket::close();
+			}
+
 			$object = new $class();
 			$object->started = microtime(true);
 			$method = $_SERVER['REQUEST_METHOD'];
