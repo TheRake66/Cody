@@ -1310,6 +1310,7 @@ vs                              Ouvre le projet dans Visual Studio Code.
                     ".phtml",
                     ".js",
                     ".json",
+                    ".jsonc",
                     ".less"
                 };
 
