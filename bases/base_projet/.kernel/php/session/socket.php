@@ -13,7 +13,7 @@ use Kernel\Security\Cookie;
  * Librairie gérant la session coté serveur.
  *
  * @author Thibault Bustos (TheRake66)
- * @version 1.2.0.0
+ * @version 1.3.0.0
  * @package Kernel\Session
  * @category Framework source
  * @license MIT License
@@ -35,7 +35,7 @@ abstract class Socket {
                 Error::trigger('Le répertoire utilisé pour enregistrer les données de session n\'est pas accessible.');
             }
 
-            if (session_status() === PHP_SESSION_NONE) {
+            if (!self::exist()) {
                 Log::progress('Démarrage de la session...');
 
                 if ($conf->multiple) {
@@ -77,12 +77,24 @@ abstract class Socket {
 
 
     /**
+     * Vérifie si la session est démarrée.
+     * 
+     * @return bool True si la session est démarrée, false sinon.
+     */
+    static function exist() {
+        return session_id() !== '' &&
+            isset($_SESSION) &&
+            session_status() !== PHP_SESSION_NONE;
+    }
+
+
+    /**
      * Écrit les données de session et ferme la session.
      * 
      * @return void
      * @throws Error Si la session n'a pas pu être libérée.
      */
-    static function unlock() {
+    static function close() {
         if (session_write_close()) {
             Log::add('Session libérée.');
         } else {

@@ -43,7 +43,10 @@ abstract class Rest {
 			Log::good('Appel API identifié : "' . $class . '".');
 			Log::progress('Traitement de l\'appel API...');
 
-			Socket::unlock();
+			if (Socket::exist()) {
+				Socket::close();
+			}
+
 			$object = new $class();
 			$object->started = microtime(true);
 			$method = $_SERVER['REQUEST_METHOD'];

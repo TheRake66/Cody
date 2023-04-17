@@ -1,5 +1,5 @@
 {
-	"version": "7.21.65.0",
+	"version": "7.21.66.0",
 	"modifications": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -36,7 +36,8 @@
 		"Correction lors d'un échec des tests unitaires avec un seul test.",
 		"Correction de la commande unit pour les tests unitaires.",
 		"Correction des séparateurs des sous composants HTML.",
-		"Exclusion des dossier commençant par \".\" dans les calculs pour le listage des projets."
+		"Exclusion des dossier commençant par \".\" dans les calculs pour le listage des projets.",
+		"Support des fichiers \".jsonc\" lors de la création d'un projet."
 	],
 	"retrocompatible": false
 }
