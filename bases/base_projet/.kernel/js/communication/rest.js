@@ -332,7 +332,7 @@ export default class Rest {
                         if (failed) failed();
                     }
                 } else {
-                    if (empty) empty();
+                    if (failed) failed();
                 }
                 Rest.#end(route);
             },
