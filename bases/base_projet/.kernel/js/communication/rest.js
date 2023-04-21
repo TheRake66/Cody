@@ -302,7 +302,8 @@ export default class Rest {
                     }
                     if (continu) {
                         let status = json.status;
-                        if (status >= 200 && status < 300) {
+                        let code = json.code;
+                        if (status >= 200 && status < 300 && code === 0) {
                             let content = json.content;
                             if (content !== null && 
                                 content !== undefined && 
