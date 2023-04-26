@@ -7,7 +7,7 @@ import Builder from './builder.js';
  * Librairie gérant le DOM (Document Object Model).
  * 
  * @author Thibault Bustos (TheRake66)
- * @version 1.0.0.0
+ * @version 1.0.2.0
  * @category Framework source
  * @license MIT License
  * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
@@ -21,6 +21,28 @@ export default class Dom {
 	static POSITION_AFTER_BEGIN  = 'afterbegin';
 	static POSITION_BEFORE_END   = 'beforeend';
 	static POSITION_AFTER_END    = 'afterend';
+
+
+    /**
+     * Exécute une fonction si le DOM est chargé, sinon attends qu'il soit chargé pour l'exécuter.
+     * 
+     * @param {function} callback La fonction à exécuter.
+     * @param {boolean} fully Si true, la fonction est exécutée quand le DOM est entièrement chargé (images, frames, etc...). Sinon, elle est exécutée quand le DOM est prêt mais pas entièrement chargé.
+     * @returns {void}
+     */
+    static loaded(callback, fully = false) {
+        let state = document.readyState;
+        let add = window.addEventListener;
+        if (fully) {
+            state === "complete" ?
+                callback() : 
+                add("load", callback);
+        } else {
+            state === "interactive" ?
+                callback() :
+                add("DOMContentLoaded", callback);
+        }
+    }
     
 
     /**
@@ -95,7 +117,9 @@ export default class Dom {
      * @returns {void}
      */
     static after(el, sibling) {
-        sibling.parentNode.insertBefore(el, sibling.nextSibling);
+        let next = sibling.nextSibling;
+        let parent = sibling.parentNode;
+        parent.insertBefore(el, next);
     }
 
 
@@ -106,7 +130,8 @@ export default class Dom {
      * @param {HTMLElement} sibling L'élément HTML avant lequel insérer l'élément.
      */
     static before(el, sibling) {
-        sibling.parentNode.insertBefore(el, sibling);
+        let parent = sibling.parentNode;
+        parent.insertBefore(el, sibling);
     }
 
 
@@ -118,7 +143,8 @@ export default class Dom {
      * @returns {void}
      */
     static prepend(el, parent = document.body) {
-        parent.insertBefore(el, parent.firstChild);
+        let first = parent.firstChild;
+        parent.insertBefore(el, first);
     }
 
 
@@ -140,37 +166,45 @@ export default class Dom {
      * @param {string} component Le code HTML du composant.
      * @param {HTMLElement} parent Le parent du composant.
      * @param {string} position L'endroit où insérer le composant.
+     * @param {boolean} refresh Si le style du composant sera rafraichi. Valable uniquement si le LESS est utilisé.
      * @returns {void}
      */
-    static inject(component, parent = document.body, position = Dom.POSITION_BEFORE_END) {
+    static inject(component, parent = document.body, position = Dom.POSITION_BEFORE_END, refresh = true) {
         let element = Builder.parse(component);
         
-        switch (position) {
-            case 'beforebegin':
-                Dom.before(element, parent);
-                break;
-
-            case 'afterbegin':
-                Dom.prepend(element, parent);
-                break;
-
-            case 'beforeend':
-                Dom.append(element, parent);
-                break;
-
-            case 'afterend':
-                Dom.after(element, parent);
-                break;
-
-            default:
-                Dom.append(element, parent);
-                break;
+        let count = parent.childElementCount;
+        if (count > 0) {
+            switch (position) {
+                case Dom.POSITION_BEFORE_BEGIN:
+                    Dom.before(element, parent);
+                    break;
+    
+                case Dom.POSITION_AFTER_BEGIN:
+                    Dom.prepend(element, parent);
+                    break;
+    
+                case Dom.POSITION_BEFORE_END:
+                    Dom.append(element, parent);
+                    break;
+    
+                case Dom.POSITION_AFTER_END:
+                    Dom.after(element, parent);
+                    break;
+    
+                default:
+                    Dom.append(element, parent);
+                    break;
+            }
+        } else {
+            Dom.append(element, parent);
         }
 
-        let less = window.less;
-        if (less !== undefined) {
-            less.registerStylesheets();
-            less.refresh();
+        if (refresh) {
+            let less = window.less;
+            if (less !== undefined) {
+                less.registerStylesheets();
+                less.refresh();
+            }
         }
         
         let scripts = Finder.queryAll('script', element);
@@ -179,9 +213,7 @@ export default class Dom {
                 let html = script.innerHTML;
                 let type = script.type;
                 let container = script.parentNode;
-                let newScript = Builder.create('script', { 
-                    type: type
-                }, html);
+                let newScript = Builder.create('script', { type: type }, html);
                 container.replaceChild(newScript, script);
             });
         }
