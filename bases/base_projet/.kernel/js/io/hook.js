@@ -15,9 +15,9 @@ export default class Hook {
      * @returns {void}
      */
     static hook() {
-        window.onbeforeunload = function() {
+        window.onbeforeunload = () => {
             return '';
-        }
+        };
     }
     
 

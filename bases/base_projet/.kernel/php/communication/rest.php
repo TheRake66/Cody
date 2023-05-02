@@ -18,29 +18,33 @@ use Kernel\Url\Router;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.1.1.0
+ * @since Cody 7(21.65.0)
+ * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
+ * @license MIT License
  * @package Kernel\Communication
  * @category Framework source
- * @license MIT License
- * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
  */
 abstract class Rest {
 
     /**
+	 * @access private
      * @var int Temps UNIX en MS a l'exécution de la requête.
 	 */
     private $started;
 
 
 	/**
-	 * Appel la fonction API de la route demandée.
+	 * Exécute la fonction API de la route demandée.
 	 * 
+	 * @access public
+	 * @static
 	 * @return void
 	 */
-	static function check() {
+	static function check() : void {
 		$class = Router::entry();
 		Log::progress('Vérification de l\'appel API...');
 		if (Autoloader::typeof($class) === Autoloader::TYPE_API) {
-			Log::good('Appel API identifié : "' . $class . '".');
+			Log::good("Appel API identifié : \"$class\".");
 			Log::progress('Traitement de l\'appel API...');
 
 			if (Socket::exist()) {
@@ -57,24 +61,17 @@ abstract class Rest {
 				$query = (object)$_GET;
 				$body = (object)json_decode(file_get_contents('php://input'));
 
-				Log::add('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::current() . '")...',
-					Log::LEVEL_PROGRESS, Log::TYPE_API);
-
-				Log::add('Paramètres de la requête REST (route) : "' . print_r($route, true) . '".',
-					Log::LEVEL_INFO, Log::TYPE_API_PARAMETERS);
-
-				Log::add('Paramètres de la requête REST (query) : "' . print_r($query, true) . '".',
-					Log::LEVEL_INFO, Log::TYPE_API_PARAMETERS);
-
-				Log::add('Paramètres de la requête REST (body) : "' . print_r($body, true) . '".',
-					Log::LEVEL_INFO, Log::TYPE_API_PARAMETERS);
+				Log::progress('Exécution de la requête REST (méthode : "' . $method . '", url : "' . Parser::current() . '")...', Log::TYPE_API);
+				Log::info('Paramètres de la requête REST (route) : "' . print_r($route, true) . '".', Log::TYPE_API_PARAMETERS);
+				Log::info('Paramètres de la requête REST (query) : "' . print_r($query, true) . '".', Log::TYPE_API_PARAMETERS);
+				Log::info('Paramètres de la requête REST (body) : "' . print_r($body, true) . '".', Log::TYPE_API_PARAMETERS);
 
 				$function = strtolower($method);
 				if (method_exists($object, $function)) {
 					$object->$function($route, $query, $body);
-					$object->send(null, Error::API_NONE_FUNCTION_RETURN, 'Aucune réponse de la fonction "' . $function . '" du module d\'API "' . $class . '" !', Http::HTTP_INTERNAL_SERVER_ERROR);
+					$object->send(null, Error::API_NONE_FUNCTION_RETURN, "Aucune réponse de la fonction \"$function\" du module d'API \"$class\" !", Http::HTTP_INTERNAL_SERVER_ERROR);
 				} else {
-					$object->send(null, Error::API_FUNCTION_NOT_FOUND, 'La méthode d\'API "' . $function . '" n\'existe pas dans la ressource !', Http::HTTP_INTERNAL_SERVER_ERROR);
+					$object->send(null, Error::API_FUNCTION_NOT_FOUND, "La méthode d\'API \"$function\" n'existe pas dans la ressource !", Http::HTTP_INTERNAL_SERVER_ERROR);
 				}
 			} else {
 				$object->send(null, Error::API_HTTP_METHOD_NOT_ALLOWED, 'La méthode "' . $method . '" n\'est pas supportée par cette ressource !', Http::HTTP_METHOD_NOT_ALLOWED);
@@ -88,13 +85,19 @@ abstract class Rest {
 	/**
 	 * Formate et envoie la réponse au client.
 	 * 
-	 * @param mixed $content Le contenu à envoyer.
-	 * @param int $code Le code de retour.
-	 * @param string $message Le message de retour.
-	 * @param int $status Le statut HTTP.
+	 * @access protected
+	 * @param ?mixed $content [optional] [default = null] Le contenu à envoyer.
+	 * @param int $code [optional] [default = 0] Le code de retour.
+	 * @param string $message [optional] [default = ''] Le message de retour.
+	 * @param int $status [optional] [default = 200] Le statut HTTP.
 	 * @return void
 	 */
-	protected function send($content = null, $code = 0, $message = '', $status = Http::HTTP_OK) {
+	protected function send(
+		?mixed $content = null,
+		int $code = 0, 
+		string $message = '', 
+		int $status = Http::HTTP_OK
+	) : void {
 		$ended = microtime(true);
 		$time = round(($ended - $this->started) * 1000);
 		$response = (object)[
@@ -105,14 +108,12 @@ abstract class Rest {
 			'content' => $content
 		];
 
-		Log::add('Requête REST exécutée.',
-			Log::LEVEL_GOOD, Log::TYPE_API);
-			
-		Log::add('Résultat de la requête REST : "' . print_r($response, true) . '".',
-			Log::LEVEL_INFO, Log::TYPE_API_RESPONSE);
+		Log::good('Requête REST exécutée.', Log::TYPE_API);
+		Log::info('Résultat de la requête REST : "' . print_r($response, true) . '".', Log::TYPE_API_RESPONSE);
 		
 		$beauty = Configuration::get()->render->api->beautify_json;
 		$flags = (!$beauty ? 0 : JSON_PRETTY_PRINT) | JSON_PARTIAL_OUTPUT_ON_ERROR;
+
 		Stream::reset();
 		http_response_code($status);
 		header('Content-Type: application/json; charset=utf-8');
@@ -124,14 +125,17 @@ abstract class Rest {
 
 
 	/**
-	 * Vérifie si une route correspond à la route demandée, 
-	 * si oui, on exécute la fonction correspondante.
+	 * Vérifie si une route correspond à la route demandée, si oui, on exécute la fonction correspondante.
 	 * 
+	 * @access protected
 	 * @param string $route La route à vérifier.
-	 * @param function $callback La fonction à exécuter.
+	 * @param callable $callback La fonction à exécuter.
 	 * @return void
 	 */
-	protected function match($route, $callback) {
+	protected function match(
+		string $route, 
+		callable $callback
+	) : void {
 		if (Router::current() === $route) {
 			$callback();
 		}
@@ -142,15 +146,23 @@ abstract class Rest {
 	 * Retourne un paramètre d'un objet, s'il n'est pas trouvé, 
 	 * on renvoie une erreur.
 	 * 
+	 * @access protected
 	 * @param object $object L'objet de paramètres.
 	 * @param string $name Le nom du paramètre.
-	 * @param bool $needed Si le paramètre est obligatoire.
-	 * @param bool $convert Si on doit convertir une valeur vide en NULL.
-	 * @param bool $trim Si on doit supprimer les espaces en début et fin de la valeur.
-	 * @param bool $sanitize Si on doit filtrer la valeur contre la vulnérabilité XSS.
-	 * @return mixed La valeur du paramètre.
+	 * @param bool $needed [optional] [default = true] Si le paramètre est obligatoire.
+	 * @param bool $convert [optional] [default = true] Si on doit convertir une valeur vide en NULL.
+	 * @param bool $trim [optional] [default = true] Si on doit supprimer les espaces en début et fin de la valeur.
+	 * @param bool $sanitize [optional] [default = true] Si on doit filtrer la valeur contre la vulnérabilité XSS.
+	 * @return ?mixed La valeur du paramètre.
 	 */
-	protected function data($object, $name, $needed = true, $convert = true, $trim = true, $sanitize = true) {
+	protected function data(
+		object $object, 
+		string $name, 
+		bool $needed = true,
+		bool $convert = true,
+		bool $trim = true,
+		bool $sanitize = true
+	) : ?mixed {
 		if (property_exists($object, $name)) {
 			$value = $object->$name;
 			if (is_string($value)) {
@@ -169,15 +181,18 @@ abstract class Rest {
 	/**
 	 * Génère un composant pour l'envoyer.
 	 * 
-	 * @param string $class La class du composant.
-	 * @param array|mixed $args La ou les paramètres du composant.
+	 * @access protected
+	 * @param string $class La classe du composant.
+	 * @param mixed $args [optional] [default = null] La ou les paramètres du composant.
 	 * @return string Le composant généré.
      * @throws Error Si la classe demandée n'est pas un composant.
 	 */
-	protected function generate($class, $args = []) {
+	protected function generate(string $class, mixed $args = null) : string {
 		if (Autoloader::typeof($class) === Autoloader::TYPE_CONTROLLER) {
 			return Stream::toogle(function() use($class, $args) {
-				if (is_array($args)) {
+				if (is_null($args)) {
+					new $class();
+				} else if (is_array($args)) {
 					(new \ReflectionClass($class))
 						->newInstanceArgs($args);
 				} else {
@@ -185,7 +200,7 @@ abstract class Rest {
 				}
 			});
 		} else {
-			Error::trigger('La classe "' . $class . '" n\'est pas un composant !');
+			Error::trigger("La classe \"$class\" n'est pas un composant !");
 		}
 	}
 	

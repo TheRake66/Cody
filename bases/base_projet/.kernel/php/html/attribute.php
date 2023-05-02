@@ -74,6 +74,17 @@ abstract class Attribute {
 
 
     /**
+     * Ajoute une texte de fond.
+     * 
+     * @param string $placeholder Le texte de fond.
+     * @return string L'attribut HTML.
+     */
+    static function placeholder($placeholder) {
+        return self::set('placeholder', "$placeholder...");
+    }
+
+
+    /**
      * Ajoute un lien href.
      * 
      * @param string $route La route de redirection.

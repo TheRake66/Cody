@@ -8,38 +8,38 @@ namespace Kernel\Communication;
  *
  * @author Thibault Bustos (TheRake66)
  * @version 1.0.0.0
+ * @since Cody 7(21.65.0)
+ * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
+ * @license MIT License
  * @package Kernel\Communication
  * @category Framework source
- * @license MIT License
- * @copyright © 2021-2023 - Thibault BUSTOS (TheRake66)
  */
 abstract class Network {
 
 	/**
 	 * Retourne l'adresse IP du client.
 	 *
+	 * @access public
+	 * @static
      * @return string L'adresse IP du client.
 	 */
-	static function client() {
-		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-			return $_SERVER['HTTP_CLIENT_IP'];
-		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
-		} elseif (!empty($_SERVER['REMOTE_ADDR'])) {
-			return $_SERVER['REMOTE_ADDR'];
-		} else {
-			return '0.0.0.0';
-		}
+	static function client() : string {
+		return $_SERVER['HTTP_CLIENT_IP'] ?? 
+			   $_SERVER['HTTP_X_FORWARDED_FOR'] ??
+			   $_SERVER['REMOTE_ADDR'] ??
+			   '0.0.0.0';
 	}
 	
 
 	/**
 	 * Retourne si l'adresse IP du client est celle de localhost.
-	 * 
+	 *
+	 * @access public
+	 * @static
 	 * @return bool True si l'adresse IP du client est celle de localhost sinon false.
 	 */
-	static function localhost() {
-		return self::client() === "::1";
+	static function localhost() : bool {
+		return self::client() === '::1';
 	}
 	
 }
