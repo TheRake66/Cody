@@ -26,27 +26,70 @@ abstract class Hydrate {
      * @return object L'objet ou la liste d'objets hydratés.
      */
     static function hydrate($data, $class, $many = false) {
-        $fn = function($d, $c) {
-            $o = new $c();
-            foreach ($d as $k => $v) {
-                if (!property_exists($c, $k)) {
-                    $k = '_' . $k;
-                    if (!property_exists($c, $k)) {
-                        Log::warning('Attention, la propriété "' . $k . '" n\'existe pas dans la classe "' . $c . '".');
+        $process = function($data, $class) {
+            $object = new $class();
+            foreach ($data as $key => $value) {
+
+                if (!property_exists($class, $key)) {
+                    $key = "_$key";
+                    if (!property_exists($class, $key)) {
+                        Log::warning("Attention, la propriété \"$key\" n'existe pas dans la classe \"$class\".");
                         continue;
                     }
                 }
-                $prop = new \ReflectionProperty($o, $k);
-                $prop->setAccessible(true);
-                $prop->setValue($o, $v);
+
+                $property = new \ReflectionProperty($object, $key);
+                $property->setAccessible(true);
+
+                if (!is_null($value) && $property->hasType()) {
+                    $type = $property->getType();
+                    if (!is_null($type)) {
+                        $name = $type->getName();
+                        
+                        switch ($name) {
+        
+                            case 'int':
+                                $value = intval($value);
+                                break;
+        
+                            case 'float':
+                                $value = floatval($value);
+                                break;
+        
+                            case 'bool':
+                                $value = boolval($value);
+                                break;
+        
+                            case 'string':
+                                $value = strval($value);
+                                break;
+        
+                            case 'array':
+                                $value = json_decode($value, true);
+                                break;
+        
+                            case 'object':
+                                $value = json_decode($value);
+                                break;
+                                
+                            case 'DateTime':
+                                $value = new \DateTime($value);
+                                break;
+        
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                $property->setValue($object, $value);
             }
-            return $o;
+            return $object;
         };
-        if ($many) {
-            return array_map($fn, $data, array_fill(0, count($data), $class));
-        } else {
-            return $fn($data, $class);
-        }
+        
+        return $many ?
+            array_map($process, $data, array_fill(0, count($data), $class)) :
+            $process($data, $class);
     }
 
 }
