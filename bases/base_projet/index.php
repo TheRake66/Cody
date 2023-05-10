@@ -1,9 +1,11 @@
 <!-- Initialisation du noyau. -->
 <?php
- 
+
 require_once(__DIR__ . '/.kernel/init.php');
+
 use Kernel\Url\Router;
 use Kernel\Html\Doctype;
+
 ?>
 
 
@@ -13,8 +15,7 @@ use Kernel\Html\Doctype;
 
 	<!-- Routage vers le point d'entrée. -->
 	<body>
-		<?php
- Router::app(); ?>
+		<?php Router::app(); ?>
 	</body>
 	
 <!-- Ferme la document HTML et fais le rendu. -->
@@ -23,5 +24,4 @@ use Kernel\Html\Doctype;
 
 
 <!-- Extinction du noyau. -->
-<?php
- require_once(__DIR__ . '/.kernel/quit.php');?>
+<?php require_once(__DIR__ . '/.kernel/quit.php'); ?>
