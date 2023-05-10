@@ -152,7 +152,7 @@ abstract class Mail {
 		$mails
 	) {
 		if (!is_null($mails)) {
-			$results = ": $name";
+			$results = "$name: ";
 			if (is_array($mails)) {
 				if (Dataset::assoc($mails)) {
 					$_ = [];
