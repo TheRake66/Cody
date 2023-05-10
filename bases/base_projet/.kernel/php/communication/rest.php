@@ -41,7 +41,7 @@ abstract class Rest {
 	 * @static
 	 * @return void
 	 */
-	static function check() : void {
+	static function check() {
 		$class = Router::entry();
 		Log::progress('Vérification de l\'appel API...');
 		if (Autoloader::typeof($class) === Autoloader::TYPE_API) {
@@ -94,11 +94,11 @@ abstract class Rest {
 	 * @return void
 	 */
 	protected function send(
-		?mixed $content = null,
-		int $code = 0, 
-		string $message = '', 
-		int $status = Http::HTTP_OK
-	) : void {
+		$content = null,
+		$code = 0, 
+		$message = '', 
+		$status = Http::HTTP_OK
+	) {
 		$ended = microtime(true);
 		$time = round(($ended - $this->started) * 1000);
 		$response = (object)[
@@ -134,9 +134,9 @@ abstract class Rest {
 	 * @return void
 	 */
 	protected function match(
-		string $route, 
-		callable $callback
-	) : void {
+		$route, 
+		$callback
+	) {
 		if (Router::current() === $route) {
 			$callback();
 		}
@@ -157,13 +157,13 @@ abstract class Rest {
 	 * @return ?mixed La valeur du paramètre.
 	 */
 	protected function data(
-		object $object, 
-		string $name, 
-		bool $needed = true,
-		bool $convert = true,
-		bool $trim = true,
-		bool $sanitize = true
-	) : ?mixed {
+		$object, 
+		$name, 
+		$needed = true,
+		$convert = true,
+		$trim = true,
+		$sanitize = true
+	) {
 		if (property_exists($object, $name)) {
 			$value = $object->$name;
 			if (is_string($value)) {
@@ -188,7 +188,7 @@ abstract class Rest {
 	 * @return string Le composant généré.
      * @throws Error Si la classe demandée n'est pas un composant.
 	 */
-	protected function generate(string $class, mixed $args = null) : string {
+	protected function generate($class, $args = null) {
 		if (Autoloader::typeof($class) === Autoloader::TYPE_CONTROLLER) {
 			return Stream::toogle(function() use($class, $args) {
 				if (is_null($args)) {

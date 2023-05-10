@@ -24,7 +24,7 @@ abstract class Network {
 	 * @static
      * @return string L'adresse IP du client.
 	 */
-	static function client() : string {
+	static function client() {
 		return $_SERVER['HTTP_CLIENT_IP'] ?? 
 			   $_SERVER['HTTP_X_FORWARDED_FOR'] ??
 			   $_SERVER['REMOTE_ADDR'] ??
@@ -39,7 +39,7 @@ abstract class Network {
 	 * @static
 	 * @return bool True si l'adresse IP du client est celle de localhost sinon false.
 	 */
-	static function localhost() : bool {
+	static function localhost() {
 		return self::client() === '::1';
 	}
 	

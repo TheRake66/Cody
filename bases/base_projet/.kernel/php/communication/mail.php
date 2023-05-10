@@ -64,16 +64,16 @@ abstract class Mail {
 	 * @return bool Si l'envoi a été accepté pour livraison.
 	 */
 	static function send(
-		mixed $to, 
-		string $subject, 
-		string $message, 
-		?mixed $from = null, 
-		?mixed $reply = null, 
-		?mixed $cc = null, 
-		?mixed $bcc = null, 
-		bool $is_html = false, 
-		?mixed $additional_headers = null
-	) : bool {
+		$to, 
+		$subject, 
+		$message, 
+		$from = null, 
+		$reply = null, 
+		$cc = null, 
+		$bcc = null, 
+		$is_html = false, 
+		$additional_headers = null
+	) {
 		$headers = [ 'X-Mailer: PHP/' . phpversion() ];
 		if ($is_html) {
 			$headers[] = 'MIME-Version: 1.0';
@@ -116,9 +116,9 @@ abstract class Mail {
 	 * @return void
 	 */
 	private static function headers(
-		array &$headers, 
-		?mixed $additional_headers
-	) : void {
+		&$headers, 
+		$additional_headers
+	) {
 		if (!is_null($additional_headers)) {
 			if (is_array($additional_headers)) {
 				if (Dataset::assoc($additional_headers)) {
@@ -147,10 +147,10 @@ abstract class Mail {
 	 * @return void
 	 */
 	private static function mails(
-		array &$headers, 
-		string $name, 
-		?mixed $mails
-	) : void {
+		&$headers, 
+		$name, 
+		$mails
+	) {
 		if (!is_null($mails)) {
 			$results = ": $name";
 			if (is_array($mails)) {

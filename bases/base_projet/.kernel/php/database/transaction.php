@@ -24,7 +24,7 @@ abstract class Transaction {
      * @param ?string $name Le nom de la base de données.
      * @return bool True si la transaction a été démarrée, false sinon.
      */
-    static function begin(?string $name = null) : bool {
+    static function begin($name = null) {
         $conf = Statement::configuration()->options;
         $instance = Statement::instance($name);
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
@@ -40,7 +40,7 @@ abstract class Transaction {
      * @param ?string $name Le nom de la base de données.
      * @return bool True si la transaction a été annulée, false sinon.
      */
-    static function rollback(?string $name = null) : bool {
+    static function rollback($name = null) {
         $conf = Statement::configuration()->options;
         $instance = Statement::instance($name);
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
@@ -56,7 +56,7 @@ abstract class Transaction {
      * @param ?string $name Le nom de la base de données.
      * @return bool True si la transaction a été validée, false sinon.
      */
-    static function commit(?string $name = null) : bool {
+    static function commit($name = null) {
         $conf = Statement::configuration()->options;
         $instance = Statement::instance($name);
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
@@ -71,7 +71,7 @@ abstract class Transaction {
      * 
      * @return bool True si une transaction est en cours, false sinon.
      */
-    static function has() : bool {
+    static function has() {
         return Statement::instance()->inTransaction();
     }
 
