@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Io\Convert;
 
 
@@ -56,3 +57,5 @@ abstract class Memory {
 	}
 
 }
+
+?>

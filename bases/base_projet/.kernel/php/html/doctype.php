@@ -1,10 +1,11 @@
 <?php
+
 namespace Kernel\Html;
 
 use Kernel\Security\Configuration;
 use Kernel\Debug\Log;
-use Kernel\Io\Path;
-use Kernel\Url\Parser;
+
+
 
 /**
  * Librairie gérant le début et la fin de la page.
@@ -149,3 +150,5 @@ abstract class Doctype {
     }
     
 }
+
+?>

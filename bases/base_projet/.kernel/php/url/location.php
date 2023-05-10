@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Url;
 
 use Kernel\Communication\Http;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\IO;
 
 use Kernel\Security\Configuration;
@@ -134,3 +135,5 @@ abstract class Stream {
 	}
 	
 }
+
+?>

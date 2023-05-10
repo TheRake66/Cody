@@ -1,4 +1,5 @@
 <?php
+
 namespace Api{NAMESPACE_SLASH};
 
 use Kernel\Debug\Error;

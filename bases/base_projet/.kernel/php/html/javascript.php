@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Html;
 
 use Kernel\Io\Path;
@@ -157,3 +158,5 @@ abstract class Javascript {
     }
     
 }
+
+?>

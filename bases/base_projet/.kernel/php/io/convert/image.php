@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Io\Convert;
 
 use Kernel\Debug\Error;

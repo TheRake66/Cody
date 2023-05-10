@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Session;
 
 use Kernel\Debug\Log;

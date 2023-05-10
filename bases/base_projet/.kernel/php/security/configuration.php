@@ -1,8 +1,8 @@
 <?php
+
 namespace Kernel\Security;
 
 use Kernel\Debug\Error;
-use Kernel\Io\Autoloader;
 use Kernel\Io\File;
 
 
@@ -57,3 +57,5 @@ abstract class Configuration {
 	}
 	
 }
+
+?>

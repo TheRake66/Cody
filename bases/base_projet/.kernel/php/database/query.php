@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Database;
 
 use Kernel\DataBase\Output;

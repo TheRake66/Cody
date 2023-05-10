@@ -1,4 +1,5 @@
 <?php
+
 namespace Model\Dao{NAMESPACE_SLASH};
 
 use Kernel\DataBase\Toogle;

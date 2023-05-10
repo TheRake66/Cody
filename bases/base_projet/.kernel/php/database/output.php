@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\DataBase;
 
 use Kernel\Database\Statement;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Library{NAMESPACE_SLASH};
 
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Security;
 
 use Kernel\Security\Configuration;

@@ -1,5 +1,7 @@
 <?php
+
 namespace Controller{NAMESPACE_SLASH};
+
 use Kernel\Security\Vulnerability\Xss;
 use Kernel\Security\Vulnerability\Csrf;
 use Kernel\Security\Validation;

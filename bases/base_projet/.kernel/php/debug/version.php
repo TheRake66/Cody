@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Debug;
 
 use Kernel\Security\Configuration;

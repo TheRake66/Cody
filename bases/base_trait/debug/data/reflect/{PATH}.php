@@ -1,4 +1,5 @@
 <?php
+
 namespace Model\Reflect{NAMESPACE_SLASH};
 
 

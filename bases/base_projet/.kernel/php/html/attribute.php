@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Html;
 
 use Kernel\Url\Location;
@@ -177,3 +178,5 @@ abstract class Attribute {
     }
 
 }
+
+?>

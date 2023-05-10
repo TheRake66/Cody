@@ -1,11 +1,11 @@
 <?php
+
 namespace Kernel\Session;
 
 use Kernel\Security\Configuration;
 use Kernel\Debug\Log;
 use Kernel\Debug\Error;
 use Kernel\Security\Cookie;
-
 
 
 

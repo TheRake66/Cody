@@ -1,4 +1,5 @@
 <?php
+
 use Kernel\Url\Router as r;
 use Controller as c;
 use Api as a;
@@ -26,6 +27,5 @@ r::add('/api/{id}', a\::class, [
     r::METHOD_PATCH
 ]);
 */
-
 
 ?>

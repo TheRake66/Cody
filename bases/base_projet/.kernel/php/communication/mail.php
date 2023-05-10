@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Communication;
 
 use Kernel\Debug\Error;
@@ -168,3 +169,5 @@ abstract class Mail {
 		}
 	}
 }
+
+?>

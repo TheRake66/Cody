@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Communication;
 
 use Kernel\Debug\Error;

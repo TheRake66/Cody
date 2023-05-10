@@ -1,4 +1,5 @@
 <?php
+
 namespace Model\Dto{NAMESPACE_SLASH};
 
 use Kernel\DataBase\Factory\Crud;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Kernel\Html;
 
 
@@ -55,3 +56,5 @@ abstract class Output {
     }
     
 }
+
+?>
