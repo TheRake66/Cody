@@ -55,12 +55,12 @@ abstract class Mail {
 	 * @param string|array $to Le/les destinataire(s).
 	 * @param string $subject L'objet du mail.
 	 * @param string $message Le message du mail.
-	 * @param ?string|array $from [optional] [default = null] Le/les envoyeurs.
-	 * @param ?string|array $reply [optional] [default = null] Le/les destinataire(s).
-	 * @param ?string|array $cc [optional] [default = null] Le/les destinataires en copie.
-	 * @param ?string|array $bcc [optional] [default = null] Le/les destinataires en copie cachée.
+	 * @param string|array $from [optional] [default = null] Le/les envoyeurs.
+	 * @param string|array $reply [optional] [default = null] Le/les destinataire(s).
+	 * @param string|array $cc [optional] [default = null] Le/les destinataires en copie.
+	 * @param string|array $bcc [optional] [default = null] Le/les destinataires en copie cachée.
 	 * @param bool $is_html [optional] [default = false] Si le message contient du HTML.
-	 * @param ?string|array $additional_headers [optional] [default = null] Le/les entêtes additionnels.
+	 * @param string|array $additional_headers [optional] [default = null] Le/les entêtes additionnels.
 	 * @return bool Si l'envoi a été accepté pour livraison.
 	 */
 	static function send(
@@ -112,7 +112,7 @@ abstract class Mail {
 	 * @access private
 	 * @static
 	 * @param array &$headers Les entêtes.
-	 * @param ?string|array $additional_headers Les entêtes additionnels.
+	 * @param string|array $additional_headers Les entêtes additionnels.
 	 * @return void
 	 */
 	private static function headers(
@@ -143,7 +143,7 @@ abstract class Mail {
 	 * @static
 	 * @param array &$headers Les entêtes.
 	 * @param string $name Le nom de l'entête.
-	 * @param ?string|array $mails Les mails.
+	 * @param string|array $mails Les mails.
 	 * @return void
 	 */
 	private static function mails(

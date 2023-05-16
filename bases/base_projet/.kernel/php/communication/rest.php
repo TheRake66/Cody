@@ -87,7 +87,7 @@ abstract class Rest {
 	 * Formate et envoie la réponse au client.
 	 * 
 	 * @access protected
-	 * @param ?mixed $content [optional] [default = null] Le contenu à envoyer.
+	 * @param mixed $content [optional] [default = null] Le contenu à envoyer.
 	 * @param int $code [optional] [default = 0] Le code de retour.
 	 * @param string $message [optional] [default = ''] Le message de retour.
 	 * @param int $status [optional] [default = 200] Le statut HTTP.

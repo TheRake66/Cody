@@ -21,11 +21,11 @@ abstract class Transaction {
     /**
      * Démarre une transaction SQL.
      * 
-     * @param ?string $name Le nom de la base de données.
+     * @param string $name Le nom de la base de données.
      * @return bool True si la transaction a été démarrée, false sinon.
      */
     static function begin($name = null) {
-        $conf = Statement::configuration()->options;
+        $conf = Statement::configuration($name)->options;
         $instance = Statement::instance($name);
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
             $instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -37,11 +37,11 @@ abstract class Transaction {
     /**
      * Annule une transaction SQL.
      * 
-     * @param ?string $name Le nom de la base de données.
+     * @param string $name Le nom de la base de données.
      * @return bool True si la transaction a été annulée, false sinon.
      */
     static function rollback($name = null) {
-        $conf = Statement::configuration()->options;
+        $conf = Statement::configuration($name)->options;
         $instance = Statement::instance($name);
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
             $instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
@@ -53,11 +53,11 @@ abstract class Transaction {
     /**
      * Valide une transaction SQL.
      * 
-     * @param ?string $name Le nom de la base de données.
+     * @param string $name Le nom de la base de données.
      * @return bool True si la transaction a été validée, false sinon.
      */
     static function commit($name = null) {
-        $conf = Statement::configuration()->options;
+        $conf = Statement::configuration($name)->options;
         $instance = Statement::instance($name);
         if (!$conf->throw_sql_error && $conf->throw_transaction) {
             $instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
