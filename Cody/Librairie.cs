@@ -66,14 +66,14 @@ namespace Cody
 
 
         // Install un package npm
-        public static bool installNpmPackage(string pkgName)
+        public static bool installNpmPackage(string pkgName, string version)
         {
             try
             {
                 Console.Write("Installation de '");
                 Message.writeIn(ConsoleColor.DarkYellow, pkgName);
                 Console.WriteLine("' via npm...");
-                Process p2 = startProcess("npm", "i \"" + pkgName + "\" -g", ProcessWindowStyle.Hidden);
+                Process p2 = startProcess("npm", $"i \"{pkgName}@{version}\" -g", ProcessWindowStyle.Hidden);
                 p2.WaitForExit();
                 return true;
             }

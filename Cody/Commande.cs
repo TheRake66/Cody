@@ -581,8 +581,8 @@ vs                              Ouvre le projet dans Visual Studio Code.
 
                     try
                     {
-                        if (Librairie.installNpmPackage("less") && 
-                            Librairie.installNpmPackage("minify"))
+                        if (Librairie.installNpmPackage("less", "4.1.1") && 
+                            Librairie.installNpmPackage("minify", "9.2.0"))
                         {
                             string c = Directory.GetCurrentDirectory();
                             string t = Path.Combine(c, "release");

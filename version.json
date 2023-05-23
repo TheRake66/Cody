@@ -1,5 +1,5 @@
 {
-	"version": "7.21.66.0",
+	"version": "7.21.67.0",
 	"modifications": [
 		"Changement de l'architecture globale d'un projet.",
 		"Ajout d'un mode bêta-testeur.",
@@ -37,7 +37,8 @@
 		"Correction de la commande unit pour les tests unitaires.",
 		"Correction des séparateurs des sous composants HTML.",
 		"Exclusion des dossier commençant par \".\" dans les calculs pour le listage des projets.",
-		"Support des fichiers \".jsonc\" lors de la création d'un projet."
+		"Support des fichiers \".jsonc\" lors de la création d'un projet.",
+		"Précision des versions des packages NPM suite au bug de la nouvelle version de Minify."
 	],
 	"retrocompatible": false
 }
