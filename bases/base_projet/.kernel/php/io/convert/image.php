@@ -50,14 +50,26 @@ abstract class Image {
             
             Stream::start();
             switch ($info['mime']) {
+
                 case 'image/jpeg':
                     imagejpeg($dest);
                     break;
+
                 case 'image/gif':
                     imagegif($dest);
                     break;
+
                 case 'image/png':
                     imagepng($dest);
+                    break;
+
+                case 'image/webp':
+                    imagewebp($dest);
+                    break;
+
+                default:
+                    Stream::destroy();
+                    Error::trigger('Le format d\'image n\'est pas supporté !');
                     break;
             }
             $compress =  Stream::get();
